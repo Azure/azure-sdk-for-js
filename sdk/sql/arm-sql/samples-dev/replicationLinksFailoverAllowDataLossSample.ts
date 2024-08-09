@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fails over from the current primary server to this server allowing data loss.
  *
  * @summary Fails over from the current primary server to this server allowing data loss.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ReplicationLinkFailoverAllowDataLoss.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkFailoverAllowDataLoss.json
  */
 async function forcedFailoverOfAReplicationLink() {
   const subscriptionId =

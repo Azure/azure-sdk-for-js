@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the replication link.
  *
  * @summary Deletes the replication link.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ReplicationLinkDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkDelete.json
  */
 async function deleteReplicationLinkOnServer() {
   const subscriptionId =

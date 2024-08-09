@@ -59,7 +59,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/recommendedSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters69,
+  requestBody: Parameters.parameters67,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,

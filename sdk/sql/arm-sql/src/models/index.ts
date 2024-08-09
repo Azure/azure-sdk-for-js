@@ -1562,6 +1562,32 @@ export interface ManagedInstanceQueryStatistics {
   readonly nextLink?: string;
 }
 
+/** Properties of a query execution statistics. */
+export interface QueryStatisticsProperties {
+  /**
+   * Database name of the database in which this query was executed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Unique query id (unique within one database).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly queryId?: string;
+  /**
+   * The start time for the metric (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * The end time for the metric (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /** List of intervals with appropriate metric data */
+  intervals?: QueryMetricInterval[];
+}
+
 /** Properties of a query metrics interval. */
 export interface QueryMetricInterval {
   /**
@@ -2795,189 +2821,6 @@ export interface DistributedAvailabilityGroupsListResult {
   readonly nextLink?: string;
 }
 
-/** Database specific information */
-export interface DistributedAvailabilityGroupDatabase {
-  /** The name of the database in link */
-  databaseName?: string;
-  /**
-   * Managed instance replica id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceReplicaId?: string;
-  /**
-   * SQL server replica id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerReplicaId?: string;
-  /**
-   * Current link state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicaState?: string;
-  /**
-   * Seeding progress
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly seedingProgress?: string;
-  /**
-   * Link health state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly synchronizationHealth?: ReplicaSynchronizationHealth;
-  /**
-   * Link connected state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectedState?: ReplicaConnectedState;
-  /**
-   * Last received LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastReceivedLsn?: string;
-  /**
-   * Last received LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastReceivedTime?: Date;
-  /**
-   * Last sent LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSentLsn?: string;
-  /**
-   * Last sent LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSentTime?: Date;
-  /**
-   * Last commit LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCommitLsn?: string;
-  /**
-   * Last commit LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCommitTime?: Date;
-  /**
-   * Last hardened LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastHardenedLsn?: string;
-  /**
-   * Last hardened LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastHardenedTime?: Date;
-  /**
-   * Last backup LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastBackupLsn?: string;
-  /**
-   * Last backup LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastBackupTime?: Date;
-  /**
-   * The most recent link connection error description
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mostRecentLinkError?: string;
-  /**
-   * SQL server certificate validity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerAuthCertValidity?: CertificateInfo;
-  /**
-   * Replication lag when Managed Instance link side is primary
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceSendReplicationLagSeconds?: number;
-  /**
-   * Redo lag when Managed Instance link side is primary
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceRedoReplicationLagSeconds?: number;
-}
-
-/** Certificate information */
-export interface CertificateInfo {
-  /**
-   * The certificate name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificateName?: string;
-  /**
-   * The certificate expiry date
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiryDate?: Date;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** Distributed availability group failover. */
-export interface DistributedAvailabilityGroupsFailoverRequest {
-  /** The failover type, can be ForcedAllowDataLoss or Planned. */
-  failoverType: FailoverType;
-}
-
-/** Distributed availability group failover request. */
-export interface DistributedAvailabilityGroupSetRole {
-  /** New role of managed instance in a distributed availability group, can be Primary or Secondary. */
-  instanceRole: InstanceRole;
-  /** The type of the role change, can be Planned or Forced. */
-  roleChangeType: RoleChangeType;
-}
-
 /** A list of server trust certificates in instance. */
 export interface ServerTrustCertificatesListResult {
   /**
@@ -3161,20 +3004,6 @@ export interface ManagedInstanceAdvancedThreatProtectionListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: ManagedInstanceAdvancedThreatProtection[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of replication links. */
-export interface ReplicationLinkListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ReplicationLink[];
   /**
    * Link to retrieve next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3843,6 +3672,299 @@ export interface ManagedDatabaseStartMoveDefinition {
   operationMode?: MoveOperationMode;
 }
 
+/** A list of managed instances. */
+export interface ManagedInstanceListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ManagedInstance[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Azure Active Directory identity configuration for a resource. */
+export interface ResourceIdentity {
+  /** The resource ids of the user assigned identities to use */
+  userAssignedIdentities?: { [propertyName: string]: UserIdentity };
+  /**
+   * The Azure Active Directory principal id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /** The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. */
+  type?: IdentityType;
+  /**
+   * The Azure Active Directory tenant id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+}
+
+/** Azure Active Directory identity configuration for a resource. */
+export interface UserIdentity {
+  /**
+   * The Azure Active Directory principal id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The Azure Active Directory client id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** A private endpoint connection under a managed instance */
+export interface ManagedInstancePecProperty {
+  /**
+   * Resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Private endpoint connection properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ManagedInstancePrivateEndpointConnectionProperties;
+}
+
+/** Properties of a active directory administrator. */
+export interface ManagedInstanceExternalAdministrator {
+  /** Type of the sever administrator. */
+  administratorType?: AdministratorType;
+  /** Principal Type of the sever administrator. */
+  principalType?: PrincipalType;
+  /** Login name of the server administrator. */
+  login?: string;
+  /** SID (object ID) of the server administrator. */
+  sid?: string;
+  /** Tenant ID of the administrator. */
+  tenantId?: string;
+  /** Azure Active Directory only Authentication enabled. */
+  azureADOnlyAuthentication?: boolean;
+}
+
+/** The managed instance's service principal configuration for a resource. */
+export interface ServicePrincipal {
+  /**
+   * The Azure Active Directory application object id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The Azure Active Directory application client id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+  /**
+   * The Azure Active Directory tenant id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Service principal type. */
+  type?: ServicePrincipalType;
+}
+
+/** An update request for an Azure SQL Database managed instance. */
+export interface ManagedInstanceUpdate {
+  /** Managed instance sku */
+  sku?: Sku;
+  /** Managed instance identity */
+  identity?: ResourceIdentity;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ManagedInstancePropertiesProvisioningState;
+  /**
+   * Specifies the mode of database creation.
+   *
+   * Default: Regular instance creation.
+   *
+   * Restore: Creates an instance by restoring a set of backups to specific point in time. RestorePointInTime and SourceManagedInstanceId must be specified.
+   */
+  managedInstanceCreateMode?: ManagedServerCreateMode;
+  /**
+   * The fully qualified domain name of the managed instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fullyQualifiedDomainName?: string;
+  /** Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation). */
+  administratorLogin?: string;
+  /** The administrator login password (required for managed instance creation). */
+  administratorLoginPassword?: string;
+  /** Subnet resource ID for the managed instance. */
+  subnetId?: string;
+  /**
+   * The state of the managed instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /** The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). */
+  licenseType?: ManagedInstanceLicenseType;
+  /** The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80. */
+  vCores?: number;
+  /** Storage size in GB. Minimum value: 32. Maximum value: 16384. Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and number of vCores. */
+  storageSizeInGB?: number;
+  /** Collation of the managed instance. */
+  collation?: string;
+  /**
+   * The Dns Zone that the managed instance is in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dnsZone?: string;
+  /** The resource id of another managed instance whose DNS zone this managed instance will share after creation. */
+  dnsZonePartner?: string;
+  /** Whether or not the public data endpoint is enabled. */
+  publicDataEndpointEnabled?: boolean;
+  /** The resource identifier of the source managed instance associated with create operation of this instance. */
+  sourceManagedInstanceId?: string;
+  /** Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. */
+  restorePointInTime?: Date;
+  /** Connection type used for connecting to the instance. */
+  proxyOverride?: ManagedInstanceProxyOverride;
+  /**
+   * Id of the timezone. Allowed values are timezones supported by Windows.
+   * Windows keeps details on supported timezones, including the id, in registry under
+   * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+   * You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM sys.time_zone_info.
+   * List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+   * An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
+   */
+  timezoneId?: string;
+  /** The Id of the instance pool this managed server belongs to. */
+  instancePoolId?: string;
+  /** Specifies maintenance configuration id to apply to this managed instance. */
+  maintenanceConfigurationId?: string;
+  /**
+   * List of private endpoint connections on a managed instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: ManagedInstancePecProperty[];
+  /** Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2' */
+  minimalTlsVersion?: string;
+  /**
+   * The storage account type used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentBackupStorageRedundancy?: BackupStorageRedundancy;
+  /** The storage account type to be used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage) */
+  requestedBackupStorageRedundancy?: BackupStorageRedundancy;
+  /** Whether or not the multi-az is enabled. */
+  zoneRedundant?: boolean;
+  /** The resource id of a user assigned identity to be used by default. */
+  primaryUserAssignedIdentityId?: string;
+  /** A CMK URI of the key to use for encryption. */
+  keyId?: string;
+  /** The Azure Active Directory administrator of the instance. This can only be used at instance create time. If used for instance update, it will be ignored or it will result in an error. For updates individual APIs will need to be used. */
+  administrators?: ManagedInstanceExternalAdministrator;
+  /** The managed instance's service principal. */
+  servicePrincipal?: ServicePrincipal;
+}
+
+/** A collection of endpoints that the managed instance service requires outbound network access to. */
+export interface OutboundEnvironmentEndpointCollection {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: OutboundEnvironmentEndpoint[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An endpoint that the managed instance service requires outbound network access to. */
+export interface OutboundEnvironmentEndpoint {
+  /**
+   * The type of service accessed by the managed instance service, e.g., Azure Storage, Azure Active Directory, etc.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: string;
+  /**
+   * The endpoints that the managed instance service communicates with in order to function correctly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoints?: EndpointDependency[];
+}
+
+/** A domain name that the managed instance service needs to communicate with, along with additional details. */
+export interface EndpointDependency {
+  /**
+   * The domain name of the dependency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domainName?: string;
+  /**
+   * The IP Addresses and Ports used when connecting to DomainName.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointDetails?: EndpointDetail[];
+}
+
+/** A domain name that the managed instance service needs to communicate with, along with additional details. */
+export interface EndpointDetail {
+  /**
+   * The port an endpoint is connected to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: number;
+}
+
+/** A list of top resource consuming queries on managed instance */
+export interface TopQueriesListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: TopQueries[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface TopQueries {
+  /**
+   * Requested number of top queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfQueries?: number;
+  /**
+   * Aggregation function used to calculate query metrics.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aggregationFunction?: string;
+  /**
+   * Metric used to rank queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly observationMetric?: string;
+  /**
+   * Interval type (length).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intervalType?: QueryTimeGrainType;
+  /**
+   * The start time for the metric (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * The end time for the metric (ISO-8601 format).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /** List of top resource consuming queries with appropriate metric data */
+  queries?: QueryStatisticsProperties[];
+}
+
 /** A list of ledger digest upload settings. */
 export interface ManagedLedgerDigestUploadsListResult {
   /**
@@ -4267,6 +4389,8 @@ export interface FailoverGroupUpdate {
   databases?: string[];
   /** List of partner server information for the failover group. */
   partnerServers?: PartnerInfo[];
+  /** Databases secondary type on partner server. */
+  secondaryType?: FailoverGroupDatabasesSecondaryType;
 }
 
 /** A list of Azure SQL instance pools. */
@@ -4318,6 +4442,55 @@ export interface LongTermRetentionBackupListResult {
   readonly nextLink?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** Contains the information necessary to change long term retention backup access tier and related operation mode. */
 export interface ChangeLongTermRetentionBackupAccessTierParameters {
   /** The long term retention backup storage access tier */
@@ -4360,383 +4533,6 @@ export interface LongTermRetentionPolicyListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** A list of managed instances. */
-export interface ManagedInstanceListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ManagedInstance[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Azure Active Directory identity configuration for a resource. */
-export interface ResourceIdentity {
-  /** The resource ids of the user assigned identities to use */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentity };
-  /**
-   * The Azure Active Directory principal id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /** The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. */
-  type?: IdentityType;
-  /**
-   * The Azure Active Directory tenant id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-}
-
-/** Azure Active Directory identity configuration for a resource. */
-export interface UserIdentity {
-  /**
-   * The Azure Active Directory principal id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The Azure Active Directory client id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** A private endpoint connection under a managed instance */
-export interface ManagedInstancePecProperty {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Private endpoint connection properties
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: ManagedInstancePrivateEndpointConnectionProperties;
-}
-
-/** Properties of a active directory administrator. */
-export interface ManagedInstanceExternalAdministrator {
-  /** Type of the sever administrator. */
-  administratorType?: AdministratorType;
-  /** Principal Type of the sever administrator. */
-  principalType?: PrincipalType;
-  /** Login name of the server administrator. */
-  login?: string;
-  /** SID (object ID) of the server administrator. */
-  sid?: string;
-  /** Tenant ID of the administrator. */
-  tenantId?: string;
-  /** Azure Active Directory only Authentication enabled. */
-  azureADOnlyAuthentication?: boolean;
-}
-
-/** The managed instance's service principal configuration for a resource. */
-export interface ServicePrincipal {
-  /**
-   * The Azure Active Directory application object id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The Azure Active Directory application client id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-  /**
-   * The Azure Active Directory tenant id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Service principal type. */
-  type?: ServicePrincipalType;
-}
-
-/** An update request for an Azure SQL Database managed instance. */
-export interface ManagedInstanceUpdate {
-  /** Managed instance sku */
-  sku?: Sku;
-  /** Managed instance identity */
-  identity?: ResourceIdentity;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Provisioning state of managed instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Specifies the mode of database creation.
-   *
-   * Default: Regular instance creation.
-   *
-   * Restore: Creates an instance by restoring a set of backups to specific point in time. RestorePointInTime and SourceManagedInstanceId must be specified.
-   */
-  managedInstanceCreateMode?: ManagedServerCreateMode;
-  /**
-   * The fully qualified domain name of the managed instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullyQualifiedDomainName?: string;
-  /** Whether or not this is a GPv2 variant of General Purpose edition. */
-  isGeneralPurposeV2?: boolean;
-  /** Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation). */
-  administratorLogin?: string;
-  /** The administrator login password (required for managed instance creation). */
-  administratorLoginPassword?: string;
-  /** Subnet resource ID for the managed instance. */
-  subnetId?: string;
-  /**
-   * The state of the managed instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: string;
-  /** The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). */
-  licenseType?: ManagedInstanceLicenseType;
-  /** Hybrid secondary usage. Possible values are 'Active' (default value) and 'Passive' (customer uses the secondary as Passive DR). */
-  hybridSecondaryUsage?: HybridSecondaryUsage;
-  /**
-   * Hybrid secondary usage detected. Possible values are 'Active' (customer does not meet the requirements to use the secondary as Passive DR) and 'Passive' (customer meets the requirements to use the secondary as Passive DR).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hybridSecondaryUsageDetected?: HybridSecondaryUsageDetected;
-  /** The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80. */
-  vCores?: number;
-  /** Storage size in GB. Minimum value: 32. Maximum value: 16384. Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and number of vCores. */
-  storageSizeInGB?: number;
-  /** Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1 IOps allowed only. Maximum value depends on the selected hardware family and number of vCores. */
-  storageIOps?: number;
-  /** Storage throughput MBps parameter is not supported in the instance create/update operation. */
-  storageThroughputMBps?: number;
-  /** Collation of the managed instance. */
-  collation?: string;
-  /**
-   * The Dns Zone that the managed instance is in.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dnsZone?: string;
-  /** The resource id of another managed instance whose DNS zone this managed instance will share after creation. */
-  dnsZonePartner?: string;
-  /** Whether or not the public data endpoint is enabled. */
-  publicDataEndpointEnabled?: boolean;
-  /** The resource identifier of the source managed instance associated with create operation of this instance. */
-  sourceManagedInstanceId?: string;
-  /** Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. */
-  restorePointInTime?: Date;
-  /** Connection type used for connecting to the instance. */
-  proxyOverride?: ManagedInstanceProxyOverride;
-  /**
-   * Id of the timezone. Allowed values are timezones supported by Windows.
-   * Windows keeps details on supported timezones, including the id, in registry under
-   * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
-   * You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM sys.time_zone_info.
-   * List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
-   * An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
-   */
-  timezoneId?: string;
-  /** The Id of the instance pool this managed server belongs to. */
-  instancePoolId?: string;
-  /** Specifies maintenance configuration id to apply to this managed instance. */
-  maintenanceConfigurationId?: string;
-  /**
-   * List of private endpoint connections on a managed instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: ManagedInstancePecProperty[];
-  /** Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2' */
-  minimalTlsVersion?: string;
-  /**
-   * The storage account type used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currentBackupStorageRedundancy?: BackupStorageRedundancy;
-  /** The storage account type to be used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage) */
-  requestedBackupStorageRedundancy?: BackupStorageRedundancy;
-  /** Whether or not the multi-az is enabled. */
-  zoneRedundant?: boolean;
-  /** The resource id of a user assigned identity to be used by default. */
-  primaryUserAssignedIdentityId?: string;
-  /** A CMK URI of the key to use for encryption. */
-  keyId?: string;
-  /** The Azure Active Directory administrator of the instance. This can only be used at instance create time. If used for instance update, it will be ignored or it will result in an error. For updates individual APIs will need to be used. */
-  administrators?: ManagedInstanceExternalAdministrator;
-  /** The managed instance's service principal. */
-  servicePrincipal?: ServicePrincipal;
-  /**
-   * Virtual cluster resource id for the Managed Instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualClusterId?: string;
-  /**
-   * Status of external governance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly externalGovernanceStatus?: ExternalGovernanceStatus;
-  /** Weather or not Managed Instance is freemium. */
-  pricingModel?: FreemiumType;
-  /**
-   * Specifies the point in time (ISO8601 format) of the Managed Instance creation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createTime?: Date;
-  /** The managed instance's authentication metadata lookup mode. */
-  authenticationMetadata?: AuthMetadataLookupModes;
-  /** Specifies the internal format of instance databases specific to the SQL engine version. */
-  databaseFormat?: ManagedInstanceDatabaseFormat;
-}
-
-/** A collection of endpoints that the managed instance service requires outbound network access to. */
-export interface OutboundEnvironmentEndpointCollection {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: OutboundEnvironmentEndpoint[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** An endpoint that the managed instance service requires outbound network access to. */
-export interface OutboundEnvironmentEndpoint {
-  /**
-   * The type of service accessed by the managed instance service, e.g., Azure Storage, Azure Active Directory, etc.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: string;
-  /**
-   * The endpoints that the managed instance service communicates with in order to function correctly.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endpoints?: EndpointDependency[];
-}
-
-/** A domain name that the managed instance service needs to communicate with, along with additional details. */
-export interface EndpointDependency {
-  /**
-   * The domain name of the dependency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly domainName?: string;
-  /**
-   * The IP Addresses and Ports used when connecting to DomainName.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endpointDetails?: EndpointDetail[];
-}
-
-/** A domain name that the managed instance service needs to communicate with, along with additional details. */
-export interface EndpointDetail {
-  /**
-   * The port an endpoint is connected to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly port?: number;
-}
-
-/** A list of top resource consuming queries on managed instance */
-export interface TopQueriesListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: TopQueries[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-export interface TopQueries {
-  /**
-   * Requested number of top queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly numberOfQueries?: number;
-  /**
-   * Aggregation function used to calculate query metrics.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aggregationFunction?: string;
-  /**
-   * Metric used to rank queries.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly observationMetric?: string;
-  /**
-   * Interval type (length).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intervalType?: QueryTimeGrainType;
-  /**
-   * The start time for the metric (ISO-8601 format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: string;
-  /**
-   * The end time for the metric (ISO-8601 format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: string;
-  /** List of top resource consuming queries with appropriate metric data */
-  queries?: QueryStatisticsProperties[];
-}
-
-/** Properties of a query execution statistics. */
-export interface QueryStatisticsProperties {
-  /**
-   * Database name of the database in which this query was executed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly databaseName?: string;
-  /**
-   * Unique query id (unique within one database).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queryId?: string;
-  /**
-   * The start time for the metric (ISO-8601 format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: string;
-  /**
-   * The end time for the metric (ISO-8601 format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: string;
-  /** List of intervals with appropriate metric data */
-  intervals?: QueryMetricIntervalAutoGenerated[];
-}
-
-/** Properties of a query metrics interval. */
-export interface QueryMetricIntervalAutoGenerated {
-  /**
-   * The start time for the metric interval (ISO-8601 format).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intervalStartTime?: string;
-  /**
-   * Interval type (length).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly intervalType?: QueryTimeGrainType;
-  /**
-   * Execution count of a query in this interval.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly executionCount?: number;
-  /** List of metric objects for this interval */
-  metrics?: QueryMetricProperties[];
 }
 
 /** A request to check whether the specified name for a resource is available. */
@@ -4892,6 +4688,20 @@ export interface ImportNewDatabaseDefinition {
   authenticationType?: string;
   /** Optional resource information to enable network isolation for request. */
   networkIsolation?: NetworkIsolationSettings;
+}
+
+/** A list of replication links. */
+export interface ReplicationLinkListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ReplicationLink[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** A Slo Usage Metric. */
@@ -6925,37 +6735,41 @@ export interface ServerConnectionPolicy extends ProxyResource {
 
 /** Distributed availability group between box and Sql Managed Instance. */
 export interface DistributedAvailabilityGroup extends ProxyResource {
+  /** The name of the target database */
+  targetDatabase?: string;
+  /** The source endpoint */
+  sourceEndpoint?: string;
+  /** The primary availability group name */
+  primaryAvailabilityGroupName?: string;
+  /** The secondary availability group name */
+  secondaryAvailabilityGroupName?: string;
+  /** The replication mode of a distributed availability group. Parameter will be ignored during link creation. */
+  replicationMode?: ReplicationMode;
   /**
-   * Name of the distributed availability group
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly distributedAvailabilityGroupName?: string;
-  /**
-   * ID of the distributed availability group
+   * The distributed availability group id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly distributedAvailabilityGroupId?: string;
-  /** Replication mode of the link */
-  replicationMode?: ReplicationModeType;
   /**
-   * SQL server side link role
+   * The source replica id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly partnerLinkRole?: LinkRole;
-  /** SQL server side availability group name */
-  partnerAvailabilityGroupName?: string;
-  /** SQL server side endpoint - IP or DNS resolvable name */
-  partnerEndpoint?: string;
-  /** Managed instance side link role */
-  instanceLinkRole?: LinkRole;
-  /** Managed instance side availability group name */
-  instanceAvailabilityGroupName?: string;
-  /** The link failover mode - can be Manual if intended to be used for two-way failover with a supported SQL Server, or None for one-way failover to Azure. */
-  failoverMode?: FailoverModeType;
-  /** Database seeding mode – can be Automatic (default), or Manual for supported scenarios. */
-  seedingMode?: SeedingModeType;
-  /** Databases in the distributed availability group */
-  databases?: DistributedAvailabilityGroupDatabase[];
+  readonly sourceReplicaId?: string;
+  /**
+   * The target replica id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetReplicaId?: string;
+  /**
+   * The link state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkState?: string;
+  /**
+   * The last hardened lsn
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastHardenedLsn?: string;
 }
 
 /** Server trust certificate imported from box to enable connection between box and Sql Managed Instance. */
@@ -7591,65 +7405,6 @@ export interface ManagedInstanceAdvancedThreatProtection extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creationTime?: Date;
-}
-
-/** A replication link. */
-export interface ReplicationLink extends ProxyResource {
-  /**
-   * Resource partner server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerServer?: string;
-  /**
-   * Resource partner database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerDatabase?: string;
-  /**
-   * Resource partner location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerLocation?: string;
-  /**
-   * Local replication role.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly role?: ReplicationRole;
-  /**
-   * Partner replication role.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerRole?: ReplicationRole;
-  /**
-   * Replication mode.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationMode?: string;
-  /**
-   * Time at which the link was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * Seeding completion percentage for the link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentComplete?: number;
-  /**
-   * Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationState?: ReplicationState;
-  /**
-   * Whether the user is currently allowed to terminate the link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isTerminationAllowed?: boolean;
-  /**
-   * Link type (GEO, NAMED, STANDBY).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly linkType?: ReplicationLinkType;
 }
 
 /** A managed database move operation. */
@@ -8396,6 +8151,8 @@ export interface FailoverGroup extends ProxyResource {
   partnerServers?: PartnerInfo[];
   /** List of databases in the failover group. */
   databases?: string[];
+  /** Databases secondary type on partner server. */
+  secondaryType?: FailoverGroupDatabasesSecondaryType;
 }
 
 /** A long term retention backup. */
@@ -8502,41 +8259,6 @@ export interface LongTermRetentionPolicy extends ProxyResource {
 }
 
 /** An RefreshExternalGovernanceStatus operation result resource. */
-export interface RefreshExternalGovernanceStatusOperationResultMI
-  extends ProxyResource {
-  /**
-   * Request Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestId?: string;
-  /**
-   * Request type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestType?: string;
-  /**
-   * Queued time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly queuedTime?: string;
-  /**
-   * Managed instance name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedInstanceName?: string;
-  /**
-   * Operation status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * Error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessage?: string;
-}
-
-/** An RefreshExternalGovernanceStatus operation result resource. */
 export interface RefreshExternalGovernanceStatusOperationResult
   extends ProxyResource {
   /**
@@ -8569,6 +8291,73 @@ export interface RefreshExternalGovernanceStatusOperationResult
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
+}
+
+/** A replication link. */
+export interface ReplicationLink extends ProxyResource {
+  /**
+   * Resource partner server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerServer?: string;
+  /**
+   * Resource partner database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerDatabase?: string;
+  /**
+   * Resource partner database Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerDatabaseId?: string;
+  /**
+   * Resource partner location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerLocation?: string;
+  /**
+   * Local replication role.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly role?: ReplicationRole;
+  /**
+   * Partner replication role.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerRole?: ReplicationRole;
+  /**
+   * Replication mode.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationMode?: string;
+  /**
+   * Time at which the link was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Seeding completion percentage for the link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationState?: ReplicationState;
+  /**
+   * Whether the user is currently allowed to terminate the link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTerminationAllowed?: boolean;
+  /** Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED. */
+  linkType?: ReplicationLinkType;
+}
+
+/** A replication link update request. */
+export interface ReplicationLinkUpdate extends ProxyResource {
+  /** Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED. */
+  linkType?: ReplicationLinkType;
 }
 
 /** An Azure SQL job agent. */
@@ -8958,36 +8747,14 @@ export interface ManagedDatabase extends TrackedResource {
   isLedgerOn?: boolean;
 }
 
-/** An Azure SQL instance pool. */
-export interface InstancePool extends TrackedResource {
-  /** The name and tier of the SKU. */
-  sku?: Sku;
-  /** Resource ID of the subnet to place this instance pool in. */
-  subnetId?: string;
-  /** Count of vCores belonging to this instance pool. */
-  vCores?: number;
-  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
-  licenseType?: InstancePoolLicenseType;
-  /**
-   * The Dns Zone that the managed instance pool is in.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dnsZone?: string;
-  /** Specifies maintenance configuration id to apply to this managed instance. */
-  maintenanceConfigurationId?: string;
-}
-
 /** An Azure SQL managed instance. */
 export interface ManagedInstance extends TrackedResource {
   /** The Azure Active Directory identity of the managed instance. */
   identity?: ResourceIdentity;
   /** Managed instance SKU. Allowed values for sku.name: GP_Gen5, GP_G8IM, GP_G8IH, BC_Gen5, BC_G8IM, BC_G8IH */
   sku?: Sku;
-  /**
-   * Provisioning state of managed instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ManagedInstancePropertiesProvisioningState;
   /**
    * Specifies the mode of database creation.
    *
@@ -9001,8 +8768,6 @@ export interface ManagedInstance extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly fullyQualifiedDomainName?: string;
-  /** Whether or not this is a GPv2 variant of General Purpose edition. */
-  isGeneralPurposeV2?: boolean;
   /** Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation). */
   administratorLogin?: string;
   /** The administrator login password (required for managed instance creation). */
@@ -9016,21 +8781,10 @@ export interface ManagedInstance extends TrackedResource {
   readonly state?: string;
   /** The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). */
   licenseType?: ManagedInstanceLicenseType;
-  /** Hybrid secondary usage. Possible values are 'Active' (default value) and 'Passive' (customer uses the secondary as Passive DR). */
-  hybridSecondaryUsage?: HybridSecondaryUsage;
-  /**
-   * Hybrid secondary usage detected. Possible values are 'Active' (customer does not meet the requirements to use the secondary as Passive DR) and 'Passive' (customer meets the requirements to use the secondary as Passive DR).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hybridSecondaryUsageDetected?: HybridSecondaryUsageDetected;
   /** The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80. */
   vCores?: number;
   /** Storage size in GB. Minimum value: 32. Maximum value: 16384. Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and number of vCores. */
   storageSizeInGB?: number;
-  /** Storage IOps. Minimum value: 300. Maximum value: 80000. Increments of 1 IOps allowed only. Maximum value depends on the selected hardware family and number of vCores. */
-  storageIOps?: number;
-  /** Storage throughput MBps parameter is not supported in the instance create/update operation. */
-  storageThroughputMBps?: number;
   /** Collation of the managed instance. */
   collation?: string;
   /**
@@ -9085,27 +8839,25 @@ export interface ManagedInstance extends TrackedResource {
   administrators?: ManagedInstanceExternalAdministrator;
   /** The managed instance's service principal. */
   servicePrincipal?: ServicePrincipal;
+}
+
+/** An Azure SQL instance pool. */
+export interface InstancePool extends TrackedResource {
+  /** The name and tier of the SKU. */
+  sku?: Sku;
+  /** Resource ID of the subnet to place this instance pool in. */
+  subnetId?: string;
+  /** Count of vCores belonging to this instance pool. */
+  vCores?: number;
+  /** The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price). */
+  licenseType?: InstancePoolLicenseType;
   /**
-   * Virtual cluster resource id for the Managed Instance.
+   * The Dns Zone that the managed instance pool is in.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly virtualClusterId?: string;
-  /**
-   * Status of external governance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly externalGovernanceStatus?: ExternalGovernanceStatus;
-  /** Weather or not Managed Instance is freemium. */
-  pricingModel?: FreemiumType;
-  /**
-   * Specifies the point in time (ISO8601 format) of the Managed Instance creation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createTime?: Date;
-  /** The managed instance's authentication metadata lookup mode. */
-  authenticationMetadata?: AuthMetadataLookupModes;
-  /** Specifies the internal format of instance databases specific to the SQL engine version. */
-  databaseFormat?: ManagedInstanceDatabaseFormat;
+  readonly dnsZone?: string;
+  /** Specifies maintenance configuration id to apply to this managed instance. */
+  maintenanceConfigurationId?: string;
 }
 
 /** An Azure SQL Database server. */
@@ -9180,11 +8932,6 @@ export interface IPv6FirewallRule extends ProxyResourceWithWritableName {
   startIPv6Address?: string;
   /** The end IP address of the firewall rule. Must be IPv6 format. Must be greater than or equal to startIpv6Address. */
   endIPv6Address?: string;
-}
-
-/** Defines headers for DistributedAvailabilityGroups_failover operation. */
-export interface DistributedAvailabilityGroupsFailoverHeaders {
-  location?: string;
 }
 
 /** Defines headers for FailoverGroups_tryPlannedBeforeForcedFailover operation. */
@@ -10716,8 +10463,8 @@ export enum KnownServerConnectionType {
  */
 export type ServerConnectionType = string;
 
-/** Known values of {@link ReplicationModeType} that the service accepts. */
-export enum KnownReplicationModeType {
+/** Known values of {@link ReplicationMode} that the service accepts. */
+export enum KnownReplicationMode {
   /** Async */
   Async = "Async",
   /** Sync */
@@ -10725,161 +10472,14 @@ export enum KnownReplicationModeType {
 }
 
 /**
- * Defines values for ReplicationModeType. \
- * {@link KnownReplicationModeType} can be used interchangeably with ReplicationModeType,
+ * Defines values for ReplicationMode. \
+ * {@link KnownReplicationMode} can be used interchangeably with ReplicationMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Async** \
  * **Sync**
  */
-export type ReplicationModeType = string;
-
-/** Known values of {@link LinkRole} that the service accepts. */
-export enum KnownLinkRole {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary",
-}
-
-/**
- * Defines values for LinkRole. \
- * {@link KnownLinkRole} can be used interchangeably with LinkRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
- */
-export type LinkRole = string;
-
-/** Known values of {@link FailoverModeType} that the service accepts. */
-export enum KnownFailoverModeType {
-  /** None */
-  None = "None",
-  /** Manual */
-  Manual = "Manual",
-}
-
-/**
- * Defines values for FailoverModeType. \
- * {@link KnownFailoverModeType} can be used interchangeably with FailoverModeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Manual**
- */
-export type FailoverModeType = string;
-
-/** Known values of {@link SeedingModeType} that the service accepts. */
-export enum KnownSeedingModeType {
-  /** Automatic */
-  Automatic = "Automatic",
-  /** Manual */
-  Manual = "Manual",
-}
-
-/**
- * Defines values for SeedingModeType. \
- * {@link KnownSeedingModeType} can be used interchangeably with SeedingModeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Automatic** \
- * **Manual**
- */
-export type SeedingModeType = string;
-
-/** Known values of {@link ReplicaSynchronizationHealth} that the service accepts. */
-export enum KnownReplicaSynchronizationHealth {
-  /** NOTHealthy */
-  NOTHealthy = "NOT_HEALTHY",
-  /** PartiallyHealthy */
-  PartiallyHealthy = "PARTIALLY_HEALTHY",
-  /** Healthy */
-  Healthy = "HEALTHY",
-}
-
-/**
- * Defines values for ReplicaSynchronizationHealth. \
- * {@link KnownReplicaSynchronizationHealth} can be used interchangeably with ReplicaSynchronizationHealth,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NOT_HEALTHY** \
- * **PARTIALLY_HEALTHY** \
- * **HEALTHY**
- */
-export type ReplicaSynchronizationHealth = string;
-
-/** Known values of {@link ReplicaConnectedState} that the service accepts. */
-export enum KnownReplicaConnectedState {
-  /** Disconnected */
-  Disconnected = "DISCONNECTED",
-  /** Connected */
-  Connected = "CONNECTED",
-}
-
-/**
- * Defines values for ReplicaConnectedState. \
- * {@link KnownReplicaConnectedState} can be used interchangeably with ReplicaConnectedState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DISCONNECTED** \
- * **CONNECTED**
- */
-export type ReplicaConnectedState = string;
-
-/** Known values of {@link FailoverType} that the service accepts. */
-export enum KnownFailoverType {
-  /** ForcedAllowDataLoss */
-  ForcedAllowDataLoss = "ForcedAllowDataLoss",
-  /** Planned */
-  Planned = "Planned",
-}
-
-/**
- * Defines values for FailoverType. \
- * {@link KnownFailoverType} can be used interchangeably with FailoverType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ForcedAllowDataLoss** \
- * **Planned**
- */
-export type FailoverType = string;
-
-/** Known values of {@link InstanceRole} that the service accepts. */
-export enum KnownInstanceRole {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary",
-}
-
-/**
- * Defines values for InstanceRole. \
- * {@link KnownInstanceRole} can be used interchangeably with InstanceRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
- */
-export type InstanceRole = string;
-
-/** Known values of {@link RoleChangeType} that the service accepts. */
-export enum KnownRoleChangeType {
-  /** Forced */
-  Forced = "Forced",
-  /** Planned */
-  Planned = "Planned",
-}
-
-/**
- * Defines values for RoleChangeType. \
- * {@link KnownRoleChangeType} can be used interchangeably with RoleChangeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Forced** \
- * **Planned**
- */
-export type RoleChangeType = string;
+export type ReplicationMode = string;
 
 /** Known values of {@link AdvancedThreatProtectionName} that the service accepts. */
 export enum KnownAdvancedThreatProtectionName {
@@ -10895,51 +10495,6 @@ export enum KnownAdvancedThreatProtectionName {
  * **Default**
  */
 export type AdvancedThreatProtectionName = string;
-
-/** Known values of {@link ReplicationState} that the service accepts. */
-export enum KnownReplicationState {
-  /** Pending */
-  Pending = "PENDING",
-  /** Seeding */
-  Seeding = "SEEDING",
-  /** CatchUP */
-  CatchUP = "CATCH_UP",
-  /** Suspended */
-  Suspended = "SUSPENDED",
-}
-
-/**
- * Defines values for ReplicationState. \
- * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PENDING** \
- * **SEEDING** \
- * **CATCH_UP** \
- * **SUSPENDED**
- */
-export type ReplicationState = string;
-
-/** Known values of {@link ReplicationLinkType} that the service accepts. */
-export enum KnownReplicationLinkType {
-  /** GEO */
-  GEO = "GEO",
-  /** Named */
-  Named = "NAMED",
-  /** Standby */
-  Standby = "STANDBY",
-}
-
-/**
- * Defines values for ReplicationLinkType. \
- * {@link KnownReplicationLinkType} can be used interchangeably with ReplicationLinkType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GEO** \
- * **NAMED** \
- * **STANDBY**
- */
-export type ReplicationLinkType = string;
 
 /** Known values of {@link MoveOperationMode} that the service accepts. */
 export enum KnownMoveOperationMode {
@@ -11529,6 +11084,237 @@ export enum KnownManagedDatabaseCreateMode {
  */
 export type ManagedDatabaseCreateMode = string;
 
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type IdentityType = string;
+
+/** Known values of {@link ManagedInstancePropertiesProvisioningState} that the service accepts. */
+export enum KnownManagedInstancePropertiesProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Updating */
+  Updating = "Updating",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Created */
+  Created = "Created",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Unrecognized */
+  Unrecognized = "Unrecognized",
+  /** Running */
+  Running = "Running",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** NotSpecified */
+  NotSpecified = "NotSpecified",
+  /** Registering */
+  Registering = "Registering",
+  /** TimedOut */
+  TimedOut = "TimedOut",
+}
+
+/**
+ * Defines values for ManagedInstancePropertiesProvisioningState. \
+ * {@link KnownManagedInstancePropertiesProvisioningState} can be used interchangeably with ManagedInstancePropertiesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Deleting** \
+ * **Updating** \
+ * **Unknown** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Accepted** \
+ * **Created** \
+ * **Deleted** \
+ * **Unrecognized** \
+ * **Running** \
+ * **Canceled** \
+ * **NotSpecified** \
+ * **Registering** \
+ * **TimedOut**
+ */
+export type ManagedInstancePropertiesProvisioningState = string;
+
+/** Known values of {@link ManagedServerCreateMode} that the service accepts. */
+export enum KnownManagedServerCreateMode {
+  /** Default */
+  Default = "Default",
+  /** PointInTimeRestore */
+  PointInTimeRestore = "PointInTimeRestore",
+}
+
+/**
+ * Defines values for ManagedServerCreateMode. \
+ * {@link KnownManagedServerCreateMode} can be used interchangeably with ManagedServerCreateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **PointInTimeRestore**
+ */
+export type ManagedServerCreateMode = string;
+
+/** Known values of {@link ManagedInstanceLicenseType} that the service accepts. */
+export enum KnownManagedInstanceLicenseType {
+  /** LicenseIncluded */
+  LicenseIncluded = "LicenseIncluded",
+  /** BasePrice */
+  BasePrice = "BasePrice",
+}
+
+/**
+ * Defines values for ManagedInstanceLicenseType. \
+ * {@link KnownManagedInstanceLicenseType} can be used interchangeably with ManagedInstanceLicenseType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LicenseIncluded** \
+ * **BasePrice**
+ */
+export type ManagedInstanceLicenseType = string;
+
+/** Known values of {@link ManagedInstanceProxyOverride} that the service accepts. */
+export enum KnownManagedInstanceProxyOverride {
+  /** Proxy */
+  Proxy = "Proxy",
+  /** Redirect */
+  Redirect = "Redirect",
+  /** Default */
+  Default = "Default",
+}
+
+/**
+ * Defines values for ManagedInstanceProxyOverride. \
+ * {@link KnownManagedInstanceProxyOverride} can be used interchangeably with ManagedInstanceProxyOverride,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Proxy** \
+ * **Redirect** \
+ * **Default**
+ */
+export type ManagedInstanceProxyOverride = string;
+
+/** Known values of {@link PrincipalType} that the service accepts. */
+export enum KnownPrincipalType {
+  /** User */
+  User = "User",
+  /** Group */
+  Group = "Group",
+  /** Application */
+  Application = "Application",
+}
+
+/**
+ * Defines values for PrincipalType. \
+ * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Group** \
+ * **Application**
+ */
+export type PrincipalType = string;
+
+/** Known values of {@link ServicePrincipalType} that the service accepts. */
+export enum KnownServicePrincipalType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Defines values for ServicePrincipalType. \
+ * {@link KnownServicePrincipalType} can be used interchangeably with ServicePrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned**
+ */
+export type ServicePrincipalType = string;
+
+/** Known values of {@link AggregationFunctionType} that the service accepts. */
+export enum KnownAggregationFunctionType {
+  /** Avg */
+  Avg = "avg",
+  /** Min */
+  Min = "min",
+  /** Max */
+  Max = "max",
+  /** Stdev */
+  Stdev = "stdev",
+  /** Sum */
+  Sum = "sum",
+}
+
+/**
+ * Defines values for AggregationFunctionType. \
+ * {@link KnownAggregationFunctionType} can be used interchangeably with AggregationFunctionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **avg** \
+ * **min** \
+ * **max** \
+ * **stdev** \
+ * **sum**
+ */
+export type AggregationFunctionType = string;
+
+/** Known values of {@link MetricType} that the service accepts. */
+export enum KnownMetricType {
+  /** Cpu */
+  Cpu = "cpu",
+  /** Io */
+  Io = "io",
+  /** LogIo */
+  LogIo = "logIo",
+  /** Duration */
+  Duration = "duration",
+  /** Dtu */
+  Dtu = "dtu",
+}
+
+/**
+ * Defines values for MetricType. \
+ * {@link KnownMetricType} can be used interchangeably with MetricType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cpu** \
+ * **io** \
+ * **logIo** \
+ * **duration** \
+ * **dtu**
+ */
+export type MetricType = string;
+
 /** Known values of {@link ManagedLedgerDigestUploadsState} that the service accepts. */
 export enum KnownManagedLedgerDigestUploadsState {
   /** Enabled */
@@ -11751,6 +11537,24 @@ export enum KnownFailoverGroupReplicationRole {
  */
 export type FailoverGroupReplicationRole = string;
 
+/** Known values of {@link FailoverGroupDatabasesSecondaryType} that the service accepts. */
+export enum KnownFailoverGroupDatabasesSecondaryType {
+  /** Geo */
+  Geo = "Geo",
+  /** Standby */
+  Standby = "Standby",
+}
+
+/**
+ * Defines values for FailoverGroupDatabasesSecondaryType. \
+ * {@link KnownFailoverGroupDatabasesSecondaryType} can be used interchangeably with FailoverGroupDatabasesSecondaryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Geo** \
+ * **Standby**
+ */
+export type FailoverGroupDatabasesSecondaryType = string;
+
 /** Known values of {@link InstancePoolLicenseType} that the service accepts. */
 export enum KnownInstancePoolLicenseType {
   /** LicenseIncluded */
@@ -11801,291 +11605,6 @@ export enum KnownLongTermRetentionPolicyName {
  * **default**
  */
 export type LongTermRetentionPolicyName = string;
-
-/** Known values of {@link IdentityType} that the service accepts. */
-export enum KnownIdentityType {
-  /** None */
-  None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-}
-
-/**
- * Defines values for IdentityType. \
- * {@link KnownIdentityType} can be used interchangeably with IdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
- */
-export type IdentityType = string;
-
-/** Known values of {@link ManagedServerCreateMode} that the service accepts. */
-export enum KnownManagedServerCreateMode {
-  /** Default */
-  Default = "Default",
-  /** PointInTimeRestore */
-  PointInTimeRestore = "PointInTimeRestore",
-}
-
-/**
- * Defines values for ManagedServerCreateMode. \
- * {@link KnownManagedServerCreateMode} can be used interchangeably with ManagedServerCreateMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **PointInTimeRestore**
- */
-export type ManagedServerCreateMode = string;
-
-/** Known values of {@link ManagedInstanceLicenseType} that the service accepts. */
-export enum KnownManagedInstanceLicenseType {
-  /** LicenseIncluded */
-  LicenseIncluded = "LicenseIncluded",
-  /** BasePrice */
-  BasePrice = "BasePrice",
-}
-
-/**
- * Defines values for ManagedInstanceLicenseType. \
- * {@link KnownManagedInstanceLicenseType} can be used interchangeably with ManagedInstanceLicenseType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LicenseIncluded** \
- * **BasePrice**
- */
-export type ManagedInstanceLicenseType = string;
-
-/** Known values of {@link HybridSecondaryUsage} that the service accepts. */
-export enum KnownHybridSecondaryUsage {
-  /** Active */
-  Active = "Active",
-  /** Passive */
-  Passive = "Passive",
-}
-
-/**
- * Defines values for HybridSecondaryUsage. \
- * {@link KnownHybridSecondaryUsage} can be used interchangeably with HybridSecondaryUsage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active** \
- * **Passive**
- */
-export type HybridSecondaryUsage = string;
-
-/** Known values of {@link HybridSecondaryUsageDetected} that the service accepts. */
-export enum KnownHybridSecondaryUsageDetected {
-  /** Active */
-  Active = "Active",
-  /** Passive */
-  Passive = "Passive",
-}
-
-/**
- * Defines values for HybridSecondaryUsageDetected. \
- * {@link KnownHybridSecondaryUsageDetected} can be used interchangeably with HybridSecondaryUsageDetected,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active** \
- * **Passive**
- */
-export type HybridSecondaryUsageDetected = string;
-
-/** Known values of {@link ManagedInstanceProxyOverride} that the service accepts. */
-export enum KnownManagedInstanceProxyOverride {
-  /** Proxy */
-  Proxy = "Proxy",
-  /** Redirect */
-  Redirect = "Redirect",
-  /** Default */
-  Default = "Default",
-}
-
-/**
- * Defines values for ManagedInstanceProxyOverride. \
- * {@link KnownManagedInstanceProxyOverride} can be used interchangeably with ManagedInstanceProxyOverride,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Proxy** \
- * **Redirect** \
- * **Default**
- */
-export type ManagedInstanceProxyOverride = string;
-
-/** Known values of {@link PrincipalType} that the service accepts. */
-export enum KnownPrincipalType {
-  /** User */
-  User = "User",
-  /** Group */
-  Group = "Group",
-  /** Application */
-  Application = "Application",
-}
-
-/**
- * Defines values for PrincipalType. \
- * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Group** \
- * **Application**
- */
-export type PrincipalType = string;
-
-/** Known values of {@link ServicePrincipalType} that the service accepts. */
-export enum KnownServicePrincipalType {
-  /** None */
-  None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-}
-
-/**
- * Defines values for ServicePrincipalType. \
- * {@link KnownServicePrincipalType} can be used interchangeably with ServicePrincipalType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **SystemAssigned**
- */
-export type ServicePrincipalType = string;
-
-/** Known values of {@link ExternalGovernanceStatus} that the service accepts. */
-export enum KnownExternalGovernanceStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for ExternalGovernanceStatus. \
- * {@link KnownExternalGovernanceStatus} can be used interchangeably with ExternalGovernanceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type ExternalGovernanceStatus = string;
-
-/** Known values of {@link FreemiumType} that the service accepts. */
-export enum KnownFreemiumType {
-  /** Regular */
-  Regular = "Regular",
-  /** Freemium */
-  Freemium = "Freemium",
-}
-
-/**
- * Defines values for FreemiumType. \
- * {@link KnownFreemiumType} can be used interchangeably with FreemiumType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Regular** \
- * **Freemium**
- */
-export type FreemiumType = string;
-
-/** Known values of {@link AuthMetadataLookupModes} that the service accepts. */
-export enum KnownAuthMetadataLookupModes {
-  /** AzureAD */
-  AzureAD = "AzureAD",
-  /** Paired */
-  Paired = "Paired",
-  /** Windows */
-  Windows = "Windows",
-}
-
-/**
- * Defines values for AuthMetadataLookupModes. \
- * {@link KnownAuthMetadataLookupModes} can be used interchangeably with AuthMetadataLookupModes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureAD** \
- * **Paired** \
- * **Windows**
- */
-export type AuthMetadataLookupModes = string;
-
-/** Known values of {@link ManagedInstanceDatabaseFormat} that the service accepts. */
-export enum KnownManagedInstanceDatabaseFormat {
-  /** AlwaysUpToDate */
-  AlwaysUpToDate = "AlwaysUpToDate",
-  /** SQLServer2022 */
-  SQLServer2022 = "SQLServer2022",
-}
-
-/**
- * Defines values for ManagedInstanceDatabaseFormat. \
- * {@link KnownManagedInstanceDatabaseFormat} can be used interchangeably with ManagedInstanceDatabaseFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AlwaysUpToDate** \
- * **SQLServer2022**
- */
-export type ManagedInstanceDatabaseFormat = string;
-
-/** Known values of {@link AggregationFunctionType} that the service accepts. */
-export enum KnownAggregationFunctionType {
-  /** Avg */
-  Avg = "avg",
-  /** Min */
-  Min = "min",
-  /** Max */
-  Max = "max",
-  /** Stdev */
-  Stdev = "stdev",
-  /** Sum */
-  Sum = "sum",
-}
-
-/**
- * Defines values for AggregationFunctionType. \
- * {@link KnownAggregationFunctionType} can be used interchangeably with AggregationFunctionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **avg** \
- * **min** \
- * **max** \
- * **stdev** \
- * **sum**
- */
-export type AggregationFunctionType = string;
-
-/** Known values of {@link MetricType} that the service accepts. */
-export enum KnownMetricType {
-  /** Cpu */
-  Cpu = "cpu",
-  /** Io */
-  Io = "io",
-  /** LogIo */
-  LogIo = "logIo",
-  /** Duration */
-  Duration = "duration",
-  /** Dtu */
-  Dtu = "dtu",
-}
-
-/**
- * Defines values for MetricType. \
- * {@link KnownMetricType} can be used interchangeably with MetricType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **cpu** \
- * **io** \
- * **logIo** \
- * **duration** \
- * **dtu**
- */
-export type MetricType = string;
 
 /** Known values of {@link MinimalTlsVersion} that the service accepts. */
 export enum KnownMinimalTlsVersion {
@@ -12170,6 +11689,69 @@ export enum KnownServerNetworkAccessFlag {
  * **Disabled**
  */
 export type ServerNetworkAccessFlag = string;
+
+/** Known values of {@link ExternalGovernanceStatus} that the service accepts. */
+export enum KnownExternalGovernanceStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for ExternalGovernanceStatus. \
+ * {@link KnownExternalGovernanceStatus} can be used interchangeably with ExternalGovernanceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ExternalGovernanceStatus = string;
+
+/** Known values of {@link ReplicationState} that the service accepts. */
+export enum KnownReplicationState {
+  /** Pending */
+  Pending = "PENDING",
+  /** Seeding */
+  Seeding = "SEEDING",
+  /** CatchUP */
+  CatchUP = "CATCH_UP",
+  /** Suspended */
+  Suspended = "SUSPENDED",
+}
+
+/**
+ * Defines values for ReplicationState. \
+ * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PENDING** \
+ * **SEEDING** \
+ * **CATCH_UP** \
+ * **SUSPENDED**
+ */
+export type ReplicationState = string;
+
+/** Known values of {@link ReplicationLinkType} that the service accepts. */
+export enum KnownReplicationLinkType {
+  /** GEO */
+  GEO = "GEO",
+  /** Named */
+  Named = "NAMED",
+  /** Standby */
+  Standby = "STANDBY",
+}
+
+/**
+ * Defines values for ReplicationLinkType. \
+ * {@link KnownReplicationLinkType} can be used interchangeably with ReplicationLinkType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GEO** \
+ * **NAMED** \
+ * **STANDBY**
+ */
+export type ReplicationLinkType = string;
 
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
@@ -12474,6 +12056,10 @@ export type SensitivityLabelUpdateKind = "set" | "remove";
 export type RecommendedSensitivityLabelUpdateKind = "enable" | "disable";
 /** Defines values for AdvancedThreatProtectionState. */
 export type AdvancedThreatProtectionState = "New" | "Enabled" | "Disabled";
+/** Defines values for SqlVulnerabilityAssessmentState. */
+export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
+/** Defines values for CheckNameAvailabilityReason. */
+export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 /** Defines values for ReplicationRole. */
 export type ReplicationRole =
   | "Primary"
@@ -12481,10 +12067,6 @@ export type ReplicationRole =
   | "NonReadableSecondary"
   | "Source"
   | "Copy";
-/** Defines values for SqlVulnerabilityAssessmentState. */
-export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
-/** Defines values for CheckNameAvailabilityReason. */
-export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /** Optional parameters. */
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams
@@ -16122,32 +15704,6 @@ export type DistributedAvailabilityGroupsUpdateResponse =
   DistributedAvailabilityGroup;
 
 /** Optional parameters. */
-export interface DistributedAvailabilityGroupsFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failover operation. */
-export type DistributedAvailabilityGroupsFailoverResponse =
-  DistributedAvailabilityGroup;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsSetRoleOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the setRole operation. */
-export type DistributedAvailabilityGroupsSetRoleResponse =
-  DistributedAvailabilityGroup;
-
-/** Optional parameters. */
 export interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -16711,76 +16267,6 @@ export type ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNextRes
   ManagedInstanceAdvancedThreatProtectionListResult;
 
 /** Optional parameters. */
-export interface ReplicationLinksListByDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabase operation. */
-export type ReplicationLinksListByDatabaseResponse = ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ReplicationLinksGetResponse = ReplicationLink;
-
-/** Optional parameters. */
-export interface ReplicationLinksDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ReplicationLinksFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failover operation. */
-export type ReplicationLinksFailoverResponse = ReplicationLink;
-
-/** Optional parameters. */
-export interface ReplicationLinksFailoverAllowDataLossOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failoverAllowDataLoss operation. */
-export type ReplicationLinksFailoverAllowDataLossResponse = ReplicationLink;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByServerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServer operation. */
-export type ReplicationLinksListByServerResponse = ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByDatabaseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabaseNext operation. */
-export type ReplicationLinksListByDatabaseNextResponse =
-  ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServerNext operation. */
-export type ReplicationLinksListByServerNextResponse =
-  ReplicationLinkListResult;
-
-/** Optional parameters. */
 export interface ManagedDatabaseMoveOperationsListByLocationOptionalParams
   extends coreClient.OperationOptions {
   /** An OData filter expression that filters elements in the collection. */
@@ -17133,6 +16619,180 @@ export interface ManagedDatabasesListInaccessibleByInstanceNextOptionalParams
 /** Contains response data for the listInaccessibleByInstanceNext operation. */
 export type ManagedDatabasesListInaccessibleByInstanceNextResponse =
   ManagedDatabaseListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ManagedInstancesListResponse = ManagedInstanceListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListByInstancePoolOptionalParams
+  extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the listByInstancePool operation. */
+export type ManagedInstancesListByInstancePoolResponse =
+  ManagedInstanceListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ManagedInstancesListByResourceGroupResponse =
+  ManagedInstanceListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The child resources to include in the response. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ManagedInstancesGetResponse = ManagedInstance;
+
+/** Optional parameters. */
+export interface ManagedInstancesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagedInstancesCreateOrUpdateResponse = ManagedInstance;
+
+/** Optional parameters. */
+export interface ManagedInstancesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ManagedInstancesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ManagedInstancesUpdateResponse = ManagedInstance;
+
+/** Optional parameters. */
+export interface ManagedInstancesFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** The type of replica to be failed over. */
+  replicaType?: ReplicaType;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesByManagedInstance operation. */
+export type ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceResponse =
+  OutboundEnvironmentEndpointCollection;
+
+/** Optional parameters. */
+export interface ManagedInstancesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ManagedInstancesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ManagedInstancesListByManagedInstanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Start time for observed period. */
+  startTime?: string;
+  /** End time for observed period. */
+  endTime?: string;
+  /** The time step to be used to summarize the metric values. Default value is PT1H */
+  interval?: QueryTimeGrainType;
+  /** How many 'top queries' to return. Default is 5. */
+  numberOfQueries?: number;
+  /** Comma separated list of databases to be included into search. All DB's are included if this parameter is not specified. */
+  databases?: string;
+  /** Aggregation function to be used, default value is 'sum' */
+  aggregationFunction?: AggregationFunctionType;
+  /** Metric to be used for ranking top queries. Default is 'cpu' */
+  observationMetric?: MetricType;
+}
+
+/** Contains response data for the listByManagedInstance operation. */
+export type ManagedInstancesListByManagedInstanceResponse =
+  TopQueriesListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagedInstancesListNextResponse = ManagedInstanceListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListByInstancePoolNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInstancePoolNext operation. */
+export type ManagedInstancesListByInstancePoolNextResponse =
+  ManagedInstanceListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ManagedInstancesListByResourceGroupNextResponse =
+  ManagedInstanceListResult;
+
+/** Optional parameters. */
+export interface ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesByManagedInstanceNext operation. */
+export type ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceNextResponse =
+  OutboundEnvironmentEndpointCollection;
+
+/** Optional parameters. */
+export interface ManagedInstancesListByManagedInstanceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByManagedInstanceNext operation. */
+export type ManagedInstancesListByManagedInstanceNextResponse =
+  TopQueriesListResult;
 
 /** Optional parameters. */
 export interface ManagedLedgerDigestUploadsListByDatabaseOptionalParams
@@ -18145,199 +17805,6 @@ export type LongTermRetentionPoliciesListByDatabaseNextResponse =
   LongTermRetentionPolicyListResult;
 
 /** Optional parameters. */
-export interface ManagedInstancesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ManagedInstancesListResponse = ManagedInstanceListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesListByInstancePoolOptionalParams
-  extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listByInstancePool operation. */
-export type ManagedInstancesListByInstancePoolResponse =
-  ManagedInstanceListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ManagedInstancesListByResourceGroupResponse =
-  ManagedInstanceListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The child resources to include in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type ManagedInstancesGetResponse = ManagedInstance;
-
-/** Optional parameters. */
-export interface ManagedInstancesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ManagedInstancesCreateOrUpdateResponse = ManagedInstance;
-
-/** Optional parameters. */
-export interface ManagedInstancesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ManagedInstancesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type ManagedInstancesUpdateResponse = ManagedInstance;
-
-/** Optional parameters. */
-export interface ManagedInstancesFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** The type of replica to be failed over. */
-  replicaType?: ReplicaType;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOutboundNetworkDependenciesByManagedInstance operation. */
-export type ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceResponse =
-  OutboundEnvironmentEndpointCollection;
-
-/** Optional parameters. */
-export interface ManagedInstancesRefreshStatusOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the refreshStatus operation. */
-export type ManagedInstancesRefreshStatusResponse =
-  RefreshExternalGovernanceStatusOperationResultMI;
-
-/** Optional parameters. */
-export interface ManagedInstancesStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the start operation. */
-export type ManagedInstancesStartResponse = ManagedInstance;
-
-/** Optional parameters. */
-export interface ManagedInstancesStopOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the stop operation. */
-export type ManagedInstancesStopResponse = ManagedInstance;
-
-/** Optional parameters. */
-export interface ManagedInstancesListByManagedInstanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** Start time for observed period. */
-  startTime?: string;
-  /** End time for observed period. */
-  endTime?: string;
-  /** The time step to be used to summarize the metric values. Default value is PT1H */
-  interval?: QueryTimeGrainType;
-  /** How many 'top queries' to return. Default is 5. */
-  numberOfQueries?: number;
-  /** Comma separated list of databases to be included into search. All DB's are included if this parameter is not specified. */
-  databases?: string;
-  /** Aggregation function to be used, default value is 'sum' */
-  aggregationFunction?: AggregationFunctionType;
-  /** Metric to be used for ranking top queries. Default is 'cpu' */
-  observationMetric?: MetricType;
-}
-
-/** Contains response data for the listByManagedInstance operation. */
-export type ManagedInstancesListByManagedInstanceResponse =
-  TopQueriesListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ManagedInstancesListNextResponse = ManagedInstanceListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesListByInstancePoolNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInstancePoolNext operation. */
-export type ManagedInstancesListByInstancePoolNextResponse =
-  ManagedInstanceListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedInstancesListByResourceGroupNextResponse =
-  ManagedInstanceListResult;
-
-/** Optional parameters. */
-export interface ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOutboundNetworkDependenciesByManagedInstanceNext operation. */
-export type ManagedInstancesListOutboundNetworkDependenciesByManagedInstanceNextResponse =
-  OutboundEnvironmentEndpointCollection;
-
-/** Optional parameters. */
-export interface ManagedInstancesListByManagedInstanceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByManagedInstanceNext operation. */
-export type ManagedInstancesListByManagedInstanceNextResponse =
-  TopQueriesListResult;
-
-/** Optional parameters. */
 export interface ServersCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -18444,6 +17911,100 @@ export interface ServersListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ServersListByResourceGroupNextResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabase operation. */
+export type ReplicationLinksListByDatabaseResponse = ReplicationLinkListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReplicationLinksGetResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ReplicationLinksCreateOrUpdateResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicationLinksUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ReplicationLinksUpdateResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the failover operation. */
+export type ReplicationLinksFailoverResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksFailoverAllowDataLossOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the failoverAllowDataLoss operation. */
+export type ReplicationLinksFailoverAllowDataLossResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type ReplicationLinksListByServerResponse = ReplicationLinkListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByDatabaseNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseNext operation. */
+export type ReplicationLinksListByDatabaseNextResponse =
+  ReplicationLinkListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type ReplicationLinksListByServerNextResponse =
+  ReplicationLinkListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

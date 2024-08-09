@@ -18,17 +18,17 @@ dotenv.config();
  * This sample demonstrates how to Updates a managed instance.
  *
  * @summary Updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceRemoveMaintenanceConfiguration.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceRemoveMaintenanceConfiguration.json
  */
 async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenancePolicy() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
+    "20D7082A-0FC7-4468-82BD-542694D5042B";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "testinstance";
   const parameters: ManagedInstanceUpdate = {
     maintenanceConfigurationId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+      "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -44,29 +44,26 @@ async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenanc
  * This sample demonstrates how to Updates a managed instance.
  *
  * @summary Updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceUpdateMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceUpdateMax.json
  */
 async function updateManagedInstanceWithAllProperties() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
+    "20D7082A-0FC7-4468-82BD-542694D5042B";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "testinstance";
   const parameters: ManagedInstanceUpdate = {
     administratorLogin: "dummylogin",
     administratorLoginPassword: "PLACEHOLDER",
-    authenticationMetadata: "Windows",
     collation: "SQL_Latin1_General_CP1_CI_AS",
-    databaseFormat: "AlwaysUpToDate",
-    hybridSecondaryUsage: "Passive",
     licenseType: "BasePrice",
     maintenanceConfigurationId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
+      "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
     minimalTlsVersion: "1.2",
     proxyOverride: "Redirect",
     publicDataEndpointEnabled: false,
     requestedBackupStorageRedundancy: "Geo",
-    sku: { name: "GP_Gen5", capacity: 8, tier: "GeneralPurpose" },
+    sku: { name: "GP_Gen4", capacity: 8, tier: "GeneralPurpose" },
     storageSizeInGB: 448,
     tags: { tagKey1: "TagValue1" },
     vCores: 8,
@@ -85,12 +82,12 @@ async function updateManagedInstanceWithAllProperties() {
  * This sample demonstrates how to Updates a managed instance.
  *
  * @summary Updates a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceUpdateMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceUpdateMin.json
  */
 async function updateManagedInstanceWithMinimalProperties() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
+    "20D7082A-0FC7-4468-82BD-542694D5042B";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "testinstance";
   const parameters: ManagedInstanceUpdate = { tags: { tagKey1: "TagValue1" } };

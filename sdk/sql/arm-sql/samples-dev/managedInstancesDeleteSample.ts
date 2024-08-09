@@ -18,12 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Deletes a managed instance.
  *
  * @summary Deletes a managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ManagedInstanceDelete.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedInstanceDelete.json
  */
 async function deleteManagedInstance() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
+    "20D7082A-0FC7-4468-82BD-542694D5042B";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "testrg";
   const managedInstanceName = "testinstance";
   const credential = new DefaultAzureCredential();

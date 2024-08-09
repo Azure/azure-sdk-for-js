@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fails over from the current primary server to this server. This operation tries planned before forced failover but might still result in data loss.
  *
  * @summary Fails over from the current primary server to this server. This operation tries planned before forced failover but might still result in data loss.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/FailoverGroupTryPlannedBeforeForcedFailover.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverGroupTryPlannedBeforeForcedFailover.json
  */
 async function tryPlannedBeforeForcedFailoverOfAFailoverGroup() {
   const subscriptionId =

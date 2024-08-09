@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the collection of outbound network dependencies for the given managed instance.
  *
  * @summary Gets the collection of outbound network dependencies for the given managed instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ListOutboundNetworkDependenciesByManagedInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListOutboundNetworkDependenciesByManagedInstance.json
  */
 async function getsTheCollectionOfOutboundNetworkDependenciesForTheGivenManagedInstance() {
   const subscriptionId =
