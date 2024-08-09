@@ -27,8 +27,8 @@ describe("clientHelpers", () => {
     );
   });
 
-  it("should create a default pipeline with apiVersion policy", () => {
-    const pipeline = createDefaultPipeline(mockBaseUrl);
+  it("should create a pipeline with apiVersion policy when one is defined", () => {
+    const pipeline = createDefaultPipeline(mockBaseUrl, undefined, {apiVersion: "123"});
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
