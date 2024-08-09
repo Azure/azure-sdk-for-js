@@ -230,7 +230,7 @@ export interface ContentFilterBlocklistIdResultOutput {
 export interface ContentFilterCitedDetectionResultOutput {
     detected: boolean;
     filtered: boolean;
-    license: string;
+    license?: string;
     URL?: string;
 }
 

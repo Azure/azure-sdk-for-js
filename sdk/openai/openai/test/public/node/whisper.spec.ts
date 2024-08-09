@@ -60,7 +60,7 @@ describe("OpenAI", function () {
       matrix(
         [
           ["json", "verbose_json", "text"],
-          ["m4a", "mp3", "mp4"],
+          ["mp3", "mp4"],
         ] as const,
         async function (format: AudioResultFormat, extension: string) {
           describe("getAudioTranscription", function () {

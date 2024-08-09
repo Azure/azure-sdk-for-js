@@ -101,7 +101,7 @@ export async function withDeployments<T>(
     throw new Error(`Errors list: ${errors.join("\n")}`);
   }
   assert.isNotEmpty(succeeded, "No deployments succeeded");
-  logger.info(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
+  logger.info(`Succeeded with (${succeeded.length}): ${JSON.stringify(succeeded.join(", "))}`);
   return succeeded;
 }
 

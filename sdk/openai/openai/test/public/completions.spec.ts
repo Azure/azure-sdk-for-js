@@ -191,48 +191,42 @@ describe("Completions", function () {
             );
           });
 
-          // TODO: Model gpt-35-turbo-0301 returns weird answers
-          // "arguments": "# Let me implement the function get_current_weather for Boston\n# For this, I'm going to use the OpenWeatherMap API\n\nfrom requests import get\n\ndef get_current_weather(location, unit):\n    \n    url = f\"http://api.openweathermap.org/data/2.5/weather?q={location}&units={unit}&appid=YOUR_APP_ID\"\n    \n    response = get(url)\n    \n    if response.status_code == 200:\n        return response.json()\n    else:\n        return {'error': f'Could not get weather for {location}. Error {response.status_code}'}\n\n\nlocation = 'Boston,MA'\nunit = 'imperial'\n\nget_current_weather(location, unit)",
-          // "arguments": "{\n  \"location\": \"Boston, MA\"\n}",
           it("calls functions", async function () {
-            updateWithSucceeded(
-              await withDeployments(
-                getSucceeded(deployments, chatCompletionDeployments),
-                async (deploymentName) => {
-                  const weatherMessages: ChatCompletionMessageParam[] = [
-                    { role: "user", content: "What's the weather like in Boston?" },
-                  ];
-                  const result = await client.chat.completions.create({
-                    model: deploymentName,
-                    messages: weatherMessages,
-                    functions: [getCurrentWeather],
-                  });
-                  assertChatCompletions(result, { functions: true });
-                  const responseMessage = result.choices[0].message;
-                  if (!responseMessage?.function_call) {
-                    assert.fail("Undefined function call");
-                  }
-                  const functionArgs = JSON.parse(responseMessage.function_call.arguments);
-                  weatherMessages.push(responseMessage);
-                  weatherMessages.push({
-                    role: "function",
-                    name: responseMessage.function_call.name,
-                    content: JSON.stringify({
-                      location: functionArgs.location,
-                      temperature: "72",
-                      unit: functionArgs.unit,
-                      forecast: ["sunny", "windy"],
-                    }),
-                  });
-                  return client.chat.completions.create({
-                    model: deploymentName,
-                    messages: weatherMessages,
-                  });
-                },
-                (result) => assertChatCompletions(result, { functions: true }),
-                functionCallModels,
-              ),
-              chatCompletionDeployments,
+            await withDeployments(
+              getSucceeded(deployments, chatCompletionDeployments),
+              async (deploymentName) => {
+                const weatherMessages: ChatCompletionMessageParam[] = [
+                  { role: "user", content: "What's the weather like in Boston?" },
+                ];
+                const result = await client.chat.completions.create({
+                  model: deploymentName,
+                  messages: weatherMessages,
+                  functions: [getCurrentWeather],
+                });
+                assertChatCompletions(result, { functions: true });
+                const responseMessage = result.choices[0].message;
+                if (!responseMessage?.function_call) {
+                  assert.fail("Undefined function call");
+                }
+                const functionArgs = JSON.parse(responseMessage.function_call.arguments);
+                weatherMessages.push(responseMessage);
+                weatherMessages.push({
+                  role: "function",
+                  name: responseMessage.function_call.name,
+                  content: JSON.stringify({
+                    location: functionArgs.location,
+                    temperature: "72",
+                    unit: functionArgs.unit,
+                    forecast: ["sunny", "windy"],
+                  }),
+                });
+                return client.chat.completions.create({
+                  model: deploymentName,
+                  messages: weatherMessages,
+                });
+              },
+              (result) => assertChatCompletions(result, { functions: true }),
+              functionCallModels,
             );
           });
 

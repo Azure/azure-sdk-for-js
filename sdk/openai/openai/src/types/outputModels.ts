@@ -54,7 +54,7 @@ export interface ContentFilterCitedDetectionResultOutput {
   /** The internet location associated with the detection. */
   URL?: string;
   /** The license description associated with the detection. */
-  license: string;
+  license?: string;
 }
 
 /**

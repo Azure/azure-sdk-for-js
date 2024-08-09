@@ -172,7 +172,7 @@ function assertContentFilterCitedDetectionResult(
 ): void {
   assert.isBoolean(val.detected);
   assert.isBoolean(val.filtered);
-  assert.isString(val.license);
+  ifDefined(val.license, assert.isString);
   ifDefined(val.URL, assert.isString);
 }
 
