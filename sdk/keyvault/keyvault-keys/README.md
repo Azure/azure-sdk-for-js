@@ -849,8 +849,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
 [azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 [azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
-[default_azure_credential]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable#defaultazurecredential
+[default_azure_credential]: https://learn.microsoft.com/en-us/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
 [managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
-[azure_identity]: https://docs.microsoft.com/java/api/overview/azure/identity-readme?view=azure-java-stable
+[azure_identity]: https://learn.microsoft.com/en-us/javascript/api/overview/azure/identity-readme?view=azure-node-latest
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)
