@@ -11,6 +11,7 @@
 ### Bugs Fixed
 
 - Fixed an issue where an incorrect error message was returned when the service responds with a 400 status code. [#30532](https://github.com/Azure/azure-sdk-for-js/pull/30532)
+- Improved error messages for credential parameter validation. [#30610](https://github.com/Azure/azure-sdk-for-js/pull/30610)
 
 ### Other Changes
 
@@ -886,7 +887,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.0.0-preview.1 (2019-06-27)
 
-For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
+For release notes and more information please visit <https://aka.ms/azsdk/releases/july2019preview>
 
 - Introduced the following credential types:
   - `DefaultAzureCredential`.
