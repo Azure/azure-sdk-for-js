@@ -20,6 +20,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   private isShutdown = false;
   private readonly sender: HttpSender;
+  private shouldCreateResourceMetric: boolean = shouldCreateResourceMetric();
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
@@ -60,7 +61,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
         spans[0].resource,
         this.instrumentationKey,
       );
-      if (resourceMetricEnvelope && shouldCreateResourceMetric()) {
+      if (resourceMetricEnvelope && this.shouldCreateResourceMetric) {
         envelopes.push(resourceMetricEnvelope);
       }
       spans.forEach((span) => {
