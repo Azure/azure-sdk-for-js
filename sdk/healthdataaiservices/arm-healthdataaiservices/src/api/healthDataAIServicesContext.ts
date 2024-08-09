@@ -14,6 +14,7 @@ export interface HealthDataAIServicesClientOptionalParams extends ClientOptions 
 
 export { HealthDataAIServicesContext } from "../rest/index.js";
 
+/** The Microsoft Azure management API provides create, read, update, and delete functionality for Microsoft HealthDataAIServices resources including deidServices */
 export function createHealthDataAIServices(
   credential: TokenCredential,
   options: HealthDataAIServicesClientOptionalParams = {},

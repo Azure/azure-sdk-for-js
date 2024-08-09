@@ -16,7 +16,7 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export function createHealthDataAIServices(credential: TokenCredential, options?: HealthDataAIServicesClientOptionalParams): HealthDataAIServicesContext;
 
 // @public
