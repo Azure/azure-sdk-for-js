@@ -90,6 +90,7 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
+    allowInsecureConnection?: boolean;
     challengeCallbacks?: ChallengeCallbacks;
     credential?: TokenCredential;
     logger?: TypeSpecRuntimeLogger;

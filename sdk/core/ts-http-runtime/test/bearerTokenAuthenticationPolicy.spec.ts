@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
 import {
   AuthorizeRequestOnChallengeOptions,
@@ -12,6 +11,8 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "../src/index.js";
+import { afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
+
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
@@ -310,11 +311,114 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.equal(error?.message, "Failed to refresh access token.");
   });
 
+  describe("when allowInsecureConnection is set", async function () {
+    it("Adds a bearer token against a localhost HTTP URL", async function () {
+      const mockToken = "token";
+      const tokenScopes = ["scope1", "scope2"];
+      const fakeGetToken = vi
+        .fn()
+        .mockResolvedValue({ token: mockToken, expiresOnTimestamp: new Date().getTime() });
+      const mockCredential: TokenCredential = {
+        getToken: fakeGetToken,
+      };
+
+      const request = createPipelineRequest({
+        url: "http://localhost:8080",
+        allowInsecureConnection: true,
+      });
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.mockResolvedValue(successResponse);
+
+      const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential, {
+        allowInsecureConnection: true,
+      });
+      await bearerTokenAuthPolicy.sendRequest(request, next);
+
+      expect(fakeGetToken).toHaveBeenCalledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+      });
+      assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
+    });
+
+    it("Adds a bearer token against a loopback IP address", async function () {
+      const mockToken = "token";
+      const tokenScopes = ["scope1", "scope2"];
+      const fakeGetToken = vi
+        .fn()
+        .mockResolvedValue({ token: mockToken, expiresOnTimestamp: new Date().getTime() });
+      const mockCredential: TokenCredential = {
+        getToken: fakeGetToken,
+      };
+
+      const request = createPipelineRequest({
+        url: "http://127.0.0.1:8080/some/other/path",
+        allowInsecureConnection: true,
+      });
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.mockResolvedValue(successResponse);
+
+      const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential, {
+        allowInsecureConnection: true,
+      });
+      await bearerTokenAuthPolicy.sendRequest(request, next);
+
+      expect(fakeGetToken).toHaveBeenCalledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+      });
+      assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
+    });
+
+    it("Throws an error when the URL is not localhost or loopback", async function () {
+      const mockToken = "token";
+      const tokenScopes = ["scope1", "scope2"];
+      const fakeGetToken = vi
+        .fn()
+        .mockResolvedValue({ token: mockToken, expiresOnTimestamp: new Date().getTime() });
+      const mockCredential: TokenCredential = {
+        getToken: fakeGetToken,
+      };
+
+      const request = createPipelineRequest({
+        url: "http://non-local-url.com:8080/",
+        allowInsecureConnection: true,
+      });
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.mockResolvedValue(successResponse);
+
+      const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential, {
+        allowInsecureConnection: true,
+      });
+      await expect(bearerTokenAuthPolicy.sendRequest(request, next)).rejects.toThrowError(
+        /Bearer token authentication is not permitted/,
+      );
+    });
+  });
+
   function createBearerTokenPolicy(
     scopes: string | string[],
     credential: TokenCredential,
+    options?: { allowInsecureConnection?: boolean },
   ): PipelinePolicy {
     return bearerTokenAuthenticationPolicy({
+      ...options,
       scopes,
       credential,
     });
