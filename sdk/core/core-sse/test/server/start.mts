@@ -5,8 +5,9 @@ import express from "express";
 import { port, waitBetweenEventsInMS } from "./config.mts";
 import { logger } from "./logger.mts";
 import { sendEvents, sendHeaders } from "./responses.mts";
+import { Server } from "http";
 
-async function run() {
+async function run(): Promise<Server> {
   const app = express();
 
   app.get("/events/:eventCount", async function (req, res) {
@@ -62,8 +63,13 @@ async function run() {
     res.write(`data: truly done this time :)\n\n`);
   });
 
-  app.listen(port);
-  logger.info(`Listening on port ${port}`);
+  return app.listen(port);
 }
 
-await run().catch((err) => logger.error(err));
+export default async function () {
+  const server = await run();
+  logger.info(`Listening on port ${port}`);
+  return function () {
+    server.close();
+  };
+}

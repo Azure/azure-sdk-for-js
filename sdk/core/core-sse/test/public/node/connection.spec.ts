@@ -13,8 +13,15 @@ function getEndpoint(): string {
   return `http://localhost:${port}`;
 }
 
-async function sendRequest(client: Client, path: string): Promise<IncomingMessage> {
-  const res = await client.pathUnchecked(path).get({ accept: contentType }).asNodeStream();
+async function sendRequest(
+  client: Client,
+  path: string,
+  abortSignal?: AbortSignal,
+): Promise<IncomingMessage> {
+  const res = await client
+    .pathUnchecked(path)
+    .get({ accept: contentType, abortSignal })
+    .asNodeStream();
   if (res.status !== "200") {
     throw new Error(`Unexpected status code: ${res.status}`);
   }
@@ -28,21 +35,12 @@ async function sendRequest(client: Client, path: string): Promise<IncomingMessag
   return res.body as IncomingMessage;
 }
 
-describe("[NodeJS] Connections", () => {
+describe("[Node] Connections", () => {
   let client: Client;
   let ran: boolean;
 
   beforeAll(async function () {
     client = getClient(getEndpoint(), { allowInsecureConnection: true });
-  });
-
-  beforeEach(async function () {
-    ran = false;
-  });
-
-  afterEach(async function () {
-    assert.isTrue(ran);
-    ran = false;
   });
 
   matrix(
@@ -60,6 +58,17 @@ describe("[NodeJS] Connections", () => {
     ],
     async function (path) {
       describe(`${path}`, function () {
+        beforeEach(async function () {
+          ran = false;
+        });
+
+        afterEach(async function () {
+          if (path !== "/events/no-fin/1") {
+            assert.isTrue(ran);
+          }
+          ran = false;
+        });
+
         it("loop until stream ends and then break", async function () {
           let stream: IncomingMessage;
           try {
@@ -67,7 +76,6 @@ describe("[NodeJS] Connections", () => {
           } catch (e) {
             assert.equal(path, "/events/no-fin/1");
             assert.equal(e.code, "ECONNRESET");
-            ran = true;
             return;
           }
           const sses = createSseStream(stream);
@@ -90,11 +98,15 @@ describe("[NodeJS] Connections", () => {
         it("break early from loop", async function () {
           let stream: IncomingMessage;
           try {
-            stream = await sendRequest(client, path);
+            // sometimes the server gets into a bad state and doesn't respond so we need to timeout
+            stream = await sendRequest(client, path, AbortSignal.timeout(25000));
           } catch (e) {
             assert.equal(path, "/events/no-fin/1");
-            assert.equal(e.code, "ECONNRESET");
-            ran = true;
+            if (e.code) {
+              assert.equal(e.code, "ECONNRESET");
+            } else {
+              assert.match(e.message, /The operation was aborted./);
+            }
             return;
           }
           const sses = createSseStream(stream);

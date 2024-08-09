@@ -11,6 +11,7 @@ export default defineConfig({
     typecheck: {
       enabled: true,
     },
+    globalSetup: "test/server/start.mts",
     outputFile: {
       junit: "test-results.xml",
     },

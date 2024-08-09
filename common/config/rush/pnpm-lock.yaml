@@ -21418,7 +21418,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-ZdrygZBDjuH5I3efU5YA2E4h/wmNsXPf3HCDkaLkQFPJ1y+nUaMPlxGUGv1UuPVa9E8zdMMe8zgcalo73TCMkw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-VHei9tO4wiV8MRZv3BilBir57HZGkaf8CO1bNKNm466fz4M+QciLpdm2oNv2GVv2ZvrWPYP3aY+UPmYSVCNoCA==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -21432,7 +21432,6 @@ packages:
       express: 4.19.2
       playwright: 1.46.0
       rimraf: 6.0.1
-      start-server-and-test: 2.0.5
       tshy: 3.0.2
       tslib: 2.6.3
       tsx: 4.17.0
