@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixes a bug in NodeJS where the we attempt to close underlying socket despite it being set to null when the stream has been consumed [BUG [#30414](https://github.com/Azure/azure-sdk-for-js/issues/30414)].
+- Fixes a bug in NodeJS where we attempt to close the underlying socket despite it being set to null when the stream has been consumed [BUG [#30414](https://github.com/Azure/azure-sdk-for-js/issues/30414)].
 
 ### Other Changes
 
