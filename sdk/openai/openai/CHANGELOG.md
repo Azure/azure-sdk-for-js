@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds `CompletionChoice` interface with content filter result.
+
 ### Breaking Changes
 
 ### Bugs Fixed
