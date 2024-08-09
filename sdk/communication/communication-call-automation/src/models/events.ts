@@ -36,6 +36,9 @@ import {
   RestCreateCallFailed,
   RestAnswerFailed,
   RestHoldFailed,
+  RestMediaStreamingFailed,
+  RestMediaStreamingStopped,
+  RestMediaStreamingStarted,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -71,7 +74,10 @@ export type CallAutomationEvent =
   | TranscriptionFailed
   | CreateCallFailed
   | AnswerFailed
-  | HoldFailed;
+  | HoldFailed
+  | MediaStreamingStarted
+  | MediaStreamingStopped
+  | MediaStreamingFailed;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -617,4 +623,55 @@ export interface HoldFailed
   resultInformation?: RestResultInformation;
   /** kind of this event. */
   kind: "HoldFailed";
+}
+
+export interface MediaStreamingStarted
+  extends Omit<
+    RestMediaStreamingStarted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "MediaStreamingStarted";
+}
+
+export interface MediaStreamingStopped
+  extends Omit<
+    RestMediaStreamingStopped,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "MediaStreamingStopped";
+}
+
+export interface MediaStreamingFailed
+  extends Omit<
+    RestMediaStreamingFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "MediaStreamingFailed";
 }

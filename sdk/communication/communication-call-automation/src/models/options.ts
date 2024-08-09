@@ -376,3 +376,23 @@ export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
   operationContext?: string;
 }
+
+/** Options for start media streaming request. */
+export interface StartMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/** Options for stop media streaming request. */
+export interface StopMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+}

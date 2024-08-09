@@ -164,6 +164,15 @@ directive:
   - rename-model:
       from: HoldFailed
       to: RestHoldFailed
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
+  - rename-model:
+      from: MediaStreamingStopped
+      to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingFailed
+      to: RestMediaStreamingFailed
 ```
 
 ```yaml
