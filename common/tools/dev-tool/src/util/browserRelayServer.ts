@@ -70,9 +70,10 @@ function buildServer(app: Express) {
             systemAccessToken,
             req.body,
           );
+        } else {
+          throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
+            serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
         }
-        throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
-          serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
       } else {
         cred = new ChainedTokenCredential(
           new AzurePowerShellCredential(req.body),
