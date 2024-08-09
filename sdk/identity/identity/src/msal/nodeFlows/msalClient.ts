@@ -530,17 +530,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     state.cachedAccount = response?.account ?? null;
 
     state.logger.getToken.info(formatSuccess(scopes));
-    const accessToken: AccessToken = {
+    return {
       token: response.accessToken,
       expiresOnTimestamp: response.expiresOn.getTime(),
+      refreshAfterTimestamp: response.refreshOn?.getTime(),
     };
-    if (response.refreshOn) {
-      return {
-        ...accessToken,
-        refreshAfterTimestamp: response.refreshOn.getTime(),
-      };
-    }
-    return accessToken;
   }
 
   async function getTokenByClientSecret(
@@ -563,17 +557,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       });
       ensureValidMsalToken(scopes, response, options);
       state.logger.getToken.info(formatSuccess(scopes));
-      const accessToken: AccessToken = {
+      return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
-      if (response.refreshOn) {
-        return {
-          ...accessToken,
-          refreshAfterTimestamp: response.refreshOn.getTime(),
-        };
-      }
-      return accessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -601,18 +589,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
-
-      const accessToken: AccessToken = {
+      return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
-      if (response.refreshOn) {
-        return {
-          ...accessToken,
-          refreshAfterTimestamp: response.refreshOn.getTime(),
-        };
-      }
-      return accessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -638,18 +619,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
-
-      const accessToken: AccessToken = {
+      return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
-      if (response.refreshOn) {
-        return {
-          ...accessToken,
-          refreshAfterTimestamp: response.refreshOn.getTime(),
-        };
-      }
-      return accessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -776,17 +750,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       msalLogger.getToken.info(formatSuccess(scopes));
-      const accessToken: AccessToken = {
+      return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
-      if (response.refreshOn) {
-        return {
-          ...accessToken,
-          refreshAfterTimestamp: response.refreshOn.getTime(),
-        };
-      }
-      return accessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
