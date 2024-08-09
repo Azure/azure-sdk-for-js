@@ -8,11 +8,10 @@ import {
   EventPosition,
   MessagingError,
 } from "../../src/index.js";
-import { createReceiver } from "../../src/partitionReceiver.js";
 import { translate } from "@azure/core-amqp";
 import "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
-import { createConsumer, createProducer } from "../utils/clients.js";
+import { createConsumer, createProducer, createReceiver } from "../utils/clients.js";
 
 describe("EventHubConsumerClient", function () {
   let producerClient: EventHubProducerClient;
@@ -47,18 +46,17 @@ describe("EventHubConsumerClient", function () {
       await producerClient.sendBatch([message], { partitionId });
 
       // Disable retries to make it easier to test scenario.
-      const receiver = createReceiver(
-        consumerClient["_context"],
-        EventHubConsumerClient.defaultConsumerGroupName,
-        "Consumer",
+      const { receiver } = createReceiver({
+        ctx: consumerClient["_context"],
+        consumerId: "Consumer",
         partitionId,
-        startPosition,
-        {
+        eventPosition: startPosition,
+        options: {
           retryOptions: {
             maxRetries: 0,
           },
         },
-      );
+      });
 
       // Periodically check that the receiver's checkpoint has been updated.
       const checkpointInterval = setInterval(() => {
@@ -102,18 +100,17 @@ describe("EventHubConsumerClient", function () {
       await producerClient.sendBatch([message], { partitionId });
 
       // Disable retries to make it easier to test scenario.
-      const receiver = createReceiver(
-        consumerClient["_context"],
-        EventHubConsumerClient.defaultConsumerGroupName,
-        "Consumer",
+      const { receiver } = createReceiver({
+        ctx: consumerClient["_context"],
+        consumerId: "Consumer",
         partitionId,
-        startPosition,
-        {
+        eventPosition: startPosition,
+        options: {
           retryOptions: {
             maxRetries: 1,
           },
         },
-      );
+      });
 
       // Periodically check that the receiver's checkpoint has been updated.
       const checkpointInterval = setInterval(() => {

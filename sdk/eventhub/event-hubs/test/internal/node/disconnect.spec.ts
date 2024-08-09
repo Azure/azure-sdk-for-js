@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubConsumerClient, latestEventPosition } from "../../../src/index.js";
-import { createReceiver, WritableReceiver } from "../../../src/partitionReceiver.js";
+import { latestEventPosition } from "../../../src/index.js";
+import { WritableReceiver } from "../../../src/partitionReceiver.js";
 import { EventHubSender } from "../../../src/eventHubSender.js";
 import { MessagingError } from "@azure/core-amqp";
 import { should } from "../../utils/chai.js";
 import { describe, it, beforeAll, vi } from "vitest";
-import { createConsumer, createContext } from "../../utils/clients.js";
+import { createConsumer, createContext, createReceiver } from "../../utils/clients.js";
 
 describe("disconnected", function () {
   let partitionIds: string[] = [];
@@ -60,20 +60,18 @@ describe("disconnected", function () {
         const context = createContext().context;
 
         // Add 2 receivers.
-        const receiver1 = createReceiver(
-          context,
-          EventHubConsumerClient.defaultConsumerGroupName,
-          "Consumer1",
-          partitionIds[0],
-          latestEventPosition,
-        );
-        const receiver2 = createReceiver(
-          context,
-          EventHubConsumerClient.defaultConsumerGroupName,
-          "Consumer2",
-          partitionIds[1],
-          latestEventPosition,
-        );
+        const receiver1 = createReceiver({
+          ctx: context,
+          consumerId: "Consumer1",
+          partitionId: partitionIds[0],
+          eventPosition: latestEventPosition,
+        }).receiver;
+        const receiver2 = createReceiver({
+          ctx: context,
+          consumerId: "Consumer2",
+          partitionId: partitionIds[1],
+          eventPosition: latestEventPosition,
+        }).receiver;
 
         // Add 2 senders.
         const sender1 = new EventHubSender(context, "Sender1", {
@@ -126,20 +124,18 @@ describe("disconnected", function () {
         const context = createContext().context;
 
         // Add 2 receivers.
-        const receiver1 = createReceiver(
-          context,
-          EventHubConsumerClient.defaultConsumerGroupName,
-          "Consumer1",
-          partitionIds[0],
-          latestEventPosition,
-        );
-        const receiver2 = createReceiver(
-          context,
-          EventHubConsumerClient.defaultConsumerGroupName,
-          "Consumer2",
-          partitionIds[1],
-          latestEventPosition,
-        );
+        const receiver1 = createReceiver({
+          ctx: context,
+          consumerId: "Consumer1",
+          partitionId: partitionIds[0],
+          eventPosition: latestEventPosition,
+        }).receiver;
+        const receiver2 = createReceiver({
+          ctx: context,
+          consumerId: "Consumer2",
+          partitionId: partitionIds[1],
+          eventPosition: latestEventPosition,
+        }).receiver;
 
         // Add 2 senders.
         const sender1 = new EventHubSender(context, "Sender1", {
