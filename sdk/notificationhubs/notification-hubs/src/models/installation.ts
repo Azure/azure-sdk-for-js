@@ -43,7 +43,7 @@ export interface InstallationCommon {
   /**
    * The push variables for the installation.
    */
-  pushVariables: Record<string, string>;
+  pushVariables?: Record<string, string>;
 }
 
 /**

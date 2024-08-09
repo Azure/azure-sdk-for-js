@@ -726,7 +726,7 @@ export interface InstallationCommon {
     installationId: string;
     readonly lastUpdate?: string;
     readonly pushChannelExpired?: boolean;
-    pushVariables: Record<string, string>;
+    pushVariables?: Record<string, string>;
     tags?: string[];
     templates?: Record<string, InstallationTemplate>;
     userId?: string;
