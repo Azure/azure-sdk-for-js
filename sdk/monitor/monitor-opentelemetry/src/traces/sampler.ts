@@ -63,9 +63,11 @@ export class ApplicationInsightsSampler implements Sampler {
     } else {
       isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
     }
-    // Add sample rate as span attribute
+    // Add sample rate as span attribute if it is not 100
     attributes = attributes || {};
-    attributes["_MS.sampleRate"] = this._sampleRate;
+    if (!(this._sampleRate === 100)) {
+      attributes["microsoft.sample_rate"] = this._sampleRate;
+    }
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.RECORD, attributes: attributes };

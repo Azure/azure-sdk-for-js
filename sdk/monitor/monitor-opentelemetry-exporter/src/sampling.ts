@@ -62,7 +62,11 @@ export class ApplicationInsightsSampler implements Sampler {
     }
     // Add sample rate as span attribute
     attributes = attributes || {};
-    attributes[AzureMonitorSampleRate] = this._sampleRate;
+
+    // Only send the sample rate if it's not 100
+    if (this._sampleRate !== 100) {
+      attributes[AzureMonitorSampleRate] = this._sampleRate;
+    }
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };
