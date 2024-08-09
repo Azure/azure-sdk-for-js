@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.23.1",
+  "version": "12.24.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -58,10 +58,11 @@
     "dist/",
     "dist-esm/storage-file-datalake/src/",
     "dist-esm/storage-common/src/",
+    "dist-esm/storage-blob/src/log.*",
     "dist-esm/storage-blob/src/policies/",
     "dist-esm/storage-blob/src/StorageRetryPolicyFactory.*",
     "dist-esm/storage-blob/src/StorageBrowserPolicyFactory.*",
-    "dist-esm/storage-blob/src/utils/cache.*",
+    "dist-esm/storage-blob/src/utils/",
     "types/latest/storage-file-datalake.d.ts",
     "README.md",
     "LICENSE"
@@ -124,7 +125,7 @@
     "@azure/core-xml": "^1.3.2",
     "@azure/core-util": "^1.1.1",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.24.0",
+    "@azure/storage-blob": "^12.25.0-beta.1",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },

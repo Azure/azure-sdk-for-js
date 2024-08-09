@@ -38,6 +38,7 @@ describe("Metric Exporter Scenarios", () => {
             assertMetricExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
             done();
+            return;
           });
         })
         .catch((e) => {

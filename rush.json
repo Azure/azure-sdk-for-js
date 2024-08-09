@@ -2256,6 +2256,11 @@
       "packageName": "@azure/arm-redhatopenshift",
       "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthdataaiservices",
+      "projectFolder": "sdk/healthdataaiservices/arm-healthdataaiservices",
+      "versionPolicyName": "client"
     }
   ]
 }
