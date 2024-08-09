@@ -140,6 +140,11 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected _lockRenewer: LockRenewer | undefined;
 
+  /**
+   *Retry policy options that determine the mode, number of retries, retry interval etc.
+   */
+  protected _retryOptions: RetryOptions;
+
   constructor(
     public identifier: string,
     context: ConnectionContext,
@@ -154,6 +159,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || "peekLock";
+    this._retryOptions = options.retryOptions || {};
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete =
@@ -191,7 +197,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
     try {
-      await this.initLink(options, abortSignal);
+      await this.initLink(options, this._retryOptions, abortSignal);
 
       // It is possible for someone to close the receiver and then start it again.
       // Thus make sure that the receiver is present in the client cache.

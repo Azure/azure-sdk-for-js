@@ -321,7 +321,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<void> {
     try {
       const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
-      await this.initLink(sessionOptions, opts.abortSignal);
+      await this.initLink(sessionOptions, this._retryOptions, opts.abortSignal);
 
       if (!this.link) {
         throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
