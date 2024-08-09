@@ -78,24 +78,23 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
  * Given a token response, return the expiration timestamp as the number of milliseconds from the Unix epoch.
  * @param body - A parsed response body from the authentication endpoint.
  */
-export function parseRefreshTimestamp(body: TokenResponseParsedBody): number {
-  if (typeof body.refresh_on === "number") {
-    return body.refresh_on * 1000;
-  }
-
-  if (typeof body.refresh_on === "string") {
-    const asNumber = +body.refresh_on;
-    if (!isNaN(asNumber)) {
-      return asNumber * 1000;
+export function parseRefreshTimestamp(body: TokenResponseParsedBody): number | undefined {
+  if(body.refresh_on){
+    if (typeof body.refresh_on === "number") {
+      return body.refresh_on * 1000;
     }
 
-    const asDate = Date.parse(body.refresh_on);
-    if (!isNaN(asDate)) {
-      return asDate;
+    if (typeof body.refresh_on === "string") {
+      const asNumber = +body.refresh_on;
+      if (!isNaN(asNumber)) {
+        return asNumber * 1000;
+      }
+
+      const asDate = Date.parse(body.refresh_on);
+      if (!isNaN(asDate)) {
+        return asDate;
+      }
     }
   }
-
-  throw new Error(
-    `Failed to parse field for refresh on from body. refresh_on="${body.refresh_on}"`,
-  );
+  return undefined;
 }
