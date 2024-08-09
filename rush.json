@@ -2256,6 +2256,11 @@
       "packageName": "@azure/arm-redhatopenshift",
       "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/batch",
+      "projectFolder": "sdk/batch/batch-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

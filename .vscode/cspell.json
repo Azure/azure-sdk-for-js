@@ -151,7 +151,13 @@
     "usgovtexas",
     "usgovvirginia",
     "vectorizer",
-    "westus"
+    "westus",
+    "reimaging",
+    "upgradingos",
+    "Cifs",
+    "dataserviceid",
+    "uefi",
+    "Uefi"
   ],
   "allowCompoundWords": true,
   "overrides": [
