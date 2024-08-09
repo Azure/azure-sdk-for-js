@@ -2,10 +2,13 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
+import inject from "@rollup/plugin-inject";
 
 export default defineConfig({
-  plugins: [nodePolyfills()],
+  optimizeDeps: {
+    include: ["process", "buffer"],
+  },
+  plugins: [inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
   test: {
     testTimeout: 20000,
     reporters: ["basic", "junit"],
