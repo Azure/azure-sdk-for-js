@@ -61,7 +61,7 @@
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds
+/sdk/batch/ @wiboris @wanghoppe @dpwatrous @cRui861 @skapur12
 
 # PRLabel: %Communication
 # ServiceLabel: %Communication
@@ -551,6 +551,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao

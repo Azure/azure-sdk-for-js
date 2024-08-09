@@ -5,8 +5,7 @@
  * @summary Demonstrates the use of a MapsRoute to calculate routes.
  */
 
-const { AzureKeyCredential } = require("@azure/core-auth");
-// import { DefaultAzureCredential } from "@azure/identity";
+const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRoute = require("@azure-rest/maps-route").default,
   {
     createRouteDirectionsBatchRequest,
@@ -21,22 +20,23 @@ async function main() {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
-   * - Azure Active Directory (Azure AD) authentication
+   * - Microsoft Entra ID authentication
    *
-   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
-   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
+   * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  /** Shared Key authentication (subscription-key) */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRoute(credential);
 
-  /** Azure Active Directory (Azure AD) authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = MapsRoute(credential, mapsClientId);
+  /** Microsoft Entra ID authentication */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRoute(credential, mapsClientId);
+
+  /** Shared Key authentication (subscription-key) */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRoute(credential);
 
   /**
    * Should provide at least two coordinates, origin and destination to the query.
@@ -72,12 +72,11 @@ async function main() {
 
   getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
-      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
-    legs.forEach(({ summary, points }, idx) => {
+    legs.forEach(({ summary: legSummary, points }, idx) => {
       console.log(
-        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
-        } seconds. Followings are the first 10 points: `
+        `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${legSummary.travelTimeInSeconds} seconds. Followings are the first 10 points: `,
       );
       console.table(points.slice(0, 10));
     });
@@ -129,12 +128,11 @@ async function main() {
 
   getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
-      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+      `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
-    legs.forEach(({ summary, points }, idx) => {
+    legs.forEach(({ summary: letSummary, points }, idx) => {
       console.log(
-        `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
-        } seconds. Followings are the first 10 points: `
+        `The ${idx + 1}th leg's length is ${letSummary.lengthInMeters} meters, and it takes ${letSummary.travelTimeInSeconds} seconds. Followings are the first 10 points: `,
       );
       console.table(points.slice(0, 10));
     });
@@ -189,14 +187,13 @@ async function main() {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {
       console.log(`Request ${index} success!`);
-      item.response.routes.forEach(({ summary, legs }) => {
+      item.response.routes.forEach(({ summary: routeSummary, legs }) => {
         console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+          `The total distance is ${routeSummary.lengthInMeters} meters, and it takes ${routeSummary.travelTimeInSeconds} seconds.`,
         );
-        legs.forEach(({ summary, points }, idx) => {
+        legs.forEach(({ summary: legSummary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds
-            } seconds. Followings are the first 10 points: `
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${legSummary.travelTimeInSeconds} seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));
         });

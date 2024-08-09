@@ -8,7 +8,6 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import MapsGeolocation, { isUnexpected, MapsGeolocationClient } from "../../src";
-import { AzureKeyCredential } from "@azure/core-auth";
 
 describe("Authentication", function () {
   let recorder: Recorder;
@@ -21,17 +20,7 @@ describe("Authentication", function () {
     await recorder.stop();
   });
 
-  it("should work with Shared Key authentication", async function () {
-    const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] as string);
-    const client = MapsGeolocation(credential, recorder.configureClientOptions({}));
-
-    const response = await client
-      .path("/geolocation/ip/{format}", "json")
-      .get({ queryParameters: { ip: "2001:4898:80e8:b::189" } });
-    assert.isOk(!isUnexpected(response));
-  });
-
-  it("should work with AAD authentication", async function () {
+  it("should work with Microsoft Entra ID authentication", async function () {
     /**
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.

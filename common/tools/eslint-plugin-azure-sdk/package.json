@@ -30,7 +30,8 @@
       "types": "./dist-esm/src/index.d.ts",
       "default": "./dist-esm/src/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./prettier.json": "./prettier.json"
   },
   "files": [
     "prettier.json",
