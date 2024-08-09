@@ -217,6 +217,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
     return {
       token: result.accessToken,
       expiresOnTimestamp: result.expiresOn.getTime(),
+      refreshAfterTimestamp: result.refreshOn?.getTime(),
     };
   }
 }

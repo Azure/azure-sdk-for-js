@@ -46,6 +46,7 @@ export interface MsalResult {
   account: MsalAccountInfo | null;
   accessToken: string;
   expiresOn: Date | null;
+  refreshOn?: Date | null;
 }
 
 /**
