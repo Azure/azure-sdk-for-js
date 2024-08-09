@@ -96,6 +96,6 @@ export function parseRefreshTimestamp(body: TokenResponseParsedBody): number {
   }
 
   throw new Error(
-    `Failed to parse field for refresh on/in from body. refresh_in="${body.refresh_in}", refresh_on="${body.refresh_on}"`,
+    `Failed to parse field for refresh on from body. refresh_on="${body.refresh_on}"`,
   );
 }
