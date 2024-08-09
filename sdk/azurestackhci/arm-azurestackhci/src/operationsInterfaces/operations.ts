@@ -6,17 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operation, OperationsListOptionalParams } from "../models";
+import {
+  OperationsListOptionalParams,
+  OperationsListResponse,
+} from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all the supported operations.
+   * List all available Microsoft.AzureStackHCI provider operations
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
 }

@@ -6,14 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./galleryImagesOperations";
+export * from "./arcSettings";
+export * from "./clusters";
+export * from "./deploymentSettings";
+export * from "./edgeDevices";
+export * from "./extensions";
+export * from "./offers";
 export * from "./operations";
-export * from "./logicalNetworksOperations";
-export * from "./marketplaceGalleryImagesOperations";
-export * from "./networkInterfacesOperations";
-export * from "./storageContainersOperations";
-export * from "./virtualHardDisksOperations";
-export * from "./virtualMachineInstances";
-export * from "./hybridIdentityMetadataOperations";
-export * from "./guestAgentOperations";
-export * from "./guestAgents";
+export * from "./publishers";
+export * from "./securitySettings";
+export * from "./skus";
+export * from "./updateRuns";
+export * from "./updateSummariesOperations";
+export * from "./updates";
