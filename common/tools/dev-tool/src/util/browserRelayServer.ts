@@ -88,7 +88,7 @@ function buildServer(app: Express) {
       credentials[id] = cred;
       res.status(201).send({ id });
     } catch (error: unknown) {
-      res.status(400).send({ error: String(error) })
+      res.status(400).send({ error });
       return;
     }
   });

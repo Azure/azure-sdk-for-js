@@ -10,11 +10,9 @@ import type { CreateTestCredentialOptions, DefaultAzureCredentialCombinedOptions
 export class RelayAuthenticationError extends Error {
   constructor(
     message: string,
-    cause?: unknown,
+    public cause?: unknown,
   ) {
-    // @ts-expect-error
-    super(message, { cause });
-    console.log("Cause", cause)
+    super(message);
     this.name = "RelayAuthenticationError";
   }
 }
