@@ -26,8 +26,8 @@ async function run() {
     //res.end();
   });
 
-  app.get("/events/infinite", async function (_, res) {
-    logger.info("Got /events/infinite");
+  app.get("/events/hang", async function (_, res) {
+    logger.info("Got /events/hang");
     sendHeaders(res);
     await sendEvents(res, 0, waitBetweenEventsInMS);
   });
@@ -40,8 +40,8 @@ async function run() {
     res.end("\n");
   });
 
-  app.get("/events/extra-newline/infinite", async function (req, res) {
-    logger.info(`Got /events/extra-newline/infinite`);
+  app.get("/events/extra-newline/hang", async function (req, res) {
+    logger.info(`Got /events/extra-newline/hang`);
     sendHeaders(res);
     await sendEvents(res, 0, waitBetweenEventsInMS);
     res.write("\n");
@@ -55,8 +55,8 @@ async function run() {
     res.end(`data: truly done this time :)\n\n`);
   });
 
-  app.get("/events/extra-event/infinite", async function (req, res) {
-    logger.info(`Got /events/infinite/extra-event`);
+  app.get("/events/extra-event/hang", async function (req, res) {
+    logger.info(`Got /events/hang/extra-event`);
     sendHeaders(res);
     await sendEvents(res, 0, waitBetweenEventsInMS);
     res.write(`data: truly done this time :)\n\n`);

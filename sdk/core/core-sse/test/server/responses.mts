@@ -13,8 +13,7 @@ export function sendHeaders(res: Response) {
 }
 
 export async function sendEvents(res: Response, count: number, waitTimeInMs: number) {
-  let i = 0;
-  while (i < count) {
+  for (let i = 0; i < count; i++) {
     await new Promise((resolve) => setTimeout(resolve, waitTimeInMs));
     logger.verbose("Emit", ++i);
     res.write(`data: ${i}\n\n`);
