@@ -34,6 +34,9 @@ import {
   AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
+  AgentPoolDeleteMachinesParameter,
+  AgentPoolsDeleteMachinesOptionalParams,
+  AgentPoolsDeleteMachinesResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsResponse,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
@@ -132,7 +135,7 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -207,7 +210,7 @@ export class AgentPoolsImpl implements AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -483,6 +486,111 @@ export class AgentPoolsImpl implements AgentPools {
   }
 
   /**
+   * Deletes specific machines in an agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param machines A list of machines from the agent pool to be deleted.
+   * @param options The options parameters.
+   */
+  async beginDeleteMachines(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    machines: AgentPoolDeleteMachinesParameter,
+    options?: AgentPoolsDeleteMachinesOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteMachinesResponse>,
+      AgentPoolsDeleteMachinesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AgentPoolsDeleteMachinesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        resourceName,
+        agentPoolName,
+        machines,
+        options,
+      },
+      spec: deleteMachinesOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AgentPoolsDeleteMachinesResponse,
+      OperationState<AgentPoolsDeleteMachinesResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes specific machines in an agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param machines A list of machines from the agent pool to be deleted.
+   * @param options The options parameters.
+   */
+  async beginDeleteMachinesAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    machines: AgentPoolDeleteMachinesParameter,
+    options?: AgentPoolsDeleteMachinesOptionalParams,
+  ): Promise<AgentPoolsDeleteMachinesResponse> {
+    const poller = await this.beginDeleteMachines(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      machines,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * See [supported Kubernetes
    * versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about
    * the version lifecycle.
@@ -708,7 +816,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -717,7 +825,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -741,7 +854,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -749,7 +865,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.agentPoolName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const getUpgradeProfileOperationSpec: coreClient.OperationSpec = {
@@ -772,6 +888,39 @@ const getUpgradeProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteMachinesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/deleteMachines",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AgentPoolsDeleteMachinesHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsDeleteMachinesHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsDeleteMachinesHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsDeleteMachinesHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.machines,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const getAvailableAgentPoolVersionsOperationSpec: coreClient.OperationSpec = {
