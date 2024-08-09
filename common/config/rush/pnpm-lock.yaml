@@ -368,6 +368,9 @@ dependencies:
   '@rush-temp/arm-healthcareapis':
     specifier: file:./projects/arm-healthcareapis.tgz
     version: file:projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-healthdataaiservices':
+    specifier: file:./projects/arm-healthdataaiservices.tgz
+    version: file:projects/arm-healthdataaiservices.tgz
   '@rush-temp/arm-hybridcompute':
     specifier: file:./projects/arm-hybridcompute.tgz
     version: file:projects/arm-hybridcompute.tgz
@@ -15841,6 +15844,42 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+    dev: false
+
+  file:projects/arm-healthdataaiservices.tgz:
+    resolution: {integrity: sha512-OjGBi4uV3YDareUPo5DKCKXdemfKole24xgUOxtl+dZTBqNRaj2b6tbZznRu4Oocir/AHwxzGh2ll0tDoodAcA==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    name: '@rush-temp/arm-healthdataaiservices'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.43)
+      '@types/node': 18.19.43
+      '@vitest/browser': 1.6.0(playwright@1.45.3)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      dotenv: 16.4.5
+      eslint: 8.57.0
+      mkdirp: 3.0.1
+      playwright: 1.45.3
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.43)(@vitest/browser@1.6.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
