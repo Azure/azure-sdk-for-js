@@ -16,6 +16,8 @@ import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { FsInstrumentation } from "@opentelemetry/instrumentation-fs";
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -134,6 +136,7 @@ describe("Main functions", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        disableOfflineStorage: true,
       },
       enableLiveMetrics: true,
       instrumentationOptions: {
@@ -162,6 +165,7 @@ describe("Main functions", () => {
     assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
     assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
+    assert.strictEqual(features, 8);
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
@@ -171,6 +175,7 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
+    assert.strictEqual(instrumentations, 31);
   });
 
   it("should set shim feature in statsbeat if env var is populated", () => {
@@ -316,5 +321,33 @@ describe("Main functions", () => {
     Object.keys(resource).forEach((attr) => {
       assert.ok(!attr.includes("process"));
     });
+  });
+
+  it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", async () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        azureSdk: { enabled: false },
+        http: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+        bunyan: { enabled: false },
+        winston: { enabled: false },
+      },
+    };
+    useAzureMonitor(config);
+    registerInstrumentations({
+      instrumentations: [new FsInstrumentation()],
+    });
+    setTimeout(async () => {
+      let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+      const instrumentations = Number(output["instrumentation"]);
+      assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
+    }, 100);
   });
 });

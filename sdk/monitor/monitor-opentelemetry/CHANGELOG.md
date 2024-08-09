@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Add statsbeat tracking for all OpenTelemetry instrumentations.
+
 ## 1.6.0 (2024-06-13)
 
 ### Bugs Fixed
