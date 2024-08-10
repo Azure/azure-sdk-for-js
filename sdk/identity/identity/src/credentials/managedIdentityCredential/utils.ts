@@ -79,7 +79,7 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
  * @param body - A parsed response body from the authentication endpoint.
  */
 export function parseRefreshTimestamp(body: TokenResponseParsedBody): number | undefined {
-  if(body.refresh_on){
+  if (body.refresh_on) {
     if (typeof body.refresh_on === "number") {
       return body.refresh_on * 1000;
     }
