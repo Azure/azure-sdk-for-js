@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
+import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
 
 export default defineConfig({
   optimizeDeps: {
     include: ["process", "buffer"],
   },
-  plugins: [inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
+  plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
   test: {
     testTimeout: 20000,
     reporters: ["basic", "junit"],
