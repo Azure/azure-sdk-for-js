@@ -92,7 +92,9 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@microsoft/api-extractor": "^7.43.1",
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
     "@types/ws": "^8.5.10",
@@ -104,8 +106,6 @@
     "rimraf": "^5.0.7",
     "tshy": "^1.17.0",
     "typescript": "~5.5.3",
-    "vite": "^5.2.11",
-    "vite-plugin-node-polyfills": "^0.22.0",
     "vitest": "^1.6.0",
     "ws": "^8.17.0"
   },
