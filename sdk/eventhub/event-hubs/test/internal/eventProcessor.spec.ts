@@ -26,7 +26,6 @@ import { FakeSubscriptionEventHandlers } from "../utils/fakeSubscriptionEventHan
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
 import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
 import { PartitionContext } from "../../src/eventHubConsumerClientModels.js";
-import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy.js";
 import debugModule from "debug";
 import { delay, MessagingError } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition.js";
@@ -35,21 +34,13 @@ import { getRandomName } from "../../src/util/utils.js";
 import { randomUUID } from "@azure/core-util";
 import { should, assert } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
-import { createConsumer, createProducer } from "../utils/clients.js";
+import { createConsumer, createProducer, createProcessor } from "../utils/clients.js";
 import { AbortError } from "@azure/abort-controller";
 const debug = debugModule("azure:event-hubs:partitionPump");
 
 type PartitionId = string;
 
 describe("Event Processor", function () {
-  const defaultOptions: FullEventProcessorOptions = {
-    maxBatchSize: 1,
-    maxWaitTimeInSeconds: 1,
-    ownerLevel: 0,
-    loopIntervalInMs: 10000,
-    loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
-  };
-
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
 
@@ -69,26 +60,14 @@ describe("Event Processor", function () {
         checkpointStore: CheckpointStore,
         startPosition?: FullEventProcessorOptions["startPosition"],
       ): EventProcessor {
-        return new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
-          {
-            processEvents: async () => {
-              /* no-op */
-            },
-            processError: async () => {
-              /* no-op */
-            },
-          },
+        return createProcessor({
           checkpointStore,
-          {
+          ctx: consumerClient["_context"],
+          options: {
             startPosition,
-            maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1,
-            loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
-            loopIntervalInMs: defaultOptions.loopIntervalInMs,
+            ownerLevel: undefined,
           },
-        );
+        }).processor;
       }
 
       const emptyCheckpointStore = createCheckpointStore([]);
@@ -214,16 +193,10 @@ describe("Event Processor", function () {
 
         // note: we're not starting this event processor so there's nothing to stop()
         // it's only here so we can call a few private methods on it.
-        eventProcessor = new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
-          {
-            processEvents: async () => {
-              /* no-op */
-            },
+        eventProcessor = createProcessor({
+          ctx: consumerClient["_context"],
+          handlers: {
             processError: async (err, context) => {
-              // simulate the user messing up and accidentally throwing an error
-              // we should just log it and not kill anything.
               errorFromCallback = err;
               contextFromCallback = context;
 
@@ -232,9 +205,7 @@ describe("Event Processor", function () {
               }
             },
           },
-          new InMemoryCheckpointStore(),
-          defaultOptions,
-        );
+        }).processor;
       });
 
       it("error thrown from user's processError handler", async function () {
@@ -303,23 +274,11 @@ describe("Event Processor", function () {
         },
       };
 
-      const eventProcessor = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
-        {
-          processEvents: async () => {
-            /* no-op */
-          },
-          processError: async () => {
-            /* no-op */
-          },
-        },
+      const eventProcessor = createProcessor({
+        ctx: consumerClient["_context"],
         checkpointStore,
-        {
-          ...defaultOptions,
-          pumpManager: pumpManager,
-        },
-      );
+        options: { pumpManager },
+      }).processor;
 
       await eventProcessor["_claimOwnership"](
         {
@@ -376,15 +335,13 @@ describe("Event Processor", function () {
         },
       };
 
-      const ep = new EventProcessor(
-        commonFields.consumerGroup,
-        fakeConnectionContext as any,
+      const ep = createProcessor({
+        groupName: commonFields.consumerGroup,
+        ctx: fakeConnectionContext as any,
         handlers,
         checkpointStore,
-        {
-          maxBatchSize: 1,
+        options: {
           loopIntervalInMs: 1,
-          maxWaitTimeInSeconds: 1,
           pumpManager: {
             async createPump() {
               /* no-op */
@@ -398,7 +355,7 @@ describe("Event Processor", function () {
           },
           loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
         },
-      );
+      }).processor;
 
       // allow three iterations through the loop - one for each partition that
       // we expect to be claimed
@@ -514,22 +471,15 @@ describe("Event Processor", function () {
       listCheckpoints: async () => [],
     };
 
-    const eventProcessor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      {
-        processEvents: async () => {
-          /* no-op */
-        },
-        processError: async (err, _) => {
+    const eventProcessor = createProcessor({
+      ctx: consumerClient["_context"],
+      checkpointStore: faultyCheckpointStore,
+      handlers: {
+        processError: async (err) => {
           errors.push(err);
         },
       },
-      faultyCheckpointStore,
-      {
-        ...defaultOptions,
-      },
-    );
+    }).processor;
 
     // claimOwnership() calls that fail in the runloop of eventProcessor
     // will get directed to the user's processError handler.
@@ -573,10 +523,9 @@ describe("Event Processor", function () {
     }
     expectedErrorMessages.sort();
 
-    const eventProcessor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      {
+    const eventProcessor = createProcessor({
+      ctx: consumerClient["_context"],
+      handlers: {
         processClose: async () => {
           throw new Error(processCloseErrorMessage);
         },
@@ -586,17 +535,14 @@ describe("Event Processor", function () {
         processInitialize: async () => {
           throw new Error(processInitializeErrorMessage);
         },
-        processError: async (err, _) => {
+        processError: async (err) => {
           errors.add(err);
-          throw new Error("These are logged but ignored");
         },
       },
-      new InMemoryCheckpointStore(),
-      {
-        ...defaultOptions,
+      options: {
         startPosition: earliestEventPosition,
       },
-    );
+    }).processor;
 
     // errors that occur within the user's own event handlers will get
     // routed to their processError() handler
@@ -619,45 +565,19 @@ describe("Event Processor", function () {
   });
 
   it("should expose an id", async function () {
-    const processor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      {
-        processEvents: async function () {
-          /* no-op */
-        },
-        processError: async function () {
-          /* no-op */
-        },
-      },
-      new InMemoryCheckpointStore(),
-      {
-        ...defaultOptions,
-        startPosition: latestEventPosition,
-      },
-    );
-
+    const processor = createProcessor().processor;
     const id = processor.id;
     id.length.should.be.gt(1);
   });
 
   it("id can be forced to be a specific value", async function () {
-    const processor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      {
-        processEvents: async function () {
-          /* no-op */
-        },
-        processError: async function () {
-          /* no-op */
-        },
+    const ownerId = "hello";
+    const processor = createProcessor({
+      options: {
+        ownerId,
       },
-      new InMemoryCheckpointStore(),
-      { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition },
-    );
-
-    processor.id.should.equal("hello");
+    }).processor;
+    processor.id.should.equal(ownerId);
   });
 
   it("should treat consecutive start invocations as idempotent", async function () {
@@ -675,16 +595,13 @@ describe("Event Processor", function () {
     const { subscriptionEventHandler, startPosition } =
       await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
-    const processor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      subscriptionEventHandler,
-      new InMemoryCheckpointStore(),
-      {
-        ...defaultOptions,
-        startPosition: startPosition,
+    const processor = createProcessor({
+      ctx: consumerClient["_context"],
+      handlers: subscriptionEventHandler,
+      options: {
+        startPosition,
       },
-    );
+    }).processor;
 
     processor.start();
 
@@ -702,27 +619,17 @@ describe("Event Processor", function () {
 
   it("should not throw if stop is called without start", async function () {
     let didPartitionProcessorStart = false;
-
-    const processor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      {
+    const processor = createProcessor({
+      ctx: consumerClient["_context"],
+      handlers: {
         processInitialize: async function () {
           didPartitionProcessorStart = true;
         },
-        processEvents: async function () {
-          /* no-op */
-        },
-        processError: async function () {
-          /* no-op */
-        },
       },
-      new InMemoryCheckpointStore(),
-      {
-        ...defaultOptions,
+      options: {
         startPosition: latestEventPosition,
       },
-    );
+    }).processor;
 
     // shutdown the processor
     await processor.stop();
@@ -737,16 +644,13 @@ describe("Event Processor", function () {
     const { subscriptionEventHandler, startPosition } =
       await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
-    const processor = new EventProcessor(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
-      subscriptionEventHandler,
-      new InMemoryCheckpointStore(),
-      {
-        ...defaultOptions,
-        startPosition: startPosition,
+    const processor = createProcessor({
+      ctx: consumerClient["_context"],
+      handlers: subscriptionEventHandler,
+      options: {
+        startPosition,
       },
-    );
+    }).processor;
 
     loggerForTest(`Starting processor for the first time`);
     processor.start();
@@ -785,16 +689,13 @@ describe("Event Processor", function () {
       const { subscriptionEventHandler, startPosition } =
         await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
-      const processor = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
-        subscriptionEventHandler,
-        new InMemoryCheckpointStore(),
-        {
-          ...defaultOptions,
-          startPosition: startPosition,
+      const processor = createProcessor({
+        ctx: consumerClient["_context"],
+        handlers: subscriptionEventHandler,
+        options: {
+          startPosition,
         },
-      );
+      }).processor;
 
       processor.start();
 
@@ -813,18 +714,21 @@ describe("Event Processor", function () {
 
   describe("InMemory Partition Manager", function () {
     it("should claim ownership, get a list of ownership and update checkpoint", async function () {
+      const consumerGroup = "myConsumerGroup";
+      const eventHubName = "myEventHub";
+      const fullyQualifiedNamespace = "myNamespace.servicebus.windows.net";
       const inMemoryCheckpointStore = new InMemoryCheckpointStore();
       const partitionOwnership1: PartitionOwnership = {
-        fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
-        eventHubName: "myEventHub",
-        consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+        fullyQualifiedNamespace,
+        eventHubName,
+        consumerGroup,
         ownerId: randomUUID(),
         partitionId: "0",
       };
       const partitionOwnership2: PartitionOwnership = {
-        fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
-        eventHubName: "myEventHub",
-        consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+        fullyQualifiedNamespace,
+        eventHubName,
+        consumerGroup,
         ownerId: randomUUID(),
         partitionId: "1",
       };
@@ -834,16 +738,16 @@ describe("Event Processor", function () {
       ]);
       partitionOwnership.length.should.equals(2);
       const ownershiplist = await inMemoryCheckpointStore.listOwnership(
-        "myNamespace.servicebus.windows.net",
-        "myEventHub",
-        EventHubConsumerClient.defaultConsumerGroupName,
+        fullyQualifiedNamespace,
+        eventHubName,
+        consumerGroup,
       );
       ownershiplist.length.should.equals(2);
 
       const checkpoint: Checkpoint = {
-        fullyQualifiedNamespace: "myNamespace.servicebus.windows.net",
-        eventHubName: "myEventHub",
-        consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+        fullyQualifiedNamespace,
+        eventHubName,
+        consumerGroup,
         partitionId: "0",
         sequenceNumber: 10,
         offset: "50",
@@ -851,18 +755,14 @@ describe("Event Processor", function () {
 
       await inMemoryCheckpointStore.updateCheckpoint(checkpoint);
       const partitionOwnershipList = await inMemoryCheckpointStore.listOwnership(
-        "myNamespace.servicebus.windows.net",
-        "myEventHub",
-        EventHubConsumerClient.defaultConsumerGroupName,
+        fullyQualifiedNamespace,
+        eventHubName,
+        consumerGroup,
       );
       partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
-      partitionOwnershipList[0].fullyQualifiedNamespace!.should.equals(
-        "myNamespace.servicebus.windows.net",
-      );
-      partitionOwnershipList[0].eventHubName!.should.equals("myEventHub");
-      partitionOwnershipList[0].consumerGroup!.should.equals(
-        EventHubConsumerClient.defaultConsumerGroupName,
-      );
+      partitionOwnershipList[0].fullyQualifiedNamespace!.should.equals(fullyQualifiedNamespace);
+      partitionOwnershipList[0].eventHubName!.should.equals(eventHubName);
+      partitionOwnershipList[0].consumerGroup!.should.equals(consumerGroup);
     });
 
     it("should receive events from the checkpoint", async function () {
@@ -903,17 +803,15 @@ describe("Event Processor", function () {
 
       const checkpointStore = new InMemoryCheckpointStore();
       const partitionProcessor1 = new PartitionProcessor(partitionIds);
-      const processor1 = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
-        partitionProcessor1,
+      const { processor: processor1, groupName } = createProcessor({
+        ctx: consumerClient["_context"],
         checkpointStore,
-        {
-          ...defaultOptions,
+        handlers: partitionProcessor1,
+        options: {
           ownerId: "processor1",
           startPosition: earliestEventPosition,
         },
-      );
+      });
 
       processor1.start();
 
@@ -940,7 +838,7 @@ describe("Event Processor", function () {
       const checkpoints = await checkpointStore.listCheckpoints(
         consumerClient.fullyQualifiedNamespace,
         consumerClient.eventHubName,
-        EventHubConsumerClient.defaultConsumerGroupName,
+        groupName,
       );
 
       checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
@@ -967,13 +865,15 @@ describe("Event Processor", function () {
       }
 
       const partitionProcessor2 = new PartitionProcessor(partitionIds);
-      const processor2 = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        createConsumer().consumer["_context"],
-        partitionProcessor2,
+      const processor2 = createProcessor({
+        ctx: createConsumer().consumer["_context"],
         checkpointStore,
-        { ...defaultOptions, ownerId: "processor2", startPosition: earliestEventPosition },
-      );
+        handlers: partitionProcessor2,
+        options: {
+          ownerId: "processor2",
+          startPosition: earliestEventPosition,
+        },
+      }).processor;
 
       processor2.start();
 
@@ -1153,18 +1053,16 @@ describe("Event Processor", function () {
         loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs / 2,
       };
 
-      processorByName[`processor-1`] = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
-        new FooPartitionProcessor(),
+      processorByName[`processor-1`] = createProcessor({
+        ctx: consumerClient["_context"],
+        handlers: new FooPartitionProcessor(),
         checkpointStore,
-        {
-          ...defaultOptions,
+        options: {
           startPosition: earliestEventPosition,
           ...processor1LoadBalancingInterval,
           loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
         },
-      );
+      }).processor;
 
       processorByName[`processor-1`].start();
 
@@ -1176,18 +1074,17 @@ describe("Event Processor", function () {
         errorMessageFn: () => `${partitionOwnershipArr.size}/${partitionIds.length}`,
       });
 
-      processorByName[`processor-2`] = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        createConsumer().consumer["_context"],
-        new FooPartitionProcessor(),
+      const { processor: processor2, groupName } = createProcessor({
+        ctx: createConsumer().consumer["_context"],
+        handlers: new FooPartitionProcessor(),
         checkpointStore,
-        {
-          ...defaultOptions,
+        options: {
           startPosition: earliestEventPosition,
           ...processor2LoadBalancingInterval,
           loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
         },
-      );
+      });
+      processorByName[`processor-2`] = processor2;
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
       processorByName[`processor-2`].start();
@@ -1208,7 +1105,7 @@ describe("Event Processor", function () {
           const partitionOwnership = await checkpointStore.listOwnership(
             consumerClient.fullyQualifiedNamespace,
             consumerClient.eventHubName,
-            EventHubConsumerClient.defaultConsumerGroupName,
+            groupName,
           );
 
           // map of ownerId as a key and partitionIds as a value
@@ -1308,18 +1205,16 @@ describe("Event Processor", function () {
         loopIntervalInMs: processor1LoadBalancingInterval.loopIntervalInMs / 2,
       };
 
-      processorByName[`processor-1`] = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
-        new FooPartitionProcessor(),
+      processorByName[`processor-1`] = createProcessor({
+        ctx: consumerClient["_context"],
+        handlers: new FooPartitionProcessor(),
         checkpointStore,
-        {
-          ...defaultOptions,
+        options: {
           startPosition: earliestEventPosition,
           ...processor1LoadBalancingInterval,
           loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
         },
-      );
+      }).processor;
 
       processorByName[`processor-1`].start();
 
@@ -1331,18 +1226,17 @@ describe("Event Processor", function () {
         errorMessageFn: () => `${partitionOwnershipArr.size}/${partitionIds.length}`,
       });
 
-      processorByName[`processor-2`] = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        createConsumer().consumer["_context"],
-        new FooPartitionProcessor(),
+      const { processor: processor2, groupName } = createProcessor({
+        ctx: createConsumer().consumer["_context"],
+        handlers: new FooPartitionProcessor(),
         checkpointStore,
-        {
-          ...defaultOptions,
+        options: {
           startPosition: earliestEventPosition,
           ...processor2LoadBalancingInterval,
           loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
         },
-      );
+      });
+      processorByName[`processor-2`] = processor2;
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
       processorByName[`processor-2`].start();
@@ -1363,7 +1257,7 @@ describe("Event Processor", function () {
           const partitionOwnership = await checkpointStore.listOwnership(
             consumerClient.fullyQualifiedNamespace,
             consumerClient.eventHubName,
-            EventHubConsumerClient.defaultConsumerGroupName,
+            groupName,
           );
 
           // map of ownerId as a key and partitionIds as a value
@@ -1433,19 +1327,20 @@ describe("Event Processor", function () {
         });
       }
 
+      let groupName;
       for (let i = 0; i < 2; i++) {
         const processorName = `processor-${i}`;
-        processorByName[processorName] = new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
-          new FooPartitionProcessor(),
+        const { processor, groupName: x } = createProcessor({
+          ctx: consumerClient["_context"],
+          handlers: new FooPartitionProcessor(),
           checkpointStore,
-          {
-            ...defaultOptions,
+          options: {
             startPosition: earliestEventPosition,
             loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
           },
-        );
+        });
+        groupName = x;
+        processorByName[processorName] = processor;
         processorByName[processorName].start();
         await delay(12000);
       }
@@ -1460,10 +1355,13 @@ describe("Event Processor", function () {
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, PartitionId[]> = new Map();
 
+      if (!groupName) {
+        assert.fail("Group name not found");
+      }
       const partitionOwnership = await checkpointStore.listOwnership(
         consumerClient.fullyQualifiedNamespace,
         consumerClient.eventHubName,
-        EventHubConsumerClient.defaultConsumerGroupName,
+        groupName,
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1514,19 +1412,20 @@ describe("Event Processor", function () {
         });
       }
 
+      let groupName;
       for (let i = 0; i < 2; i++) {
         const processorName = `processor-${i}`;
-        processorByName[processorName] = new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          createConsumer().consumer["_context"],
-          new FooPartitionProcessor(),
+        const { processor, groupName: x } = createProcessor({
+          ctx: consumerClient["_context"],
+          handlers: new FooPartitionProcessor(),
           checkpointStore,
-          {
-            ...defaultOptions,
+          options: {
             startPosition: earliestEventPosition,
             loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
           },
-        );
+        });
+        groupName = x;
+        processorByName[processorName] = processor;
         processorByName[processorName].start();
       }
 
@@ -1540,10 +1439,13 @@ describe("Event Processor", function () {
       // map of ownerId as a key and partitionIds as a value
       const partitionOwnershipMap: Map<string, PartitionId[]> = new Map();
 
+      if (!groupName) {
+        assert.fail("Group name not found");
+      }
       const partitionOwnership = await checkpointStore.listOwnership(
         consumerClient.fullyQualifiedNamespace,
         consumerClient.eventHubName,
-        EventHubConsumerClient.defaultConsumerGroupName,
+        groupName,
       );
 
       partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1622,21 +1524,19 @@ describe("Event Processor", function () {
         loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
       };
 
-      const processor1 = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+      const processor1 = createProcessor({
+        ctx: consumerClient["_context"],
         handlers,
         checkpointStore,
-        eventProcessorOptions,
-      );
+        options: eventProcessorOptions,
+      }).processor;
 
-      const processor2 = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+      const processor2 = createProcessor({
+        ctx: consumerClient["_context"],
         handlers,
         checkpointStore,
-        eventProcessorOptions,
-      );
+        options: eventProcessorOptions,
+      }).processor;
 
       processor1.start();
       processor2.start();
@@ -1783,21 +1683,19 @@ describe("Event Processor", function () {
         loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
       };
 
-      const processor1 = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+      const processor1 = createProcessor({
+        ctx: consumerClient["_context"],
         handlers,
         checkpointStore,
-        eventProcessorOptions,
-      );
+        options: eventProcessorOptions,
+      }).processor;
 
-      const processor2 = new EventProcessor(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+      const processor2 = createProcessor({
+        ctx: consumerClient["_context"],
         handlers,
         checkpointStore,
-        eventProcessorOptions,
-      );
+        options: eventProcessorOptions,
+      }).processor;
 
       processor1.start();
       processor2.start();
