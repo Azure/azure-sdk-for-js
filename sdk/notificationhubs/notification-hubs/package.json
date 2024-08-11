@@ -4,6 +4,8 @@
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "type": "module",
   "//metadata": {
     "constantPaths": [

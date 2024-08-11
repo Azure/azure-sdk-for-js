@@ -35,9 +35,9 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
 
 /**
  * Initialize Azure Monitor Distro
- * @param options Azure Monitor OpenTelemetry Options
+ * @param options - Azure Monitor OpenTelemetry Options
  */
-export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
+export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
@@ -60,7 +60,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
   }
-  // Remove global providers in OpenTelemetry, these would be overriden if present
+  // Remove global providers in OpenTelemetry, these would be overridden if present
   metrics.disable();
   trace.disable();
   logs.disable();
@@ -96,12 +96,12 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   // https://github.com/open-telemetry/opentelemetry-js/issues/4451
 
   // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
-  let spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
+  const spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
   // Add batch processor as the last one
   spanProcessors.push(traceHandler.getBatchSpanProcessor());
 
   // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
-  let logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
+  const logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
   // Add batch processor as the last one
   logRecordProcessors.push(logHandler.getBatchLogRecordProcessor());
 
