@@ -12,6 +12,9 @@ import {
   CheckpointStore,
   parseEventHubConnectionString,
   EventHubConnectionStringProperties,
+  SubscriptionEventHandlers,
+  EventPosition,
+  earliestEventPosition,
 } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
@@ -19,8 +22,17 @@ import { EnvVarKeys } from "./constants.js";
 import * as MOCKS from "./constants.js";
 import type { NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { assert } from "./chai.js";
-import { ConnectionContext, createConnectionContext } from "../../src/connectionContext.js";
 import { createSasTokenProvider } from "@azure/core-amqp";
+import { ConnectionContext, createConnectionContext } from "../../src/connectionContext.js";
+import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
+import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy.js";
+import {
+  createReceiver as _createReceiver,
+  PartitionReceiver,
+} from "../../src/partitionReceiver.js";
+import { randomUUID } from "@azure/core-util";
+import { PartitionReceiverOptions } from "../../src/models/private.js";
 
 function getEnvVarValue(name: string): string | undefined {
   try {
@@ -40,6 +52,12 @@ function getEventhubName(): string {
 
 function getFullyQualifiedNamespace(): string {
   return isMock() ? MOCKS.EVENTHUB_FQDN : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_FQDN);
+}
+
+export function getConsumerGroupName(): string {
+  return isMock()
+    ? MOCKS.EVENTHUB_CONSUMER_GROUP_NAME
+    : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_CONSUMER_GROUP_NAME);
 }
 
 export function getConnectionStringWithKey(): string | undefined {
@@ -107,7 +125,7 @@ export function createConsumer(
     credential = createTestCredential(),
     eventhubName = getEventhubName(),
     fqdn = getFullyQualifiedNamespace(),
-    groupName = EventHubConsumerClient.defaultConsumerGroupName,
+    groupName = getConsumerGroupName(),
     checkPointStore,
     options = { identifier: `consumer${clientId++}` },
   } = inputOptions;
@@ -135,6 +153,74 @@ export function createConsumer(
     fqdn,
     eventhubName,
   };
+}
+
+export function createProcessor(
+  inputs: {
+    groupName?: string;
+    ctx?: ConnectionContext;
+    handlers?: Partial<SubscriptionEventHandlers>;
+    checkpointStore?: CheckpointStore;
+    options?: Partial<FullEventProcessorOptions>;
+  } = {},
+): { processor: EventProcessor; groupName: string } {
+  const {
+    groupName = getConsumerGroupName(),
+    ctx = createConsumer().consumer["_context"],
+    handlers,
+    checkpointStore = new InMemoryCheckpointStore(),
+    options,
+  } = inputs;
+  const emptyHandlers = {
+    processEvents: async () => {
+      /* no-op */
+    },
+    processError: async () => {
+      /* no-op */
+    },
+  };
+  const processor = new EventProcessor(
+    groupName,
+    ctx,
+    handlers?.processError && handlers.processEvents
+      ? (handlers as SubscriptionEventHandlers)
+      : {
+          ...emptyHandlers,
+          ...handlers,
+        },
+    checkpointStore,
+    {
+      maxBatchSize: 1,
+      maxWaitTimeInSeconds: 1,
+      ownerLevel: 0,
+      loopIntervalInMs: 10000,
+      loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
+      ...options,
+    },
+  );
+  return { processor, groupName };
+}
+
+export function createReceiver(
+  inputs: {
+    groupName?: string;
+    ctx?: ConnectionContext;
+    consumerId?: string;
+    partitionId?: string;
+    eventPosition?: EventPosition;
+    options?: PartitionReceiverOptions;
+  } = {},
+): { receiver: PartitionReceiver; groupName: string } {
+  const {
+    groupName = getConsumerGroupName(),
+    ctx = createConsumer().consumer["_context"],
+    consumerId = randomUUID(),
+    partitionId = "0",
+    eventPosition = earliestEventPosition,
+    options,
+  } = inputs;
+  const receiver = _createReceiver(ctx, groupName, consumerId, partitionId, eventPosition, options);
+  return { receiver, groupName };
 }
 
 export function createProducer(
