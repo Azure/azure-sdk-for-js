@@ -81,6 +81,7 @@ describe("Trace Exporter Scenarios", () => {
         .run()
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
+          // eslint-disable-next-line promise/always-return
           return scenario.flush().then(() => {
             assertTraceExpectation(ingest, scenario.disabledExpectation);
             assertCount(ingest, scenario.disabledExpectation);
