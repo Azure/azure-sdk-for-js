@@ -89,9 +89,6 @@ class MPTReporter implements Reporter {
     this.initializeMPTReporter();
     this.reporterUtils = new ReporterUtils(this.envVariables, config, suite);
     if (this.isTokenValid && this.isRegionValid) {
-      process.stdout.write(
-        `\nStarting test run report for workspace: ${this.envVariables.accountId}, runId: ${this.envVariables.runId}`,
-      );
       this.serviceClient = new ServiceClient(this.envVariables, this.reporterUtils);
       this.promiseOnBegin = this._onBegin();
     }
@@ -186,6 +183,9 @@ class MPTReporter implements Reporter {
       );
       reporterLogger.info(
         `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
+      );
+      process.stdout.write(
+        `\nInitializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}`,
       );
       const shardResponse = await this.serviceClient.patchTestRunShardStart();
       this.shard = shardResponse;

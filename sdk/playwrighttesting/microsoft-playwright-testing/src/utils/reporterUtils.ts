@@ -549,7 +549,7 @@ class ReporterUtils {
       if (depthCount > 10 || currentSuite.parent.title === projectName) {
         break;
       }
-      suiteTitle = suiteTitle + ">" + currentSuite.parent.title;
+      suiteTitle = suiteTitle + " > " + currentSuite.parent.title;
       currentSuite = currentSuite.parent;
       depthCount++;
     }
