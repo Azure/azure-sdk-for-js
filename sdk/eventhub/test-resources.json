@@ -85,7 +85,7 @@
     {
       "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
       "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('eventHubNameFull'), variables('eventHubConsumerGroupName'))]",
+      "name": "[concat(variables('eventHubNameFull'), '/', variables('eventHubConsumerGroupName'))]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName'))]",

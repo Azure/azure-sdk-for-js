@@ -75,9 +75,13 @@ export function createClient(
             serviceConnectionID,
             systemAccessToken
           );
+        } else {
+          throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
+            serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
         }
+      } else {
+        credential = createTestCredential();
       }
-      credential = createTestCredential();
       return new AzureOpenAI({
         azureADTokenProvider: getBearerTokenProvider(credential, scope),
         apiVersion,
