@@ -6973,6 +6973,13 @@ packages:
       strnum: 1.0.5
     dev: false
 
+  /fast-xml-parser@4.4.1:
+    resolution: {integrity: sha512-xkjOecfnKGkSsOwtZ5Pz7Us/T6mrbPQrq0nh+aCO5V9nk5NLWmasAHumTKjiPJPWANe+kAZ84Jc8ooJkzZ88Sw==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: false
+
   /fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
     dependencies:
@@ -21716,7 +21723,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-a1zwuH3CEl/Lb9O0LSM1pE1FdtXo558qbCfOQ24nohMyy1l7+L9cIJsHIdb1E2tCBcmXjEa+tco89B6Qit50dQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-Qeu2p1O+qHsqTEJSqDKUL+NJqzVZzomerXZbofiIT+WYeCPhXGuk6kR3BNbmebhx/hyWOagZEpR2B/9nJ0rzkA==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -21726,7 +21733,7 @@ packages:
       '@vitest/browser': 1.6.0(playwright@1.45.2)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       eslint: 8.57.0
-      fast-xml-parser: 4.4.0
+      fast-xml-parser: 4.4.1
       playwright: 1.45.2
       rimraf: 5.0.9
       tshy: 1.18.0
@@ -21882,13 +21889,13 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-z9Gvg9Sjq9IevC8b6hbo2nxvosbLBw9y0MX0VOxQY/kI5+ivWEbf7uV3RmhtPfdhqmWPHnpDHUs4v68xMhi1YA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-91tc1mhuTpGLzMxlOff31qyw0mXXFD4uyE3+3gp8riaRkQwlOcIkNSA451HgwGa6PuyAwXtxQViC9J1gxB69HA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       '@_ts/max': /typescript@5.5.4
       '@_ts/min': /typescript@4.2.4
-      '@azure/identity': 4.4.0
+      '@azure/identity': 4.4.1
       '@eslint/js': 9.2.0
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.18.1)
@@ -23574,7 +23581,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-aXXNfeHnejAU+JkM1NBbyWs7YTC7PZKAubiNf8bEy/PER7uTwhKAFQ81JjODYdZHCv7mr1JwGSisjvPUIefp4g==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-5Gl35CDEuoqfATvL1SM2nAgJx8BY0l19+YfQxqq/+kwmgI2PRDPmJBynU3ydy7O+QQoVgQ/03F6E3Vu0dExI9Q==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -25443,11 +25450,11 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-cbe9jS0cDsx7r6RTxQBlDSwmyNsRItg/BIXo/1aAblLlSzN9eJVBc0qRtClNGgp2Cwc8kHIRj5AfAvJHBENTag==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-nCHOpp4WKY5pLLuUe35Qwrm126k6keisoJXT2MFrqhH+lxTRgfKM6oXWILxDoh/23eUxb48w+wkTVx57yXlv2w==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 4.4.0
+      '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.1(@types/node@18.19.40)
       '@types/node': 18.19.40
       eslint: 8.57.0
