@@ -14,7 +14,7 @@ import DocumentIntelligence, {
   getLongRunningPoller,
   isUnexpected,
 } from "../../src";
-import { assert } from "chai";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils";
 import path from "path";
 import fs from "fs";
