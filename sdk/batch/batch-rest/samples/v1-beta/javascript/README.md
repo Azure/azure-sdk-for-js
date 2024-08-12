@@ -37,7 +37,7 @@ node quick-start.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env BATCH_ACCOUNT_ENDPOINT="<batch account endpoint>" BATCH_ACCOUNT_NAME="<batch account name>" BATCH_ACCOUNT_KEY="<batch account key>" node quick-start.js
+npx cross-env BATCH_ACCOUNT_ENDPOINT="<batch account endpoint>" node quick-start.js
 ```
 
 ## Next Steps

@@ -7,20 +7,18 @@
 
 const createClient = require("@azure-rest/batch").default,
   { isUnexpected, paginate } = require("@azure-rest/batch");
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 // eslint-disable-next-line import/no-extraneous-dependencies
 require("dotenv").config();
 
 const batchAccountEndpoint = process.env["BATCH_ACCOUNT_ENDPOINT"] || "<batch account endpoint>";
-const batchAccountName = process.env["BATCH_ACCOUNT_NAME"] || "<batch account name>";
-const batchAccountKey = process.env["BATCH_ACCOUNT_KEY"] || "<batch account key>";
 const poolName = "samplepool";
 const jobId = "samplejob2";
 
 async function main() {
-  const credentials = new AzureNamedKeyCredential(batchAccountName, batchAccountKey);
+  const credentials = new DefaultAzureCredential();
   const client = createClient(batchAccountEndpoint, credentials);
 
   await createPool(client);

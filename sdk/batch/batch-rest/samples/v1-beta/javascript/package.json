@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure-rest/batch": "next",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.6.0"
+    "@azure/identity": "^4.0.1"
   }
 }
