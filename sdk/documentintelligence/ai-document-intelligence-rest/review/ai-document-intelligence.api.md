@@ -663,17 +663,10 @@ export interface ClassifyDocumentRequest {
 }
 
 // @public
-export interface ComponentDocumentModelDetails {
-    docType?: string;
-    maxDocumentsToAnalyze?: number;
-    modelId: string;
-}
-
-// @public
 export interface ComposeDocumentModelRequest {
-    classifierId?: string;
-    componentModels: Array<ComponentDocumentModelDetails>;
+    classifierId: string;
     description?: string;
+    docTypes: Record<string, DocumentTypeDetails>;
     modelId: string;
     split?: SplitMode;
     tags?: Record<string, string>;
@@ -928,6 +921,9 @@ export type DeleteModelParameters = DeleteModelHeaderParam & RequestParameters;
 export type DocumentAnalysisFeature = string;
 
 // @public
+export type DocumentAnalysisFeatureOutput = string;
+
+// @public
 export type DocumentBarcodeKindOutput = string;
 
 // @public
@@ -1002,6 +998,15 @@ export interface DocumentFieldOutput {
 }
 
 // @public
+export interface DocumentFieldSchema {
+    description?: string;
+    example?: string;
+    items?: DocumentFieldSchema;
+    properties?: Record<string, DocumentFieldSchema>;
+    type: DocumentFieldType;
+}
+
+// @public
 export interface DocumentFieldSchemaOutput {
     description?: string;
     example?: string;
@@ -1009,6 +1014,9 @@ export interface DocumentFieldSchemaOutput {
     properties?: Record<string, DocumentFieldSchemaOutput>;
     type: DocumentFieldTypeOutput;
 }
+
+// @public
+export type DocumentFieldType = string;
 
 // @public
 export type DocumentFieldTypeOutput = string;
@@ -1105,11 +1113,13 @@ export interface DocumentModelDetailsOutput {
     readonly azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
     readonly azureBlobSource?: AzureBlobContentSourceOutput;
     readonly buildMode?: DocumentBuildModeOutput;
+    classifierId?: string;
     readonly createdDateTime: string;
     description?: string;
     readonly docTypes?: Record<string, DocumentTypeDetailsOutput>;
     readonly expirationDateTime?: string;
     modelId: string;
+    split?: SplitModeOutput;
     tags?: Record<string, string>;
     readonly trainingHours?: number;
     readonly warnings?: Array<WarningOutput>;
@@ -1213,11 +1223,29 @@ export interface DocumentTableOutput {
 }
 
 // @public
+export interface DocumentTypeDetails {
+    buildMode?: DocumentBuildMode;
+    confidenceThreshold?: number;
+    description?: string;
+    features?: DocumentAnalysisFeature[];
+    fieldConfidence?: Record<string, number>;
+    fieldSchema?: Record<string, DocumentFieldSchema>;
+    maxDocumentsToAnalyze?: number;
+    modelId?: string;
+    queryFields?: string[];
+}
+
+// @public
 export interface DocumentTypeDetailsOutput {
     buildMode?: DocumentBuildModeOutput;
+    confidenceThreshold?: number;
     description?: string;
+    features?: DocumentAnalysisFeatureOutput[];
     fieldConfidence?: Record<string, number>;
-    fieldSchema: Record<string, DocumentFieldSchemaOutput>;
+    fieldSchema?: Record<string, DocumentFieldSchemaOutput>;
+    maxDocumentsToAnalyze?: number;
+    modelId?: string;
+    queryFields?: string[];
 }
 
 // @public
@@ -2090,6 +2118,9 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 
 // @public
 export type SplitMode = string;
+
+// @public
+export type SplitModeOutput = string;
 
 // @public
 export type StringIndexType = string;

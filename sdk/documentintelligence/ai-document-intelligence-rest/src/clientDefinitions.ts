@@ -104,9 +104,7 @@ export interface ListOperations {
   /** Lists all operations. */
   get(
     options?: ListOperationsParameters,
-  ): StreamableMethod<
-    ListOperations200Response | ListOperationsDefaultResponse
-  >;
+  ): StreamableMethod<ListOperations200Response | ListOperationsDefaultResponse>;
 }
 
 export interface GetDocumentModelBuildOperation {
@@ -114,22 +112,19 @@ export interface GetDocumentModelBuildOperation {
   get(
     options?: GetDocumentModelBuildOperationParameters,
   ): StreamableMethod<
-    | GetDocumentModelBuildOperation200Response
-    | GetDocumentModelBuildOperationDefaultResponse
+    GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
     options?: GetDocumentModelComposeOperationParameters,
   ): StreamableMethod<
-    | GetDocumentModelComposeOperation200Response
-    | GetDocumentModelComposeOperationDefaultResponse
+    GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
     options?: GetDocumentModelCopyToOperationParameters,
   ): StreamableMethod<
-    | GetDocumentModelCopyToOperation200Response
-    | GetDocumentModelCopyToOperationDefaultResponse
+    GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse
   >;
   /** Gets operation info. */
   get(
@@ -155,36 +150,28 @@ export interface GetResourceInfo {
   /** Return information about the current resource. */
   get(
     options?: GetResourceInfoParameters,
-  ): StreamableMethod<
-    GetResourceInfo200Response | GetResourceInfoDefaultResponse
-  >;
+  ): StreamableMethod<GetResourceInfo200Response | GetResourceInfoDefaultResponse>;
 }
 
 export interface GetAnalyzeResult {
   /** Gets the result of document analysis. */
   get(
     options?: GetAnalyzeResultParameters,
-  ): StreamableMethod<
-    GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse
-  >;
+  ): StreamableMethod<GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse>;
 }
 
 export interface GetAnalyzeResultPdf {
   /** Gets the generated searchable PDF output from document analysis. */
   get(
     options?: GetAnalyzeResultPdfParameters,
-  ): StreamableMethod<
-    GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse
-  >;
+  ): StreamableMethod<GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse>;
 }
 
 export interface GetAnalyzeResultFigure {
   /** Gets the generated cropped image of specified figure from document analysis. */
   get(
     options?: GetAnalyzeResultFigureParameters,
-  ): StreamableMethod<
-    GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse
-  >;
+  ): StreamableMethod<GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse>;
 }
 
 export interface AnalyzeDocumentFromStream {
@@ -192,33 +179,26 @@ export interface AnalyzeDocumentFromStream {
   post(
     options: AnalyzeDocumentFromStreamParameters,
   ): StreamableMethod<
-    | AnalyzeDocumentFromStream202Response
-    | AnalyzeDocumentFromStreamDefaultResponse
+    AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse
   >;
   /** Analyzes document with document model. */
   post(
     options: AnalyzeDocumentParameters,
-  ): StreamableMethod<
-    AnalyzeDocument202Response | AnalyzeDocumentDefaultResponse
-  >;
+  ): StreamableMethod<AnalyzeDocument202Response | AnalyzeDocumentDefaultResponse>;
 }
 
 export interface GetAnalyzeBatchResult {
   /** Gets the result of batch document analysis. */
   get(
     options?: GetAnalyzeBatchResultParameters,
-  ): StreamableMethod<
-    GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse
-  >;
+  ): StreamableMethod<GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse>;
 }
 
 export interface AnalyzeBatchDocuments {
   /** Analyzes batch documents with document model. */
   post(
     options: AnalyzeBatchDocumentsParameters,
-  ): StreamableMethod<
-    AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse
-  >;
+  ): StreamableMethod<AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse>;
 }
 
 export interface GetModel {
@@ -253,9 +233,7 @@ export interface AuthorizeModelCopy {
    */
   post(
     options: AuthorizeModelCopyParameters,
-  ): StreamableMethod<
-    AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse
-  >;
+  ): StreamableMethod<AuthorizeModelCopy200Response | AuthorizeModelCopyDefaultResponse>;
 }
 
 export interface CopyModelTo {
@@ -276,18 +254,14 @@ export interface BuildClassifier {
   /** Builds a custom document classifier. */
   post(
     options: BuildClassifierParameters,
-  ): StreamableMethod<
-    BuildClassifier202Response | BuildClassifierDefaultResponse
-  >;
+  ): StreamableMethod<BuildClassifier202Response | BuildClassifierDefaultResponse>;
 }
 
 export interface ListClassifiers {
   /** List all document classifiers. */
   get(
     options?: ListClassifiersParameters,
-  ): StreamableMethod<
-    ListClassifiers200Response | ListClassifiersDefaultResponse
-  >;
+  ): StreamableMethod<ListClassifiers200Response | ListClassifiersDefaultResponse>;
 }
 
 export interface GetClassifier {
@@ -298,9 +272,7 @@ export interface GetClassifier {
   /** Deletes document classifier. */
   delete(
     options?: DeleteClassifierParameters,
-  ): StreamableMethod<
-    DeleteClassifier204Response | DeleteClassifierDefaultResponse
-  >;
+  ): StreamableMethod<DeleteClassifier204Response | DeleteClassifierDefaultResponse>;
 }
 
 export interface ClassifyDocumentFromStream {
@@ -308,24 +280,19 @@ export interface ClassifyDocumentFromStream {
   post(
     options: ClassifyDocumentFromStreamParameters,
   ): StreamableMethod<
-    | ClassifyDocumentFromStream202Response
-    | ClassifyDocumentFromStreamDefaultResponse
+    ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse
   >;
   /** Classifies document with document classifier. */
   post(
     options: ClassifyDocumentParameters,
-  ): StreamableMethod<
-    ClassifyDocument202Response | ClassifyDocumentDefaultResponse
-  >;
+  ): StreamableMethod<ClassifyDocument202Response | ClassifyDocumentDefaultResponse>;
 }
 
 export interface GetClassifyResult {
   /** Gets the result of document classifier. */
   get(
     options?: GetClassifyResultParameters,
-  ): StreamableMethod<
-    GetClassifyResult200Response | GetClassifyResultDefaultResponse
-  >;
+  ): StreamableMethod<GetClassifyResult200Response | GetClassifyResultDefaultResponse>;
 }
 
 export interface AuthorizeClassifierCopy {
@@ -335,28 +302,21 @@ export interface AuthorizeClassifierCopy {
    */
   post(
     options: AuthorizeClassifierCopyParameters,
-  ): StreamableMethod<
-    AuthorizeClassifierCopy200Response | AuthorizeClassifierCopyDefaultResponse
-  >;
+  ): StreamableMethod<AuthorizeClassifierCopy200Response | AuthorizeClassifierCopyDefaultResponse>;
 }
 
 export interface CopyClassifierTo {
   /** Copies document classifier to the target resource, region, and classifierId. */
   post(
     options: CopyClassifierToParameters,
-  ): StreamableMethod<
-    CopyClassifierTo202Response | CopyClassifierToDefaultResponse
-  >;
+  ): StreamableMethod<CopyClassifierTo202Response | CopyClassifierToDefaultResponse>;
 }
 
 export interface Routes {
   /** Resource for '/operations' has methods for the following verbs: get */
   (path: "/operations"): ListOperations;
   /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
-  (
-    path: "/operations/{operationId}",
-    operationId: string,
-  ): GetDocumentModelBuildOperation;
+  (path: "/operations/{operationId}", operationId: string): GetDocumentModelBuildOperation;
   /** Resource for '/info' has methods for the following verbs: get */
   (path: "/info"): GetResourceInfo;
   /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}' has methods for the following verbs: get */
@@ -379,10 +339,7 @@ export interface Routes {
     figureId: string,
   ): GetAnalyzeResultFigure;
   /** Resource for '/documentModels/\{modelId\}:analyze' has methods for the following verbs: post */
-  (
-    path: "/documentModels/{modelId}:analyze",
-    modelId: string,
-  ): AnalyzeDocumentFromStream;
+  (path: "/documentModels/{modelId}:analyze", modelId: string): AnalyzeDocumentFromStream;
   /** Resource for '/documentModels/\{modelId\}/analyzeBatchResults/\{resultId\}' has methods for the following verbs: get */
   (
     path: "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
@@ -390,10 +347,7 @@ export interface Routes {
     resultId: string,
   ): GetAnalyzeBatchResult;
   /** Resource for '/documentModels/\{modelId\}:analyzeBatch' has methods for the following verbs: post */
-  (
-    path: "/documentModels/{modelId}:analyzeBatch",
-    modelId: string,
-  ): AnalyzeBatchDocuments;
+  (path: "/documentModels/{modelId}:analyzeBatch", modelId: string): AnalyzeBatchDocuments;
   /** Resource for '/documentModels/\{modelId\}' has methods for the following verbs: get, delete */
   (path: "/documentModels/{modelId}", modelId: string): GetModel;
   /** Resource for '/documentModels:build' has methods for the following verbs: post */
@@ -411,10 +365,7 @@ export interface Routes {
   /** Resource for '/documentClassifiers' has methods for the following verbs: get */
   (path: "/documentClassifiers"): ListClassifiers;
   /** Resource for '/documentClassifiers/\{classifierId\}' has methods for the following verbs: get, delete */
-  (
-    path: "/documentClassifiers/{classifierId}",
-    classifierId: string,
-  ): GetClassifier;
+  (path: "/documentClassifiers/{classifierId}", classifierId: string): GetClassifier;
   /** Resource for '/documentClassifiers/\{classifierId\}:analyze' has methods for the following verbs: post */
   (
     path: "/documentClassifiers/{classifierId}:analyze",
@@ -429,10 +380,7 @@ export interface Routes {
   /** Resource for '/documentClassifiers:authorizeCopy' has methods for the following verbs: post */
   (path: "/documentClassifiers:authorizeCopy"): AuthorizeClassifierCopy;
   /** Resource for '/documentClassifiers/\{classifierId\}:copyTo' has methods for the following verbs: post */
-  (
-    path: "/documentClassifiers/{classifierId}:copyTo",
-    classifierId: string,
-  ): CopyClassifierTo;
+  (path: "/documentClassifiers/{classifierId}:copyTo", classifierId: string): CopyClassifierTo;
 }
 
 export type DocumentIntelligenceClient = Client & {
