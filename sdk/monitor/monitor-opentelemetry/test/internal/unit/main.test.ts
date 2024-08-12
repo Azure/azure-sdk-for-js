@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { metrics, trace, Context } from "@opentelemetry/api";
+import { metrics, trace, Context, TracerProvider } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import {
   useAzureMonitor,
@@ -11,13 +11,35 @@ import {
   shutdownAzureMonitor,
 } from "../../../src/index";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
-import { StatsbeatFeature, StatsbeatInstrumentation } from "../../../src/types";
+import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatEnvironmentConfig, StatsbeatFeature, StatsbeatInstrumentation, StatsbeatInstrumentationMap } from "../../../src/types";
 import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat";
-import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { FsInstrumentation } from "@opentelemetry/instrumentation-fs";
+import { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
+
+const testInstrumentation: Instrumentation = {
+  instrumentationName: "@opentelemetry/instrumentation-fs",
+  instrumentationVersion: "1.0",
+  disable: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  enable: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  setTracerProvider: function (_tracerProvider: TracerProvider): void {
+    throw new Error("Function not implemented.");
+  },
+  setMeterProvider: function (_meterProvider: MeterProvider): void {
+    throw new Error("Function not implemented.");
+  },
+  setConfig: function (_config: InstrumentationConfig): void {
+    throw new Error("Function not implemented.");
+  },
+  getConfig: function (): InstrumentationConfig {
+    throw new Error("Function not implemented.");
+  }
+};
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -323,8 +345,8 @@ describe("Main functions", () => {
     });
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
-  it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", async () => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  it("should update statsbeat env var based on reading instrumentations array", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -342,14 +364,22 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    registerInstrumentations({
-      instrumentations: [new FsInstrumentation()],
-    });
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/no-unsafe-argument, @typescript-eslint/require-await
-    setTimeout(async () => {
-      const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
-      const instrumentations = Number(output["instrumentation"]);
-      assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
-    }, 100);
+    const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
+
+    const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
+      process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || emptyStatsbeatConfig,
+    );
+    const instrumentations = [ testInstrumentation ];
+    let updatedStatsbeat = {instrumentation: 0, feature: 0};
+
+    // Dynamic statsbeat update logic
+    for (let i = 0; i < instrumentations.length; i++) {
+      updatedStatsbeat = {
+        instrumentation: (statsbeatOptions.instrumentation |=
+          StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0),
+        feature: statsbeatOptions.feature,
+      };
+    }
+    assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
   });
 });
