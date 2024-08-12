@@ -164,6 +164,12 @@ export interface FailedRequestAttemptDiagnostic {
   responsePayloadLengthInBytes: number;
 }
 
+export interface EncryptionDiagnostics {
+  encryptContent: { [key: string]: any };
+  decryptContent: { [key: string]: any };
+  processingDurationInMs: number;
+}
+
 /**
  * This is enum for Type of Metadata lookups possible.
  */
@@ -211,6 +217,10 @@ export type ClientSideRequestStatistics = {
    * This is the cumulated Response Payload Length n bytes, this includes metadata calls along with the main operation.
    */
   totalResponsePayloadLengthInBytes: number;
+  /**
+   * This field captures diagnostic information for encryption/decryption happened during CRUD operation if encryption is enabled.
+   */
+  encryptionDiagnostics?: EncryptionDiagnostics;
 };
 
 export function getRootNode(node: DiagnosticNodeInternal): DiagnosticNodeInternal {

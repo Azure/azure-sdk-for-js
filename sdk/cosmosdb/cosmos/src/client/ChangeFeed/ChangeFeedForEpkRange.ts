@@ -208,7 +208,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
               if (this.clientContext.enableEncryption) {
                 for (let item of result.result) {
-                  item = await this.container.encryptionProcessor.decrypt(item);
+                  item = await this.container.encryptionProcessor.decrypt(item, diagnosticNode);
                 }
               }
               return result;
