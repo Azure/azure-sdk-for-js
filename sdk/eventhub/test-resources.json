@@ -35,6 +35,7 @@
     "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
     "eventHubName": "eventhub",
     "eventHubNameFull": "[concat(parameters('baseName'), '/eventhub')]",
+    "eventHubConsumerGroupName": "$Default",
     "retentionTimeInDays": 1,
     "partitionCount": 4,
     "location": "[resourceGroup().location]",
@@ -84,7 +85,7 @@
     {
       "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
       "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('eventHubNameFull'), '/$Default')]",
+      "name": "[concat(variables('eventHubNameFull'), '/', variables('eventHubConsumerGroupName'))]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName'))]",
@@ -245,6 +246,10 @@
     "EVENTHUB_NAME": {
       "type": "string",
       "value": "[variables('eventHubName')]"
+    },
+    "EVENTHUB_CONSUMER_GROUP_NAME": {
+      "type": "string",
+      "value": "[variables('eventHubConsumerGroupName')]"
     },
     "EVENTHUB_CONNECTION_STRING": {
       "type": "string",

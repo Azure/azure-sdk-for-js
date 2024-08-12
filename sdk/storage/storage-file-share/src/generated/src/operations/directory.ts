@@ -192,9 +192,10 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.fileRequestIntent,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
@@ -226,8 +227,8 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -249,8 +250,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -276,8 +277,9 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
@@ -309,9 +311,9 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -344,8 +346,8 @@ const listFilesAndDirectoriesSegmentOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot,
     Parameters.includeExtendedInfo
   ],
@@ -375,8 +377,8 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot,
     Parameters.recursive
   ],
@@ -404,8 +406,8 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot,
     Parameters.recursive,
     Parameters.handleId
@@ -433,9 +435,10 @@ const renameOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.fileRequestIntent,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,

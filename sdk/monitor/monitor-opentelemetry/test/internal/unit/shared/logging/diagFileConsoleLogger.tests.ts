@@ -75,6 +75,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           );
           assert.equal(appendFileAsyncStub.lastCall.args[1], "testMessage\r\n");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -85,6 +86,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
       sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // Fake file size check
           123,
@@ -101,14 +103,15 @@ describe("Library/DiagFileConsoleLogger", () => {
           assert.ok(readStub.calledOnce, "readStub calledOnce"); // Read content to create backup
           assert.ok(appendStub.notCalled, "appendStub notCalled");
           assert.ok(writeStub.calledTwice, "writeStub calledTwice");
-          //assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
+          // assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
           assert.ok(
             writeStub.args[0][0].toString().indexOf(".applicationinsights.log") > 0,
             ".applicationinsights.log present in backup file name",
           ); // First call is for backup file
-          //assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
+          // assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
           assert.equal(writeStub.args[1][1], "backupTestMessage\r\n");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -119,6 +122,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
       sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // Fake file size check
           123,
@@ -134,10 +138,12 @@ describe("Library/DiagFileConsoleLogger", () => {
               assert.equal(writeStub.callCount, 4);
               assert.ok(readStub.calledTwice);
               done();
+              return;
             })
             .catch((error: Error) => {
               done(error);
             });
+          return;
         })
 
         .catch((error: Error) => {
@@ -157,22 +163,23 @@ describe("Library/DiagFileConsoleLogger", () => {
     });
 
     it("should remove backup files", (done) => {
-      sandbox
-        .stub(fileHelper, "readdirAsync")
-        .callsFake(
-          async () =>
-            [
-              "applicationinsights.log",
-              "123.applicationinsights.log",
-              "456.applicationinsights.log",
-            ] as any,
-        );
+      sandbox.stub(fileHelper, "readdirAsync").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () =>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          [
+            "applicationinsights.log",
+            "123.applicationinsights.log",
+            "456.applicationinsights.log",
+          ] as any,
+      );
       logger["_maxHistory"] = 0;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
       logger["_fileCleanupTask"]()
         .then(() => {
           assert.ok(unlinkStub.calledTwice, "unlinkStub calledTwice");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -180,16 +187,16 @@ describe("Library/DiagFileConsoleLogger", () => {
     });
 
     it("cleanup should keep configured number of backups", (done) => {
-      sandbox
-        .stub(fileHelper, "readdirAsync")
-        .callsFake(
-          async () =>
-            [
-              "applicationinsights.log",
-              "123.applicationinsights.log",
-              "456.applicationinsights.log",
-            ] as any,
-        );
+      sandbox.stub(fileHelper, "readdirAsync").callsFake(
+        // eslint-disable-next-line @typescript-eslint/require-await
+        async () =>
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          [
+            "applicationinsights.log",
+            "123.applicationinsights.log",
+            "456.applicationinsights.log",
+          ] as any,
+      );
       logger["_maxHistory"] = 1;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
       logger["_fileCleanupTask"]()
@@ -200,6 +207,7 @@ describe("Library/DiagFileConsoleLogger", () => {
             "Oldest file is deleted",
           );
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);

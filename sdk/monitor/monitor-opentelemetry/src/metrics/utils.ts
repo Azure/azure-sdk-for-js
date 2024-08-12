@@ -37,7 +37,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
@@ -51,7 +51,7 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getExceptionDimensions(resource: Resource): Attributes {
@@ -104,7 +104,7 @@ export function getDependencyTarget(attributes: Attributes): string {
   return "";
 }
 
-export function isExceptionTelemetry(logRecord: LogRecord) {
+export function isExceptionTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
@@ -118,7 +118,7 @@ export function isExceptionTelemetry(logRecord: LogRecord) {
   return false;
 }
 
-export function isTraceTelemetry(logRecord: LogRecord) {
+export function isTraceTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {
@@ -140,8 +140,8 @@ export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
 export function convertDimensions(
   dimensions: MetricDependencyDimensions | MetricRequestDimensions,
 ): Attributes {
-  let convertedDimensions: any = {};
-  for (let dim in dimensions) {
+  const convertedDimensions: any = {};
+  for (const dim in dimensions) {
     convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
       dimensions as any
     )[dim];

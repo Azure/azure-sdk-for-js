@@ -103,6 +103,24 @@ async function run() {
     .fetchAll();
   console.log("computed property query results: ", response.resources);
 
+  logStep("Update computed properties on an existing container");
+  // read current container definition
+  const { resource: contDefinition } = await containerWithComputedProperty.read();
+  const upperName = {
+    name: "upperLastName",
+    query:
+      "SELECT VALUE UPPER(IS_DEFINED(c.lastName) ? c.lastName : c.parents[0].familyName) FROM c",
+  };
+  if (contDefinition) {
+    // update computed properties
+    contDefinition.computedProperties = [upperName];
+    // replace container definition with updated computed properties
+    await containerWithComputedProperty.replace(contDefinition);
+    console.log("Computed properties updated");
+  } else {
+    console.log("Container definition is undefined.");
+  }
+
   logStep("Create container with vector embedding and indexing policies");
   const vectorEmbeddingPolicy = {
     vectorEmbeddings: [
@@ -151,7 +169,7 @@ async function run() {
     vectorEmbeddingPolicy: vectorEmbeddingPolicy,
   };
   await database.containers.createIfNotExists(containerDefinition);
-  logStep("Container with vector embedding and indexing policies created");
+  console.log("Container with vector embedding and indexing policies created");
   await finish();
 }
 

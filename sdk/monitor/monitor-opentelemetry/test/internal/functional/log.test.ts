@@ -42,6 +42,7 @@ describe("Log Exporter Scenarios", () => {
             assertLogExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
             done();
+            return;
           });
         })
         .catch((e) => {
