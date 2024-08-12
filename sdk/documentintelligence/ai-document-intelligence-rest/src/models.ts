@@ -17,6 +17,50 @@ export interface AzureBlobFileListContentSource {
   fileList: string;
 }
 
+/** Document type info. */
+export interface DocumentTypeDetails {
+  /** Document model description. */
+  description?: string;
+  /**
+   * Custom document model build mode.
+   *
+   * Possible values: "template", "neural", "generative"
+   */
+  buildMode?: DocumentBuildMode;
+  /** Description of the document semantic schema using a JSON Schema style syntax. */
+  fieldSchema?: Record<string, DocumentFieldSchema>;
+  /** Estimated confidence for each field. */
+  fieldConfidence?: Record<string, number>;
+  /** Document model to use for analyzing documents with specified type. */
+  modelId?: string;
+  /** Only perform analysis if docType confidence is above threshold. */
+  confidenceThreshold?: number;
+  /** List of optional analysis features. */
+  features?: DocumentAnalysisFeature[];
+  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
+  queryFields?: string[];
+  /** Maximum number of documents of specified type to analyze.  Default=all. */
+  maxDocumentsToAnalyze?: number;
+}
+
+/** Description of the field semantic schema using a JSON Schema style syntax. */
+export interface DocumentFieldSchema {
+  /**
+   * Semantic data type of the field value.
+   *
+   * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
+   */
+  type: DocumentFieldType;
+  /** Field description. */
+  description?: string;
+  /** Example field content. */
+  example?: string;
+  /** Field type schema of each array element. */
+  items?: DocumentFieldSchema;
+  /** Named sub-fields of the object field. */
+  properties?: Record<string, DocumentFieldSchema>;
+}
+
 /** Classifier document type info. */
 export interface ClassifierDocumentTypeDetails {
   /**
@@ -106,28 +150,18 @@ export interface ComposeDocumentModelRequest {
   modelId: string;
   /** Document model description. */
   description?: string;
-  /** List of component document models to compose. */
-  componentModels: Array<ComponentDocumentModelDetails>;
-  /** List of key-value tag attributes associated with the document model. */
-  tags?: Record<string, string>;
   /** Custom classifier to split and classify the input file. */
-  classifierId?: string;
+  classifierId: string;
   /**
    * File splitting behavior.
    *
    * Possible values: "auto", "none", "perPage"
    */
   split?: SplitMode;
-}
-
-/** A component of a composed document model. */
-export interface ComponentDocumentModelDetails {
-  /** Document type. */
-  docType?: string;
-  /** Document model to use for analyzing documents with specified type. */
-  modelId: string;
-  /** Maximum number of documents of specified type to analyze.  Default=all. */
-  maxDocumentsToAnalyze?: number;
+  /** Dictionary mapping supported docTypes to the corresponding document models. */
+  docTypes: Record<string, DocumentTypeDetails>;
+  /** List of key-value tag attributes associated with the document model. */
+  tags?: Record<string, string>;
 }
 
 /** Request body to authorize document model copy. */
@@ -221,15 +255,17 @@ export interface ClassifierCopyAuthorization {
 
 /** Alias for DocumentBuildMode */
 export type DocumentBuildMode = string;
+/** Alias for SplitMode */
+export type SplitMode = string;
+/** Alias for DocumentFieldType */
+export type DocumentFieldType = string;
+/** Alias for DocumentAnalysisFeature */
+export type DocumentAnalysisFeature = string;
 /** Alias for ContentSourceKind */
 export type ContentSourceKind = string;
 /** Alias for StringIndexType */
 export type StringIndexType = string;
 /** Alias for ContentFormat */
 export type ContentFormat = string;
-/** Alias for DocumentAnalysisFeature */
-export type DocumentAnalysisFeature = string;
 /** Alias for AnalyzeOutputOption */
 export type AnalyzeOutputOption = string;
-/** Alias for SplitMode */
-export type SplitMode = string;

@@ -93,6 +93,14 @@ export interface DocumentModelDetailsOutput {
    * azureBlobSource or azureBlobFileListSource must be specified.
    */
   readonly azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
+  /** For composed models, the custom classifier to split and classify the input file. */
+  classifierId?: string;
+  /**
+   * For composed models, the file splitting behavior.
+   *
+   * Possible values: "auto", "none", "perPage"
+   */
+  split?: SplitModeOutput;
   /** Supported document types. */
   readonly docTypes?: Record<string, DocumentTypeDetailsOutput>;
   /** List of warnings encountered while building the model. */
@@ -128,9 +136,19 @@ export interface DocumentTypeDetailsOutput {
    */
   buildMode?: DocumentBuildModeOutput;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
-  fieldSchema: Record<string, DocumentFieldSchemaOutput>;
+  fieldSchema?: Record<string, DocumentFieldSchemaOutput>;
   /** Estimated confidence for each field. */
   fieldConfidence?: Record<string, number>;
+  /** Document model to use for analyzing documents with specified type. */
+  modelId?: string;
+  /** Only perform analysis if docType confidence is above threshold. */
+  confidenceThreshold?: number;
+  /** List of optional analysis features. */
+  features?: DocumentAnalysisFeatureOutput[];
+  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
+  queryFields?: string[];
+  /** Maximum number of documents of specified type to analyze.  Default=all. */
+  maxDocumentsToAnalyze?: number;
 }
 
 /** Description of the field semantic schema using a JSON Schema style syntax. */
@@ -896,8 +914,12 @@ export type OperationStatusOutput = string;
 export type OperationKindOutput = string;
 /** Alias for DocumentBuildModeOutput */
 export type DocumentBuildModeOutput = string;
+/** Alias for SplitModeOutput */
+export type SplitModeOutput = string;
 /** Alias for DocumentFieldTypeOutput */
 export type DocumentFieldTypeOutput = string;
+/** Alias for DocumentAnalysisFeatureOutput */
+export type DocumentAnalysisFeatureOutput = string;
 /** Alias for ContentSourceKindOutput */
 export type ContentSourceKindOutput = string;
 /** Alias for StringIndexTypeOutput */
