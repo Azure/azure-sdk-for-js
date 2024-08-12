@@ -1,5 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/**
+ * TODO: Remove this sampler in favor of the implementation in the AzMon Exporter once we support M2M approach for standard metrics.
+ * This sampler specifically marks spans as sampled out and records them instead of dropping the span altogether.
+ */
 import { Link, Attributes, SpanKind, Context, diag } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorSampleRate } from "../types";
