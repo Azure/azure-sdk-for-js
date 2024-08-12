@@ -11920,7 +11920,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-QvBa5KpOmI9lkd20BZGFyjPpJyKuP48pNmmzFmh/E+79s8e1jTO+diYn9QGmSXtNGtx9pbbs85jmpJFFSAMTVg==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-jO0zomjOxd9cYKghjzhzsSp6dVeG+FPWBF7hio7He8F3bj8ALzSSL1ldDtFS5mUAWnBpGW+OP4R4h4UfjE0Gxw==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -11934,6 +11934,8 @@ packages:
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
+      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
+      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11952,18 +11954,30 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       nyc: 17.0.0
+      playwright: 1.46.0
+      prettier: 3.3.3
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
+      tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
+      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/ai-document-translator.tgz:
@@ -21044,7 +21058,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-a1zwuH3CEl/Lb9O0LSM1pE1FdtXo558qbCfOQ24nohMyy1l7+L9cIJsHIdb1E2tCBcmXjEa+tco89B6Qit50dQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-Qeu2p1O+qHsqTEJSqDKUL+NJqzVZzomerXZbofiIT+WYeCPhXGuk6kR3BNbmebhx/hyWOagZEpR2B/9nJ0rzkA==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -21211,7 +21225,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-z9Gvg9Sjq9IevC8b6hbo2nxvosbLBw9y0MX0VOxQY/kI5+ivWEbf7uV3RmhtPfdhqmWPHnpDHUs4v68xMhi1YA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-91tc1mhuTpGLzMxlOff31qyw0mXXFD4uyE3+3gp8riaRkQwlOcIkNSA451HgwGa6PuyAwXtxQViC9J1gxB69HA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -24755,7 +24769,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-cbe9jS0cDsx7r6RTxQBlDSwmyNsRItg/BIXo/1aAblLlSzN9eJVBc0qRtClNGgp2Cwc8kHIRj5AfAvJHBENTag==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-nCHOpp4WKY5pLLuUe35Qwrm126k6keisoJXT2MFrqhH+lxTRgfKM6oXWILxDoh/23eUxb48w+wkTVx57yXlv2w==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
