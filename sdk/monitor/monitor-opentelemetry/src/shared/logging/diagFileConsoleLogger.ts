@@ -60,6 +60,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
     if (this._logToFile) {
       if (!this._fileCleanupTimer) {
         this._fileCleanupTimer = setInterval(() => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
           this._fileCleanupTask();
         }, this._cleanupTimeOut);
         this._fileCleanupTimer.unref();
@@ -67,27 +68,38 @@ export class DiagFileConsoleLogger implements DiagLogger {
     }
   }
 
-  public error(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public error(message?: any, ...args: any[]): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
-  public warn(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public warn(message?: any, ...args: any[]): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
-  public info(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public info(message?: any, ...args: any[]): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
-  public debug(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public debug(message?: any, ...args: any[]): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
-  public verbose(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public verbose(message?: any, ...args: any[]): void {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this.logMessage(message, args);
   }
 
-  public async logMessage(message?: any, ...optionalParams: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public async logMessage(message?: any, ...optionalParams: any[]): Promise<void> {
     try {
       const args = message ? [message, ...optionalParams] : optionalParams;
       if (this._logToFile) {
@@ -147,6 +159,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
       console.log("Failed to generate backup log file", err);
     } finally {
       // Store logs
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       writeFileAsync(this._fileFullPath, data);
     }
   }

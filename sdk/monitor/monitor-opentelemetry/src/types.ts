@@ -116,6 +116,12 @@ export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
  */
 export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.monitor.azure.com";
 
+/**
+ * Internal attribute name for sample rate
+ * @internal
+ */
+export const AzureMonitorSampleRate = "microsoft.sample_rate";
+
 export enum StatsbeatFeature {
   NONE = 0,
   DISK_RETRY = 1,

@@ -5,11 +5,6 @@ import { describe, it, assert, beforeEach } from "vitest";
 import { createStream } from "../../src/utils.js";
 
 describe("createStream", () => {
-  beforeEach((ctx) => {
-    console.log("Context:", ctx.task.name);
-    console.log("Suite:", ctx.task.suite.name);
-  });
-
   const createIter = async function* (): AsyncGenerator<number> {
     yield 1;
     yield 2;
@@ -20,7 +15,7 @@ describe("createStream", () => {
     const stream = createStream(createIter(), async () => {
       /** nothing needs to be cleaned up */
     });
-    const result = [];
+    const result: number[] = [];
     for await (const item of stream) {
       result.push(item);
     }
