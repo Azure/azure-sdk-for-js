@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import { Link, Attributes, SpanKind, Context, diag } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
+import { AzureMonitorSampleRate } from "../types";
 
 /**
  * ApplicationInsightsSampler is responsible for the following:
@@ -65,8 +66,8 @@ export class ApplicationInsightsSampler implements Sampler {
     }
     // Add sample rate as span attribute if it is not 100
     attributes = attributes || {};
-    if (!(this._sampleRate === 100)) {
-      attributes["microsoft.sample_rate"] = this._sampleRate;
+    if (this._sampleRate !== 100) {
+      attributes[AzureMonitorSampleRate] = this._sampleRate;
     }
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }

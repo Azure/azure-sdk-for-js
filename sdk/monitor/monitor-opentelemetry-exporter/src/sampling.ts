@@ -20,7 +20,11 @@ export class ApplicationInsightsSampler implements Sampler {
    */
   constructor(samplingRatio: number = 1) {
     this.samplingRatio = samplingRatio;
-    if (this.samplingRatio > 1) {
+    if (
+      this.samplingRatio > 1 ||
+      this.samplingRatio < 0 ||
+      !Number.isFinite(this.samplingRatio)
+    ) {
       throw new Error("Wrong sampling rate, data will not be sampled out");
     }
     this._sampleRate = Math.round(this.samplingRatio * 100);
