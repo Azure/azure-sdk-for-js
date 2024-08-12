@@ -17,6 +17,7 @@ export function patchOpenTelemetryInstrumentationEnable(): void {
   const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
   try {
     require.resolve("../../../@opentelemetry/instrumentation");
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
     const autoLoaderUtils = require("../../../@opentelemetry/instrumentation/build/src/autoLoaderUtils");
 
     const originalModuleDefinition = autoLoaderUtils.enableInstrumentations;
@@ -39,6 +40,7 @@ export function patchOpenTelemetryInstrumentationEnable(): void {
       } catch (e) {
         Logger.getInstance().warn("Failed to parse the statsbeat environment variable");
       }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, prefer-rest-params
       return originalModuleDefinition.apply(this, arguments);
     };
   } catch (e) {

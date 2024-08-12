@@ -323,8 +323,9 @@ describe("Main functions", () => {
     });
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/require-await
   it("should monkey patch OpenTelemetry instrumentations and update statsbeat env var", async () => {
-    let config: AzureMonitorOpenTelemetryOptions = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
@@ -344,8 +345,9 @@ describe("Main functions", () => {
     registerInstrumentations({
       instrumentations: [new FsInstrumentation()],
     });
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises, @typescript-eslint/no-unsafe-argument, @typescript-eslint/require-await
     setTimeout(async () => {
-      let output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+      const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
       const instrumentations = Number(output["instrumentation"]);
       assert.ok(instrumentations & StatsbeatInstrumentation.FS, "FS not set");
     }, 100);
