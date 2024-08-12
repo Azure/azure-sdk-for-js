@@ -395,6 +395,7 @@ export type ClientSideRequestStatistics = {
     gatewayStatistics: GatewayStatistics[];
     totalRequestPayloadLengthInBytes: number;
     totalResponsePayloadLengthInBytes: number;
+    encryptionDiagnostics: EncryptionDiagnostics;
 };
 
 // @public
@@ -634,6 +635,15 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    Encryption: {
+        DiagnosticsDecryptOperation: string;
+        DiagnosticsDuration: string;
+        DiagnosticsEncryptionDiagnostics: string;
+        DiagnosticsEncryptOperation: string;
+        DiagnosticsPropertiesEncryptedCount: string;
+        DiagnosticsPropertiesDecryptedCount: string;
+        DiagnosticsStartTime: string;
+    };
     Quota: {
         CollectionSize: string;
     };
@@ -998,6 +1008,7 @@ export type DiagnosticDataValue = {
     failure: boolean;
     startTimeUTCInMs: number;
     durationInMs: number;
+    encryptionDiagnostics: EncryptionDiagnostics;
     requestData: Partial<{
         requestPayloadLengthInBytes: number;
         responsePayloadLengthInBytes: number;
@@ -1031,6 +1042,10 @@ export interface DiagnosticNode {
 // @public
 export class DiagnosticNodeInternal implements DiagnosticNode {
     // (undocumented)
+    addEncryptionDiagnosticsToResponse(response: any): void;
+    // (undocumented)
+    beginEncryptionDiagnostics(operation: string): void;
+    // (undocumented)
     children: DiagnosticNodeInternal[];
     // (undocumented)
     data: Partial<DiagnosticDataValue>;
@@ -1038,6 +1053,8 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     diagnosticLevel: CosmosDbDiagnosticLevel;
     // (undocumented)
     durationInMs: number;
+    // (undocumented)
+    endEncryptionDiagnostics(operation: string, propertiesCount: number): void;
     // (undocumented)
     id: string;
     // (undocumented)
@@ -2770,6 +2787,10 @@ export enum VectorIndexType {
     Flat = "flat",
     QuantizedFlat = "quantizedFlat"
 }
+
+// Warnings were encountered during analysis:
+//
+// src/CosmosDiagnostics.ts:223:3 - (ae-forgotten-export) The symbol "EncryptionDiagnostics" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

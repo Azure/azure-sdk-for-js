@@ -35,7 +35,11 @@ import {
 } from "../../utils/batch";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import {
+  convertToInternalPartitionKey,
+  PartitionKey,
+  PartitionKeyDefinition,
+} from "../../documents";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
 import {
   ChangeFeedPullModelIterator,
@@ -391,7 +395,7 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         await addContainerRid(this.container);
         body = copyObject(body);
-        body = await this.container.encryptionProcessor.encrypt(body);
+        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         options.containerRid = this.container._rid;
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
@@ -420,8 +424,12 @@ export class Items {
       }
 
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        diagnosticNode.addEncryptionDiagnosticsToResponse(response);
       }
       const ref = new Item(
         this.container,
@@ -489,7 +497,7 @@ export class Items {
         options = options || {};
         await addContainerRid(this.container);
         options.containerRid = this.container._rid;
-        body = await this.container.encryptionProcessor.encrypt(body);
+        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
@@ -518,7 +526,10 @@ export class Items {
         throw error;
       }
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
 
@@ -587,7 +598,7 @@ export class Items {
         options = options || {};
         await addContainerRid(this.container);
         options.containerRid = this.container._rid;
-        operations = await this.bulkBatchEncryptionHelper(operations);
+        operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
 
       const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
@@ -659,6 +670,7 @@ export class Items {
           for (const result of response.result) {
             result.resourceBody = await this.container.encryptionProcessor.decrypt(
               result.resourceBody,
+              diagnosticNode,
             );
           }
         }
@@ -856,7 +868,7 @@ export class Items {
               partitionKeyInternal,
             );
         }
-        operations = await this.bulkBatchEncryptionHelper(operations);
+        operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
 
       try {
@@ -874,6 +886,7 @@ export class Items {
             if (result.resourceBody) {
               result.resourceBody = await this.container.encryptionProcessor.decrypt(
                 result.resourceBody,
+                diagnosticNode,
               );
             }
           }
@@ -889,7 +902,10 @@ export class Items {
     }, this.clientContext);
   }
 
-  private async bulkBatchEncryptionHelper(operations: OperationInput[]): Promise<OperationInput[]> {
+  private async bulkBatchEncryptionHelper(
+    operations: OperationInput[],
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<OperationInput[]> {
     for (const operation of operations) {
       if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
         const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
@@ -903,6 +919,7 @@ export class Items {
         case BulkOperationType.Upsert:
           operation.resourceBody = await this.container.encryptionProcessor.encrypt(
             operation.resourceBody,
+            diagnosticNode,
           );
           break;
         case BulkOperationType.Read:
@@ -913,6 +930,7 @@ export class Items {
           operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
           operation.resourceBody = await this.container.encryptionProcessor.encrypt(
             operation.resourceBody,
+            diagnosticNode,
           );
           break;
         case BulkOperationType.Patch:

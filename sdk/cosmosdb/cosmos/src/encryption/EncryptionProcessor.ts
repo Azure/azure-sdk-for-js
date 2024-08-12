@@ -30,10 +30,15 @@ export class EncryptionProcessor {
     private encryptionManager: EncryptionManager,
   ) {}
 
-  async encrypt<T extends ItemDefinition>(body: T): Promise<T> {
+  async encrypt<T extends ItemDefinition>(
+    body: T,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<T> {
     if (!body) {
       throw new ErrorResponse("Input body is null or undefined.");
     }
+    diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+    let propertiesEncryptedCount = 0;
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return body;
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
@@ -51,7 +56,12 @@ export class EncryptionProcessor {
         settingForProperty,
         propertyName === "id",
       );
+      propertiesEncryptedCount++;
     }
+    diagnosticNode.endEncryptionDiagnostics(
+      Constants.Encryption.DiagnosticsEncryptOperation,
+      propertiesEncryptedCount,
+    );
     return body;
   }
 
@@ -202,10 +212,15 @@ export class EncryptionProcessor {
     return encryptedValue;
   }
 
-  async decrypt<T extends ItemDefinition>(body: T): Promise<T> {
+  async decrypt<T extends ItemDefinition>(
+    body: T,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<T> {
     if (body == null) {
       return body;
     }
+    diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+    let propertiesDecryptedCount = 0;
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return body;
     for (const pathToEncrypt of encryptionSettings.pathsToEncrypt) {
@@ -223,7 +238,12 @@ export class EncryptionProcessor {
         settingForProperty,
         propertyName === "id",
       );
+      propertiesDecryptedCount++;
     }
+    diagnosticNode.endEncryptionDiagnostics(
+      Constants.Encryption.DiagnosticsDecryptOperation,
+      propertiesDecryptedCount,
+    );
     return body;
   }
 

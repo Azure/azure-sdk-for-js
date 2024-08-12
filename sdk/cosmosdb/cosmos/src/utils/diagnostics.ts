@@ -31,6 +31,11 @@ export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
         metadataLookups: [],
       },
       gatewayStatistics: [],
+      encryptionDiagnostics: {
+        encryptContent: {},
+        decryptContent: {},
+        processingDurationInMs: 0,
+      },
     },
     {
       id: randomUUID(),

@@ -119,7 +119,10 @@ export class Item {
         response = error;
       }
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
       return new ItemResponse(
         response.result,
@@ -182,7 +185,7 @@ export class Item {
         options = options || {};
         await addContainerRid(this.container);
         options.containerRid = this.container._rid;
-        body = await this.container.encryptionProcessor.encrypt(body);
+        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -209,7 +212,10 @@ export class Item {
       }
 
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
       return new ItemResponse(
         response.result,
@@ -270,7 +276,10 @@ export class Item {
       }
 
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
 
       return new ItemResponse(
@@ -351,7 +360,10 @@ export class Item {
         throw error;
       }
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
 
       return new ItemResponse(

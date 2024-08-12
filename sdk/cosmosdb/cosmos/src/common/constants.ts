@@ -218,6 +218,17 @@ export const Constants = {
   // Bulk Operations
   DefaultMaxBulkRequestBodySizeInBytes: 220201,
 
+  // Encryption
+  Encryption: {
+    DiagnosticsDecryptOperation: "Decrypt",
+    DiagnosticsDuration: "Duration in milliseconds",
+    DiagnosticsEncryptionDiagnostics: "EncryptionDiagnostics",
+    DiagnosticsEncryptOperation: "Encrypt",
+    DiagnosticsPropertiesEncryptedCount: "Properties Encrypted Count",
+    DiagnosticsPropertiesDecryptedCount: "Properties Decrypted Count",
+    DiagnosticsStartTime: "Start time",
+  },
+
   Quota: {
     CollectionSize: "collectionSize",
   },

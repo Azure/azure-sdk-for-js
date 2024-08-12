@@ -3,13 +3,13 @@
 
 import {
   ClientSideRequestStatistics,
+  EncryptionDiagnostics,
   FailedRequestAttemptDiagnostic,
   GatewayStatistics,
   MetadataLookUpDiagnostic,
   MetadataLookUpType,
 } from "../CosmosDiagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
-
 /**
  * @hidden
  * Internal class to hold CosmosDiagnostic aggregate information all through the lifecycle of a request.
@@ -25,6 +25,8 @@ export class CosmosDiagnosticContext {
   private metadataLookups: MetadataLookUpDiagnostic[] = [];
   private gaterwayStatistics: GatewayStatistics[] = [];
   public locationEndpointsContacted: Set<string> = new Set();
+  encryptionDiagnostics: EncryptionDiagnostics;
+  // encryptionDiagnostics: EncryptionDiagnostics;
 
   public constructor() {
     this.requestStartTimeUTCinMs = getCurrentTimestampInMs();
@@ -51,6 +53,10 @@ export class CosmosDiagnosticContext {
 
   public recordNetworkCall(gaterwayStatistics: GatewayStatistics): void {
     this.gaterwayStatistics.push(gaterwayStatistics);
+  }
+
+  public recordEncryptionDiagnostics(encryptionDiagnostics: EncryptionDiagnostics): void {
+    this.encryptionDiagnostics = encryptionDiagnostics;
   }
 
   /**
@@ -103,6 +109,7 @@ export class CosmosDiagnosticContext {
         failedAttempts: [...this.failedAttempts],
       },
       gatewayStatistics: this.gaterwayStatistics,
+      encryptionDiagnostics: this.encryptionDiagnostics,
     };
   }
 
