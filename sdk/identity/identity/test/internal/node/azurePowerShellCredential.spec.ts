@@ -47,6 +47,7 @@ describe("AzurePowerShellCredential", function () {
 
   it("throws an expected error if the user hasn't logged in through PowerShell", async function () {
     const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
     stub.onCall(1).throws(new Error(`Get-AzAccessToken: ${powerShellErrors.login}`));
 
     const credential = new AzurePowerShellCredential();
