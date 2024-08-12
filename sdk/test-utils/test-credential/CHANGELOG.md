@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.0 (2024-09-03)
+
+### Breaking Changes
+
+Updates the `createTestCredential` method to consume `AzurePipelineCredential` when it is running in Azure Pipeline environment or `ChainedTokenCredential`.
+
 ## 1.2.0 (2024-06-13)
 
 ### Breaking Changes
