@@ -74,6 +74,7 @@ import { getResourceProvider } from "../../utils/common";
 import { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB } from "../utils";
 import { DependencyTypes } from "../../../../monitor-opentelemetry-exporter/src/utils/constants/applicationinsights";
+import { create } from "domain";
 
 
 /** Get the internal SDK version */
@@ -258,6 +259,16 @@ export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData
     return getDependencyData(span);
   }
 }
+
+export function getSpanExceptionColumns(eventAttributes: Attributes, spanAttributes: Attributes): ExceptionData {
+  let exceptionData: ExceptionData = {
+    Message: eventAttributes[SEMATTRS_EXCEPTION_MESSAGE] as string,
+    StackTrace: eventAttributes[SEMATTRS_EXCEPTION_STACKTRACE] as string,
+    CustomDimensions: createCustomDimsFromAttributes(spanAttributes),
+  };
+  return exceptionData;
+}
+
 
 // A slightly modified version of createRequestData from spanUtils in exporter
 function getRequestData(span: ReadableSpan): RequestData {

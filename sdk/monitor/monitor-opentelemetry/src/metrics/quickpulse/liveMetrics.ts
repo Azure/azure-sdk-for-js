@@ -46,6 +46,7 @@ import {
   getTransmissionTime,
   isRequestData,
   isTraceData,
+  getSpanExceptionColumns,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
@@ -404,11 +405,16 @@ export class LiveMetrics {
   }
 
   public getDocuments(): DocumentIngress[] {
-    return this.documents;
+    const result: DocumentIngress[] = this.documents;
+    // fixing a bug where documents from previous time interval being sent in the current time interval.
+    this.documents = [];
+    return result;
   }
 
   public getErrors(): CollectionConfigurationError[] {
-    return this.errorTracker.getErrors();
+    const result = this.errorTracker.getErrors();
+    this.errorTracker.clearRunTimeErrors();
+    return result;
   }
 
   private addDocument(document: DocumentIngress) {
@@ -460,6 +466,11 @@ export class LiveMetrics {
         span.events.forEach((event: TimedEvent) => {
           event.attributes = event.attributes || {};
           if (event.name === "exception") {
+            let exceptionColumns: ExceptionData = getSpanExceptionColumns(event.attributes, span.attributes);
+            let derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+            this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
+            let document: Exception = getLogDocument(exceptionColumns, event.attributes[SEMATTRS_EXCEPTION_TYPE] as string) as Exception;
+            this.addDocument(document);
             this.totalExceptionCount++;
           }
         });
