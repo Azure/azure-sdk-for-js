@@ -8,6 +8,12 @@
 /** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
 ################
+# CODEOWNERS
+################
+
+/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+
+################
 # Misc.
 ################
 
