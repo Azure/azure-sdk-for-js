@@ -47,7 +47,6 @@ describe("AzurePowerShellCredential", function () {
 
   it("throws an expected error if the user hasn't logged in through PowerShell", async function () {
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
     stub.onCall(1).throws(new Error(`Get-AzAccessToken: ${powerShellErrors.login}`));
 
     const credential = new AzurePowerShellCredential();
@@ -113,7 +112,6 @@ describe("AzurePowerShellCredential", function () {
     const stub = sandbox.stub(processUtils, "execFile");
     let idx = 0;
     stub.onCall(idx++).returns(Promise.resolve("")); // The first call checks that the command is available.
-    stub.onCall(idx++).returns(Promise.resolve("This one we ignore."));
     stub.onCall(idx++).returns(Promise.resolve("Not valid JSON"));
 
     const credential = new AzurePowerShellCredential();
@@ -139,7 +137,6 @@ describe("AzurePowerShellCredential", function () {
       let idx = 0;
       stub.onCall(idx++).throws(new Error());
       stub.onCall(idx++).returns(Promise.resolve("")); // The first call checks that the command is available.
-      stub.onCall(idx++).returns(Promise.resolve("This one we ignore."));
       stub.onCall(idx++).returns(Promise.resolve("Not valid JSON"));
 
       const credential = new AzurePowerShellCredential();
@@ -170,8 +167,7 @@ describe("AzurePowerShellCredential", function () {
 
     const stub = sandbox.stub(processUtils, "execFile");
     stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
-    stub.onCall(1).returns(Promise.resolve("This one we ignore."));
-    stub.onCall(2).returns(Promise.resolve(JSON.stringify(tokenResponse)));
+    stub.onCall(1).returns(Promise.resolve(JSON.stringify(tokenResponse)));
 
     const credential = new AzurePowerShellCredential();
 
@@ -190,8 +186,7 @@ describe("AzurePowerShellCredential", function () {
 
     const stub = sandbox.stub(processUtils, "execFile");
     stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
-    stub.onCall(1).returns(Promise.resolve("This one we ignore."));
-    stub.onCall(2).returns(Promise.resolve(JSON.stringify(tokenResponse)));
+    stub.onCall(1).returns(Promise.resolve(JSON.stringify(tokenResponse)));
 
     const credential = new AzurePowerShellCredential();
 
