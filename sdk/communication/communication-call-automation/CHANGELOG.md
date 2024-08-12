@@ -1,8 +1,8 @@
 # Release History
 
-## 1.3.0-beta.2 (2024-08-09)
+## 1.3.0-beta.2 (2024-08-12)
 
-### Bug Fixes
+### Bugs Fixed
 
 - Group call now support the audio streaming
 
