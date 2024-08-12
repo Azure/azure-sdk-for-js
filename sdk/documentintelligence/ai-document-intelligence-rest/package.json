@@ -12,34 +12,15 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts"
     },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
+    "dialects": ["esm", "commonjs"],
+    "esmDialects": ["browser", "react-native"],
     "selfLink": false
   },
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE",
-    "review/*",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist", "README.md", "LICENSE", "review/*", "CHANGELOG.md"],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -53,7 +34,8 @@
         "path": "src/documentIntelligence.ts",
         "prefix": "userAgentInfo"
       }
-    ]
+    ],
+    "migrationDate": "2023-03-03T23:11:30.000Z"
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.1.0",
