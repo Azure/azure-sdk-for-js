@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all VM scale sets under a resource group.
  *
  * @summary Gets a list of all VM scale sets under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetListMaximumSetGen() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function virtualMachineScaleSetListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of all VM scale sets under a resource group.
  *
  * @summary Gets a list of all VM scale sets under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetListMinimumSetGen() {
   const subscriptionId =
