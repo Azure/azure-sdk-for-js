@@ -1,9 +1,10 @@
 # Release History
 
-## 1.0.0-beta.25 ()
+## 1.0.0.0-beta.25 (Unreleased)
 
 ### Other Changes
 
+- Added APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED environment variable.
 - Update value used to send sample rate to ingestion.
 
 ## 1.0.0-beta.24 (2024-06-13)

@@ -2233,6 +2233,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/arm-computefleet",
+      "projectFolder": "sdk/computefleet/arm-computefleet",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-edgezones",
       "projectFolder": "sdk/edgezones/arm-edgezones",
       "versionPolicyName": "management"
@@ -2251,6 +2256,11 @@
       "packageName": "@azure/arm-redhatopenshift",
       "projectFolder": "sdk/redhatopenshift/arm-redhatopenshift",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthdataaiservices",
+      "projectFolder": "sdk/healthdataaiservices/arm-healthdataaiservices",
+      "versionPolicyName": "client"
     }
   ]
 }

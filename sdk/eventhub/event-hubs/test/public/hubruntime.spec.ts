@@ -6,7 +6,6 @@ import { should } from "../utils/chai.js";
 import debugModule from "debug";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createBufferedProducer, createConsumer, createProducer } from "../utils/clients.js";
-import { assert } from "@azure-tools/test-utils";
 
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
 
@@ -14,11 +13,6 @@ type ClientCommonMethods = Pick<
   EventHubProducerClient,
   "close" | "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties"
 >;
-
-// TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
-// The supportsTracing assertion from chaiAzure can be used to verify that
-// the `getEventHubProperties` method is being traced correctly, that the
-// tracing span is properly parented and closed.
 
 describe("RuntimeInformation", function () {
   const clientTypes = [
@@ -59,14 +53,6 @@ describe("RuntimeInformation", function () {
         const ids = await client.getPartitionIds({});
         ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
       });
-
-      it.skip("can be manually traced", async function () {
-        const client = clientMap.get(clientType)!;
-        await assert.supportsTracing(
-          (options) => client.getPartitionIds(options),
-          ["ManagementClient.getEventHubProperties"],
-        );
-      });
     });
 
     describe(`${clientType}.getEventHubProperties`, function () {
@@ -79,14 +65,6 @@ describe("RuntimeInformation", function () {
           arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length),
         );
         hubRuntimeInfo.createdOn.should.be.instanceof(Date);
-      });
-
-      it.skip("can be manually traced", async function () {
-        const client = clientMap.get(clientType)!;
-        await assert.supportsTracing(
-          (options) => client.getEventHubProperties(options),
-          ["ManagementClient.getEventHubProperties"],
-        );
       });
     });
 
@@ -120,14 +98,6 @@ describe("RuntimeInformation", function () {
           should.exist(err);
           should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
         }
-      });
-
-      it.skip("can be manually traced", async function () {
-        const client = clientMap.get(clientType)!;
-        await assert.supportsTracing(
-          (options) => client.getPartitionProperties("0", options),
-          ["ManagementClient.getPartitionProperties"],
-        );
       });
     });
   });

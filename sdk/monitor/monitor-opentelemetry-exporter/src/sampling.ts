@@ -41,15 +41,15 @@ export class ApplicationInsightsSampler implements Sampler {
    * @returns a {@link SamplingResult}.
    */
   public shouldSample(
-    // @ts-ignore
+    // @ts-expect-error unused argument
     context: Context,
     traceId: string,
-    // @ts-ignore
+    // @ts-expect-error unused argument
     spanName: string,
-    // @ts-ignore
+    // @ts-expect-error unused argument
     spanKind: SpanKind,
     attributes: Attributes,
-    // @ts-ignore
+    // @ts-expect-error unused argument
     links: Link[],
   ): SamplingResult {
     let isSampledIn = false;

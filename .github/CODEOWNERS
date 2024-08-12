@@ -61,7 +61,7 @@
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds
+/sdk/batch/ @wiboris @wanghoppe @dpwatrous @cRui861 @skapur12
 
 # PRLabel: %Communication
 # ServiceLabel: %Communication
@@ -243,7 +243,7 @@
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
-sdk/ai/ai-inference-rest @glharper @dargilco
+sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
@@ -386,6 +386,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao
@@ -548,6 +551,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao

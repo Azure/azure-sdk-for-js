@@ -20,7 +20,7 @@ export class ApplicationInsightsSampler implements Sampler {
 
   /**
    * Initializes a new instance of the ApplicationInsightsSampler class.
-   * @param samplingRatio Value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.
+   * @param samplingRatio - Value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.
    */
   constructor(samplingRatio: number = 1) {
     this._samplingRatio = samplingRatio;
@@ -37,27 +37,27 @@ export class ApplicationInsightsSampler implements Sampler {
   /**
    * Checks whether span needs to be created and tracked.
    *
-   * @param context Parent Context which may contain a span.
-   * @param traceId of the span to be created. It can be different from the
+   * @param context - Parent Context which may contain a span.
+   * @param traceId - of the span to be created. It can be different from the
    *     traceId in the {@link SpanContext}. Typically in situations when the
    *     span to be created starts a new trace.
-   * @param spanName of the span to be created.
-   * @param spanKind of the span to be created.
-   * @param attributes Initial set of SpanAttributes for the Span being constructed.
-   * @param links Collection of links that will be associated with the Span to
+   * @param spanName - of the span to be created.
+   * @param spanKind - of the span to be created.
+   * @param attributes - Initial set of SpanAttributes for the Span being constructed.
+   * @param links - Collection of links that will be associated with the Span to
    *     be created. Typically useful for batch operations.
    * @returns a {@link SamplingResult}.
    */
   public shouldSample(
-    // @ts-ignore
+    // @ts-expect-error unused var
     context: Context,
     traceId: string,
-    // @ts-ignore
+    // @ts-expect-error unused var
     spanName: string,
-    // @ts-ignore
+    // @ts-expect-error unused var
     spanKind: SpanKind,
     attributes: Attributes,
-    // @ts-ignore
+    // @ts-expect-error unused var
     links: Link[],
   ): SamplingResult {
     let isSampledIn = false;
@@ -86,9 +86,9 @@ export class ApplicationInsightsSampler implements Sampler {
   }
 
   private _getSamplingHashCode(input: string): number {
-    var csharpMin = -2147483648;
-    var csharpMax = 2147483647;
-    var hash = 5381;
+    const csharpMin = -2147483648;
+    const csharpMax = 2147483647;
+    let hash = 5381;
 
     if (!input) {
       return 0;
@@ -98,7 +98,7 @@ export class ApplicationInsightsSampler implements Sampler {
       input = input + input;
     }
 
-    for (var i = 0; i < input.length; i++) {
+    for (let i = 0; i < input.length; i++) {
       // JS doesn't respond to integer overflow by wrapping around. Simulate it with bitwise operators ( | 0)
       hash = ((((hash << 5) + hash) | 0) + input.charCodeAt(i)) | 0;
     }
