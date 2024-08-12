@@ -11,7 +11,13 @@ import {
   shutdownAzureMonitor,
 } from "../../../src/index";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
-import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatEnvironmentConfig, StatsbeatFeature, StatsbeatInstrumentation, StatsbeatInstrumentationMap } from "../../../src/types";
+import {
+  AZURE_MONITOR_STATSBEAT_FEATURES,
+  StatsbeatEnvironmentConfig,
+  StatsbeatFeature,
+  StatsbeatInstrumentation,
+  StatsbeatInstrumentationMap,
+} from "../../../src/types";
 import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
@@ -38,7 +44,7 @@ const testInstrumentation: Instrumentation = {
   },
   getConfig: function (): InstrumentationConfig {
     throw new Error("Function not implemented.");
-  }
+  },
 };
 
 describe("Main functions", () => {
@@ -369,8 +375,8 @@ describe("Main functions", () => {
     const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
       process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || emptyStatsbeatConfig,
     );
-    const instrumentations = [ testInstrumentation ];
-    let updatedStatsbeat = {instrumentation: 0, feature: 0};
+    const instrumentations = [testInstrumentation];
+    let updatedStatsbeat = { instrumentation: 0, feature: 0 };
 
     // Dynamic statsbeat update logic
     for (let i = 0; i < instrumentations.length; i++) {
