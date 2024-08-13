@@ -6,10 +6,10 @@ import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { KeyVaultBackupClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";
-import { getSasToken, getServiceVersion } from "./utils/common.js";
+import { getSasToken } from "./utils/common.js";
 import { delay } from "@azure/core-util";
 import { KeyClient } from "@azure/keyvault-keys";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 // TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
 describe.skip("KeyVaultBackupClient", () => {
@@ -20,8 +20,8 @@ describe.skip("KeyVaultBackupClient", () => {
   let blobStorageUri: string;
   let blobSasToken: string;
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.backupClient;
     keyClient = authentication.keyClient;
     recorder = authentication.recorder;
@@ -61,10 +61,9 @@ describe.skip("KeyVaultBackupClient", () => {
     });
 
     it("throws when polling errors", async function () {
-      await assert.isRejected(
+      await expect(
         client.beginBackup(blobStorageUri, "invalid_sas_token", testPollerProperties),
-        /SAS token/,
-      );
+      ).rejects.toThrow(/SAS token/);
     });
   });
 
@@ -110,12 +109,9 @@ describe.skip("KeyVaultBackupClient", () => {
       }
     });
 
-    it("selectiveKeyRestore completes successfully", async function () {
-      // This test can only be run in playback mode because running a backup
-      // or restore puts the instance in a bad state (tracked in IcM).
-      if (!isPlaybackMode()) {
-        ctx.task.skip();
-      }
+    // This test can only be run in playback mode because running a backup
+    // or restore puts the instance in a bad state (tracked in IcM).
+    it.skipIf(!isPlaybackMode())("selectiveKeyRestore completes successfully", async function () {
       const keyName = "rsa1";
       await keyClient.createRsaKey(keyName);
       const backupPoller = await client.beginBackup(
@@ -162,10 +158,9 @@ describe.skip("KeyVaultBackupClient", () => {
     });
 
     it("throws when polling errors", async function () {
-      await assert.isRejected(
+      await expect(
         client.beginRestore(blobStorageUri, "bad_token", testPollerProperties),
-        /SAS token is malformed/,
-      );
+      ).rejects.toThrow(/SAS token is malformed/);
     });
   });
 });
