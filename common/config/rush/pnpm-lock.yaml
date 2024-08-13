@@ -24760,7 +24760,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-1hUPmhbc0aklb4uXcIjlHsKB2+MjgAnmdAMASkU7J8xreT6MYSsblzTi8vWkPoMnX/+imEZe7Qh0homNK+0ssA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-bwF2U0zvZlSDoBBA/espob6HRm9Ane9b9U7UdrXZLUrjSI5HY1lT1vWMU+M2VPQL7gIE7grxKnN+u2x691zjtw==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -24768,8 +24768,8 @@ packages:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -24780,10 +24780,11 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -24795,6 +24796,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
