@@ -711,8 +711,8 @@ export class Container {
 // @public (undocumented)
 export interface ContainerDefinition {
     changeFeedPolicy?: ChangeFeedPolicy;
-    computedProperties?: ComputedProperty[];
     clientEncryptionPolicy?: ClientEncryptionPolicy;
+    computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -1226,7 +1226,6 @@ export interface FeedOptions extends SharedOptions {
     };
     allowUnboundedNonStreamingQueries?: boolean;
     bufferItems?: boolean;
-    containerRid?: string;
     // @deprecated
     continuation?: string;
     continuationToken?: string;
