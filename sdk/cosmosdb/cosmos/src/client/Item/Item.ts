@@ -98,6 +98,19 @@ export class Item {
         path = getPathFromLink(url);
         id = getIdFromLink(url);
       }
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncryption) {
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
+        );
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
+      }
 
       let response: Response<T & Resource>;
       try {
@@ -285,7 +298,7 @@ export class Item {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
-  }
+  }  
 
   /**
    * Perform a JSONPatch on the item.

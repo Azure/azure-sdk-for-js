@@ -39,6 +39,15 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
 }
 
 // @public (undocumented)
+export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+    constructor(credentials: TokenCredential);
+    // (undocumented)
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
+    // (undocumented)
+    wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
+}
+
+// @public (undocumented)
 export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
