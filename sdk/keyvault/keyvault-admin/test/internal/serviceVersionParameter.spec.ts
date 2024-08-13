@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
-import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/constants";
+import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src/index.js";
+import { LATEST_API_VERSION } from "../../src/constants.js";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -14,6 +11,7 @@ import {
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 // Adding this to the source would change the public API.
 type ApiVersions = "7.2" | "7.3";

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure-tools/test-utils";
-import { KeyVaultSettingsClient } from "../../src/settingsClient";
-import { authenticate } from "./utils/authentication";
-import { getServiceVersion, onVersions } from "./utils/common";
+import { KeyVaultSettingsClient } from "../../src/settingsClient.js";
+import { authenticate } from "./utils/authentication.js";
+import { getServiceVersion, onVersions } from "./utils/common.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 onVersions({ minVer: "7.4" }).describe("KeyVaultSettingsClient", () => {
   let client: KeyVaultSettingsClient;

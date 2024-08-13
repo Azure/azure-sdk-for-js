@@ -3,9 +3,10 @@
 
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
-import { KeyVaultAccessControlClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
-import { authenticate } from "./utils/authentication";
+import { KeyVaultAccessControlClient } from "../../src/index.js";
+import { assertThrowsAbortError, getServiceVersion } from "./utils/common.js";
+import { authenticate } from "./utils/authentication.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let client: KeyVaultAccessControlClient;

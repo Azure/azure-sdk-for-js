@@ -5,15 +5,13 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
-import { Context } from "mocha";
-
 import {
   KeyVaultAccessControlClient,
   KeyVaultBackupClient,
   KeyVaultSettingsClient,
-} from "../../../src";
+} from "../../../src/index.js";
 
-import { getEnvironmentVariable, getServiceVersion } from "./common";
+import { getEnvironmentVariable, getServiceVersion } from "./common.js";
 
 export async function authenticate(
   that: Context,

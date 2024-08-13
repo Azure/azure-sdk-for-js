@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src";
+import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
+import { describe, it, assert } from "vitest";
 
 describe("Key Vault Admin's user agent", function () {
   it("SDK_VERSION and user-agent should match", async function () {

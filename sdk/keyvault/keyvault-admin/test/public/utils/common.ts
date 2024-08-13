@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { env } from "@azure-tools/test-recorder";
-import { assert, SupportedVersions, supports, TestFunctionWrapper } from "@azure-tools/test-utils";
-import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../../src/constants";
+import { SupportedVersions, supports, TestFunctionWrapper } from "@azure-tools/test-utils";
+import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../../src/constants.js";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
