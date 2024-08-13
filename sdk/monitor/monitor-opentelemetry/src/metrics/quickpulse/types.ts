@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { KeyValuePairString, MonitoringDataPoint, PublishResponse } from "../../generated";
+import { MonitoringDataPoint, PublishResponse } from "../../generated";
 import {
   DocumentIngress,
   CollectionConfigurationError

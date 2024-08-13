@@ -74,7 +74,6 @@ import { getResourceProvider } from "../../utils/common";
 import { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB } from "../utils";
 import { DependencyTypes } from "../../../../monitor-opentelemetry-exporter/src/utils/constants/applicationinsights";
-import { create } from "domain";
 
 
 /** Get the internal SDK version */

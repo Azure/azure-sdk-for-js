@@ -4,9 +4,7 @@ import {
   FilterInfo,
   KnownPredicateType,
   CollectionConfigurationError,
-  DocumentStreamInfo,
   FilterConjunctionGroupInfo,
-  KeyValuePairString,
   KnownAggregationType,
 } from "../../generated";
 import {
@@ -241,17 +239,17 @@ export class Filter {
     return matched;
   }
 
-  public static checkDocumentFilters(documentStreamInfo: DocumentStreamInfo, data: TelemetryData): boolean {
+  /*public static checkDocumentFilters(documentStreamInfo: DocumentStreamInfo, data: TelemetryData): boolean {
     return true; // to be implemented
-  }
+  }*/
 
   private static checkFilterConjunctionGroup(filters: FilterInfo[], data: TelemetryData): boolean {
     // All of the filters need to match for this to return true (and operation).
-    filters.forEach((filter) => {
+    for (let filter of filters) {
       if (!this.checkFilter(filter, data)) {
         return false;
       }
-    });
+    }
     return true;
   }
 
@@ -318,7 +316,7 @@ export class Filter {
     let properties: string[] = Object.keys(data);
     // At this point, the only predicates possible to pass in are Contains and DoesNotContain
     // At config validation time the predicate is checked to be one of these two.
-    properties.forEach((property) => {
+    for (let property of properties) {
       if (property === "CustomDimensions") {
         for (let value of data.CustomDimensions.values()) {
           if (this.stringCompare(value, filter.comparand, filter.predicate)) {
@@ -332,7 +330,7 @@ export class Filter {
           return true;
         }
       }
-    });
+    }
     return false;
   }
 
