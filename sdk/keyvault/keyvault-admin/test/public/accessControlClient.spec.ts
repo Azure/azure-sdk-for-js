@@ -184,7 +184,7 @@ describe("KeyVaultAccessControlClient", () => {
       });
 
       it("succeeds when deleting a non-existent role definition", async function () {
-        await expect(client.deleteRoleDefinition(globalScope, "foobar")).resolves.toHaveResolved();
+        await expect(client.deleteRoleDefinition(globalScope, "foobar")).resolves.not.toThrow();
       });
     });
   });
@@ -263,7 +263,7 @@ describe("KeyVaultAccessControlClient", () => {
     it("succeeds when deleting a role assignment that doesn't exist", async () => {
       await expect(
         client.deleteRoleAssignment(globalScope, generateFakeUUID()),
-      ).resolves.toHaveResolved();
+      ).resolves.not.toThrow();
     });
   });
 
