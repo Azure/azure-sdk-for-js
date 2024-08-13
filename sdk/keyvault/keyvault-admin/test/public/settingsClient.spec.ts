@@ -4,15 +4,14 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { KeyVaultSettingsClient } from "../../src/settingsClient.js";
 import { authenticate } from "./utils/authentication.js";
-import { getServiceVersion, onVersions } from "./utils/common.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-onVersions({ minVer: "7.4" }).describe("KeyVaultSettingsClient", () => {
+describe("KeyVaultSettingsClient", () => {
   let client: KeyVaultSettingsClient;
   let recorder: Recorder;
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.settingsClient;
     recorder = authentication.recorder;
   });

@@ -7,11 +7,12 @@ import {
   PipelineResponse,
   createHttpHeaders,
   HttpClient,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach, vi, MockInstance } from "vitest";
 
 // Adding this to the source would change the public API.
 type ApiVersions = "7.2" | "7.3";
@@ -37,8 +38,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
   }
 
   let mockHttpClient: HttpClient;
-  let sandbox: SinonSandbox;
-  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
+  let spy: MockInstance<SendRequest>;
   let credential: ClientSecretCredential;
 
   beforeEach(async () => {
@@ -47,17 +47,16 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       env.AZURE_CLIENT_ID || "client",
       env.AZURE_CLIENT_SECRET || "secret",
     );
-    sandbox = createSandbox();
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   describe("KeyVaultAccessControlClient", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/providers/Microsoft.Authorization/roleDefinitions");
-      spy = sandbox.spy(mockHttpClient, "sendRequest");
+      spy = vi.spyOn(mockHttpClient, "sendRequest");
     });
 
     it("it should default to the latest API version", async function () {
@@ -66,9 +65,8 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.listRoleDefinitions("/").next();
 
-      assert.ok(spy.called);
-      const calls = spy.getCalls();
-      const params = new URL(calls[0].args[0].url);
+      expect(spy).toHaveBeenCalled();
+      const params = new URL(spy.mock.calls[0][0].url);
       assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
 
@@ -80,9 +78,8 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.listRoleDefinitions("/").next();
 
-      assert.ok(spy.called);
-      const calls = spy.getCalls();
-      const params = new URL(calls[0].args[0].url);
+      expect(spy).toHaveBeenCalled();
+      const params = new URL(spy.mock.calls[0][0].url);
       assert.equal(params.searchParams.get("api-version"), serviceVersion);
     });
   });
@@ -90,7 +87,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
   describe("KeyVaultBackupClient", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/backup", 202);
-      spy = sandbox.spy(mockHttpClient, "sendRequest");
+      spy = vi.spyOn(mockHttpClient, "sendRequest");
     });
 
     it("it should default to the latest API version", async function () {
@@ -99,9 +96,8 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.beginBackup("secretName", "value");
 
-      assert.ok(spy.called);
-      const calls = spy.getCalls();
-      const params = new URL(calls[0].args[0].url);
+      expect(spy).toHaveBeenCalled();
+      const params = new URL(spy.mock.calls[0][0].url);
       assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
 
@@ -113,9 +109,8 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.beginBackup("secretName", "value");
 
-      assert.ok(spy.called);
-      const calls = spy.getCalls();
-      const params = new URL(calls[0].args[0].url);
+      expect(spy).toHaveBeenCalled();
+      const params = new URL(spy.mock.calls[0][0].url);
       assert.equal(params.searchParams.get("api-version"), serviceVersion);
     });
   });
