@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsCreateResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  PrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PrivateEndpointConnections {
   list(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Update the state of specified private endpoint connection associated with the Elastic San
@@ -45,7 +45,7 @@ export interface PrivateEndpointConnections {
     elasticSanName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsCreateResponse>,
@@ -65,7 +65,7 @@ export interface PrivateEndpointConnections {
     elasticSanName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateResponse>;
   /**
    * Gets the specified private endpoint connection associated with the Elastic San
@@ -78,7 +78,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     elasticSanName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Deletes the specified private endpoint connection associated with the Elastic San
@@ -91,7 +91,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     elasticSanName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified private endpoint connection associated with the Elastic San
@@ -104,6 +104,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     elasticSanName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

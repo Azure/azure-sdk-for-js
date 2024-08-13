@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { ElasticSanManagement } from "../elasticSanManagement";
 import {
   PrivateLinkResourcesListByElasticSanOptionalParams,
-  PrivateLinkResourcesListByElasticSanResponse
+  PrivateLinkResourcesListByElasticSanResponse,
 } from "../models";
 
 /** Class containing PrivateLinkResources operations. */
@@ -37,11 +37,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   listByElasticSan(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: PrivateLinkResourcesListByElasticSanOptionalParams
+    options?: PrivateLinkResourcesListByElasticSanOptionalParams,
   ): Promise<PrivateLinkResourcesListByElasticSanResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, elasticSanName, options },
-      listByElasticSanOperationSpec
+      listByElasticSanOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByElasticSanOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.elasticSanName
+    Parameters.elasticSanName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

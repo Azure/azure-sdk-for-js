@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeSnapshots_Delete_MaximumSet_Gen.json
  */
 async function volumeSnapshotsDeleteMaximumSetGen() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function volumeSnapshotsDeleteMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }
@@ -43,7 +43,7 @@ async function volumeSnapshotsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a Volume Snapshot.
  *
  * @summary Delete a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeSnapshots_Delete_MinimumSet_Gen.json
  */
 async function volumeSnapshotsDeleteMinimumSetGen() {
   const subscriptionId =
@@ -59,7 +59,7 @@ async function volumeSnapshotsDeleteMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }

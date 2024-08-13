@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Create_MaximumSet_Gen.json
  */
 async function volumeGroupsCreateMaximumSetGen() {
   const subscriptionId =
@@ -28,28 +28,30 @@ async function volumeGroupsCreateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const parameters: VolumeGroup = {
-    identity: { type: "None", userAssignedIdentities: { key7482: {} } },
+    identity: { type: "None", userAssignedIdentities: { key1006: {} } },
     properties: {
-      encryption: "EncryptionAtRestWithCustomerManagedKey",
+      encryption: "EncryptionAtRestWithPlatformKey",
       encryptionProperties: {
-        encryptionIdentity: { encryptionUserAssignedIdentity: "im" },
+        encryptionIdentity: {
+          encryptionUserAssignedIdentity: "gfhkfbozahmmwluqndfgxunssafa",
+        },
         keyVaultProperties: {
-          keyName: "sftaiernmrzypnrkpakrrawxcbsqzc",
-          keyVaultUri: "https://microsoft.com/axmblwp",
-          keyVersion: "c"
-        }
+          keyName: "lunpapamzeimppgobraxjt",
+          keyVaultUri: "https://microsoft.com/a",
+          keyVersion: "oemygbnfmqhijmonkqfqmy",
+        },
       },
+      enforceDataIntegrityCheckForIscsi: true,
       networkAcls: {
         virtualNetworkRules: [
           {
             action: "Allow",
-            virtualNetworkResourceId:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}"
-          }
-        ]
+            virtualNetworkResourceId: "bkhwaiqvvaguymsmnzzbzz",
+          },
+        ],
       },
-      protocolType: "Iscsi"
-    }
+      protocolType: "Iscsi",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -57,7 +59,7 @@ async function volumeGroupsCreateMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -66,7 +68,7 @@ async function volumeGroupsCreateMaximumSetGen() {
  * This sample demonstrates how to Create a Volume Group.
  *
  * @summary Create a Volume Group.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Create_MinimumSet_Gen.json
  */
 async function volumeGroupsCreateMinimumSetGen() {
   const subscriptionId =
@@ -82,7 +84,7 @@ async function volumeGroupsCreateMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all Private Endpoint Connections associated with the Elastic San.
  *
  * @summary List all Private Endpoint Connections associated with the Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/PrivateEndpointConnections_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/PrivateEndpointConnections_List_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsListMaximumSetGen() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function privateEndpointConnectionsListMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   )) {
     resArray.push(item);
   }
@@ -42,7 +42,7 @@ async function privateEndpointConnectionsListMaximumSetGen() {
  * This sample demonstrates how to List all Private Endpoint Connections associated with the Elastic San.
  *
  * @summary List all Private Endpoint Connections associated with the Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/PrivateEndpointConnections_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/PrivateEndpointConnections_List_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsListMinimumSetGen() {
   const subscriptionId =
@@ -55,7 +55,7 @@ async function privateEndpointConnectionsListMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   )) {
     resArray.push(item);
   }

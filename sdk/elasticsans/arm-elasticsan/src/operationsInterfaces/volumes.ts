@@ -18,7 +18,7 @@ import {
   VolumesUpdateResponse,
   VolumesDeleteOptionalParams,
   VolumesGetOptionalParams,
-  VolumesGetResponse
+  VolumesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Volumes {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumesListByVolumeGroupOptionalParams
+    options?: VolumesListByVolumeGroupOptionalParams,
   ): PagedAsyncIterableIterator<Volume>;
   /**
    * Create a Volume.
@@ -52,7 +52,7 @@ export interface Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: Volume,
-    options?: VolumesCreateOptionalParams
+    options?: VolumesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesCreateResponse>,
@@ -74,7 +74,7 @@ export interface Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: Volume,
-    options?: VolumesCreateOptionalParams
+    options?: VolumesCreateOptionalParams,
   ): Promise<VolumesCreateResponse>;
   /**
    * Update an Volume.
@@ -91,7 +91,7 @@ export interface Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: VolumeUpdate,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesUpdateResponse>,
@@ -113,7 +113,7 @@ export interface Volumes {
     volumeGroupName: string,
     volumeName: string,
     parameters: VolumeUpdate,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<VolumesUpdateResponse>;
   /**
    * Delete an Volume.
@@ -128,7 +128,7 @@ export interface Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    options?: VolumesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an Volume.
@@ -143,7 +143,7 @@ export interface Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
+    options?: VolumesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get an Volume.
@@ -158,6 +158,6 @@ export interface Volumes {
     elasticSanName: string,
     volumeGroupName: string,
     volumeName: string,
-    options?: VolumesGetOptionalParams
+    options?: VolumesGetOptionalParams,
   ): Promise<VolumesGetResponse>;
 }

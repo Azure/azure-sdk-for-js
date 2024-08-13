@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Elastic San.
  *
  * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Delete_MaximumSet_Gen.json
  */
 async function elasticSansDeleteMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -32,7 +32,7 @@ async function elasticSansDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a Elastic San.
  *
  * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Delete_MinimumSet_Gen.json
  */
 async function elasticSansDeleteMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

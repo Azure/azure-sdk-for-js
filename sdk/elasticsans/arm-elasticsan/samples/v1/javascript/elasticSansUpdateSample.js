@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Update_MaximumSet_Gen.json
  */
 async function elasticSansUpdateMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -44,7 +44,7 @@ async function elasticSansUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Update_MinimumSet_Gen.json
  */
 async function elasticSansUpdateMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

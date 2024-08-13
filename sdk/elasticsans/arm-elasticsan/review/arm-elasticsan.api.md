@@ -680,6 +680,7 @@ export interface VolumeGroupList {
 export interface VolumeGroupProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     protocolType?: StorageTargetType;
@@ -765,6 +766,7 @@ export interface VolumeGroupUpdate {
 export interface VolumeGroupUpdateProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
 }

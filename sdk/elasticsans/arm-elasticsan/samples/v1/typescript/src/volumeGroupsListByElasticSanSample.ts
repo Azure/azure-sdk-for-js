@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List VolumeGroups.
  *
  * @summary List VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_ListByElasticSan_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_ListByElasticSan_MaximumSet_Gen.json
  */
 async function volumeGroupsListByElasticSanMaximumSetGen() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function volumeGroupsListByElasticSanMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.volumeGroups.listByElasticSan(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   )) {
     resArray.push(item);
   }
@@ -42,7 +42,7 @@ async function volumeGroupsListByElasticSanMaximumSetGen() {
  * This sample demonstrates how to List VolumeGroups.
  *
  * @summary List VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_ListByElasticSan_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_ListByElasticSan_MinimumSet_Gen.json
  */
 async function volumeGroupsListByElasticSanMinimumSetGen() {
   const subscriptionId =
@@ -55,7 +55,7 @@ async function volumeGroupsListByElasticSanMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.volumeGroups.listByElasticSan(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   )) {
     resArray.push(item);
   }

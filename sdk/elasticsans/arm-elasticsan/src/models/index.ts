@@ -414,6 +414,8 @@ export interface VolumeGroupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** A boolean indicating whether or not Data Integrity Check is enabled */
+  enforceDataIntegrityCheckForIscsi?: boolean;
 }
 
 /** The encryption settings on the volume group. */
@@ -487,6 +489,8 @@ export interface VolumeGroupUpdateProperties {
   encryptionProperties?: EncryptionProperties;
   /** A collection of rules governing the accessibility from specific network locations. */
   networkAcls?: NetworkRuleSet;
+  /** A boolean indicating whether or not Data Integrity Check is enabled */
+  enforceDataIntegrityCheckForIscsi?: boolean;
 }
 
 /** Volume response properties. */
@@ -751,7 +755,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -768,7 +772,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -785,7 +789,7 @@ export enum KnownSkuName {
   /** Premium locally redundant storage */
   PremiumLRS = "Premium_LRS",
   /** Premium zone redundant storage */
-  PremiumZRS = "Premium_ZRS"
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -801,7 +805,7 @@ export type SkuName = string;
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
   /** Premium Tier */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -830,7 +834,7 @@ export enum KnownProvisioningStates {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -858,7 +862,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Failed */
   Failed = "Failed",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -882,7 +886,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -902,7 +906,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -922,7 +926,7 @@ export enum KnownIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -941,7 +945,7 @@ export enum KnownStorageTargetType {
   /** Iscsi */
   Iscsi = "Iscsi",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -959,7 +963,7 @@ export enum KnownEncryptionType {
   /** Volume is encrypted at rest with Platform managed key. It is the default encryption type. */
   EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
   /** Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
-  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey"
+  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
 }
 
 /**
@@ -975,7 +979,7 @@ export type EncryptionType = string;
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -998,7 +1002,7 @@ export enum KnownVolumeCreateOption {
   /** Disk */
   Disk = "Disk",
   /** DiskRestorePoint */
-  DiskRestorePoint = "DiskRestorePoint"
+  DiskRestorePoint = "DiskRestorePoint",
 }
 
 /**
@@ -1031,7 +1035,7 @@ export enum KnownOperationalStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** StoppedDeallocated */
-  StoppedDeallocated = "Stopped (deallocated)"
+  StoppedDeallocated = "Stopped (deallocated)",
 }
 
 /**
@@ -1055,7 +1059,7 @@ export enum KnownXMsDeleteSnapshots {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1073,7 +1077,7 @@ export enum KnownXMsForceDelete {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1291,7 +1295,8 @@ export interface PrivateEndpointConnectionsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1314,14 +1319,16 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByElasticSanOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByElasticSan operation. */
-export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByElasticSanResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface VolumeSnapshotsListByVolumeGroupOptionalParams

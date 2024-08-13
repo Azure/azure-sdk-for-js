@@ -15,7 +15,7 @@ import {
   VolumeSnapshotsCreateResponse,
   VolumeSnapshotsDeleteOptionalParams,
   VolumeSnapshotsGetOptionalParams,
-  VolumeSnapshotsGetResponse
+  VolumeSnapshotsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface VolumeSnapshots {
     resourceGroupName: string,
     elasticSanName: string,
     volumeGroupName: string,
-    options?: VolumeSnapshotsListByVolumeGroupOptionalParams
+    options?: VolumeSnapshotsListByVolumeGroupOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Create a Volume Snapshot.
@@ -49,7 +49,7 @@ export interface VolumeSnapshots {
     volumeGroupName: string,
     snapshotName: string,
     parameters: Snapshot,
-    options?: VolumeSnapshotsCreateOptionalParams
+    options?: VolumeSnapshotsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumeSnapshotsCreateResponse>,
@@ -71,7 +71,7 @@ export interface VolumeSnapshots {
     volumeGroupName: string,
     snapshotName: string,
     parameters: Snapshot,
-    options?: VolumeSnapshotsCreateOptionalParams
+    options?: VolumeSnapshotsCreateOptionalParams,
   ): Promise<VolumeSnapshotsCreateResponse>;
   /**
    * Delete a Volume Snapshot.
@@ -86,7 +86,7 @@ export interface VolumeSnapshots {
     elasticSanName: string,
     volumeGroupName: string,
     snapshotName: string,
-    options?: VolumeSnapshotsDeleteOptionalParams
+    options?: VolumeSnapshotsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Volume Snapshot.
@@ -101,7 +101,7 @@ export interface VolumeSnapshots {
     elasticSanName: string,
     volumeGroupName: string,
     snapshotName: string,
-    options?: VolumeSnapshotsDeleteOptionalParams
+    options?: VolumeSnapshotsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get a Volume Snapshot.
@@ -116,6 +116,6 @@ export interface VolumeSnapshots {
     elasticSanName: string,
     volumeGroupName: string,
     snapshotName: string,
-    options?: VolumeSnapshotsGetOptionalParams
+    options?: VolumeSnapshotsGetOptionalParams,
   ): Promise<VolumeSnapshotsGetResponse>;
 }

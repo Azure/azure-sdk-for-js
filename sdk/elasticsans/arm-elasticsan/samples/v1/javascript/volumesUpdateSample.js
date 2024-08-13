@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an Volume.
  *
  * @summary Update an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Update_MaximumSet_Gen.json
  */
 async function volumesUpdateMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -41,7 +41,7 @@ async function volumesUpdateMaximumSetGen() {
  * This sample demonstrates how to Update an Volume.
  *
  * @summary Update an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Update_MinimumSet_Gen.json
  */
 async function volumesUpdateMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

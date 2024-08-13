@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Elastic San.
  *
  * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Delete_MaximumSet_Gen.json
  */
 async function elasticSansDeleteMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function elasticSansDeleteMaximumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.beginDeleteAndWait(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function elasticSansDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a Elastic San.
  *
  * @summary Delete a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Delete_MinimumSet_Gen.json
  */
 async function elasticSansDeleteMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function elasticSansDeleteMinimumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.beginDeleteAndWait(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   );
   console.log(result);
 }

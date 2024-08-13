@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Create_MaximumSet_Gen.json
  */
 async function volumesCreateMaximumSetGen() {
   const subscriptionId =
@@ -32,8 +32,8 @@ async function volumesCreateMaximumSetGen() {
     properties: {
       creationData: { createSource: "None", sourceId: "ARM Id of Resource" },
       managedBy: { resourceId: "mtkeip" },
-      sizeGiB: 9
-    }
+      sizeGiB: 9,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function volumesCreateMaximumSetGen() {
     elasticSanName,
     volumeGroupName,
     volumeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function volumesCreateMaximumSetGen() {
  * This sample demonstrates how to Create a Volume.
  *
  * @summary Create a Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Create_MinimumSet_Gen.json
  */
 async function volumesCreateMinimumSetGen() {
   const subscriptionId =
@@ -69,7 +69,7 @@ async function volumesCreateMinimumSetGen() {
     elasticSanName,
     volumeGroupName,
     volumeName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
