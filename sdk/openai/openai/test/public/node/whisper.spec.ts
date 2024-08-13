@@ -22,7 +22,7 @@ describe("OpenAI", function () {
     describe(`[${authMethod}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
       let deployments: DeploymentInfo[] = [];
-      const waitingTime = 30000;
+      const waitingTime = 60000;
 
       beforeAll(async function () {
         deployments = await getDeployments("audio");
