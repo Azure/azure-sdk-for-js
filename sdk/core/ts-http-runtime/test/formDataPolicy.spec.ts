@@ -29,7 +29,7 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
     request,
     status: 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  const next = vi.fn<SendRequest>();
   next.mockResolvedValue(successResponse);
 
   const policy = formDataPolicy();
@@ -54,7 +54,7 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
@@ -81,7 +81,7 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
@@ -322,7 +322,7 @@ describe("formDataPolicy", function () {
         request,
         status: 200,
       };
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
       next.mockResolvedValue(successResponse);
 
       const policy = formDataPolicy();
@@ -353,7 +353,7 @@ describe("formDataPolicy", function () {
         request,
         status: 200,
       };
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
       next.mockResolvedValue(successResponse);
 
       const policy = formDataPolicy();
