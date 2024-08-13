@@ -11751,24 +11751,25 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-tsvWnZnzoiICM/UDEYiPHs1fjJp/hOdRIISUY+Pf2v21MgOK2F/oExLkpJCCKHeX/k51hn+6+dUVIKte+FBvvQ==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-Y5io8geP56uKBxk5YYr+4xUy66hXIboouYmiB8YqMsaEOd0H6378SeOEzDIFLSS/zFH+ry4eFgAOLS/Fz9NCVQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -11780,6 +11781,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
@@ -20705,7 +20707,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-Xku5GEh+Df7Qf0Oa3YquZs93ViKVJTL9tEowq+eZXQynBFLJNys7Sy957EQM1VlUNbiNUkkbhyGEzHXF1v/JaQ==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-vhyTMfrvuTwTWPe8Kf5PvHQO7bpi2BqB1odUf/cF+NvjcArlGKE3CepihwPL/um/Tbk5YNAIaToUnXT82ItG4Q==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -20714,8 +20716,8 @@ packages:
       '@types/debug': 4.1.12
       '@types/node': 18.19.44
       '@types/ws': 8.5.12
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       buffer: 6.0.3
       debug: 4.3.6(supports-color@8.1.1)
       eslint: 8.57.0
@@ -20728,7 +20730,7 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20751,24 +20753,25 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-7iyjse2g7WxtxBmF6zCY3c/2bMCKAHe9QBpYOo7c+2pJO98i1lngl7kAcTV/mIFHa9o38r7TLhk5sYrIXNMSBA==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-6GzIAsVvPeLpiG5atHqh6LTQmyA2J/rADmNXhasd5l827HzSqkpqyzS3aoezCJeBtWFKeuXW+Qh9l0FfF37W7A==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20780,28 +20783,30 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-2mV5ZllE/yavgjDaezjpzGs06hbMWyCjd1pOO0P0kiziccxKDv4OyxkDHzeJkHB6hW0RIWnWUXH4ZhK9/J7nJA==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-O0lh4VJmaSEvSwjfoszm+V4TUK9TYaKe2NxBQkoN6UT+D+MCwmYsMxbEfv/BdvasnAWIHAj8k8k+CUwFR9blqA==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20813,28 +20818,30 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-fymVoajwSZvZH++oNT9jJHybX3UF9qJyenhnh/vYrc5fPEK5kJzzMh7XNSrusyQf44fCXlMW8IppYBAidKKBhA==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-rpXkp4WVzg5q0/18tQesG9kVwg9m9NF5thaLzuobfV/6d/5kkWMjS6C688DFd2xEOVaWn5L4SBDOihRDUBjhNg==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20846,27 +20853,29 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-mq+o1iBTSxisXhAjPLeV3RZe+hM4uefe1A6gn1pQcGydEpuPy4AB0vXLINpWe5BMT3vY26/pXVzq1OvUNm6DIg==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-+Ydrev2wj24/1Kk+v06EZS11bRdwe8y48rcpipaKD42FhXtnjo5k7JDhDQFNPZ928Amt/5SDmXPPeOkQusABWg==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20878,28 +20887,30 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-AwF0waUo4lgqxSlKWqA6Jey9O8wchTNuGHkzykZEHIZBPUMpoUL4IvOs1X3AzAGohMa0KokCpBQojA3n/oxlmg==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-CKGqYxlrZFWxRG8/4kbDMhAKJHMQuMsljerwizV1eHESZGMUeE0YTZdCQZ3RpafW7e+0jHX9lTe0v9cB/EdKvA==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20911,28 +20922,30 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-ojU9hbVYB9SegNJi6c4Zj1tX1/w1FMs75clNvRzn3al1wOCTdVdNJR4CHkywNqPR2Ga7axAxvWvs1F9v1P/iog==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-IWJCuzPijX7QNrtHnUX/ETCCBu7VXo7c6ff0WvAG/ZU5ITZJTkqcnCqCCVjeOCYCJmpuIZyVe/G2cfnUpb3y+w==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20944,18 +20957,19 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-6WcA4ar0BJxVKcnmNb46JLNJrVc4Su+5sCRxYKaqE66pOKvmYf0Dd1TwAH4Sd9qdY48nnfivO2VDi6J6T7U+Jg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-4hssLk98EPUBQEo379mbXQ8+LEEwtSSe4YK+31H951atY0jx6b9mjOTGxMRJv87P/iTI9OB7x3xWddrBJo4Eyg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
@@ -20964,10 +20978,11 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -20979,6 +20994,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
@@ -21022,24 +21038,25 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-bHuJPXtp+OvVMH1KVhHTHZTgr2Q/ND+kpT57ZzUhZq84NWUUYEp6tfkbiGGqeZ6V/F2j6/daYM84XaVqdsdS8A==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-Mbdpa12QrSiagremOczpAhY5PHWgqBo9qXspFi2qbCZbMrVb1I/XTfMAUpen6kHGw3XkZ5ZN8mBi3usFh7EFtA==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -21051,28 +21068,30 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-mgR/sT3WvDHz/psArcyZJjU6KrgRSuPos68HrEjHUv8JTe6TT48DDlVqnZnKc71w09CxZpdIu2N3V6SvYT1vpQ==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-+Wdtc8BgT5PFv40V358U9llSXXEW1Pq0rGKD4A/jpq/aJioHssTesU1gyzRqDBtu9uxGfJ1eUuXADv6YCd/AbA==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -21084,19 +21103,20 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-oAbso/9BRakaOIMbowuPoRb1q7tuzw67CbcpNXSw95cjJMiIDtM3xI8diMMmXuy/NxBn1cTavMabjdDfr9LMWQ==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-rxJCISDhjmpCpcxx8zCsBt8UXni7TUhMHp779Fo4lzzwVHJ7+UJxemAzPob4G6Q+7Z6+KTG4OljYM6Z6NMvjDA==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@types/trusted-types': 2.0.7
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       eslint: 8.57.0
       fast-xml-parser: 4.4.1
       playwright: 1.46.0
@@ -21104,10 +21124,11 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -21119,6 +21140,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
@@ -21489,7 +21511,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-MUvRUbuubRO/jGUN0txI7gmLF3wvEUzrDBOHoGh5m6DGDn42wRMGNN8bjoxsWhGW/Alm+U9vS1BUnJgM4TJtXg==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-d8Yp0uKlf4I06qfp4yGLg6OaOTVEHy+2Hu+mMDIotp2lS4j/GkveRrn5V2YCX7nyJjqNzPV0kR+qcttQ7v99DA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -21686,7 +21708,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-seG3811usdvrmwnSQ2b8uODx2Jv1495mHXV861SROFdcnVLrEoTHUb8PL8Z8Mza4Ke+FmuwNj+w769nRSlqbaQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-yCPmDeYH1rTOvqbhkDQIKXP77ekDKJAkjyaI3fcL8d4GM0oY4b+sbPmLAHLcFAswna0aerCuJH9Iii/iIrt7+A==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     id: file:projects/eventhubs-checkpointstore-blob.tgz
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
@@ -21739,7 +21761,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-ZYWb0Tmg+lu24w8eBjn+HVc2Nu2s+USiylXLLXWopx1u7UyPqf8Dy+RhMBa2RZ0RCz9j51/uNJDga/nIehuh8w==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-uEQ8+vTx+hl8voxQSuiXIJeX1NuzZ6pQUJtixe0DxDS3G1flBkQN1NnaFFnFcYmbfbLv2TqulcAqym5JnZRvaQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     id: file:projects/eventhubs-checkpointstore-table.tgz
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
@@ -22499,14 +22521,14 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-QndpT+F5PaincETzvQEpL0rQDlyhscmkjRq8uZiCFF9RLsS90bO+28gbnDNZjZrJrloC7tPBPgHgR7a8KbM2zg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-sP0MVNpTSkvBb1xFYVqUzLlyDS7FGaEk2Ys7Ksol0fNvn4HQIInwZL7TA7LA72en6yRNilnUeIXa/haKJC0oXg==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       dotenv: 16.4.5
       eslint: 8.57.0
       playwright: 1.46.0
@@ -22514,10 +22536,11 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -22529,6 +22552,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
@@ -24922,14 +24946,14 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-gYsRh+AQMdE3oMy/aR5ZP5HvrZro4FlLtA+EwS396BCSNp7zCeVHQbjZwJrIYZCj6M0GWrnsawwer80v3mykFg==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-khXGXwP6Npxo2UoEOC/miy/T2eg5c98mcplFXY3Q5JV57CMM2z8fLOeeRs2LjDnKZb7rWwOTPx0gNXlDd+T8zw==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       eslint: 8.57.0
       http-proxy-agent: 7.0.2
@@ -24939,10 +24963,11 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -24954,6 +24979,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
