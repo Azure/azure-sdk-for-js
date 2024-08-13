@@ -11,7 +11,7 @@
 import {
   Certificate,
   CertificatesCreateOrUpdateOptionalParams,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Create or Update a Certificate.
  *
  * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Certificate_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Certificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate() {
   const subscriptionId =
@@ -36,11 +36,11 @@ async function createOrUpdateCertificate() {
     location: "East US",
     properties: {
       password: "private key password",
-      value: Buffer.from("Y2VydA==")
-    }
+      value: Buffer.from("Y2VydA=="),
+    },
   };
   const options: CertificatesCreateOrUpdateOptionalParams = {
-    certificateEnvelope
+    certificateEnvelope,
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function createOrUpdateCertificate() {
     resourceGroupName,
     environmentName,
     certificateName,
-    options
+    options,
   );
   console.log(result);
 }

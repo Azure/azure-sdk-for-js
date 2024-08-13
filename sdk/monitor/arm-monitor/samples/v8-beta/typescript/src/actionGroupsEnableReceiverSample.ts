@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
  *
  * @summary Enable a receiver in an action group. This changes the receiver's status from Disabled to Enabled. This operation is only supported for Email or SMS receivers.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/enableReceiver.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/enableReceiver.json
  */
 async function enableTheReceiver() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function enableTheReceiver() {
   const result = await client.actionGroups.enableReceiver(
     resourceGroupName,
     actionGroupName,
-    enableRequest
+    enableRequest,
   );
   console.log(result);
 }

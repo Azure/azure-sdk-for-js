@@ -29,7 +29,7 @@ async function globalReachConnectionsGet() {
   const result = await client.globalReachConnections.get(
     resourceGroupName,
     privateCloudName,
-    globalReachConnectionName
+    globalReachConnectionName,
   );
   console.log(result);
 }

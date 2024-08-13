@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Requests the Agent of any active instance of this Job Definition to stop.
  *
  * @summary Requests the Agent of any active instance of this Job Definition to stop.
- * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2023-10-01/examples/JobDefinitions_StopJob.json
+ * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_StopJob.json
  */
 async function jobDefinitionsStopJob() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function jobDefinitionsStopJob() {
     resourceGroupName,
     storageMoverName,
     projectName,
-    jobDefinitionName
+    jobDefinitionName,
   );
   console.log(result);
 }

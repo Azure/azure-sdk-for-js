@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all connectedEnvironments in a resource group.
  *
  * @summary Get all connectedEnvironments in a resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironments_ListByResourceGroup.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironments_ListByResourceGroup.json
  */
 async function listEnvironmentsByResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listEnvironmentsByResourceGroup() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.connectedEnvironments.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

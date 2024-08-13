@@ -1,0 +1,61 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/operatorInformation/:search?api-version=2024-03-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "86",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Chromium\u0022;v=\u0022122\u0022, \u0022Not(A:Brand\u0022;v=\u002224\u0022, \u0022HeadlessChrome\u0022;v=\u0022122\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/122.0.6261.57 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "OmiHT1VilzGeodwSly/sLlTvvNvKSeL1Mf0fzGeyvTs=",
+        "x-ms-date": "Tue, 27 Feb 2024 18:51:10 GMT",
+        "x-ms-useragent": "fake-useragent"
+      },
+      "RequestBody": {
+        "phoneNumbers": [
+          "\u002B14155550100"
+        ],
+        "options": {
+          "includeAdditionalOperatorDetails": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01-preview, 2024-08-31-preview",
+        "Content-Length": "180",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 27 Feb 2024 18:51:08 GMT",
+        "MS-CV": "gR\u002Be7gFanUKiqk6PIFyPlw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0HS/eZQAAAACGh/DNAAymTZvzPMgJnOzGV1NURURHRTAxMDkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "23ms"
+      },
+      "ResponseBody": {
+        "values": [
+          {
+            "phoneNumber": "\u002B14155550100",
+            "nationalFormat": "(833) 201-6898",
+            "internationalFormat": "\u002B1 833-201-6898",
+            "isoCountryCode": null,
+            "numberType": null,
+            "operatorDetails": null
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

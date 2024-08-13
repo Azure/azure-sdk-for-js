@@ -28,7 +28,7 @@ async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
   const resArray = new Array();
   for await (let item of client.availabilityGroupListeners.listByGroup(
     resourceGroupName,
-    sqlVirtualMachineGroupName
+    sqlVirtualMachineGroupName,
   )) {
     resArray.push(item);
   }

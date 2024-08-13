@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the specified Certificate.
  *
  * @summary Get the specified Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsCertificate_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsCertificate_Get.json
  */
 async function getCertificate() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getCertificate() {
   const result = await client.connectedEnvironmentsCertificates.get(
     resourceGroupName,
     connectedEnvironmentName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of an connectedEnvironment.
  *
  * @summary Get the properties of an connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironments_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironments_Get.json
  */
 async function getConnectedEnvironmentByConnectedEnvironmentName() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getConnectedEnvironmentByConnectedEnvironmentName() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironments.get(
     resourceGroupName,
-    connectedEnvironmentName
+    connectedEnvironmentName,
   );
   console.log(result);
 }

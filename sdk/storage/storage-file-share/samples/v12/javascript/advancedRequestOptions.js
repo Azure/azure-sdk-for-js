@@ -67,7 +67,7 @@ async function main() {
   // Parallel uploading a Readable stream with ShareFileClient.uploadStream() in Node.js runtime
   // ShareFileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
-    abortSignal: AbortController.timeout(30 * 60 * 1000),
+    abortSignal: AbortSignal.timeout(30 * 60 * 1000),
     onProgress: (ev) => console.log(ev),
   });
   console.log("uploadStream succeeded");
@@ -87,7 +87,7 @@ async function main() {
   // ShareFileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await fileClient.downloadToBuffer(buffer, undefined, undefined, {
-    abortSignal: AbortController.timeout(30 * 60 * 1000),
+    abortSignal: AbortSignal.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024,
     concurrency: 20,
     onProgress: (ev) => console.log(ev),

@@ -27,17 +27,17 @@ import {
   logger,
   SimpleLogger,
   createManagementLogPrefix,
-} from "./logger";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+} from "./logger.js";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext";
-import { OperationOptions } from "./util/operationOptions";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { TimerLoop } from "./util/timerLoop";
-import { withAuth } from "./withAuth";
-import { getRandomName } from "./util/utils";
+import { ConnectionContext } from "./connectionContext.js";
+import { OperationOptions } from "./util/operationOptions.js";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
+import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
+import { TimerLoop } from "./util/timerLoop.js";
+import { withAuth } from "./withAuth.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -55,6 +55,10 @@ export interface EventHubProperties {
    * The slice of string partition identifiers.
    */
   partitionIds: string[];
+  /**
+   * Whether the hub has geographical disaster recovery enabled.
+   */
+  isGeoDrEnabled: boolean;
 }
 
 /**
@@ -80,7 +84,7 @@ export interface PartitionProperties {
   /**
    * The offset of the last enqueued message in the partition's message log.
    */
-  lastEnqueuedOffset: number;
+  lastEnqueuedOffset: string;
   /**
    * The time of the last enqueued message in the partition's message log in UTC.
    */
@@ -210,6 +214,7 @@ export class ManagementClient {
             name: info.name,
             createdOn: new Date(info.created_at),
             partitionIds: info.partition_ids,
+            isGeoDrEnabled: info.georeplication_factor > 1,
           };
           logger.verbose("the hub runtime info is: %O", runtimeInfo);
 

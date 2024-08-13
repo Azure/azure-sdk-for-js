@@ -23,6 +23,7 @@ import {
   ContainerFilterBlobsResponse,
   ContainerGetAccessPolicyHeaders,
   ContainerGetAccessPolicyResponseModel,
+  ContainerGetAccountInfoResponse,
   ContainerGetPropertiesResponse,
   ContainerListBlobFlatSegmentHeaders,
   ContainerListBlobHierarchySegmentHeaders,
@@ -63,7 +64,10 @@ import {
   WithResponse,
 } from "./utils/utils.common";
 import { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
-import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
+import {
+  generateBlobSASQueryParameters,
+  generateBlobSASQueryParametersInternal,
+} from "./sas/BlobSASSignatureValues";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import {
   AppendBlobClient,
@@ -85,6 +89,7 @@ import {
   ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
+  ContainerGetAccountInfoHeaders,
 } from "./generated/src";
 
 /**
@@ -571,6 +576,17 @@ export type ContainerFindBlobsByTagsSegmentResponse = WithResponse<
   ContainerFilterBlobsHeaders,
   FilterBlobSegmentModel
 >;
+
+/**
+ * Options to configure the {@link ContainerClient.getAccountInfo} operation.
+ */
+export interface ContainerGetAccountInfoOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 /**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
@@ -1939,6 +1955,33 @@ export class ContainerClient extends StorageClient {
     };
   }
 
+  /**
+   * The Get Account Information operation returns the sku name and account kind
+   * for the specified account.
+   * The Get Account Information operation is available on service versions beginning
+   * with version 2018-03-28.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   *
+   * @param options - Options to the Service Get Account Info operation.
+   * @returns Response data for the Service Get Account Info operation.
+   */
+  public async getAccountInfo(
+    options: ContainerGetAccountInfoOptions = {},
+  ): Promise<ContainerGetAccountInfoResponse> {
+    return tracingClient.withSpan(
+      "ContainerClient-getAccountInfo",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ContainerGetAccountInfoHeaders, ContainerGetAccountInfoHeaders>(
+          await this.containerContext.getAccountInfo({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          }),
+        );
+      },
+    );
+  }
+
   private getContainerNameFromUrl(): string {
     let containerName;
     try {
@@ -2008,6 +2051,34 @@ export class ContainerClient extends StorageClient {
 
       resolve(appendToURLQuery(this.url, sas));
     });
+  }
+
+  /**
+   * Only available for ContainerClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
+   * based on the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: ContainerGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw new RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateBlobSASQueryParametersInternal(
+      {
+        containerName: this._containerName,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 
   /**

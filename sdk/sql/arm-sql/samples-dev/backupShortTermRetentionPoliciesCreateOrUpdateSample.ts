@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupShortTermRetentionPolicy,
-  SqlManagementClient
+  SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,17 +34,18 @@ async function updateTheShortTermRetentionPolicyForTheDatabase() {
   const policyName = "default";
   const parameters: BackupShortTermRetentionPolicy = {
     diffBackupIntervalInHours: 24,
-    retentionDays: 7
+    retentionDays: 7,
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.backupShortTermRetentionPolicies.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    databaseName,
-    policyName,
-    parameters
-  );
+  const result =
+    await client.backupShortTermRetentionPolicies.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      serverName,
+      databaseName,
+      policyName,
+      parameters,
+    );
   console.log(result);
 }
 

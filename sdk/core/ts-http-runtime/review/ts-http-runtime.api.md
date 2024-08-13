@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {
     abortSignal?: AbortSignalLike;
@@ -36,7 +34,7 @@ export interface AccessToken {
 }
 
 // @public
-export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
 
 // @public
 export interface AddCredentialPipelinePolicyOptions {
@@ -105,6 +103,14 @@ export interface BodyPart {
 }
 
 // @public
+export function calculateRetryDelay(retryAttempt: number, config: {
+    retryDelayInMs: number;
+    maxRetryDelayInMs: number;
+}): {
+    retryAfterInMs: number;
+};
+
+// @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
     abortSignal?: AbortSignalLike;
 }): Promise<T[number]>;
@@ -129,6 +135,7 @@ export type ClientOptions = PipelineOptions & {
         apiKeyHeaderName?: string;
     };
     baseUrl?: string;
+    endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
@@ -262,12 +269,12 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
-// @public
+// @public @deprecated
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
@@ -374,8 +381,14 @@ export function isError(e: unknown): e is Error;
 // @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
-// @public
+// @public @deprecated
 export const isNode: boolean;
+
+// @public
+export const isNodeLike: boolean;
+
+// @public
+export const isNodeRuntime: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
@@ -577,7 +590,7 @@ export interface PipelineRetryOptions {
 }
 
 // @public
-export function proxyPolicy(proxySettings?: ProxySettings | undefined, options?: {
+export function proxyPolicy(proxySettings?: ProxySettings, options?: {
     customNoProxyList?: string[];
 }): PipelinePolicy;
 
@@ -770,6 +783,7 @@ export const tracingPolicyName = "tracingPolicy";
 
 // @public
 export interface TracingPolicyOptions {
+    additionalAllowedQueryParameters?: string[];
     userAgentPrefix?: string;
 }
 

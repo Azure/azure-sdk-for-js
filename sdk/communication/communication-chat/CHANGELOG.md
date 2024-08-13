@@ -1,14 +1,25 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.2 (2024-08-06)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Updated to @azure/communication-signaling@1.0.0-beta.28 with React Native support.
+- Updated @azure/core-client and @azure/core-rest-pipeline version.
+
+## 1.5.1 (2024-06-12)
 
 ### Bugs Fixed
 
-### Other Changes
+- Updated @azure/core-client and @azure/core-rest-pipeline version.
+
+## 1.5.0 (2024-04-15)
+
+### Features Added
+
+- Updated `ChatAttachmentType`to include type `file` to support ACS users to recieve files shared by Teams user.
+- Updated to @azure/communication-signaling@1.0.0-beta.26 with file sharing support
+- Updated `@azure/communication-common` with support for `MicrosoftTeamsAppIdentifierModel`
 
 ## 1.4.0 (2023-12-04)
 

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SourceControl,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the SourceControl for a Container App.
  *
  * @summary Create or update the SourceControl for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/SourceControls_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/SourceControls_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppSourceControl() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function createOrUpdateContainerAppSourceControl() {
         clientId: "<clientid>",
         clientSecret: "<clientsecret>",
         kind: "feaderated",
-        tenantId: "<tenantid>"
+        tenantId: "<tenantid>",
       },
       contextPath: "./",
       githubPersonalAccessToken: "test",
@@ -46,19 +46,20 @@ async function createOrUpdateContainerAppSourceControl() {
       registryInfo: {
         registryPassword: "<registrypassword>",
         registryUrl: "test-registry.azurecr.io",
-        registryUserName: "test-registry"
-      }
+        registryUserName: "test-registry",
+      },
     },
-    repoUrl: "https://github.com/xwang971/ghatest"
+    repoUrl: "https://github.com/xwang971/ghatest",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.containerAppsSourceControls.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    containerAppName,
-    sourceControlName,
-    sourceControlEnvelope
-  );
+  const result =
+    await client.containerAppsSourceControls.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      containerAppName,
+      sourceControlName,
+      sourceControlEnvelope,
+    );
   console.log(result);
 }
 

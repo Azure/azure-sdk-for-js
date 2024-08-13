@@ -13,9 +13,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MonitorClient } from "../monitorClient";
 import {
+  SubscriptionScopeMetricDefinition,
+  MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+  MetricDefinitionsListAtSubscriptionScopeResponse,
   MetricDefinition,
   MetricDefinitionsListOptionalParams,
-  MetricDefinitionsListResponse
+  MetricDefinitionsListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,13 +35,65 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
   }
 
   /**
+   * Lists the metric definitions for the subscription.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  public listAtSubscriptionScope(
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+  ): PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition> {
+    const iter = this.listAtSubscriptionScopePagingAll(region, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAtSubscriptionScopePagingPage(
+          region,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listAtSubscriptionScopePagingPage(
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+    _settings?: PageSettings,
+  ): AsyncIterableIterator<SubscriptionScopeMetricDefinition[]> {
+    let result: MetricDefinitionsListAtSubscriptionScopeResponse;
+    result = await this._listAtSubscriptionScope(region, options);
+    yield result.value || [];
+  }
+
+  private async *listAtSubscriptionScopePagingAll(
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+  ): AsyncIterableIterator<SubscriptionScopeMetricDefinition> {
+    for await (const page of this.listAtSubscriptionScopePagingPage(
+      region,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
    * Lists the metric definitions for the resource.
    * @param resourceUri The identifier of the resource.
    * @param options The options parameters.
    */
   public list(
     resourceUri: string,
-    options?: MetricDefinitionsListOptionalParams
+    options?: MetricDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<MetricDefinition> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -53,14 +108,14 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: MetricDefinitionsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<MetricDefinition[]> {
     let result: MetricDefinitionsListResponse;
     result = await this._list(resourceUri, options);
@@ -69,11 +124,26 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: MetricDefinitionsListOptionalParams
+    options?: MetricDefinitionsListOptionalParams,
   ): AsyncIterableIterator<MetricDefinition> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists the metric definitions for the subscription.
+   * @param region The region where the metrics you want reside.
+   * @param options The options parameters.
+   */
+  private _listAtSubscriptionScope(
+    region: string,
+    options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams,
+  ): Promise<MetricDefinitionsListAtSubscriptionScopeResponse> {
+    return this.client.sendOperationRequest(
+      { region, options },
+      listAtSubscriptionScopeOperationSpec,
+    );
   }
 
   /**
@@ -83,30 +153,50 @@ export class MetricDefinitionsImpl implements MetricDefinitions {
    */
   private _list(
     resourceUri: string,
-    options?: MetricDefinitionsListOptionalParams
+    options?: MetricDefinitionsListOptionalParams,
   ): Promise<MetricDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listAtSubscriptionScopeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/metricDefinitions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SubscriptionScopeMetricDefinitionCollection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.region,
+    Parameters.metricnamespace,
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/Microsoft.Insights/metricDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricDefinitionCollection
+      bodyMapper: Mappers.MetricDefinitionCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
+    },
   },
-  queryParameters: [Parameters.apiVersion5, Parameters.metricnamespace],
+  queryParameters: [Parameters.apiVersion, Parameters.metricnamespace],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

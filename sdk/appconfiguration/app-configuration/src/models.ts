@@ -10,6 +10,7 @@ import {
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
+  SettingLabel,
 } from "./generated/src";
 
 /**
@@ -177,6 +178,15 @@ export interface OptionalSnapshotFields {
 }
 
 /**
+ * Used when the API supports selectively returning labels fields.
+ */
+export interface OptionalLabelsFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof SettingLabel)[];
+}
+/**
  * Sync token header field
  */
 export interface SyncTokenHeaderField {
@@ -303,6 +313,9 @@ export interface ListSettingsOptions extends OptionalFields {
    * Reference: https://learn.microsoft.com/azure/azure-app-configuration/rest-api-key-value
    */
   labelFilter?: string;
+
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
+  tagsFilter?: string[];
 }
 
 /**
@@ -318,7 +331,25 @@ export interface ListConfigurationSettingsForSnapshotOptions
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
+export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * Etags list for page
+   */
+  pageEtags?: string[];
+}
+
+/**
+ * Options for listLabels
+ */
+export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {
+  /** A filter for the name of the returned labels. */
+  nameFilter?: string;
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+}
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
@@ -355,15 +386,39 @@ export interface PageSettings {
 }
 
 /**
+ * Entity with etag.
+ */
+export interface EtagEntity {
+  /**
+   * The etag for this entity
+   */
+  etag?: string;
+}
+
+/**
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListConfigurationSettingPage
   extends HttpResponseField<SyncTokenHeaderField>,
-    PageSettings {
+    PageSettings,
+    EtagEntity {
   /**
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListLabelsPage
+  extends HttpResponseField<SyncTokenHeaderField>,
+    PageSettings,
+    EtagEntity {
+  /**
+   * The collection of labels
+   */
+  items: SettingLabel[];
 }
 
 /**
@@ -488,4 +543,5 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
+  SettingLabel,
 } from "./generated/src";

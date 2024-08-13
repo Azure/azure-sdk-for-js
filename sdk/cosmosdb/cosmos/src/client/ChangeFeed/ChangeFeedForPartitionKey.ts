@@ -11,6 +11,7 @@ import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey, convertToInternalPartitionKey } from "../../documents";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -22,6 +23,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private startTime: string;
   private rId: string;
   private isInstantiated: boolean;
+  private startFromNow: boolean;
   /**
    * @internal
    */
@@ -37,8 +39,10 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       ? JSON.parse(changeFeedOptions.continuationToken)
       : undefined;
     this.isInstantiated = false;
-
-    if (changeFeedOptions.startTime) {
+    // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
+    if (changeFeedOptions.startFromNow) {
+      this.startFromNow = true;
+    } else if (changeFeedOptions.startTime) {
       this.startTime = changeFeedOptions.startTime.toUTCString();
     }
   }
@@ -127,8 +131,11 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private async getFeedResponse(
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
-
+    const feedOptions: FeedOptions = {
+      initialHeaders: {},
+      useLatestVersionFeed: true,
+      useAllVersionsAndDeletesFeed: false,
+    };
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
     }
@@ -143,12 +150,21 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         type: Constants.HttpHeaders.IfNoneMatch,
         condition: continuation,
       };
+    } else if (this.startFromNow) {
+      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
+        Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
     }
 
     if (this.startTime) {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
-
+    if (
+      this.changeFeedOptions.changeFeedMode &&
+      this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
+    ) {
+      feedOptions.useAllVersionsAndDeletesFeed = true;
+      feedOptions.useLatestVersionFeed = false;
+    }
     if (this.clientContext.enableEncryption) {
       addContainerRid(this.container);
       feedOptions.containerRid = this.container._rid;
@@ -156,24 +172,38 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         convertToInternalPartitionKey(this.partitionKey),
       );
     }
-
-    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
-      path: this.resourceLink,
-      resourceType: ResourceType.item,
-      resourceId: this.resourceId,
-      resultFn: (result) => (result ? result.Documents : []),
-      diagnosticNode,
-      query: undefined,
-      options: feedOptions,
-      partitionKey: this.partitionKey,
-    }) as Promise<any>);
-
-    return new ChangeFeedIteratorResponse(
-      response.result,
-      response.result ? response.result.length : 0,
-      response.code,
-      response.headers,
-      getEmptyCosmosDiagnostics(),
-    );
+    try {
+      const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
+        path: this.resourceLink,
+        resourceType: ResourceType.item,
+        resourceId: this.resourceId,
+        resultFn: (result) => (result ? result.Documents : []),
+        diagnosticNode,
+        query: undefined,
+        options: feedOptions,
+        partitionKey: this.partitionKey,
+      }) as Promise<any>);
+      return new ChangeFeedIteratorResponse(
+        response.result,
+        response.result ? response.result.length : 0,
+        response.code,
+        response.headers,
+        getEmptyCosmosDiagnostics(),
+      );
+    } catch (err) {
+      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
+        const errorResponse = new ErrorResponse(err.message);
+        errorResponse.code = err.code;
+        errorResponse.headers = err.headers;
+        throw errorResponse;
+      }
+      return new ChangeFeedIteratorResponse(
+        [],
+        0,
+        err.code,
+        err.headers,
+        getEmptyCosmosDiagnostics(),
+      );
+    }
   }
 }

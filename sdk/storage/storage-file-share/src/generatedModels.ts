@@ -241,6 +241,7 @@ export {
   FileCreateHeaders,
   FileDeleteHeaders,
   FileGetPropertiesHeaders,
+  FilePermissionFormat,
   FileProperty,
   FileListHandlesHeaders,
   FileRenameHeaders,
@@ -362,6 +363,8 @@ export interface HandleItem {
   sessionId: string;
   /** Client IP that opened the handle */
   clientIp: string;
+  /** Name of the client machine where the share is being mounted */
+  clientName: string;
   /** Time when the session that previously opened the handle has last been reconnected. (UTC) */
   openTime: Date;
   /** Time handle was last connected to (UTC) */

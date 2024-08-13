@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  BatchManagementClient
+  BatchManagementClient,
 } from "@azure/arm-batch";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing private endpoint connection.
  *
  * @summary Updates the properties of an existing private endpoint connection.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateEndpointConnectionUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/PrivateEndpointConnectionUpdate.json
  */
 async function updatePrivateEndpointConnection() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -33,17 +33,18 @@ async function updatePrivateEndpointConnection() {
   const parameters: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "Approved by xyz.abc@company.com",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new BatchManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnectionOperations.beginUpdateAndWait(
-    resourceGroupName,
-    accountName,
-    privateEndpointConnectionName,
-    parameters
-  );
+  const result =
+    await client.privateEndpointConnectionOperations.beginUpdateAndWait(
+      resourceGroupName,
+      accountName,
+      privateEndpointConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

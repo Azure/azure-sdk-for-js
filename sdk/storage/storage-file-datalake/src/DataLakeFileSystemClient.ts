@@ -2,14 +2,10 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import {
-  ContainerClient,
-  AnonymousCredential,
-  newPipeline,
-  Pipeline,
-  StoragePipelineOptions,
-} from "@azure/storage-blob";
+import { ContainerClient } from "@azure/storage-blob";
+import { isPipelineLike, newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { AnonymousCredential } from "@azure/storage-blob";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
@@ -57,7 +53,10 @@ import {
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
+import {
+  generateDataLakeSASQueryParameters,
+  generateDataLakeSASQueryParametersInternal,
+} from "./sas/DataLakeSASSignatureValues";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
 import { PathClientInternal } from "./utils/PathClientInternal";
 
@@ -120,7 +119,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions,
   ) {
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline);
     } else {
       let credential;
@@ -794,5 +793,33 @@ export class DataLakeFileSystemClient extends StorageClient {
 
       resolve(appendToURLQuery(this.url, sas));
     });
+  }
+
+  /**
+   * Only available for DataLakeFileSystemClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: FileSystemGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

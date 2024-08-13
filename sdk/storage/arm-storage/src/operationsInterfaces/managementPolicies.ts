@@ -13,7 +13,7 @@ import {
   ManagementPolicy,
   ManagementPoliciesCreateOrUpdateOptionalParams,
   ManagementPoliciesCreateOrUpdateResponse,
-  ManagementPoliciesDeleteOptionalParams
+  ManagementPoliciesDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a ManagementPolicies. */
@@ -33,7 +33,7 @@ export interface ManagementPolicies {
     resourceGroupName: string,
     accountName: string,
     managementPolicyName: ManagementPolicyName,
-    options?: ManagementPoliciesGetOptionalParams
+    options?: ManagementPoliciesGetOptionalParams,
   ): Promise<ManagementPoliciesGetResponse>;
   /**
    * Sets the managementpolicy to the specified storage account.
@@ -52,7 +52,7 @@ export interface ManagementPolicies {
     accountName: string,
     managementPolicyName: ManagementPolicyName,
     properties: ManagementPolicy,
-    options?: ManagementPoliciesCreateOrUpdateOptionalParams
+    options?: ManagementPoliciesCreateOrUpdateOptionalParams,
   ): Promise<ManagementPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the managementpolicy associated with the specified storage account.
@@ -69,6 +69,6 @@ export interface ManagementPolicies {
     resourceGroupName: string,
     accountName: string,
     managementPolicyName: ManagementPolicyName,
-    options?: ManagementPoliciesDeleteOptionalParams
+    options?: ManagementPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

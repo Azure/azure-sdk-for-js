@@ -13,8 +13,8 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2023-10-03-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/384aedb56cfbadfa16ccb35737eab58dfeae81c5/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.2.0-beta.1
+  - https://github.com/Azure/azure-rest-api-specs/blob/156ff363e44f764ddd8a0a6adcd371610240ba15/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.3.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -155,4 +155,29 @@ directive:
   - rename-model:
       from: TranscriptionFailed
       to: RestTranscriptionFailed
+  - rename-model:
+      from: CreateCallFailed
+      to: RestCreateCallFailed
+  - rename-model:
+      from: AnswerFailed
+      to: RestAnswerFailed
+  - rename-model:
+      from: HoldFailed
+      to: RestHoldFailed
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ExternalStorage"
+  transform: >
+    $["x-ms-client-name"] = "RecordingStorage";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.StartCallRecordingRequest.properties.externalStorage"
+  transform: >
+    $["x-ms-client-name"] = "recordingStorage";
 ```

@@ -18,7 +18,7 @@ import {
   AFDOriginUpdateParameters,
   AfdOriginsUpdateOptionalParams,
   AfdOriginsUpdateResponse,
-  AfdOriginsDeleteOptionalParams
+  AfdOriginsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AfdOriginsListByOriginGroupOptionalParams,
   ): PagedAsyncIterableIterator<AFDOrigin>;
   /**
    * Gets an existing origin within an origin group.
@@ -52,7 +52,7 @@ export interface AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsGetOptionalParams
+    options?: AfdOriginsGetOptionalParams,
   ): Promise<AfdOriginsGetResponse>;
   /**
    * Creates a new origin within the specified origin group.
@@ -70,7 +70,7 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
+    options?: AfdOriginsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdOriginsCreateResponse>,
@@ -93,7 +93,7 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
+    options?: AfdOriginsCreateOptionalParams,
   ): Promise<AfdOriginsCreateResponse>;
   /**
    * Updates an existing origin within an origin group.
@@ -111,7 +111,7 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
+    options?: AfdOriginsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdOriginsUpdateResponse>,
@@ -134,7 +134,7 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
+    options?: AfdOriginsUpdateOptionalParams,
   ): Promise<AfdOriginsUpdateResponse>;
   /**
    * Deletes an existing origin within an origin group.
@@ -150,7 +150,7 @@ export interface AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AfdOriginsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an origin group.
@@ -166,6 +166,6 @@ export interface AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AfdOriginsDeleteOptionalParams,
   ): Promise<void>;
 }

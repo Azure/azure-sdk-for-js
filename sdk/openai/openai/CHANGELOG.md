@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.12 (Unreleased)
+## 2.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,49 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.0.0-beta.1 (2024-07-22)
+
+### Features Added
+
+- Adds subpath `@azure/openai/types` which exports types for Azure On Your Data and Azure content filtering. Checkout the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples) for examples of how to import it.
+
+### Breaking Changes
+
+- `OpenAIClient` has been deleted. Follow the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/MIGRATION.md) to use `AzureOpenAI` from the official [OpenAI client library for JavaScript](https://www.npmjs.com/package/openai) instead.
+
+## 1.0.0-beta.12 (2024-04-01)
+
+### Features Added
+
+- Adds a new property `logprobs` in `ChatChoice` to support log probabilities for this chat choice
+- Adds new properties `logprobs` and `topLogprobs` in `ChatCompletionsOptions` class to support log probabilities for chat completions
+- Adds `dimensions` in `GetEmbeddingsOptions`.
+when using Azure OpenAI, specifies the input type to use for embedding search.
+- Updates the default service API version to `2024-03-01-preview`
+- Returns content filter results and prompt filter results for image generations through `contentFilterResults` and `promptFilterResults` properties
+
+### Breaking Changes
+
+- `AzureChatExtensionConfiguration`, `OnYourDataAuthenticationOptions`, `OnYourDataVectorizationSource`, `OnYourDataVectorizationSourceType`, `ChatCompletionsNamedToolSelection`, `ChatCompletionsToolDefinition`, `ChatCompletionsToolCall`, `ChatMessageContentItem`, `ChatRequestMessage`, `ChatFinishDetails` are renamed with `Union` postfix.
+- `AzureCognitiveSearchQueryType`, `ChatMessageImageDetailLevel`, `ElasticsearchQueryType`, `FunctionCallPreset`, `ImageGenerationQuality`, `ImageGenerationResponseFormat`, `ImageSize`, `ImageGenerationStyle`, `OnYourDataAuthenticationType`, `OnYourDataVectorizationSourceType`  union types no longer have fixed values.
+- `prompFilterResults` property in `ChatCompletions`, `prompFilterResults` property in `Choice`, `toolCalls` in `ChatResponseMessage` are now optional
+
+Changes to "bring your own data" features:
+- Introduces a new type: `AzureChatExtensionDataSourceResponseCitation`
+- For `AzureChatExtensionsMessageContext`, replaced `messages` property with `citations` and added `intent` as a string
+- Rename `AzureCognitiveSearch` to `AzureSearch`
+- `embeddingDependency` is a required property for `AzureCosmosDBChatExtensionConfiguration`
+- All extension configuration `type` properties are changed into snake casing. For example, type `AzureCosmosDB` is changed into `azure_cosmos_db`in `AzureCosmosDBChatExtensionConfiguration`
+- All authentication `type` properties are changed into snake casing. For example, type `ConnectionString` is changed into `connection_string`in `OnYourDataConnectionStringAuthenticationOptions`
+- New properties are added to `AzureCosmosDBFieldMappingOptions`: `contentFields`, `contentFieldsSeparator`, `filepathField`, `titleField`, and `urlField`.
+- Adds additional support for different authentication options, including access token and encoded API key authentication
+- `embeddingDependency` is required in `PineconeChatExtensionConfiguration`
+- `contentField` is required in `PineconeFieldMappingOptions`
+
+### Bugs Fixed
+
+- Fix a bug where `ChatCompletionsFunctionToolCall` did not expose the `index` property for the streaming mode.
 
 ## 1.0.0-beta.11 (2024-01-25)
 

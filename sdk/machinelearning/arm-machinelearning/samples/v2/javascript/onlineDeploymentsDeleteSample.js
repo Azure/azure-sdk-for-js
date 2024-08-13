@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete Inference Endpoint Deployment (asynchronous).
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/OnlineDeployment/delete.json
  */
 async function deleteOnlineDeployment() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "testrg123";
   const workspaceName = "workspace123";
   const endpointName = "testEndpoint";
   const deploymentName = "testDeployment";
@@ -29,9 +31,13 @@ async function deleteOnlineDeployment() {
     resourceGroupName,
     workspaceName,
     endpointName,
-    deploymentName
+    deploymentName,
   );
   console.log(result);
 }
 
-deleteOnlineDeployment().catch(console.error);
+async function main() {
+  deleteOnlineDeployment();
+}
+
+main().catch(console.error);

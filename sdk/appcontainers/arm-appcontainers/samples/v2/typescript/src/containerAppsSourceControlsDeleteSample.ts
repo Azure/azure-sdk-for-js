@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Container App SourceControl.
  *
  * @summary Delete a Container App SourceControl.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/SourceControls_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/SourceControls_Delete.json
  */
 async function deleteContainerAppSourceControl() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function deleteContainerAppSourceControl() {
   const result = await client.containerAppsSourceControls.beginDeleteAndWait(
     resourceGroupName,
     containerAppName,
-    sourceControlName
+    sourceControlName,
   );
   console.log(result);
 }

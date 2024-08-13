@@ -31,7 +31,7 @@ async function privateLinkScopeGet() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateLinkScopes.get(
     resourceGroupName,
-    scopeName
+    scopeName,
   );
   console.log(result);
 }

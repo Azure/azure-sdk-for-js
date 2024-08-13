@@ -1,6 +1,6 @@
 # Release History
 
-## 12.23.0-beta.2 (Unreleased)
+## 12.25.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,13 +10,81 @@
 
 ### Other Changes
 
+## 12.25.0-beta.1 (2024-08-09)
+
+### Features Added
+
+- Added support for service version 2024-11-04.
+- Added support for token-based authentication for all APIs.
+- Added support for paid bursting on premium file share accounts.
+- Added support for binary format for file permissions.
+- Added ability to retrieve SAS string to sign for debugging purposes.
+
+## 12.24.0 (2024-07-18)
+
+### Features Added
+
+- Includes all features released in 12.24.0-beta.1.
+
+### Bugs Fixed
+
+- Correct content-length header with request body length. (#30138)
+
+## 12.24.0-beta.1 (2024-06-13)
+
+### Features Added
+
+- Added support for service version 2024-08-04.
+- Added more detailed messaging for authorization failure cases.
+- Added support for snapshot management on NFS shares.
+
+## 12.23.0 (2024-06-04)
+
+### Features Added
+
+- Includes all features released in 12.23.0-beta.1.
 - Allow HTTP connections
+
+## 12.18.1 (2024-05-11)
+
+### Features Added
+
+- Includes all features released in 12.18.1-beta.1.
+
+## 12.18.1-beta.1 (2024-04-18)
+
+### Features Added
+
+- Added support for service version 2024-05-04.
+- Added ability to call ShareFileClient.getRangeListDiff() on a file that has been renamed.
+- Added support OAuth for interface ShareFileClient.uploadRangeFromURL().
+- Added support to return clientName property in file/directory handle properties in ShareFileClient.listHandles() and ShareDirectoryClient.listHandles().
+
+## 12.17.0 (2023-11-09)
+
+### Features Added
+
+- Includes all features released in 12.17.0-beta.1.
 
 ## 12.23.0-beta.1 (2023-11-01)
 
 ### Other Changes
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.17.0-beta.1 (2023-10-18)
+
+### Features Added
+
+- Added support for service version 2023-11-03.
+- Added support for indicating audience in StoragePipelineOptions.
+
+## 12.16.0 (2023-09-14)
+
+### Features Added
+
+- Added support for service version 2023-11-03.
+- Added support for indicating audience in StoragePipelineOptions.
 
 ## 12.15.0 (2023-07-12)
 

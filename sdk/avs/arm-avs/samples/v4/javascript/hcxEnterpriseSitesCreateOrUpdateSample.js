@@ -31,7 +31,7 @@ async function hcxEnterpriseSitesCreateOrUpdate() {
     resourceGroupName,
     privateCloudName,
     hcxEnterpriseSiteName,
-    hcxEnterpriseSite
+    hcxEnterpriseSite,
   );
   console.log(result);
 }

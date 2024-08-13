@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an Active Directory Administrator associated with the server.
  *
  * @summary Deletes an Active Directory Administrator associated with the server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/AdministratorDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/AdministratorDelete.json
  */
 async function administratorDelete() {
   const subscriptionId =

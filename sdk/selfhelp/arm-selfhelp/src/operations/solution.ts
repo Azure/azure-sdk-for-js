@@ -14,7 +14,7 @@ import { HelpRP } from "../helpRP";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -23,7 +23,8 @@ import {
   SolutionGetOptionalParams,
   SolutionGetResponse,
   SolutionUpdateOptionalParams,
-  SolutionUpdateResponse
+  SolutionUpdateResponse,
+  SolutionWarmUpOptionalParams,
 } from "../models";
 
 /** Class containing Solution operations. */
@@ -42,18 +43,11 @@ export class SolutionImpl implements Solution {
    * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
    * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
    * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
-   * resolving typical troubleshooting issues. These solutions encompass (1.) dynamic and context-aware
-   * diagnostics, guided troubleshooting wizards, and data visualizations, (2.) rich instructional video
-   * tutorials and illustrative diagrams and images, and (3.) thoughtfully assembled textual
-   * troubleshooting instructions. All these components are seamlessly converged into unified solutions
-   * tailored to address a specific support problem area. Each solution type may require one or more
-   * ‘requiredParameters’ that are required to execute the individual solution component. In the absence
-   * of the ‘requiredParameters’ it is likely that some of the solutions might fail execution, and you
-   * might see an empty response. <br/><br/> <b>Note:</b>  <br/>1. ‘requiredInputs’ from Discovery
-   * solutions response must be passed via ‘parameters’ in the request body of Solutions API. <br/>2.
-   * ‘requiredParameters’ from the Solutions response is the same as ‘ additionalParameters’ in the
-   * request for diagnostics <br/>3. ‘requiredParameters’ from the Solutions response is the same as
-   * ‘properties.parameters’ in the request for Troubleshooters
+   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
+   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
+   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
+   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
+   * into unified solutions tailored to address a specific support problem area.
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
@@ -63,7 +57,7 @@ export class SolutionImpl implements Solution {
   async beginCreate(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionCreateOptionalParams
+    options?: SolutionCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SolutionCreateResponse>,
@@ -72,21 +66,20 @@ export class SolutionImpl implements Solution {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SolutionCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -95,8 +88,8 @@ export class SolutionImpl implements Solution {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -104,15 +97,15 @@ export class SolutionImpl implements Solution {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { scope, solutionResourceName, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       SolutionCreateResponse,
@@ -120,7 +113,7 @@ export class SolutionImpl implements Solution {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -130,18 +123,11 @@ export class SolutionImpl implements Solution {
    * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
    * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
    * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
-   * resolving typical troubleshooting issues. These solutions encompass (1.) dynamic and context-aware
-   * diagnostics, guided troubleshooting wizards, and data visualizations, (2.) rich instructional video
-   * tutorials and illustrative diagrams and images, and (3.) thoughtfully assembled textual
-   * troubleshooting instructions. All these components are seamlessly converged into unified solutions
-   * tailored to address a specific support problem area. Each solution type may require one or more
-   * ‘requiredParameters’ that are required to execute the individual solution component. In the absence
-   * of the ‘requiredParameters’ it is likely that some of the solutions might fail execution, and you
-   * might see an empty response. <br/><br/> <b>Note:</b>  <br/>1. ‘requiredInputs’ from Discovery
-   * solutions response must be passed via ‘parameters’ in the request body of Solutions API. <br/>2.
-   * ‘requiredParameters’ from the Solutions response is the same as ‘ additionalParameters’ in the
-   * request for diagnostics <br/>3. ‘requiredParameters’ from the Solutions response is the same as
-   * ‘properties.parameters’ in the request for Troubleshooters
+   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
+   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
+   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
+   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
+   * into unified solutions tailored to address a specific support problem area.
    * @param scope scope = resourceUri of affected resource.<br/> For example:
    *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
    *
@@ -151,7 +137,7 @@ export class SolutionImpl implements Solution {
   async beginCreateAndWait(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionCreateOptionalParams
+    options?: SolutionCreateOptionalParams,
   ): Promise<SolutionCreateResponse> {
     const poller = await this.beginCreate(scope, solutionResourceName, options);
     return poller.pollUntilDone();
@@ -168,11 +154,11 @@ export class SolutionImpl implements Solution {
   get(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionGetOptionalParams
+    options?: SolutionGetOptionalParams,
   ): Promise<SolutionGetResponse> {
     return this.client.sendOperationRequest(
       { scope, solutionResourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -187,7 +173,7 @@ export class SolutionImpl implements Solution {
   async beginUpdate(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionUpdateOptionalParams
+    options?: SolutionUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SolutionUpdateResponse>,
@@ -196,21 +182,20 @@ export class SolutionImpl implements Solution {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SolutionUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -219,8 +204,8 @@ export class SolutionImpl implements Solution {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -228,15 +213,15 @@ export class SolutionImpl implements Solution {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { scope, solutionResourceName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SolutionUpdateResponse,
@@ -244,7 +229,7 @@ export class SolutionImpl implements Solution {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -261,10 +246,29 @@ export class SolutionImpl implements Solution {
   async beginUpdateAndWait(
     scope: string,
     solutionResourceName: string,
-    options?: SolutionUpdateOptionalParams
+    options?: SolutionUpdateOptionalParams,
   ): Promise<SolutionUpdateResponse> {
     const poller = await this.beginUpdate(scope, solutionResourceName, options);
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Warm up the solution resource by preloading asynchronous diagnostics results into cache
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
+   * @param solutionResourceName Solution resource Name.
+   * @param options The options parameters.
+   */
+  warmUp(
+    scope: string,
+    solutionResourceName: string,
+    options?: SolutionWarmUpOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { scope, solutionResourceName, options },
+      warmUpOperationSpec,
+    );
   }
 }
 // Operation Specifications
@@ -275,51 +279,51 @@ const createOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SolutionResource
+      bodyMapper: Mappers.SolutionResource,
     },
     201: {
-      bodyMapper: Mappers.SolutionResource
+      bodyMapper: Mappers.SolutionResource,
     },
     202: {
-      bodyMapper: Mappers.SolutionResource
+      bodyMapper: Mappers.SolutionResource,
     },
     204: {
-      bodyMapper: Mappers.SolutionResource
+      bodyMapper: Mappers.SolutionResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.solutionRequestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.solutionResourceName
+    Parameters.solutionResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/solutions/{solutionResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SolutionResource
+      bodyMapper: Mappers.SolutionResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.solutionResourceName
+    Parameters.solutionResourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/solutions/{solutionResourceName}",
@@ -327,32 +331,52 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SolutionResource,
-      headersMapper: Mappers.SolutionUpdateHeaders
+      headersMapper: Mappers.SolutionUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.SolutionResource,
-      headersMapper: Mappers.SolutionUpdateHeaders
+      headersMapper: Mappers.SolutionUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.SolutionResource,
-      headersMapper: Mappers.SolutionUpdateHeaders
+      headersMapper: Mappers.SolutionUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.SolutionResource,
-      headersMapper: Mappers.SolutionUpdateHeaders
+      headersMapper: Mappers.SolutionUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.solutionPatchRequestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.solutionResourceName
+    Parameters.solutionResourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const warmUpOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Help/solutions/{solutionResourceName}/warmup",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.solutionWarmUpRequestBody,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.solutionResourceName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };

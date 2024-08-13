@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DaprComponent,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary Creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
  */
 async function createOrUpdateDaprComponentWithSecretStoreComponent() {
   const subscriptionId =
@@ -39,11 +39,11 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent() {
       { name: "url", value: "<COSMOS-URL>" },
       { name: "database", value: "itemsDB" },
       { name: "collection", value: "items" },
-      { name: "masterkey", secretRef: "masterkey" }
+      { name: "masterkey", secretRef: "masterkey" },
     ],
     scopes: ["container-app-1", "container-app-2"],
     secretStoreComponent: "my-secret-store",
-    version: "v1"
+    version: "v1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -51,7 +51,7 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent() {
     resourceGroupName,
     environmentName,
     componentName,
-    daprComponentEnvelope
+    daprComponentEnvelope,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function createOrUpdateDaprComponentWithSecretStoreComponent() {
  * This sample demonstrates how to Creates or updates a Dapr Component in a Managed Environment.
  *
  * @summary Creates or updates a Dapr Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_CreateOrUpdate_Secrets.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_CreateOrUpdate_Secrets.json
  */
 async function createOrUpdateDaprComponentWithSecrets() {
   const subscriptionId =
@@ -78,11 +78,11 @@ async function createOrUpdateDaprComponentWithSecrets() {
       { name: "url", value: "<COSMOS-URL>" },
       { name: "database", value: "itemsDB" },
       { name: "collection", value: "items" },
-      { name: "masterkey", secretRef: "masterkey" }
+      { name: "masterkey", secretRef: "masterkey" },
     ],
     scopes: ["container-app-1", "container-app-2"],
     secrets: [{ name: "masterkey", value: "keyvalue" }],
-    version: "v1"
+    version: "v1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -90,7 +90,7 @@ async function createOrUpdateDaprComponentWithSecrets() {
     resourceGroupName,
     environmentName,
     componentName,
-    daprComponentEnvelope
+    daprComponentEnvelope,
   );
   console.log(result);
 }

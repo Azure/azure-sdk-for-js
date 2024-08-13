@@ -1,6 +1,6 @@
 # Release History
 
-## 12.22.0-beta.2 (Unreleased)
+## 12.24.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,13 +10,70 @@
 
 ### Other Changes
 
+## 12.24.0-beta.1 (2024-08-09)
+
+### Features Added
+
+- Added support for service version 2024-11-04.
+- Added ability to retrieve SAS string to sign for debugging purposes.
+
+## 12.23.0 (2024-07-18)
+
+### Features Added
+
+- Includes all features released in 12.23.0-beta.1.
+
+### Bugs Fixed
+
+- Correct content-length header with request body length. (#30138)
+
+## 12.23.0-beta.1 (2024-06-13)
+
+### Features Added
+
+- Added support for service version 2024-08-04.
+- Added more detailed messaging for authorization failure cases.
+
+## 12.22.0 (2024-06-04)
+
+### Features Added
+
+- Includes all features released in 12.22.0-beta.1.
 - Allow HTTP connections
+
+## 12.17.0 (2024-05-11)
+
+### Features Added
+
+- Includes all features released in 12.17.0-beta.1.
+
+## 12.17.0-beta.1 (2024-04-18)
+
+### Features Added
+
+- Added support for service version 2024-05-04.
+- Added ability to retrieve path ACL with DataLakePathClient.getProperties(), DataLakeFileClient.getProperties(), DataLakeDirectoryClient.getProperties(), DataLakeFileClient.read().
+
+## 12.16.0 (2023-11-09)
+
+### Features Added
+
+- Includes all features released in 12.16.0-beta.1.
 
 ## 12.22.0-beta.1 (2023-11-01)
 
 ### Other Changes
 
 - Migrated dependency on `@azure/core-http` to `@azure/core-rest-pipeline`.
+
+## 12.16.0-beta.1 (2023-10-18)
+
+### Features Added
+
+- Added support for service version 2023-11-03.
+- Added support for indicating audience in StoragePipelineOptions.
+
+## 12.15.0 (2023-09-14)
 
 ## 12.15.0-beta.1 (2023-08-11)
 

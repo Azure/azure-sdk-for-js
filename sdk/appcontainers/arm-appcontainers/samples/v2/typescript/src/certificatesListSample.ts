@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the Certificates in a given managed environment.
  *
  * @summary Get the Certificates in a given managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Certificates_ListByManagedEnvironment.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Certificates_ListByManagedEnvironment.json
  */
 async function listCertificatesByManagedEnvironment() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listCertificatesByManagedEnvironment() {
   const resArray = new Array();
   for await (let item of client.certificates.list(
     resourceGroupName,
-    environmentName
+    environmentName,
   )) {
     resArray.push(item);
   }

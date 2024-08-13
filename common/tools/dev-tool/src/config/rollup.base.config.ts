@@ -8,14 +8,12 @@ import {
   RollupLog,
   WarningHandlerWithDefault,
 } from "rollup";
-
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
-import * as path from "path";
+import * as path from "node:path";
 import { readFile } from "node:fs/promises";
-
 import nodeBuiltins from "builtin-modules";
 import { createPrinter } from "../util/printer";
 
@@ -171,8 +169,8 @@ export function sourcemaps() {
         return { code, map: null };
       } catch (e) {
         // eslint-disable-next-line no-inner-declarations
-        function toString(error: any): string {
-          return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
+        function toString(error: unknown): string {
+          return error instanceof Error ? (error.stack ?? error.toString()) : JSON.stringify(error);
         }
         this.warn({ message: toString(e), id });
         return null;

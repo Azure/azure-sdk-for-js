@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a SourceControl of a Container App.
  *
  * @summary Get a SourceControl of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/SourceControls_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/SourceControls_Get.json
  */
 async function getContainerAppSourceControl() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getContainerAppSourceControl() {
   const result = await client.containerAppsSourceControls.get(
     resourceGroupName,
     containerAppName,
-    sourceControlName
+    sourceControlName,
   );
   console.log(result);
 }

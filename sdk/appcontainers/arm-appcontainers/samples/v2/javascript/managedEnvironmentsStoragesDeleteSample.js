@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete storage for a managedEnvironment.
  *
  * @summary Delete storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironmentsStorages_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironmentsStorages_Delete.json
  */
 async function listEnvironmentsStoragesBySubscription() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listEnvironmentsStoragesBySubscription() {
   const result = await client.managedEnvironmentsStorages.delete(
     resourceGroupName,
     environmentName,
-    storageName
+    storageName,
   );
   console.log(result);
 }

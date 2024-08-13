@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the full endpoint URL of a partner destination channel.
  *
  * @summary Get the full endpoint URL of a partner destination channel.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Channels_GetFullUrl.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/Channels_GetFullUrl.json
  */
 async function channelsGetFullUrl() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function channelsGetFullUrl() {
   const result = await client.channels.getFullUrl(
     resourceGroupName,
     partnerNamespaceName,
-    channelName
+    channelName,
   );
   console.log(result);
 }

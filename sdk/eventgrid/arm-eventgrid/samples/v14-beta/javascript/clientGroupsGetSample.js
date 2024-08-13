@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get properties of a client group.
  *
  * @summary Get properties of a client group.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/ClientGroups_Get.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/ClientGroups_Get.json
  */
 async function clientGroupsGet() {
   const subscriptionId =

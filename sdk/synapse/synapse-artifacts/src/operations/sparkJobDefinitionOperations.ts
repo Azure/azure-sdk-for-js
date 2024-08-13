@@ -17,7 +17,7 @@ import { ArtifactsClient } from "../artifactsClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,13 +36,14 @@ import {
   SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
   SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   SparkJobDefinitionDebugSparkJobDefinitionResponse,
-  SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
+  SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SparkJobDefinitionOperations operations. */
 export class SparkJobDefinitionOperationsImpl
-  implements SparkJobDefinitionOperations {
+  implements SparkJobDefinitionOperations
+{
   private readonly client: ArtifactsClient;
 
   /**
@@ -58,7 +59,7 @@ export class SparkJobDefinitionOperationsImpl
    * @param options The options parameters.
    */
   public listSparkJobDefinitionsByWorkspace(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SparkJobDefinitionResource> {
     const iter = this.getSparkJobDefinitionsByWorkspacePagingAll(options);
     return {
@@ -74,15 +75,15 @@ export class SparkJobDefinitionOperationsImpl
         }
         return this.getSparkJobDefinitionsByWorkspacePagingPage(
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *getSparkJobDefinitionsByWorkspacePagingPage(
     options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SparkJobDefinitionResource[]> {
     let result: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class SparkJobDefinitionOperationsImpl
     while (continuationToken) {
       result = await this._getSparkJobDefinitionsByWorkspaceNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,10 +107,10 @@ export class SparkJobDefinitionOperationsImpl
   }
 
   private async *getSparkJobDefinitionsByWorkspacePagingAll(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
   ): AsyncIterableIterator<SparkJobDefinitionResource> {
     for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,7 +121,7 @@ export class SparkJobDefinitionOperationsImpl
    * @param options The options parameters.
    */
   private async _getSparkJobDefinitionsByWorkspace(
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams,
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._getSparkJobDefinitionsByWorkspace",
@@ -128,11 +129,9 @@ export class SparkJobDefinitionOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getSparkJobDefinitionsByWorkspaceOperationSpec
-        ) as Promise<
-          SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse
-        >;
-      }
+          getSparkJobDefinitionsByWorkspaceOperationSpec,
+        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse>;
+      },
     );
   }
 
@@ -145,40 +144,38 @@ export class SparkJobDefinitionOperationsImpl
   async beginCreateOrUpdateSparkJobDefinition(
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
-      >,
+      OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>,
       SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginCreateOrUpdateSparkJobDefinition",
         options ?? {},
         async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<
-            SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse
-          >;
-        }
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -187,8 +184,8 @@ export class SparkJobDefinitionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -196,22 +193,22 @@ export class SparkJobDefinitionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { sparkJobDefinitionName, sparkJobDefinition, options },
-      spec: createOrUpdateSparkJobDefinitionOperationSpec
+      spec: createOrUpdateSparkJobDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<
       SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse,
       OperationState<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -226,12 +223,12 @@ export class SparkJobDefinitionOperationsImpl
   async beginCreateOrUpdateSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> {
     const poller = await this.beginCreateOrUpdateSparkJobDefinition(
       sparkJobDefinitionName,
       sparkJobDefinition,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -243,7 +240,7 @@ export class SparkJobDefinitionOperationsImpl
    */
   async getSparkJobDefinition(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient.getSparkJobDefinition",
@@ -251,9 +248,9 @@ export class SparkJobDefinitionOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { sparkJobDefinitionName, options },
-          getSparkJobDefinitionOperationSpec
+          getSparkJobDefinitionOperationSpec,
         ) as Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
-      }
+      },
     );
   }
 
@@ -264,31 +261,30 @@ export class SparkJobDefinitionOperationsImpl
    */
   async beginDeleteSparkJobDefinition(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginDeleteSparkJobDefinition",
         options ?? {},
         async () => {
           return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -297,8 +293,8 @@ export class SparkJobDefinitionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -306,19 +302,19 @@ export class SparkJobDefinitionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { sparkJobDefinitionName, options },
-      spec: deleteSparkJobDefinitionOperationSpec
+      spec: deleteSparkJobDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -331,11 +327,11 @@ export class SparkJobDefinitionOperationsImpl
    */
   async beginDeleteSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDeleteSparkJobDefinition(
       sparkJobDefinitionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -347,7 +343,7 @@ export class SparkJobDefinitionOperationsImpl
    */
   async beginExecuteSparkJobDefinition(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SparkJobDefinitionExecuteSparkJobDefinitionResponse>,
@@ -356,29 +352,29 @@ export class SparkJobDefinitionOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginExecuteSparkJobDefinition",
         options ?? {},
         async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<
-            SparkJobDefinitionExecuteSparkJobDefinitionResponse
-          >;
-        }
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse>;
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -387,8 +383,8 @@ export class SparkJobDefinitionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -396,15 +392,15 @@ export class SparkJobDefinitionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { sparkJobDefinitionName, options },
-      spec: executeSparkJobDefinitionOperationSpec
+      spec: executeSparkJobDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<
       SparkJobDefinitionExecuteSparkJobDefinitionResponse,
@@ -412,7 +408,7 @@ export class SparkJobDefinitionOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -425,11 +421,11 @@ export class SparkJobDefinitionOperationsImpl
    */
   async beginExecuteSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
-    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionExecuteSparkJobDefinitionResponse> {
     const poller = await this.beginExecuteSparkJobDefinition(
       sparkJobDefinitionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -443,31 +439,30 @@ export class SparkJobDefinitionOperationsImpl
   async beginRenameSparkJobDefinition(
     sparkJobDefinitionName: string,
     request: ArtifactRenameRequest,
-    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginRenameSparkJobDefinition",
         options ?? {},
         async () => {
           return this.client.sendOperationRequest(args, spec) as Promise<void>;
-        }
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -476,8 +471,8 @@ export class SparkJobDefinitionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -485,19 +480,19 @@ export class SparkJobDefinitionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { sparkJobDefinitionName, request, options },
-      spec: renameSparkJobDefinitionOperationSpec
+      spec: renameSparkJobDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -512,12 +507,12 @@ export class SparkJobDefinitionOperationsImpl
   async beginRenameSparkJobDefinitionAndWait(
     sparkJobDefinitionName: string,
     request: ArtifactRenameRequest,
-    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionRenameSparkJobDefinitionOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRenameSparkJobDefinition(
       sparkJobDefinitionName,
       request,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -529,7 +524,7 @@ export class SparkJobDefinitionOperationsImpl
    */
   async beginDebugSparkJobDefinition(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SparkJobDefinitionDebugSparkJobDefinitionResponse>,
@@ -538,29 +533,29 @@ export class SparkJobDefinitionOperationsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> => {
       return tracingClient.withSpan(
         "ArtifactsClient.beginDebugSparkJobDefinition",
         options ?? {},
         async () => {
-          return this.client.sendOperationRequest(args, spec) as Promise<
-            SparkJobDefinitionDebugSparkJobDefinitionResponse
-          >;
-        }
+          return this.client.sendOperationRequest(
+            args,
+            spec,
+          ) as Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse>;
+        },
       );
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -569,8 +564,8 @@ export class SparkJobDefinitionOperationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -578,15 +573,15 @@ export class SparkJobDefinitionOperationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { sparkJobDefinitionAzureResource, options },
-      spec: debugSparkJobDefinitionOperationSpec
+      spec: debugSparkJobDefinitionOperationSpec,
     });
     const poller = await createHttpPoller<
       SparkJobDefinitionDebugSparkJobDefinitionResponse,
@@ -594,7 +589,7 @@ export class SparkJobDefinitionOperationsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -607,11 +602,11 @@ export class SparkJobDefinitionOperationsImpl
    */
   async beginDebugSparkJobDefinitionAndWait(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
-    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams
+    options?: SparkJobDefinitionDebugSparkJobDefinitionOptionalParams,
   ): Promise<SparkJobDefinitionDebugSparkJobDefinitionResponse> {
     const poller = await this.beginDebugSparkJobDefinition(
       sparkJobDefinitionAzureResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -624,7 +619,7 @@ export class SparkJobDefinitionOperationsImpl
    */
   private async _getSparkJobDefinitionsByWorkspaceNext(
     nextLink: string,
-    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextOptionalParams
+    options?: SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextOptionalParams,
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse> {
     return tracingClient.withSpan(
       "ArtifactsClient._getSparkJobDefinitionsByWorkspaceNext",
@@ -632,80 +627,80 @@ export class SparkJobDefinitionOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getSparkJobDefinitionsByWorkspaceNextOperationSpec
-        ) as Promise<
-          SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
-        >;
-      }
+          getSparkJobDefinitionsByWorkspaceNextOperationSpec,
+        ) as Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse>;
+      },
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getSparkJobDefinitionsByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path: "/sparkJobDefinitions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SparkJobDefinitionsListResponse
+const getSparkJobDefinitionsByWorkspaceOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/sparkJobDefinitions",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SparkJobDefinitionsListResponse,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion5],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
-  path: "/sparkJobDefinitions/{sparkJobDefinitionName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SparkJobDefinitionResource
+    queryParameters: [Parameters.apiVersion5],
+    urlParameters: [Parameters.endpoint],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const createOrUpdateSparkJobDefinitionOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/sparkJobDefinitions/{sparkJobDefinitionName}",
+    httpMethod: "PUT",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SparkJobDefinitionResource,
+      },
+      201: {
+        bodyMapper: Mappers.SparkJobDefinitionResource,
+      },
+      202: {
+        bodyMapper: Mappers.SparkJobDefinitionResource,
+      },
+      204: {
+        bodyMapper: Mappers.SparkJobDefinitionResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    201: {
-      bodyMapper: Mappers.SparkJobDefinitionResource
-    },
-    202: {
-      bodyMapper: Mappers.SparkJobDefinitionResource
-    },
-    204: {
-      bodyMapper: Mappers.SparkJobDefinitionResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.sparkJobDefinition,
-  queryParameters: [Parameters.apiVersion5],
-  urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
-  serializer
-};
+    requestBody: Parameters.sparkJobDefinition,
+    queryParameters: [Parameters.apiVersion5],
+    urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
+    headerParameters: [
+      Parameters.accept,
+      Parameters.contentType,
+      Parameters.ifMatch,
+    ],
+    mediaType: "json",
+    serializer,
+  };
 const getSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
   path: "/sparkJobDefinitions/{sparkJobDefinitionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkJobDefinitionResource
+      bodyMapper: Mappers.SparkJobDefinitionResource,
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const deleteSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
   path: "/sparkJobDefinitions/{sparkJobDefinitionName}",
@@ -716,38 +711,38 @@ const deleteSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const executeSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
   path: "/sparkJobDefinitions/{sparkJobDefinitionName}/execute",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     201: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     202: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     204: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const renameSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
   path: "/sparkJobDefinitions/{sparkJobDefinitionName}/rename",
@@ -758,55 +753,56 @@ const renameSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const debugSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
   path: "/debugSparkJobDefinition",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     201: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     202: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     204: {
-      bodyMapper: Mappers.SparkBatchJob
+      bodyMapper: Mappers.SparkBatchJob,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.sparkJobDefinitionAzureResource,
   queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const getSparkJobDefinitionsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SparkJobDefinitionsListResponse
+const getSparkJobDefinitionsByWorkspaceNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.SparkJobDefinitionsListResponse,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [Parameters.endpoint, Parameters.nextLink],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

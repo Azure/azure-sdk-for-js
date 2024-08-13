@@ -14,7 +14,7 @@ First, download and install Node.js from the official website: https://nodejs.or
 
 Once it is installed correctly, you will be able to use it with the `node` command on the command-line:
 
-```
+```sh
 node --version
 ```
 
@@ -22,32 +22,32 @@ node --version
 
 The [Node Package Manager](https://npmjs.com) (npm) is included when you install Node. You can access it from the command-line, similar to Node:
 
-```
+```sh
 npm --version
 ```
 
 ## Setting up your project
 
-If you already have a project with a package.json file set up, skip to the next section. If not, first let's make a new directory for your project, and change into it.
+If you already have a project with a `package.json` file set up, skip to the next section. If not, first let's make a new directory for your project, and change into it.
 
-```
+```sh
 mkdir example
 cd example
 ```
 
-Now let's [set up a package.json file](https://docs.npmjs.com/creating-a-package-json-file) to configure npm:
+Now, let's [set up a package.json file](https://docs.npmjs.com/creating-a-package-json-file) to configure npm:
 
-```
+```sh
 npm init -y
 ```
 
 Follow the prompts and npm will generate a starter [package.json](https://docs.npmjs.com/files/package.json) for you.
 
-Now we can install Azure SDK packages. The Azure SDK is composed of many separate packages. You can pick and choose which you need based on the services you intend to use.
+Now, we can install Azure SDK packages. The Azure SDK is composed of many separate packages. You can pick and choose which you need based on the services you intend to use.
 
 For example, if you wish to use the Blob functionality provided by Azure's Storage service, you can install the `@azure/storage-blob` package:
 
-```
+```sh
 npm install --save @azure/storage-blob
 ```
 
@@ -59,7 +59,7 @@ Below we show examples of using three popular bundlers: [Webpack](https://webpac
 
 First, you need to install [webpack](https://webpack.js.org/) globally:
 
-```
+```sh
 npm install -g webpack webpack-cli
 ```
 
@@ -77,13 +77,13 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 
 Now invoke webpack on the command-line:
 
-```
+```sh
 webpack --mode=development
 ```
 
 This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/main.js` by default.
 
-Now you can use this bundle inside an html page via a script tag:
+Now, you can use this bundle inside an html page via a script tag:
 
 ```html
 <script src="./dist/main.js"></script>
@@ -95,11 +95,11 @@ If you want to customize the name or location of your input file, the bundled fi
 
 First, you need to install [TypeScript](https://typescriptlang.org) and a [Webpack loader](https://webpack.js.org/loaders/) for TypeScript:
 
-```
+```sh
 npm install --save-dev typescript ts-loader
 ```
 
-Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript. If you've already configured TypeScript, you can skip this step. Save the following `tsconfig.json` file next to your `package.json` file you created earlier:
+Now, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript. If you've already configured TypeScript, you can skip this step. Save the following `tsconfig.json` file next to your `package.json` file you created earlier:
 
 ```json
 {
@@ -121,7 +121,7 @@ Similar to our JS example above, let's create an `index.ts` file that imports fr
 ```ts
 // src/index.ts
 import { BlobServiceClient } from "@azure/storage-blob";
-// Now do something interesting with BlobServiceClient :)
+// Now, do something interesting with BlobServiceClient :)
 ```
 
 The last step we need to perform before we can run `webpack` and produce bundled output is set up a basic `webpack.config.js` file:
@@ -151,15 +151,15 @@ module.exports = {
 };
 ```
 
-Now you can invoke webpack on the command-line:
+Now, you can invoke webpack on the command-line:
 
-```
+```sh
 webpack --mode=development
 ```
 
 This will create a **bundled** version of your code plus the Azure SDK functionality that your code depends on and write it out to a `dist` subfolder inside a file named `bundle.js` (as configured in `webpack.config.js`.)
 
-Now you can use this bundled output file inside an html page via a script tag:
+Now, you can use this bundled output file inside an html page via a script tag:
 
 ```html
 <script src="./dist/bundle.js"></script>
@@ -169,7 +169,7 @@ Now you can use this bundled output file inside an html page via a script tag:
 
 First, you need to install [rollup](https://rollupjs.org/) globally:
 
-```
+```sh
 npm install -g rollup
 ```
 
@@ -185,7 +185,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 // Now do something interesting with BlobServiceClient :)
 ```
 
-Now we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
+Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
 
 ```js
 // rollup.config.js
@@ -234,19 +234,19 @@ The above configuration may need to change based on which SDK packages your code
 
 We also need to install the plugins we referenced in the above file:
 
-```
+```sh
 npm install --save-dev @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim
 ```
 
 Now that we have our config file and necessary plugins installed, we can run rollup:
 
-```
+```sh
 rollup --config
 ```
 
 This will create a **bundled** version of your code along with the Azure SDK functionality your code depends on. It writes out the brower-compatible bundle to `dist/bundle.js` as configured above.
 
-Now you can use this bundle inside an html page via a script tag:
+Now, you can use this bundle inside an html page via a script tag:
 
 ```html
 <script src="./dist/bundle.js"></script>
@@ -256,11 +256,11 @@ Now you can use this bundle inside an html page via a script tag:
 
 First, you need to install [TypeScript](https://typescriptlang.org):
 
-```
+```sh
 npm install --save-dev typescript
 ```
 
-Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript. If you've already configured TypeScript, you can skip this step. Save the following `tsconfig.json` file next to your `package.json` file you created earlier:
+Next, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript. If you've already configured TypeScript, you can skip this step. Save the following `tsconfig.json` file next to your `package.json` file you created earlier:
 
 ```json
 {
@@ -283,7 +283,7 @@ import { BlobServiceClient } from "@azure/storage-blob";
 // Now do something interesting with BlobServiceClient :)
 ```
 
-Now we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
+Next we need to configure Rollup to take the above code and turn it into a bundle. Save the following `rollup.config.js` file next to your `package.json` file you created earlier:
 
 ```js
 // rollup.config.js
@@ -334,13 +334,13 @@ The above configuration may need to change based on which SDK packages your code
 
 We also need to install the plugins we referenced in the above file:
 
-```
+```sh
 npm install --save-dev @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim rollup-plugin-typescript2
 ```
 
 Now that we have our config file and necessary plugins installed, we can run rollup:
 
-```
+```sh
 rollup --config
 ```
 
@@ -356,7 +356,7 @@ Now you can use this bundled output file inside an html page via a script tag:
 
 First, you need to install [parcel](https://parceljs.org/) globally:
 
-```
+```sh
 npm install -g parcel-bundler
 ```
 
@@ -396,7 +396,7 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 
 Now you can invoke parcel on the command-line:
 
-```
+```sh
 parcel index.html
 ```
 
@@ -404,7 +404,7 @@ This will bundle your code and create a local development server for your page a
 
 If you wish to bundle your page without using the local development server, you can do this by passing the `build` command:
 
-```
+```sh
 parcel build index.html
 ```
 
@@ -424,11 +424,11 @@ Parcel uses [browserslist](https://github.com/browserslist/browserslist) to conf
 
 Next, you need to install [TypeScript](https://typescriptlang.org):
 
-```
+```sh
 npm install --save-dev typescript
 ```
 
-Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript:
+Next, let's create a very basic [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file to configure TypeScript:
 
 ```json
 {
@@ -467,7 +467,7 @@ and also an `index.html` that references it:
 
 Now you can invoke parcel on the command-line:
 
-```
+```sh
 parcel index.html
 ```
 
@@ -475,7 +475,7 @@ This will bundle your code and create a local development server for your page a
 
 If you wish to bundle your page without using the local development server, you can do this by passing the `build` command:
 
-```
+```sh
 parcel build index.html
 ```
 

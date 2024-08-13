@@ -237,6 +237,7 @@ export interface Client extends Resource {
 // @public
 export interface ClientAuthenticationSettings {
     alternativeAuthenticationNameSources?: AlternativeAuthenticationNameSource[];
+    customJwtAuthentication?: CustomJwtAuthenticationSettings;
 }
 
 // @public
@@ -394,6 +395,49 @@ export interface ConnectionState {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CustomDomainConfiguration {
+    certificateUrl?: string;
+    expectedTxtRecordName?: string;
+    expectedTxtRecordValue?: string;
+    fullyQualifiedDomainName: string;
+    identity?: CustomDomainIdentity;
+    validationState?: CustomDomainValidationState;
+}
+
+// @public
+export interface CustomDomainIdentity {
+    type?: CustomDomainIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type CustomDomainIdentityType = string;
+
+// @public
+export interface CustomDomainOwnershipValidationResult {
+    customDomainsForTopicsConfiguration?: CustomDomainConfiguration[];
+    customDomainsForTopicSpacesConfiguration?: CustomDomainConfiguration[];
+}
+
+// @public
+export type CustomDomainValidationState = string;
+
+// @public
+export interface CustomJwtAuthenticationManagedIdentity {
+    type: CustomJwtAuthenticationManagedIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type CustomJwtAuthenticationManagedIdentityType = string;
+
+// @public
+export interface CustomJwtAuthenticationSettings {
+    issuerCertificates?: IssuerCertificateInfo[];
+    tokenIssuer?: string;
+}
 
 // @public
 export type DataResidencyBoundary = string;
@@ -1410,6 +1454,12 @@ export interface IsNullOrUndefinedFilter extends Filter {
 }
 
 // @public
+export interface IssuerCertificateInfo {
+    certificateUrl: string;
+    identity?: CustomJwtAuthenticationManagedIdentity;
+}
+
+// @public
 export interface JsonField {
     sourceField?: string;
 }
@@ -1536,6 +1586,25 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownCustomDomainIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownCustomDomainValidationState {
+    Approved = "Approved",
+    ErrorRetrievingDnsRecord = "ErrorRetrievingDnsRecord",
+    Pending = "Pending"
+}
+
+// @public
+export enum KnownCustomJwtAuthenticationManagedIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -2035,7 +2104,6 @@ export interface Namespace extends TrackedResource {
     inboundIpRules?: InboundIpRule[];
     isZoneRedundant?: boolean;
     minimumTlsVersionAllowed?: TlsVersion;
-    // (undocumented)
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: NamespaceProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -2063,6 +2131,8 @@ export interface Namespaces {
     beginRegenerateKeyAndWait(resourceGroupName: string, namespaceName: string, regenerateKeyRequest: NamespaceRegenerateKeyRequest, options?: NamespacesRegenerateKeyOptionalParams): Promise<NamespacesRegenerateKeyResponse>;
     beginUpdate(resourceGroupName: string, namespaceName: string, namespaceUpdateParameters: NamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesUpdateResponse>, NamespacesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, namespaceName: string, namespaceUpdateParameters: NamespaceUpdateParameters, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
+    beginValidateCustomDomainOwnership(resourceGroupName: string, namespaceName: string, options?: NamespacesValidateCustomDomainOwnershipOptionalParams): Promise<SimplePollerLike<OperationState<NamespacesValidateCustomDomainOwnershipResponse>, NamespacesValidateCustomDomainOwnershipResponse>>;
+    beginValidateCustomDomainOwnershipAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesValidateCustomDomainOwnershipOptionalParams): Promise<NamespacesValidateCustomDomainOwnershipResponse>;
     get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Namespace>;
     listBySubscription(options?: NamespacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Namespace>;
@@ -2185,6 +2255,21 @@ export interface NamespacesUpdateOptionalParams extends coreClient.OperationOpti
 export type NamespacesUpdateResponse = Namespace;
 
 // @public
+export interface NamespacesValidateCustomDomainOwnershipHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface NamespacesValidateCustomDomainOwnershipOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NamespacesValidateCustomDomainOwnershipResponse = CustomDomainOwnershipValidationResult;
+
+// @public
 export interface NamespaceTopic extends Resource {
     eventRetentionInDays?: number;
     inputSchema?: EventInputSchema;
@@ -2209,6 +2294,7 @@ export interface NamespaceTopicEventSubscriptions {
     beginUpdateAndWait(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, eventSubscriptionUpdateParameters: SubscriptionUpdateParameters, options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams): Promise<NamespaceTopicEventSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsGetOptionalParams): Promise<NamespaceTopicEventSubscriptionsGetResponse>;
     getDeliveryAttributes(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams): Promise<NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse>;
+    getFullUrl(resourceGroupName: string, namespaceName: string, topicName: string, eventSubscriptionName: string, options?: NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams): Promise<NamespaceTopicEventSubscriptionsGetFullUrlResponse>;
     listByNamespaceTopic(resourceGroupName: string, namespaceName: string, topicName: string, options?: NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalParams): PagedAsyncIterableIterator<Subscription>;
 }
 
@@ -2239,6 +2325,13 @@ export interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalPa
 
 // @public
 export type NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+// @public
+export interface NamespaceTopicEventSubscriptionsGetFullUrlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespaceTopicEventSubscriptionsGetFullUrlResponse = SubscriptionFullUrl;
 
 // @public
 export interface NamespaceTopicEventSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
@@ -2397,6 +2490,7 @@ export interface NamespaceUpdateParameters {
     tags?: {
         [propertyName: string]: string;
     };
+    topicsConfiguration?: UpdateTopicsConfigurationInfo;
     topicSpacesConfiguration?: UpdateTopicSpacesConfigurationInfo;
 }
 
@@ -2500,7 +2594,7 @@ export interface NetworkSecurityPerimeterProfileAccessRule {
     name?: string;
     networkSecurityPerimeters?: NetworkSecurityPerimeterInfo[];
     phoneNumbers?: string[];
-    subscriptions?: string[];
+    subscriptions?: NetworkSecurityPerimeterSubscription[];
     type?: string;
 }
 
@@ -2509,6 +2603,11 @@ export type NetworkSecurityPerimeterProfileAccessRuleDirection = string;
 
 // @public
 export type NetworkSecurityPerimeterResourceType = string;
+
+// @public
+export interface NetworkSecurityPerimeterSubscription {
+    id?: string;
+}
 
 // @public
 export interface NumberGreaterThanAdvancedFilter extends AdvancedFilter {
@@ -3635,6 +3734,7 @@ export type PublisherType = string;
 export interface PushInfo {
     deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
     deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+    destination?: EventSubscriptionDestinationUnion;
     eventTimeToLive?: string;
     maxDeliveryCount?: number;
 }
@@ -3700,7 +3800,6 @@ export interface RoutingEnrichments {
 
 // @public
 export interface RoutingIdentityInfo {
-    // (undocumented)
     type?: RoutingIdentityType;
     // (undocumented)
     userAssignedIdentity?: string;
@@ -3869,9 +3968,15 @@ export interface StringNotInFilter extends Filter {
 export interface Subscription extends Resource {
     deliveryConfiguration?: DeliveryConfiguration;
     eventDeliverySchema?: DeliverySchema;
+    expirationTimeUtc?: Date;
     filtersConfiguration?: FiltersConfiguration;
     readonly provisioningState?: SubscriptionProvisioningState;
     readonly systemData?: SystemData;
+}
+
+// @public
+export interface SubscriptionFullUrl {
+    endpointUrl?: string;
 }
 
 // @public
@@ -3887,6 +3992,7 @@ export interface SubscriptionsListResult {
 export interface SubscriptionUpdateParameters {
     deliveryConfiguration?: DeliveryConfiguration;
     eventDeliverySchema?: DeliverySchema;
+    expirationTimeUtc?: Date;
     filtersConfiguration?: FiltersConfiguration;
 }
 
@@ -4219,6 +4325,7 @@ export interface Topics {
 
 // @public
 export interface TopicsConfiguration {
+    customDomains?: CustomDomainConfiguration[];
     readonly hostname?: string;
 }
 
@@ -4335,6 +4442,7 @@ export interface TopicSpaces {
 // @public
 export interface TopicSpacesConfiguration {
     clientAuthentication?: ClientAuthenticationSettings;
+    customDomains?: CustomDomainConfiguration[];
     readonly hostname?: string;
     maximumClientSessionsPerAuthenticationName?: number;
     maximumSessionExpiryInHours?: number;
@@ -4503,8 +4611,14 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
+export interface UpdateTopicsConfigurationInfo {
+    customDomains?: CustomDomainConfiguration[];
+}
+
+// @public
 export interface UpdateTopicSpacesConfigurationInfo {
     clientAuthentication?: ClientAuthenticationSettings;
+    customDomains?: CustomDomainConfiguration[];
     maximumClientSessionsPerAuthenticationName?: number;
     maximumSessionExpiryInHours?: number;
     routeTopicResourceId?: string;

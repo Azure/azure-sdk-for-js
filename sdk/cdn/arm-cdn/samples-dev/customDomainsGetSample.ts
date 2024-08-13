@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets an existing custom domain within an endpoint.
  *
  * @summary Gets an existing custom domain within an endpoint.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/CustomDomains_Get.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_Get.json
  */
 async function customDomainsGet() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function customDomainsGet() {
     resourceGroupName,
     profileName,
     endpointName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

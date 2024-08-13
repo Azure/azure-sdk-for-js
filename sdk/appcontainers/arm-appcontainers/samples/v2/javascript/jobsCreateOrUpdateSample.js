@@ -16,13 +16,13 @@ require("dotenv").config();
  * This sample demonstrates how to Create or Update a Container Apps Job.
  *
  * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_CreateorUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_CreateorUpdate.json
  */
 async function createOrUpdateContainerAppsJob() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerAppsJob0";
+  const jobName = "testcontainerappsjob0";
   const jobEnvelope = {
     configuration: {
       manualTriggerConfig: { parallelism: 4, replicaCompletionCount: 1 },
@@ -36,8 +36,8 @@ async function createOrUpdateContainerAppsJob() {
     template: {
       containers: [
         {
-          name: "testcontainerAppsJob0",
-          image: "repo/testcontainerAppsJob0:v1",
+          name: "testcontainerappsjob0",
+          image: "repo/testcontainerappsjob0:v1",
           probes: [
             {
               type: "Liveness",
@@ -57,8 +57,8 @@ async function createOrUpdateContainerAppsJob() {
           name: "testinitcontainerAppsJob0",
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
-          image: "repo/testcontainerAppsJob0:v4",
-          resources: { cpu: 0.2, memory: "100Mi" },
+          image: "repo/testcontainerappsjob0:v4",
+          resources: { cpu: 0.5, memory: "1Gi" },
         },
       ],
     },
@@ -68,7 +68,7 @@ async function createOrUpdateContainerAppsJob() {
   const result = await client.jobs.beginCreateOrUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobEnvelope
+    jobEnvelope,
   );
   console.log(result);
 }
@@ -77,13 +77,13 @@ async function createOrUpdateContainerAppsJob() {
  * This sample demonstrates how to Create or Update a Container Apps Job.
  *
  * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_CreateorUpdate_EventTrigger.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_CreateorUpdate_EventTrigger.json
  */
 async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerAppsJob0";
+  const jobName = "testcontainerappsjob0";
   const jobEnvelope = {
     configuration: {
       eventTriggerConfig: {
@@ -112,8 +112,8 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
     template: {
       containers: [
         {
-          name: "testcontainerAppsJob0",
-          image: "repo/testcontainerAppsJob0:v1",
+          name: "testcontainerappsjob0",
+          image: "repo/testcontainerappsjob0:v1",
         },
       ],
       initContainers: [
@@ -121,8 +121,8 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
           name: "testinitcontainerAppsJob0",
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
-          image: "repo/testcontainerAppsJob0:v4",
-          resources: { cpu: 0.2, memory: "100Mi" },
+          image: "repo/testcontainerappsjob0:v4",
+          resources: { cpu: 0.5, memory: "1Gi" },
         },
       ],
     },
@@ -132,7 +132,7 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
   const result = await client.jobs.beginCreateOrUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobEnvelope
+    jobEnvelope,
   );
   console.log(result);
 }

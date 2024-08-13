@@ -20,14 +20,15 @@ import { HDInsightContainersManagementClient } from "../src/hDInsightContainersM
 
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -62,19 +63,21 @@ describe("HDInsightOnAks test", () => {
   it("clusterPools create test", async function () {
     const res = await client.clusterPools.beginCreateOrUpdateAndWait(
       resourceGroup,
-    	resourcename,
+      resourcename,
       {
-        clusterPoolProfile: { clusterPoolVersion: "1.0" },
-        computeProfile: { vmSize: "Standard_F4s_v2" },
+        properties: {
+          clusterPoolProfile: { clusterPoolVersion: "1.1" },
+          computeProfile: { vmSize: "Standard_F4s_v2" },
+        },
         location
       },
-     testPollingOptions);
+      testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
   it("clusterPools get test", async function () {
     const res = await client.clusterPools.get(resourceGroup,
-    	resourcename);
+      resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -96,7 +99,7 @@ describe("HDInsightOnAks test", () => {
   it("clusterPools delete test", async function () {
     const resArray = new Array();
     const res = await client.clusterPools.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
-)
+    )
     for await (let item of client.clusterPools.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

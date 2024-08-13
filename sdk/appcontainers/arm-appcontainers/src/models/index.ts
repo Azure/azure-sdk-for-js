@@ -338,6 +338,8 @@ export interface OpenIdConnectLogin {
 export interface Login {
   /** The routes that specify the endpoints used for login and logout requests. */
   routes?: LoginRoutes;
+  /** The configuration settings of the token store. */
+  tokenStore?: TokenStore;
   /** <code>true</code> if the fragments from the request are preserved after the login request is made; otherwise, <code>false</code>. */
   preserveUrlFragmentsForLogins?: boolean;
   /**
@@ -356,6 +358,28 @@ export interface Login {
 export interface LoginRoutes {
   /** The endpoint at which a logout request should be made. */
   logoutEndpoint?: string;
+}
+
+/** The configuration settings of the token store. */
+export interface TokenStore {
+  /**
+   * <code>true</code> to durably store platform-specific security tokens that are obtained during login flows; otherwise, <code>false</code>.
+   *  The default is <code>false</code>.
+   */
+  enabled?: boolean;
+  /**
+   * The number of hours after session token expiration that a session token can be used to
+   * call the token refresh API. The default is 72 hours.
+   */
+  tokenRefreshExtensionHours?: number;
+  /** The configuration settings of the storage of the tokens if blob storage is used. */
+  azureBlobStorage?: BlobStorageTokenStore;
+}
+
+/** The configuration settings of the storage of the tokens if blob storage is used. */
+export interface BlobStorageTokenStore {
+  /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. */
+  sasUrlSettingName: string;
 }
 
 /** The configuration settings of the session cookie's expiration. */
@@ -398,6 +422,14 @@ export interface ForwardProxy {
   customHostHeaderName?: string;
   /** The name of the header containing the scheme of the request. */
   customProtoHeaderName?: string;
+}
+
+/** The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. */
+export interface EncryptionSettings {
+  /** The secret name which is referenced for EncryptionKey. */
+  containerAppAuthEncryptionSecretName?: string;
+  /** The secret name which is referenced for SigningKey. */
+  containerAppAuthSigningSecretName?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -515,6 +547,8 @@ export interface AvailableWorkloadProfileProperties {
   cores?: number;
   /** Memory in GiB. */
   memoryGiB?: number;
+  /** Number of GPUs. */
+  gpus?: number;
   /** The everyday name of the workload profile. */
   displayName?: string;
 }
@@ -891,6 +925,8 @@ export interface Ingress {
   clientCertificateMode?: IngressClientCertificateMode;
   /** CORS policy for container app */
   corsPolicy?: CorsPolicy;
+  /** Settings to expose additional ports on container app */
+  additionalPortMappings?: IngressPortMapping[];
 }
 
 /** Traffic weight assigned to a revision */
@@ -947,6 +983,16 @@ export interface CorsPolicy {
   maxAge?: number;
   /** Specifies whether the resource allows credentials */
   allowCredentials?: boolean;
+}
+
+/** Port mappings of container app ingress */
+export interface IngressPortMapping {
+  /** Specifies whether the app port is accessible outside of the environment */
+  external: boolean;
+  /** Specifies the port user's container listens on */
+  targetPort: number;
+  /** Specifies the exposed port for the target port. If not specified, it defaults to target port */
+  exposedPort?: number;
 }
 
 /** Container App Private Registry */
@@ -1599,50 +1645,16 @@ export interface Mtls {
   enabled?: boolean;
 }
 
-/** Available operations of the service */
-export interface AvailableOperations {
-  /** Collection of available operation details */
-  value?: OperationDetail[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
+/** Peer traffic settings for the Managed Environment */
+export interface ManagedEnvironmentPropertiesPeerTrafficConfiguration {
+  /** Peer traffic encryption settings for the Managed Environment */
+  encryption?: ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption;
 }
 
-/** Operation detail payload */
-export interface OperationDetail {
-  /** Name of the operation */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** Display of the operation */
-  display?: OperationDisplay;
-  /** Origin of the operation */
-  origin?: string;
-}
-
-/** Operation display payload */
-export interface OperationDisplay {
-  /** Resource provider of the operation */
-  provider?: string;
-  /** Resource of the operation */
-  resource?: string;
-  /** Localized friendly name for the operation */
-  operation?: string;
-  /** Localized friendly description for the operation */
-  description?: string;
-}
-
-/** Container Apps Jobs collection ARM resource. */
-export interface JobsCollection {
-  /** Collection of resources. */
-  value: Job[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** Peer traffic encryption settings for the Managed Environment */
+export interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption {
+  /** Boolean indicating whether the peer traffic encryption is enabled */
+  enabled?: boolean;
 }
 
 /** Non versioned Container Apps Job configuration properties */
@@ -1730,6 +1742,52 @@ export interface JobTemplate {
   volumes?: Volume[];
 }
 
+/** Available operations of the service */
+export interface AvailableOperations {
+  /** Collection of available operation details */
+  value?: OperationDetail[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Operation detail payload */
+export interface OperationDetail {
+  /** Name of the operation */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display of the operation */
+  display?: OperationDisplay;
+  /** Origin of the operation */
+  origin?: string;
+}
+
+/** Operation display payload */
+export interface OperationDisplay {
+  /** Resource provider of the operation */
+  provider?: string;
+  /** Resource of the operation */
+  resource?: string;
+  /** Localized friendly name for the operation */
+  operation?: string;
+  /** Localized friendly description for the operation */
+  description?: string;
+}
+
+/** Container Apps Jobs collection ARM resource. */
+export interface JobsCollection {
+  /** Collection of resources. */
+  value: Job[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Container Apps Job resource specific properties. */
 export interface JobPatchProperties {
   /** Managed identities needed by a container app job to interact with other Azure services to not maintain any secrets or credentials in code. */
@@ -1801,7 +1859,7 @@ export interface JobExecution {
   name?: string;
   /** Job execution Id. */
   id?: string;
-  /** Job Type. */
+  /** Job execution type */
   type?: string;
   /**
    * Current running State of the job
@@ -1963,6 +2021,33 @@ export interface AzureCredentials {
   subscriptionId?: string;
 }
 
+export interface ListUsagesResult {
+  /** The list of compute resource usages. */
+  value?: Usage[];
+  /** The URI to fetch the next page of compute resource usage information. Call ListNext() with this to fetch the next page of compute resource usage information. */
+  nextLink?: string;
+}
+
+/** Describes Compute Resource Usage. */
+export interface Usage {
+  /** An enum describing the unit of usage measurement. */
+  unit: "Count";
+  /** The current usage of the resource. */
+  currentValue: number;
+  /** The maximum permitted usage of the resource. */
+  limit: number;
+  /** The name of the type of usage. */
+  name: UsageName;
+}
+
+/** The Usage Names. */
+export interface UsageName {
+  /** The name of the resource. */
+  value?: string;
+  /** The localized name of the resource. */
+  localizedValue?: string;
+}
+
 /** Container App executions names list. */
 export interface JobExecutionNamesCollection {
   /** Collection of resources. */
@@ -2001,6 +2086,8 @@ export interface AuthConfig extends ProxyResource {
   login?: Login;
   /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
   httpSettings?: HttpSettings;
+  /** The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. */
+  encryptionSettings?: EncryptionSettings;
 }
 
 /** A workload profile with specific hardware configure to run container apps. */
@@ -2324,6 +2411,8 @@ export interface ManagedEnvironment extends TrackedResource {
   infrastructureResourceGroup?: string;
   /** Peer authentication settings for the Managed Environment */
   peerAuthentication?: ManagedEnvironmentPropertiesPeerAuthentication;
+  /** Peer traffic settings for the Managed Environment */
+  peerTrafficConfiguration?: ManagedEnvironmentPropertiesPeerTrafficConfiguration;
 }
 
 /** Container App Job */
@@ -2434,7 +2523,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -2454,7 +2543,7 @@ export enum KnownApplicability {
   /** LocationDefault */
   LocationDefault = "LocationDefault",
   /** Custom */
-  Custom = "Custom"
+  Custom = "Custom",
 }
 
 /**
@@ -2470,7 +2559,7 @@ export type Applicability = string;
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
   /** CustomLocation */
-  CustomLocation = "CustomLocation"
+  CustomLocation = "CustomLocation",
 }
 
 /**
@@ -2499,7 +2588,7 @@ export enum KnownConnectedEnvironmentProvisioningState {
   /** InfrastructureSetupComplete */
   InfrastructureSetupComplete = "InfrastructureSetupComplete",
   /** ScheduledForDelete */
-  ScheduledForDelete = "ScheduledForDelete"
+  ScheduledForDelete = "ScheduledForDelete",
 }
 
 /**
@@ -2523,7 +2612,7 @@ export enum KnownCheckNameAvailabilityReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -2547,7 +2636,7 @@ export enum KnownCertificateProvisioningState {
   /** DeleteFailed */
   DeleteFailed = "DeleteFailed",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -2568,7 +2657,7 @@ export enum KnownAccessMode {
   /** ReadOnly */
   ReadOnly = "ReadOnly",
   /** ReadWrite */
-  ReadWrite = "ReadWrite"
+  ReadWrite = "ReadWrite",
 }
 
 /**
@@ -2590,7 +2679,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -2616,7 +2705,7 @@ export enum KnownContainerAppProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -2637,7 +2726,7 @@ export enum KnownActiveRevisionsMode {
   /** Multiple */
   Multiple = "Multiple",
   /** Single */
-  Single = "Single"
+  Single = "Single",
 }
 
 /**
@@ -2659,7 +2748,7 @@ export enum KnownIngressTransportMethod {
   /** Http2 */
   Http2 = "http2",
   /** Tcp */
-  Tcp = "tcp"
+  Tcp = "tcp",
 }
 
 /**
@@ -2679,7 +2768,7 @@ export enum KnownBindingType {
   /** Disabled */
   Disabled = "Disabled",
   /** SniEnabled */
-  SniEnabled = "SniEnabled"
+  SniEnabled = "SniEnabled",
 }
 
 /**
@@ -2697,7 +2786,7 @@ export enum KnownAction {
   /** Allow */
   Allow = "Allow",
   /** Deny */
-  Deny = "Deny"
+  Deny = "Deny",
 }
 
 /**
@@ -2715,7 +2804,7 @@ export enum KnownAffinity {
   /** Sticky */
   Sticky = "sticky",
   /** None */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -2735,7 +2824,7 @@ export enum KnownIngressClientCertificateMode {
   /** Accept */
   Accept = "accept",
   /** Require */
-  Require = "require"
+  Require = "require",
 }
 
 /**
@@ -2754,7 +2843,7 @@ export enum KnownAppProtocol {
   /** Http */
   Http = "http",
   /** Grpc */
-  Grpc = "grpc"
+  Grpc = "grpc",
 }
 
 /**
@@ -2776,7 +2865,7 @@ export enum KnownLogLevel {
   /** Warn */
   Warn = "warn",
   /** Error */
-  Error = "error"
+  Error = "error",
 }
 
 /**
@@ -2796,7 +2885,7 @@ export enum KnownScheme {
   /** Http */
   Http = "HTTP",
   /** Https */
-  Https = "HTTPS"
+  Https = "HTTPS",
 }
 
 /**
@@ -2816,7 +2905,7 @@ export enum KnownType {
   /** Readiness */
   Readiness = "Readiness",
   /** Startup */
-  Startup = "Startup"
+  Startup = "Startup",
 }
 
 /**
@@ -2837,7 +2926,7 @@ export enum KnownStorageType {
   /** EmptyDir */
   EmptyDir = "EmptyDir",
   /** Secret */
-  Secret = "Secret"
+  Secret = "Secret",
 }
 
 /**
@@ -2858,7 +2947,7 @@ export enum KnownRevisionHealthState {
   /** Unhealthy */
   Unhealthy = "Unhealthy",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2883,7 +2972,7 @@ export enum KnownRevisionProvisioningState {
   /** Deprovisioning */
   Deprovisioning = "Deprovisioning",
   /** Deprovisioned */
-  Deprovisioned = "Deprovisioned"
+  Deprovisioned = "Deprovisioned",
 }
 
 /**
@@ -2912,7 +3001,7 @@ export enum KnownRevisionRunningState {
   /** Failed */
   Failed = "Failed",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -2936,7 +3025,7 @@ export enum KnownContainerAppReplicaRunningState {
   /** NotRunning */
   NotRunning = "NotRunning",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -2957,7 +3046,7 @@ export enum KnownContainerAppContainerRunningState {
   /** Terminated */
   Terminated = "Terminated",
   /** Waiting */
-  Waiting = "Waiting"
+  Waiting = "Waiting",
 }
 
 /**
@@ -2992,7 +3081,7 @@ export enum KnownEnvironmentProvisioningState {
   /** UpgradeRequested */
   UpgradeRequested = "UpgradeRequested",
   /** UpgradeFailed */
-  UpgradeFailed = "UpgradeFailed"
+  UpgradeFailed = "UpgradeFailed",
 }
 
 /**
@@ -3024,7 +3113,7 @@ export enum KnownJobProvisioningState {
   /** Canceled */
   Canceled = "Canceled",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -3047,7 +3136,7 @@ export enum KnownTriggerType {
   /** Event */
   Event = "Event",
   /** Manual */
-  Manual = "Manual"
+  Manual = "Manual",
 }
 
 /**
@@ -3076,7 +3165,7 @@ export enum KnownJobExecutionRunningState {
   /** Unknown */
   Unknown = "Unknown",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -3101,7 +3190,7 @@ export enum KnownManagedCertificateDomainControlValidation {
   /** Http */
   Http = "HTTP",
   /** TXT */
-  TXT = "TXT"
+  TXT = "TXT",
 }
 
 /**
@@ -3124,7 +3213,7 @@ export enum KnownSourceControlOperationState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -3158,7 +3247,8 @@ export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerApp operation. */
-export type ContainerAppsAuthConfigsListByContainerAppResponse = AuthConfigCollection;
+export type ContainerAppsAuthConfigsListByContainerAppResponse =
+  AuthConfigCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsAuthConfigsGetOptionalParams
@@ -3183,21 +3273,24 @@ export interface ContainerAppsAuthConfigsListByContainerAppNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerAppNext operation. */
-export type ContainerAppsAuthConfigsListByContainerAppNextResponse = AuthConfigCollection;
+export type ContainerAppsAuthConfigsListByContainerAppNextResponse =
+  AuthConfigCollection;
 
 /** Optional parameters. */
 export interface AvailableWorkloadProfilesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AvailableWorkloadProfilesGetResponse = AvailableWorkloadProfilesCollection;
+export type AvailableWorkloadProfilesGetResponse =
+  AvailableWorkloadProfilesCollection;
 
 /** Optional parameters. */
 export interface AvailableWorkloadProfilesGetNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNext operation. */
-export type AvailableWorkloadProfilesGetNextResponse = AvailableWorkloadProfilesCollection;
+export type AvailableWorkloadProfilesGetNextResponse =
+  AvailableWorkloadProfilesCollection;
 
 /** Optional parameters. */
 export interface BillingMetersGetOptionalParams
@@ -3211,14 +3304,16 @@ export interface ConnectedEnvironmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ConnectedEnvironmentsListBySubscriptionResponse = ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListBySubscriptionResponse =
+  ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ConnectedEnvironmentsListByResourceGroupResponse = ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListByResourceGroupResponse =
+  ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsGetOptionalParams
@@ -3260,28 +3355,32 @@ export interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ConnectedEnvironmentsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+export type ConnectedEnvironmentsCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ConnectedEnvironmentsListBySubscriptionNextResponse = ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListBySubscriptionNextResponse =
+  ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ConnectedEnvironmentsListByResourceGroupNextResponse = ConnectedEnvironmentCollection;
+export type ConnectedEnvironmentsListByResourceGroupNextResponse =
+  ConnectedEnvironmentCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCertificatesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConnectedEnvironmentsCertificatesListResponse = CertificateCollection;
+export type ConnectedEnvironmentsCertificatesListResponse =
+  CertificateCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCertificatesGetOptionalParams
@@ -3298,7 +3397,8 @@ export interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponse = Certificate;
+export type ConnectedEnvironmentsCertificatesCreateOrUpdateResponse =
+  Certificate;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCertificatesDeleteOptionalParams
@@ -3316,14 +3416,16 @@ export interface ConnectedEnvironmentsCertificatesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ConnectedEnvironmentsCertificatesListNextResponse = CertificateCollection;
+export type ConnectedEnvironmentsCertificatesListNextResponse =
+  CertificateCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConnectedEnvironmentsDaprComponentsListResponse = DaprComponentsCollection;
+export type ConnectedEnvironmentsDaprComponentsListResponse =
+  DaprComponentsCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsGetOptionalParams
@@ -3337,7 +3439,8 @@ export interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse = DaprComponent;
+export type ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse =
+  DaprComponent;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
@@ -3348,35 +3451,40 @@ export interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type ConnectedEnvironmentsDaprComponentsListSecretsResponse = DaprSecretsCollection;
+export type ConnectedEnvironmentsDaprComponentsListSecretsResponse =
+  DaprSecretsCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsDaprComponentsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ConnectedEnvironmentsDaprComponentsListNextResponse = DaprComponentsCollection;
+export type ConnectedEnvironmentsDaprComponentsListNextResponse =
+  DaprComponentsCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ConnectedEnvironmentsStoragesListResponse = ConnectedEnvironmentStoragesCollection;
+export type ConnectedEnvironmentsStoragesListResponse =
+  ConnectedEnvironmentStoragesCollection;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ConnectedEnvironmentsStoragesGetResponse = ConnectedEnvironmentStorage;
+export type ConnectedEnvironmentsStoragesGetResponse =
+  ConnectedEnvironmentStorage;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConnectedEnvironmentsStoragesCreateOrUpdateResponse = ConnectedEnvironmentStorage;
+export type ConnectedEnvironmentsStoragesCreateOrUpdateResponse =
+  ConnectedEnvironmentStorage;
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsStoragesDeleteOptionalParams
@@ -3444,7 +3552,8 @@ export interface ContainerAppsListCustomHostNameAnalysisOptionalParams
 }
 
 /** Contains response data for the listCustomHostNameAnalysis operation. */
-export type ContainerAppsListCustomHostNameAnalysisResponse = CustomHostnameAnalysisResult;
+export type ContainerAppsListCustomHostNameAnalysisResponse =
+  CustomHostnameAnalysisResult;
 
 /** Optional parameters. */
 export interface ContainerAppsListSecretsOptionalParams
@@ -3489,14 +3598,16 @@ export interface ContainerAppsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ContainerAppsListBySubscriptionNextResponse = ContainerAppCollection;
+export type ContainerAppsListBySubscriptionNextResponse =
+  ContainerAppCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollection;
+export type ContainerAppsListByResourceGroupNextResponse =
+  ContainerAppCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsRevisionsListRevisionsOptionalParams
@@ -3532,7 +3643,8 @@ export interface ContainerAppsRevisionsListRevisionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRevisionsNext operation. */
-export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
+export type ContainerAppsRevisionsListRevisionsNextResponse =
+  RevisionCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsRevisionReplicasGetReplicaOptionalParams
@@ -3546,14 +3658,16 @@ export interface ContainerAppsRevisionReplicasListReplicasOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listReplicas operation. */
-export type ContainerAppsRevisionReplicasListReplicasResponse = ReplicaCollection;
+export type ContainerAppsRevisionReplicasListReplicasResponse =
+  ReplicaCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsDiagnosticsListDetectorsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectors operation. */
-export type ContainerAppsDiagnosticsListDetectorsResponse = DiagnosticsCollection;
+export type ContainerAppsDiagnosticsListDetectorsResponse =
+  DiagnosticsCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsDiagnosticsGetDetectorOptionalParams
@@ -3591,21 +3705,24 @@ export interface ContainerAppsDiagnosticsListDetectorsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectorsNext operation. */
-export type ContainerAppsDiagnosticsListDetectorsNextResponse = DiagnosticsCollection;
+export type ContainerAppsDiagnosticsListDetectorsNextResponse =
+  DiagnosticsCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRevisionsNext operation. */
-export type ContainerAppsDiagnosticsListRevisionsNextResponse = RevisionCollection;
+export type ContainerAppsDiagnosticsListRevisionsNextResponse =
+  RevisionCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectors operation. */
-export type ManagedEnvironmentDiagnosticsListDetectorsResponse = DiagnosticsCollection;
+export type ManagedEnvironmentDiagnosticsListDetectorsResponse =
+  DiagnosticsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
@@ -3622,18 +3739,25 @@ export interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams
 export type ManagedEnvironmentsDiagnosticsGetRootResponse = ManagedEnvironment;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
+export interface JobsListDetectorsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type OperationsListResponse = AvailableOperations;
+/** Contains response data for the listDetectors operation. */
+export type JobsListDetectorsResponse = DiagnosticsCollection;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
+export interface JobsGetDetectorOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = AvailableOperations;
+/** Contains response data for the getDetector operation. */
+export type JobsGetDetectorResponse = Diagnostics;
+
+/** Optional parameters. */
+export interface JobsProxyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the proxyGet operation. */
+export type JobsProxyGetResponse = Job;
 
 /** Optional parameters. */
 export interface JobsListBySubscriptionOptionalParams
@@ -3728,6 +3852,13 @@ export interface JobsListSecretsOptionalParams
 export type JobsListSecretsResponse = JobSecretsCollection;
 
 /** Optional parameters. */
+export interface JobsListDetectorsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDetectorsNext operation. */
+export type JobsListDetectorsNextResponse = DiagnosticsCollection;
+
+/** Optional parameters. */
 export interface JobsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3740,6 +3871,20 @@ export interface JobsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type JobsListByResourceGroupNextResponse = JobsCollection;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = AvailableOperations;
 
 /** Optional parameters. */
 export interface JobsExecutionsListOptionalParams
@@ -3766,18 +3911,30 @@ export interface JobExecutionOptionalParams
 export type JobExecutionResponse = JobExecution;
 
 /** Optional parameters. */
+export interface GetCustomDomainVerificationIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCustomDomainVerificationId operation. */
+export type GetCustomDomainVerificationIdResponse = {
+  /** The parsed response body. */
+  body: string;
+};
+
+/** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ManagedEnvironmentsListBySubscriptionResponse = ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListBySubscriptionResponse =
+  ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ManagedEnvironmentsListByResourceGroupResponse = ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListByResourceGroupResponse =
+  ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsGetOptionalParams
@@ -3831,28 +3988,32 @@ export interface ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkloadProfileStates operation. */
-export type ManagedEnvironmentsListWorkloadProfileStatesResponse = WorkloadProfileStatesCollection;
+export type ManagedEnvironmentsListWorkloadProfileStatesResponse =
+  WorkloadProfileStatesCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ManagedEnvironmentsListBySubscriptionNextResponse = ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListBySubscriptionNextResponse =
+  ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedEnvironmentsListByResourceGroupNextResponse = ManagedEnvironmentsCollection;
+export type ManagedEnvironmentsListByResourceGroupNextResponse =
+  ManagedEnvironmentsCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkloadProfileStatesNext operation. */
-export type ManagedEnvironmentsListWorkloadProfileStatesNextResponse = WorkloadProfileStatesCollection;
+export type ManagedEnvironmentsListWorkloadProfileStatesNextResponse =
+  WorkloadProfileStatesCollection;
 
 /** Optional parameters. */
 export interface CertificatesListOptionalParams
@@ -3947,7 +4108,8 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+export type NamespacesCheckNameAvailabilityResponse =
+  CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface DaprComponentsListOptionalParams
@@ -3993,7 +4155,8 @@ export interface ManagedEnvironmentsStoragesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedEnvironmentsStoragesListResponse = ManagedEnvironmentStoragesCollection;
+export type ManagedEnvironmentsStoragesListResponse =
+  ManagedEnvironmentStoragesCollection;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsStoragesGetOptionalParams
@@ -4007,7 +4170,8 @@ export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedEnvironmentsStoragesCreateOrUpdateResponse = ManagedEnvironmentStorage;
+export type ManagedEnvironmentsStoragesCreateOrUpdateResponse =
+  ManagedEnvironmentStorage;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsStoragesDeleteOptionalParams
@@ -4018,7 +4182,8 @@ export interface ContainerAppsSourceControlsListByContainerAppOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerApp operation. */
-export type ContainerAppsSourceControlsListByContainerAppResponse = SourceControlCollection;
+export type ContainerAppsSourceControlsListByContainerAppResponse =
+  SourceControlCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsSourceControlsGetOptionalParams
@@ -4053,7 +4218,35 @@ export interface ContainerAppsSourceControlsListByContainerAppNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByContainerAppNext operation. */
-export type ContainerAppsSourceControlsListByContainerAppNextResponse = SourceControlCollection;
+export type ContainerAppsSourceControlsListByContainerAppNextResponse =
+  SourceControlCollection;
+
+/** Optional parameters. */
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UsagesListResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface UsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UsagesListNextResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentUsagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ManagedEnvironmentUsagesListResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentUsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ManagedEnvironmentUsagesListNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
 export interface ContainerAppsAPIClientOptionalParams

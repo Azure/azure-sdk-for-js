@@ -96,7 +96,7 @@ import {
   SqlResourcesDeleteSqlRoleAssignmentOptionalParams,
   ContinuousBackupRestoreLocation,
   SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
-  SqlResourcesRetrieveContinuousBackupInformationResponse
+  SqlResourcesRetrieveContinuousBackupInformationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -111,7 +111,7 @@ export interface SqlResources {
   listSqlDatabases(
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesListSqlDatabasesOptionalParams
+    options?: SqlResourcesListSqlDatabasesOptionalParams,
   ): PagedAsyncIterableIterator<SqlDatabaseGetResults>;
   /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
@@ -124,7 +124,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesListSqlContainersOptionalParams
+    options?: SqlResourcesListSqlContainersOptionalParams,
   ): PagedAsyncIterableIterator<SqlContainerGetResults>;
   /**
    * Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
@@ -137,7 +137,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams,
   ): PagedAsyncIterableIterator<ClientEncryptionKeyGetResults>;
   /**
    * Lists the SQL storedProcedure under an existing Azure Cosmos DB database account.
@@ -152,7 +152,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesListSqlStoredProceduresOptionalParams
+    options?: SqlResourcesListSqlStoredProceduresOptionalParams,
   ): PagedAsyncIterableIterator<SqlStoredProcedureGetResults>;
   /**
    * Lists the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
@@ -167,7 +167,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesListSqlUserDefinedFunctionsOptionalParams
+    options?: SqlResourcesListSqlUserDefinedFunctionsOptionalParams,
   ): PagedAsyncIterableIterator<SqlUserDefinedFunctionGetResults>;
   /**
    * Lists the SQL trigger under an existing Azure Cosmos DB database account.
@@ -182,7 +182,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesListSqlTriggersOptionalParams
+    options?: SqlResourcesListSqlTriggersOptionalParams,
   ): PagedAsyncIterableIterator<SqlTriggerGetResults>;
   /**
    * Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
@@ -193,7 +193,7 @@ export interface SqlResources {
   listSqlRoleDefinitions(
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesListSqlRoleDefinitionsOptionalParams
+    options?: SqlResourcesListSqlRoleDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<SqlRoleDefinitionGetResults>;
   /**
    * Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
@@ -204,7 +204,7 @@ export interface SqlResources {
   listSqlRoleAssignments(
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesListSqlRoleAssignmentsOptionalParams
+    options?: SqlResourcesListSqlRoleAssignmentsOptionalParams,
   ): PagedAsyncIterableIterator<SqlRoleAssignmentGetResults>;
   /**
    * Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
@@ -217,7 +217,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesGetSqlDatabaseOptionalParams
+    options?: SqlResourcesGetSqlDatabaseOptionalParams,
   ): Promise<SqlResourcesGetSqlDatabaseResponse>;
   /**
    * Create or update an Azure Cosmos DB SQL database
@@ -232,7 +232,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     createUpdateSqlDatabaseParameters: SqlDatabaseCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlDatabaseOptionalParams
+    options?: SqlResourcesCreateUpdateSqlDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlDatabaseResponse>,
@@ -252,7 +252,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     createUpdateSqlDatabaseParameters: SqlDatabaseCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlDatabaseOptionalParams
+    options?: SqlResourcesCreateUpdateSqlDatabaseOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlDatabaseResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL database.
@@ -265,7 +265,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesDeleteSqlDatabaseOptionalParams
+    options?: SqlResourcesDeleteSqlDatabaseOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesDeleteSqlDatabaseResponse>,
@@ -283,7 +283,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesDeleteSqlDatabaseOptionalParams
+    options?: SqlResourcesDeleteSqlDatabaseOptionalParams,
   ): Promise<SqlResourcesDeleteSqlDatabaseResponse>;
   /**
    * Gets the RUs per second of the SQL database under an existing Azure Cosmos DB database account with
@@ -297,7 +297,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesGetSqlDatabaseThroughputOptionalParams
+    options?: SqlResourcesGetSqlDatabaseThroughputOptionalParams,
   ): Promise<SqlResourcesGetSqlDatabaseThroughputResponse>;
   /**
    * Update RUs per second of an Azure Cosmos DB SQL database
@@ -313,7 +313,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams
+    options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>,
@@ -334,7 +334,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams
+    options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams,
   ): Promise<SqlResourcesUpdateSqlDatabaseThroughputResponse>;
   /**
    * Migrate an Azure Cosmos DB SQL database from manual throughput to autoscale
@@ -347,7 +347,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams
+    options?: SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>,
@@ -365,7 +365,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams
+    options?: SqlResourcesMigrateSqlDatabaseToAutoscaleOptionalParams,
   ): Promise<SqlResourcesMigrateSqlDatabaseToAutoscaleResponse>;
   /**
    * Migrate an Azure Cosmos DB SQL database from autoscale to manual throughput
@@ -378,7 +378,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
+    options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>,
@@ -396,7 +396,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams
+    options?: SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   ): Promise<SqlResourcesMigrateSqlDatabaseToManualThroughputResponse>;
   /**
    * Gets the SQL container under an existing Azure Cosmos DB database account.
@@ -411,7 +411,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesGetSqlContainerOptionalParams
+    options?: SqlResourcesGetSqlContainerOptionalParams,
   ): Promise<SqlResourcesGetSqlContainerResponse>;
   /**
    * Create or update an Azure Cosmos DB SQL container
@@ -428,7 +428,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlContainerOptionalParams
+    options?: SqlResourcesCreateUpdateSqlContainerOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlContainerResponse>,
@@ -450,7 +450,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     createUpdateSqlContainerParameters: SqlContainerCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlContainerOptionalParams
+    options?: SqlResourcesCreateUpdateSqlContainerOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlContainerResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL container.
@@ -465,7 +465,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesDeleteSqlContainerOptionalParams
+    options?: SqlResourcesDeleteSqlContainerOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesDeleteSqlContainerResponse>,
@@ -485,7 +485,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesDeleteSqlContainerOptionalParams
+    options?: SqlResourcesDeleteSqlContainerOptionalParams,
   ): Promise<SqlResourcesDeleteSqlContainerResponse>;
   /**
    * Gets the RUs per second of the SQL container under an existing Azure Cosmos DB database account.
@@ -500,7 +500,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesGetSqlContainerThroughputOptionalParams
+    options?: SqlResourcesGetSqlContainerThroughputOptionalParams,
   ): Promise<SqlResourcesGetSqlContainerThroughputResponse>;
   /**
    * Update RUs per second of an Azure Cosmos DB SQL container
@@ -518,7 +518,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams
+    options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesUpdateSqlContainerThroughputResponse>,
@@ -541,7 +541,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     updateThroughputParameters: ThroughputSettingsUpdateParameters,
-    options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams
+    options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams,
   ): Promise<SqlResourcesUpdateSqlContainerThroughputResponse>;
   /**
    * Migrate an Azure Cosmos DB SQL container from manual throughput to autoscale
@@ -556,7 +556,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams
+    options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>,
@@ -576,7 +576,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams
+    options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams,
   ): Promise<SqlResourcesMigrateSqlContainerToAutoscaleResponse>;
   /**
    * Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
@@ -591,7 +591,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
+    options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesMigrateSqlContainerToManualThroughputResponse>,
@@ -611,7 +611,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
+    options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   ): Promise<SqlResourcesMigrateSqlContainerToManualThroughputResponse>;
   /**
    * Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
@@ -626,7 +626,7 @@ export interface SqlResources {
     accountName: string,
     databaseName: string,
     clientEncryptionKeyName: string,
-    options?: SqlResourcesGetClientEncryptionKeyOptionalParams
+    options?: SqlResourcesGetClientEncryptionKeyOptionalParams,
   ): Promise<SqlResourcesGetClientEncryptionKeyResponse>;
   /**
    * Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure
@@ -645,7 +645,7 @@ export interface SqlResources {
     databaseName: string,
     clientEncryptionKeyName: string,
     createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
@@ -669,7 +669,7 @@ export interface SqlResources {
     databaseName: string,
     clientEncryptionKeyName: string,
     createUpdateClientEncryptionKeyParameters: ClientEncryptionKeyCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
+    options?: SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
   ): Promise<SqlResourcesCreateUpdateClientEncryptionKeyResponse>;
   /**
    * Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
@@ -686,7 +686,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     storedProcedureName: string,
-    options?: SqlResourcesGetSqlStoredProcedureOptionalParams
+    options?: SqlResourcesGetSqlStoredProcedureOptionalParams,
   ): Promise<SqlResourcesGetSqlStoredProcedureResponse>;
   /**
    * Create or update an Azure Cosmos DB SQL storedProcedure
@@ -706,7 +706,7 @@ export interface SqlResources {
     containerName: string,
     storedProcedureName: string,
     createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams
+    options?: SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlStoredProcedureResponse>,
@@ -731,7 +731,7 @@ export interface SqlResources {
     containerName: string,
     storedProcedureName: string,
     createUpdateSqlStoredProcedureParameters: SqlStoredProcedureCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams
+    options?: SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlStoredProcedureResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL storedProcedure.
@@ -748,7 +748,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     storedProcedureName: string,
-    options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams
+    options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesDeleteSqlStoredProcedureResponse>,
@@ -770,7 +770,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     storedProcedureName: string,
-    options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams
+    options?: SqlResourcesDeleteSqlStoredProcedureOptionalParams,
   ): Promise<SqlResourcesDeleteSqlStoredProcedureResponse>;
   /**
    * Gets the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
@@ -787,7 +787,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     userDefinedFunctionName: string,
-    options?: SqlResourcesGetSqlUserDefinedFunctionOptionalParams
+    options?: SqlResourcesGetSqlUserDefinedFunctionOptionalParams,
   ): Promise<SqlResourcesGetSqlUserDefinedFunctionResponse>;
   /**
    * Create or update an Azure Cosmos DB SQL userDefinedFunction
@@ -807,7 +807,7 @@ export interface SqlResources {
     containerName: string,
     userDefinedFunctionName: string,
     createUpdateSqlUserDefinedFunctionParameters: SqlUserDefinedFunctionCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams
+    options?: SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>,
@@ -832,7 +832,7 @@ export interface SqlResources {
     containerName: string,
     userDefinedFunctionName: string,
     createUpdateSqlUserDefinedFunctionParameters: SqlUserDefinedFunctionCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams
+    options?: SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL userDefinedFunction.
@@ -849,7 +849,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     userDefinedFunctionName: string,
-    options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
+    options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesDeleteSqlUserDefinedFunctionResponse>,
@@ -871,7 +871,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     userDefinedFunctionName: string,
-    options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams
+    options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams,
   ): Promise<SqlResourcesDeleteSqlUserDefinedFunctionResponse>;
   /**
    * Gets the SQL trigger under an existing Azure Cosmos DB database account.
@@ -888,7 +888,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     triggerName: string,
-    options?: SqlResourcesGetSqlTriggerOptionalParams
+    options?: SqlResourcesGetSqlTriggerOptionalParams,
   ): Promise<SqlResourcesGetSqlTriggerResponse>;
   /**
    * Create or update an Azure Cosmos DB SQL trigger
@@ -907,7 +907,7 @@ export interface SqlResources {
     containerName: string,
     triggerName: string,
     createUpdateSqlTriggerParameters: SqlTriggerCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlTriggerOptionalParams
+    options?: SqlResourcesCreateUpdateSqlTriggerOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlTriggerResponse>,
@@ -931,7 +931,7 @@ export interface SqlResources {
     containerName: string,
     triggerName: string,
     createUpdateSqlTriggerParameters: SqlTriggerCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlTriggerOptionalParams
+    options?: SqlResourcesCreateUpdateSqlTriggerOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlTriggerResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL trigger.
@@ -948,7 +948,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     triggerName: string,
-    options?: SqlResourcesDeleteSqlTriggerOptionalParams
+    options?: SqlResourcesDeleteSqlTriggerOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesDeleteSqlTriggerResponse>,
@@ -970,7 +970,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     triggerName: string,
-    options?: SqlResourcesDeleteSqlTriggerOptionalParams
+    options?: SqlResourcesDeleteSqlTriggerOptionalParams,
   ): Promise<SqlResourcesDeleteSqlTriggerResponse>;
   /**
    * Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
@@ -983,7 +983,7 @@ export interface SqlResources {
     roleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesGetSqlRoleDefinitionOptionalParams
+    options?: SqlResourcesGetSqlRoleDefinitionOptionalParams,
   ): Promise<SqlResourcesGetSqlRoleDefinitionResponse>;
   /**
    * Creates or updates an Azure Cosmos DB SQL Role Definition.
@@ -999,7 +999,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateSqlRoleDefinitionParameters: SqlRoleDefinitionCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams
+    options?: SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>,
@@ -1020,7 +1020,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateSqlRoleDefinitionParameters: SqlRoleDefinitionCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams
+    options?: SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Definition.
@@ -1033,7 +1033,7 @@ export interface SqlResources {
     roleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesDeleteSqlRoleDefinitionOptionalParams
+    options?: SqlResourcesDeleteSqlRoleDefinitionOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Definition.
@@ -1046,7 +1046,7 @@ export interface SqlResources {
     roleDefinitionId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesDeleteSqlRoleDefinitionOptionalParams
+    options?: SqlResourcesDeleteSqlRoleDefinitionOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the properties of an existing Azure Cosmos DB SQL Role Assignment with the given Id.
@@ -1059,7 +1059,7 @@ export interface SqlResources {
     roleAssignmentId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesGetSqlRoleAssignmentOptionalParams
+    options?: SqlResourcesGetSqlRoleAssignmentOptionalParams,
   ): Promise<SqlResourcesGetSqlRoleAssignmentResponse>;
   /**
    * Creates or updates an Azure Cosmos DB SQL Role Assignment.
@@ -1075,7 +1075,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateSqlRoleAssignmentParameters: SqlRoleAssignmentCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams
+    options?: SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>,
@@ -1096,7 +1096,7 @@ export interface SqlResources {
     resourceGroupName: string,
     accountName: string,
     createUpdateSqlRoleAssignmentParameters: SqlRoleAssignmentCreateUpdateParameters,
-    options?: SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams
+    options?: SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams,
   ): Promise<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Assignment.
@@ -1109,7 +1109,7 @@ export interface SqlResources {
     roleAssignmentId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesDeleteSqlRoleAssignmentOptionalParams
+    options?: SqlResourcesDeleteSqlRoleAssignmentOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Azure Cosmos DB SQL Role Assignment.
@@ -1122,7 +1122,7 @@ export interface SqlResources {
     roleAssignmentId: string,
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesDeleteSqlRoleAssignmentOptionalParams
+    options?: SqlResourcesDeleteSqlRoleAssignmentOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves continuous backup information for a container resource.
@@ -1139,7 +1139,7 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SqlResourcesRetrieveContinuousBackupInformationResponse>,
@@ -1161,6 +1161,6 @@ export interface SqlResources {
     databaseName: string,
     containerName: string,
     location: ContinuousBackupRestoreLocation,
-    options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams
+    options?: SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
   ): Promise<SqlResourcesRetrieveContinuousBackupInformationResponse>;
 }

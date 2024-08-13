@@ -1,0 +1,46 @@
+{
+  "name": "@azure-samples/event-hubs-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Event Hubs client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/eventhub/event-hubs"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "event hubs",
+    "events",
+    "Azure"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs",
+  "dependencies": {
+    "@azure/event-hubs": "next",
+    "dotenv": "latest",
+    "rhea-promise": "^3.0.0",
+    "@azure/core-amqp": "4.4.0-beta.1",
+    "ws": "^8.2.0",
+    "@azure/identity": "^4.4.1",
+    "https-proxy-agent": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.2.4",
+    "@types/node": "^18.0.0",
+    "typescript": "~5.5.3",
+    "rimraf": "latest"
+  }
+}

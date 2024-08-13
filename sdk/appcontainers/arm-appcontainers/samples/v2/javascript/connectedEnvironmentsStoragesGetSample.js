@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get storage for a connectedEnvironment.
  *
  * @summary Get storage for a connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsStorages_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsStorages_Get.json
  */
 async function getAEnvironmentsStoragePropertiesBySubscription() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getAEnvironmentsStoragePropertiesBySubscription() {
   const result = await client.connectedEnvironmentsStorages.get(
     resourceGroupName,
     connectedEnvironmentName,
-    storageName
+    storageName,
   );
   console.log(result);
 }

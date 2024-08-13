@@ -16,13 +16,13 @@ require("dotenv").config();
  * This sample demonstrates how to Terminates execution of a running container apps job
  *
  * @summary Terminates execution of a running container apps job
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Stop_Multiple.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Job_Stop_Multiple.json
  */
 async function terminateMultipleContainerAppsJob() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const jobName = "testcontainerAppsJob0";
+  const jobName = "testcontainerappsjob0";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.jobs.beginStopMultipleExecutionsAndWait(resourceGroupName, jobName);

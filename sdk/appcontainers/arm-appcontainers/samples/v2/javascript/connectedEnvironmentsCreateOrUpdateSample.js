@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an connectedEnvironment.
  *
  * @summary Creates or updates an connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironments_CreateOrUpdate.json
  */
 async function createKubeEnvironments() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function createKubeEnvironments() {
   const result = await client.connectedEnvironments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     connectedEnvironmentName,
-    environmentEnvelope
+    environmentEnvelope,
   );
   console.log(result);
 }

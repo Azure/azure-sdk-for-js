@@ -15,17 +15,16 @@ import {
   CheckAvailabilityParameters,
   NotificationHubsCheckNotificationHubAvailabilityOptionalParams,
   NotificationHubsCheckNotificationHubAvailabilityResponse,
-  NotificationHubCreateOrUpdateParameters,
-  NotificationHubsCreateOrUpdateOptionalParams,
-  NotificationHubsCreateOrUpdateResponse,
-  NotificationHubsPatchOptionalParams,
-  NotificationHubsPatchResponse,
-  NotificationHubsDeleteOptionalParams,
   NotificationHubsGetOptionalParams,
   NotificationHubsGetResponse,
+  NotificationHubsCreateOrUpdateOptionalParams,
+  NotificationHubsCreateOrUpdateResponse,
+  NotificationHubPatchParameters,
+  NotificationHubsUpdateOptionalParams,
+  NotificationHubsUpdateResponse,
+  NotificationHubsDeleteOptionalParams,
   NotificationHubsDebugSendOptionalParams,
   NotificationHubsDebugSendResponse,
-  SharedAccessAuthorizationRuleCreateOrUpdateParameters,
   NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   NotificationHubsCreateOrUpdateAuthorizationRuleResponse,
   NotificationHubsDeleteAuthorizationRuleOptionalParams,
@@ -33,11 +32,11 @@ import {
   NotificationHubsGetAuthorizationRuleResponse,
   NotificationHubsListKeysOptionalParams,
   NotificationHubsListKeysResponse,
-  PolicykeyResource,
+  PolicyKeyResource,
   NotificationHubsRegenerateKeysOptionalParams,
   NotificationHubsRegenerateKeysResponse,
   NotificationHubsGetPnsCredentialsOptionalParams,
-  NotificationHubsGetPnsCredentialsResponse
+  NotificationHubsGetPnsCredentialsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,115 +44,117 @@ import {
 export interface NotificationHubs {
   /**
    * Lists the notification hubs associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NotificationHubsListOptionalParams
+    options?: NotificationHubsListOptionalParams,
   ): PagedAsyncIterableIterator<NotificationHubResource>;
   /**
    * Gets the authorization rules for a NotificationHub.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param notificationHubName The notification hub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    options?: NotificationHubsListAuthorizationRulesOptionalParams
+    options?: NotificationHubsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SharedAccessAuthorizationRuleResource>;
   /**
    * Checks the availability of the given notificationHub in a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param parameters The notificationHub name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   checkNotificationHubAvailability(
     resourceGroupName: string,
     namespaceName: string,
     parameters: CheckAvailabilityParameters,
-    options?: NotificationHubsCheckNotificationHubAvailabilityOptionalParams
+    options?: NotificationHubsCheckNotificationHubAvailabilityOptionalParams,
   ): Promise<NotificationHubsCheckNotificationHubAvailabilityResponse>;
   /**
-   * Creates/Update a NotificationHub in a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param parameters Parameters supplied to the create/update a NotificationHub Resource.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    namespaceName: string,
-    notificationHubName: string,
-    parameters: NotificationHubCreateOrUpdateParameters,
-    options?: NotificationHubsCreateOrUpdateOptionalParams
-  ): Promise<NotificationHubsCreateOrUpdateResponse>;
-  /**
-   * Patch a NotificationHub in a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param options The options parameters.
-   */
-  patch(
-    resourceGroupName: string,
-    namespaceName: string,
-    notificationHubName: string,
-    options?: NotificationHubsPatchOptionalParams
-  ): Promise<NotificationHubsPatchResponse>;
-  /**
-   * Deletes a notification hub associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    namespaceName: string,
-    notificationHubName: string,
-    options?: NotificationHubsDeleteOptionalParams
-  ): Promise<void>;
-  /**
-   * Lists the notification hubs associated with a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * Gets the notification hub.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    options?: NotificationHubsGetOptionalParams
+    options?: NotificationHubsGetOptionalParams,
   ): Promise<NotificationHubsGetResponse>;
   /**
-   * test send a push notification
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * Creates/Update a NotificationHub in a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param parameters Request content.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    parameters: NotificationHubResource,
+    options?: NotificationHubsCreateOrUpdateOptionalParams,
+  ): Promise<NotificationHubsCreateOrUpdateResponse>;
+  /**
+   * Patch a NotificationHub in a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param parameters Request content.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    parameters: NotificationHubPatchParameters,
+    options?: NotificationHubsUpdateOptionalParams,
+  ): Promise<NotificationHubsUpdateResponse>;
+  /**
+   * Deletes a notification hub associated with a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    notificationHubName: string,
+    options?: NotificationHubsDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Test send a push notification.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   debugSend(
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    options?: NotificationHubsDebugSendOptionalParams
+    options?: NotificationHubsDebugSendOptionalParams,
   ): Promise<NotificationHubsDebugSendResponse>;
   /**
    * Creates/Updates an authorization rule for a NotificationHub
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName Authorization Rule Name.
-   * @param parameters The shared access authorization rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   createOrUpdateAuthorizationRule(
@@ -161,15 +162,15 @@ export interface NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    parameters: SharedAccessAuthorizationRuleCreateOrUpdateParameters,
-    options?: NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams
+    parameters: SharedAccessAuthorizationRuleResource,
+    options?: NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<NotificationHubsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Deletes a notificationHub authorization rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName Authorization Rule Name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   deleteAuthorizationRule(
@@ -177,14 +178,14 @@ export interface NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    options?: NotificationHubsDeleteAuthorizationRuleOptionalParams
+    options?: NotificationHubsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets an authorization rule for a NotificationHub by name.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName authorization rule name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   getAuthorizationRule(
@@ -192,15 +193,14 @@ export interface NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    options?: NotificationHubsGetAuthorizationRuleOptionalParams
+    options?: NotificationHubsGetAuthorizationRuleOptionalParams,
   ): Promise<NotificationHubsGetAuthorizationRuleResponse>;
   /**
    * Gets the Primary and Secondary ConnectionStrings to the NotificationHub
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName The connection string of the NotificationHub for the specified
-   *                              authorizationRule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   listKeys(
@@ -208,16 +208,15 @@ export interface NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    options?: NotificationHubsListKeysOptionalParams
+    options?: NotificationHubsListKeysOptionalParams,
   ): Promise<NotificationHubsListKeysResponse>;
   /**
    * Regenerates the Primary/Secondary Keys to the NotificationHub Authorization Rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
-   * @param authorizationRuleName The connection string of the NotificationHub for the specified
-   *                              authorizationRule.
-   * @param parameters Parameters supplied to regenerate the NotificationHub Authorization Rule Key.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   regenerateKeys(
@@ -225,20 +224,20 @@ export interface NotificationHubs {
     namespaceName: string,
     notificationHubName: string,
     authorizationRuleName: string,
-    parameters: PolicykeyResource,
-    options?: NotificationHubsRegenerateKeysOptionalParams
+    parameters: PolicyKeyResource,
+    options?: NotificationHubsRegenerateKeysOptionalParams,
   ): Promise<NotificationHubsRegenerateKeysResponse>;
   /**
-   * Lists the PNS Credentials associated with a notification hub .
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param notificationHubName The notification hub name.
+   * Lists the PNS Credentials associated with a notification hub.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param notificationHubName Notification Hub name
    * @param options The options parameters.
    */
   getPnsCredentials(
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    options?: NotificationHubsGetPnsCredentialsOptionalParams
+    options?: NotificationHubsGetPnsCredentialsOptionalParams,
   ): Promise<NotificationHubsGetPnsCredentialsResponse>;
 }

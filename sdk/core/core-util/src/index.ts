@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { delay, type DelayOptions } from "./delay.js";
+export { delay, type DelayOptions, calculateRetryDelay } from "./delay.js";
 export {
   type AbortOptions,
   cancelablePromiseRace,
@@ -21,6 +21,8 @@ export {
   isBrowser,
   isBun,
   isNode,
+  isNodeLike,
+  isNodeRuntime,
   isDeno,
   isReactNative,
   isWebWorker,

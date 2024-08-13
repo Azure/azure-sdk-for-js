@@ -22,17 +22,17 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics"
  * This client is used to configure and execute requests in the Azure Cosmos DB database service.
  * @example Instantiate a client and create a new database
  * ```typescript
- * const client = new CosmosClient({endpoint: "<URL HERE>", auth: {masterKey: "<KEY HERE>"}});
- * await client.databases.create({id: "<datbase name here>"});
+ * const client = new CosmosClient({endpoint: "<URL HERE>", key: "<KEY HERE>"});
+ * await client.databases.create({id: "<database name here>"});
  * ```
  * @example Instantiate a client with custom Connection Policy
  * ```typescript
- * const connectionPolicy = new ConnectionPolicy();
- * connectionPolicy.RequestTimeout = 10000;
  * const client = new CosmosClient({
  *    endpoint: "<URL HERE>",
- *    auth: {masterKey: "<KEY HERE>"},
- *    connectionPolicy
+ *    key: "<KEY HERE>",
+ *    connectionPolicy: {
+ *     requestTimeout: 10000,
+ *    },
  * });
  * ```
  */

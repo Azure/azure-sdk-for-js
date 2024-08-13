@@ -16,7 +16,7 @@ import { CdnManagementClient } from "../cdnManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -52,7 +52,7 @@ import {
   ProfilesListSupportedOptimizationTypesResponse,
   ProfilesListNextResponse,
   ProfilesListByResourceGroupNextResponse,
-  ProfilesListResourceUsageNextResponse
+  ProfilesListResourceUsageNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -74,7 +74,7 @@ export class ProfilesImpl implements Profiles {
    * @param options The options parameters.
    */
   public list(
-    options?: ProfilesListOptionalParams
+    options?: ProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<Profile> {
     const iter = this.listPagingAll(options);
     return {
@@ -89,13 +89,13 @@ export class ProfilesImpl implements Profiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ProfilesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Profile[]> {
     let result: ProfilesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -116,7 +116,7 @@ export class ProfilesImpl implements Profiles {
   }
 
   private async *listPagingAll(
-    options?: ProfilesListOptionalParams
+    options?: ProfilesListOptionalParams,
   ): AsyncIterableIterator<Profile> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -131,7 +131,7 @@ export class ProfilesImpl implements Profiles {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Profile> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -148,16 +148,16 @@ export class ProfilesImpl implements Profiles {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ProfilesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Profile[]> {
     let result: ProfilesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -172,7 +172,7 @@ export class ProfilesImpl implements Profiles {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -183,11 +183,11 @@ export class ProfilesImpl implements Profiles {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Profile> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -204,12 +204,12 @@ export class ProfilesImpl implements Profiles {
   public listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListResourceUsageOptionalParams
+    options?: ProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<ResourceUsage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return {
       next() {
@@ -226,9 +226,9 @@ export class ProfilesImpl implements Profiles {
           resourceGroupName,
           profileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -236,7 +236,7 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     options?: ProfilesListResourceUsageOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceUsage[]> {
     let result: ProfilesListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
@@ -244,7 +244,7 @@ export class ProfilesImpl implements Profiles {
       result = await this._listResourceUsage(
         resourceGroupName,
         profileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -256,7 +256,7 @@ export class ProfilesImpl implements Profiles {
         resourceGroupName,
         profileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -268,12 +268,12 @@ export class ProfilesImpl implements Profiles {
   private async *listResourceUsagePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListResourceUsageOptionalParams
+    options?: ProfilesListResourceUsageOptionalParams,
   ): AsyncIterableIterator<ResourceUsage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
       profileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -285,7 +285,7 @@ export class ProfilesImpl implements Profiles {
    * @param options The options parameters.
    */
   private _list(
-    options?: ProfilesListOptionalParams
+    options?: ProfilesListOptionalParams,
   ): Promise<ProfilesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -298,11 +298,11 @@ export class ProfilesImpl implements Profiles {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ProfilesListByResourceGroupOptionalParams
+    options?: ProfilesListByResourceGroupOptionalParams,
   ): Promise<ProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -317,11 +317,11 @@ export class ProfilesImpl implements Profiles {
   get(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesGetOptionalParams
+    options?: ProfilesGetOptionalParams,
   ): Promise<ProfilesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -338,7 +338,7 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     profile: Profile,
-    options?: ProfilesCreateOptionalParams
+    options?: ProfilesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProfilesCreateResponse>,
@@ -347,21 +347,20 @@ export class ProfilesImpl implements Profiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProfilesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -370,8 +369,8 @@ export class ProfilesImpl implements Profiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -379,22 +378,22 @@ export class ProfilesImpl implements Profiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, profile, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ProfilesCreateResponse,
       OperationState<ProfilesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -413,13 +412,13 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     profile: Profile,
-    options?: ProfilesCreateOptionalParams
+    options?: ProfilesCreateOptionalParams,
   ): Promise<ProfilesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
       profile,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -437,7 +436,7 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     profileUpdateParameters: ProfileUpdateParameters,
-    options?: ProfilesUpdateOptionalParams
+    options?: ProfilesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProfilesUpdateResponse>,
@@ -446,21 +445,20 @@ export class ProfilesImpl implements Profiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProfilesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -469,8 +467,8 @@ export class ProfilesImpl implements Profiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -478,8 +476,8 @@ export class ProfilesImpl implements Profiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -489,16 +487,16 @@ export class ProfilesImpl implements Profiles {
         resourceGroupName,
         profileName,
         profileUpdateParameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProfilesUpdateResponse,
       OperationState<ProfilesUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -517,13 +515,13 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     profileUpdateParameters: ProfileUpdateParameters,
-    options?: ProfilesUpdateOptionalParams
+    options?: ProfilesUpdateOptionalParams,
   ): Promise<ProfilesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
       profileUpdateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -540,25 +538,24 @@ export class ProfilesImpl implements Profiles {
   async beginDelete(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesDeleteOptionalParams
+    options?: ProfilesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -567,8 +564,8 @@ export class ProfilesImpl implements Profiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -576,19 +573,19 @@ export class ProfilesImpl implements Profiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -606,12 +603,12 @@ export class ProfilesImpl implements Profiles {
   async beginDeleteAndWait(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesDeleteOptionalParams
+    options?: ProfilesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -626,7 +623,7 @@ export class ProfilesImpl implements Profiles {
   async beginCanMigrate(
     resourceGroupName: string,
     canMigrateParameters: CanMigrateParameters,
-    options?: ProfilesCanMigrateOptionalParams
+    options?: ProfilesCanMigrateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProfilesCanMigrateResponse>,
@@ -635,21 +632,20 @@ export class ProfilesImpl implements Profiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProfilesCanMigrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -658,8 +654,8 @@ export class ProfilesImpl implements Profiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -667,15 +663,15 @@ export class ProfilesImpl implements Profiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, canMigrateParameters, options },
-      spec: canMigrateOperationSpec
+      spec: canMigrateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProfilesCanMigrateResponse,
@@ -683,7 +679,7 @@ export class ProfilesImpl implements Profiles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -699,12 +695,12 @@ export class ProfilesImpl implements Profiles {
   async beginCanMigrateAndWait(
     resourceGroupName: string,
     canMigrateParameters: CanMigrateParameters,
-    options?: ProfilesCanMigrateOptionalParams
+    options?: ProfilesCanMigrateOptionalParams,
   ): Promise<ProfilesCanMigrateResponse> {
     const poller = await this.beginCanMigrate(
       resourceGroupName,
       canMigrateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -719,7 +715,7 @@ export class ProfilesImpl implements Profiles {
   async beginMigrate(
     resourceGroupName: string,
     migrationParameters: MigrationParameters,
-    options?: ProfilesMigrateOptionalParams
+    options?: ProfilesMigrateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProfilesMigrateResponse>,
@@ -728,21 +724,20 @@ export class ProfilesImpl implements Profiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ProfilesMigrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -751,8 +746,8 @@ export class ProfilesImpl implements Profiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -760,15 +755,15 @@ export class ProfilesImpl implements Profiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, migrationParameters, options },
-      spec: migrateOperationSpec
+      spec: migrateOperationSpec,
     });
     const poller = await createHttpPoller<
       ProfilesMigrateResponse,
@@ -776,7 +771,7 @@ export class ProfilesImpl implements Profiles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -792,12 +787,12 @@ export class ProfilesImpl implements Profiles {
   async beginMigrateAndWait(
     resourceGroupName: string,
     migrationParameters: MigrationParameters,
-    options?: ProfilesMigrateOptionalParams
+    options?: ProfilesMigrateOptionalParams,
   ): Promise<ProfilesMigrateResponse> {
     const poller = await this.beginMigrate(
       resourceGroupName,
       migrationParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -811,25 +806,24 @@ export class ProfilesImpl implements Profiles {
   async beginMigrationCommit(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesMigrationCommitOptionalParams
+    options?: ProfilesMigrationCommitOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -838,8 +832,8 @@ export class ProfilesImpl implements Profiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -847,20 +841,20 @@ export class ProfilesImpl implements Profiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, profileName, options },
-      spec: migrationCommitOperationSpec
+      spec: migrationCommitOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -875,12 +869,12 @@ export class ProfilesImpl implements Profiles {
   async beginMigrationCommitAndWait(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesMigrationCommitOptionalParams
+    options?: ProfilesMigrationCommitOptionalParams,
   ): Promise<void> {
     const poller = await this.beginMigrationCommit(
       resourceGroupName,
       profileName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -897,11 +891,11 @@ export class ProfilesImpl implements Profiles {
   generateSsoUri(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesGenerateSsoUriOptionalParams
+    options?: ProfilesGenerateSsoUriOptionalParams,
   ): Promise<ProfilesGenerateSsoUriResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      generateSsoUriOperationSpec
+      generateSsoUriOperationSpec,
     );
   }
 
@@ -916,11 +910,11 @@ export class ProfilesImpl implements Profiles {
   listSupportedOptimizationTypes(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListSupportedOptimizationTypesOptionalParams
+    options?: ProfilesListSupportedOptimizationTypesOptionalParams,
   ): Promise<ProfilesListSupportedOptimizationTypesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listSupportedOptimizationTypesOperationSpec
+      listSupportedOptimizationTypesOperationSpec,
     );
   }
 
@@ -935,11 +929,11 @@ export class ProfilesImpl implements Profiles {
   private _listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: ProfilesListResourceUsageOptionalParams
+    options?: ProfilesListResourceUsageOptionalParams,
   ): Promise<ProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
-      listResourceUsageOperationSpec
+      listResourceUsageOperationSpec,
     );
   }
 
@@ -950,11 +944,11 @@ export class ProfilesImpl implements Profiles {
    */
   private _listNext(
     nextLink: string,
-    options?: ProfilesListNextOptionalParams
+    options?: ProfilesListNextOptionalParams,
   ): Promise<ProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -967,11 +961,11 @@ export class ProfilesImpl implements Profiles {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ProfilesListByResourceGroupNextOptionalParams
+    options?: ProfilesListByResourceGroupNextOptionalParams,
   ): Promise<ProfilesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -987,11 +981,11 @@ export class ProfilesImpl implements Profiles {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: ProfilesListResourceUsageNextOptionalParams
+    options?: ProfilesListResourceUsageNextOptionalParams,
   ): Promise<ProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
-      listResourceUsageNextOperationSpec
+      listResourceUsageNextOperationSpec,
     );
   }
 }
@@ -1003,80 +997,77 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProfileListResult
+      bodyMapper: Mappers.ProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProfileListResult
+      bodyMapper: Mappers.ProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Profile,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     201: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     202: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     204: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.profile,
   queryParameters: [Parameters.apiVersion],
@@ -1084,32 +1075,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     201: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     202: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     204: {
-      bodyMapper: Mappers.Profile
+      bodyMapper: Mappers.Profile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.profileUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1117,15 +1107,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1133,86 +1122,83 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const canMigrateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/canMigrate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/canMigrate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CanMigrateResult
+      bodyMapper: Mappers.CanMigrateResult,
     },
     201: {
-      bodyMapper: Mappers.CanMigrateResult
+      bodyMapper: Mappers.CanMigrateResult,
     },
     202: {
-      bodyMapper: Mappers.CanMigrateResult
+      bodyMapper: Mappers.CanMigrateResult,
     },
     204: {
-      bodyMapper: Mappers.CanMigrateResult
+      bodyMapper: Mappers.CanMigrateResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.canMigrateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const migrateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/migrate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/migrate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrateResult
+      bodyMapper: Mappers.MigrateResult,
     },
     201: {
-      bodyMapper: Mappers.MigrateResult
+      bodyMapper: Mappers.MigrateResult,
     },
     202: {
-      bodyMapper: Mappers.MigrateResult
+      bodyMapper: Mappers.MigrateResult,
     },
     204: {
-      bodyMapper: Mappers.MigrateResult
+      bodyMapper: Mappers.MigrateResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.migrationParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const migrationCommitOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationCommit",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/migrationCommit",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1220,142 +1206,139 @@ const migrationCommitOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const generateSsoUriOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/generateSsoUri",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/generateSsoUri",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SsoUri
+      bodyMapper: Mappers.SsoUri,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSupportedOptimizationTypesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getSupportedOptimizationTypes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getSupportedOptimizationTypes",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SupportedOptimizationTypesListResult
+      bodyMapper: Mappers.SupportedOptimizationTypesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listResourceUsageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkResourceUsage",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/checkResourceUsage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsageListResult
+      bodyMapper: Mappers.ResourceUsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1
+    Parameters.profileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProfileListResult
+      bodyMapper: Mappers.ProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProfileListResult
+      bodyMapper: Mappers.ProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceUsageListResult
+      bodyMapper: Mappers.ResourceUsageListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

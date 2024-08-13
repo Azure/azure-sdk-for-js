@@ -1,10 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
+import {
+  AppConfigurationClient,
+  ConfigurationSetting,
+  ConfigurationSettingParam,
+  ListConfigurationSettingPage,
+} from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
+  assertTags,
   assertThrowsAbortError,
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -12,6 +18,7 @@ import {
   deleteKeyCompletely,
   startRecorder,
   toSortedArray,
+  toSortedLabelsArray,
 } from "./utils/testHelpers";
 import { Context } from "mocha";
 import { assert } from "chai";
@@ -546,6 +553,140 @@ describe("AppConfigurationClient", () => {
     });
   });
 
+  describe("listLabels", () => {
+    const uniqueLabel = "listConfigSettingsLabelA";
+    let listConfigSettingA: ConfigurationSetting;
+    let count = 0;
+
+    /** Simulating a setting in production that will be made read only */
+    const productionASettingId: Pick<
+      ConfigurationSetting,
+      "key" | "label" | "value" | "contentType" | "tags"
+    > = {
+      key: "",
+      label: "",
+      value: "[A] production value",
+      contentType: "a content type",
+      tags: {
+        production: "A",
+        value: "1",
+      },
+    };
+
+    const keys: {
+      listConfigSettingA: string;
+      listConfigSettingB: string;
+    } = {
+      listConfigSettingA: "",
+      listConfigSettingB: "",
+    };
+
+    before(async () => {
+      if (!isPlaybackMode()) {
+        await deleteEverySetting();
+      }
+    });
+
+    beforeEach(async () => {
+      keys.listConfigSettingA = recorder.variable(
+        `listConfigSetting${count}A`,
+        `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
+      );
+
+      keys.listConfigSettingB = recorder.variable(
+        `listConfigSetting${count}B`,
+        `listConfigSetting${count}B${Math.floor(Math.random() * 100000)}`,
+      );
+      count += 1;
+
+      productionASettingId.key = keys.listConfigSettingA;
+      productionASettingId.label = uniqueLabel;
+
+      listConfigSettingA = await client.addConfigurationSetting(productionASettingId);
+    });
+
+    after(async () => {
+      try {
+        await deleteKeyCompletely([keys.listConfigSettingA], client);
+      } catch (e: any) {
+        /** empty */
+      }
+    });
+
+    it("basic list labels", async () => {
+      const labelsIterator = client.listLabels();
+      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
+      assert.deepEqual(
+        [
+          {
+            name: uniqueLabel,
+          },
+        ],
+        byLabelSettings,
+      );
+    });
+
+    it("name wildcards", async () => {
+      const uniqueLabel2 = "listConfigSettingsLabelB";
+      await client.addConfigurationSetting({
+        key: keys.listConfigSettingB,
+        label: uniqueLabel2,
+        value: "[B] production value",
+        tags: {
+          production: "B",
+          value: "2",
+        },
+      });
+      const labelsIterator = client.listLabels({
+        nameFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*",
+      });
+      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
+      assert.deepEqual(byLabelSettings, [
+        {
+          name: uniqueLabel,
+        },
+        {
+          name: uniqueLabel2,
+        },
+      ]);
+
+      await deleteKeyCompletely([keys.listConfigSettingB], client);
+    });
+
+    it("Using `select` via `fields`", async () => {
+      const labelsIterator = client.listLabels({
+        fields: ["name"],
+      });
+
+      const byLabelSettings = await toSortedLabelsArray(labelsIterator);
+      assert.deepEqual(
+        [
+          {
+            name: uniqueLabel,
+          },
+        ],
+        byLabelSettings,
+      );
+    });
+
+    it("by date", async () => {
+      const labelsIterator = client.listLabels({
+        acceptDateTime: listConfigSettingA.lastModified,
+      });
+      const labels = await toSortedLabelsArray(labelsIterator);
+      let foundLabel = false;
+      for (const label of labels) {
+        assert.isDefined(label.name);
+
+        if (label.name === uniqueLabel) {
+          foundLabel = true;
+        }
+      }
+
+      assert.isTrue(foundLabel);
+    });
+  });
+
   describe("listConfigurationSettings", () => {
     let uniqueLabel: string;
     let listConfigSettingA: ConfigurationSetting;
@@ -554,12 +695,16 @@ describe("AppConfigurationClient", () => {
     /** Simulating a setting in production that will be made read only */
     const productionASettingId: Pick<
       ConfigurationSetting,
-      "key" | "label" | "value" | "contentType"
+      "key" | "label" | "value" | "contentType" | "tags"
     > = {
       key: "",
       label: "",
       value: "[A] production value",
       contentType: "a content type",
+      tags: {
+        production: "A",
+        value: "1",
+      },
     };
 
     const keys: {
@@ -594,20 +739,32 @@ describe("AppConfigurationClient", () => {
       listConfigSettingA = await client.addConfigurationSetting({
         key: keys.listConfigSettingA,
         value: "[A] value",
+        tags: {
+          production: "A",
+          value: "2",
+        },
       });
 
       await client.addConfigurationSetting({
         key: keys.listConfigSettingB,
         label: uniqueLabel,
         value: "[B] production value",
+        tags: {
+          production: "B",
+          value: "1",
+        },
       });
       await client.addConfigurationSetting({
         key: keys.listConfigSettingB,
         value: "[B] value",
+        tags: {
+          production: "B",
+          value: "2",
+        },
       });
     });
 
-    after(async () => {
+    afterEach(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
       } catch (e: any) {
@@ -693,6 +850,43 @@ describe("AppConfigurationClient", () => {
         ],
         byKeySettings,
       );
+    });
+
+    it("exact match on tags", async () => {
+      await client.addConfigurationSetting({
+        key: "listConfigSettingC",
+        value: "[C] production value",
+        tags: {
+          production: "C",
+          value: "2",
+        },
+      });
+      const byTagsIterator = client.listConfigurationSettings({ tagsFilter: ["production=C"] });
+      const byKeySettings = await toSortedArray(byTagsIterator);
+      assertTags(
+        [
+          {
+            tags: {
+              production: "C",
+              value: "2",
+            },
+          },
+        ],
+        byKeySettings,
+      );
+      assertEqualSettings(
+        [
+          {
+            key: "listConfigSettingC",
+            value: "[C] production value",
+            label: undefined,
+            isReadOnly: false,
+          },
+        ],
+        byKeySettings,
+      );
+
+      await deleteKeyCompletely(["listConfigSettingC"], client);
     });
 
     it("key wildcards", async () => {
@@ -847,6 +1041,105 @@ describe("AppConfigurationClient", () => {
       }
 
       for (let i = 0; i < expectedNumberOfLabels; i++) {
+        await client.deleteConfigurationSetting({ key, label: i.toString() });
+      }
+    });
+
+    it("list with multiple pages - bypage and etags", async function () {
+      // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
+      // To avoid hitting the service with too many requests, skipping the test in live.
+      // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
+      //
+      // Remove the following line if you want to hit the live service.
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      if (isLiveMode()) this.skip();
+
+      const key = recorder.variable(
+        "listMultiplePagesOfResults",
+        `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
+      );
+
+      const pageSize = 100;
+
+      // this number is chosen to create 2 full page an an empty 3 page
+      const expectedNumberOfLabels = pageSize * 2;
+
+      async function addConfigSettings(numToAdd: number, begin: number = 0) {
+        let addSettingPromises = [];
+
+        for (let i = begin; i < begin + numToAdd; i++) {
+          addSettingPromises.push(
+            client.addConfigurationSetting({
+              key,
+              value: `the value for ${i}`,
+              label: i.toString(),
+            }),
+          );
+
+          if (i !== 0 && i % 2 === 0) {
+            await Promise.all(addSettingPromises);
+            addSettingPromises = [];
+          }
+        }
+
+        await Promise.all(addSettingPromises);
+      }
+
+      await addConfigSettings(expectedNumberOfLabels);
+
+      // Passing marker as an argument
+      let pageCount = 0;
+      let iterator = client.listConfigurationSettings({ keyFilter: key }).byPage();
+      const etags: string[] = [];
+      for await (const page of iterator) {
+        assert.isDefined(page.etag);
+        pageCount++;
+        etags.push(page.etag ?? "");
+      }
+      assert.equal(pageCount, 3);
+
+      // Assert page not changes using the same etags
+      iterator = client.listConfigurationSettings({ keyFilter: key, pageEtags: etags }).byPage();
+
+      let response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      // This number is arbitrarily chosen to add new setting to the 3rd page
+      const additionalNumberOfLabels = 50;
+      await addConfigSettings(additionalNumberOfLabels, expectedNumberOfLabels);
+
+      // Second run with added settings
+      iterator = client.listConfigurationSettings({ keyFilter: key, pageEtags: etags }).byPage();
+
+      // First page no change
+      response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      // Second page: full settings with change
+      response = await iterator.next();
+      assertPage(response.value, pageSize, 200);
+
+      // Third page: new settings with changes
+      response = await iterator.next();
+      assertPage(response.value, additionalNumberOfLabels, 200);
+
+      function assertPage(
+        page: ListConfigurationSettingPage,
+        expectedLength: number,
+        status: number,
+      ) {
+        assert.equal(page._response.status, status);
+        assert.equal(page.items.length, expectedLength);
+        assert.isDefined(page.etag);
+      }
+
+      for (let i = 0; i < expectedNumberOfLabels + additionalNumberOfLabels; i++) {
         await client.deleteConfigurationSetting({ key, label: i.toString() });
       }
     });

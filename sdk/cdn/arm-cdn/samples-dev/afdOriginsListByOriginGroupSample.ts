@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the existing origins within an origin group.
  *
  * @summary Lists all of the existing origins within an origin group.
- * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2023-05-01/examples/AFDOrigins_ListByOriginGroup.json
+ * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDOrigins_ListByOriginGroup.json
  */
 async function afdOriginsListByOriginGroup() {
   const subscriptionId = process.env["CDN_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function afdOriginsListByOriginGroup() {
   for await (let item of client.afdOrigins.listByOriginGroup(
     resourceGroupName,
     profileName,
-    originGroupName
+    originGroupName,
   )) {
     resArray.push(item);
   }

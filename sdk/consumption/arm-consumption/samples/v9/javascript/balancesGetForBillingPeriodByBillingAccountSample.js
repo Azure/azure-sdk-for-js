@@ -27,7 +27,7 @@ async function balances() {
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.balances.getForBillingPeriodByBillingAccount(
     billingAccountId,
-    billingPeriodName
+    billingPeriodName,
   );
   console.log(result);
 }

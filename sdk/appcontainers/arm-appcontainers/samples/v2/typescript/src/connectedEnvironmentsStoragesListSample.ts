@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all storages for a connectedEnvironment.
  *
  * @summary Get all storages for a connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsStorages_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsStorages_List.json
  */
 async function listEnvironmentsStoragesBySubscription() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listEnvironmentsStoragesBySubscription() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironmentsStorages.list(
     resourceGroupName,
-    connectedEnvironmentName
+    connectedEnvironmentName,
   );
   console.log(result);
 }

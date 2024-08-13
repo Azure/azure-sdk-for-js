@@ -6,3 +6,6 @@ export interface ImageUrl {
   /** Publicly reachable URL of an image to analyze. */
   url: string;
 }
+
+/** Alias for VisualFeatures */
+export type VisualFeatures = string;

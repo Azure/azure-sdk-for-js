@@ -639,3 +639,49 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
     message: "Missing rejection" + (error ? " with " + error.name : ""),
   });
 }
+
+// helper functions for testing change feed allVersionsAndDeletes mode
+export async function changeFeedAllVersionsInsertItems(
+  container: Container,
+  startIndex: number,
+  endIndex: number,
+): Promise<void> {
+  for (let i = startIndex; i <= endIndex; i++) {
+    await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+    await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+    await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+    await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+  }
+}
+
+export async function changeFeedAllVersionsUpsertItems(
+  container: Container,
+  startIndex: number,
+  endIndex: number,
+  newValue: number,
+): Promise<void> {
+  for (let i = startIndex; i <= endIndex; i++) {
+    await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: newValue });
+    await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: newValue });
+    await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: newValue });
+    await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: newValue });
+  }
+}
+
+export async function changeFeedAllVersionsDeleteItems(
+  container: Container,
+  startIndex: number,
+  endIndex: number,
+): Promise<void> {
+  for (let i = startIndex; i <= endIndex; i++) {
+    await container.item(`sample1+${i}`, "sample1").delete();
+    await container.item(`sample1+${i}`, "sample2").delete();
+    await container.item(`sample1+${i}`, "sample3").delete();
+    await container.item(`sample1+${i}`, "sample4").delete();
+  }
+}
+
+export function isValidV4UUID(uuid: string): boolean {
+  const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+  return uuidRegex.test(uuid);
+}

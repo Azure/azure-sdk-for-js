@@ -33,7 +33,7 @@ async function pausesADatabase() {
   const result = await client.databases.beginPauseAndWait(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

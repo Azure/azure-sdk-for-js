@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the diagnostics data for a Managed Environment used to host container apps.
  *
  * @summary Get the diagnostics data for a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironmentDiagnostics_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironmentDiagnostics_Get.json
  */
 async function getDiagnosticDataForAManagedEnvironments() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getDiagnosticDataForAManagedEnvironments() {
   const result = await client.managedEnvironmentDiagnostics.getDetector(
     resourceGroupName,
     environmentName,
-    detectorName
+    detectorName,
   );
   console.log(result);
 }

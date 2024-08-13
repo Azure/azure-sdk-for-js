@@ -1,24 +1,19 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "types/src/index.d.ts",
-  "docModel": {
-    "enabled": true
-  },
   "apiReport": {
     "enabled": true,
     "reportFolder": "./review"
   },
+  "docModel": {
+    "enabled": true
+  },
   "dtsRollup": {
     "enabled": true,
-    "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/search-documents.d.ts"
+    "publicTrimmedFilePath": "./types/search-documents.d.ts",
+    "untrimmedFilePath": ""
   },
+  "mainEntryPointFilePath": "types/src/index.d.ts",
   "messages": {
-    "tsdocMessageReporting": {
-      "default": {
-        "logLevel": "none"
-      }
-    },
     "extractorMessageReporting": {
       "ae-missing-release-tag": {
         "logLevel": "none"
@@ -26,6 +21,12 @@
       "ae-unresolved-link": {
         "logLevel": "none"
       }
+    },
+    "tsdocMessageReporting": {
+      "default": {
+        "logLevel": "none"
+      }
     }
-  }
+  },
+  "newlineKind": "lf"
 }

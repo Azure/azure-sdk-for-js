@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { TokenCredential } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
@@ -27,17 +27,18 @@ class TestTokenCredential implements TokenCredential {
     this.expiresOn = expiresOn || new Date();
   }
 
-  async getToken(): Promise<any> {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async getToken(): Promise<AccessToken | null> {
     this.numberOfRefreshs++;
     return {
       token: "testToken" + this.numberOfRefreshs,
-      expiresOnTimestamp: this.expiresOn,
+      expiresOnTimestamp: this.expiresOn.getTime(),
     };
   }
 }
 
 describe("HttpSender", () => {
-  const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+  const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
 
   after(() => {
@@ -450,7 +451,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           proxyOptions: {
-            host: "testproxy",
+            host: "http://www.testproxy.com",
             port: 123,
           },
         },

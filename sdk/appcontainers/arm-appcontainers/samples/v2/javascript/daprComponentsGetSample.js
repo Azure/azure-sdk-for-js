@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a dapr component.
  *
  * @summary Get a dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_Get_SecretStoreComponent.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_Get_SecretStoreComponent.json
  */
 async function getDaprComponentWithSecretStoreComponent() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getDaprComponentWithSecretStoreComponent() {
  * This sample demonstrates how to Get a dapr component.
  *
  * @summary Get a dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_Get_Secrets.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_Get_Secrets.json
  */
 async function getDaprComponentWithSecrets() {
   const subscriptionId =

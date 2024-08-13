@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the AuthConfig for a Container App.
  *
  * @summary Create or update the AuthConfig for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/AuthConfigs_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/AuthConfigs_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppAuthConfig() {
   const subscriptionId =
@@ -29,13 +29,17 @@ async function createOrUpdateContainerAppAuthConfig() {
   const containerAppName = "testcanadacentral";
   const authConfigName = "current";
   const authConfigEnvelope: AuthConfig = {
+    encryptionSettings: {
+      containerAppAuthEncryptionSecretName: "testEncryptionSecretName",
+      containerAppAuthSigningSecretName: "testSigningSecretName",
+    },
     globalValidation: { unauthenticatedClientAction: "AllowAnonymous" },
     identityProviders: {
       facebook: {
-        registration: { appId: "123", appSecretSettingName: "facebook-secret" }
-      }
+        registration: { appId: "123", appSecretSettingName: "facebook-secret" },
+      },
     },
-    platform: { enabled: true }
+    platform: { enabled: true },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -43,7 +47,7 @@ async function createOrUpdateContainerAppAuthConfig() {
     resourceGroupName,
     containerAppName,
     authConfigName,
-    authConfigEnvelope
+    authConfigEnvelope,
   );
   console.log(result);
 }

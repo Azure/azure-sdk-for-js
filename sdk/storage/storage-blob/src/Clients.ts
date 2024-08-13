@@ -33,6 +33,7 @@ import {
   BlobCreateSnapshotHeaders,
   BlobDeleteHeaders,
   BlobDeleteImmutabilityPolicyHeaders,
+  BlobGetAccountInfoHeaders,
   BlobGetPropertiesResponse as BlobGetPropertiesResponseInternal,
   BlobGetTagsResponse as BlobGetTagsResponseInternal,
   BlobSetHttpHeadersHeaders,
@@ -65,6 +66,7 @@ import {
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
   BlobDownloadResponseModel,
+  BlobGetAccountInfoResponse,
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
   BlobSetHTTPHeadersResponse,
@@ -190,7 +192,10 @@ import {
 } from "./utils/utils.node";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
-import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
+import {
+  generateBlobSASQueryParameters,
+  generateBlobSASQueryParametersInternal,
+} from "./sas/BlobSASSignatureValues";
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -879,6 +884,17 @@ export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
  * Options for setting legal hold {@link BlobClient.setLegalHold} operation.
  */
 export interface BlobSetLegalHoldOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure the {@link BlobClient.getAccountInfo} operation.
+ */
+export interface BlobGetAccountInfoOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -2153,6 +2169,37 @@ export class BlobClient extends StorageClient {
   }
 
   /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: BlobGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw new RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateBlobSASQueryParametersInternal(
+      {
+        containerName: this._containerName,
+        blobName: this._name,
+        snapshotTime: this._snapshot,
+        versionId: this._versionId,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
    * Delete the immutablility policy on the blob.
    *
    * @param options - Optional options to delete immutability policy on the blob.
@@ -2212,6 +2259,29 @@ export class BlobClient extends StorageClient {
     return tracingClient.withSpan("BlobClient-setLegalHold", options, async (updatedOptions) => {
       return assertResponse<BlobSetLegalHoldHeaders, BlobSetLegalHoldHeaders>(
         await this.blobContext.setLegalHold(legalHoldEnabled, {
+          tracingOptions: updatedOptions.tracingOptions,
+        }),
+      );
+    });
+  }
+
+  /**
+   * The Get Account Information operation returns the sku name and account kind
+   * for the specified account.
+   * The Get Account Information operation is available on service versions beginning
+   * with version 2018-03-28.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   *
+   * @param options - Options to the Service Get Account Info operation.
+   * @returns Response data for the Service Get Account Info operation.
+   */
+  public async getAccountInfo(
+    options: BlobGetAccountInfoOptions = {},
+  ): Promise<BlobGetAccountInfoResponse> {
+    return tracingClient.withSpan("BlobClient-getAccountInfo", options, async (updatedOptions) => {
+      return assertResponse<BlobGetAccountInfoHeaders, BlobGetAccountInfoHeaders>(
+        await this.blobContext.getAccountInfo({
+          abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
         }),
       );

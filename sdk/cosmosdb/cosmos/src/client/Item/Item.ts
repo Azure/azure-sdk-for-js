@@ -13,15 +13,14 @@ import {
   StatusCodes,
 } from "../../common";
 import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
-import { extractPartitionKeys, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
-import { readPartitionKeyDefinition } from "../ClientUtils";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";
 
 /**
  * Used to perform operations on a specific item.
@@ -81,12 +80,23 @@ export class Item {
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      if (this.partitionKey === undefined) {
-        const partitionKeyDefinition = await readPartitionKeyDefinition(
-          diagnosticNode,
-          this.container,
+      this.partitionKey = await setPartitionKeyIfUndefined(
+        diagnosticNode,
+        this.container,
+        this.partitionKey,
+      );
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncryption) {
+        addContainerRid(this.container);
+        options.containerRid = this.container._rid;
+        this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+          this.partitionKey,
         );
-        this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
+        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+        path = getPathFromLink(url);
+        id = getIdFromLink(url);
       }
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
@@ -169,14 +179,11 @@ export class Item {
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      if (this.partitionKey === undefined) {
-        const partitionKeyResponse = await readPartitionKeyDefinition(
-          diagnosticNode,
-          this.container,
-        );
-        this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
-      }
-
+      this.partitionKey = await setPartitionKeyIfUndefined(
+        diagnosticNode,
+        this.container,
+        this.partitionKey,
+      );
       const err = {};
       if (!isItemResourceValid(body, err)) {
         throw err;
@@ -242,13 +249,12 @@ export class Item {
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      if (this.partitionKey === undefined) {
-        const partitionKeyResponse = await readPartitionKeyDefinition(
-          diagnosticNode,
-          this.container,
-        );
-        this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
-      }
+      this.partitionKey = await setPartitionKeyIfUndefined(
+        diagnosticNode,
+        this.container,
+        this.partitionKey,
+      );
+
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);
 
@@ -292,7 +298,7 @@ export class Item {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
-  }
+  }  
 
   /**
    * Perform a JSONPatch on the item.
@@ -307,13 +313,11 @@ export class Item {
     options: RequestOptions = {},
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      if (this.partitionKey === undefined) {
-        const partitionKeyResponse = await readPartitionKeyDefinition(
-          diagnosticNode,
-          this.container,
-        );
-        this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
-      }
+      this.partitionKey = await setPartitionKeyIfUndefined(
+        diagnosticNode,
+        this.container,
+        this.partitionKey,
+      );
 
       let path = getPathFromLink(this.url);
       let id = getIdFromLink(this.url);

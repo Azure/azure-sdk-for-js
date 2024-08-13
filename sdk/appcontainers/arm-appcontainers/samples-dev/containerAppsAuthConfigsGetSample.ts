@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a AuthConfig of a Container App.
  *
  * @summary Get a AuthConfig of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/AuthConfigs_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/AuthConfigs_Get.json
  */
 async function getContainerAppAuthConfig() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getContainerAppAuthConfig() {
   const result = await client.containerAppsAuthConfigs.get(
     resourceGroupName,
     containerAppName,
-    authConfigName
+    authConfigName,
   );
   console.log(result);
 }

@@ -27,7 +27,7 @@ async function listOutboundNetworkDependenciesEndpointsByWorkspace() {
   const client = new AzureDatabricksManagementClient(credential, subscriptionId);
   const result = await client.outboundNetworkDependenciesEndpoints.list(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   );
   console.log(result);
 }

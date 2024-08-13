@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic.json
  */
 async function eventSubscriptionsGetForCustomTopic() {
   const scope =
@@ -28,7 +28,7 @@ async function eventSubscriptionsGetForCustomTopic() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function eventSubscriptionsGetForCustomTopic() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination() {
   const scope =
@@ -47,7 +47,7 @@ async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -56,7 +56,7 @@ async function eventSubscriptionsGetForCustomTopicAzureFunctionDestination() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicEventHubDestination() {
   const scope =
@@ -66,7 +66,7 @@ async function eventSubscriptionsGetForCustomTopicEventHubDestination() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -75,7 +75,7 @@ async function eventSubscriptionsGetForCustomTopicEventHubDestination() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination() {
   const scope =
@@ -85,7 +85,7 @@ async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination() 
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -94,7 +94,7 @@ async function eventSubscriptionsGetForCustomTopicHybridConnectionDestination() 
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination() {
   const scope =
@@ -104,7 +104,7 @@ async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -113,7 +113,7 @@ async function eventSubscriptionsGetForCustomTopicServiceBusQueueDestination() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination() {
   const scope =
@@ -123,7 +123,7 @@ async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -132,7 +132,7 @@ async function eventSubscriptionsGetForCustomTopicServiceBusTopicDestination() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicStorageQueueDestination() {
   const scope =
@@ -142,7 +142,7 @@ async function eventSubscriptionsGetForCustomTopicStorageQueueDestination() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -151,7 +151,7 @@ async function eventSubscriptionsGetForCustomTopicStorageQueueDestination() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsGetForCustomTopicWebhookDestination() {
   const scope =
@@ -161,7 +161,7 @@ async function eventSubscriptionsGetForCustomTopicWebhookDestination() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -170,7 +170,7 @@ async function eventSubscriptionsGetForCustomTopicWebhookDestination() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForResource.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForResource.json
  */
 async function eventSubscriptionsGetForResource() {
   const scope =
@@ -180,7 +180,7 @@ async function eventSubscriptionsGetForResource() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -189,7 +189,7 @@ async function eventSubscriptionsGetForResource() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForResourceGroup.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForResourceGroup.json
  */
 async function eventSubscriptionsGetForResourceGroup() {
   const scope =
@@ -199,7 +199,7 @@ async function eventSubscriptionsGetForResourceGroup() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }
@@ -208,7 +208,7 @@ async function eventSubscriptionsGetForResourceGroup() {
  * This sample demonstrates how to Get properties of an event subscription.
  *
  * @summary Get properties of an event subscription.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_GetForSubscription.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_GetForSubscription.json
  */
 async function eventSubscriptionsGetForSubscription() {
   const scope = "subscriptions/8f6b6269-84f2-4d09-9e31-1127efcd1e40";
@@ -217,7 +217,7 @@ async function eventSubscriptionsGetForSubscription() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.get(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

@@ -8,24 +8,25 @@
  * @azsdk-weight 100
  */
 
-import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
+import "dotenv/config";
 
 const prompt = ["What is Azure OpenAI?"];
 
 export async function main() {
   console.log("== Get completions Sample ==");
 
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "text-davinci-003";
-  const result = await client.getCompletions(deploymentId, prompt, { maxTokens: 128 });
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
+  const deployment = "text-davinci-003";
+  const apiVersion = "2024-05-01-preview";
+  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const result = await client.completions.create({ prompt, model: "", max_tokens: 128 });
 
   for (const choice of result.choices) {
     console.log(choice.text);

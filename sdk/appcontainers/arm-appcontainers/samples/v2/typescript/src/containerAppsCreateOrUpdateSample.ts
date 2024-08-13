@@ -18,14 +18,14 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_CreateOrUpdate.json
  */
 async function createOrUpdateContainerApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerApp0";
+  const containerAppName = "testcontainerapp0";
   const containerAppEnvelope: ContainerApp = {
     configuration: {
       dapr: {
@@ -35,9 +35,13 @@ async function createOrUpdateContainerApp() {
         enabled: true,
         httpMaxRequestSize: 10,
         httpReadBufferSize: 30,
-        logLevel: "debug"
+        logLevel: "debug",
       },
       ingress: {
+        additionalPortMappings: [
+          { external: true, targetPort: 1234 },
+          { exposedPort: 3456, external: false, targetPort: 2345 },
+        ],
         clientCertificateMode: "accept",
         corsPolicy: {
           allowCredentials: true,
@@ -45,21 +49,21 @@ async function createOrUpdateContainerApp() {
           allowedMethods: ["GET", "POST"],
           allowedOrigins: ["https://a.test.com", "https://b.test.com"],
           exposeHeaders: ["HEADER3", "HEADER4"],
-          maxAge: 1234
+          maxAge: 1234,
         },
         customDomains: [
           {
             name: "www.my-name.com",
             bindingType: "SniEnabled",
             certificateId:
-              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube/certificates/my-certificate-for-my-name-dot-com"
+              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube/certificates/my-certificate-for-my-name-dot-com",
           },
           {
             name: "www.my-other-name.com",
             bindingType: "SniEnabled",
             certificateId:
-              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube/certificates/my-certificate-for-my-other-name-dot-com"
-          }
+              "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube/certificates/my-certificate-for-my-other-name-dot-com",
+          },
         ],
         external: true,
         ipSecurityRestrictions: [
@@ -68,28 +72,28 @@ async function createOrUpdateContainerApp() {
             description:
               "Allowing all IP's within the subnet below to access containerapp",
             action: "Allow",
-            ipAddressRange: "192.168.1.1/32"
+            ipAddressRange: "192.168.1.1/32",
           },
           {
             name: "Allow work IP B subnet",
             description:
               "Allowing all IP's within the subnet below to access containerapp",
             action: "Allow",
-            ipAddressRange: "192.168.1.1/8"
-          }
+            ipAddressRange: "192.168.1.1/8",
+          },
         ],
         stickySessions: { affinity: "sticky" },
         targetPort: 3000,
         traffic: [
           {
             label: "production",
-            revisionName: "testcontainerApp0-ab1234",
-            weight: 100
-          }
-        ]
+            revisionName: "testcontainerapp0-ab1234",
+            weight: 100,
+          },
+        ],
       },
       maxInactiveRevisions: 10,
-      service: { type: "redis" }
+      service: { type: "redis" },
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
@@ -97,30 +101,30 @@ async function createOrUpdateContainerApp() {
     template: {
       containers: [
         {
-          name: "testcontainerApp0",
-          image: "repo/testcontainerApp0:v1",
+          name: "testcontainerapp0",
+          image: "repo/testcontainerapp0:v1",
           probes: [
             {
               type: "Liveness",
               httpGet: {
                 path: "/health",
                 httpHeaders: [{ name: "Custom-Header", value: "Awesome" }],
-                port: 8080
+                port: 8080,
               },
               initialDelaySeconds: 3,
-              periodSeconds: 3
-            }
-          ]
-        }
+              periodSeconds: 3,
+            },
+          ],
+        },
       ],
       initContainers: [
         {
           name: "testinitcontainerApp0",
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
-          image: "repo/testcontainerApp0:v4",
-          resources: { cpu: 0.2, memory: "100Mi" }
-        }
+          image: "repo/testcontainerapp0:v4",
+          resources: { cpu: 0.5, memory: "1Gi" },
+        },
       ],
       scale: {
         maxReplicas: 5,
@@ -128,26 +132,26 @@ async function createOrUpdateContainerApp() {
         rules: [
           {
             name: "httpscalingrule",
-            custom: { type: "http", metadata: { concurrentRequests: "50" } }
-          }
-        ]
+            custom: { type: "http", metadata: { concurrentRequests: "50" } },
+          },
+        ],
       },
       serviceBinds: [
         {
           name: "redisService",
           serviceId:
-            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/redisService"
-        }
-      ]
+            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/redisService",
+        },
+      ],
     },
-    workloadProfileName: "My-GP-01"
+    workloadProfileName: "My-GP-01",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }
@@ -156,14 +160,14 @@ async function createOrUpdateContainerApp() {
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
  */
 async function createOrUpdateManagedByApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerAppManagedBy";
+  const containerAppName = "testcontainerappmanagedby";
   const containerAppEnvelope: ContainerApp = {
     configuration: {
       ingress: {
@@ -171,10 +175,10 @@ async function createOrUpdateManagedByApp() {
         external: true,
         targetPort: 3000,
         traffic: [
-          { revisionName: "testcontainerAppManagedBy-ab1234", weight: 100 }
+          { revisionName: "testcontainerappmanagedby-ab1234", weight: 100 },
         ],
-        transport: "tcp"
-      }
+        transport: "tcp",
+      },
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
@@ -184,17 +188,17 @@ async function createOrUpdateManagedByApp() {
     template: {
       containers: [
         {
-          name: "testcontainerAppManagedBy",
-          image: "repo/testcontainerAppManagedBy:v1",
+          name: "testcontainerappmanagedby",
+          image: "repo/testcontainerappmanagedby:v1",
           probes: [
             {
               type: "Liveness",
               initialDelaySeconds: 3,
               periodSeconds: 3,
-              tcpSocket: { port: 8080 }
-            }
-          ]
-        }
+              tcpSocket: { port: 8080 },
+            },
+          ],
+        },
       ],
       scale: {
         maxReplicas: 5,
@@ -202,18 +206,18 @@ async function createOrUpdateManagedByApp() {
         rules: [
           {
             name: "tcpscalingrule",
-            tcp: { metadata: { concurrentConnections: "50" } }
-          }
-        ]
-      }
-    }
+            tcp: { metadata: { concurrentConnections: "50" } },
+          },
+        ],
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }
@@ -222,23 +226,23 @@ async function createOrUpdateManagedByApp() {
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_TcpApp_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_TcpApp_CreateOrUpdate.json
  */
 async function createOrUpdateTcpApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerAppTcp";
+  const containerAppName = "testcontainerapptcp";
   const containerAppEnvelope: ContainerApp = {
     configuration: {
       ingress: {
         exposedPort: 4000,
         external: true,
         targetPort: 3000,
-        traffic: [{ revisionName: "testcontainerAppTcp-ab1234", weight: 100 }],
-        transport: "tcp"
-      }
+        traffic: [{ revisionName: "testcontainerapptcp-ab1234", weight: 100 }],
+        transport: "tcp",
+      },
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
@@ -246,17 +250,17 @@ async function createOrUpdateTcpApp() {
     template: {
       containers: [
         {
-          name: "testcontainerAppTcp",
-          image: "repo/testcontainerAppTcp:v1",
+          name: "testcontainerapptcp",
+          image: "repo/testcontainerapptcp:v1",
           probes: [
             {
               type: "Liveness",
               initialDelaySeconds: 3,
               periodSeconds: 3,
-              tcpSocket: { port: 8080 }
-            }
-          ]
-        }
+              tcpSocket: { port: 8080 },
+            },
+          ],
+        },
       ],
       scale: {
         maxReplicas: 5,
@@ -264,18 +268,18 @@ async function createOrUpdateTcpApp() {
         rules: [
           {
             name: "tcpscalingrule",
-            tcp: { metadata: { concurrentConnections: "50" } }
-          }
-        ]
-      }
-    }
+            tcp: { metadata: { concurrentConnections: "50" } },
+          },
+        ],
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }

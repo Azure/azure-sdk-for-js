@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a diagnostics result of a Container App.
  *
  * @summary Get a diagnostics result of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerAppsDiagnostics_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerAppsDiagnostics_Get.json
  */
 async function getContainerAppDiagnosticsInfo() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getContainerAppDiagnosticsInfo() {
   const result = await client.containerAppsDiagnostics.getDetector(
     resourceGroupName,
     containerAppName,
-    detectorName
+    detectorName,
   );
   console.log(result);
 }

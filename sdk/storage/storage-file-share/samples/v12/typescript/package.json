@@ -34,11 +34,11 @@
   "dependencies": {
     "@azure/storage-file-share": "latest",
     "dotenv": "latest",
-    "@azure/abort-controller": "^1.0.0"
+    "@azure/abort-controller": "^2.1.2"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.3.3",
+    "typescript": "~5.5.3",
     "rimraf": "latest"
   }
 }

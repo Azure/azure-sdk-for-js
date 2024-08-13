@@ -46,7 +46,7 @@ async function updateAccountEncryption() {
   const result = await client.accounts.update(
     resourceGroupName,
     accountName,
-    mapsAccountUpdateParameters
+    mapsAccountUpdateParameters,
   );
   console.log(result);
 }
@@ -84,7 +84,7 @@ async function updateAccountManagedIdentities() {
   const result = await client.accounts.update(
     resourceGroupName,
     accountName,
-    mapsAccountUpdateParameters
+    mapsAccountUpdateParameters,
   );
   console.log(result);
 }
@@ -108,7 +108,7 @@ async function updateAccountTags() {
   const result = await client.accounts.update(
     resourceGroupName,
     accountName,
-    mapsAccountUpdateParameters
+    mapsAccountUpdateParameters,
   );
   console.log(result);
 }
@@ -133,7 +133,7 @@ async function updateToGen1Account() {
   const result = await client.accounts.update(
     resourceGroupName,
     accountName,
-    mapsAccountUpdateParameters
+    mapsAccountUpdateParameters,
   );
   console.log(result);
 }
@@ -158,7 +158,7 @@ async function updateToGen2Account() {
   const result = await client.accounts.update(
     resourceGroupName,
     accountName,
-    mapsAccountUpdateParameters
+    mapsAccountUpdateParameters,
   );
   console.log(result);
 }

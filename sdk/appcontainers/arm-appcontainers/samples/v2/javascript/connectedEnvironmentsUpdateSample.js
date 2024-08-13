@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patches a Managed Environment. Only patching of tags is supported currently
  *
  * @summary Patches a Managed Environment. Only patching of tags is supported currently
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironments_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironments_Patch.json
  */
 async function patchManagedEnvironment() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function patchManagedEnvironment() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironments.update(
     resourceGroupName,
-    connectedEnvironmentName
+    connectedEnvironmentName,
   );
   console.log(result);
 }

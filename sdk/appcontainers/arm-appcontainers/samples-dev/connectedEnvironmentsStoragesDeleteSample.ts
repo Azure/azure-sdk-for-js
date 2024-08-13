@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete storage for a connectedEnvironment.
  *
  * @summary Delete storage for a connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsStorages_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsStorages_Delete.json
  */
 async function listEnvironmentsStoragesBySubscription() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listEnvironmentsStoragesBySubscription() {
   const result = await client.connectedEnvironmentsStorages.delete(
     resourceGroupName,
     connectedEnvironmentName,
-    storageName
+    storageName,
   );
   console.log(result);
 }

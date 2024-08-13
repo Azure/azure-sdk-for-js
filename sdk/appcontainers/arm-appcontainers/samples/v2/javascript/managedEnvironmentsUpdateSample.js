@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patches a Managed Environment using JSON Merge Patch
  *
  * @summary Patches a Managed Environment using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_Patch.json
  */
 async function patchManagedEnvironment() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchManagedEnvironment() {
   const result = await client.managedEnvironments.beginUpdateAndWait(
     resourceGroupName,
     environmentName,
-    environmentEnvelope
+    environmentEnvelope,
   );
   console.log(result);
 }

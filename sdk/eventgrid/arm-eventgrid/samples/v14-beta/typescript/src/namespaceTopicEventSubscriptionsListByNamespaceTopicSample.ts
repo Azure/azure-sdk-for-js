@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List event subscriptions that belong to a specific namespace topic.
  *
  * @summary List event subscriptions that belong to a specific namespace topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopicEventSubscriptions_ListByNamespaceTopic.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/NamespaceTopicEventSubscriptions_ListByNamespaceTopic.json
  */
 async function namespaceTopicEventSubscriptionsListByNamespaceTopic() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function namespaceTopicEventSubscriptionsListByNamespaceTopic() {
   for await (let item of client.namespaceTopicEventSubscriptions.listByNamespaceTopic(
     resourceGroupName,
     namespaceName,
-    topicName
+    topicName,
   )) {
     resArray.push(item);
   }

@@ -39,44 +39,50 @@ parameters:
   - name: MatrixReplace
     type: object
     default: []
+  - name: oneESTemplateTag
+    type: string
+    default: release
 
-variables:
-  - template: ../variables/globals.yml
+extends:
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
+  parameters:
+    oneESTemplateTag: ${{ parameters.oneESTemplateTag }}
+    stages:
+      - stage: Build
+        jobs:
+          - template: /eng/pipelines/templates/jobs/ci.yml@self
+            parameters:
+              ServiceDirectory: ${{ parameters.ServiceDirectory }}
+              TestProxy: ${{ parameters.TestProxy }}
+              Artifacts: ${{ parameters.Artifacts }}
+              ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+                TestPipeline: true
+              RunUnitTests: ${{ parameters.RunUnitTests }}
+              MatrixConfigs:
+                - ${{ each config in parameters.MatrixConfigs }}:
+                    - ${{ config }}
+                - ${{ each config in parameters.AdditionalMatrixConfigs }}:
+                    - ${{ config }}
+              MatrixFilters:
+                - TestType=node|browser
+                - DependencyVersion=^$
+                - ${{ each filter in parameters.MatrixFilters }}:
+                    - ${{ filter}}
+              MatrixReplace: ${{ parameters.MatrixReplace }}
+              IncludeRelease: ${{ parameters.IncludeRelease }}
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml@self
+          - template: /eng/pipelines/templates/variables/image.yml@self
 
-stages:
-  - stage: Build
-    jobs:
-      - template: /eng/pipelines/templates/jobs/ci.yml
-        parameters:
-          ServiceDirectory: ${{ parameters.ServiceDirectory }}          
-          TestProxy: ${{ parameters.TestProxy }}
-          Artifacts: ${{ parameters.Artifacts }}
-          ${{ if eq(parameters.ServiceDirectory, 'template') }}:
-            TestPipeline: true
-          RunUnitTests: ${{ parameters.RunUnitTests }}
-          MatrixConfigs:
-            - ${{ each config in parameters.MatrixConfigs }}:
-              -  ${{ config }}
-            - ${{ each config in parameters.AdditionalMatrixConfigs }}:
-              -  ${{ config }}
-          MatrixFilters:
-            - TestType=node|browser
-            - DependencyVersion=^$
-            - ${{ each filter in parameters.MatrixFilters }}:
-              - ${{ filter}}
-          MatrixReplace: ${{ parameters.MatrixReplace }}
-          IncludeRelease: ${{ parameters.IncludeRelease }}
-
-  # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
-  - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
-    - template: archetype-js-release.yml
-      parameters:
-        DependsOn: Build
-        ServiceDirectory: ${{ parameters.ServiceDirectory }}
-        TestProxy: ${{ parameters.TestProxy }}
-        Artifacts: ${{ parameters.Artifacts }}
-        ${{ if eq(parameters.ServiceDirectory, 'template') }}:
-          TestPipeline: true
-        ArtifactName: packages
-        TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
-        TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
+      - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
+          - template: archetype-js-release.yml@self
+            parameters:
+              DependsOn: Build
+              ServiceDirectory: ${{ parameters.ServiceDirectory }}
+              TestProxy: ${{ parameters.TestProxy }}
+              Artifacts: ${{ parameters.Artifacts }}
+              ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+                TestPipeline: true
+              ArtifactName: packages
+              TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+              TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

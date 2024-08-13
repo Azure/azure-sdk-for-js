@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the list of diagnostics for a given Container App.
  *
  * @summary Get the list of diagnostics for a given Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerAppsDiagnostics_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerAppsDiagnostics_List.json
  */
 async function getTheListOfAvailableDiagnosticsForAGivenContainerApp() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getTheListOfAvailableDiagnosticsForAGivenContainerApp() {
   const resArray = new Array();
   for await (let item of client.containerAppsDiagnostics.listDetectors(
     resourceGroupName,
-    containerAppName
+    containerAppName,
   )) {
     resArray.push(item);
   }

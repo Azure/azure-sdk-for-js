@@ -3,7 +3,6 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import * as fs from "fs";
 import * as path from "path";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
 
@@ -28,20 +27,14 @@ describe("Json Config", () => {
 
   describe("config path", () => {
     it("Default file path", () => {
-      const fileSpy = sandbox.spy(fs, "readFileSync");
       const config = JsonConfig.getInstance();
-      config["_loadJsonFile"]();
-      assert.ok(fileSpy.called);
-      const defaultPath = path.resolve(process.cwd(), "applicationinsights.json");
-      assert.deepStrictEqual(fileSpy.args[0][0], defaultPath);
+      const defaultPath = path.join(process.cwd(), "../", "applicationinsights.json");
+      assert.deepStrictEqual(config["_tempDir"], defaultPath);
     });
 
     it("Absolute file path", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
@@ -53,7 +46,7 @@ describe("Json Config", () => {
 
     it("Relative file path", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = "./test/internal/unit/shared/config.json";
+      const customConfigJSONPath = "monitor-opentelemetry/test/internal/unit/shared/config.json";
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
@@ -67,10 +60,7 @@ describe("Json Config", () => {
   describe("configuration values", () => {
     it("Should take configurations from JSON config file", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
@@ -103,10 +93,7 @@ describe("Json Config", () => {
 
     it("Should take configurations from JSON config file over environment variables if both are configured", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       env["APPLICATIONINSIGHTS_CONNECTION_STRING"] = "TestConnectionString";
       process.env = env;
@@ -120,7 +107,7 @@ describe("Json Config", () => {
     it("JSON config through env variable", () => {
       const env = <{ [id: string]: string }>{};
 
-      let inputJson = {
+      const inputJson = {
         azureMonitorExporterOptions: {
           connectionString: "testConnString",
           storageDirectory: "teststorageDirectory",

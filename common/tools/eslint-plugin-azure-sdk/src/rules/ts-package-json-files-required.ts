@@ -3,12 +3,17 @@
 
 /**
  * @file Rule to force package.json's files value to contain paths to the package contents and excludes source code files.
- * @author Arpan Laha
+ *
  */
-
-import { Literal, Property } from "estree";
-import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils";
-import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/utils";
+import {
+  VerifierMessages,
+  arrayToString,
+  createRule,
+  getVerifiers,
+  stripPath,
+  isEsmPackage,
+} from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -53,106 +58,119 @@ function updateFixRequiredPatterns(currRequiredPatterns: string[]): void {
   }
 }
 
-export = {
-  meta: getRuleMetaData(
-    "ts-package-json-files-required",
-    "requires package.json's files value to contain paths to the package contents",
-    "code",
-  ),
-  create: (context: Rule.RuleContext): Rule.RuleListener => {
+export default createRule({
+  name: "ts-package-json-files-required",
+  meta: {
+    type: "suggestion",
+    docs: {
+      description: "requires package.json's files value to contain paths to the package contents",
+      recommended: "recommended",
+    },
+    messages: {
+      ...VerifierMessages,
+      FilesNotArray: "files is not set to an array",
+      FilesIssue: "Issue with files: {{details}}",
+    },
+    schema: [],
+    fixable: "code",
+  },
+  defaultOptions: [],
+  create(context) {
     const verifiers = getVerifiers(context, {
       outer: "files",
     });
-    return stripPath(context.filename) === "package.json"
-      ? ({
-          // callback functions
+    if (stripPath(context.filename) !== "package.json") {
+      return {};
+    }
+    if (isEsmPackage(context.filename)) {
+      return {};
+    }
+    return {
+      // check to see if files exists at the outermost level
+      "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check to see if files exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+      "ExpressionStatement > ObjectExpression > Property[key.value='files']": (
+        node: TSESTree.Property,
+      ): void => {
+        // check that files is set to an array
+        if (node.value.type !== "ArrayExpression") {
+          context.report({
+            node: node.value,
+            messageId: "FilesNotArray",
+          });
+          return;
+        }
 
-          "ExpressionStatement > ObjectExpression > Property[key.value='files']": (
-            node: Property,
-          ): void => {
-            // check that files is set to an array
-            if (node.value.type !== "ArrayExpression") {
-              context.report({
-                node: node.value,
-                message: "files is not set to an array",
-              });
-              return;
-            }
+        // sorting the patterns descendingly so in cases of overlap between
+        // pattern (e.g. dist and dist-esm), the regex tries to match the
+        // longer first.
+        const regExprStr = `^(?:.\/)?(${badPatterns
+          .concat(requiredPatterns)
+          .sort()
+          .reverse()
+          .join("|")})(?:\/)?(?:.+)?`;
 
-            // sorting the patterns descendingly so in cases of overlap between
-            // pattern (e.g. dist and dist-esm), the regex tries to match the
-            // longer first.
-            const regExprStr = `^(?:.\/)?(${badPatterns
-              .concat(requiredPatterns)
-              .sort()
-              .reverse()
-              .join("|")})(?:\/)?(?:.+)?`;
+        const nodeValue = node.value;
+        let filesList = (nodeValue.elements as TSESTree.Literal[]).map(
+          (element): unknown => element.value,
+        );
 
-            const nodeValue = node.value;
-            let filesList = (nodeValue.elements as Literal[]).map(
-              (element): unknown => element.value,
-            );
-
-            const currBadPatterns: string[] = [];
-            const currRequiredPatterns = [...requiredPatterns];
-            const fullMatchIndex = 0;
-            const patternRootMatchIndex = 1;
-            // Looking for both required and bad patterns
-            for (const filePattern of filesList) {
-              const patternMatchResult = (filePattern as string).match(regExprStr);
-              if (patternMatchResult !== null) {
-                const patternRoot = patternMatchResult[patternRootMatchIndex];
-                if (badPatterns.indexOf(patternRoot) >= 0) {
-                  currBadPatterns.push(patternMatchResult[fullMatchIndex]);
-                } else if (requiredPatterns.indexOf(patternRoot) >= 0) {
-                  const deletedItemsCount = 1;
-                  currRequiredPatterns.splice(
-                    currRequiredPatterns.indexOf(patternRoot),
-                    deletedItemsCount,
-                  );
-                }
-              }
-            }
-            let errorMessage = "";
-            // Make sure there are no bad patterns, but if there are, create
-            // a meaningful error message for them and remove them from the
-            // files list
-            if (currBadPatterns.length > 0) {
-              const unitLength = 1;
-              errorMessage = `${currBadPatterns.join()} ${
-                currBadPatterns.length === unitLength ? "is" : "are"
-              } included in files`;
-              filesList = filesList.filter(
-                (filePattern) => currBadPatterns.indexOf(filePattern as string) < 0,
+        const currBadPatterns: string[] = [];
+        const currRequiredPatterns = [...requiredPatterns];
+        const fullMatchIndex = 0;
+        const patternRootMatchIndex = 1;
+        // Looking for both required and bad patterns
+        for (const filePattern of filesList) {
+          const patternMatchResult = (filePattern as string).match(regExprStr);
+          if (patternMatchResult !== null) {
+            const patternRoot = patternMatchResult[patternRootMatchIndex];
+            if (badPatterns.indexOf(patternRoot) >= 0) {
+              currBadPatterns.push(patternMatchResult[fullMatchIndex]);
+            } else if (requiredPatterns.indexOf(patternRoot) >= 0) {
+              const deletedItemsCount = 1;
+              currRequiredPatterns.splice(
+                currRequiredPatterns.indexOf(patternRoot),
+                deletedItemsCount,
               );
             }
-            // If there are required patterns missing from the files' list,
-            // create a meaningful error message and add them to the list (with
-            // the default suggestion)
-            if (currRequiredPatterns.length > 0) {
-              updateFixRequiredPatterns(currRequiredPatterns);
-              filesList = filesList.concat(currRequiredPatterns);
-              if (errorMessage.length > 0) {
-                errorMessage = `${errorMessage} and `;
-              }
-              const unitLength = 1;
-              errorMessage = `${errorMessage}${currRequiredPatterns.join()} ${
-                currRequiredPatterns.length === unitLength ? "is" : "are"
-              } not included in files`;
-            }
-            if (errorMessage.length > 0) {
-              context.report({
-                node: nodeValue,
-                message: errorMessage,
-                fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-                  fixer.replaceText(nodeValue, arrayToString(filesList)),
-              });
-            }
-          },
-        } as Rule.RuleListener)
-      : {};
+          }
+        }
+        let errorMessage = "";
+        // Make sure there are no bad patterns, but if there are, create
+        // a meaningful error message for them and remove them from the
+        // files list
+        if (currBadPatterns.length > 0) {
+          const unitLength = 1;
+          errorMessage = `${currBadPatterns.join()} ${
+            currBadPatterns.length === unitLength ? "is" : "are"
+          } included in files`;
+          filesList = filesList.filter(
+            (filePattern) => currBadPatterns.indexOf(filePattern as string) < 0,
+          );
+        }
+        // If there are required patterns missing from the files' list,
+        // create a meaningful error message and add them to the list (with
+        // the default suggestion)
+        if (currRequiredPatterns.length > 0) {
+          updateFixRequiredPatterns(currRequiredPatterns);
+          filesList = filesList.concat(currRequiredPatterns);
+          if (errorMessage.length > 0) {
+            errorMessage = `${errorMessage} and `;
+          }
+          const unitLength = 1;
+          errorMessage = `${errorMessage}${currRequiredPatterns.join()} ${
+            currRequiredPatterns.length === unitLength ? "is" : "are"
+          } not included in files`;
+        }
+        if (errorMessage.length > 0) {
+          context.report({
+            node: nodeValue,
+            messageId: "FilesIssue",
+            data: { details: errorMessage },
+            fix: (fixer) => fixer.replaceText(nodeValue, arrayToString(filesList)),
+          });
+        }
+      },
+    };
   },
-};
+});

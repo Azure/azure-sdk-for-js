@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or Update a Certificate.
  *
  * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsCertificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate() {
   const subscriptionId =
@@ -31,16 +31,14 @@ async function createOrUpdateCertificate() {
       value: Buffer.from("Y2VydA=="),
     },
   };
-  const options = {
-    certificateEnvelope,
-  };
+  const options = { certificateEnvelope };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironmentsCertificates.createOrUpdate(
     resourceGroupName,
     connectedEnvironmentName,
     certificateName,
-    options
+    options,
   );
   console.log(result);
 }

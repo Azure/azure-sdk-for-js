@@ -16,7 +16,7 @@ import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   TagsObject,
   DataNetworksUpdateTagsOptionalParams,
   DataNetworksUpdateTagsResponse,
-  DataNetworksListByMobileNetworkNextResponse
+  DataNetworksListByMobileNetworkNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class DataNetworksImpl implements DataNetworks {
   public listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: DataNetworksListByMobileNetworkOptionalParams
+    options?: DataNetworksListByMobileNetworkOptionalParams,
   ): PagedAsyncIterableIterator<DataNetwork> {
     const iter = this.listByMobileNetworkPagingAll(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class DataNetworksImpl implements DataNetworks {
           resourceGroupName,
           mobileNetworkName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class DataNetworksImpl implements DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     options?: DataNetworksListByMobileNetworkOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataNetwork[]> {
     let result: DataNetworksListByMobileNetworkResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class DataNetworksImpl implements DataNetworks {
       result = await this._listByMobileNetwork(
         resourceGroupName,
         mobileNetworkName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class DataNetworksImpl implements DataNetworks {
         resourceGroupName,
         mobileNetworkName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class DataNetworksImpl implements DataNetworks {
   private async *listByMobileNetworkPagingAll(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: DataNetworksListByMobileNetworkOptionalParams
+    options?: DataNetworksListByMobileNetworkOptionalParams,
   ): AsyncIterableIterator<DataNetwork> {
     for await (const page of this.listByMobileNetworkPagingPage(
       resourceGroupName,
       mobileNetworkName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,25 +143,24 @@ export class DataNetworksImpl implements DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    options?: DataNetworksDeleteOptionalParams
+    options?: DataNetworksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -170,8 +169,8 @@ export class DataNetworksImpl implements DataNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -179,20 +178,20 @@ export class DataNetworksImpl implements DataNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, mobileNetworkName, dataNetworkName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -209,13 +208,13 @@ export class DataNetworksImpl implements DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    options?: DataNetworksDeleteOptionalParams
+    options?: DataNetworksDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       mobileNetworkName,
       dataNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -231,11 +230,11 @@ export class DataNetworksImpl implements DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     dataNetworkName: string,
-    options?: DataNetworksGetOptionalParams
+    options?: DataNetworksGetOptionalParams,
   ): Promise<DataNetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, dataNetworkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -253,7 +252,7 @@ export class DataNetworksImpl implements DataNetworks {
     mobileNetworkName: string,
     dataNetworkName: string,
     parameters: DataNetwork,
-    options?: DataNetworksCreateOrUpdateOptionalParams
+    options?: DataNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataNetworksCreateOrUpdateResponse>,
@@ -262,21 +261,20 @@ export class DataNetworksImpl implements DataNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DataNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -285,8 +283,8 @@ export class DataNetworksImpl implements DataNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -294,8 +292,8 @@ export class DataNetworksImpl implements DataNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -306,9 +304,9 @@ export class DataNetworksImpl implements DataNetworks {
         mobileNetworkName,
         dataNetworkName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DataNetworksCreateOrUpdateResponse,
@@ -316,7 +314,7 @@ export class DataNetworksImpl implements DataNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -336,14 +334,14 @@ export class DataNetworksImpl implements DataNetworks {
     mobileNetworkName: string,
     dataNetworkName: string,
     parameters: DataNetwork,
-    options?: DataNetworksCreateOrUpdateOptionalParams
+    options?: DataNetworksCreateOrUpdateOptionalParams,
   ): Promise<DataNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       mobileNetworkName,
       dataNetworkName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -361,7 +359,7 @@ export class DataNetworksImpl implements DataNetworks {
     mobileNetworkName: string,
     dataNetworkName: string,
     parameters: TagsObject,
-    options?: DataNetworksUpdateTagsOptionalParams
+    options?: DataNetworksUpdateTagsOptionalParams,
   ): Promise<DataNetworksUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -369,9 +367,9 @@ export class DataNetworksImpl implements DataNetworks {
         mobileNetworkName,
         dataNetworkName,
         parameters,
-        options
+        options,
       },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -384,11 +382,11 @@ export class DataNetworksImpl implements DataNetworks {
   private _listByMobileNetwork(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: DataNetworksListByMobileNetworkOptionalParams
+    options?: DataNetworksListByMobileNetworkOptionalParams,
   ): Promise<DataNetworksListByMobileNetworkResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, options },
-      listByMobileNetworkOperationSpec
+      listByMobileNetworkOperationSpec,
     );
   }
 
@@ -403,11 +401,11 @@ export class DataNetworksImpl implements DataNetworks {
     resourceGroupName: string,
     mobileNetworkName: string,
     nextLink: string,
-    options?: DataNetworksListByMobileNetworkNextOptionalParams
+    options?: DataNetworksListByMobileNetworkNextOptionalParams,
   ): Promise<DataNetworksListByMobileNetworkNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, mobileNetworkName, nextLink, options },
-      listByMobileNetworkNextOperationSpec
+      listByMobileNetworkNextOperationSpec,
     );
   }
 }
@@ -415,8 +413,7 @@ export class DataNetworksImpl implements DataNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -424,8 +421,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -433,22 +430,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.dataNetworkName
+    Parameters.dataNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataNetwork
+      bodyMapper: Mappers.DataNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -456,31 +452,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.dataNetworkName
+    Parameters.dataNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataNetwork
+      bodyMapper: Mappers.DataNetwork,
     },
     201: {
-      bodyMapper: Mappers.DataNetwork
+      bodyMapper: Mappers.DataNetwork,
     },
     202: {
-      bodyMapper: Mappers.DataNetwork
+      bodyMapper: Mappers.DataNetwork,
     },
     204: {
-      bodyMapper: Mappers.DataNetwork
+      bodyMapper: Mappers.DataNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -489,23 +484,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.dataNetworkName
+    Parameters.dataNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks/{dataNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataNetwork
+      bodyMapper: Mappers.DataNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -514,52 +508,51 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
-    Parameters.dataNetworkName
+    Parameters.dataNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/mobileNetworks/{mobileNetworkName}/dataNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataNetworkListResult
+      bodyMapper: Mappers.DataNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataNetworkListResult
+      bodyMapper: Mappers.DataNetworkListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.mobileNetworkName
+    Parameters.mobileNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

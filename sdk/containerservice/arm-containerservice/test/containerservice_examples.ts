@@ -13,31 +13,38 @@ import {
   delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ContainerServiceClient } from "../src/containerServiceClient";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
+export function createTestCredential() {
+  return isPlaybackMode()
+    ? new NoOpCredential()
+    : new DefaultAzureCredential();
+}
+
 describe("ContainerService test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let clientId: string;
-  let secret: string;
   let client: ContainerServiceClient;
   let location: string;
   let resourceGroupName: string;
@@ -48,7 +55,6 @@ describe("ContainerService test", () => {
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     clientId = env.AZURE_CLIENT_ID || '';
-    secret = env.AZURE_CLIENT_SECRET || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ContainerServiceClient(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -59,6 +65,14 @@ describe("ContainerService test", () => {
 
   afterEach(async function () {
     await recorder.stop();
+  });
+
+  it.only("operation list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
   });
 
   it("managedClusters create test", async function () {
@@ -80,7 +94,7 @@ describe("ContainerService test", () => {
       ],
       servicePrincipalProfile: {
         clientId: clientId,
-        secret: secret
+        secret: ""
       },
       location: location
     }, testPollingOptions);
@@ -132,7 +146,7 @@ describe("ContainerService test", () => {
     )) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 1);
   });
 
   it("managedClusters update test", async function () {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patches a certificate. Currently only patching of tags is supported
  *
  * @summary Patches a certificate. Currently only patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsCertificates_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsCertificates_Patch.json
  */
 async function patchCertificate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function patchCertificate() {
     resourceGroupName,
     connectedEnvironmentName,
     certificateName,
-    certificateEnvelope
+    certificateEnvelope,
   );
   console.log(result);
 }

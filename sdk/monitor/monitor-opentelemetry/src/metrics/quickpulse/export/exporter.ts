@@ -13,8 +13,8 @@ import { QuickpulseSender } from "./sender";
 import {
   DocumentIngress,
   MonitoringDataPoint,
-  PostOptionalParams,
-  PostResponse,
+  PublishOptionalParams,
+  PublishResponse,
 } from "../../../generated";
 import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
 
@@ -23,7 +23,7 @@ import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../ut
  */
 export class QuickpulseMetricExporter implements PushMetricExporter {
   private sender: QuickpulseSender;
-  private postCallback: (response: PostResponse | undefined) => void;
+  private postCallback: (response: PublishResponse | undefined) => void;
   private getDocumentsFn: () => DocumentIngress[];
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
@@ -56,18 +56,18 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
-    let optionalParams: PostOptionalParams = {
+    const optionalParams: PublishOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,
         this.getDocumentsFn(),
       ),
-      xMsQpsTransmissionTime: getTransmissionTime(),
+      transmissionTime: getTransmissionTime(),
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       try {
-        let postResponse = await this.sender.post(optionalParams);
+        const postResponse = await this.sender.publish(optionalParams);
         this.postCallback(postResponse);
         resultCallback({ code: ExportResultCode.SUCCESS });
       } catch (error) {

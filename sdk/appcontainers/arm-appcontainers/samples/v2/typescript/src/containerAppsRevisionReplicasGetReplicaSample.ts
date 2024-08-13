@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a replica for a Container App Revision.
  *
  * @summary Get a replica for a Container App Revision.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Replicas_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Replicas_Get.json
  */
 async function getContainerAppRevisionReplica() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getContainerAppRevisionReplica() {
     resourceGroupName,
     containerAppName,
     revisionName,
-    replicaName
+    replicaName,
   );
   console.log(result);
 }

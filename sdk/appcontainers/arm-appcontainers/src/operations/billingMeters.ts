@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   BillingMetersGetOptionalParams,
-  BillingMetersGetResponse
+  BillingMetersGetResponse,
 } from "../models";
 
 /** Class containing BillingMeters operations. */
@@ -35,11 +35,11 @@ export class BillingMetersImpl implements BillingMeters {
    */
   get(
     location: string,
-    options?: BillingMetersGetOptionalParams
+    options?: BillingMetersGetOptionalParams,
   ): Promise<BillingMetersGetResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -47,23 +47,22 @@ export class BillingMetersImpl implements BillingMeters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/billingMeters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/locations/{location}/billingMeters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingMeterCollection
+      bodyMapper: Mappers.BillingMeterCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

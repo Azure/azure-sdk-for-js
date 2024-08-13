@@ -6,7 +6,7 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { assert, getYieldedValue } from "@azure/test-utils";
+import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isBrowser } from "@azure/core-util";
 import { Context } from "mocha";
 
@@ -26,6 +26,8 @@ describe("DirectoryClient", () => {
   fullDirAttributes.offline = true;
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
+  const filePermissionInBinaryFormat =
+    "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -197,6 +199,69 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
+  it("create with all parameters configured setting filePermission format", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!,
+      {
+        filePermissionFormat: "Binary",
+      },
+    );
+
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName)),
+    );
+    const metadata = { key: "value" };
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    await dirClient2.create({
+      metadata: metadata,
+      creationTime: now,
+      lastWriteTime: now,
+      filePermissionFormat: "Binary",
+      filePermission: getPermissionResp.permission,
+      fileAttributes: fullDirAttributes,
+    });
+
+    const result = await dirClient2.getProperties();
+    assert.deepStrictEqual(result.metadata, metadata);
+    assert.equal(result.errorCode, undefined);
+    const respFileAttributes = FileSystemAttributes.parse(result.fileAttributes!);
+    assert.ok(respFileAttributes.readonly);
+    assert.ok(respFileAttributes.hidden);
+    assert.ok(respFileAttributes.system);
+    assert.ok(respFileAttributes.directory);
+    assert.ok(respFileAttributes.archive);
+    assert.ok(respFileAttributes.offline);
+    assert.ok(respFileAttributes.notContentIndexed);
+    assert.ok(respFileAttributes.noScrubData);
+    assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.ok(result.filePermissionKey!);
+    assert.ok(result.fileChangeOn!);
+    assert.ok(result.fileId!);
+    assert.ok(result.fileParentId!);
+  });
+
+  it("create with filePermission with Sddl format", async () => {
+    const getPermissionResp = await shareClient.getPermission(
+      defaultDirCreateResp.filePermissionKey!,
+      {
+        filePermissionFormat: "Sddl",
+      },
+    );
+
+    const dirClient2 = shareClient.getDirectoryClient(
+      recorder.variable(dirName, getUniqueName(dirName)),
+    );
+    await dirClient2.create({
+      filePermissionFormat: "Sddl",
+      filePermission: getPermissionResp.permission,
+    });
+
+    const result = await dirClient2.getProperties();
+    assert.equal(result.errorCode, undefined);
+    assert.ok(result.filePermissionKey!);
+  });
+
   it("createIfNotExists", async () => {
     const res = await dirClient.createIfNotExists();
     assert.ok(!res.succeeded);
@@ -294,6 +359,17 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
+  });
+
+  it("setProperties with binary permissions", async function () {
+    await dirClient.setProperties({
+      filePermissionFormat: "Binary",
+      filePermission: filePermissionInBinaryFormat,
+    });
+    const result = await dirClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepStrictEqual(result.metadata, {});
+    assert.ok(result.filePermissionKey);
   });
 
   it("delete", (done) => {
@@ -1002,6 +1078,7 @@ describe("DirectoryClient", () => {
       assert.notDeepEqual(handle.sessionId, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
       assert.deepEqual(handle.accessRightList, ["Read", "Write", "Delete"]);
     }
   });
@@ -1026,6 +1103,7 @@ describe("DirectoryClient", () => {
       assert.notDeepEqual(handle.sessionId, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
     }
   });
 
@@ -1317,6 +1395,34 @@ describe("DirectoryClient", () => {
 
     const result = await sourceDirClient.rename(destDirName, {
       filePermission: filePermission,
+    });
+
+    assert.ok(
+      result.destinationDirectoryClient.name === destDirName,
+      "Destination name should be expected",
+    );
+
+    const properties = await result.destinationDirectoryClient.getProperties();
+    assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
+
+    try {
+      await sourceDirClient.getProperties();
+      assert.fail("Source directory should not exist anymore");
+    } catch (err: any) {
+      assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
+    }
+  });
+
+  it("rename - with binary permission", async () => {
+    const destDirName = recorder.variable("destdir", getUniqueName("destdir"));
+
+    const sourceDirName = recorder.variable("sourcedir", getUniqueName("sourcedir"));
+    const sourceDirClient = shareClient.getDirectoryClient(sourceDirName);
+    await sourceDirClient.create();
+
+    const result = await sourceDirClient.rename(destDirName, {
+      filePermissionFormat: "Binary",
+      filePermission: filePermissionInBinaryFormat,
     });
 
     assert.ok(

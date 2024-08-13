@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a dapr component.
  *
  * @summary Get a dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsDaprComponents_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsDaprComponents_Get.json
  */
 async function getDaprComponent() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getDaprComponent() {
   const result = await client.connectedEnvironmentsDaprComponents.get(
     resourceGroupName,
     connectedEnvironmentName,
-    componentName
+    componentName,
   );
   console.log(result);
 }

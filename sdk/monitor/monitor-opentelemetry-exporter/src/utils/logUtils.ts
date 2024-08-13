@@ -15,7 +15,11 @@ import {
 } from "../generated";
 import { createTagsFromResource, hrTimeToDate } from "./common";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_STACKTRACE,
+  SEMATTRS_EXCEPTION_TYPE,
+} from "@opentelemetry/semantic-conventions";
 import { Measurements, Properties, Tags } from "../types";
 import { diag } from "@opentelemetry/api";
 import {
@@ -41,17 +45,18 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
-  const [properties, measurements] = createPropertiesFromLog(log);
+  // eslint-disable-next-line prefer-const
+  let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
   let baseData: MonitorDomain;
 
   if (!log.attributes[ApplicationInsightsBaseType]) {
     // Get Exception attributes if available
-    const exceptionType = log.attributes[SemanticAttributes.EXCEPTION_TYPE];
+    const exceptionType = log.attributes[SEMATTRS_EXCEPTION_TYPE];
     if (exceptionType) {
-      const exceptionMessage = log.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
-      const exceptionStacktrace = log.attributes[SemanticAttributes.EXCEPTION_STACKTRACE];
+      const exceptionMessage = log.attributes[SEMATTRS_EXCEPTION_MESSAGE];
+      const exceptionStacktrace = log.attributes[SEMATTRS_EXCEPTION_STACKTRACE];
       name = ApplicationInsightsExceptionName;
       baseType = ApplicationInsightsExceptionBaseType;
       const exceptionDetails: TelemetryExceptionDetails = {
@@ -81,6 +86,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
     baseData = getLegacyApplicationInsightsBaseData(log);
+    measurements = getLegacyApplicationInsightsMeasurements(log);
     if (!baseData) {
       // Failed to parse log
       return;
@@ -124,9 +130,9 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
-          key === SemanticAttributes.EXCEPTION_TYPE ||
-          key === SemanticAttributes.EXCEPTION_MESSAGE ||
-          key === SemanticAttributes.EXCEPTION_STACKTRACE
+          key === SEMATTRS_EXCEPTION_TYPE ||
+          key === SEMATTRS_EXCEPTION_MESSAGE ||
+          key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
         properties[key] = log.attributes[key] as string;
@@ -176,6 +182,14 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
   return name;
 }
 
+function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
+  let measurements: Measurements = {};
+  if ((log.body as MonitorDomain)?.measurements) {
+    measurements = { ...(log.body as MonitorDomain).measurements };
+  }
+  return measurements;
+}
+
 function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDomain {
   let baseData: MonitorDomain = {
     version: 2,
@@ -184,19 +198,19 @@ function getLegacyApplicationInsightsBaseData(log: ReadableLogRecord): MonitorDo
     try {
       switch (log.attributes[ApplicationInsightsBaseType]) {
         case ApplicationInsightsAvailabilityBaseType:
-          baseData = JSON.parse(log.body) as AvailabilityData;
+          baseData = log.body as AvailabilityData;
           break;
         case ApplicationInsightsExceptionBaseType:
-          baseData = JSON.parse(log.body) as TelemetryExceptionData;
+          baseData = log.body as TelemetryExceptionData;
           break;
         case ApplicationInsightsMessageBaseType:
-          baseData = JSON.parse(log.body) as MessageData;
+          baseData = log.body as MessageData;
           break;
         case ApplicationInsightsPageViewBaseType:
-          baseData = JSON.parse(log.body) as PageViewData;
+          baseData = log.body as PageViewData;
           break;
         case ApplicationInsightsEventBaseType:
-          baseData = JSON.parse(log.body) as TelemetryEventData;
+          baseData = log.body as TelemetryEventData;
           break;
       }
       if (typeof baseData?.message === "object") {

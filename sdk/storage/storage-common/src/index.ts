@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./BufferScheduler";
+export { OutgoingHandler, BufferScheduler } from "./BufferScheduler";

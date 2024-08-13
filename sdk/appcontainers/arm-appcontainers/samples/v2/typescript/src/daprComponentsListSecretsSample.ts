@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List secrets for a dapr component
  *
  * @summary List secrets for a dapr component
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_ListSecrets.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_ListSecrets.json
  */
 async function listContainerAppsSecrets() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listContainerAppsSecrets() {
   const result = await client.daprComponents.listSecrets(
     resourceGroupName,
     environmentName,
-    componentName
+    componentName,
   );
   console.log(result);
 }

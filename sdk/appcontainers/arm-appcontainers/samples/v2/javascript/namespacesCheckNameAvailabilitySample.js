@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Certificates_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Certificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function certificatesCheckNameAvailability() {
   const result = await client.namespaces.checkNameAvailability(
     resourceGroupName,
     environmentName,
-    checkNameAvailabilityRequest
+    checkNameAvailabilityRequest,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function certificatesCheckNameAvailability() {
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_CheckNameAvailability.json
  */
 async function containerAppsCheckNameAvailability() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function containerAppsCheckNameAvailability() {
   const result = await client.namespaces.checkNameAvailability(
     resourceGroupName,
     environmentName,
-    checkNameAvailabilityRequest
+    checkNameAvailabilityRequest,
   );
   console.log(result);
 }

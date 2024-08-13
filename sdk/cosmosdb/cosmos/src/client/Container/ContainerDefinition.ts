@@ -4,6 +4,9 @@ import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
+import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
+import { ComputedProperty } from "../../documents/ComputedProperty";
+import { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
 import { ClientEncryptionPolicy } from "../../encryption";
 
 export interface ContainerDefinition {
@@ -23,6 +26,12 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  /** Change feed policy related to the container */
+  changeFeedPolicy?: ChangeFeedPolicy;
+  /** The computed properties of the container */
+  computedProperties?: ComputedProperty[];
+  /** The vector embedding policy information for storing items in a container. */
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
   /** Encryption policy for the container, contains path that needs to be encrypted */
   clientEncryptionPolicy?: ClientEncryptionPolicy;
 }

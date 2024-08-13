@@ -3,10 +3,10 @@
 
 /**
  * @file Testing the ts-package-json-name rule.
- * @author Arpan Laha
+ *
  */
 
-import { RuleTester } from "eslint";
+import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/ts-package-json-name";
 
 //------------------------------------------------------------------------------
@@ -239,13 +239,7 @@ const examplePackageBad = `{
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({
-  parser: require.resolve("@typescript-eslint/parser"),
-  parserOptions: {
-    createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
-});
+const ruleTester = createRuleTester();
 
 ruleTester.run("ts-package-json-name", rule, {
   valid: [
@@ -333,11 +327,11 @@ ruleTester.run("ts-package-json-name", rule, {
     {
       // not kebab-case
       code: '{"name": "@azure-rest/service-bus"}',
-      filename: "not-service-bus/package.json",
+      filename: "invalid/package.json",
       errors: [
         {
           message:
-            "service should be named '@azure-rest/not-service-bus' or should be moved to a directory called 'service-bus-rest'",
+            "service should be named '@azure-rest/invalid' or should be moved to a directory called 'service-bus-rest'",
         },
       ],
     },
@@ -354,11 +348,11 @@ ruleTester.run("ts-package-json-name", rule, {
     {
       // name does not match package directory
       code: examplePackageGood,
-      filename: "not-service-bus/package.json",
+      filename: "invalid/package.json",
       errors: [
         {
           message:
-            "service should be named '@azure/not-service-bus' or should be moved to a directory called 'service-bus'",
+            "service should be named '@azure/invalid' or should be moved to a directory called 'service-bus'",
         },
       ],
     },

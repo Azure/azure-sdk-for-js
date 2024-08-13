@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CertificatePatch,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patches a certificate. Currently only patching of tags is supported
  *
  * @summary Patches a certificate. Currently only patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsCertificates_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsCertificates_Patch.json
  */
 async function patchCertificate() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchCertificate() {
   const connectedEnvironmentName = "testcontainerenv";
   const certificateName = "certificate-firendly-name";
   const certificateEnvelope: CertificatePatch = {
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function patchCertificate() {
     resourceGroupName,
     connectedEnvironmentName,
     certificateName,
-    certificateEnvelope
+    certificateEnvelope,
   );
   console.log(result);
 }

@@ -306,12 +306,17 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.quota,
     Parameters.accessTier,
     Parameters.enabledProtocols,
-    Parameters.rootSquash
+    Parameters.rootSquash,
+    Parameters.enableSnapshotVirtualDirectoryAccess,
+    Parameters.paidBurstingEnabled,
+    Parameters.paidBurstingMaxBandwidthMibps,
+    Parameters.paidBurstingMaxIops
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -336,6 +341,7 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId
   ],
@@ -362,6 +368,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.deleteSnapshots
@@ -390,6 +397,7 @@ const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.action,
     Parameters.duration,
@@ -420,6 +428,7 @@ const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.requestId,
     Parameters.action1,
@@ -449,6 +458,7 @@ const changeLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.proposedLeaseId,
     Parameters.requestId,
@@ -479,6 +489,7 @@ const renewLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.requestId,
     Parameters.leaseId1,
@@ -508,6 +519,7 @@ const breakLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.requestId,
@@ -537,6 +549,7 @@ const createSnapshotOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata
   ],
@@ -564,9 +577,9 @@ const createPermissionOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
-    Parameters.contentType1,
-    Parameters.fileRequestIntent
+    Parameters.contentType1
   ],
   mediaType: "json",
   serializer
@@ -594,7 +607,8 @@ const getPermissionOperationSpec: coreClient.OperationSpec = {
     Parameters.version,
     Parameters.fileRequestIntent,
     Parameters.accept2,
-    Parameters.filePermissionKey
+    Parameters.filePermissionKey,
+    Parameters.filePermissionFormat
   ],
   serializer
 };
@@ -618,10 +632,15 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.quota,
     Parameters.accessTier,
     Parameters.rootSquash,
+    Parameters.enableSnapshotVirtualDirectoryAccess,
+    Parameters.paidBurstingEnabled,
+    Parameters.paidBurstingMaxBandwidthMibps,
+    Parameters.paidBurstingMaxIops,
     Parameters.leaseId
   ],
   isXML: true,
@@ -647,6 +666,7 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId
@@ -686,6 +706,7 @@ const getAccessPolicyOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId
   ],
@@ -715,6 +736,7 @@ const setAccessPolicyOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.leaseId
   ],
   isXML: true,
@@ -743,6 +765,7 @@ const getStatisticsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId
   ],
@@ -769,6 +792,7 @@ const restoreOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.requestId,
     Parameters.deletedShareName,

@@ -53,7 +53,7 @@ class BasicClient {
         // You do not need to close the span.
         const result = await Promise.resolve({ value: 42 });
         return result.value;
-      }
+      },
     );
   }
 
@@ -87,15 +87,15 @@ class BasicClient {
    */
   async withUserCallback<Callback extends (...args: unknown[]) => ReturnType<Callback>>(
     callback: Callback,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<ReturnType<Callback>> {
     const { span, updatedOptions } = this.tracingClient.startSpan(
       "BasicClient.withUserCallback",
-      options
+      options,
     );
     const result = this.tracingClient.withContext(
       updatedOptions.tracingOptions!.tracingContext!,
-      callback
+      callback,
     );
     span.setStatus({ status: "success" });
     span.end();

@@ -16,13 +16,13 @@ require("dotenv").config();
  * This sample demonstrates how to Patches a Container App using JSON Merge Patch
  *
  * @summary Patches a Container App using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_Patch.json
  */
 async function patchContainerApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerApp0";
+  const containerAppName = "testcontainerapp0";
   const containerAppEnvelope = {
     configuration: {
       dapr: {
@@ -69,7 +69,7 @@ async function patchContainerApp() {
         traffic: [
           {
             label: "production",
-            revisionName: "testcontainerApp0-ab1234",
+            revisionName: "testcontainerapp0-ab1234",
             weight: 100,
           },
         ],
@@ -82,8 +82,8 @@ async function patchContainerApp() {
     template: {
       containers: [
         {
-          name: "testcontainerApp0",
-          image: "repo/testcontainerApp0:v1",
+          name: "testcontainerapp0",
+          image: "repo/testcontainerapp0:v1",
           probes: [
             {
               type: "Liveness",
@@ -101,8 +101,8 @@ async function patchContainerApp() {
       initContainers: [
         {
           name: "testinitcontainerApp0",
-          image: "repo/testcontainerApp0:v4",
-          resources: { cpu: 0.2, memory: "100Mi" },
+          image: "repo/testcontainerapp0:v4",
+          resources: { cpu: 0.5, memory: "1Gi" },
         },
       ],
       scale: {
@@ -129,7 +129,7 @@ async function patchContainerApp() {
   const result = await client.containerApps.beginUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }

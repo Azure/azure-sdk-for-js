@@ -107,7 +107,7 @@ export {
 export { useInstrumenter } from "./tracing/instrumenter.js";
 export { createTracingClient } from "./tracing/tracingClient.js";
 // from core-util
-export { delay, DelayOptions } from "./util/delay.js";
+export { delay, DelayOptions, calculateRetryDelay } from "./util/delay.js";
 export {
   AbortOptions,
   cancelablePromiseRace,
@@ -133,6 +133,8 @@ export {
   isBrowser,
   isBun,
   isNode,
+  isNodeLike,
+  isNodeRuntime,
   isDeno,
   isReactNative,
   isWebWorker,

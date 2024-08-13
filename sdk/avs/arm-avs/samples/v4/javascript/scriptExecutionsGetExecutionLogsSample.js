@@ -34,7 +34,7 @@ async function scriptExecutionsGetExecutionLogs() {
     resourceGroupName,
     privateCloudName,
     scriptExecutionName,
-    options
+    options,
   );
   console.log(result);
 }

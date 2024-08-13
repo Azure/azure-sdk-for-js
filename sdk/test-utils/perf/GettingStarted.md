@@ -50,11 +50,11 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
     ```json
       "dependencies": {
          "@azure/<service-sdk>": "^<version-in-master-branch>",
-         "@azure/test-utils-perf": "^1.0.0"
+         "@azure-tools/test-perf": "^1.0.0"
        }
     ```
 
-    _Note: `"@azure/test-utils-perf"` is not a published npm package._
+    _Note: `"@azure-tools/test-perf"` is not a published npm package._
 
     Set the name of the package and mark it as private.
 
@@ -76,7 +76,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
     ```
          {
-           "extends": "../../../../tsconfig.package",
+           "extends": "../../../../tsconfig",
            "compilerOptions": {
              "module": "CommonJS",
              "declarationDir": "./typings/latest",
@@ -103,7 +103,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
    ```json
      "dependencies": {
         "@azure/<service-sdk>": "^<latest-track-1-version>",
-        "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
+        "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
       }
    ```
 
@@ -136,7 +136,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure-tools/test-perf";
 import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
 import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
@@ -158,7 +158,7 @@ Base class would have all the common code that would be repeated for each of the
 Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import {
   ServiceNameClient
 } from "@azure/<service-sdk>";
@@ -187,7 +187,7 @@ Following code shows how the individual perf test files would look like.
 
 ```js
 import { ServiceNameClient } from "@azure/<service-sdk>";
-import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
+import { PerfOptionDictionary, drainStream } from "@azure-tools/test-perf";
 import { `ServiceName`Test } from "./serviceNameTest.spec";
 
 export class `ServiceNameAPIName`Test extends ServiceNameTest {

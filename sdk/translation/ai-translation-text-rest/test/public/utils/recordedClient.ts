@@ -11,17 +11,21 @@ import {
 import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential";
 import createTextTranslationClient, {
   TranslatorCredential,
+  TranslatorTokenCredential,
   TextTranslationClient,
 } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { ClientSecretCredential } from "@azure/identity";
 
 const envSetupForPlayback: Record<string, string> = {
   TEXT_TRANSLATION_API_KEY: "fakeapikey",
   TEXT_TRANSLATION_ENDPOINT: "https://fakeEndpoint.cognitive.microsofttranslator.com",
   TEXT_TRANSLATION_CUSTOM_ENDPOINT: "https://fakeCustomEndpoint.cognitiveservices.azure.com",
   TEXT_TRANSLATION_REGION: "fakeregion",
+  TEXT_TRANSLATION_AAD_REGION: "fakeregion",
+  TEXT_TRANSLATION_RESOURCE_ID: "fakeresourceid",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -70,16 +74,6 @@ export async function createCustomTranslationClient(options: {
   return client;
 }
 
-export async function createLanguageClient(options: {
-  recorder?: Recorder;
-  clientOptions?: ClientOptions;
-}): Promise<TextTranslationClient> {
-  const { recorder, clientOptions = {} } = options;
-  const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
-  return createTextTranslationClient(endpoint, undefined, updatedOptions);
-}
-
 export async function createTokenTranslationClient(options: {
   recorder?: Recorder;
   clientOptions?: ClientOptions;
@@ -110,6 +104,36 @@ export async function createTokenTranslationClient(options: {
     credential = new StaticAccessTokenCredential(token);
   }
   const client = createTextTranslationClient(endpoint, credential, updatedOptions);
+  return client;
+}
+
+export async function createAADAuthenticationTranslationClient(options: {
+  recorder?: Recorder;
+  clientOptions?: ClientOptions;
+}): Promise<TextTranslationClient> {
+  const { recorder, clientOptions = {} } = options;
+  const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
+  const endpoint = assertEnvironmentVariable("TEXT_TRANSLATION_ENDPOINT");
+  const region = assertEnvironmentVariable("TEXT_TRANSLATION_AAD_REGION");
+  const azureResourceId = assertEnvironmentVariable("TEXT_TRANSLATION_RESOURCE_ID");
+
+  let tokenCredential: TokenCredential;
+  if (isPlaybackMode()) {
+    tokenCredential = createMockToken();
+  } else {
+    const clientId = assertEnvironmentVariable("TEXT_TRANSLATION_CLIENT_ID");
+    const tenantId = assertEnvironmentVariable("TEXT_TRANSLATION_TENANT_ID");
+    const secret = assertEnvironmentVariable("TEXT_TRANSLATION_CLIENT_SECRET");
+
+    tokenCredential = new ClientSecretCredential(tenantId, clientId, secret);
+  }
+
+  const translatorTokenCredentials: TranslatorTokenCredential = {
+    tokenCredential,
+    azureResourceId,
+    region,
+  };
+  const client = createTextTranslationClient(endpoint, translatorTokenCredentials, updatedOptions);
   return client;
 }
 

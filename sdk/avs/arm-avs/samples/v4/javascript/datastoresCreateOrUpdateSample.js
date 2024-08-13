@@ -37,7 +37,7 @@ async function datastoresCreateOrUpdate() {
     privateCloudName,
     clusterName,
     datastoreName,
-    datastore
+    datastore,
   );
   console.log(result);
 }

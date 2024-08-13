@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all flow log resources for the specified Network Watcher.
  *
  * @summary Lists all flow log resources for the specified Network Watcher.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherFlowLogList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkWatcherFlowLogList.json
  */
 async function listConnectionMonitors() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

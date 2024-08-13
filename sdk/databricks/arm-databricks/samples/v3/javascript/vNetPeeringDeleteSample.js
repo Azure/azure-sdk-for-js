@@ -28,7 +28,7 @@ async function deleteAWorkspaceVNetPeering() {
   const result = await client.vNetPeering.beginDeleteAndWait(
     resourceGroupName,
     workspaceName,
-    peeringName
+    peeringName,
   );
   console.log(result);
 }

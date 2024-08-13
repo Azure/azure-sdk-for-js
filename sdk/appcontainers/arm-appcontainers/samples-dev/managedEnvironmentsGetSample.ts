@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of a Managed Environment used to host container apps.
  *
  * @summary Get the properties of a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_Get.json
  */
 async function getEnvironmentsByName() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getEnvironmentsByName() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.managedEnvironments.get(
     resourceGroupName,
-    environmentName
+    environmentName,
   );
   console.log(result);
 }

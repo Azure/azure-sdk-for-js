@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
@@ -154,7 +152,7 @@ export type PathUncheckedResponse = HttpResponse & {
 };
 
 // @public
-export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
+export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown, __legacyError?: unknown) => void;
 
 // @public
 export type RequestParameters = {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { JSONObject } from "../queryExecutionContext";
-import { extractPartitionKeys } from "../extractPartitionKey";
+import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
 import { CosmosDiagnostics, RequestOptions } from "..";
 import {
   NonePartitionKeyLiteral,
@@ -12,11 +12,10 @@ import {
   convertToInternalPartitionKey,
 } from "../documents";
 import { PatchRequestBody } from "./patch";
-import { v4 } from "uuid";
 import { assertNotUndefined } from "./typeChecks";
 import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
-const uuid = v4;
+import { randomUUID } from "@azure/core-util";
 
 export type Operation =
   | CreateOperation
@@ -211,7 +210,8 @@ export function prepareOperations(
       case BulkOperationType.Read:
       case BulkOperationType.Delete:
       case BulkOperationType.Patch:
-        partitionKey = definition.paths.map(() => NonePartitionKeyLiteral);
+        partitionKey = undefinedPartitionKey(definition);
+        break;
     }
   }
   return {
@@ -234,7 +234,7 @@ function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOpt
       (operationInput.resourceBody.id === undefined || operationInput.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
     ) {
-      operationInput.resourceBody.id = uuid();
+      operationInput.resourceBody.id = randomUUID();
     }
   }
 }
@@ -298,7 +298,7 @@ export function decorateBatchOperation(
       (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
     ) {
-      operation.resourceBody.id = uuid();
+      operation.resourceBody.id = randomUUID();
     }
   }
   return operation as Operation;

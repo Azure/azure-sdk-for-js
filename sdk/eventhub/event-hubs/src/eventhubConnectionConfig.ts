@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 
 import { ConnectionConfig } from "@azure/core-amqp";
-import { parseEndpoint } from "./util/parseEndpoint";
+import { parseEndpoint } from "./util/parseEndpoint.js";
 
 /**
  * Describes the connection config object that is created after parsing an EventHub connection
@@ -38,7 +38,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    * - `"<hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`
    *
    * @param partitionId - The partitionId in the EventHub from which messages will be received.
-   * @param consumergroup - The consumergoup in the EventHub from which the messages will
+   * @param consumergroup - The consumergroup in the EventHub from which the messages will
    * be received. Default: `$default`.
    */
   getReceiverAddress(partitionId: string | number, consumergroup?: string): string;
@@ -47,7 +47,7 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
    * - `"sb://<your-namespace>.servicebus.windows.net/<hub-name>/ConsumerGroups/<consumer-group-name>/Partitions/<partition-id>"`
    *
    * @param partitionId - The partitionId in the EventHub from which messages will be received.
-   * @param consumergroup - The consumergoup in the EventHub from which the messages will
+   * @param consumergroup - The consumergroup in the EventHub from which the messages will
    * be received. Default: `$default`.
    */
   getReceiverAudience(partitionId: string | number, consumergroup?: string): string;

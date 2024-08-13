@@ -24,7 +24,7 @@ import {
   ImagesGetOptionalParams,
   ImagesGetResponse,
   ImagesListByDevCenterNextResponse,
-  ImagesListByGalleryNextResponse
+  ImagesListByGalleryNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,12 +49,12 @@ export class ImagesImpl implements Images {
   public listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: ImagesListByDevCenterOptionalParams
+    options?: ImagesListByDevCenterOptionalParams,
   ): PagedAsyncIterableIterator<Image> {
     const iter = this.listByDevCenterPagingAll(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class ImagesImpl implements Images {
           resourceGroupName,
           devCenterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     options?: ImagesListByDevCenterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Image[]> {
     let result: ImagesListByDevCenterResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ImagesImpl implements Images {
       result = await this._listByDevCenter(
         resourceGroupName,
         devCenterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -101,7 +101,7 @@ export class ImagesImpl implements Images {
         resourceGroupName,
         devCenterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +113,12 @@ export class ImagesImpl implements Images {
   private async *listByDevCenterPagingAll(
     resourceGroupName: string,
     devCenterName: string,
-    options?: ImagesListByDevCenterOptionalParams
+    options?: ImagesListByDevCenterOptionalParams,
   ): AsyncIterableIterator<Image> {
     for await (const page of this.listByDevCenterPagingPage(
       resourceGroupName,
       devCenterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,13 +135,13 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: ImagesListByGalleryOptionalParams
+    options?: ImagesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<Image> {
     const iter = this.listByGalleryPagingAll(
       resourceGroupName,
       devCenterName,
       galleryName,
-      options
+      options,
     );
     return {
       next() {
@@ -159,9 +159,9 @@ export class ImagesImpl implements Images {
           devCenterName,
           galleryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -170,7 +170,7 @@ export class ImagesImpl implements Images {
     devCenterName: string,
     galleryName: string,
     options?: ImagesListByGalleryOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Image[]> {
     let result: ImagesListByGalleryResponse;
     let continuationToken = settings?.continuationToken;
@@ -179,7 +179,7 @@ export class ImagesImpl implements Images {
         resourceGroupName,
         devCenterName,
         galleryName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -192,7 +192,7 @@ export class ImagesImpl implements Images {
         devCenterName,
         galleryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -205,13 +205,13 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: ImagesListByGalleryOptionalParams
+    options?: ImagesListByGalleryOptionalParams,
   ): AsyncIterableIterator<Image> {
     for await (const page of this.listByGalleryPagingPage(
       resourceGroupName,
       devCenterName,
       galleryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -226,11 +226,11 @@ export class ImagesImpl implements Images {
   private _listByDevCenter(
     resourceGroupName: string,
     devCenterName: string,
-    options?: ImagesListByDevCenterOptionalParams
+    options?: ImagesListByDevCenterOptionalParams,
   ): Promise<ImagesListByDevCenterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, options },
-      listByDevCenterOperationSpec
+      listByDevCenterOperationSpec,
     );
   }
 
@@ -245,11 +245,11 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     galleryName: string,
-    options?: ImagesListByGalleryOptionalParams
+    options?: ImagesListByGalleryOptionalParams,
   ): Promise<ImagesListByGalleryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, galleryName, options },
-      listByGalleryOperationSpec
+      listByGalleryOperationSpec,
     );
   }
 
@@ -266,11 +266,11 @@ export class ImagesImpl implements Images {
     devCenterName: string,
     galleryName: string,
     imageName: string,
-    options?: ImagesGetOptionalParams
+    options?: ImagesGetOptionalParams,
   ): Promise<ImagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, galleryName, imageName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -285,11 +285,11 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     devCenterName: string,
     nextLink: string,
-    options?: ImagesListByDevCenterNextOptionalParams
+    options?: ImagesListByDevCenterNextOptionalParams,
   ): Promise<ImagesListByDevCenterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, nextLink, options },
-      listByDevCenterNextOperationSpec
+      listByDevCenterNextOperationSpec,
     );
   }
 
@@ -306,11 +306,11 @@ export class ImagesImpl implements Images {
     devCenterName: string,
     galleryName: string,
     nextLink: string,
-    options?: ImagesListByGalleryNextOptionalParams
+    options?: ImagesListByGalleryNextOptionalParams,
   ): Promise<ImagesListByGalleryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, devCenterName, galleryName, nextLink, options },
-      listByGalleryNextOperationSpec
+      listByGalleryNextOperationSpec,
     );
   }
 }
@@ -318,38 +318,15 @@ export class ImagesImpl implements Images {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDevCenterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/images",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/images",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImageListResult
+      bodyMapper: Mappers.ImageListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.devCenterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByGalleryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImageListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
@@ -357,22 +334,42 @@ const listByGalleryOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.devCenterName,
-    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}",
+const listByGalleryOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Image
+      bodyMapper: Mappers.ImageListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.galleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/galleries/{galleryName}/images/{imageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Image,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -381,42 +378,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.galleryName,
-    Parameters.imageName
+    Parameters.imageName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDevCenterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImageListResult
+      bodyMapper: Mappers.ImageListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.devCenterName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImageListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   urlParameters: [
     Parameters.$host,
@@ -424,8 +400,29 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.devCenterName,
     Parameters.nextLink,
-    Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.devCenterName,
+    Parameters.nextLink,
+    Parameters.galleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

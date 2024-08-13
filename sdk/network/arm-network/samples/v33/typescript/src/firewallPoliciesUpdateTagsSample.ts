@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates tags of a Azure Firewall Policy resource.
  *
  * @summary Updates tags of a Azure Firewall Policy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyPatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/FirewallPolicyPatch.json
  */
 async function updateFirewallPolicyTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

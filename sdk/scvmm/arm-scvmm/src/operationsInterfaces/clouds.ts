@@ -7,130 +7,133 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cloud,
-  CloudsListByResourceGroupOptionalParams,
   CloudsListBySubscriptionOptionalParams,
+  CloudsListByResourceGroupOptionalParams,
   CloudsGetOptionalParams,
   CloudsGetResponse,
   CloudsCreateOrUpdateOptionalParams,
   CloudsCreateOrUpdateResponse,
-  CloudsDeleteOptionalParams,
-  ResourcePatch,
+  CloudTagsUpdate,
   CloudsUpdateOptionalParams,
-  CloudsUpdateResponse
+  CloudsUpdateResponse,
+  CloudsDeleteOptionalParams,
+  CloudsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clouds. */
 export interface Clouds {
   /**
-   * List of Clouds in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: CloudsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Cloud>;
-  /**
    * List of Clouds in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CloudsListBySubscriptionOptionalParams
+    options?: CloudsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<Cloud>;
+  /**
+   * List of Clouds in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: CloudsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cloud>;
   /**
    * Implements Cloud GET method.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    cloudName: string,
-    options?: CloudsGetOptionalParams
+    cloudResourceName: string,
+    options?: CloudsGetOptionalParams,
   ): Promise<CloudsGetResponse>;
   /**
    * Onboards the ScVmm fabric cloud as an Azure cloud resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Request payload.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    cloudName: string,
-    body: Cloud,
-    options?: CloudsCreateOrUpdateOptionalParams
+    cloudResourceName: string,
+    resource: Cloud,
+    options?: CloudsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<CloudsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CloudsCreateOrUpdateResponse>,
       CloudsCreateOrUpdateResponse
     >
   >;
   /**
    * Onboards the ScVmm fabric cloud as an Azure cloud resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Request payload.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    cloudName: string,
-    body: Cloud,
-    options?: CloudsCreateOrUpdateOptionalParams
+    cloudResourceName: string,
+    resource: Cloud,
+    options?: CloudsCreateOrUpdateOptionalParams,
   ): Promise<CloudsCreateOrUpdateResponse>;
   /**
-   * Deregisters the ScVmm fabric cloud from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    cloudName: string,
-    options?: CloudsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deregisters the ScVmm fabric cloud from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    cloudName: string,
-    options?: CloudsDeleteOptionalParams
-  ): Promise<void>;
-  /**
    * Updates the Clouds resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Clouds patch payload.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
-    cloudName: string,
-    body: ResourcePatch,
-    options?: CloudsUpdateOptionalParams
+    cloudResourceName: string,
+    properties: CloudTagsUpdate,
+    options?: CloudsUpdateOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
+    SimplePollerLike<OperationState<CloudsUpdateResponse>, CloudsUpdateResponse>
   >;
   /**
    * Updates the Clouds resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param cloudName Name of the Cloud.
-   * @param body Clouds patch payload.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
-    cloudName: string,
-    body: ResourcePatch,
-    options?: CloudsUpdateOptionalParams
+    cloudResourceName: string,
+    properties: CloudTagsUpdate,
+    options?: CloudsUpdateOptionalParams,
   ): Promise<CloudsUpdateResponse>;
+  /**
+   * Deregisters the ScVmm fabric cloud from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    cloudResourceName: string,
+    options?: CloudsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<CloudsDeleteResponse>, CloudsDeleteResponse>
+  >;
+  /**
+   * Deregisters the ScVmm fabric cloud from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param cloudResourceName Name of the Cloud.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    cloudResourceName: string,
+    options?: CloudsDeleteOptionalParams,
+  ): Promise<CloudsDeleteResponse>;
 }

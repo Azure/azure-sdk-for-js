@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
  *
  * @summary Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
  */
 async function getVirtualNetworkGatewayVpnProfilePackageUrl() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

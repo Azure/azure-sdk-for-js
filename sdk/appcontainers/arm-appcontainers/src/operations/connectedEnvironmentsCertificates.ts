@@ -26,13 +26,14 @@ import {
   CertificatePatch,
   ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ConnectedEnvironmentsCertificatesUpdateResponse,
-  ConnectedEnvironmentsCertificatesListNextResponse
+  ConnectedEnvironmentsCertificatesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedEnvironmentsCertificates operations. */
 export class ConnectedEnvironmentsCertificatesImpl
-  implements ConnectedEnvironmentsCertificates {
+  implements ConnectedEnvironmentsCertificates
+{
   private readonly client: ContainerAppsAPIClient;
 
   /**
@@ -52,12 +53,12 @@ export class ConnectedEnvironmentsCertificatesImpl
   public list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<Certificate> {
     const iter = this.listPagingAll(
       resourceGroupName,
       connectedEnvironmentName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +75,9 @@ export class ConnectedEnvironmentsCertificatesImpl
           resourceGroupName,
           connectedEnvironmentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +85,7 @@ export class ConnectedEnvironmentsCertificatesImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     options?: ConnectedEnvironmentsCertificatesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Certificate[]> {
     let result: ConnectedEnvironmentsCertificatesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class ConnectedEnvironmentsCertificatesImpl
       result = await this._list(
         resourceGroupName,
         connectedEnvironmentName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +105,7 @@ export class ConnectedEnvironmentsCertificatesImpl
         resourceGroupName,
         connectedEnvironmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +117,12 @@ export class ConnectedEnvironmentsCertificatesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams,
   ): AsyncIterableIterator<Certificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       connectedEnvironmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +137,11 @@ export class ConnectedEnvironmentsCertificatesImpl
   private _list(
     resourceGroupName: string,
     connectedEnvironmentName: string,
-    options?: ConnectedEnvironmentsCertificatesListOptionalParams
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -155,11 +156,11 @@ export class ConnectedEnvironmentsCertificatesImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesGetOptionalParams
+    options?: ConnectedEnvironmentsCertificatesGetOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, certificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,11 +175,11 @@ export class ConnectedEnvironmentsCertificatesImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
+    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, certificateName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -193,11 +194,11 @@ export class ConnectedEnvironmentsCertificatesImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     certificateName: string,
-    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams
+    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, certificateName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -214,7 +215,7 @@ export class ConnectedEnvironmentsCertificatesImpl
     connectedEnvironmentName: string,
     certificateName: string,
     certificateEnvelope: CertificatePatch,
-    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams
+    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -222,9 +223,9 @@ export class ConnectedEnvironmentsCertificatesImpl
         connectedEnvironmentName,
         certificateName,
         certificateEnvelope,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -239,11 +240,11 @@ export class ConnectedEnvironmentsCertificatesImpl
     resourceGroupName: string,
     connectedEnvironmentName: string,
     nextLink: string,
-    options?: ConnectedEnvironmentsCertificatesListNextOptionalParams
+    options?: ConnectedEnvironmentsCertificatesListNextOptionalParams,
   ): Promise<ConnectedEnvironmentsCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, connectedEnvironmentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -251,38 +252,15 @@ export class ConnectedEnvironmentsCertificatesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.CertificateCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.connectedEnvironmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -290,22 +268,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
-    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Certificate,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.Certificate,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.certificateEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -314,22 +312,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -337,22 +334,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Certificate
+      bodyMapper: Mappers.Certificate,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.certificateEnvelope1,
   queryParameters: [Parameters.apiVersion],
@@ -361,30 +357,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CertificateCollection
+      bodyMapper: Mappers.CertificateCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.connectedEnvironmentName
+    Parameters.connectedEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

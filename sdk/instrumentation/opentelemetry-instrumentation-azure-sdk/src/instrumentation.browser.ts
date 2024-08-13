@@ -6,6 +6,7 @@ import {
   InstrumentationBase,
   InstrumentationConfig,
 } from "@opentelemetry/instrumentation";
+
 import { OpenTelemetryInstrumenter } from "./instrumenter";
 import { SDK_VERSION } from "./configuration";
 import { useInstrumenter } from "@azure/core-tracing";
@@ -18,7 +19,7 @@ export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {}
 /**
  * The instrumentation module for the Azure SDK. Implements OpenTelemetry's {@link Instrumentation}.
  */
-class AzureSdkInstrumentation extends InstrumentationBase {
+export class AzureSdkInstrumentation extends InstrumentationBase {
   constructor(options: AzureSdkInstrumentationOptions = {}) {
     super(
       "@azure/opentelemetry-instrumentation-azure-sdk",

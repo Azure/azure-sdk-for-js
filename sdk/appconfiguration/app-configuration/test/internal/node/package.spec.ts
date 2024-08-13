@@ -3,30 +3,41 @@
 
 import { Context } from "mocha";
 import { assert } from "chai";
-import fs from "fs";
+import { AppConfigurationClient } from "../../../src/appConfigurationClient";
+import { TokenCredential } from "@azure/core-auth";
 import { packageVersion } from "../../../src/internal/constants";
-import path from "path";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
-  it("user agent string matches the package version", function (this: Context) {
-    let packageJsonContents: {
-      [property: string]: string;
-    };
+  it("user agent string matches the package version", async function (this: Context) {
+    let userAgent: string | undefined;
+    const client = new AppConfigurationClient(
+      "https://myresource.azconfig.io",
+      {
+        getToken: (_scopes) => {
+          return Promise.resolve({
+            token: "fakevalue",
+            expiresOnTimestamp: new Date().getTime() + 24 * 60 * 60 * 1000,
+          });
+        },
+      } as TokenCredential,
+      {
+        httpClient: {
+          sendRequest: async (request) => {
+            userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+            throw new Error("only a test");
+          },
+        },
+      },
+    );
 
     try {
-      // For integration tests
-      packageJsonContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../../../package.json"), { encoding: "utf-8" }),
-      );
-    } catch (e: any) {
-      // For unit tests
-      packageJsonContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" }),
-      );
+      await client.getSnapshot("name");
+    } catch {
+      // no-op, we don't care about the response, only the user-agent header
     }
-
-    assert.strictEqual(packageJsonContents.version, packageVersion);
+    assert.exists(userAgent, "Expected a User-Agent header to be sent");
+    assert.include(userAgent!, `azsdk-js-app-configuration/${packageVersion}`);
   });
 });

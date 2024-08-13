@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get storage for a managedEnvironment.
  *
  * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironmentsStorages_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironmentsStorages_Get.json
  */
 async function getAEnvironmentsStoragePropertiesBySubscription() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getAEnvironmentsStoragePropertiesBySubscription() {
   const result = await client.managedEnvironmentsStorages.get(
     resourceGroupName,
     environmentName,
-    storageName
+    storageName,
   );
   console.log(result);
 }

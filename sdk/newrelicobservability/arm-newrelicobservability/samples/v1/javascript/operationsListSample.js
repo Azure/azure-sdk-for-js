@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function operationsListMaximumSetGen() {
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
   const subscriptionId =

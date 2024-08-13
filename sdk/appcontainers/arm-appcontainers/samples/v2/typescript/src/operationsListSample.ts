@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available RP operations.
  *
  * @summary Lists all of the available RP operations.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Operations_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Operations_List.json
  */
 async function listAllOperations() {
   const subscriptionId =

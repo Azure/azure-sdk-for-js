@@ -20,12 +20,12 @@ steps:
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish Report Artifacts"
-    inputs:
-      artifactName: package-diffs
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'package-diffs'
+      SbomEnabled: false
+
 
   - template: /eng/common/pipelines/templates/steps/verify-readme.yml
     parameters:
@@ -58,13 +58,21 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
-  - template: /eng/pipelines/templates/steps/run-eslint.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
+
+  - script: |
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
+    displayName: "Build libraries"
+
+  - template: /eng/pipelines/templates/steps/run-eslint.yml
+    parameters:
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - pwsh: |
       node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
@@ -104,9 +112,10 @@ steps:
       flattenFolders: true
     displayName: "Copy lint reports"
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+  - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'reports'
+      SbomEnabled: false
 
   - template: /eng/common/pipelines/templates/steps/eng-common-workflow-enforcer.yml

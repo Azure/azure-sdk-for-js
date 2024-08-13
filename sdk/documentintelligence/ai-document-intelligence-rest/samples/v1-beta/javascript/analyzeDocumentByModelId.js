@@ -16,7 +16,7 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
   const modelId = process.env.DOCUMENT_INTELLIGENCE_CUSTOM_MODEL_ID || "<custom model ID>"; // "prebuilt-layout";
 
@@ -44,7 +44,7 @@ async function main() {
   console.log(
     "Extracted document:",
     document.docType,
-    `(confidence: ${document.confidence || "<undefined>"})`
+    `(confidence: ${document.confidence || "<undefined>"})`,
   );
   console.log("Fields:", document.fields);
 }

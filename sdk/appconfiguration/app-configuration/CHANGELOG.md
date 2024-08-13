@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.7.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,51 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.7.0 (2024-08-06)
+
+### Features Added
+
+- Support `listLabels` method to list all the labels in the configuration setting store. 
+
+Example:
+
+```typescript
+const allLabels = client.listLabels();
+```
+
+See [`listLabels.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listLabels.ts) for more information now how to use this feature
+
+- Add `tagsFilter` in the option bag for `listConfigurationSettings` method. This feature allows you to filter configuration settings by specifying tags.
+
+Example:
+
+```typescript
+const allProdTags = client.listConfigurationSettings({
+  tagsFilter: ["production=prod*"],
+});
+```
+See [`listConfigurationSettings.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts) for more information now how to use this feature.
+- Add `tagsFilter` in `ConfigurationSettingsFilter` so that you can create snapshot by filtering configuration settings tags.
+
+
+## 1.6.1 (2024-07-11)
+
+### Bugs Fixed
+
+- Parse the correct `etag` for the corresponding page in the `listConfigurationSettings` method.
+
+## 1.6.0 (2024-04-09)
+
+### Features Added
+
+- The `etag` for each page of configuration settings feature is generally available
+
+## 1.6.0-beta.1 (2024-03-05)
+
+### Features Added
+
+- Support `etag` property for each page of configuration settings. You can give a list of etags through the `etagList` property in the options bag for the `listConfigurationSettings` method to see if the page has been changed. This enables more efficient caching and avoid mid-air collision.
 
 ## 1.5.0 (2023-11-07)
 

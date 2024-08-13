@@ -39,7 +39,7 @@ async function frontendEndpointsEnableHttps() {
     resourceGroupName,
     frontDoorName,
     frontendEndpointName,
-    customHttpsConfiguration
+    customHttpsConfiguration,
   );
   console.log(result);
 }

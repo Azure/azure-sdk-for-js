@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "@azure/test-utils";
+import { assert } from "@azure-tools/test-utils";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";

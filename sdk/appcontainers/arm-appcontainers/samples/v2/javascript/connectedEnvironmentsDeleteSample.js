@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an connectedEnvironment.
  *
  * @summary Delete an connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironments_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironments_Delete.json
  */
 async function deleteConnectedEnvironmentByConnectedEnvironmentName() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function deleteConnectedEnvironmentByConnectedEnvironmentName() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironments.beginDeleteAndWait(
     resourceGroupName,
-    connectedEnvironmentName
+    connectedEnvironmentName,
   );
   console.log(result);
 }

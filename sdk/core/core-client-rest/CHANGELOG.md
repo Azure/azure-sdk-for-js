@@ -1,18 +1,63 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 2.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.2.0 (2024-07-11)
+
+### Other Changes
+
+- Update serialization to not serialize Uint8Array if the content type is "application/json". 
+
+## 2.1.0 (2024-06-27)
+
+### Features Added
+
+- The `onResponse` callback will now be called when the underlying request results in an error. In this scenario, the error to be thrown will be provided as the second argument to the callback.
+
+## 2.0.0 (2024-04-25)
+
+### Breaking Changes
+
+- Changed the format accepted for `multipart/form-data` requests.
+
+## 1.4.0 (2024-04-09)
+
+### Features Added
+
+- Support accept in headers.
+
+### Other Changes
+
+- Revert TypeScript output target to ES2017.
+
+## 1.3.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
+## 1.3.0 (2024-03-12)
 
 ### Features Added
 
 - Allow customers to set request content type by `option.contentType` or `content-type` request headers.
-
-### Breaking Changes
 
 ### Bugs Fixed
 
 - Set the content-type as `undefined` if it's a non-json string in the body and we are unknown of the content-type, but remain to be `application/json` if it's json string.
 
 ### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 1.2.0 (2024-02-01)
 

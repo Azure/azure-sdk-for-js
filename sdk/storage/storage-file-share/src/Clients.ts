@@ -31,6 +31,7 @@ import {
   FileGetRangeListDiffResponse,
   FileItem,
   FileListHandlesResponse,
+  FilePermissionFormat,
   FileSetHTTPHeadersResponse,
   FileSetMetadataResponse,
   FileStartCopyResponse,
@@ -97,7 +98,7 @@ import {
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models";
 import { Share, Directory, File } from "./generated/src/operationsInterfaces";
-import { newPipeline, Pipeline, PipelineLike } from "../../storage-blob/src/Pipeline";
+import { isPipelineLike, newPipeline, Pipeline, PipelineLike } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -123,6 +124,7 @@ import {
   WithResponse,
   assertResponse,
   removeEmptyString,
+  asSharePermission,
 } from "./utils/utils.common";
 import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
@@ -163,7 +165,10 @@ import {
 } from "./utils/utils.node";
 import { FileSetHttpHeadersHeaders, StorageClient as StorageClientContext } from "./generated/src/";
 import { randomUUID } from "@azure/core-util";
-import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
+import {
+  generateFileSASQueryParameters,
+  generateFileSASQueryParametersInternal,
+} from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
@@ -207,6 +212,27 @@ export interface ShareCreateOptions extends CommonOptions {
    * 'NoRootSquash', 'RootSquash', 'AllSquash'.
    */
   rootSquash?: ShareRootSquash;
+
+  /**
+   * Specifies whether the snapshot virtual directory should be accessible at the root of share mount point when NFS is enabled.
+   * If not specified, the default is true.
+   */
+  enableSnapshotVirtualDirectoryAccess?: boolean;
+
+  /**
+   * Optional. Boolean. Default if not specified is false. This property enables paid bursting.
+   */
+  paidBurstingEnabled?: boolean;
+
+  /**
+   * Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec.
+   */
+  paidBurstingMaxBandwidthMibps?: number;
+
+  /**
+   * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
+   */
+  paidBurstingMaxIops?: number;
 }
 
 /**
@@ -350,6 +376,27 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Specifies whether the snapshot virtual directory should be accessible at the root of share mount point when NFS is enabled.
+   * If not specified, the default is true.
+   */
+  enableSnapshotVirtualDirectoryAccess?: boolean;
+
+  /**
+   * Optional. Boolean. Default if not specified is false. This property enables paid bursting.
+   */
+  paidBurstingEnabled?: boolean;
+
+  /**
+   * Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec.
+   */
+  paidBurstingMaxBandwidthMibps?: number;
+
+  /**
+   * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
+   */
+  paidBurstingMaxIops?: number;
 }
 
 /**
@@ -432,6 +479,12 @@ export interface ShareCreatePermissionOptions extends CommonOptions {
  * Options to configure the {@link ShareClient.getPermission} operation.
  */
 export interface ShareGetPermissionOptions extends CommonOptions {
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
+   */
+  filePermissionFormat?: FilePermissionFormat;
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -601,14 +654,7 @@ export class ShareClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
-    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: ShareClientOptions,
-  );
-  constructor(
-    url: string,
-    credential?: StorageSharedKeyCredential | AnonymousCredential,
+    credential?: Credential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
@@ -626,19 +672,14 @@ export class ShareClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     urlOrConnectionString: string,
-    credentialOrPipelineOrShareName?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike
-      | string,
+    credentialOrPipelineOrShareName?: Credential | TokenCredential | PipelineLike | string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
   ) {
     let pipeline: Pipeline;
     let url: string;
-    if (credentialOrPipelineOrShareName instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipelineOrShareName)) {
       // (url: string, pipeline: Pipeline)
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrShareName;
@@ -724,6 +765,7 @@ export class ShareClient extends StorageClient {
       return assertResponse<ShareCreateHeaders, ShareCreateHeaders>(
         await this.context.create({
           ...updatedOptions,
+          ...this.shareClientConfig,
           enabledProtocols: toShareProtocolsString(updatedOptions.protocols),
         }),
       );
@@ -946,6 +988,7 @@ export class ShareClient extends StorageClient {
       );
       return {
         ...res,
+        ...this.shareClientConfig,
         protocols: toShareProtocols(res.enabledProtocols),
       };
     });
@@ -964,6 +1007,7 @@ export class ShareClient extends StorageClient {
       return assertResponse<ShareDeleteHeaders, ShareDeleteHeaders>(
         await this.context.delete({
           ...updatedOptions,
+          ...this.shareClientConfig,
         }),
       );
     });
@@ -1018,6 +1062,7 @@ export class ShareClient extends StorageClient {
       return assertResponse<ShareSetMetadataHeaders, ShareSetMetadataHeaders>(
         await this.context.setMetadata({
           ...updatedOptions,
+          ...this.shareClientConfig,
           metadata,
         }),
       );
@@ -1050,6 +1095,7 @@ export class ShareClient extends StorageClient {
         >(
           await this.context.getAccessPolicy({
             ...updatedOptions,
+            ...this.shareClientConfig,
           }),
         );
 
@@ -1134,6 +1180,7 @@ export class ShareClient extends StorageClient {
         return assertResponse<ShareSetAccessPolicyHeaders, ShareSetAccessPolicyHeaders>(
           await this.context.setAccessPolicy({
             ...updatedOptions,
+            ...this.shareClientConfig,
             shareAcl: acl,
           }),
         );
@@ -1152,7 +1199,10 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareCreateSnapshotResponse> {
     return tracingClient.withSpan("ShareClient-createSnapshot", options, async (updatedOptions) => {
       return assertResponse<ShareCreateSnapshotHeaders, ShareCreateSnapshotHeaders>(
-        await this.context.createSnapshot(updatedOptions),
+        await this.context.createSnapshot({
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        }),
       );
     });
   }
@@ -1174,6 +1224,7 @@ export class ShareClient extends StorageClient {
       return assertResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>(
         await this.context.setProperties({
           ...updatedOptions,
+          ...this.shareClientConfig,
           quota: quotaInGB,
         }),
       );
@@ -1193,6 +1244,7 @@ export class ShareClient extends StorageClient {
       return assertResponse<ShareSetPropertiesHeaders, ShareSetPropertiesHeaders>(
         await this.context.setProperties({
           ...options,
+          ...this.shareClientConfig,
           quota: options.quotaInGB,
           tracingOptions: updatedOptions.tracingOptions,
         }),
@@ -1214,7 +1266,12 @@ export class ShareClient extends StorageClient {
         ShareGetStatisticsHeaders & ShareStats,
         ShareGetStatisticsHeaders,
         ShareStats
-      >(await this.context.getStatistics(updatedOptions));
+      >(
+        await this.context.getStatistics({
+          ...updatedOptions,
+          ...this.shareClientConfig,
+        }),
+      );
 
       const GBBytes = 1024 * 1024 * 1024;
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
@@ -1230,7 +1287,7 @@ export class ShareClient extends StorageClient {
    * @param filePermission - File permission described in the SDDL
    */
   public async createPermission(
-    filePermission: string,
+    filePermission: string | SharePermission,
     options: ShareCreatePermissionOptions = {},
   ): Promise<ShareCreatePermissionResponse> {
     return tracingClient.withSpan(
@@ -1238,15 +1295,10 @@ export class ShareClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return assertResponse<ShareCreatePermissionHeaders, ShareCreatePermissionHeaders>(
-          await this.context.createPermission(
-            {
-              permission: filePermission,
-            },
-            {
-              ...updatedOptions,
-              ...this.shareClientConfig,
-            },
-          ),
+          await this.context.createPermission(asSharePermission(filePermission), {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );
@@ -1279,6 +1331,16 @@ export class ShareClient extends StorageClient {
   }
 
   /**
+   * Get a {@link ShareLeaseClient} that manages leases on the file.
+   *
+   * @param proposeLeaseId - Initial proposed lease Id.
+   * @returns A new ShareLeaseClient object for managing leases on the file.
+   */
+  public getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient {
+    return new ShareLeaseClient(this, proposeLeaseId);
+  }
+
+  /**
    * Only available for ShareClient constructed with a shared key credential.
    *
    * Generates a Service Shared Access Signature (SAS) URI based on the client properties
@@ -1305,6 +1367,34 @@ export class ShareClient extends StorageClient {
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Only available for ShareClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: ShareGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateFileSASQueryParametersInternal(
+      {
+        shareName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }
 
@@ -1629,7 +1719,7 @@ export class ShareDirectoryClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential,
+    credential?: Credential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
@@ -1651,17 +1741,13 @@ export class ShareDirectoryClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?:
-      | AnonymousCredential
-      | StorageSharedKeyCredential
-      | TokenCredential
-      | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options: ShareClientOptions = {},
   ) {
     let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
       credentialOrPipeline instanceof Credential ||
@@ -2937,6 +3023,13 @@ export interface FileGetRangeListOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
 }
 
 /**
@@ -3365,6 +3458,13 @@ export interface FileRenameOptions extends CommonOptions {
   filePermission?: string;
 
   /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
+   */
+  filePermissionFormat?: FilePermissionFormat;
+
+  /**
    * Optional.
    * Key of the permission to be set for the directory/file. Note: Only one of the filePermission or filePermissionKey should be specified.
    */
@@ -3432,6 +3532,13 @@ export interface DirectoryRenameOptions extends CommonOptions {
    * If specified the permission (security descriptor) shall be set for the directory/file.
    */
   filePermission?: string;
+
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
+   */
+  filePermissionFormat?: FilePermissionFormat;
 
   /**
    * Optional.
@@ -3504,7 +3611,7 @@ export class ShareFileClient extends StorageClient {
    */
   constructor(
     url: string,
-    credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential,
+    credential?: Credential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
@@ -3526,17 +3633,13 @@ export class ShareFileClient extends StorageClient {
   constructor(url: string, pipeline: Pipeline, options?: ShareClientConfig);
   constructor(
     url: string,
-    credentialOrPipeline?:
-      | AnonymousCredential
-      | StorageSharedKeyCredential
-      | TokenCredential
-      | Pipeline,
+    credentialOrPipeline?: Credential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: ShareClientOptions,
   ) {
     let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
       credentialOrPipeline instanceof Credential ||
@@ -4226,6 +4329,7 @@ export class ShareFileClient extends StorageClient {
           await this.context.getRangeList({
             ...updatedOptions,
             prevsharesnapshot: prevShareSnapshot,
+            supportRename: options.includeRenames,
             range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
             ...this.shareClientConfig,
           }),
@@ -5044,6 +5148,35 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Only available for clients constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: FileGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateFileSASQueryParametersInternal(
+      {
+        shareName: this.shareName,
+        filePath: this.path,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
    * Renames a file.
    * This API only supports renaming a file in the same share.
    *
@@ -5186,6 +5319,8 @@ export class ShareLeaseClient {
   private _leaseId: string;
   private _url: string;
   private fileOrShare: File | Share;
+
+  private shareClientConfig?: ShareClientConfig;
   /**
    * Gets the lease Id.
    *
@@ -5209,13 +5344,15 @@ export class ShareLeaseClient {
    * @param client - The client to make the lease operation requests.
    * @param leaseId - Initial proposed lease id.
    */
-  constructor(client: ShareFileClient, leaseId?: string) {
+  constructor(client: ShareFileClient | ShareClient, leaseId?: string) {
     const clientContext: StorageClientContext = client["storageClientContext"];
 
     if (client instanceof ShareClient) {
       this.fileOrShare = clientContext.share;
+      this.shareClientConfig = client["shareClientConfig"];
     } else {
       this.fileOrShare = clientContext.file;
+      this.shareClientConfig = client["shareClientConfig"];
     }
     this._url = client.url;
 
@@ -5243,6 +5380,7 @@ export class ShareLeaseClient {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
           await this.fileOrShare.acquireLease({
             ...updatedOptions,
+            ...this.shareClientConfig,
             duration,
             proposedLeaseId: this._leaseId,
           }),
@@ -5272,6 +5410,7 @@ export class ShareLeaseClient {
         >(
           await this.fileOrShare.changeLease(this._leaseId, {
             ...updatedOptions,
+            ...this.shareClientConfig,
             proposedLeaseId,
           }),
         );
@@ -5294,7 +5433,10 @@ export class ShareLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.releaseLease(this._leaseId, updatedOptions),
+          await this.fileOrShare.releaseLease(this._leaseId, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );
@@ -5312,7 +5454,10 @@ export class ShareLeaseClient {
       options,
       async (updatedOptions) => {
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.breakLease(updatedOptions),
+          await this.fileOrShare.breakLease({
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );
@@ -5335,7 +5480,10 @@ export class ShareLeaseClient {
           throw new RangeError("The renewLease operation is not available for lease on file.");
         }
         return assertResponse<LeaseOperationResponseHeaders, LeaseOperationResponseHeaders>(
-          await this.fileOrShare.renewLease(this._leaseId, updatedOptions),
+          await this.fileOrShare.renewLease(this._leaseId, {
+            ...updatedOptions,
+            ...this.shareClientConfig,
+          }),
         );
       },
     );

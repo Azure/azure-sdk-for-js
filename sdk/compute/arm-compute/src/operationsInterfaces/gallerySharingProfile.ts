@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SharingUpdate,
   GallerySharingProfileUpdateOptionalParams,
-  GallerySharingProfileUpdateResponse
+  GallerySharingProfileUpdateResponse,
 } from "../models";
 
 /** Interface representing a GallerySharingProfile. */
@@ -26,7 +26,7 @@ export interface GallerySharingProfile {
     resourceGroupName: string,
     galleryName: string,
     sharingUpdate: SharingUpdate,
-    options?: GallerySharingProfileUpdateOptionalParams
+    options?: GallerySharingProfileUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GallerySharingProfileUpdateResponse>,
@@ -44,6 +44,6 @@ export interface GallerySharingProfile {
     resourceGroupName: string,
     galleryName: string,
     sharingUpdate: SharingUpdate,
-    options?: GallerySharingProfileUpdateOptionalParams
+    options?: GallerySharingProfileUpdateOptionalParams,
   ): Promise<GallerySharingProfileUpdateResponse>;
 }

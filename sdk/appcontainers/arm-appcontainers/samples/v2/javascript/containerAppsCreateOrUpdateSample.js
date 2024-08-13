@@ -16,13 +16,13 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_CreateOrUpdate.json
  */
 async function createOrUpdateContainerApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerApp0";
+  const containerAppName = "testcontainerapp0";
   const containerAppEnvelope = {
     configuration: {
       dapr: {
@@ -35,6 +35,10 @@ async function createOrUpdateContainerApp() {
         logLevel: "debug",
       },
       ingress: {
+        additionalPortMappings: [
+          { external: true, targetPort: 1234 },
+          { exposedPort: 3456, external: false, targetPort: 2345 },
+        ],
         clientCertificateMode: "accept",
         corsPolicy: {
           allowCredentials: true,
@@ -78,7 +82,7 @@ async function createOrUpdateContainerApp() {
         traffic: [
           {
             label: "production",
-            revisionName: "testcontainerApp0-ab1234",
+            revisionName: "testcontainerapp0-ab1234",
             weight: 100,
           },
         ],
@@ -92,8 +96,8 @@ async function createOrUpdateContainerApp() {
     template: {
       containers: [
         {
-          name: "testcontainerApp0",
-          image: "repo/testcontainerApp0:v1",
+          name: "testcontainerapp0",
+          image: "repo/testcontainerapp0:v1",
           probes: [
             {
               type: "Liveness",
@@ -113,8 +117,8 @@ async function createOrUpdateContainerApp() {
           name: "testinitcontainerApp0",
           args: ["-c", "while true; do echo hello; sleep 10;done"],
           command: ["/bin/sh"],
-          image: "repo/testcontainerApp0:v4",
-          resources: { cpu: 0.2, memory: "100Mi" },
+          image: "repo/testcontainerapp0:v4",
+          resources: { cpu: 0.5, memory: "1Gi" },
         },
       ],
       scale: {
@@ -142,7 +146,7 @@ async function createOrUpdateContainerApp() {
   const result = await client.containerApps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }
@@ -151,20 +155,20 @@ async function createOrUpdateContainerApp() {
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_ManagedBy_CreateOrUpdate.json
  */
 async function createOrUpdateManagedByApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerAppManagedBy";
+  const containerAppName = "testcontainerappmanagedby";
   const containerAppEnvelope = {
     configuration: {
       ingress: {
         exposedPort: 4000,
         external: true,
         targetPort: 3000,
-        traffic: [{ revisionName: "testcontainerAppManagedBy-ab1234", weight: 100 }],
+        traffic: [{ revisionName: "testcontainerappmanagedby-ab1234", weight: 100 }],
         transport: "tcp",
       },
     },
@@ -176,8 +180,8 @@ async function createOrUpdateManagedByApp() {
     template: {
       containers: [
         {
-          name: "testcontainerAppManagedBy",
-          image: "repo/testcontainerAppManagedBy:v1",
+          name: "testcontainerappmanagedby",
+          image: "repo/testcontainerappmanagedby:v1",
           probes: [
             {
               type: "Liveness",
@@ -205,7 +209,7 @@ async function createOrUpdateManagedByApp() {
   const result = await client.containerApps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }
@@ -214,20 +218,20 @@ async function createOrUpdateManagedByApp() {
  * This sample demonstrates how to Create or update a Container App.
  *
  * @summary Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_TcpApp_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_TcpApp_CreateOrUpdate.json
  */
 async function createOrUpdateTcpApp() {
   const subscriptionId =
     process.env["APPCONTAINERS_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "rg";
-  const containerAppName = "testcontainerAppTcp";
+  const containerAppName = "testcontainerapptcp";
   const containerAppEnvelope = {
     configuration: {
       ingress: {
         exposedPort: 4000,
         external: true,
         targetPort: 3000,
-        traffic: [{ revisionName: "testcontainerAppTcp-ab1234", weight: 100 }],
+        traffic: [{ revisionName: "testcontainerapptcp-ab1234", weight: 100 }],
         transport: "tcp",
       },
     },
@@ -237,8 +241,8 @@ async function createOrUpdateTcpApp() {
     template: {
       containers: [
         {
-          name: "testcontainerAppTcp",
-          image: "repo/testcontainerAppTcp:v1",
+          name: "testcontainerapptcp",
+          image: "repo/testcontainerapptcp:v1",
           probes: [
             {
               type: "Liveness",
@@ -266,7 +270,7 @@ async function createOrUpdateTcpApp() {
   const result = await client.containerApps.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerAppName,
-    containerAppEnvelope
+    containerAppEnvelope,
   );
   console.log(result);
 }

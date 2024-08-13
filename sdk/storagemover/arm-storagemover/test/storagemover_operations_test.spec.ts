@@ -26,7 +26,11 @@ const replaceableVariables: Record<string, string> = {
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -53,7 +57,7 @@ describe("storageMover test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new StorageMoverClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     storageMoverName = "storageMoverName";
     agentName = "testagent";

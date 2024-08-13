@@ -20,7 +20,7 @@ import {
   AFDOriginGroupUpdateParameters,
   AfdOriginGroupsUpdateOptionalParams,
   AfdOriginGroupsUpdateResponse,
-  AfdOriginGroupsDeleteOptionalParams
+  AfdOriginGroupsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface AfdOriginGroups {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdOriginGroupsListByProfileOptionalParams
+    options?: AfdOriginGroupsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<AFDOriginGroup>;
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
@@ -50,7 +50,7 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsListResourceUsageOptionalParams
+    options?: AfdOriginGroupsListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Gets an existing origin group within a profile.
@@ -64,7 +64,7 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsGetOptionalParams
+    options?: AfdOriginGroupsGetOptionalParams,
   ): Promise<AfdOriginGroupsGetResponse>;
   /**
    * Creates a new origin group within the specified profile.
@@ -80,7 +80,7 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AfdOriginGroupsCreateOptionalParams
+    options?: AfdOriginGroupsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdOriginGroupsCreateResponse>,
@@ -101,7 +101,7 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AfdOriginGroupsCreateOptionalParams
+    options?: AfdOriginGroupsCreateOptionalParams,
   ): Promise<AfdOriginGroupsCreateResponse>;
   /**
    * Updates an existing origin group within a profile.
@@ -117,7 +117,7 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AfdOriginGroupsUpdateOptionalParams
+    options?: AfdOriginGroupsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AfdOriginGroupsUpdateResponse>,
@@ -138,7 +138,7 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AfdOriginGroupsUpdateOptionalParams
+    options?: AfdOriginGroupsUpdateOptionalParams,
   ): Promise<AfdOriginGroupsUpdateResponse>;
   /**
    * Deletes an existing origin group within a profile.
@@ -152,7 +152,7 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsDeleteOptionalParams
+    options?: AfdOriginGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin group within a profile.
@@ -166,6 +166,6 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsDeleteOptionalParams
+    options?: AfdOriginGroupsDeleteOptionalParams,
   ): Promise<void>;
 }

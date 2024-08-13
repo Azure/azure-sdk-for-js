@@ -11,11 +11,11 @@ export const commandInfo = makeCommandInfo(
   "test:node-ts-input",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
-      description: "whether to disable launching test-proxy",
+      default: true,
+      description: "whether to enable launching test-proxy",
     },
   },
 );
@@ -24,9 +24,7 @@ export default leafCommand(commandInfo, async (options) => {
   const isModuleProj = await isModuleProject();
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `${
-    isModuleProj ? "--loader=ts-node/esm " : ""
-  }-r ts-node/register ${reporterArgs} --full-trace`;
+  const defaultMochaArgs = `${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
@@ -35,13 +33,13 @@ export default leafCommand(commandInfo, async (options) => {
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   const command = {
     command: isModuleProj
-      ? `mocha ${defaultMochaArgs} ${mochaArgs}`
+      ? `mocha --loader=ts-node/esm ${defaultMochaArgs} ${mochaArgs}`
       : // eslint-disable-next-line no-useless-escape
-        `cross-env TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha ${defaultMochaArgs} ${mochaArgs}`,
+        `cross-env TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha -r ts-node/register ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

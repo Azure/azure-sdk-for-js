@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete the pending scope connection created by this network manager.
  *
  * @summary Delete the pending scope connection created by this network manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerScopeConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerScopeConnectionDelete.json
  */
 async function deleteNetworkManagerScopeConnection() {
   const subscriptionId =

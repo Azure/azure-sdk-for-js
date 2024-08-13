@@ -4,12 +4,8 @@
 
 ```ts
 
-/// <reference types="node" />
-/// <reference lib="dom" />
-/// <reference lib="esnext.asynciterable" />
-
 import { AbortError } from '@azure/abort-controller';
-import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -31,7 +27,16 @@ export interface Agent {
 }
 
 // @public (undocumented)
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
+
+// @public (undocumented)
+export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+    constructor(credentials: TokenCredential);
+    // (undocumented)
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
+    // (undocumented)
+    wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
+}
 
 // @public (undocumented)
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
@@ -78,6 +83,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
+    changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
@@ -97,6 +103,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly subStatusCode?: number;
 }
 
+// @public (undocumented)
+export enum ChangeFeedMode {
+    // (undocumented)
+    AllVersionsAndDeletes = "Full-Fidelity Feed",
+    // (undocumented)
+    LatestVersion = "Incremental Feed"
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -104,6 +118,13 @@ export interface ChangeFeedOptions {
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export class ChangeFeedPolicy {
+    constructor(retentionDuration: ChangeFeedRetentionTimeSpan);
+    // (undocumented)
+    retentionDuration: number;
 }
 
 // @public
@@ -126,6 +147,11 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ChangeFeedRetentionTimeSpan {
+    static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
 }
 
 // @public
@@ -381,6 +407,21 @@ export type ClientSideRequestStatistics = {
 };
 
 // @public
+export interface CompositePath {
+    order: "ascending" | "descending";
+    path: string;
+}
+
+// @public (undocumented)
+export interface ComputedProperty {
+    // (undocumented)
+    [key: string]: any;
+    name: string;
+    // (undocumented)
+    query: string;
+}
+
+// @public
 export class Conflict {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
@@ -520,6 +561,7 @@ export const Constants: {
         ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
+        ChangeFeedWireFormatVersion: string;
         ActivityId: string;
         CorrelatedActivityId: string;
         PreTriggerInclude: string;
@@ -579,6 +621,7 @@ export const Constants: {
         IsBatchAtomic: string;
         BatchContinueOnError: string;
         DedicatedGatewayPerRequestCacheStaleness: string;
+        DedicatedGatewayPerRequestBypassCache: string;
         ForceRefresh: string;
         PriorityLevel: string;
         IsClientEncryptedHeader: string;
@@ -635,6 +678,8 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
     DefaultEncryptionCacheTimeToLive: number;
 };
 
@@ -674,6 +719,8 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    changeFeedPolicy?: ChangeFeedPolicy;
+    computedProperties?: ComputedProperty[];
     clientEncryptionPolicy?: ClientEncryptionPolicy;
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
@@ -684,6 +731,7 @@ export interface ContainerDefinition {
     indexingPolicy?: IndexingPolicy;
     partitionKey?: PartitionKeyDefinition;
     uniqueKeyPolicy?: UniqueKeyPolicy;
+    vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 // Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
@@ -761,6 +809,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     encryptionKeyTimeToLiveInHours?: number;
     endpoint: string;
+    httpClient?: HttpClient;
     key?: string;
     // (undocumented)
     keyEncryptionKeyResolver?: EncryptionKeyResolver;
@@ -865,8 +914,8 @@ export class DatabaseAccount {
     // @deprecated
     get MediaLink(): string;
     readonly mediaLink: string;
-    readonly readableLocations: Location_2[];
-    readonly writableLocations: Location_2[];
+    readonly readableLocations: Location[];
+    readonly writableLocations: Location[];
 }
 
 // @public (undocumented)
@@ -1184,12 +1233,14 @@ export interface FeedOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    allowUnboundedNonStreamingQueries?: boolean;
     bufferItems?: boolean;
     containerRid?: string;
     // @deprecated
     continuation?: string;
     continuationToken?: string;
     continuationTokenLimitInKB?: number;
+    disableNonStreamingOrderByQuery?: boolean;
     enableScanInQuery?: boolean;
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
@@ -1198,6 +1249,7 @@ export interface FeedOptions extends SharedOptions {
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
+    vectorSearchBufferSize?: number;
 }
 
 // @public
@@ -1216,6 +1268,8 @@ export class FeedResponse<TResource> {
     // (undocumented)
     get continuationToken(): string;
     // (undocumented)
+    get correlatedActivityId(): string;
+    // (undocumented)
     readonly diagnostics: CosmosDiagnostics;
     // (undocumented)
     readonly hasMoreResults: boolean;
@@ -1232,6 +1286,7 @@ export class FeedResponse<TResource> {
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
+    correlatedActivityId?: string;
     startTimeUTCInMs: number;
     durationInMs: number;
     operationType?: OperationType;
@@ -1323,11 +1378,13 @@ export enum IndexingMode {
 export interface IndexingPolicy {
     // (undocumented)
     automatic?: boolean;
+    compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
+    vectorIndexes?: VectorIndex[];
 }
 
 // @public
@@ -1416,7 +1473,7 @@ export enum KeyEncryptionKeyAlgorithm {
 }
 
 // @public
-interface Location_2 {
+export interface Location {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
@@ -1426,7 +1483,6 @@ interface Location_2 {
     // (undocumented)
     unavailable?: boolean;
 }
-export { Location_2 as Location }
 
 // @public
 export interface MetadataLookUpDiagnostic {
@@ -1745,7 +1801,7 @@ export class PermissionResponse extends ResourceResponse<PermissionDefinition & 
 }
 
 // @public
-class Permissions_2 {
+export class Permissions {
     constructor(user: User, clientContext: ClientContext);
     create(body: PermissionDefinition, options?: RequestOptions): Promise<PermissionResponse>;
     query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -1755,16 +1811,14 @@ class Permissions_2 {
     // (undocumented)
     readonly user: User;
 }
-export { Permissions_2 as Permissions }
 
 // @public
-type Plugin_2<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
-export { Plugin_2 as Plugin }
+export type Plugin<T> = (context: RequestContext, diagnosticNode: DiagnosticNodeInternal, next: Next<T>) => Promise<Response_2<T>>;
 
 // @public
 export interface PluginConfig {
     on: keyof typeof PluginOn;
-    plugin: Plugin_2<any>;
+    plugin: Plugin<any>;
 }
 
 // @public
@@ -1792,6 +1846,7 @@ export interface QueryInfo {
     groupByAliasToAggregateType: GroupByAliasToAggregateType;
     // (undocumented)
     groupByExpressions?: GroupByExpressions;
+    hasNonStreamingOrderBy: boolean;
     // (undocumented)
     hasSelectValue: boolean;
     // (undocumented)
@@ -1995,6 +2050,8 @@ export interface RequestContext {
     // (undocumented)
     headers?: CosmosHeaders_2;
     // (undocumented)
+    httpClient?: HttpClient;
+    // (undocumented)
     method: HTTPMethod;
     // (undocumented)
     operationType?: OperationType;
@@ -2021,7 +2078,7 @@ export interface RequestContext {
 }
 
 // @public (undocumented)
-interface RequestInfo_2 {
+export interface RequestInfo {
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
@@ -2033,7 +2090,6 @@ interface RequestInfo_2 {
     // (undocumented)
     verb: HTTPMethod;
 }
-export { RequestInfo_2 as RequestInfo }
 
 // @public
 export interface RequestOptions extends SharedOptions {
@@ -2307,7 +2363,8 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 
 // @public
 export interface SharedOptions {
-    abortSignal?: AbortSignal_2;
+    abortSignal?: AbortSignal;
+    bypassIntegratedCache?: boolean;
     initialHeaders?: CosmosHeaders;
     maxIntegratedCacheStalenessInMs?: number;
     priorityLevel?: PriorityLevel;
@@ -2517,7 +2574,7 @@ export class TimeSpan {
 }
 
 // @public (undocumented)
-export type TokenProvider = (requestInfo: RequestInfo_2) => Promise<string>;
+export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 // @public
 export class Trigger {
@@ -2612,7 +2669,7 @@ export class User {
     // (undocumented)
     readonly id: string;
     permission(id: string): Permission;
-    readonly permissions: Permissions_2;
+    readonly permissions: Permissions;
     read(options?: RequestOptions): Promise<UserResponse>;
     replace(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
     get url(): string;
@@ -2681,6 +2738,46 @@ export class Users {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
+}
+
+// @public
+export interface VectorEmbedding {
+    dataType: VectorEmbeddingDataType;
+    dimensions: number;
+    distanceFunction: VectorEmbeddingDistanceFunction;
+    path: string;
+}
+
+// @public
+export enum VectorEmbeddingDataType {
+    Float32 = "float32",
+    Int8 = "int8",
+    UInt8 = "uint8"
+}
+
+// @public
+export enum VectorEmbeddingDistanceFunction {
+    Cosine = "cosine",
+    DotProduct = "dotproduct",
+    Euclidean = "euclidean"
+}
+
+// @public
+export interface VectorEmbeddingPolicy {
+    vectorEmbeddings: VectorEmbedding[];
+}
+
+// @public
+export interface VectorIndex {
+    path: string;
+    type: VectorIndexType;
+}
+
+// @public
+export enum VectorIndexType {
+    DiskANN = "diskANN",
+    Flat = "flat",
+    QuantizedFlat = "quantizedFlat"
 }
 
 // (No @packageDocumentation comment for this package)

@@ -10,39 +10,38 @@
  * events from where it last checkpointed.
  */
 
-import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
-
-import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { DefaultAzureCredential } from "@azure/identity";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
+import { ContainerClient } from "@azure/storage-blob";
+import "dotenv/config";
 
-const connectionString =
-  process.env["EVENT_HUB_CONNECTION_STRING"] || "<event-hub-connection-string>";
-const eventHubName = process.env["EVENT_HUB_NAME"] || "<eventHubName>";
+const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
+const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
-  process.env["EVENT_HUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
+  process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || EventHubConsumerClient.defaultConsumerGroupName;
 const storageContainerUrl =
   process.env["STORAGE_CONTAINER_URL"] ||
   "https://<storageaccount>.blob.core.windows.net/<containername>";
-const storageAccountName = process.env["STORAGE_ACCOUNT_NAME"] || "<storageaccount>";
-const storageAccountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<key>";
 
 export async function main() {
-  // this client will be used by our eventhubs-checkpointstore-blob, which
+  const credential = new DefaultAzureCredential();
+  // This client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
-  const storageCredential = new StorageSharedKeyCredential(storageAccountName, storageAccountKey);
-  const containerClient = new ContainerClient(storageContainerUrl, storageCredential);
+  const containerClient = new ContainerClient(storageContainerUrl, credential);
 
   if (!(await containerClient.exists())) {
     await containerClient.create();
   }
 
-  const checkpointStore: CheckpointStore = new BlobCheckpointStore(containerClient);
+  const checkpointStore = new BlobCheckpointStore(containerClient);
 
   const consumerClient = new EventHubConsumerClient(
     consumerGroup,
-    connectionString,
+    fullyQualifiedNamespace,
     eventHubName,
-    checkpointStore
+    credential,
+    checkpointStore,
   );
 
   // The below code will set up your program to listen to events from your Event Hub instance.
@@ -59,7 +58,7 @@ export async function main() {
 
       for (const event of events) {
         console.log(
-          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
         );
       }
 
@@ -74,12 +73,12 @@ export async function main() {
       console.log(
         `Successfully checkpointed event with sequence number: ${
           events[events.length - 1].sequenceNumber
-        } from partition: 'partitionContext.partitionId'`
+        } from partition: 'partitionContext.partitionId'`,
       );
     },
     processError: async (err, context) => {
       console.log(`Error on partition "${context.partitionId}": ${err}`);
-    }
+    },
   });
 
   // after 30 seconds, stop processing

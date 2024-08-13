@@ -15,7 +15,7 @@ import {
   DatabasesCreateResponse,
   DatabasesDeleteOptionalParams,
   DatabasesGetOptionalParams,
-  DatabasesGetResponse
+  DatabasesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Databases {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: DatabasesListByServerOptionalParams
+    options?: DatabasesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<Database>;
   /**
    * Creates a new database or updates an existing database.
@@ -45,7 +45,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOptionalParams
+    options?: DatabasesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasesCreateResponse>,
@@ -65,7 +65,7 @@ export interface Databases {
     serverName: string,
     databaseName: string,
     parameters: Database,
-    options?: DatabasesCreateOptionalParams
+    options?: DatabasesCreateOptionalParams,
   ): Promise<DatabasesCreateResponse>;
   /**
    * Deletes a database.
@@ -78,7 +78,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a database.
@@ -91,7 +91,7 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesDeleteOptionalParams
+    options?: DatabasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about a database.
@@ -104,6 +104,6 @@ export interface Databases {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabasesGetOptionalParams
+    options?: DatabasesGetOptionalParams,
   ): Promise<DatabasesGetResponse>;
 }

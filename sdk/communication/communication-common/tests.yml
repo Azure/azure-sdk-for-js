@@ -1,31 +1,20 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/communication-common"
       ServiceDirectory: communication
       CloudConfig:
         Public:
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json
           SubscriptionConfigurations:
-            - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
           MatrixFilters:
-            - DependencyVersion=^.+$  
-        PPE:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-ppe-test-resources-common)
-            - $(sub-config-communication-ppe-test-resources-js)
-          MatrixFilters:
-            - DependencyVersion=^.+$  
-        Int:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-int-test-resources-common)
-            - $(sub-config-communication-int-test-resources-js)
-          MatrixFilters:
-            - TestType=^(?!browser).*
             - DependencyVersion=^.+$
-      Clouds: Public,PPE,Int
+      Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/

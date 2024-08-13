@@ -21,7 +21,6 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE,
 } from "../../src/utils/constants";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
-import { AbortController } from "@azure/abort-controller";
 import { Readable, PassThrough } from "stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
@@ -211,7 +210,7 @@ describe("Highlevel Node.js only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     try {
       await fileClient.upload(uploadedBuffer, {
@@ -227,7 +226,7 @@ describe("Highlevel Node.js only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
     const uploadedBuffer = fs.readFileSync(tempFileSmall);
     try {
       await fileClient.upload(uploadedBuffer, {
@@ -458,7 +457,7 @@ describe("Highlevel Node.js only", () => {
       this.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await fileClient.uploadStream(rs, { abortSignal: aborter });
@@ -556,7 +555,7 @@ describe("Highlevel Node.js only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
@@ -571,7 +570,7 @@ describe("Highlevel Node.js only", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
     try {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
@@ -649,7 +648,7 @@ describe("Highlevel Node.js only", () => {
       try {
         await fileClient.uploadFile(tempFile, {
           chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
-          abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
+          abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
         });
       } catch (err: any) {
         assert.equal(err.name, "AbortError");
@@ -661,13 +660,14 @@ describe("Highlevel Node.js only", () => {
 
   // Skipped because it throws an "invalid typed array length" error due to bugs in node-fetch.
   // https://github.com/Azure/azure-sdk-for-js/issues/9481
+  // Too large ArrayBuffer would cause "JavaScript heap out of memory" error.
   it.skip("upload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
     const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
     const arrayBuf = new ArrayBuffer(fileSize);
     try {
       await fileClient.upload(arrayBuf, {
         chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
-        abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
+        abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
       });
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
@@ -769,7 +769,7 @@ describe("Highlevel Node.js only", () => {
     try {
       const buf = Buffer.alloc(tempFileSmallLength);
       await fileClient.readToBuffer(buf, 0, undefined, {
-        abortSignal: AbortController.timeout(1),
+        abortSignal: AbortSignal.timeout(1),
         concurrency: 20,
         chunkSize: 4 * MB,
       });

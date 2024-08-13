@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "../logger";
-import { ConnectionContext } from "../connectionContext";
+import { logErrorStackTrace, logger } from "../logger.js";
+import { ConnectionContext } from "../connectionContext.js";
 import { isDefined } from "@azure/core-util";
 import { AmqpError, isAmqpError } from "rhea-promise";
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";

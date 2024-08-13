@@ -76,6 +76,7 @@ export interface SmbMultichannel {
 
 export interface StorageError {
   message?: string;
+  authenticationErrorDetail?: string;
   code?: string;
 }
 
@@ -124,12 +125,17 @@ export interface SharePropertiesInternal {
   leaseDuration?: LeaseDurationType;
   enabledProtocols?: string;
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
+  paidBurstingEnabled?: boolean;
+  paidBurstingMaxIops?: number;
+  paidBurstingMaxBandwidthMibps?: number;
 }
 
 /** A permission (a security descriptor) at the share level. */
 export interface SharePermission {
   /** The permission in the Security Descriptor Definition Language (SDDL). */
   permission: string;
+  format?: FilePermissionFormat;
 }
 
 /** Signed identifier. */
@@ -234,6 +240,8 @@ export interface HandleItem {
   sessionId: string;
   /** Client IP that opened the handle */
   clientIp: string;
+  /** Name of the client machine where the share is being mounted */
+  clientName: string;
   /** Time when the session that previously opened the handle has last been reconnected. (UTC) */
   openTime: Date;
   /** Time handle was last connected to (UTC) */
@@ -368,6 +376,14 @@ export interface ShareGetPropertiesHeaders {
   enabledProtocols?: string;
   /** Valid for NFS shares only. */
   rootSquash?: ShareRootSquash;
+  /** Version 2023-08-03 and newer. Specifies whether the snapshot virtual directory should be accessible at the root of share mount point when NFS is enabled. This header is only returned for shares, not for snapshots. */
+  enableSnapshotVirtualDirectoryAccess?: boolean;
+  /** Optional. Boolean. Default if not specified is false. This property enables paid bursting. */
+  paidBurstingEnabled?: boolean;
+  /** Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS. */
+  paidBurstingMaxIops?: number;
+  /** Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340 MiB/sec. */
+  paidBurstingMaxBandwidthMibps?: number;
   /** Error Code */
   errorCode?: string;
 }
@@ -1684,6 +1700,8 @@ export enum KnownStorageErrorCode {
   ShareSnapshotOperationNotSupported = "ShareSnapshotOperationNotSupported",
   /** ShareHasSnapshots */
   ShareHasSnapshots = "ShareHasSnapshots",
+  /** PreviousSnapshotNotFound */
+  PreviousSnapshotNotFound = "PreviousSnapshotNotFound",
   /** ContainerQuotaDowngradeNotAllowed */
   ContainerQuotaDowngradeNotAllowed = "ContainerQuotaDowngradeNotAllowed",
   /** AuthorizationSourceIPMismatch */
@@ -1764,6 +1782,7 @@ export enum KnownStorageErrorCode {
  * **ShareSnapshotCountExceeded** \
  * **ShareSnapshotOperationNotSupported** \
  * **ShareHasSnapshots** \
+ * **PreviousSnapshotNotFound** \
  * **ContainerQuotaDowngradeNotAllowed** \
  * **AuthorizationSourceIPMismatch** \
  * **AuthorizationProtocolMismatch** \
@@ -1792,6 +1811,8 @@ export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 /** Defines values for DeleteSnapshotsOptionType. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
+/** Defines values for FilePermissionFormat. */
+export type FilePermissionFormat = "Sddl" | "Binary";
 /** Defines values for ListFilesIncludeType. */
 export type ListFilesIncludeType =
   | "Timestamps"
@@ -1814,6 +1835,8 @@ export interface ServiceSetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the setProperties operation. */
@@ -1824,6 +1847,8 @@ export interface ServiceGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the getProperties operation. */
@@ -1835,6 +1860,8 @@ export interface ServiceListSharesSegmentOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** Filters the results to return only entries whose name begins with the specified prefix. */
   prefix?: string;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
@@ -1853,6 +1880,8 @@ export type ServiceListSharesSegmentResponse = ServiceListSharesSegmentHeaders &
 export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
   /** Specifies the maximum size of the share, in gigabytes. */
@@ -1863,6 +1892,13 @@ export interface ShareCreateOptionalParams extends coreClient.OperationOptions {
   enabledProtocols?: string;
   /** Root squash to set on the share.  Only valid for NFS shares. */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
+  /** Optional. Boolean. Default if not specified is false. This property enables paid bursting. */
+  paidBurstingEnabled?: boolean;
+  /** Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec. */
+  paidBurstingMaxBandwidthMibps?: number;
+  /** Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS. */
+  paidBurstingMaxIops?: number;
 }
 
 /** Contains response data for the create operation. */
@@ -1875,6 +1911,8 @@ export interface ShareGetPropertiesOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
 }
@@ -1888,6 +1926,8 @@ export interface ShareDeleteOptionalParams extends coreClient.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
   /** Specifies the option include to delete the base share and all of its snapshots. */
@@ -1902,6 +1942,8 @@ export interface ShareAcquireLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
   /** Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using renew or change. */
@@ -1920,6 +1962,8 @@ export interface ShareReleaseLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -1934,6 +1978,8 @@ export interface ShareChangeLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
   /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
@@ -1950,6 +1996,8 @@ export interface ShareRenewLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -1966,6 +2014,8 @@ export interface ShareBreakLeaseOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -1982,6 +2032,8 @@ export interface ShareCreateSnapshotOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
 }
@@ -2008,6 +2060,8 @@ export interface ShareGetPermissionOptionalParams
   timeoutInSeconds?: number;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
 }
 
 /** Contains response data for the getPermission operation. */
@@ -2021,12 +2075,21 @@ export interface ShareSetPropertiesOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** Specifies the maximum size of the share, in gigabytes. */
   quota?: number;
   /** Specifies the access tier of the share. */
   accessTier?: ShareAccessTier;
   /** Root squash to set on the share.  Only valid for NFS shares. */
   rootSquash?: ShareRootSquash;
+  enableSnapshotVirtualDirectoryAccess?: boolean;
+  /** Optional. Boolean. Default if not specified is false. This property enables paid bursting. */
+  paidBurstingEnabled?: boolean;
+  /** Optional. Integer. Default if not specified is the maximum throughput the file share can support. Current maximum for a file share is 10,340  MiB/sec. */
+  paidBurstingMaxBandwidthMibps?: number;
+  /** Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS. */
+  paidBurstingMaxIops?: number;
 }
 
 /** Contains response data for the setProperties operation. */
@@ -2039,6 +2102,8 @@ export interface ShareSetMetadataOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A name-value pair to associate with a file storage object. */
   metadata?: { [propertyName: string]: string };
 }
@@ -2053,6 +2118,8 @@ export interface ShareGetAccessPolicyOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the getAccessPolicy operation. */
@@ -2066,6 +2133,8 @@ export interface ShareSetAccessPolicyOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** The ACL for the share. */
   shareAcl?: SignedIdentifier[];
 }
@@ -2080,6 +2149,8 @@ export interface ShareGetStatisticsOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
 }
 
 /** Contains response data for the getStatistics operation. */
@@ -2090,6 +2161,8 @@ export interface ShareRestoreOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** Specifies the name of the previously-deleted share. */
@@ -2106,10 +2179,12 @@ export interface DirectoryCreateOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2132,10 +2207,10 @@ export interface DirectoryGetPropertiesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  shareSnapshot?: string;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
+  shareSnapshot?: string;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2164,6 +2239,8 @@ export interface DirectorySetPropertiesOptionalParams
   timeoutInSeconds?: number;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2186,10 +2263,10 @@ export interface DirectorySetMetadataOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2202,6 +2279,8 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** Filters the results to return only entries whose name begins with the specified prefix. */
   prefix?: string;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
@@ -2210,8 +2289,6 @@ export interface DirectoryListFilesAndDirectoriesSegmentOptionalParams
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** Include this parameter to specify one or more datasets to include in the response. */
@@ -2229,14 +2306,14 @@ export interface DirectoryListHandlesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
   marker?: string;
   /** Specifies the maximum number of entries to return. If the request does not specify maxresults, or specifies a value greater than 5,000, the server will return up to 5,000 items. */
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** Specifies operation should apply to the directory specified in the URI, its files, its subdirectories and their files. */
@@ -2252,12 +2329,12 @@ export interface DirectoryForceCloseHandlesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
   marker?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** Specifies operation should apply to the directory specified in the URI, its files, its subdirectories and their files. */
@@ -2278,10 +2355,12 @@ export interface DirectoryRenameOptionalParams
   copyFileSmbInfo?: CopyFileSmbInfo;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2307,10 +2386,12 @@ export interface FileCreateOptionalParams extends coreClient.OperationOptions {
   fileHttpHeaders?: FileHttpHeaders;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2370,10 +2451,10 @@ export interface FileGetPropertiesOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  shareSnapshot?: string;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
+  shareSnapshot?: string;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2407,6 +2488,8 @@ export interface FileSetHttpHeadersOptionalParams
   timeoutInSeconds?: number;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2433,10 +2516,10 @@ export interface FileSetMetadataOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2449,14 +2532,14 @@ export interface FileAcquireLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires. A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using renew or change. */
   duration?: number;
   /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
   proposedLeaseId?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2469,10 +2552,10 @@ export interface FileReleaseLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
-  requestId?: string;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2485,12 +2568,12 @@ export interface FileChangeLeaseOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** Proposed lease ID, in a GUID string format. The File service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
   proposedLeaseId?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2505,10 +2588,10 @@ export interface FileBreakLeaseOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
-  requestId?: string;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
+  requestId?: string;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2547,6 +2630,8 @@ export interface FileUploadRangeFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */
@@ -2571,16 +2656,18 @@ export interface FileGetRangeListOptionalParams
   leaseAccessConditions?: LeaseAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
-  shareSnapshot?: string;
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
+  shareSnapshot?: string;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** Specifies the range of bytes over which to list ranges, inclusively. */
   range?: string;
   /** The previous snapshot parameter is an opaque DateTime value that, when present, specifies the previous snapshot. */
   prevsharesnapshot?: string;
+  /** This header is allowed only when PrevShareSnapshot query parameter is set. Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed. If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response. The default value is false. */
+  supportRename?: boolean;
 }
 
 /** Contains response data for the getRangeList operation. */
@@ -2596,10 +2683,10 @@ export interface FileStartCopyOptionalParams
   copyFileSmbInfo?: CopyFileSmbInfo;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */
@@ -2634,14 +2721,14 @@ export interface FileListHandlesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
   marker?: string;
   /** Specifies the maximum number of entries to return. If the request does not specify maxresults, or specifies a value greater than 5,000, the server will return up to 5,000 items. */
   maxResults?: number;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2655,12 +2742,12 @@ export interface FileForceCloseHandlesOptionalParams
   extends coreClient.OperationOptions {
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items. The marker value is opaque to the client. */
   marker?: string;
   /** The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query. */
   shareSnapshot?: string;
-  /** Valid value is backup */
-  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
 }
@@ -2680,10 +2767,12 @@ export interface FileRenameOptionalParams extends coreClient.OperationOptions {
   fileHttpHeaders?: FileHttpHeaders;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
-  /** A name-value pair to associate with a file storage object. */
-  metadata?: { [propertyName: string]: string };
   /** Valid value is backup */
   fileRequestIntent?: ShareTokenIntent;
+  /** A name-value pair to associate with a file storage object. */
+  metadata?: { [propertyName: string]: string };
+  /** Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned. Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format. If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission */
+  filePermissionFormat?: FilePermissionFormat;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If specified the permission (security descriptor) shall be set for the directory/file. This header can be used if Permission size is <= 8KB, else x-ms-file-permission-key header shall be used. Default value: Inherit. If SDDL is specified as input, it must have owner, group and dacl. Note: Only one of the x-ms-file-permission or x-ms-file-permission-key should be specified. */

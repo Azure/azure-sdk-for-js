@@ -82,8 +82,14 @@ export class FileSystemPersist implements PersistentStorage {
       diag.debug("Pushing value to persistent storage", value.toString());
       return this._storeToDisk(JSON.stringify(value));
     }
+    // Only return a false promise if the SDK isn't set to disable offline storage
+    if (!this._options?.disableOfflineStorage) {
+      return new Promise((resolve) => {
+        resolve(false);
+      });
+    }
     return new Promise((resolve) => {
-      resolve(false);
+      resolve(true);
     });
   }
 
@@ -93,6 +99,7 @@ export class FileSystemPersist implements PersistentStorage {
       try {
         const buffer = await this._getFirstFileOnDisk();
         if (buffer) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return JSON.parse(buffer.toString("utf8"));
         }
       } catch (e: any) {
@@ -185,6 +192,7 @@ export class FileSystemPersist implements PersistentStorage {
         if (files.length === 0) {
           return false;
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(

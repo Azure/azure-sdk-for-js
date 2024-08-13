@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedCertificatePatch,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patches a managed certificate. Oly patching of tags is supported
  *
  * @summary Patches a managed certificate. Oly patching of tags is supported
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedCertificates_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedCertificates_Patch.json
  */
 async function patchManagedCertificate() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchManagedCertificate() {
   const environmentName = "testcontainerenv";
   const managedCertificateName = "certificate-firendly-name";
   const managedCertificateEnvelope: ManagedCertificatePatch = {
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function patchManagedCertificate() {
     resourceGroupName,
     environmentName,
     managedCertificateName,
-    managedCertificateEnvelope
+    managedCertificateEnvelope,
   );
   console.log(result);
 }

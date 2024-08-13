@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Container App SourceControls in a given resource group.
  *
  * @summary Get the Container App SourceControls in a given resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/SourceControls_ListByContainer.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/SourceControls_ListByContainer.json
  */
 async function listAppSourceControls() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listAppSourceControls() {
   const resArray = new Array();
   for await (let item of client.containerAppsSourceControls.listByContainerApp(
     resourceGroupName,
-    containerAppName
+    containerAppName,
   )) {
     resArray.push(item);
   }

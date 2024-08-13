@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TagsObject,
-  HDInsightContainersManagementClient
+  HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing Cluster Pool Tags.
  *
  * @summary Updates an existing Cluster Pool Tags.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-06-01-preview/examples/PatchClusterPool.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/PatchClusterPool.json
  */
 async function clusterPoolsPatchTags() {
   const subscriptionId =
@@ -31,17 +31,17 @@ async function clusterPoolsPatchTags() {
     process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
   const clusterPoolName = "clusterpool1";
   const clusterPoolTags: TagsObject = {
-    tags: { tag1: "value1", tag2: "value2" }
+    tags: { tag1: "value1", tag2: "value2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightContainersManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.clusterPools.beginUpdateTagsAndWait(
     resourceGroupName,
     clusterPoolName,
-    clusterPoolTags
+    clusterPoolTags,
   );
   console.log(result);
 }

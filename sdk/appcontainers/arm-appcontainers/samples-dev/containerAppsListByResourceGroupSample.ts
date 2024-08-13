@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the Container Apps in a given resource group.
  *
  * @summary Get the Container Apps in a given resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_ListByResourceGroup.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_ListByResourceGroup.json
  */
 async function listContainerAppsByResourceGroup() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listContainerAppsByResourceGroup() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.containerApps.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

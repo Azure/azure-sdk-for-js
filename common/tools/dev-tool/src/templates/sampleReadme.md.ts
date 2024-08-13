@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft corporation.
 // Licensed under the MIT license.
 
-import path from "path";
+import path from "node:path";
 import YAML from "yaml";
-
 import { SampleReadmeConfiguration } from "../util/samples/info";
 import { format } from "../util/prettier";
 
@@ -116,6 +115,9 @@ function table(info: SampleReadmeConfiguration) {
     const fileName = info.useTypeScript
       ? relativeSourcePath
       : relativeSourcePath.replace(/\.ts$/, ".js");
+    if (summary && summary.includes("|")) {
+      summary = summary.replace(/\|/g, "\\|");
+    }
     return `| [${fileName}][${sampleLinkTag(relativeSourcePath)}] | ${summary} |`;
   });
 
@@ -131,7 +133,7 @@ function table(info: SampleReadmeConfiguration) {
  */
 function exampleNodeInvocation(info: SampleReadmeConfiguration) {
   const firstModule = filterModules(info)[0];
-  const envVars = firstModule.usedEnvironmentVariables
+  const envVars = [...new Set(firstModule.usedEnvironmentVariables)]
     .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
     .join(" ");
 

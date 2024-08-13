@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all load balancers in a network interface.
  *
  * @summary List all load balancers in a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkInterfaceLoadBalancerList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkInterfaceLoadBalancerList.json
  */
 async function networkInterfaceLoadBalancerList() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

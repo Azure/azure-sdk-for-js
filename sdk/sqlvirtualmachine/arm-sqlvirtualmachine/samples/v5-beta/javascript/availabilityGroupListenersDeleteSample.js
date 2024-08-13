@@ -29,7 +29,7 @@ async function deletesAnAvailabilityGroupListener() {
   const result = await client.availabilityGroupListeners.beginDeleteAndWait(
     resourceGroupName,
     sqlVirtualMachineGroupName,
-    availabilityGroupListenerName
+    availabilityGroupListenerName,
   );
   console.log(result);
 }

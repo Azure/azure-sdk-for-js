@@ -3,11 +3,17 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { Attributes, SpanKind } from "@opentelemetry/api";
+import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { Histogram } from "@opentelemetry/sdk-metrics";
 import {
-  SemanticAttributes,
-  SemanticResourceAttributes,
+  SEMATTRS_HTTP_STATUS_CODE,
+  SEMATTRS_NET_HOST_PORT,
+  SEMATTRS_HTTP_USER_AGENT,
+  SEMATTRS_NET_PEER_NAME,
+  SEMATTRS_PEER_SERVICE,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 import { ExportResultCode } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
@@ -46,14 +52,14 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should observe instruments during collection", async () => {
-    let resource = new Resource({});
-    resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = "testcloudRoleName";
-    resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
+    const resource = new Resource({});
+    resource.attributes[SEMRESATTRS_SERVICE_NAME] = "testcloudRoleName";
+    resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    let loggerProvider = new LoggerProvider({ resource: resource });
-    let logger = loggerProvider.getLogger("testLogger") as any;
+    const loggerProvider = new LoggerProvider({ resource: resource });
+    const logger = loggerProvider.getLogger("testLogger") as any;
 
-    let traceLog = new LogRecord(
+    const traceLog = new LogRecord(
       logger["_sharedState"],
       { name: "test" },
       {
@@ -65,30 +71,34 @@ describe("#StandardMetricsHandler", () => {
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
 
-    let clientSpan: any = {
+    const clientSpan: any = {
       kind: SpanKind.CLIENT,
       duration: [123456],
       attributes: {
-        "http.status_code": 200,
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
+      status: { code: SpanStatusCode.OK },
       resource: resource,
     };
-    clientSpan.attributes[SemanticAttributes.PEER_SERVICE] = "testPeerService";
+    clientSpan.attributes[SEMATTRS_PEER_SERVICE] = "testPeerService";
     autoCollect.recordSpan(clientSpan);
 
-    let serverSpan: any = {
+    const serverSpan: any = {
       kind: SpanKind.SERVER,
       duration: [654321],
       attributes: {
-        "http.status_code": 200,
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
       resource: resource,
+      status: { code: SpanStatusCode.OK },
     };
     autoCollect.recordSpan(serverSpan);
 
     // Different dimensions
-    serverSpan.attributes["http.status_code"] = "400";
-    clientSpan.attributes["http.status_code"] = "400";
+    serverSpan.attributes[SEMATTRS_HTTP_STATUS_CODE] = "400";
+    clientSpan.attributes[SEMATTRS_HTTP_STATUS_CODE] = "400";
+    clientSpan.status.code = SpanStatusCode.ERROR;
+    serverSpan.status.code = SpanStatusCode.ERROR;
     for (let i = 0; i < 10; i++) {
       clientSpan.duration[0] = i * 100000;
       autoCollect.recordSpan(clientSpan);
@@ -104,10 +114,10 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(metrics.length, 4, "metrics count");
-    assert.strictEqual(metrics[0].descriptor.name, "azureMonitor.http.requestDuration");
-    assert.strictEqual(metrics[1].descriptor.name, "azureMonitor.http.dependencyDuration");
-    assert.strictEqual(metrics[2].descriptor.name, "azureMonitor.exceptionCount");
-    assert.strictEqual(metrics[3].descriptor.name, "azureMonitor.traceCount");
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
+    assert.strictEqual(metrics[1].descriptor.name, "dependencies/duration");
+    assert.strictEqual(metrics[2].descriptor.name, "exceptions/count");
+    assert.strictEqual(metrics[3].descriptor.name, "traces/count");
 
     // Requests
     assert.strictEqual(metrics[0].dataPoints.length, 2, "dataPoints count");
@@ -187,13 +197,14 @@ describe("#StandardMetricsHandler", () => {
   });
 
   it("should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
-    let resource = new Resource({});
-    let serverSpan: any = {
+    const resource = new Resource({});
+    const serverSpan: any = {
       kind: SpanKind.SERVER,
       duration: [654321],
+      status: { code: SpanStatusCode.OK },
       attributes: {
-        "http.status_code": 200,
-        [SemanticAttributes.HTTP_USER_AGENT]: "AlwaysOn",
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
+        [SEMATTRS_HTTP_USER_AGENT]: "AlwaysOn",
       },
       resource: resource,
     };
@@ -211,20 +222,20 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(metrics.length, 1, "metrics count");
-    assert.strictEqual(metrics[0].descriptor.name, "azureMonitor.http.requestDuration");
+    assert.strictEqual(metrics[0].descriptor.name, "requests/duration");
     assert.equal(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
   });
 
   it("should set service name based on service namespace if provided", async () => {
-    let resource = new Resource({});
-    resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE] = "testcloudRoleName";
-    resource.attributes[SemanticResourceAttributes.SERVICE_NAME] = "serviceTestName";
-    resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
+    const resource = new Resource({});
+    resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE] = "testcloudRoleName";
+    resource.attributes[SEMRESATTRS_SERVICE_NAME] = "serviceTestName";
+    resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID] = "testcloudRoleInstance";
 
-    let loggerProvider = new LoggerProvider({ resource: resource });
-    let logger = loggerProvider.getLogger("testLogger") as any;
+    const loggerProvider = new LoggerProvider({ resource: resource });
+    const logger = loggerProvider.getLogger("testLogger") as any;
 
-    let traceLog = new LogRecord(
+    const traceLog = new LogRecord(
       logger["_sharedState"],
       { name: "test" },
       {
@@ -236,15 +247,16 @@ describe("#StandardMetricsHandler", () => {
     traceLog.attributes["exception.type"] = "testExceptionType";
     autoCollect.recordLog(traceLog as any);
 
-    let clientSpan: any = {
+    const clientSpan: any = {
       kind: SpanKind.CLIENT,
       duration: [123456],
       attributes: {
-        "http.status_code": 200,
+        [SEMATTRS_HTTP_STATUS_CODE]: 200,
       },
+      status: { code: SpanStatusCode.OK },
       resource: resource,
     };
-    clientSpan.attributes[SemanticAttributes.PEER_SERVICE] = "testPeerService";
+    clientSpan.attributes[SEMATTRS_PEER_SERVICE] = "testPeerService";
     autoCollect.recordSpan(clientSpan);
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -260,17 +272,17 @@ describe("#StandardMetricsHandler", () => {
     );
   });
 
-  it("should set depenedncy targets", () => {
+  it("should set dependency targets", () => {
     let attributes: Attributes;
 
-    attributes = { [SemanticAttributes.HTTP_URL]: "http://testHttpHost" };
-    assert.strictEqual(getDependencyTarget(attributes), "http://testHttpHost");
+    attributes = { [SEMATTRS_PEER_SERVICE]: "TestService" };
+    assert.strictEqual(getDependencyTarget(attributes), "TestService");
 
-    attributes = { [SemanticAttributes.NET_PEER_NAME]: "testNetPeerName" };
-    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerName");
+    attributes = { [SEMATTRS_NET_PEER_NAME]: "test.com" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com");
 
-    attributes = { [SemanticAttributes.NET_PEER_IP]: "testNetPeerIp" };
-    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerIp");
+    attributes = { [SEMATTRS_NET_PEER_NAME]: "test.com", [SEMATTRS_NET_HOST_PORT]: "8080" };
+    assert.strictEqual(getDependencyTarget(attributes), "test.com:8080");
 
     attributes = { "unknown.attribute": "value" };
     assert.strictEqual(getDependencyTarget(attributes), "");

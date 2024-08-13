@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks if resource connectedEnvironmentName is available.
  *
  * @summary Checks if resource connectedEnvironmentName is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsCertificates_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsCertificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function certificatesCheckNameAvailability() {
   const connectedEnvironmentName = "testcontainerenv";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "testcertificatename",
-    type: "Microsoft.App/connectedEnvironments/certificates"
+    type: "Microsoft.App/connectedEnvironments/certificates",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.connectedEnvironments.checkNameAvailability(
     resourceGroupName,
     connectedEnvironmentName,
-    checkNameAvailabilityRequest
+    checkNameAvailabilityRequest,
   );
   console.log(result);
 }

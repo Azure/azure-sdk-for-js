@@ -1,7 +1,7 @@
 trigger: none
 
-stages:
-  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
@@ -11,4 +11,15 @@ stages:
       SupportedClouds: "Preview,UsGov,China"
       CloudConfig:
         Preview:
+          ServiceConnection: azure-sdk-tests-preview
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzurePreviewMsft.json
           Location: "westcentralus"
+        UsGov:
+          ServiceConnection: usgov_azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
+        China:
+          ServiceConnection: china_azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzureChinaMsft.json

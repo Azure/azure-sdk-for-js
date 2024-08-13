@@ -1,10 +1,10 @@
 parameters:
   - name: PackageName
     type: string
-    default: ""
+    default: ''
   - name: ServiceDirectory
     type: string
-    default: ""
+    default: ''
   - name: TestResourceDirectories
     type: object
     default:
@@ -22,13 +22,13 @@ parameters:
     default: false
   - name: Location
     type: string
-    default: ""
+    default: ''
   - name: Clouds
     type: string
-    default: 'Public'
+    default: Public
   - name: SupportedClouds
     type: string
-    default: 'Public'
+    default: Public
   - name: UnsupportedClouds
     type: string
     default: ''
@@ -43,11 +43,15 @@ parameters:
     default:
       Public:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+        ServiceConnection: azure-sdk-tests
+        SubscriptionConfigurationFilePaths: 
+          - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Preview:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+        ServiceConnection: azure-sdk-tests-preview
       Canary:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-        Location: 'centraluseuap'
+        Location: centraluseuap
         MatrixFilters:
           - OSVmImage=.*Ubuntu.*
           - DependencyVersion=^$
@@ -71,48 +75,43 @@ parameters:
   - name: MatrixReplace
     type: object
     default: []
+  - name: UseFederatedAuth
+    type: boolean
+    default: true
 
-stages:
-- ${{ each cloud in parameters.CloudConfig }}:
-  - ${{ if or(contains(parameters.Clouds, cloud.key), and(contains(variables['Build.DefinitionName'], 'tests-weekly'), contains(parameters.SupportedClouds, cloud.key))) }}:
-    - ${{ if not(contains(parameters.UnsupportedClouds, cloud.key)) }}:
-      - stage: ${{ cloud.key }}
-        dependsOn: []
-        jobs:
-        - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
-          parameters:
-            SparseCheckoutPaths:
-              # JS recording files are implicit excluded here since they are using '.js' file extension.
-              - "sdk/${{ parameters.ServiceDirectory }}/**/*.json"
-            JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
-            AdditionalParameters:
-              PackageName: ${{ parameters.PackageName }}
-              ServiceDirectory: ${{ parameters.ServiceDirectory }}
-              EnvVars: ${{ parameters.EnvVars }}
-              MaxParallel: ${{ parameters.MaxParallel }}
-              TimeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
-              TestResourceDirectories: ${{ parameters.TestResourceDirectories }}
-              PublishCodeCoverage: ${{ parameters.PublishCodeCoverage }}
-              PreSteps:
-                - ${{ parameters.PreSteps }}
-              PostSteps:
-                - ${{ parameters.PostSteps }}
-            MatrixConfigs:
-              # Enumerate platforms and additional platforms based on supported clouds (sparse platform<-->cloud matrix).
-              - ${{ each config in parameters.MatrixConfigs }}:
-                -  ${{ config }}
-              - ${{ each config in parameters.AdditionalMatrixConfigs }}:
-                -  ${{ config }}
-            MatrixFilters:
-              - ${{ each cloudFilter in cloud.value.MatrixFilters }}:
-                - ${{ cloudFilter }}
-              - ${{ parameters.MatrixFilters }}
-            MatrixReplace:
-              - ${{ each cloudReplace in cloud.value.MatrixReplace }}:
-                - ${{ cloudReplace }}
-              - ${{ parameters.MatrixReplace }}
-            CloudConfig:
-              SubscriptionConfiguration: ${{ cloud.value.SubscriptionConfiguration }}
-              SubscriptionConfigurations: ${{ cloud.value.SubscriptionConfigurations }}
-              Location: ${{ coalesce(parameters.Location, cloud.value.Location) }}
-              Cloud: ${{ cloud.key }}
+
+extends:
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
+  parameters:
+    stages:
+      - template: archetype-sdk-tests-isolated.yml@self
+        parameters:
+          PackageName: ${{ parameters.PackageName }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestResourceDirectories: ${{ parameters.TestResourceDirectories }}
+          EnvVars: ${{ parameters.EnvVars }}
+          MaxParallel: ${{ parameters.MaxParallel }}
+          TimeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
+          PublishCodeCoverage: ${{ parameters.PublishCodeCoverage }}
+          Location: ${{ parameters.Location }}
+          Clouds: ${{ parameters.Clouds }}
+          SupportedClouds: ${{ parameters.SupportedClouds }}
+          UnsupportedClouds: ${{ parameters.UnsupportedClouds }}
+          UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+          PreSteps:
+            - ${{ parameters.PreSteps }}
+          PostSteps:
+            - ${{ parameters.PostSteps }}
+          CloudConfig: ${{ parameters.CloudConfig }}
+          MatrixConfigs:
+            - ${{ each config in parameters.MatrixConfigs }}:
+              - ${{ config }}
+          AdditionalMatrixConfigs:
+            - ${{ each config in parameters.AdditionalMatrixConfigs }}:
+              - ${{ config }}
+          MatrixFilters:
+            - ${{ each config in parameters.MatrixFilters }}:
+              - ${{ config }}
+          MatrixReplace:
+            - ${{ each config in parameters.MatrixReplace }}:
+              - ${{ config }}

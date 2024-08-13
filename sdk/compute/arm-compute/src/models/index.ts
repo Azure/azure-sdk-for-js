@@ -211,6 +211,39 @@ export interface AutomaticOSUpgradePolicy {
   osRollingUpgradeDeferral?: boolean;
 }
 
+/** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations. */
+export interface ScheduledEventsPolicy {
+  /** The configuration parameters used while creating userInitiatedRedeploy scheduled event setting creation. */
+  userInitiatedRedeploy?: UserInitiatedRedeploy;
+  /** The configuration parameters used while creating userInitiatedReboot scheduled event setting creation. */
+  userInitiatedReboot?: UserInitiatedReboot;
+  /** The configuration parameters used while publishing scheduledEventsAdditionalPublishingTargets. */
+  scheduledEventsAdditionalPublishingTargets?: ScheduledEventsAdditionalPublishingTargets;
+}
+
+/** Specifies Redeploy related Scheduled Event related configurations. */
+export interface UserInitiatedRedeploy {
+  /** Specifies Redeploy Scheduled Event related configurations. */
+  automaticallyApprove?: boolean;
+}
+
+/** Specifies Reboot related Scheduled Event related configurations. */
+export interface UserInitiatedReboot {
+  /** Specifies Reboot Scheduled Event related configurations. */
+  automaticallyApprove?: boolean;
+}
+
+export interface ScheduledEventsAdditionalPublishingTargets {
+  /** The configuration parameters used while creating eventGridAndResourceGraph Scheduled Event setting. */
+  eventGridAndResourceGraph?: EventGridAndResourceGraph;
+}
+
+/** Specifies eventGridAndResourceGraph related Scheduled Event related configurations. */
+export interface EventGridAndResourceGraph {
+  /** Specifies if event grid and resource graph is enabled for Scheduled event related configurations. */
+  enable?: boolean;
+}
+
 /** Specifies the configuration parameters for automatic repairs on the virtual machine scale set. */
 export interface AutomaticRepairsPolicy {
   /** Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false. */
@@ -255,10 +288,10 @@ export interface VirtualMachineScaleSetVMProfile {
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. Minimum api-version: 2022-11-01 */
   serviceArtifactReference?: ServiceArtifactReference;
-  /** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
+  /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
   securityPostureReference?: SecurityPostureReference;
   /**
-   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2023-09-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2023-09-01.
+   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2024-03-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2024-03-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -458,7 +491,7 @@ export interface VirtualMachineScaleSetOSDisk {
 export interface DiffDiskSettings {
   /** Specifies the ephemeral disk settings for operating system disk. */
   option?: DiffDiskOptions;
-  /** Specifies the ephemeral disk placement for operating system disk. Possible values are: **CacheDisk,** **ResourceDisk.** The defaulting behavior is: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used. Refer to the VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. */
+  /** Specifies the ephemeral disk placement for operating system disk. Possible values are: **CacheDisk,** **ResourceDisk,** **NvmeDisk.** The defaulting behavior is: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** or **NvmeDisk** is used. Refer to the VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. Minimum api-version for NvmeDisk: 2024-03-01. */
   placement?: DiffDiskPlacement;
 }
 
@@ -636,7 +669,7 @@ export interface SecurityProfile {
   securityType?: SecurityTypes;
   /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
   encryptionIdentity?: EncryptionIdentity;
-  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
+  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
@@ -654,7 +687,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
+/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
 export interface ProxyAgentSettings {
   /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
   enabled?: boolean;
@@ -777,63 +810,14 @@ export interface ServiceArtifactReference {
   id?: string;
 }
 
-/** Specifies the security posture to be used for all virtual machines in the scale set. Minimum api-version: 2023-03-01 */
+/** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
 export interface SecurityPostureReference {
-  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|{major.*}|latest */
-  id?: string;
-  /** List of virtual machine extensions to exclude when applying the Security Posture. */
-  excludeExtensions?: VirtualMachineExtension[];
-}
-
-/** The instance view of a virtual machine extension. */
-export interface VirtualMachineExtensionInstanceView {
-  /** The virtual machine extension name. */
-  name?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The resource status information. */
-  substatuses?: InstanceViewStatus[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** Instance view status. */
-export interface InstanceViewStatus {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: StatusLevelTypes;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: Date;
-}
-
-/** The Resource model definition with location property as optional. */
-export interface ResourceWithOptionalLocation {
-  /** Resource location */
-  location?: string;
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
+  id: string;
+  /** The list of virtual machine extension names to exclude when applying the security posture. */
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
 }
 
 /** Enables or disables a capability on the virtual machine or virtual machine scale set. */
@@ -960,6 +944,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
   /** The virtual machine scale set network profile. */
   networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
+  /** The virtual machine scale set security posture reference. */
+  securityPostureReference?: SecurityPostureReferenceUpdate;
   /** The virtual machine scale set Security profile */
   securityProfile?: SecurityProfile;
   /** The virtual machine scale set diagnostics profile. */
@@ -1007,6 +993,8 @@ export interface VirtualMachineScaleSetUpdateOSDisk {
   caching?: CachingTypes;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
   writeAcceleratorEnabled?: boolean;
+  /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
+  diffDiskSettings?: DiffDiskSettings;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 */
   diskSizeGB?: number;
   /** The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist. */
@@ -1093,6 +1081,16 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
   deleteOption?: DeleteOptions;
 }
 
+/** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
+export interface SecurityPostureReferenceUpdate {
+  /** The security posture reference id in the form of /CommunityGalleries/{communityGalleryName}/securityPostures/{securityPostureName}/versions/{major.minor.patch}|latest */
+  id?: string;
+  /** The list of virtual machine extension names to exclude when applying the security posture. */
+  excludeExtensions?: string[];
+  /** Whether the security posture can be overridden by the user. */
+  isOverridable?: boolean;
+}
+
 /** The Update Resource model definition. */
 export interface UpdateResource {
   /** Resource tags */
@@ -1167,6 +1165,20 @@ export interface VirtualMachineScaleSetVMExtensionsSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statusesSummary?: VirtualMachineStatusCodeCount[];
+}
+
+/** Instance view status. */
+export interface InstanceViewStatus {
+  /** The status code. */
+  code?: string;
+  /** The level code. */
+  level?: StatusLevelTypes;
+  /** The short localizable label for the status. */
+  displayStatus?: string;
+  /** The detailed status message, including for alerts and error messages. */
+  message?: string;
+  /** The time of the status. */
+  time?: Date;
 }
 
 /** Summary for an orchestration service of a virtual machine scale set. */
@@ -1442,6 +1454,20 @@ export interface OrchestrationServiceStateInput {
   action: OrchestrationServiceStateAction;
 }
 
+/** The instance view of a virtual machine extension. */
+export interface VirtualMachineExtensionInstanceView {
+  /** The virtual machine extension name. */
+  name?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  type?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** The resource status information. */
+  substatuses?: InstanceViewStatus[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
 /** The List VMSS VM Extension operation response */
 export interface VirtualMachineScaleSetVMExtensionsListResult {
   /** The list of VMSS VM extensions */
@@ -1622,7 +1648,7 @@ export interface OSDisk {
   writeAcceleratorEnabled?: boolean;
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
   diffDiskSettings?: DiffDiskSettings;
-  /** Specifies how the virtual machine should be created. Possible values are: **Attach.** This value is used when you are using a specialized disk to create the virtual machine. **FromImage.** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
+  /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
   createOption: DiskCreateOptionTypes;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
   diskSizeGB?: number;
@@ -1646,12 +1672,14 @@ export interface DataDisk {
   caching?: CachingTypes;
   /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
   writeAcceleratorEnabled?: boolean;
-  /** Specifies how the virtual machine should be created. Possible values are: **Attach.** This value is used when you are using a specialized disk to create the virtual machine. **FromImage.** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. */
+  /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine data disk. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. **Empty:** This value is used when creating an empty data disk. **Copy:** This value is used to create a data disk from a snapshot or another disk. **Restore:** This value is used to create a data disk from a disk restore point. */
   createOption: DiskCreateOptionTypes;
   /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. The property 'diskSizeGB' is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023. */
   diskSizeGB?: number;
   /** The managed disk parameters. */
   managedDisk?: ManagedDiskParameters;
+  /** The source resource identifier. It can be a snapshot, or disk restore point from which to create a disk. */
+  sourceResource?: ApiEntityReference;
   /** Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset */
   toBeDetached?: boolean;
   /**
@@ -1809,6 +1837,29 @@ export interface VirtualMachineScaleSetVMProtectionPolicy {
   protectFromScaleSetActions?: boolean;
 }
 
+/** The Resource model definition with location property as optional. */
+export interface ResourceWithOptionalLocation {
+  /** Resource location */
+  location?: string;
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
 /** Identity for the virtual machine. */
 export interface VirtualMachineIdentity {
   /**
@@ -1865,6 +1916,14 @@ export interface DataDisksToAttach {
   diskId: string;
   /** The logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. If not specified, lun would be auto assigned. */
   lun?: number;
+  /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The defaulting behavior is: **None for Standard storage. ReadOnly for Premium storage.** */
+  caching?: CachingTypes;
+  /** Specifies whether data disk should be deleted or detached upon VM deletion. Possible values are: **Delete.** If this value is used, the data disk is deleted when VM is deleted. **Detach.** If this value is used, the data disk is retained after VM is deleted. The default value is set to **Detach**. */
+  deleteOption?: DiskDeleteOptionTypes;
+  /** Specifies the customer managed disk encryption set resource id for the managed disk. */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
 }
 
 /** Describes the data disk to be detached. */
@@ -2721,7 +2780,7 @@ export interface CapacityReservationGroupInstanceView {
    */
   readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
   /**
-   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
+   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedSubscriptionIds?: SubResourceReadOnly[];
@@ -2750,7 +2809,7 @@ export interface CapacityReservationUtilization {
 }
 
 export interface ResourceSharingProfile {
-  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   subscriptionIds?: SubResource[];
 }
 
@@ -2925,7 +2984,7 @@ export interface DiskSku {
 }
 
 /** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
-export interface PurchasePlanAutoGenerated {
+export interface DiskPurchasePlan {
   /** The plan ID. */
   name: string;
   /** The publisher ID. */
@@ -3094,7 +3153,7 @@ export interface DiskUpdate {
   /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
   burstingEnabled?: boolean;
   /** Purchase plan information to be added on the OS disk */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities to be added on the OS disk. */
   supportedCapabilities?: SupportedCapabilities;
   /**
@@ -3855,7 +3914,7 @@ export interface GalleryImageVersionStorageProfile {
 
 /** The gallery artifact version source. */
 export interface GalleryArtifactVersionSource {
-  /** The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user image or storage account resource. */
+  /** The id of the gallery artifact version source. */
   id?: string;
 }
 
@@ -5077,39 +5136,6 @@ export interface DiskRestorePointAttributes extends SubResourceReadOnly {
   sourceDiskRestorePoint?: ApiEntityReference;
 }
 
-/** Describes a Virtual Machine Extension. */
-export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
-  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
-  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: any;
-  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The virtual machine extension instance view. */
-  instanceView?: VirtualMachineExtensionInstanceView;
-  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
-  /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: string[];
-}
-
 /** Describes a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSet extends Resource {
   /** The virtual machine scale set sku. */
@@ -5129,6 +5155,8 @@ export interface VirtualMachineScaleSet extends Resource {
   readonly etag?: string;
   /** The upgrade policy. */
   upgradePolicy?: UpgradePolicy;
+  /** The ScheduledEventsPolicy. */
+  scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Policy for automatic repairs. */
   automaticRepairsPolicy?: AutomaticRepairsPolicy;
   /** The virtual machine profile. */
@@ -5316,6 +5344,8 @@ export interface VirtualMachine extends Resource {
   readonly etag?: string;
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
+  scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: StorageProfile;
   /** Specifies additional capabilities enabled or disabled on the virtual machine. */
@@ -5567,7 +5597,7 @@ export interface CapacityReservationGroup extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -5680,7 +5710,7 @@ export interface Disk extends Resource {
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer} */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
@@ -5839,7 +5869,7 @@ export interface Snapshot extends Resource {
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the image from which the source disk for the snapshot was originally created. */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities for the image from which the source disk from the snapshot was originally created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
@@ -6080,6 +6110,8 @@ export interface VirtualMachineUpdate extends UpdateResource {
   zones?: string[];
   /** Specifies the hardware settings for the virtual machine. */
   hardwareProfile?: HardwareProfile;
+  /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the virtual machine. */
+  scheduledEventsPolicy?: ScheduledEventsPolicy;
   /** Specifies the storage settings for the virtual machine disks. */
   storageProfile?: StorageProfile;
   /** Specifies additional capabilities enabled or disabled on the virtual machine. */
@@ -6289,7 +6321,7 @@ export interface CapacityReservationGroupUpdate extends UpdateResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -6374,7 +6406,43 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
 export interface VirtualMachineScaleSetVMReimageParameters
-  extends VirtualMachineReimageParameters {}
+  extends VirtualMachineReimageParameters {
+  /** Parameter to force update ephemeral OS disk for a virtual machine scale set VM */
+  forceUpdateOSDiskForEphemeral?: boolean;
+}
+
+/** Describes a Virtual Machine Extension. */
+export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
+  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** The name of the extension handler publisher. */
+  publisher?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  typePropertiesType?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: any;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: any;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The virtual machine extension instance view. */
+  instanceView?: VirtualMachineExtensionInstanceView;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
+  /** The extensions protected settings that are passed by reference, and consumed from key vault */
+  protectedSettingsFromKeyVault?: KeyVaultSecretReference;
+  /** Collection of extension names after which this extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
+}
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
 export interface DedicatedHostInstanceViewWithName
@@ -6471,7 +6539,7 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
   /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the the image from which the OS disk was created. */
-  purchasePlan?: PurchasePlanAutoGenerated;
+  purchasePlan?: DiskPurchasePlan;
   /** List of supported capabilities for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilities;
   /**
@@ -6668,6 +6736,8 @@ export interface GalleryArtifactVersionFullSource
   extends GalleryArtifactVersionSource {
   /** The resource Id of the source Community Gallery Image.  Only required when using Community Gallery Image as a source. */
   communityGalleryImageId?: string;
+  /** The resource Id of the source virtual machine.  Only required when capturing a virtual machine to source this Gallery Image Version. */
+  virtualMachineId?: string;
 }
 
 /** The source for the disk image. */
@@ -6897,7 +6967,7 @@ export enum KnownRepairAction {
   /** Restart */
   Restart = "Restart",
   /** Reimage */
-  Reimage = "Reimage"
+  Reimage = "Reimage",
 }
 
 /**
@@ -6918,7 +6988,7 @@ export enum KnownWindowsVMGuestPatchMode {
   /** AutomaticByOS */
   AutomaticByOS = "AutomaticByOS",
   /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
+  AutomaticByPlatform = "AutomaticByPlatform",
 }
 
 /**
@@ -6937,7 +7007,7 @@ export enum KnownWindowsPatchAssessmentMode {
   /** ImageDefault */
   ImageDefault = "ImageDefault",
   /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
+  AutomaticByPlatform = "AutomaticByPlatform",
 }
 
 /**
@@ -6959,7 +7029,7 @@ export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
   /** Never */
   Never = "Never",
   /** Always */
-  Always = "Always"
+  Always = "Always",
 }
 
 /**
@@ -6979,7 +7049,7 @@ export enum KnownLinuxVMGuestPatchMode {
   /** ImageDefault */
   ImageDefault = "ImageDefault",
   /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
+  AutomaticByPlatform = "AutomaticByPlatform",
 }
 
 /**
@@ -6997,7 +7067,7 @@ export enum KnownLinuxPatchAssessmentMode {
   /** ImageDefault */
   ImageDefault = "ImageDefault",
   /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
+  AutomaticByPlatform = "AutomaticByPlatform",
 }
 
 /**
@@ -7019,7 +7089,7 @@ export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
   /** Never */
   Never = "Never",
   /** Always */
-  Always = "Always"
+  Always = "Always",
 }
 
 /**
@@ -7041,7 +7111,11 @@ export enum KnownDiskCreateOptionTypes {
   /** Empty */
   Empty = "Empty",
   /** Attach */
-  Attach = "Attach"
+  Attach = "Attach",
+  /** Copy */
+  Copy = "Copy",
+  /** Restore */
+  Restore = "Restore",
 }
 
 /**
@@ -7051,14 +7125,16 @@ export enum KnownDiskCreateOptionTypes {
  * ### Known values supported by the service
  * **FromImage** \
  * **Empty** \
- * **Attach**
+ * **Attach** \
+ * **Copy** \
+ * **Restore**
  */
 export type DiskCreateOptionTypes = string;
 
 /** Known values of {@link DiffDiskOptions} that the service accepts. */
 export enum KnownDiffDiskOptions {
   /** Local */
-  Local = "Local"
+  Local = "Local",
 }
 
 /**
@@ -7075,7 +7151,9 @@ export enum KnownDiffDiskPlacement {
   /** CacheDisk */
   CacheDisk = "CacheDisk",
   /** ResourceDisk */
-  ResourceDisk = "ResourceDisk"
+  ResourceDisk = "ResourceDisk",
+  /** NvmeDisk */
+  NvmeDisk = "NvmeDisk",
 }
 
 /**
@@ -7084,7 +7162,8 @@ export enum KnownDiffDiskPlacement {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **CacheDisk** \
- * **ResourceDisk**
+ * **ResourceDisk** \
+ * **NvmeDisk**
  */
 export type DiffDiskPlacement = string;
 
@@ -7103,7 +7182,7 @@ export enum KnownStorageAccountTypes {
   /** StandardSSDZRS */
   StandardSSDZRS = "StandardSSD_ZRS",
   /** PremiumV2LRS */
-  PremiumV2LRS = "PremiumV2_LRS"
+  PremiumV2LRS = "PremiumV2_LRS",
 }
 
 /**
@@ -7128,7 +7207,7 @@ export enum KnownSecurityEncryptionTypes {
   /** DiskWithVMGuestState */
   DiskWithVMGuestState = "DiskWithVMGuestState",
   /** NonPersistedTPM */
-  NonPersistedTPM = "NonPersistedTPM"
+  NonPersistedTPM = "NonPersistedTPM",
 }
 
 /**
@@ -7147,7 +7226,7 @@ export enum KnownDiskDeleteOptionTypes {
   /** Delete */
   Delete = "Delete",
   /** Detach */
-  Detach = "Detach"
+  Detach = "Detach",
 }
 
 /**
@@ -7169,7 +7248,7 @@ export enum KnownDomainNameLabelScopeTypes {
   /** ResourceGroupReuse */
   ResourceGroupReuse = "ResourceGroupReuse",
   /** NoReuse */
-  NoReuse = "NoReuse"
+  NoReuse = "NoReuse",
 }
 
 /**
@@ -7189,7 +7268,7 @@ export enum KnownIPVersion {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -7207,7 +7286,7 @@ export enum KnownDeleteOptions {
   /** Delete */
   Delete = "Delete",
   /** Detach */
-  Detach = "Detach"
+  Detach = "Detach",
 }
 
 /**
@@ -7225,7 +7304,7 @@ export enum KnownPublicIPAddressSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -7243,7 +7322,7 @@ export enum KnownPublicIPAddressSkuTier {
   /** Regional */
   Regional = "Regional",
   /** Global */
-  Global = "Global"
+  Global = "Global",
 }
 
 /**
@@ -7263,7 +7342,7 @@ export enum KnownNetworkInterfaceAuxiliaryMode {
   /** AcceleratedConnections */
   AcceleratedConnections = "AcceleratedConnections",
   /** Floating */
-  Floating = "Floating"
+  Floating = "Floating",
 }
 
 /**
@@ -7288,7 +7367,7 @@ export enum KnownNetworkInterfaceAuxiliarySku {
   /** A4 */
   A4 = "A4",
   /** A8 */
-  A8 = "A8"
+  A8 = "A8",
 }
 
 /**
@@ -7307,7 +7386,7 @@ export type NetworkInterfaceAuxiliarySku = string;
 /** Known values of {@link NetworkApiVersion} that the service accepts. */
 export enum KnownNetworkApiVersion {
   /** TwoThousandTwenty1101 */
-  TwoThousandTwenty1101 = "2020-11-01"
+  TwoThousandTwenty1101 = "2020-11-01",
 }
 
 /**
@@ -7324,7 +7403,7 @@ export enum KnownSecurityTypes {
   /** TrustedLaunch */
   TrustedLaunch = "TrustedLaunch",
   /** ConfidentialVM */
-  ConfidentialVM = "ConfidentialVM"
+  ConfidentialVM = "ConfidentialVM",
 }
 
 /**
@@ -7342,7 +7421,7 @@ export enum KnownMode {
   /** Audit */
   Audit = "Audit",
   /** Enforce */
-  Enforce = "Enforce"
+  Enforce = "Enforce",
 }
 
 /**
@@ -7362,7 +7441,7 @@ export enum KnownVirtualMachinePriorityTypes {
   /** Low */
   Low = "Low",
   /** Spot */
-  Spot = "Spot"
+  Spot = "Spot",
 }
 
 /**
@@ -7381,7 +7460,7 @@ export enum KnownVirtualMachineEvictionPolicyTypes {
   /** Deallocate */
   Deallocate = "Deallocate",
   /** Delete */
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
 /**
@@ -7401,7 +7480,7 @@ export enum KnownVirtualMachineScaleSetScaleInRules {
   /** OldestVM */
   OldestVM = "OldestVM",
   /** NewestVM */
-  NewestVM = "NewestVM"
+  NewestVM = "NewestVM",
 }
 
 /**
@@ -7420,7 +7499,7 @@ export enum KnownOrchestrationMode {
   /** Uniform */
   Uniform = "Uniform",
   /** Flexible */
-  Flexible = "Flexible"
+  Flexible = "Flexible",
 }
 
 /**
@@ -7436,7 +7515,7 @@ export type OrchestrationMode = string;
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
   /** EdgeZone */
-  EdgeZone = "EdgeZone"
+  EdgeZone = "EdgeZone",
 }
 
 /**
@@ -7451,7 +7530,7 @@ export type ExtendedLocationTypes = string;
 /** Known values of {@link ExpandTypesForGetVMScaleSets} that the service accepts. */
 export enum KnownExpandTypesForGetVMScaleSets {
   /** UserData */
-  UserData = "userData"
+  UserData = "userData",
 }
 
 /**
@@ -7468,7 +7547,7 @@ export enum KnownOrchestrationServiceNames {
   /** AutomaticRepairs */
   AutomaticRepairs = "AutomaticRepairs",
   /** DummyOrchestrationServiceName */
-  DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
+  DummyOrchestrationServiceName = "DummyOrchestrationServiceName",
 }
 
 /**
@@ -7488,7 +7567,7 @@ export enum KnownOrchestrationServiceState {
   /** Running */
   Running = "Running",
   /** Suspended */
-  Suspended = "Suspended"
+  Suspended = "Suspended",
 }
 
 /**
@@ -7507,7 +7586,7 @@ export enum KnownOrchestrationServiceStateAction {
   /** Resume */
   Resume = "Resume",
   /** Suspend */
-  Suspend = "Suspend"
+  Suspend = "Suspend",
 }
 
 /**
@@ -7525,7 +7604,7 @@ export enum KnownHyperVGeneration {
   /** V1 */
   V1 = "V1",
   /** V2 */
-  V2 = "V2"
+  V2 = "V2",
 }
 
 /**
@@ -7871,7 +7950,7 @@ export enum KnownVirtualMachineSizeTypes {
   /** StandardNV12 */
   StandardNV12 = "Standard_NV12",
   /** StandardNV24 */
-  StandardNV24 = "Standard_NV24"
+  StandardNV24 = "Standard_NV24",
 }
 
 /**
@@ -8051,7 +8130,7 @@ export type VirtualMachineSizeTypes = string;
 /** Known values of {@link DiskDetachOptionTypes} that the service accepts. */
 export enum KnownDiskDetachOptionTypes {
   /** ForceDetach */
-  ForceDetach = "ForceDetach"
+  ForceDetach = "ForceDetach",
 }
 
 /**
@@ -8068,7 +8147,7 @@ export enum KnownDiskControllerTypes {
   /** Scsi */
   Scsi = "SCSI",
   /** NVMe */
-  NVMe = "NVMe"
+  NVMe = "NVMe",
 }
 
 /**
@@ -8086,7 +8165,7 @@ export enum KnownIPVersions {
   /** IPv4 */
   IPv4 = "IPv4",
   /** IPv6 */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -8104,7 +8183,7 @@ export enum KnownPublicIPAllocationMethod {
   /** Dynamic */
   Dynamic = "Dynamic",
   /** Static */
-  Static = "Static"
+  Static = "Static",
 }
 
 /**
@@ -8122,7 +8201,7 @@ export enum KnownHyperVGenerationType {
   /** V1 */
   V1 = "V1",
   /** V2 */
-  V2 = "V2"
+  V2 = "V2",
 }
 
 /**
@@ -8146,7 +8225,7 @@ export enum KnownPatchOperationStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** CompletedWithWarnings */
-  CompletedWithWarnings = "CompletedWithWarnings"
+  CompletedWithWarnings = "CompletedWithWarnings",
 }
 
 /**
@@ -8165,7 +8244,7 @@ export type PatchOperationStatus = string;
 /** Known values of {@link ExpandTypeForListVMs} that the service accepts. */
 export enum KnownExpandTypeForListVMs {
   /** InstanceView */
-  InstanceView = "instanceView"
+  InstanceView = "instanceView",
 }
 
 /**
@@ -8180,7 +8259,7 @@ export type ExpandTypeForListVMs = string;
 /** Known values of {@link ExpandTypesForListVMs} that the service accepts. */
 export enum KnownExpandTypesForListVMs {
   /** InstanceView */
-  InstanceView = "instanceView"
+  InstanceView = "instanceView",
 }
 
 /**
@@ -8201,7 +8280,7 @@ export enum KnownVMGuestPatchRebootBehavior {
   /** AlwaysRequiresReboot */
   AlwaysRequiresReboot = "AlwaysRequiresReboot",
   /** CanRequestReboot */
-  CanRequestReboot = "CanRequestReboot"
+  CanRequestReboot = "CanRequestReboot",
 }
 
 /**
@@ -8221,7 +8300,7 @@ export enum KnownPatchAssessmentState {
   /** Unknown */
   Unknown = "Unknown",
   /** Available */
-  Available = "Available"
+  Available = "Available",
 }
 
 /**
@@ -8241,7 +8320,7 @@ export enum KnownVMGuestPatchRebootSetting {
   /** Never */
   Never = "Never",
   /** Always */
-  Always = "Always"
+  Always = "Always",
 }
 
 /**
@@ -8272,7 +8351,7 @@ export enum KnownVMGuestPatchClassificationWindows {
   /** Tools */
   Tools = "Tools",
   /** Updates */
-  Updates = "Updates"
+  Updates = "Updates",
 }
 
 /**
@@ -8298,7 +8377,7 @@ export enum KnownVMGuestPatchClassificationLinux {
   /** Security */
   Security = "Security",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -8325,7 +8404,7 @@ export enum KnownVMGuestPatchRebootStatus {
   /** Failed */
   Failed = "Failed",
   /** Completed */
-  Completed = "Completed"
+  Completed = "Completed",
 }
 
 /**
@@ -8355,7 +8434,7 @@ export enum KnownPatchInstallationState {
   /** NotSelected */
   NotSelected = "NotSelected",
   /** Pending */
-  Pending = "Pending"
+  Pending = "Pending",
 }
 
 /**
@@ -8377,7 +8456,7 @@ export enum KnownHyperVGenerationTypes {
   /** V1 */
   V1 = "V1",
   /** V2 */
-  V2 = "V2"
+  V2 = "V2",
 }
 
 /**
@@ -8395,7 +8474,7 @@ export enum KnownVmDiskTypes {
   /** None */
   None = "None",
   /** Unmanaged */
-  Unmanaged = "Unmanaged"
+  Unmanaged = "Unmanaged",
 }
 
 /**
@@ -8413,7 +8492,7 @@ export enum KnownArchitectureTypes {
   /** X64 */
   X64 = "x64",
   /** Arm64 */
-  Arm64 = "Arm64"
+  Arm64 = "Arm64",
 }
 
 /**
@@ -8433,7 +8512,7 @@ export enum KnownImageState {
   /** ScheduledForDeprecation */
   ScheduledForDeprecation = "ScheduledForDeprecation",
   /** Deprecated */
-  Deprecated = "Deprecated"
+  Deprecated = "Deprecated",
 }
 
 /**
@@ -8454,7 +8533,7 @@ export enum KnownAlternativeType {
   /** Offer */
   Offer = "Offer",
   /** Plan */
-  Plan = "Plan"
+  Plan = "Plan",
 }
 
 /**
@@ -8473,7 +8552,7 @@ export enum KnownProximityPlacementGroupType {
   /** Standard */
   Standard = "Standard",
   /** Ultra */
-  Ultra = "Ultra"
+  Ultra = "Ultra",
 }
 
 /**
@@ -8491,7 +8570,7 @@ export enum KnownSshEncryptionTypes {
   /** RSA */
   RSA = "RSA",
   /** Ed25519 */
-  Ed25519 = "Ed25519"
+  Ed25519 = "Ed25519",
 }
 
 /**
@@ -8509,7 +8588,7 @@ export enum KnownOperatingSystemType {
   /** Windows */
   Windows = "Windows",
   /** Linux */
-  Linux = "Linux"
+  Linux = "Linux",
 }
 
 /**
@@ -8529,7 +8608,7 @@ export enum KnownRestorePointEncryptionType {
   /** Disk Restore Point is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
   EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
   /** Disk Restore Point is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
-  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
+  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
 }
 
 /**
@@ -8550,7 +8629,7 @@ export enum KnownConsistencyModeTypes {
   /** FileSystemConsistent */
   FileSystemConsistent = "FileSystemConsistent",
   /** ApplicationConsistent */
-  ApplicationConsistent = "ApplicationConsistent"
+  ApplicationConsistent = "ApplicationConsistent",
 }
 
 /**
@@ -8567,7 +8646,7 @@ export type ConsistencyModeTypes = string;
 /** Known values of {@link RestorePointCollectionExpandOptions} that the service accepts. */
 export enum KnownRestorePointCollectionExpandOptions {
   /** RestorePoints */
-  RestorePoints = "restorePoints"
+  RestorePoints = "restorePoints",
 }
 
 /**
@@ -8582,7 +8661,7 @@ export type RestorePointCollectionExpandOptions = string;
 /** Known values of {@link RestorePointExpandOptions} that the service accepts. */
 export enum KnownRestorePointExpandOptions {
   /** InstanceView */
-  InstanceView = "instanceView"
+  InstanceView = "instanceView",
 }
 
 /**
@@ -8597,7 +8676,7 @@ export type RestorePointExpandOptions = string;
 /** Known values of {@link CapacityReservationGroupInstanceViewTypes} that the service accepts. */
 export enum KnownCapacityReservationGroupInstanceViewTypes {
   /** InstanceView */
-  InstanceView = "instanceView"
+  InstanceView = "instanceView",
 }
 
 /**
@@ -8614,7 +8693,7 @@ export enum KnownExpandTypesForGetCapacityReservationGroups {
   /** VirtualMachineScaleSetVMsRef */
   VirtualMachineScaleSetVMsRef = "virtualMachineScaleSetVMs/$ref",
   /** VirtualMachinesRef */
-  VirtualMachinesRef = "virtualMachines/$ref"
+  VirtualMachinesRef = "virtualMachines/$ref",
 }
 
 /**
@@ -8627,10 +8706,31 @@ export enum KnownExpandTypesForGetCapacityReservationGroups {
  */
 export type ExpandTypesForGetCapacityReservationGroups = string;
 
+/** Known values of {@link ResourceIdOptionsForGetCapacityReservationGroups} that the service accepts. */
+export enum KnownResourceIdOptionsForGetCapacityReservationGroups {
+  /** CreatedInSubscription */
+  CreatedInSubscription = "CreatedInSubscription",
+  /** SharedWithSubscription */
+  SharedWithSubscription = "SharedWithSubscription",
+  /** All */
+  All = "All",
+}
+
+/**
+ * Defines values for ResourceIdOptionsForGetCapacityReservationGroups. \
+ * {@link KnownResourceIdOptionsForGetCapacityReservationGroups} can be used interchangeably with ResourceIdOptionsForGetCapacityReservationGroups,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CreatedInSubscription** \
+ * **SharedWithSubscription** \
+ * **All**
+ */
+export type ResourceIdOptionsForGetCapacityReservationGroups = string;
+
 /** Known values of {@link CapacityReservationInstanceViewTypes} that the service accepts. */
 export enum KnownCapacityReservationInstanceViewTypes {
   /** InstanceView */
-  InstanceView = "instanceView"
+  InstanceView = "instanceView",
 }
 
 /**
@@ -8657,7 +8757,7 @@ export enum KnownExecutionState {
   /** TimedOut */
   TimedOut = "TimedOut",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -8690,7 +8790,7 @@ export enum KnownDiskStorageAccountTypes {
   /** Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. */
   StandardSSDZRS = "StandardSSD_ZRS",
   /** Premium SSD v2 locally redundant storage. Best for production and performance-sensitive workloads that consistently require low latency and high IOPS and throughput. */
-  PremiumV2LRS = "PremiumV2_LRS"
+  PremiumV2LRS = "PremiumV2_LRS",
 }
 
 /**
@@ -8713,7 +8813,7 @@ export enum KnownArchitecture {
   /** X64 */
   X64 = "x64",
   /** Arm64 */
-  Arm64 = "Arm64"
+  Arm64 = "Arm64",
 }
 
 /**
@@ -8749,7 +8849,7 @@ export enum KnownDiskCreateOption {
   /** Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state */
   UploadPreparedSecure = "UploadPreparedSecure",
   /** Create a new disk by exporting from elastic san volume snapshot */
-  CopyFromSanSnapshot = "CopyFromSanSnapshot"
+  CopyFromSanSnapshot = "CopyFromSanSnapshot",
 }
 
 /**
@@ -8776,7 +8876,7 @@ export enum KnownProvisionedBandwidthCopyOption {
   /** None */
   None = "None",
   /** Enhanced */
-  Enhanced = "Enhanced"
+  Enhanced = "Enhanced",
 }
 
 /**
@@ -8806,7 +8906,7 @@ export enum KnownDiskState {
   /** A disk is ready to be created by upload by requesting a write token. */
   ReadyToUpload = "ReadyToUpload",
   /** A disk is created for upload and a write token has been issued for uploading to it. */
-  ActiveUpload = "ActiveUpload"
+  ActiveUpload = "ActiveUpload",
 }
 
 /**
@@ -8832,7 +8932,7 @@ export enum KnownEncryptionType {
   /** Disk is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
   EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
   /** Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
-  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
+  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
 }
 
 /**
@@ -8853,7 +8953,7 @@ export enum KnownNetworkAccessPolicy {
   /** The disk can be exported or uploaded to using a DiskAccess resource's private endpoints. */
   AllowPrivate = "AllowPrivate",
   /** The disk cannot be exported. */
-  DenyAll = "DenyAll"
+  DenyAll = "DenyAll",
 }
 
 /**
@@ -8878,7 +8978,7 @@ export enum KnownDiskSecurityTypes {
   /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key */
   ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
   /** Indicates Confidential VM disk with a ephemeral vTPM. vTPM state is not persisted across VM reboots. */
-  ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM"
+  ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
 }
 
 /**
@@ -8899,7 +8999,7 @@ export enum KnownPublicNetworkAccess {
   /** You can generate a SAS URI to access the underlying data of the disk publicly on the internet when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate. */
   Enabled = "Enabled",
   /** You cannot access the underlying data of the disk publicly on the internet even when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -8917,7 +9017,7 @@ export enum KnownDataAccessAuthMode {
   /** When export\/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export\/upload the data. Please refer to aka.ms\/DisksAzureADAuth. */
   AzureActiveDirectory = "AzureActiveDirectory",
   /** No additional authentication would be performed when accessing export\/upload URL. */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -8937,7 +9037,7 @@ export enum KnownAccessLevel {
   /** Read */
   Read = "Read",
   /** Write */
-  Write = "Write"
+  Write = "Write",
 }
 
 /**
@@ -8956,7 +9056,7 @@ export enum KnownFileFormat {
   /** A VHD file is a disk image file in the Virtual Hard Disk file format. */
   VHD = "VHD",
   /** A VHDX file is a disk image file in the Virtual Hard Disk v2 file format. */
-  Vhdx = "VHDX"
+  Vhdx = "VHDX",
 }
 
 /**
@@ -8976,7 +9076,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -8999,7 +9099,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -9023,7 +9123,7 @@ export enum KnownDiskEncryptionSetIdentityType {
   /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -9045,7 +9145,7 @@ export enum KnownDiskEncryptionSetType {
   /** Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
   EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
   /** Confidential VM supported disk and VM guest state would be encrypted with customer managed key. */
-  ConfidentialVmEncryptedWithCustomerKey = "ConfidentialVmEncryptedWithCustomerKey"
+  ConfidentialVmEncryptedWithCustomerKey = "ConfidentialVmEncryptedWithCustomerKey",
 }
 
 /**
@@ -9066,7 +9166,7 @@ export enum KnownSnapshotStorageAccountTypes {
   /** Premium SSD locally redundant storage */
   PremiumLRS = "Premium_LRS",
   /** Standard zone redundant storage */
-  StandardZRS = "Standard_ZRS"
+  StandardZRS = "Standard_ZRS",
 }
 
 /**
@@ -9083,7 +9183,7 @@ export type SnapshotStorageAccountTypes = string;
 /** Known values of {@link CopyCompletionErrorReason} that the service accepts. */
 export enum KnownCopyCompletionErrorReason {
   /** Indicates that the source snapshot was deleted while the background copy of the resource created via CopyStart operation was in progress. */
-  CopySourceNotFound = "CopySourceNotFound"
+  CopySourceNotFound = "CopySourceNotFound",
 }
 
 /**
@@ -9098,7 +9198,7 @@ export type CopyCompletionErrorReason = string;
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
 export enum KnownExtendedLocationType {
   /** EdgeZone */
-  EdgeZone = "EdgeZone"
+  EdgeZone = "EdgeZone",
 }
 
 /**
@@ -9123,7 +9223,7 @@ export enum KnownGalleryProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Migrating */
-  Migrating = "Migrating"
+  Migrating = "Migrating",
 }
 
 /**
@@ -9147,7 +9247,7 @@ export enum KnownGallerySharingPermissionTypes {
   /** Groups */
   Groups = "Groups",
   /** Community */
-  Community = "Community"
+  Community = "Community",
 }
 
 /**
@@ -9166,7 +9266,7 @@ export enum KnownSharingProfileGroupTypes {
   /** Subscriptions */
   Subscriptions = "Subscriptions",
   /** AADTenants */
-  AADTenants = "AADTenants"
+  AADTenants = "AADTenants",
 }
 
 /**
@@ -9188,7 +9288,7 @@ export enum KnownSharingState {
   /** Failed */
   Failed = "Failed",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -9206,7 +9306,7 @@ export type SharingState = string;
 /** Known values of {@link SelectPermissions} that the service accepts. */
 export enum KnownSelectPermissions {
   /** Permissions */
-  Permissions = "Permissions"
+  Permissions = "Permissions",
 }
 
 /**
@@ -9221,7 +9321,7 @@ export type SelectPermissions = string;
 /** Known values of {@link GalleryExpandParams} that the service accepts. */
 export enum KnownGalleryExpandParams {
   /** SharingProfileGroups */
-  SharingProfileGroups = "SharingProfile/Groups"
+  SharingProfileGroups = "SharingProfile/Groups",
 }
 
 /**
@@ -9240,7 +9340,7 @@ export enum KnownStorageAccountType {
   /** StandardZRS */
   StandardZRS = "Standard_ZRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
 }
 
 /**
@@ -9263,7 +9363,7 @@ export enum KnownConfidentialVMEncryptionType {
   /** EncryptedWithCmk */
   EncryptedWithCmk = "EncryptedWithCmk",
   /** NonPersistedTPM */
-  NonPersistedTPM = "NonPersistedTPM"
+  NonPersistedTPM = "NonPersistedTPM",
 }
 
 /**
@@ -9283,7 +9383,7 @@ export enum KnownReplicationMode {
   /** Full */
   Full = "Full",
   /** Shallow */
-  Shallow = "Shallow"
+  Shallow = "Shallow",
 }
 
 /**
@@ -9301,7 +9401,7 @@ export enum KnownGalleryExtendedLocationType {
   /** EdgeZone */
   EdgeZone = "EdgeZone",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -9323,7 +9423,7 @@ export enum KnownEdgeZoneStorageAccountType {
   /** StandardSSDLRS */
   StandardSSDLRS = "StandardSSD_LRS",
   /** PremiumLRS */
-  PremiumLRS = "Premium_LRS"
+  PremiumLRS = "Premium_LRS",
 }
 
 /**
@@ -9347,7 +9447,7 @@ export enum KnownPolicyViolationCategory {
   /** CopyrightValidation */
   CopyrightValidation = "CopyrightValidation",
   /** IpTheft */
-  IpTheft = "IpTheft"
+  IpTheft = "IpTheft",
 }
 
 /**
@@ -9371,7 +9471,7 @@ export enum KnownAggregatedReplicationState {
   /** Completed */
   Completed = "Completed",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -9395,7 +9495,7 @@ export enum KnownReplicationState {
   /** Completed */
   Completed = "Completed",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -9417,7 +9517,7 @@ export enum KnownUefiSignatureTemplateName {
   /** MicrosoftUefiCertificateAuthorityTemplate */
   MicrosoftUefiCertificateAuthorityTemplate = "MicrosoftUefiCertificateAuthorityTemplate",
   /** MicrosoftWindowsTemplate */
-  MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate"
+  MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate",
 }
 
 /**
@@ -9436,7 +9536,7 @@ export enum KnownUefiKeyType {
   /** Sha256 */
   Sha256 = "sha256",
   /** X509 */
-  X509 = "x509"
+  X509 = "x509",
 }
 
 /**
@@ -9454,7 +9554,7 @@ export enum KnownReplicationStatusTypes {
   /** ReplicationStatus */
   ReplicationStatus = "ReplicationStatus",
   /** UefiSettings */
-  UefiSettings = "UefiSettings"
+  UefiSettings = "UefiSettings",
 }
 
 /**
@@ -9476,7 +9576,7 @@ export enum KnownSharingUpdateOperationTypes {
   /** Reset */
   Reset = "Reset",
   /** EnableCommunity */
-  EnableCommunity = "EnableCommunity"
+  EnableCommunity = "EnableCommunity",
 }
 
 /**
@@ -9494,7 +9594,7 @@ export type SharingUpdateOperationTypes = string;
 /** Known values of {@link SharedToValues} that the service accepts. */
 export enum KnownSharedToValues {
   /** Tenant */
-  Tenant = "tenant"
+  Tenant = "tenant",
 }
 
 /**
@@ -9513,7 +9613,7 @@ export enum KnownSharedGalleryHostCaching {
   /** ReadOnly */
   ReadOnly = "ReadOnly",
   /** ReadWrite */
-  ReadWrite = "ReadWrite"
+  ReadWrite = "ReadWrite",
 }
 
 /**
@@ -9534,7 +9634,7 @@ export enum KnownCloudServiceUpgradeMode {
   /** Manual */
   Manual = "Manual",
   /** Simultaneous */
-  Simultaneous = "Simultaneous"
+  Simultaneous = "Simultaneous",
 }
 
 /**
@@ -9553,7 +9653,7 @@ export enum KnownCloudServiceSlotType {
   /** Production */
   Production = "Production",
   /** Staging */
-  Staging = "Staging"
+  Staging = "Staging",
 }
 
 /**
@@ -9571,7 +9671,7 @@ export enum KnownAvailabilitySetSkuTypes {
   /** Classic */
   Classic = "Classic",
   /** Aligned */
-  Aligned = "Aligned"
+  Aligned = "Aligned",
 }
 
 /**
@@ -9593,14 +9693,14 @@ export type ProtocolTypes = "Http" | "Https";
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for OperatingSystemTypes. */
 export type OperatingSystemTypes = "Windows" | "Linux";
-/** Defines values for StatusLevelTypes. */
-export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
+/** Defines values for StatusLevelTypes. */
+export type StatusLevelTypes = "Info" | "Warning" | "Error";
 /** Defines values for VirtualMachineScaleSetSkuScaleType. */
 export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 /** Defines values for UpgradeState. */
@@ -9688,7 +9788,8 @@ export interface VirtualMachineScaleSetsListByLocationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
-export type VirtualMachineScaleSetsListByLocationResponse = VirtualMachineScaleSetListResult;
+export type VirtualMachineScaleSetsListByLocationResponse =
+  VirtualMachineScaleSetListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams
@@ -9704,7 +9805,8 @@ export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineScaleSetsCreateOrUpdateResponse = VirtualMachineScaleSet;
+export type VirtualMachineScaleSetsCreateOrUpdateResponse =
+  VirtualMachineScaleSet;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsUpdateOptionalParams
@@ -9772,35 +9874,40 @@ export interface VirtualMachineScaleSetsGetInstanceViewOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceView operation. */
-export type VirtualMachineScaleSetsGetInstanceViewResponse = VirtualMachineScaleSetInstanceView;
+export type VirtualMachineScaleSetsGetInstanceViewResponse =
+  VirtualMachineScaleSetInstanceView;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualMachineScaleSetsListResponse = VirtualMachineScaleSetListResult;
+export type VirtualMachineScaleSetsListResponse =
+  VirtualMachineScaleSetListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type VirtualMachineScaleSetsListAllResponse = VirtualMachineScaleSetListWithLinkResult;
+export type VirtualMachineScaleSetsListAllResponse =
+  VirtualMachineScaleSetListWithLinkResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
-export type VirtualMachineScaleSetsListSkusResponse = VirtualMachineScaleSetListSkusResult;
+export type VirtualMachineScaleSetsListSkusResponse =
+  VirtualMachineScaleSetListSkusResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOSUpgradeHistory operation. */
-export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineScaleSetListOSUpgradeHistory;
+export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse =
+  VirtualMachineScaleSetListOSUpgradeHistory;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsPowerOffOptionalParams
@@ -9911,7 +10018,8 @@ export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
 }
 
 /** Contains response data for the approveRollingUpgrade operation. */
-export type VirtualMachineScaleSetsApproveRollingUpgradeResponse = VirtualMachineScaleSetsApproveRollingUpgradeHeaders;
+export type VirtualMachineScaleSetsApproveRollingUpgradeResponse =
+  VirtualMachineScaleSetsApproveRollingUpgradeHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams
@@ -9923,7 +10031,8 @@ export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdate
 }
 
 /** Contains response data for the forceRecoveryServiceFabricPlatformUpdateDomainWalk operation. */
-export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse = RecoveryWalkResponse;
+export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse =
+  RecoveryWalkResponse;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams
@@ -9943,35 +10052,40 @@ export interface VirtualMachineScaleSetsListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
-export type VirtualMachineScaleSetsListByLocationNextResponse = VirtualMachineScaleSetListResult;
+export type VirtualMachineScaleSetsListByLocationNextResponse =
+  VirtualMachineScaleSetListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineScaleSetsListNextResponse = VirtualMachineScaleSetListResult;
+export type VirtualMachineScaleSetsListNextResponse =
+  VirtualMachineScaleSetListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type VirtualMachineScaleSetsListAllNextResponse = VirtualMachineScaleSetListWithLinkResult;
+export type VirtualMachineScaleSetsListAllNextResponse =
+  VirtualMachineScaleSetListWithLinkResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusNext operation. */
-export type VirtualMachineScaleSetsListSkusNextResponse = VirtualMachineScaleSetListSkusResult;
+export type VirtualMachineScaleSetsListSkusNextResponse =
+  VirtualMachineScaleSetListSkusResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsGetOSUpgradeHistoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOSUpgradeHistoryNext operation. */
-export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse = VirtualMachineScaleSetListOSUpgradeHistory;
+export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse =
+  VirtualMachineScaleSetListOSUpgradeHistory;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams
@@ -9983,7 +10097,8 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetExtension;
+export type VirtualMachineScaleSetExtensionsCreateOrUpdateResponse =
+  VirtualMachineScaleSetExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsUpdateOptionalParams
@@ -9995,7 +10110,8 @@ export interface VirtualMachineScaleSetExtensionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type VirtualMachineScaleSetExtensionsUpdateResponse = VirtualMachineScaleSetExtension;
+export type VirtualMachineScaleSetExtensionsUpdateResponse =
+  VirtualMachineScaleSetExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsDeleteOptionalParams
@@ -10014,21 +10130,24 @@ export interface VirtualMachineScaleSetExtensionsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type VirtualMachineScaleSetExtensionsGetResponse = VirtualMachineScaleSetExtension;
+export type VirtualMachineScaleSetExtensionsGetResponse =
+  VirtualMachineScaleSetExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualMachineScaleSetExtensionsListResponse = VirtualMachineScaleSetExtensionListResult;
+export type VirtualMachineScaleSetExtensionsListResponse =
+  VirtualMachineScaleSetExtensionListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineScaleSetExtensionsListNextResponse = VirtualMachineScaleSetExtensionListResult;
+export type VirtualMachineScaleSetExtensionsListNextResponse =
+  VirtualMachineScaleSetExtensionListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
@@ -10062,7 +10181,8 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLatest operation. */
-export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgradeStatusInfo;
+export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse =
+  RollingUpgradeStatusInfo;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
@@ -10074,7 +10194,8 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse = VirtualMachineScaleSetVMExtension;
+export type VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse =
+  VirtualMachineScaleSetVMExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMExtensionsUpdateOptionalParams
@@ -10086,7 +10207,8 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type VirtualMachineScaleSetVMExtensionsUpdateResponse = VirtualMachineScaleSetVMExtension;
+export type VirtualMachineScaleSetVMExtensionsUpdateResponse =
+  VirtualMachineScaleSetVMExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMExtensionsDeleteOptionalParams
@@ -10105,7 +10227,8 @@ export interface VirtualMachineScaleSetVMExtensionsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type VirtualMachineScaleSetVMExtensionsGetResponse = VirtualMachineScaleSetVMExtension;
+export type VirtualMachineScaleSetVMExtensionsGetResponse =
+  VirtualMachineScaleSetVMExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMExtensionsListOptionalParams
@@ -10115,7 +10238,8 @@ export interface VirtualMachineScaleSetVMExtensionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type VirtualMachineScaleSetVMExtensionsListResponse = VirtualMachineScaleSetVMExtensionsListResult;
+export type VirtualMachineScaleSetVMExtensionsListResponse =
+  VirtualMachineScaleSetVMExtensionsListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsReimageOptionalParams
@@ -10147,7 +10271,8 @@ export interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
 }
 
 /** Contains response data for the approveRollingUpgrade operation. */
-export type VirtualMachineScaleSetVMsApproveRollingUpgradeResponse = VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders;
+export type VirtualMachineScaleSetVMsApproveRollingUpgradeResponse =
+  VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsDeallocateOptionalParams
@@ -10200,7 +10325,8 @@ export interface VirtualMachineScaleSetVMsGetInstanceViewOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceView operation. */
-export type VirtualMachineScaleSetVMsGetInstanceViewResponse = VirtualMachineScaleSetVMInstanceView;
+export type VirtualMachineScaleSetVMsGetInstanceViewResponse =
+  VirtualMachineScaleSetVMInstanceView;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsListOptionalParams
@@ -10214,7 +10340,8 @@ export interface VirtualMachineScaleSetVMsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMListResult;
+export type VirtualMachineScaleSetVMsListResponse =
+  VirtualMachineScaleSetVMListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsPowerOffOptionalParams
@@ -10262,7 +10389,8 @@ export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalPar
 }
 
 /** Contains response data for the retrieveBootDiagnosticsData operation. */
-export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
+export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse =
+  RetrieveBootDiagnosticsDataResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
@@ -10287,7 +10415,8 @@ export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
 }
 
 /** Contains response data for the attachDetachDataDisks operation. */
-export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse = StorageProfile;
+export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse =
+  StorageProfile;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsRunCommandOptionalParams
@@ -10306,7 +10435,8 @@ export interface VirtualMachineScaleSetVMsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVMListResult;
+export type VirtualMachineScaleSetVMsListNextResponse =
+  VirtualMachineScaleSetVMListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams
@@ -10318,7 +10448,8 @@ export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExtension;
+export type VirtualMachineExtensionsCreateOrUpdateResponse =
+  VirtualMachineExtension;
 
 /** Optional parameters. */
 export interface VirtualMachineExtensionsUpdateOptionalParams
@@ -10359,7 +10490,8 @@ export interface VirtualMachineExtensionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type VirtualMachineExtensionsListResponse = VirtualMachineExtensionsListResult;
+export type VirtualMachineExtensionsListResponse =
+  VirtualMachineExtensionsListResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesListByLocationOptionalParams
@@ -10452,7 +10584,7 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams
 /** Optional parameters. */
 export interface VirtualMachinesDeallocateOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
+  /** Optional parameter to hibernate a virtual machine. */
   hibernate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -10495,7 +10627,8 @@ export interface VirtualMachinesListAvailableSizesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSizes operation. */
-export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListResult;
+export type VirtualMachinesListAvailableSizesResponse =
+  VirtualMachineSizeListResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesPowerOffOptionalParams
@@ -10563,7 +10696,8 @@ export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams
 }
 
 /** Contains response data for the retrieveBootDiagnosticsData operation. */
-export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
+export type VirtualMachinesRetrieveBootDiagnosticsDataResponse =
+  RetrieveBootDiagnosticsDataResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesPerformMaintenanceOptionalParams
@@ -10588,7 +10722,8 @@ export interface VirtualMachinesAssessPatchesOptionalParams
 }
 
 /** Contains response data for the assessPatches operation. */
-export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
+export type VirtualMachinesAssessPatchesResponse =
+  VirtualMachineAssessPatchesResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesInstallPatchesOptionalParams
@@ -10600,7 +10735,8 @@ export interface VirtualMachinesInstallPatchesOptionalParams
 }
 
 /** Contains response data for the installPatches operation. */
-export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
+export type VirtualMachinesInstallPatchesResponse =
+  VirtualMachineInstallPatchesResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesAttachDetachDataDisksOptionalParams
@@ -10631,7 +10767,8 @@ export interface VirtualMachinesListByLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
-export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult;
+export type VirtualMachinesListByLocationNextResponse =
+  VirtualMachineListResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesListNextOptionalParams
@@ -10671,28 +10808,32 @@ export interface VirtualMachineImagesListOffersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOffers operation. */
-export type VirtualMachineImagesListOffersResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesListOffersResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesListPublishersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPublishers operation. */
-export type VirtualMachineImagesListPublishersResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesListPublishersResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesListSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
-export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesListSkusResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesListByEdgeZoneOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEdgeZone operation. */
-export type VirtualMachineImagesListByEdgeZoneResponse = VmImagesInEdgeZoneListResult;
+export type VirtualMachineImagesListByEdgeZoneResponse =
+  VmImagesInEdgeZoneListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineImagesEdgeZoneGetOptionalParams
@@ -10713,42 +10854,48 @@ export interface VirtualMachineImagesEdgeZoneListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type VirtualMachineImagesEdgeZoneListResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesEdgeZoneListResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesEdgeZoneListOffersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOffers operation. */
-export type VirtualMachineImagesEdgeZoneListOffersResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesEdgeZoneListOffersResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPublishers operation. */
-export type VirtualMachineImagesEdgeZoneListPublishersResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesEdgeZoneListPublishersResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineImagesEdgeZoneListSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
-export type VirtualMachineImagesEdgeZoneListSkusResponse = VirtualMachineImageResource[];
+export type VirtualMachineImagesEdgeZoneListSkusResponse =
+  VirtualMachineImageResource[];
 
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionImage;
+export type VirtualMachineExtensionImagesGetResponse =
+  VirtualMachineExtensionImage;
 
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesListTypesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTypes operation. */
-export type VirtualMachineExtensionImagesListTypesResponse = VirtualMachineExtensionImage[];
+export type VirtualMachineExtensionImagesListTypesResponse =
+  VirtualMachineExtensionImage[];
 
 /** Optional parameters. */
 export interface VirtualMachineExtensionImagesListVersionsOptionalParams
@@ -10760,7 +10907,8 @@ export interface VirtualMachineExtensionImagesListVersionsOptionalParams
 }
 
 /** Contains response data for the listVersions operation. */
-export type VirtualMachineExtensionImagesListVersionsResponse = VirtualMachineExtensionImage[];
+export type VirtualMachineExtensionImagesListVersionsResponse =
+  VirtualMachineExtensionImage[];
 
 /** Optional parameters. */
 export interface AvailabilitySetsCreateOrUpdateOptionalParams
@@ -10795,7 +10943,8 @@ export interface AvailabilitySetsListBySubscriptionOptionalParams
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResult;
+export type AvailabilitySetsListBySubscriptionResponse =
+  AvailabilitySetListResult;
 
 /** Optional parameters. */
 export interface AvailabilitySetsListOptionalParams
@@ -10809,14 +10958,16 @@ export interface AvailabilitySetsListAvailableSizesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSizes operation. */
-export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
+export type AvailabilitySetsListAvailableSizesResponse =
+  VirtualMachineSizeListResult;
 
 /** Optional parameters. */
 export interface AvailabilitySetsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
+export type AvailabilitySetsListBySubscriptionNextResponse =
+  AvailabilitySetListResult;
 
 /** Optional parameters. */
 export interface AvailabilitySetsListNextOptionalParams
@@ -10830,7 +10981,8 @@ export interface ProximityPlacementGroupsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup;
+export type ProximityPlacementGroupsCreateOrUpdateResponse =
+  ProximityPlacementGroup;
 
 /** Optional parameters. */
 export interface ProximityPlacementGroupsUpdateOptionalParams
@@ -10858,28 +11010,32 @@ export interface ProximityPlacementGroupsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult;
+export type ProximityPlacementGroupsListBySubscriptionResponse =
+  ProximityPlacementGroupListResult;
 
 /** Optional parameters. */
 export interface ProximityPlacementGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult;
+export type ProximityPlacementGroupsListByResourceGroupResponse =
+  ProximityPlacementGroupListResult;
 
 /** Optional parameters. */
 export interface ProximityPlacementGroupsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult;
+export type ProximityPlacementGroupsListBySubscriptionNextResponse =
+  ProximityPlacementGroupListResult;
 
 /** Optional parameters. */
 export interface ProximityPlacementGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult;
+export type ProximityPlacementGroupsListByResourceGroupNextResponse =
+  ProximityPlacementGroupListResult;
 
 /** Optional parameters. */
 export interface DedicatedHostGroupsCreateOrUpdateOptionalParams
@@ -10914,28 +11070,32 @@ export interface DedicatedHostGroupsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupListResult;
+export type DedicatedHostGroupsListByResourceGroupResponse =
+  DedicatedHostGroupListResult;
 
 /** Optional parameters. */
 export interface DedicatedHostGroupsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupListResult;
+export type DedicatedHostGroupsListBySubscriptionResponse =
+  DedicatedHostGroupListResult;
 
 /** Optional parameters. */
 export interface DedicatedHostGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGroupListResult;
+export type DedicatedHostGroupsListByResourceGroupNextResponse =
+  DedicatedHostGroupListResult;
 
 /** Optional parameters. */
 export interface DedicatedHostGroupsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGroupListResult;
+export type DedicatedHostGroupsListBySubscriptionNextResponse =
+  DedicatedHostGroupListResult;
 
 /** Optional parameters. */
 export interface DedicatedHostsCreateOrUpdateOptionalParams
@@ -11013,7 +11173,8 @@ export interface DedicatedHostsListAvailableSizesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSizes operation. */
-export type DedicatedHostsListAvailableSizesResponse = DedicatedHostSizeListResult;
+export type DedicatedHostsListAvailableSizesResponse =
+  DedicatedHostSizeListResult;
 
 /** Optional parameters. */
 export interface DedicatedHostsListByHostGroupNextOptionalParams
@@ -11027,14 +11188,16 @@ export interface SshPublicKeysListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SshPublicKeysListBySubscriptionResponse = SshPublicKeysGroupListResult;
+export type SshPublicKeysListBySubscriptionResponse =
+  SshPublicKeysGroupListResult;
 
 /** Optional parameters. */
 export interface SshPublicKeysListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SshPublicKeysListByResourceGroupResponse = SshPublicKeysGroupListResult;
+export type SshPublicKeysListByResourceGroupResponse =
+  SshPublicKeysGroupListResult;
 
 /** Optional parameters. */
 export interface SshPublicKeysCreateOptionalParams
@@ -11069,21 +11232,24 @@ export interface SshPublicKeysGenerateKeyPairOptionalParams
 }
 
 /** Contains response data for the generateKeyPair operation. */
-export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairResult;
+export type SshPublicKeysGenerateKeyPairResponse =
+  SshPublicKeyGenerateKeyPairResult;
 
 /** Optional parameters. */
 export interface SshPublicKeysListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SshPublicKeysListBySubscriptionNextResponse = SshPublicKeysGroupListResult;
+export type SshPublicKeysListBySubscriptionNextResponse =
+  SshPublicKeysGroupListResult;
 
 /** Optional parameters. */
 export interface SshPublicKeysListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SshPublicKeysListByResourceGroupNextResponse = SshPublicKeysGroupListResult;
+export type SshPublicKeysListByResourceGroupNextResponse =
+  SshPublicKeysGroupListResult;
 
 /** Optional parameters. */
 export interface ImagesCreateOrUpdateOptionalParams
@@ -11159,7 +11325,8 @@ export interface RestorePointCollectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection;
+export type RestorePointCollectionsCreateOrUpdateResponse =
+  RestorePointCollection;
 
 /** Optional parameters. */
 export interface RestorePointCollectionsUpdateOptionalParams
@@ -11192,28 +11359,32 @@ export interface RestorePointCollectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type RestorePointCollectionsListResponse = RestorePointCollectionListResult;
+export type RestorePointCollectionsListResponse =
+  RestorePointCollectionListResult;
 
 /** Optional parameters. */
 export interface RestorePointCollectionsListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type RestorePointCollectionsListAllResponse = RestorePointCollectionListResult;
+export type RestorePointCollectionsListAllResponse =
+  RestorePointCollectionListResult;
 
 /** Optional parameters. */
 export interface RestorePointCollectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type RestorePointCollectionsListNextResponse = RestorePointCollectionListResult;
+export type RestorePointCollectionsListNextResponse =
+  RestorePointCollectionListResult;
 
 /** Optional parameters. */
 export interface RestorePointCollectionsListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type RestorePointCollectionsListAllNextResponse = RestorePointCollectionListResult;
+export type RestorePointCollectionsListAllNextResponse =
+  RestorePointCollectionListResult;
 
 /** Optional parameters. */
 export interface RestorePointsCreateOptionalParams
@@ -11251,7 +11422,8 @@ export interface CapacityReservationGroupsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type CapacityReservationGroupsCreateOrUpdateResponse = CapacityReservationGroup;
+export type CapacityReservationGroupsCreateOrUpdateResponse =
+  CapacityReservationGroup;
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsUpdateOptionalParams
@@ -11282,31 +11454,37 @@ export interface CapacityReservationGroupsListByResourceGroupOptionalParams
 }
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
+export type CapacityReservationGroupsListByResourceGroupResponse =
+  CapacityReservationGroupListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {
   /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
   expand?: ExpandTypesForGetCapacityReservationGroups;
+  /** The query option to fetch Capacity Reservation Group Resource Ids. <br> 'CreatedInSubscription' enables fetching Resource Ids for all capacity reservation group resources created in the subscription. <br> 'SharedWithSubscription' enables fetching Resource Ids for all capacity reservation group resources shared with the subscription. <br> 'All' enables fetching Resource Ids for all capacity reservation group resources shared with the subscription and created in the subscription. */
+  resourceIdsOnly?: ResourceIdOptionsForGetCapacityReservationGroups;
 }
 
 /** Contains response data for the listBySubscription operation. */
-export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
+export type CapacityReservationGroupsListBySubscriptionResponse =
+  CapacityReservationGroupListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
+export type CapacityReservationGroupsListByResourceGroupNextResponse =
+  CapacityReservationGroupListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
+export type CapacityReservationGroupsListBySubscriptionNextResponse =
+  CapacityReservationGroupListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationsCreateOrUpdateOptionalParams
@@ -11356,14 +11534,16 @@ export interface CapacityReservationsListByCapacityReservationGroupOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCapacityReservationGroup operation. */
-export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
+export type CapacityReservationsListByCapacityReservationGroupResponse =
+  CapacityReservationListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCapacityReservationGroupNext operation. */
-export type CapacityReservationsListByCapacityReservationGroupNextResponse = CapacityReservationListResult;
+export type CapacityReservationsListByCapacityReservationGroupNextResponse =
+  CapacityReservationListResult;
 
 /** Optional parameters. */
 export interface LogAnalyticsExportRequestRateByIntervalOptionalParams
@@ -11375,7 +11555,8 @@ export interface LogAnalyticsExportRequestRateByIntervalOptionalParams
 }
 
 /** Contains response data for the exportRequestRateByInterval operation. */
-export type LogAnalyticsExportRequestRateByIntervalResponse = LogAnalyticsOperationResult;
+export type LogAnalyticsExportRequestRateByIntervalResponse =
+  LogAnalyticsOperationResult;
 
 /** Optional parameters. */
 export interface LogAnalyticsExportThrottledRequestsOptionalParams
@@ -11387,7 +11568,8 @@ export interface LogAnalyticsExportThrottledRequestsOptionalParams
 }
 
 /** Contains response data for the exportThrottledRequests operation. */
-export type LogAnalyticsExportThrottledRequestsResponse = LogAnalyticsOperationResult;
+export type LogAnalyticsExportThrottledRequestsResponse =
+  LogAnalyticsOperationResult;
 
 /** Optional parameters. */
 export interface VirtualMachineRunCommandsListOptionalParams
@@ -11413,7 +11595,8 @@ export interface VirtualMachineRunCommandsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand;
+export type VirtualMachineRunCommandsCreateOrUpdateResponse =
+  VirtualMachineRunCommand;
 
 /** Optional parameters. */
 export interface VirtualMachineRunCommandsUpdateOptionalParams
@@ -11444,7 +11627,8 @@ export interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams
 }
 
 /** Contains response data for the getByVirtualMachine operation. */
-export type VirtualMachineRunCommandsGetByVirtualMachineResponse = VirtualMachineRunCommand;
+export type VirtualMachineRunCommandsGetByVirtualMachineResponse =
+  VirtualMachineRunCommand;
 
 /** Optional parameters. */
 export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams
@@ -11454,7 +11638,8 @@ export interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams
 }
 
 /** Contains response data for the listByVirtualMachine operation. */
-export type VirtualMachineRunCommandsListByVirtualMachineResponse = VirtualMachineRunCommandsListResult;
+export type VirtualMachineRunCommandsListByVirtualMachineResponse =
+  VirtualMachineRunCommandsListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineRunCommandsListNextOptionalParams
@@ -11468,7 +11653,8 @@ export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualMachineNext operation. */
-export type VirtualMachineRunCommandsListByVirtualMachineNextResponse = VirtualMachineRunCommandsListResult;
+export type VirtualMachineRunCommandsListByVirtualMachineNextResponse =
+  VirtualMachineRunCommandsListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams
@@ -11480,7 +11666,8 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse = VirtualMachineRunCommand;
+export type VirtualMachineScaleSetVMRunCommandsCreateOrUpdateResponse =
+  VirtualMachineRunCommand;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams
@@ -11492,7 +11679,8 @@ export interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRunCommand;
+export type VirtualMachineScaleSetVMRunCommandsUpdateResponse =
+  VirtualMachineRunCommand;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams
@@ -11511,7 +11699,8 @@ export interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams
 }
 
 /** Contains response data for the get operation. */
-export type VirtualMachineScaleSetVMRunCommandsGetResponse = VirtualMachineRunCommand;
+export type VirtualMachineScaleSetVMRunCommandsGetResponse =
+  VirtualMachineRunCommand;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams
@@ -11521,14 +11710,16 @@ export interface VirtualMachineScaleSetVMRunCommandsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunCommandsListResult;
+export type VirtualMachineScaleSetVMRunCommandsListResponse =
+  VirtualMachineRunCommandsListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachineRunCommandsListResult;
+export type VirtualMachineScaleSetVMRunCommandsListNextResponse =
+  VirtualMachineRunCommandsListResult;
 
 /** Optional parameters. */
 export interface DisksCreateOrUpdateOptionalParams
@@ -11674,7 +11865,8 @@ export interface DiskAccessesGetPrivateLinkResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateLinkResources operation. */
-export type DiskAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
+export type DiskAccessesGetPrivateLinkResourcesResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
@@ -11686,14 +11878,16 @@ export interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
 }
 
 /** Contains response data for the updateAPrivateEndpointConnection operation. */
-export type DiskAccessesUpdateAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type DiskAccessesUpdateAPrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAPrivateEndpointConnection operation. */
-export type DiskAccessesGetAPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+export type DiskAccessesGetAPrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
@@ -11709,7 +11903,8 @@ export interface DiskAccessesListPrivateEndpointConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateEndpointConnections operation. */
-export type DiskAccessesListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionListResult;
+export type DiskAccessesListPrivateEndpointConnectionsResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface DiskAccessesListByResourceGroupNextOptionalParams
@@ -11730,7 +11925,8 @@ export interface DiskAccessesListPrivateEndpointConnectionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateEndpointConnectionsNext operation. */
-export type DiskAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
+export type DiskAccessesListPrivateEndpointConnectionsNextResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface DiskEncryptionSetsCreateOrUpdateOptionalParams
@@ -11777,7 +11973,8 @@ export interface DiskEncryptionSetsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetList;
+export type DiskEncryptionSetsListByResourceGroupResponse =
+  DiskEncryptionSetList;
 
 /** Optional parameters. */
 export interface DiskEncryptionSetsListOptionalParams
@@ -11798,7 +11995,8 @@ export interface DiskEncryptionSetsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSetList;
+export type DiskEncryptionSetsListByResourceGroupNextResponse =
+  DiskEncryptionSetList;
 
 /** Optional parameters. */
 export interface DiskEncryptionSetsListNextOptionalParams
@@ -11812,7 +12010,8 @@ export interface DiskEncryptionSetsListAssociatedResourcesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAssociatedResourcesNext operation. */
-export type DiskEncryptionSetsListAssociatedResourcesNextResponse = ResourceUriList;
+export type DiskEncryptionSetsListAssociatedResourcesNextResponse =
+  ResourceUriList;
 
 /** Optional parameters. */
 export interface DiskRestorePointGetOptionalParams
@@ -11854,7 +12053,8 @@ export interface DiskRestorePointListByRestorePointNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRestorePointNext operation. */
-export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointList;
+export type DiskRestorePointListByRestorePointNextResponse =
+  DiskRestorePointList;
 
 /** Optional parameters. */
 export interface SnapshotsCreateOrUpdateOptionalParams
@@ -12139,14 +12339,16 @@ export interface GalleryImageVersionsListByGalleryImageOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryImage operation. */
-export type GalleryImageVersionsListByGalleryImageResponse = GalleryImageVersionList;
+export type GalleryImageVersionsListByGalleryImageResponse =
+  GalleryImageVersionList;
 
 /** Optional parameters. */
 export interface GalleryImageVersionsListByGalleryImageNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryImageNext operation. */
-export type GalleryImageVersionsListByGalleryImageNextResponse = GalleryImageVersionList;
+export type GalleryImageVersionsListByGalleryImageNextResponse =
+  GalleryImageVersionList;
 
 /** Optional parameters. */
 export interface GalleryApplicationsCreateOrUpdateOptionalParams
@@ -12200,7 +12402,8 @@ export interface GalleryApplicationsListByGalleryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryNext operation. */
-export type GalleryApplicationsListByGalleryNextResponse = GalleryApplicationList;
+export type GalleryApplicationsListByGalleryNextResponse =
+  GalleryApplicationList;
 
 /** Optional parameters. */
 export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams
@@ -12212,7 +12415,8 @@ export interface GalleryApplicationVersionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GalleryApplicationVersionsCreateOrUpdateResponse = GalleryApplicationVersion;
+export type GalleryApplicationVersionsCreateOrUpdateResponse =
+  GalleryApplicationVersion;
 
 /** Optional parameters. */
 export interface GalleryApplicationVersionsUpdateOptionalParams
@@ -12224,7 +12428,8 @@ export interface GalleryApplicationVersionsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersion;
+export type GalleryApplicationVersionsUpdateResponse =
+  GalleryApplicationVersion;
 
 /** Optional parameters. */
 export interface GalleryApplicationVersionsGetOptionalParams
@@ -12250,14 +12455,16 @@ export interface GalleryApplicationVersionsListByGalleryApplicationOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryApplication operation. */
-export type GalleryApplicationVersionsListByGalleryApplicationResponse = GalleryApplicationVersionList;
+export type GalleryApplicationVersionsListByGalleryApplicationResponse =
+  GalleryApplicationVersionList;
 
 /** Optional parameters. */
 export interface GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGalleryApplicationNext operation. */
-export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = GalleryApplicationVersionList;
+export type GalleryApplicationVersionsListByGalleryApplicationNextResponse =
+  GalleryApplicationVersionList;
 
 /** Optional parameters. */
 export interface GallerySharingProfileUpdateOptionalParams
@@ -12327,7 +12534,8 @@ export interface SharedGalleryImageVersionsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList;
+export type SharedGalleryImageVersionsListResponse =
+  SharedGalleryImageVersionList;
 
 /** Optional parameters. */
 export interface SharedGalleryImageVersionsGetOptionalParams
@@ -12341,7 +12549,8 @@ export interface SharedGalleryImageVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList;
+export type SharedGalleryImageVersionsListNextResponse =
+  SharedGalleryImageVersionList;
 
 /** Optional parameters. */
 export interface CommunityGalleriesGetOptionalParams
@@ -12376,21 +12585,24 @@ export interface CommunityGalleryImageVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
+export type CommunityGalleryImageVersionsGetResponse =
+  CommunityGalleryImageVersion;
 
 /** Optional parameters. */
 export interface CommunityGalleryImageVersionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
+export type CommunityGalleryImageVersionsListResponse =
+  CommunityGalleryImageVersionList;
 
 /** Optional parameters. */
 export interface CommunityGalleryImageVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
+export type CommunityGalleryImageVersionsListNextResponse =
+  CommunityGalleryImageVersionList;
 
 /** Optional parameters. */
 export interface CloudServiceRoleInstancesDeleteOptionalParams
@@ -12669,14 +12881,16 @@ export interface CloudServicesUpdateDomainListUpdateDomainsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUpdateDomains operation. */
-export type CloudServicesUpdateDomainListUpdateDomainsResponse = UpdateDomainListResult;
+export type CloudServicesUpdateDomainListUpdateDomainsResponse =
+  UpdateDomainListResult;
 
 /** Optional parameters. */
 export interface CloudServicesUpdateDomainListUpdateDomainsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUpdateDomainsNext operation. */
-export type CloudServicesUpdateDomainListUpdateDomainsNextResponse = UpdateDomainListResult;
+export type CloudServicesUpdateDomainListUpdateDomainsNextResponse =
+  UpdateDomainListResult;
 
 /** Optional parameters. */
 export interface CloudServiceOperatingSystemsGetOSVersionOptionalParams
@@ -12690,7 +12904,8 @@ export interface CloudServiceOperatingSystemsListOSVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOSVersions operation. */
-export type CloudServiceOperatingSystemsListOSVersionsResponse = OSVersionListResult;
+export type CloudServiceOperatingSystemsListOSVersionsResponse =
+  OSVersionListResult;
 
 /** Optional parameters. */
 export interface CloudServiceOperatingSystemsGetOSFamilyOptionalParams
@@ -12704,21 +12919,24 @@ export interface CloudServiceOperatingSystemsListOSFamiliesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOSFamilies operation. */
-export type CloudServiceOperatingSystemsListOSFamiliesResponse = OSFamilyListResult;
+export type CloudServiceOperatingSystemsListOSFamiliesResponse =
+  OSFamilyListResult;
 
 /** Optional parameters. */
 export interface CloudServiceOperatingSystemsListOSVersionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOSVersionsNext operation. */
-export type CloudServiceOperatingSystemsListOSVersionsNextResponse = OSVersionListResult;
+export type CloudServiceOperatingSystemsListOSVersionsNextResponse =
+  OSVersionListResult;
 
 /** Optional parameters. */
 export interface CloudServiceOperatingSystemsListOSFamiliesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOSFamiliesNext operation. */
-export type CloudServiceOperatingSystemsListOSFamiliesNextResponse = OSFamilyListResult;
+export type CloudServiceOperatingSystemsListOSFamiliesNextResponse =
+  OSFamilyListResult;
 
 /** Optional parameters. */
 export interface ComputeManagementClientOptionalParams

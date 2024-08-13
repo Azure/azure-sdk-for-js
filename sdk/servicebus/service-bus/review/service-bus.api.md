@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { Buffer as Buffer_2 } from 'buffer';
@@ -132,6 +130,12 @@ export interface DeadLetterOptions {
 
 export { delay }
 
+// @public
+export interface DeleteMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
+    maxMessageCount: number;
+}
+
 export { Delivery }
 
 // @public
@@ -218,6 +222,11 @@ export interface ProcessErrorArgs {
     errorSource: "abandon" | "complete" | "processMessageCallback" | "receive" | "renewLock";
     fullyQualifiedNamespace: string;
     identifier: string;
+}
+
+// @public
+export interface PurgeMessagesOptions extends OperationOptionsBase {
+    beforeEnqueueTime?: Date;
 }
 
 // @public
@@ -485,11 +494,13 @@ export interface ServiceBusReceiver {
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
+    deleteMessages(options: DeleteMessagesOptions): Promise<number>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
+    purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";

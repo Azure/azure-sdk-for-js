@@ -1,17 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Attributes } from "@opentelemetry/api";
+import { Attributes, SpanStatusCode } from "@opentelemetry/api";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
-  SemanticAttributes,
-  SemanticResourceAttributes,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMATTRS_PEER_SERVICE,
+  SEMATTRS_NET_PEER_NAME,
+  SEMATTRS_NET_HOST_PORT,
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_HTTP_USER_AGENT,
+  SEMATTRS_HTTP_STATUS_CODE,
 } from "@opentelemetry/semantic-conventions";
 import {
   MetricDependencyDimensions,
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
+  StandardMetricIds,
   StandardMetricPropertyNames,
 } from "./types";
 import { LogRecord } from "@opentelemetry/sdk-logs";
@@ -19,39 +28,41 @@ import { Resource } from "@opentelemetry/resources";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
-  dimensions.metricId = "requests/duration";
-  const statusCode = String(span.attributes["http.status_code"]);
+  dimensions.metricId = StandardMetricIds.REQUEST_DURATION;
+  const statusCode = String(span.attributes[SEMATTRS_HTTP_STATUS_CODE]);
   dimensions.requestResultCode = statusCode;
-  dimensions.requestSuccess = statusCode === "200" ? "True" : "False";
+  // OTel treats 4xx request responses as UNSET SpanStatusCode, but we should count them as failed
+  dimensions.requestSuccess =
+    span.status.code !== SpanStatusCode.ERROR && (Number(statusCode) || 0) < 400 ? "True" : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricDependencyDimensions = getBaseDimensions(span.resource);
-  dimensions.metricId = "dependencies/duration";
-  const statusCode = String(span.attributes["http.status_code"]);
+  dimensions.metricId = StandardMetricIds.DEPENDENCIES_DURATION;
+  const statusCode = String(span.attributes[SEMATTRS_HTTP_STATUS_CODE]);
   dimensions.dependencyTarget = getDependencyTarget(span.attributes);
   dimensions.dependencyResultCode = statusCode;
   dimensions.dependencyType = "http";
-  dimensions.dependencySuccess = statusCode === "200" ? "True" : "False";
+  dimensions.dependencySuccess = span.status.code !== SpanStatusCode.ERROR ? "True" : "False";
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getExceptionDimensions(resource: Resource): Attributes {
   const dimensions: StandardMetricBaseDimensions = getBaseDimensions(resource);
-  dimensions.metricId = "exceptions/count";
+  dimensions.metricId = StandardMetricIds.EXCEPTIONS_COUNT;
   return dimensions as Attributes;
 }
 
 export function getTraceDimensions(resource: Resource): Attributes {
   const dimensions: StandardMetricBaseDimensions = getBaseDimensions(resource);
-  dimensions.metricId = "traces/count";
+  dimensions.metricId = StandardMetricIds.TRACES_COUNT;
   return dimensions as Attributes;
 }
 
@@ -60,8 +71,8 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
   dimensions.IsAutocollected = "True";
   if (resource) {
     const spanResourceAttributes = resource.attributes;
-    const serviceName = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAME];
-    const serviceNamespace = spanResourceAttributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
+    const serviceName = spanResourceAttributes[SEMRESATTRS_SERVICE_NAME];
+    const serviceNamespace = spanResourceAttributes[SEMRESATTRS_SERVICE_NAMESPACE];
     if (serviceName) {
       if (serviceNamespace) {
         dimensions.cloudRoleName = `${serviceNamespace}.${serviceName}`;
@@ -69,58 +80,52 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
         dimensions.cloudRoleName = String(serviceName);
       }
     }
-    const serviceInstanceId =
-      spanResourceAttributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID];
+    const serviceInstanceId = spanResourceAttributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
     dimensions.cloudRoleInstance = String(serviceInstanceId);
   }
   return dimensions;
 }
 
+// Get metric dependency target, avoiding high cardinality.
 export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
-  const peerService = attributes[SemanticAttributes.PEER_SERVICE];
-  const httpHost = attributes[SemanticAttributes.HTTP_HOST];
-  const httpUrl = attributes[SemanticAttributes.HTTP_URL];
-  const netPeerName = attributes[SemanticAttributes.NET_PEER_NAME];
-  const netPeerIp = attributes[SemanticAttributes.NET_PEER_IP];
+  const peerService = attributes[SEMATTRS_PEER_SERVICE];
+  const hostPort = attributes[SEMATTRS_NET_HOST_PORT];
+  const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
   if (peerService) {
     return String(peerService);
-  } else if (httpHost) {
-    return String(httpHost);
-  } else if (httpUrl) {
-    return String(httpUrl);
+  } else if (hostPort && netPeerName) {
+    return `${netPeerName}:${hostPort}`;
   } else if (netPeerName) {
     return String(netPeerName);
-  } else if (netPeerIp) {
-    return String(netPeerIp);
   }
   return "";
 }
 
-export function isExceptionTelemetry(logRecord: LogRecord) {
+export function isExceptionTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
     return true;
   } else if (
-    logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE] ||
-    logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]
+    logRecord.attributes[SEMATTRS_EXCEPTION_MESSAGE] ||
+    logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]
   ) {
     return true;
   }
   return false;
 }
 
-export function isTraceTelemetry(logRecord: LogRecord) {
+export function isTraceTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {
     return true;
   } else if (
-    !logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE] &&
-    !logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]
+    !logRecord.attributes[SEMATTRS_EXCEPTION_MESSAGE] &&
+    !logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]
   ) {
     return true;
   }
@@ -128,15 +133,15 @@ export function isTraceTelemetry(logRecord: LogRecord) {
 }
 
 export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
-  const userAgent = String(record.attributes[SemanticAttributes.HTTP_USER_AGENT]);
+  const userAgent = String(record.attributes[SEMATTRS_HTTP_USER_AGENT]);
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }
 
 export function convertDimensions(
   dimensions: MetricDependencyDimensions | MetricRequestDimensions,
 ): Attributes {
-  let convertedDimensions: any = {};
-  for (let dim in dimensions) {
+  const convertedDimensions: any = {};
+  for (const dim in dimensions) {
     convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
       dimensions as any
     )[dim];

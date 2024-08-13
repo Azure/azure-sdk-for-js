@@ -19,6 +19,6 @@ export interface Offerings {
    */
   list(
     locationName: string,
-    options?: OfferingsListOptionalParams
+    options?: OfferingsListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderDescription>;
 }

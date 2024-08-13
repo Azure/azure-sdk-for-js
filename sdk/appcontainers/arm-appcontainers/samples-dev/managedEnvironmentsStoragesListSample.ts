@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all storages for a managedEnvironment.
  *
  * @summary Get all storages for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironmentsStorages_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironmentsStorages_List.json
  */
 async function listEnvironmentsStoragesBySubscription() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function listEnvironmentsStoragesBySubscription() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.managedEnvironmentsStorages.list(
     resourceGroupName,
-    environmentName
+    environmentName,
   );
   console.log(result);
 }

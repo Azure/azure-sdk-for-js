@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a virtual endpoint.
  *
  * @summary Deletes a virtual endpoint.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/VirtualEndpointDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-12-01-preview/examples/VirtualEndpointDelete.json
  */
 async function deleteAVirtualEndpoint() {
   const subscriptionId =
@@ -31,12 +31,12 @@ async function deleteAVirtualEndpoint() {
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.virtualEndpoints.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    virtualEndpointName
+    virtualEndpointName,
   );
   console.log(result);
 }

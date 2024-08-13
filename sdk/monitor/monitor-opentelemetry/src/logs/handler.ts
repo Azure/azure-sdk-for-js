@@ -4,10 +4,13 @@
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import { BunyanInstrumentation } from "@opentelemetry/instrumentation-bunyan";
+import { WinstonInstrumentation } from "@opentelemetry/instrumentation-winston";
 import { BatchLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { InternalConfig } from "../shared/config";
 import { MetricHandler } from "../metrics/handler";
 import { AzureLogRecordProcessor } from "./logRecordProcessor";
+import { AzureBatchLogRecordProcessor } from "./batchLogRecordProcessor";
+import { logLevelToSeverityNumber } from "../utils/logUtils";
 
 /**
  * Azure Monitor OpenTelemetry Log Handler
@@ -15,7 +18,7 @@ import { AzureLogRecordProcessor } from "./logRecordProcessor";
 export class LogHandler {
   private _azureExporter: AzureMonitorLogExporter;
   private _azureLogRecordProcessor: AzureLogRecordProcessor;
-  private _batchLogRecordProcessor: BatchLogRecordProcessor;
+  private _azureBatchLogRecordProcessor: AzureBatchLogRecordProcessor;
   private _metricHandler: MetricHandler;
   private _config: InternalConfig;
   private _instrumentations: Instrumentation[];
@@ -29,7 +32,9 @@ export class LogHandler {
     this._config = config;
     this._metricHandler = metricHandler;
     this._azureExporter = new AzureMonitorLogExporter(config.azureMonitorExporterOptions);
-    this._batchLogRecordProcessor = new BatchLogRecordProcessor(this._azureExporter);
+    this._azureBatchLogRecordProcessor = new AzureBatchLogRecordProcessor(this._azureExporter, {
+      enableTraceBasedSamplingForLogs: this._config.enableTraceBasedSamplingForLogs,
+    });
     this._azureLogRecordProcessor = new AzureLogRecordProcessor(this._metricHandler);
     this._instrumentations = [];
     this._initializeInstrumentations();
@@ -40,7 +45,7 @@ export class LogHandler {
   }
 
   public getBatchLogRecordProcessor(): BatchLogRecordProcessor {
-    return this._batchLogRecordProcessor;
+    return this._azureBatchLogRecordProcessor;
   }
 
   public getInstrumentations(): Instrumentation[] {
@@ -50,10 +55,23 @@ export class LogHandler {
   /**
    * Start auto collection of telemetry
    */
-  private _initializeInstrumentations() {
+  private _initializeInstrumentations(): void {
+    const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
+
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
-        new BunyanInstrumentation(this._config.instrumentationOptions.bunyan),
+        new BunyanInstrumentation({
+          ...this._config.instrumentationOptions.bunyan,
+          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+        }),
+      );
+    }
+    if (this._config.instrumentationOptions.winston?.enabled) {
+      this._instrumentations.push(
+        new WinstonInstrumentation({
+          ...this._config.instrumentationOptions.winston,
+          logSeverity: logLevelEnv ? logLevelToSeverityNumber(logLevelEnv) : undefined,
+        }),
       );
     }
   }

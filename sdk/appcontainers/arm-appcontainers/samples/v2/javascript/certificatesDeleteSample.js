@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified Certificate.
  *
  * @summary Deletes the specified Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Certificate_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Certificate_Delete.json
  */
 async function deleteCertificate() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deleteCertificate() {
   const result = await client.certificates.delete(
     resourceGroupName,
     environmentName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }

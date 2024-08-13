@@ -30,7 +30,7 @@ async function createOrUpdateDataMaskingPolicyMax() {
   const databaseName = "sqlcrudtest-331";
   const parameters: DataMaskingPolicy = {
     dataMaskingState: "Enabled",
-    exemptPrincipals: "testuser;"
+    exemptPrincipals: "testuser;",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function createOrUpdateDataMaskingPolicyMax() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function createOrUpdateDataMaskingPolicyMin() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

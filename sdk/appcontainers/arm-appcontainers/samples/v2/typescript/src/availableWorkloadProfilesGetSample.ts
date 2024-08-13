@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get all available workload profiles for a location.
  *
  * @summary Get all available workload profiles for a location.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/AvailableWorkloadProfiles_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/AvailableWorkloadProfiles_Get.json
  */
 async function billingMetersGet() {
   const subscriptionId =

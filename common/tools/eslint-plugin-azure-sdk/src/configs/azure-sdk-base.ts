@@ -5,24 +5,26 @@ export default {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
-    extraFileExtensions: [".json", ".javascript"],
+    extraFileExtensions: [".json"],
   },
   plugins: [
     "@typescript-eslint",
+    "eslint-plugin-n",
     "no-only-tests",
     "promise",
     "eslint-plugin-tsdoc",
     "import",
     "markdown",
   ],
-  extends: ["eslint:recommended", "plugin:promise/recommended", "prettier"],
   env: {
     mocha: true,
+    es2017: true,
   },
   ignorePatterns: ["**/generated/**"],
   overrides: [
     {
       files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
+      excludedFiles: ["**/*.md/*.ts", "**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",
@@ -30,10 +32,13 @@ export default {
         ],
       },
       extends: [
+        "eslint:recommended",
+        "plugin:promise/recommended",
+        "plugin:n/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "prettier",
-        "plugin:@azure/azure-sdk/recommended",
+        "plugin:@azure/azure-sdk/recommended-legacy",
       ],
       rules: {
         curly: ["error", "multi-line"],
@@ -62,6 +67,15 @@ export default {
         "no-unused-expressions": "error",
         "no-useless-constructor": "off",
         "no-use-before-define": "off",
+        "n/exports-style": ["error", "module.exports"],
+        "n/no-missing-import": "off",
+        "n/no-missing-require": "off",
+        "n/hashbang": "warn",
+        "n/no-unsupported-features/node-builtins": "warn",
+        "n/no-deprecated-api": "warn",
+        "n/no-process-exit": "warn",
+        "n/no-unpublished-import": "off",
+        "n/no-unpublished-require": "off",
         "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
         "no-var": "error",
         "one-var-declaration-per-line": "error",
@@ -140,9 +154,11 @@ export default {
       processor: "markdown/markdown",
     },
     {
-      files: ["**/*.md/*.{js,javascript}"],
-      extends: ["plugin:markdown/recommended"],
+      files: ["*.md/*.js"],
+      extends: ["plugin:markdown/recommended-legacy"],
       rules: {
+        "no-unused-vars": "off",
+        "no-undef": "off",
         "no-restricted-imports": [
           "error",
           {
@@ -154,6 +170,19 @@ export default {
             ],
           },
         ],
+      },
+    },
+    {
+      files: ["*md/*.ts"],
+      parserOptions: {
+        project: null,
+      },
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+      ],
+      rules: {
+        "@typescript-eslint/no-unused-vars": "off",
       },
     },
   ],

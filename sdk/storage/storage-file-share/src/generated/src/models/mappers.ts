@@ -250,6 +250,13 @@ export const StorageError: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      authenticationErrorDetail: {
+        serializedName: "AuthenticationErrorDetail",
+        xmlName: "AuthenticationErrorDetail",
+        type: {
+          name: "String"
+        }
+      },
       code: {
         serializedName: "Code",
         xmlName: "Code",
@@ -525,6 +532,34 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
           name: "Enum",
           allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
         }
+      },
+      enableSnapshotVirtualDirectoryAccess: {
+        serializedName: "EnableSnapshotVirtualDirectoryAccess",
+        xmlName: "EnableSnapshotVirtualDirectoryAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingEnabled: {
+        serializedName: "PaidBurstingEnabled",
+        xmlName: "PaidBurstingEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingMaxIops: {
+        serializedName: "PaidBurstingMaxIops",
+        xmlName: "PaidBurstingMaxIops",
+        type: {
+          name: "Number"
+        }
+      },
+      paidBurstingMaxBandwidthMibps: {
+        serializedName: "PaidBurstingMaxBandwidthMibps",
+        xmlName: "PaidBurstingMaxBandwidthMibps",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -542,6 +577,14 @@ export const SharePermission: coreClient.CompositeMapper = {
         xmlName: "permission",
         type: {
           name: "String"
+        }
+      },
+      format: {
+        serializedName: "format",
+        xmlName: "format",
+        type: {
+          name: "Enum",
+          allowedValues: ["Sddl", "Binary"]
         }
       }
     }
@@ -1029,6 +1072,14 @@ export const HandleItem: coreClient.CompositeMapper = {
         serializedName: "ClientIp",
         required: true,
         xmlName: "ClientIp",
+        type: {
+          name: "String"
+        }
+      },
+      clientName: {
+        serializedName: "ClientName",
+        required: true,
+        xmlName: "ClientName",
         type: {
           name: "String"
         }
@@ -1528,6 +1579,34 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["NoRootSquash", "RootSquash", "AllSquash"]
+        }
+      },
+      enableSnapshotVirtualDirectoryAccess: {
+        serializedName: "x-ms-enable-snapshot-virtual-directory-access",
+        xmlName: "x-ms-enable-snapshot-virtual-directory-access",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingEnabled: {
+        serializedName: "x-ms-share-paid-bursting-enabled",
+        xmlName: "x-ms-share-paid-bursting-enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingMaxIops: {
+        serializedName: "x-ms-share-paid-bursting-max-iops",
+        xmlName: "x-ms-share-paid-bursting-max-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      paidBurstingMaxBandwidthMibps: {
+        serializedName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        xmlName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {

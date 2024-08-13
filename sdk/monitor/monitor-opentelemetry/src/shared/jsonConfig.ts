@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import * as fs from "fs";
 import * as path from "path";
 import {
@@ -31,13 +33,17 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   public enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature */
   public enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  public enableTraceBasedSamplingForLogs?: boolean;
 
   public browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 
   private static _instance: JsonConfig;
 
+  private _tempDir: string;
+
   /** Get Singleton instance */
-  public static getInstance() {
+  public static getInstance(): JsonConfig {
     if (!JsonConfig._instance) {
       JsonConfig._instance = new JsonConfig();
     }
@@ -48,11 +54,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
    * Initializes a new instance of the JsonConfig class.
    */
   constructor() {
-    this._loadJsonFile();
-  }
-
-  private _loadJsonFile() {
     let jsonString = "";
+    this._tempDir = "";
     const contentJsonConfig = process.env[ENV_CONTENT];
     // JSON string added directly in env variable
     if (contentJsonConfig) {
@@ -60,19 +63,19 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     }
     // JSON file
     else {
-      let configFileName = "applicationinsights.json";
-      let rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
-      let tempDir = path.join(rootPath, configFileName); // default
-      let configFile = process.env[ENV_CONFIGURATION_FILE];
+      const configFileName = "applicationinsights.json";
+      const rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
+      this._tempDir = path.join(rootPath, configFileName); // default
+      const configFile = process.env[ENV_CONFIGURATION_FILE];
       if (configFile) {
         if (path.isAbsolute(configFile)) {
-          tempDir = configFile;
+          this._tempDir = configFile;
         } else {
-          tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
+          this._tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
         }
       }
       try {
-        jsonString = fs.readFileSync(tempDir, "utf8");
+        jsonString = fs.readFileSync(this._tempDir, "utf8");
       } catch (err) {
         Logger.getInstance().info("Failed to read JSON config file: ", err);
       }
@@ -85,6 +88,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.browserSdkLoaderOptions = jsonConfig.browserSdkLoaderOptions;
       this.enableLiveMetrics = jsonConfig.enableLiveMetrics;
       this.enableStandardMetrics = jsonConfig.enableStandardMetrics;
+      this.enableTraceBasedSamplingForLogs = jsonConfig.enableTraceBasedSamplingForLogs;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }

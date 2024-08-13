@@ -13,10 +13,13 @@ import {
   ListSnapshotsOptions,
   ConfigurationSnapshot,
   SnapshotResponse,
+  EtagEntity,
+  ListLabelsOptions,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
   GetKeyValuesOptionalParams,
+  GetLabelsOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
 } from "../generated/src/models";
@@ -34,18 +37,23 @@ import { OperationOptions } from "@azure/core-client";
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+export interface SendConfigurationSettingsOptions
+  extends OperationOptions,
+    ListSettingsOptions,
+    EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
   snapshotName?: string;
 }
+
 /**
- * Entity with etag. Represent both ConfigurationSetting and Snapshot
+ * Options for listLabels that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
  */
-interface EtagEntity {
-  etag?: string;
-}
+export interface SendLabelsRequestOptions extends ListLabelsOptions {}
+
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
@@ -114,7 +122,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatFiltersAndSelect(
   listConfigOptions: ListRevisionsOptions,
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "tags"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -123,6 +131,7 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
+    tags: listConfigOptions.tagsFilter,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -139,7 +148,10 @@ export function formatFiltersAndSelect(
  */
 export function formatConfigurationSettingsFiltersAndSelect(
   listConfigOptions: SendConfigurationSettingsOptions,
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+): Pick<
+  GetKeyValuesOptionalParams,
+  "key" | "label" | "select" | "acceptDatetime" | "snapshot" | "tags"
+> {
   const { snapshotName: snapshot, ...options } = listConfigOptions;
   return {
     ...formatFiltersAndSelect(options),
@@ -161,6 +173,23 @@ export function formatSnapshotFiltersAndSelect(
     name: listSnapshotOptions.nameFilter,
     status: listSnapshotOptions.statusFilter,
     select: listSnapshotOptions.fields,
+  };
+}
+
+/**
+ * Transforms some of the key fields in ListLabelsOptions
+ * so they can be added to a request using AppConfigurationGetLabelsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - `nameFilter` are moved to name
+ *
+ * @internal
+ */
+export function formatLabelsFiltersAndSelect(
+  listLabelsOptions: ListLabelsOptions,
+): Pick<GetLabelsOptionalParams, "name" | "select"> {
+  return {
+    name: listLabelsOptions.nameFilter,
+    select: listLabelsOptions.fields,
   };
 }
 /**
@@ -191,6 +220,27 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
   }
 
   return decodeURIComponent(afterToken);
+}
+
+/**
+ * Take the header link that gets returned from 304 response and extract the 'after' token needed
+ * to get the next page of results.
+ *
+ * @internal
+ */
+export function extractAfterTokenFromLinkHeader(link: string): string {
+  // Example transformation of the link header
+  // link:
+  // '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
+  //
+  // linkValue:
+  // </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
+  //
+  // nextLink:
+  // /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
+  const linkValue = link.split(";")[0];
+  const nextLink = linkValue.substring(1, linkValue.length - 1);
+  return extractAfterTokenFromNextLink(nextLink);
 }
 
 /**

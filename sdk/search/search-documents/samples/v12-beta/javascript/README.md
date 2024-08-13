@@ -13,18 +13,19 @@ urlFragment: search-documents-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Search Documents in some common scenarios.
 
-| **File Name**                                                       | **Description**                                                              |
-| ------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [bufferedSenderAutoFlushSize.js][bufferedsenderautoflushsize]       | Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.  |
-| [bufferedSenderAutoFlushTimer.js][bufferedsenderautoflushtimer]     | Demonstrates the SearchIndexingBufferedSender with Autoflush based on timer. |
-| [bufferedSenderManualFlush.js][bufferedsendermanualflush]           | Demonstrates the SearchIndexingBufferedSender with Manual Flush.             |
-| [dataSourceConnectionOperations.js][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                           |
-| [indexOperations.js][indexoperations]                               | Demonstrates the Index Operations.                                           |
-| [indexerOperations.js][indexeroperations]                           | Demonstrates the Indexer Operations.                                         |
-| [searchClientOperations.js][searchclientoperations]                 | Demonstrates the SearchClient.                                               |
-| [skillSetOperations.js][skillsetoperations]                         | Demonstrates the Skillset Operations.                                        |
-| [synonymMapOperations.js][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                      |
-| [vectorSearch.js][vectorsearch]                                     | Demonstrates vector search                                                   |
+| **File Name**                                                       | **Description**                                                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [bufferedSenderAutoFlushSize.js][bufferedsenderautoflushsize]       | Demonstrates the SearchIndexingBufferedSender with Autoflush based on size.                             |
+| [bufferedSenderAutoFlushTimer.js][bufferedsenderautoflushtimer]     | Demonstrates the SearchIndexingBufferedSender with Autoflush based on timer.                            |
+| [bufferedSenderManualFlush.js][bufferedsendermanualflush]           | Demonstrates the SearchIndexingBufferedSender with Manual Flush.                                        |
+| [dataSourceConnectionOperations.js][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                                                      |
+| [indexOperations.js][indexoperations]                               | Demonstrates the Index Operations.                                                                      |
+| [indexerOperations.js][indexeroperations]                           | Demonstrates the Indexer Operations.                                                                    |
+| [searchClientOperations.js][searchclientoperations]                 | Demonstrates the SearchClient.                                                                          |
+| [skillSetOperations.js][skillsetoperations]                         | Demonstrates the Skillset Operations.                                                                   |
+| [stickySession.js][stickysession]                                   | Demonstrates user sticky sessions, a way to reduce inconsistent behavior by targeting a single replica. |
+| [synonymMapOperations.js][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                                                 |
+| [vectorSearch.js][vectorsearch]                                     | Demonstrates vector search                                                                              |
 
 ## Prerequisites
 
@@ -59,7 +60,7 @@ node bufferedSenderAutoFlushSize.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" SEARCH_API_ADMIN_KEY="<search api admin key>" node bufferedSenderAutoFlushSize.js
+npx cross-env ENDPOINT="<endpoint>" node bufferedSenderAutoFlushSize.js
 ```
 
 ## Next Steps
@@ -74,6 +75,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [indexeroperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/javascript/indexerOperations.js
 [searchclientoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/javascript/searchClientOperations.js
 [skillsetoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/javascript/skillSetOperations.js
+[stickysession]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/javascript/stickySession.js
 [synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/javascript/synonymMapOperations.js
 [vectorsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v12-beta/javascript/vectorSearch.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/search-documents

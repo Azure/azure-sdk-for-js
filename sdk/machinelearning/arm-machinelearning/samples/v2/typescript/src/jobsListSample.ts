@@ -10,9 +10,12 @@
 // Licensed under the MIT License.
 import {
   JobsListOptionalParams,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists Jobs in the workspace.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/AutoMLJob/list.json
  */
 async function listAutoMlJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -33,8 +39,6 @@ async function listAutoMlJob() {
   console.log(resArray);
 }
 
-listAutoMlJob().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists Jobs in the workspace.
  *
@@ -42,8 +46,11 @@ listAutoMlJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/CommandJob/list.json
  */
 async function listCommandJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const jobType = "string";
   const tag = "string";
@@ -54,14 +61,12 @@ async function listCommandJob() {
   for await (let item of client.jobs.list(
     resourceGroupName,
     workspaceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-listCommandJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists Jobs in the workspace.
@@ -70,8 +75,11 @@ listCommandJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/PipelineJob/list.json
  */
 async function listPipelineJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const jobType = "string";
   const tag = "string";
@@ -82,14 +90,12 @@ async function listPipelineJob() {
   for await (let item of client.jobs.list(
     resourceGroupName,
     workspaceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
-
-listPipelineJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists Jobs in the workspace.
@@ -98,8 +104,11 @@ listPipelineJob().catch(console.error);
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Job/SweepJob/list.json
  */
 async function listSweepJob() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
   const workspaceName = "my-aml-workspace";
   const jobType = "string";
   const tag = "string";
@@ -110,11 +119,18 @@ async function listSweepJob() {
   for await (let item of client.jobs.list(
     resourceGroupName,
     workspaceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listSweepJob().catch(console.error);
+async function main() {
+  listAutoMlJob();
+  listCommandJob();
+  listPipelineJob();
+  listSweepJob();
+}
+
+main().catch(console.error);

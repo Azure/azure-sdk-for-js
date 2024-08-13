@@ -14,12 +14,13 @@ import { FrontDoorManagementClient } from "../frontDoorManagementClient";
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams,
-  FrontDoorNameAvailabilityWithSubscriptionCheckResponse
+  FrontDoorNameAvailabilityWithSubscriptionCheckResponse,
 } from "../models";
 
 /** Class containing FrontDoorNameAvailabilityWithSubscription operations. */
 export class FrontDoorNameAvailabilityWithSubscriptionImpl
-  implements FrontDoorNameAvailabilityWithSubscription {
+  implements FrontDoorNameAvailabilityWithSubscription
+{
   private readonly client: FrontDoorManagementClient;
 
   /**
@@ -37,11 +38,11 @@ export class FrontDoorNameAvailabilityWithSubscriptionImpl
    */
   check(
     checkFrontDoorNameAvailabilityInput: CheckNameAvailabilityInput,
-    options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams
+    options?: FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams,
   ): Promise<FrontDoorNameAvailabilityWithSubscriptionCheckResponse> {
     return this.client.sendOperationRequest(
       { checkFrontDoorNameAvailabilityInput, options },
-      checkOperationSpec
+      checkOperationSpec,
     );
   }
 }
@@ -49,21 +50,20 @@ export class FrontDoorNameAvailabilityWithSubscriptionImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/checkFrontDoorNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityOutput
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkFrontDoorNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

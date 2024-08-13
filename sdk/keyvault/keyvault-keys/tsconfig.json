@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
@@ -9,10 +9,5 @@
       "@azure/keyvault-keys": ["./src/index"]
     }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "../keyvault-common/src/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

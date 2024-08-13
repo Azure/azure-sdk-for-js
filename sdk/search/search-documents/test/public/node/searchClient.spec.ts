@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { Suite } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Context, Suite } from "mocha";
 
-import { createClients } from "../utils/recordedClient";
+import { delay } from "@azure/core-util";
+import { OpenAIClient } from "@azure/openai";
 import {
   AutocompleteResult,
   AzureKeyCredential,
@@ -14,25 +14,63 @@ import {
   KnownQueryLanguage,
   KnownSpeller,
   SearchClient,
+  SearchIndex,
   SearchIndexClient,
   SelectFields,
 } from "../../../src";
-import { Hotel } from "../utils/interfaces";
-import { WAIT_TIME, createIndex, createRandomIndexName, populateIndex } from "../utils/setup";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
-import { versionsToTest } from "@azure/test-utils";
 import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
-import { OpenAIClient } from "@azure/openai";
+import { defaultServiceVersion } from "../../../src/serviceUtils";
+import { Hotel } from "../utils/interfaces";
+import { createClients } from "../utils/recordedClient";
+import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 
-versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
+describe("SearchClient", function (this: Suite) {
+  this.timeout(20_000);
+
+  describe("constructor", function () {
+    const credential = new AzureKeyCredential("key");
+
+    describe("Passing serviceVersion", () => {
+      const [correctServiceVersion, incorrectServiceVersion] = ["correct", "incorrect"];
+      it("supports passing serviceVersion", () => {
+        const client = new SearchClient<Hotel>("", "", credential, {
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("supports passing the deprecated apiVersion", () => {
+        const client = new SearchClient<Hotel>("", "", credential, {
+          apiVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("prioritizes `serviceVersion` over `apiVersion`", () => {
+        const client = new SearchClient<Hotel>("", "", credential, {
+          apiVersion: incorrectServiceVersion,
+          serviceVersion: correctServiceVersion,
+        });
+        assert.equal(correctServiceVersion, client.serviceVersion);
+        assert.equal(correctServiceVersion, client.apiVersion);
+      });
+
+      it("defaults to the current apiVersion", () => {
+        const client = new SearchClient<Hotel>("", "", credential);
+        assert.equal(defaultServiceVersion, client.serviceVersion);
+        assert.equal(defaultServiceVersion, client.apiVersion);
+      });
+    });
+  });
+
+  describe("stable", function () {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
     let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
-
-    this.timeout(99999);
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
@@ -42,18 +80,16 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         indexClient,
         indexName: TEST_INDEX_NAME,
         openAIClient,
-      } = await createClients<Hotel>(serviceVersion, recorder, TEST_INDEX_NAME));
-      await createIndex(indexClient, TEST_INDEX_NAME, serviceVersion);
+      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
-      await populateIndex(searchClient, openAIClient, serviceVersion);
+      await populateIndex(searchClient, openAIClient);
     });
 
     afterEach(async function () {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
-      if (recorder) {
-        await recorder.stop();
-      }
+      await recorder?.stop();
     });
 
     it("count returns the correct document count", async function () {
@@ -80,6 +116,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         skip: 0,
         top: 5,
         includeTotalCount: true,
+        select: ["address/streetAddress"],
       });
       assert.equal(searchResults.count, 6);
     });
@@ -379,152 +416,164 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
   });
 
-  onVersions({ minVer: "2023-10-01-Preview" }).describe(
-    "SearchClient tests",
-    function (this: Suite) {
-      let recorder: Recorder;
-      let searchClient: SearchClient<Hotel>;
-      let indexClient: SearchIndexClient;
-      let openAIClient: OpenAIClient;
-      let TEST_INDEX_NAME: string;
+  describe("preview", function () {
+    let recorder: Recorder;
+    let searchClient: SearchClient<Hotel>;
+    let indexClient: SearchIndexClient;
+    let openAIClient: OpenAIClient;
+    let TEST_INDEX_NAME: string;
+    let indexDefinition: SearchIndex;
 
-      this.timeout(99999);
+    beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
+      TEST_INDEX_NAME = createRandomIndexName();
+      ({
+        searchClient,
+        indexClient,
+        indexName: TEST_INDEX_NAME,
+        openAIClient,
+      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
+      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      await delay(WAIT_TIME);
+      await populateIndex(searchClient, openAIClient);
+    });
 
-      beforeEach(async function (this: Context) {
-        recorder = new Recorder(this.currentTest);
-        TEST_INDEX_NAME = createRandomIndexName();
-        ({
-          searchClient,
-          indexClient,
-          indexName: TEST_INDEX_NAME,
-          openAIClient,
-        } = await createClients<Hotel>(serviceVersion, recorder, TEST_INDEX_NAME));
-        await createIndex(indexClient, TEST_INDEX_NAME, serviceVersion);
-        await delay(WAIT_TIME);
-        await populateIndex(searchClient, openAIClient, serviceVersion);
+    afterEach(async function () {
+      await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
+      await recorder?.stop();
+    });
+
+    it("search with speller", async function () {
+      const searchResults = await searchClient.search("budjet", {
+        skip: 0,
+        top: 5,
+        includeTotalCount: true,
+        queryLanguage: KnownQueryLanguage.EnUs,
+        speller: KnownSpeller.Lexicon,
       });
+      assert.equal(searchResults.count, 6);
+    });
 
-      afterEach(async function () {
-        await indexClient.deleteIndex(TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-        if (recorder) {
-          await recorder.stop();
-        }
+    it("search with semantic ranking", async function () {
+      const searchResults = await searchClient.search("luxury", {
+        skip: 0,
+        top: 5,
+        includeTotalCount: true,
+        queryLanguage: KnownQueryLanguage.EnUs,
+        queryType: "semantic",
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+        },
       });
+      assert.equal(searchResults.count, 1);
+    });
 
-      it("search with speller", async function () {
-        const searchResults = await searchClient.search("budjet", {
-          skip: 0,
-          top: 5,
-          includeTotalCount: true,
-          queryLanguage: KnownQueryLanguage.EnUs,
-          speller: KnownSpeller.Lexicon,
-        });
-        assert.equal(searchResults.count, 6);
-      });
-
-      it("search with semantic ranking", async function () {
-        const searchResults = await searchClient.search("luxury", {
-          skip: 0,
-          top: 5,
-          includeTotalCount: true,
-          queryLanguage: KnownQueryLanguage.EnUs,
-          queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-        });
-        assert.equal(searchResults.count, 1);
-      });
-
-      it("search with document debug info", async function () {
-        const searchResults = await searchClient.search("luxury", {
-          queryLanguage: KnownQueryLanguage.EnUs,
-          queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-          semanticErrorHandlingMode: "fail",
+    it("search with document debug info", async function () {
+      const searchResults = await searchClient.search("luxury", {
+        queryLanguage: KnownQueryLanguage.EnUs,
+        queryType: "semantic",
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+          errorMode: "fail",
           debugMode: "semantic",
-        });
-        for await (const result of searchResults.results) {
-          assert.deepEqual(
-            [
-              {
-                semantic: {
-                  contentFields: [
-                    {
-                      name: "description",
-                      state: "used",
-                    },
-                  ],
-                  keywordFields: [
-                    {
-                      name: "tags",
-                      state: "unused",
-                    },
-                  ],
-                  rerankerInput: {
-                    content:
-                      "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                    keywords: "",
-                    title: "Fancy Stay",
-                  },
-                  titleField: {
-                    name: "hotelName",
+        },
+      });
+      for await (const result of searchResults.results) {
+        assert.deepEqual(
+          [
+            {
+              semantic: {
+                contentFields: [
+                  {
+                    name: "description",
                     state: "used",
                   },
+                ],
+                keywordFields: [
+                  {
+                    name: "tags",
+                    state: "used",
+                  },
+                ],
+                rerankerInput: {
+                  content:
+                    "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+                  keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+                  title: "Fancy Stay",
+                },
+                titleField: {
+                  name: "hotelName",
+                  state: "used",
                 },
               },
-            ],
-            result.documentDebugInfo,
-          );
-        }
-      });
-
-      it("search with answers", async function () {
-        const searchResults = await searchClient.search("What are the most luxurious hotels?", {
-          queryLanguage: KnownQueryLanguage.EnUs,
-          queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-          answers: { answers: "extractive", count: 3, threshold: 0.7 },
-          top: 3,
-          select: ["hotelId"],
-        });
-
-        const resultIds = [];
-        for await (const result of searchResults.results) {
-          resultIds.push(result.document.hotelId);
-        }
-        assert.deepEqual(["3", "9", "1"], resultIds);
-      });
-
-      it("search with semantic error handling", async function () {
-        const searchResults = await searchClient.search("luxury", {
-          queryLanguage: KnownQueryLanguage.EnUs,
-          queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-          semanticErrorHandlingMode: "partial",
-          select: ["hotelId"],
-        });
-
-        const resultIds = [];
-        for await (const result of searchResults.results) {
-          resultIds.push(result.document.hotelId);
-        }
-        assert.deepEqual(["1"], resultIds);
-      });
-
-      it("search with vector", async function () {
-        // This live test is disabled due to temporary limitations with the new OpenAI service
-        if (isLiveMode()) {
-          this.skip();
-        }
-        const embeddings = await openAIClient.getEmbeddings(
-          env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-          ["What are the most luxurious hotels?"],
+            },
+          ],
+          result.documentDebugInfo,
         );
+      }
+    });
 
-        const embedding = embeddings.data[0].embedding;
+    it("search with answers", async function () {
+      const searchResults = await searchClient.search("What are the most luxurious hotels?", {
+        queryLanguage: KnownQueryLanguage.EnUs,
+        queryType: "semantic",
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+          answers: { answerType: "extractive", count: 3, threshold: 0.7 },
+        },
+        top: 3,
+        select: ["hotelId"],
+      });
 
-        const searchResults = await searchClient.search("*", {
-          vectorQueries: [
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(["1", "9", "3"], resultIds);
+    });
+
+    it("search with semantic error handling", async function () {
+      const searchResults = await searchClient.search("luxury", {
+        queryLanguage: KnownQueryLanguage.EnUs,
+        queryType: "semantic",
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+          errorMode: "partial",
+        },
+        select: ["hotelId"],
+      });
+
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(["1"], resultIds);
+    });
+
+    it("search with vector", async function () {
+      // This live test is disabled due to temporary limitations with the new OpenAI service
+      if (isLiveMode()) {
+        this.skip();
+      }
+      const embeddings = await openAIClient.getEmbeddings(
+        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        ["What are the most luxurious hotels?"],
+      );
+
+      const embedding = embeddings.data[0].embedding;
+
+      const searchResults = await searchClient.search("*", {
+        vectorSearchOptions: {
+          queries: [
             {
               kind: "vector",
               vector: embedding,
@@ -532,31 +581,33 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               fields: ["vectorDescription"],
             },
           ],
-          top: 3,
-          select: ["hotelId"],
-        });
-
-        const resultIds = [];
-        for await (const result of searchResults.results) {
-          resultIds.push(result.document.hotelId);
-        }
-        assert.deepEqual(["1", "3", "4"], resultIds);
+        },
+        top: 3,
+        select: ["hotelId"],
       });
 
-      it("multi-vector search", async function () {
-        // This live test is disabled due to temporary limitations with the new OpenAI service
-        if (isLiveMode()) {
-          this.skip();
-        }
-        const embeddings = await openAIClient.getEmbeddings(
-          env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-          ["What are the most luxurious hotels?"],
-        );
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(resultIds, ["1", "3", "4"]);
+    });
 
-        const embedding = embeddings.data[0].embedding;
+    it("multi-vector search", async function () {
+      // This live test is disabled due to temporary limitations with the new OpenAI service
+      if (isLiveMode()) {
+        this.skip();
+      }
+      const embeddings = await openAIClient.getEmbeddings(
+        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        ["What are the most luxurious hotels?"],
+      );
 
-        const searchResults = await searchClient.search("*", {
-          vectorQueries: [
+      const embedding = embeddings.data[0].embedding;
+
+      const searchResults = await searchClient.search("*", {
+        vectorSearchOptions: {
+          queries: [
             {
               kind: "vector",
               vector: embedding,
@@ -570,46 +621,51 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               fields: ["vectorDescription"],
             },
           ],
-          top: 3,
-          select: ["hotelId"],
-        });
-
-        const resultIds = [];
-        for await (const result of searchResults.results) {
-          resultIds.push(result.document.hotelId);
-        }
-        assert.deepEqual(["1", "3", "4"], resultIds);
-      });
-    },
-  );
-});
-
-versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
-    const credential = new AzureKeyCredential("key");
-
-    describe("Passing serviceVersion", () => {
-      it("supports passing serviceVersion", () => {
-        const client = new SearchClient<Hotel>("", "", credential, {
-          serviceVersion,
-        });
-        assert.equal(serviceVersion, client.serviceVersion);
-        assert.equal(serviceVersion, client.apiVersion);
+        },
+        top: 3,
+        select: ["hotelId"],
       });
 
-      it("supports passing the deprecated apiVersion", () => {
-        const client = new SearchClient<Hotel>("", "", credential, {
-          apiVersion: serviceVersion,
-        });
-        assert.equal(serviceVersion, client.serviceVersion);
-        assert.equal(serviceVersion, client.apiVersion);
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(resultIds, ["1", "3", "4"]);
+    });
+
+    it("oversampling compressed vectors", async function () {
+      // This live test is disabled due to temporary limitations with the new OpenAI service
+      if (isLiveMode()) {
+        this.skip();
+      }
+
+      const embeddings = await openAIClient.getEmbeddings(
+        env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        ["What are the most luxurious hotels?"],
+      );
+
+      const embedding = embeddings.data[0].embedding;
+      const searchResults = await searchClient.search("*", {
+        vectorSearchOptions: {
+          queries: [
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["compressedVectorDescription"],
+              oversampling: 2,
+            },
+          ],
+        },
+        top: 3,
+        select: ["hotelId"],
       });
 
-      it("defaults to the current apiVersion", () => {
-        const client = new SearchClient<Hotel>("", "", credential);
-        assert.equal("2023-10-01-Preview", client.serviceVersion);
-        assert.equal("2023-10-01-Preview", client.apiVersion);
-      });
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(resultIds, ["1", "3", "4"]);
     });
   });
 });

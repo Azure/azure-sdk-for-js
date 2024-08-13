@@ -16,7 +16,7 @@ import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient"
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,7 @@ import {
   TagsObject,
   PacketCoreDataPlanesUpdateTagsOptionalParams,
   PacketCoreDataPlanesUpdateTagsResponse,
-  PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse
+  PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   public listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
+    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
   ): PagedAsyncIterableIterator<PacketCoreDataPlane> {
     const iter = this.listByPacketCoreControlPlanePagingAll(
       resourceGroupName,
       packetCoreControlPlaneName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
           resourceGroupName,
           packetCoreControlPlaneName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PacketCoreDataPlane[]> {
     let result: PacketCoreDataPlanesListByPacketCoreControlPlaneResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
       result = await this._listByPacketCoreControlPlane(
         resourceGroupName,
         packetCoreControlPlaneName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         resourceGroupName,
         packetCoreControlPlaneName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   private async *listByPacketCoreControlPlanePagingAll(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
+    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
   ): AsyncIterableIterator<PacketCoreDataPlane> {
     for await (const page of this.listByPacketCoreControlPlanePagingPage(
       resourceGroupName,
       packetCoreControlPlaneName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,25 +143,24 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    options?: PacketCoreDataPlanesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -170,8 +169,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -179,8 +178,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -190,14 +189,14 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -214,13 +213,13 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesDeleteOptionalParams
+    options?: PacketCoreDataPlanesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       packetCoreControlPlaneName,
       packetCoreDataPlaneName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -236,16 +235,16 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
-    options?: PacketCoreDataPlanesGetOptionalParams
+    options?: PacketCoreDataPlanesGetOptionalParams,
   ): Promise<PacketCoreDataPlanesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -263,7 +262,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCoreDataPlanesCreateOrUpdateResponse>,
@@ -272,21 +271,20 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -295,8 +293,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -304,8 +302,8 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -316,9 +314,9 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       PacketCoreDataPlanesCreateOrUpdateResponse,
@@ -326,7 +324,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -346,14 +344,14 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: PacketCoreDataPlane,
-    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams
+    options?: PacketCoreDataPlanesCreateOrUpdateOptionalParams,
   ): Promise<PacketCoreDataPlanesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       packetCoreControlPlaneName,
       packetCoreDataPlaneName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -371,7 +369,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     packetCoreControlPlaneName: string,
     packetCoreDataPlaneName: string,
     parameters: TagsObject,
-    options?: PacketCoreDataPlanesUpdateTagsOptionalParams
+    options?: PacketCoreDataPlanesUpdateTagsOptionalParams,
   ): Promise<PacketCoreDataPlanesUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       {
@@ -379,9 +377,9 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
         packetCoreControlPlaneName,
         packetCoreDataPlaneName,
         parameters,
-        options
+        options,
       },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -394,11 +392,11 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
   private _listByPacketCoreControlPlane(
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams
+    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneOptionalParams,
   ): Promise<PacketCoreDataPlanesListByPacketCoreControlPlaneResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, packetCoreControlPlaneName, options },
-      listByPacketCoreControlPlaneOperationSpec
+      listByPacketCoreControlPlaneOperationSpec,
     );
   }
 
@@ -414,11 +412,11 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
     resourceGroupName: string,
     packetCoreControlPlaneName: string,
     nextLink: string,
-    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneNextOptionalParams
+    options?: PacketCoreDataPlanesListByPacketCoreControlPlaneNextOptionalParams,
   ): Promise<PacketCoreDataPlanesListByPacketCoreControlPlaneNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, packetCoreControlPlaneName, nextLink, options },
-      listByPacketCoreControlPlaneNextOperationSpec
+      listByPacketCoreControlPlaneNextOperationSpec,
     );
   }
 }
@@ -426,8 +424,7 @@ export class PacketCoreDataPlanesImpl implements PacketCoreDataPlanes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -435,8 +432,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -444,22 +441,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.packetCoreDataPlaneName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreDataPlane
+      bodyMapper: Mappers.PacketCoreDataPlane,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -467,31 +463,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.packetCoreDataPlaneName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreDataPlane
+      bodyMapper: Mappers.PacketCoreDataPlane,
     },
     201: {
-      bodyMapper: Mappers.PacketCoreDataPlane
+      bodyMapper: Mappers.PacketCoreDataPlane,
     },
     202: {
-      bodyMapper: Mappers.PacketCoreDataPlane
+      bodyMapper: Mappers.PacketCoreDataPlane,
     },
     204: {
-      bodyMapper: Mappers.PacketCoreDataPlane
+      bodyMapper: Mappers.PacketCoreDataPlane,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -500,23 +495,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.packetCoreDataPlaneName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes/{packetCoreDataPlaneName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreDataPlane
+      bodyMapper: Mappers.PacketCoreDataPlane,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -525,52 +519,52 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.packetCoreDataPlaneName
+    Parameters.packetCoreDataPlaneName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByPacketCoreControlPlaneOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/packetCoreDataPlanes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PacketCoreDataPlaneListResult
+      bodyMapper: Mappers.PacketCoreDataPlaneListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByPacketCoreControlPlaneNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PacketCoreDataPlaneListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.packetCoreControlPlaneName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listByPacketCoreControlPlaneNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PacketCoreDataPlaneListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.packetCoreControlPlaneName,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

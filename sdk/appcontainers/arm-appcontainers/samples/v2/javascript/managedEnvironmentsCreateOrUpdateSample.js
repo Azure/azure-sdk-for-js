@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Managed Environment used to host container apps.
  *
  * @summary Creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
  */
 async function createEnvironmentWithCustomInfrastructureResourceGroup() {
   const subscriptionId =
@@ -68,7 +68,7 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup() {
   const result = await client.managedEnvironments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     environmentName,
-    environmentEnvelope
+    environmentEnvelope,
   );
   console.log(result);
 }
@@ -77,7 +77,7 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup() {
  * This sample demonstrates how to Creates or updates a Managed Environment used to host container apps.
  *
  * @summary Creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_CreateOrUpdate.json
  */
 async function createEnvironments() {
   const subscriptionId =
@@ -97,6 +97,7 @@ async function createEnvironments() {
       "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northcentralus-0.in.applicationinsights.azure.com/",
     location: "East US",
     peerAuthentication: { mtls: { enabled: true } },
+    peerTrafficConfiguration: { encryption: { enabled: true } },
     vnetConfiguration: {
       infrastructureSubnetId:
         "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/RGName/providers/Microsoft.Network/virtualNetworks/VNetName/subnets/subnetName1",
@@ -129,7 +130,7 @@ async function createEnvironments() {
   const result = await client.managedEnvironments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     environmentName,
-    environmentEnvelope
+    environmentEnvelope,
   );
   console.log(result);
 }

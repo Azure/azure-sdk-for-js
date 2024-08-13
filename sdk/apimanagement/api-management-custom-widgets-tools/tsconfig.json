@@ -1,10 +1,17 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "lib": ["dom"],
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.cts",
+    "src/**/*.mts",
+    "test/**/*.ts",
+    "test/**/*.cts",
+    "test/**/*.mts"
+  ]
 }

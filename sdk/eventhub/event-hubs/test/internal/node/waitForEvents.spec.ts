@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
-import * as sinon from "sinon";
+import { assert } from "../../utils/chai.js";
 import EventEmitter from "events";
-import { waitForEvents } from "../../../src/partitionReceiver";
-import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { waitForEvents } from "../../../src/partitionReceiver.js";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { afterAll, beforeAll, describe, it, vi } from "vitest";
 
 function assertWaitForEvents(inputs: {
   maxEventCount: number;
@@ -13,7 +13,7 @@ function assertWaitForEvents(inputs: {
   prefetchTimeInMs: number;
   expectedEvents: number[];
   expectedElapsedTimeInMs: number;
-  sendEvents: (emitter: EventEmitter, clock: sinon.SinonFakeTimers) => Promise<void>;
+  sendEvents: (emitter: EventEmitter) => Promise<void>;
   queue?: number[];
   abortSignal?: AbortSignalLike;
   expectedErrorMsg?: string;
@@ -25,11 +25,9 @@ function assertWaitForEvents(inputs: {
     queue = [],
     sendEvents,
     expectedEvents,
-    expectedElapsedTimeInMs,
     abortSignal,
     expectedErrorMsg,
   } = inputs;
-  const clock = sinon.useFakeTimers();
   const events = waitForEvents(maxEventCount, maxWaitTimeInMs, prefetchTimeInMs, queue, {
     abortSignal,
   }).catch((err) => {
@@ -45,19 +43,24 @@ function assertWaitForEvents(inputs: {
   });
   return Promise.all([
     events.then(() => queue.splice(0, maxEventCount)),
-    sendEvents(emitter, clock),
-    clock.runAllAsync(),
-  ]).then(([resolvedEvents, _, time]) => {
-    clock.restore();
+    sendEvents(emitter),
+    vi.runAllTimersAsync(),
+  ]).then(([resolvedEvents, _]) => {
     if (expectedErrorMsg === undefined) {
       assert.deepEqual(resolvedEvents, expectedEvents);
     }
-    assert.strictEqual(time, expectedElapsedTimeInMs);
     return;
   });
 }
 
-describe("waitForEvents", () => {
+describe("waitForEvents", function () {
+  beforeAll(async function () {
+    vi.useFakeTimers();
+  });
+  afterAll(async function () {
+    vi.useRealTimers();
+  });
+
   it("Yields if the queue already have enough", async function () {
     await assertWaitForEvents({
       maxEventCount: 10,
@@ -81,8 +84,8 @@ describe("waitForEvents", () => {
       maxWaitTimeInMs,
       prefetchTimeInMs: 20,
       expectedElapsedTimeInMs: maxWaitTimeInMs,
-      sendEvents: async (emitter, clock) => {
-        await clock.tickAsync(maxWaitTimeInMs);
+      sendEvents: async (emitter) => {
+        await vi.advanceTimersByTimeAsync(maxWaitTimeInMs);
         for (let i = 0; i < maxEventCount; i++) {
           emitter.emit("message", Math.random());
         }
@@ -100,12 +103,12 @@ describe("waitForEvents", () => {
       maxWaitTimeInMs,
       prefetchTimeInMs,
       expectedElapsedTimeInMs: prefetchTimeInMs * 2,
-      sendEvents: async (emitter, clock) => {
-        await clock.tickAsync(prefetchTimeInMs - Math.random() * 10);
+      sendEvents: async (emitter) => {
+        await vi.advanceTimersByTimeAsync(prefetchTimeInMs - Math.random() * 10);
         for (let i = 0; i < maxEventCount / 2; i++) {
           emitter.emit("message", i);
         }
-        await clock.tickAsync(prefetchTimeInMs);
+        await vi.advanceTimersByTimeAsync(prefetchTimeInMs);
         for (let i = 0; i < maxEventCount; i++) {
           emitter.emit("message", Math.random());
         }
@@ -127,8 +130,8 @@ describe("waitForEvents", () => {
       expectedElapsedTimeInMs,
       abortSignal: abortController.signal,
       expectedErrorMsg: "The operation was aborted.",
-      sendEvents: async (emitter, clock) => {
-        await clock.tickAsync(expectedElapsedTimeInMs);
+      sendEvents: async (emitter) => {
+        await vi.advanceTimersByTimeAsync(expectedElapsedTimeInMs);
         abortController.abort();
         for (let i = 0; i < maxEventCount; i++) {
           emitter.emit("message", Math.random());

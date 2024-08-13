@@ -104,7 +104,7 @@ import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
 
-async main function() {
+async function main() {
   const programBriefId = "00000000-0000-0000-0000-000000000000";
   const programBriefRequest: ShortCodesCreateUSProgramBriefParams = {
     body: {
@@ -194,7 +194,7 @@ import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
 
-async main function() {
+async function main() {
   // get all program briefs for a resource
   var programBriefs = await client.listUSProgramBriefs();
 
@@ -230,7 +230,7 @@ import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
 
-async main function() {
+async function main() {
   // get a program briefs for a resource
   const programBriefId = process.env.PROGRAM_BRIEF_TO_GET || "<program brief Id>";
   var programBrief = await client.getUSProgramBrief(programBriefId);
@@ -267,7 +267,7 @@ import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
 
-async main function() {
+async function main() {
   // get all short codes for a resource
   var shortCodes = await client.listShortCodes();
 
@@ -289,7 +289,7 @@ import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
 
-async main function() {
+async function main() {
   // get all eligible short code costs for a resource
   var shortCodeCosts = await client.listShortCodeCosts();
 

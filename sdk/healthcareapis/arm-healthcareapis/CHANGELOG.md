@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,23 @@
 
 ### Other Changes
 
+## 3.1.0 (2024-04-19)
+    
+### Features Added
+
+  - Added Interface SmartIdentityProviderApplication
+  - Added Interface SmartIdentityProviderConfiguration
+  - Added Interface StorageConfiguration
+  - Added Type Alias SmartDataActions
+  - Interface DicomService has a new optional parameter enableDataPartitions
+  - Interface DicomService has a new optional parameter storageConfiguration
+  - Interface FhirServiceAuthenticationConfiguration has a new optional parameter smartIdentityProviders
+  - Added Enum KnownSmartDataActions
+    
+    
 ## 3.0.0 (2023-12-07)
     
-**Features**
+### Features Added
 
   - Added Interface CorsConfiguration
   - Added Interface Encryption
@@ -34,14 +48,14 @@
   - Interface ServiceCosmosDbConfigurationInfo has a new optional parameter crossTenantCmkApplicationId
   - Interface ServicesProperties has a new optional parameter importConfiguration
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface FhirService no longer has parameter accessPolicies
     
     
 ## 2.2.0 (2022-11-25)
     
-**Features**
+### Features Added
 
   - Added Interface DicomService
   - Added Interface DicomServicePatchResource
@@ -63,13 +77,13 @@
     
 ## 2.1.1 (2022-04-26)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 2.1.0 (2022-03-22)
     
-**Features**
+### Features Added
 
   - Added operation group DicomServices
   - Added operation group FhirDestinations

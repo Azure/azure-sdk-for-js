@@ -16,7 +16,7 @@ import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,13 +27,14 @@ import {
   CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   CloudServicesUpdateDomainGetUpdateDomainOptionalParams,
   CloudServicesUpdateDomainGetUpdateDomainResponse,
-  CloudServicesUpdateDomainListUpdateDomainsNextResponse
+  CloudServicesUpdateDomainListUpdateDomainsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServicesUpdateDomain operations. */
 export class CloudServicesUpdateDomainImpl
-  implements CloudServicesUpdateDomain {
+  implements CloudServicesUpdateDomain
+{
   private readonly client: ComputeManagementClient;
 
   /**
@@ -53,12 +54,12 @@ export class CloudServicesUpdateDomainImpl
   public listUpdateDomains(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams
+    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
   ): PagedAsyncIterableIterator<UpdateDomain> {
     const iter = this.listUpdateDomainsPagingAll(
       resourceGroupName,
       cloudServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +76,9 @@ export class CloudServicesUpdateDomainImpl
           resourceGroupName,
           cloudServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +86,7 @@ export class CloudServicesUpdateDomainImpl
     resourceGroupName: string,
     cloudServiceName: string,
     options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UpdateDomain[]> {
     let result: CloudServicesUpdateDomainListUpdateDomainsResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +94,7 @@ export class CloudServicesUpdateDomainImpl
       result = await this._listUpdateDomains(
         resourceGroupName,
         cloudServiceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -105,7 +106,7 @@ export class CloudServicesUpdateDomainImpl
         resourceGroupName,
         cloudServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,12 +118,12 @@ export class CloudServicesUpdateDomainImpl
   private async *listUpdateDomainsPagingAll(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams
+    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
   ): AsyncIterableIterator<UpdateDomain> {
     for await (const page of this.listUpdateDomainsPagingPage(
       resourceGroupName,
       cloudServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,25 +142,24 @@ export class CloudServicesUpdateDomainImpl
     resourceGroupName: string,
     cloudServiceName: string,
     updateDomain: number,
-    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams
+    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -168,8 +168,8 @@ export class CloudServicesUpdateDomainImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -177,19 +177,19 @@ export class CloudServicesUpdateDomainImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, cloudServiceName, updateDomain, options },
-      spec: walkUpdateDomainOperationSpec
+      spec: walkUpdateDomainOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -208,13 +208,13 @@ export class CloudServicesUpdateDomainImpl
     resourceGroupName: string,
     cloudServiceName: string,
     updateDomain: number,
-    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams
+    options?: CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   ): Promise<void> {
     const poller = await this.beginWalkUpdateDomain(
       resourceGroupName,
       cloudServiceName,
       updateDomain,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -233,11 +233,11 @@ export class CloudServicesUpdateDomainImpl
     resourceGroupName: string,
     cloudServiceName: string,
     updateDomain: number,
-    options?: CloudServicesUpdateDomainGetUpdateDomainOptionalParams
+    options?: CloudServicesUpdateDomainGetUpdateDomainOptionalParams,
   ): Promise<CloudServicesUpdateDomainGetUpdateDomainResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, updateDomain, options },
-      getUpdateDomainOperationSpec
+      getUpdateDomainOperationSpec,
     );
   }
 
@@ -250,11 +250,11 @@ export class CloudServicesUpdateDomainImpl
   private _listUpdateDomains(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams
+    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
   ): Promise<CloudServicesUpdateDomainListUpdateDomainsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, options },
-      listUpdateDomainsOperationSpec
+      listUpdateDomainsOperationSpec,
     );
   }
 
@@ -269,11 +269,11 @@ export class CloudServicesUpdateDomainImpl
     resourceGroupName: string,
     cloudServiceName: string,
     nextLink: string,
-    options?: CloudServicesUpdateDomainListUpdateDomainsNextOptionalParams
+    options?: CloudServicesUpdateDomainListUpdateDomainsNextOptionalParams,
   ): Promise<CloudServicesUpdateDomainListUpdateDomainsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudServiceName, nextLink, options },
-      listUpdateDomainsNextOperationSpec
+      listUpdateDomainsNextOperationSpec,
     );
   }
 }
@@ -281,8 +281,7 @@ export class CloudServicesUpdateDomainImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
   httpMethod: "PUT",
   responses: {
     200: {},
@@ -290,8 +289,8 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters36,
   queryParameters: [Parameters.apiVersion4],
@@ -300,23 +299,22 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
-    Parameters.updateDomain
+    Parameters.updateDomain,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getUpdateDomainOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateDomain
+      bodyMapper: Mappers.UpdateDomain,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -324,51 +322,50 @@ const getUpdateDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cloudServiceName,
-    Parameters.updateDomain
+    Parameters.updateDomain,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUpdateDomainsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateDomainListResult
+      bodyMapper: Mappers.UpdateDomainListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudServiceName
+    Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUpdateDomainsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateDomainListResult
+      bodyMapper: Mappers.UpdateDomainListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.cloudServiceName
+    Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

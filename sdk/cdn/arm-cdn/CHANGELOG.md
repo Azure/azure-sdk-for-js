@@ -1,8 +1,36 @@
 # Release History
+
+## 9.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 9.1.0 (2024-04-08)
+    
+### Features Added
+
+  - Added Interface ProfileLogScrubbing
+  - Added Interface ProfileScrubbingRules
+  - Added Type Alias ProfileScrubbingState
+  - Added Type Alias ScrubbingRuleEntryMatchOperator
+  - Added Type Alias ScrubbingRuleEntryMatchVariable
+  - Added Type Alias ScrubbingRuleEntryState
+  - Interface Profile has a new optional parameter logScrubbing
+  - Interface ProfileUpdateParameters has a new optional parameter logScrubbing
+  - Added Enum KnownProfileScrubbingState
+  - Added Enum KnownScrubbingRuleEntryMatchOperator
+  - Added Enum KnownScrubbingRuleEntryMatchVariable
+  - Added Enum KnownScrubbingRuleEntryState
+    
     
 ## 9.0.0 (2023-10-10)
     
-**Features**
+### Features Added
 
   - Added operation AfdProfiles.beginUpgrade
   - Added operation AfdProfiles.beginUpgradeAndWait
@@ -117,7 +145,7 @@
   - Enum KnownProfileResourceState has a new value Migrating
   - Enum KnownProfileResourceState has a new value PendingMigrationCommit
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Validate
   - Class CdnManagementClient has a new signature
@@ -133,7 +161,7 @@
     
 ## 8.0.0 (2022-11-17)
     
-**Features**
+### Features Added
 
   - Added operation CustomDomains.beginDisableCustomHttps
   - Added operation CustomDomains.beginDisableCustomHttpsAndWait
@@ -225,20 +253,20 @@
   - Added Enum KnownProfileProvisioningState
   - Added Enum KnownResourceUsageUnit
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation CustomDomains.disableCustomHttps
   - Removed operation CustomDomains.enableCustomHttps
     
 ## 7.0.1 (2022-04-21)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 7.0.0 (2022-03-23)
     
-**Features**
+### Features Added
 
   - Added operation group AfdCustomDomains
   - Added operation group AfdEndpoints
@@ -456,7 +484,7 @@
   - Enum KnownTransform has a new value UrlEncode
   - Enum KnownWafRankingType has a new value CountryOrRegion
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group AFDCustomDomains
   - Removed operation group AFDEndpoints

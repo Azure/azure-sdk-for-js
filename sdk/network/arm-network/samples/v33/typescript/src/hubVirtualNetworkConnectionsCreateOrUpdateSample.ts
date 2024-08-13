@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a hub virtual network connection if it doesn't exist else updates the existing one.
  *
  * @summary Creates a hub virtual network connection if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/HubVirtualNetworkConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/HubVirtualNetworkConnectionPut.json
  */
 async function hubVirtualNetworkConnectionPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

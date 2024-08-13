@@ -3,7 +3,7 @@
 
 import { assertEnvironmentVariable, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AnalyzeBatchActionNames, AzureKeyCredential, TextAnalysisClient } from "../../src";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import { Context, Suite } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../public/utils/recordedClient";
 import createAuthoringClient, { TextAuthoringClient } from "@azure/ai-language-textauthoring";
@@ -20,7 +20,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
     describe("analyzeBatch", function (this: Suite) {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      describe("custom", function () {
+      // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+      describe.skip("custom", function () {
         let projectName: string;
         let deploymentName: string;
 

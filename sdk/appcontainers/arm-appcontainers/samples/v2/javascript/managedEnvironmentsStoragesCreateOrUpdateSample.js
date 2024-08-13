@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function createOrUpdateEnvironmentsStorage() {
     resourceGroupName,
     environmentName,
     storageName,
-    storageEnvelope
+    storageEnvelope,
   );
   console.log(result);
 }

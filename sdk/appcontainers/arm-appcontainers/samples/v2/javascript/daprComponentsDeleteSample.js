@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Dapr Component from a Managed Environment.
  *
  * @summary Delete a Dapr Component from a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/DaprComponents_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/DaprComponents_Delete.json
  */
 async function deleteDaprComponent() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deleteDaprComponent() {
   const result = await client.daprComponents.delete(
     resourceGroupName,
     environmentName,
-    componentName
+    componentName,
   );
   console.log(result);
 }

@@ -2,252 +2,176 @@
   "version": "0.2",
   "language": "en",
   "languageId": "typescript,javascript",
-  "dictionaries": [
-    "powershell",
-    "typescript",
-    "node"
-  ],
+  "dictionaries": ["node", "powershell", "typescript"],
   "ignorePaths": [
-    "**/node_modules/**",
-    "**/recordings/**",
-    "**/pnpm-lock.yaml",
-    "common/temp/**",
     "**/*-lintReport.html",
+    "**/node_modules/**",
+    "**/pnpm-lock.yaml",
+    "**/recordings/**",
     "*.avro",
-    "*.tgz",
-    "*.png",
-    "*.jpg",
-    "*.pdf",
-    "*.tiff",
-    "*.svg",
     "*.crt",
+    "*.jpg",
     "*.key",
-    ".vscode/cspell.json",
+    "*.pdf",
+    "*.png",
+    "*.svg",
+    "*.tgz",
+    "*.tiff",
     ".github/CODEOWNERS",
+    ".vscode/cspell.json",
+    "common/temp/**",
     "sdk/**/arm-*/**",
-    "sdk/test-utils/**",
     "sdk/agrifood/agrifood-farming-rest/review/*.md",
     "sdk/confidentialledger/confidential-ledger-rest/review/*.md",
     "sdk/core/core-client-lro-rest/review/*.md",
     "sdk/core/core-client-paging-rest/review/*.md",
     "sdk/core/core-client-rest/review/*.md",
     "sdk/documenttranslator/ai-document-translator-rest/review/*.md",
+    "sdk/openai/openai-rest/review/*.md",
+    "sdk/openai/openai/review/*.md",
     "sdk/purview/purview-account-rest/review/*.md",
     "sdk/purview/purview-administration-rest/review/*.md",
     "sdk/purview/purview-catalog-rest/review/*.md",
     "sdk/purview/purview-scanning-rest/review/*.md",
     "sdk/purview/purview-sharing-rest/review/*.md",
     "sdk/quantum/quantum-jobs/review/*.md",
-    "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-access-control-rest/review/*.md",
+    "sdk/synapse/synapse-access-control/review/*.md",
     "sdk/synapse/synapse-artifacts/review/*.md",
     "sdk/synapse/synapse-managed-private-endpoints/review/*.md",
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
-    "sdk/translation/ai-translation-text-rest/review/*.md",
-    "sdk/openai/openai/review/*.md",
-    "sdk/openai/openai-rest/review/*.md"
+    "sdk/test-utils/**",
+    "sdk/translation/ai-translation-text-rest/review/*.md"
   ],
   "words": [
-    "adfs",
-    "agrifood",
     "AMQP",
-    "azsdk",
-    "Brcpf",
     "BRCPF",
-    "centralus",
+    "Brcpf",
     "CONTOSO",
-    "deps",
-    "deserialization",
-    "devboxes",
-    "devcenter",
-    "devdeps",
-    "dotenv",
     "DTDL",
-    "dtmi",
-    "dtmis",
-    "eastus",
     "ECONNRESET",
-    "Eloqua",
-    "entra",
-    "Esdni",
     "ESDNI",
-    "etags",
-    "Eugps",
     "EUGPS",
+    "Eloqua",
+    "Esdni",
+    "Eugps",
     "Fhir",
     "Fnhr",
     "Guids",
     "Hana",
-    "hnsw",
-    "Idrg",
     "IDRG",
     "IMDS",
-    "OTLP",
+    "Idrg",
     "Kubernetes",
-    "kusto",
-    "lcov",
-    "lcovonly",
     "Localizable",
     "Lucene",
-    "Mibps",
-    "mkdir",
-    "mkdirp",
-    "mongodb",
     "MPNS",
-    "msal",
     "MSRC",
-    "nise",
-    "northcentralus",
-    "npmjs",
+    "Mibps",
     "ODATA",
+    "OTLP",
     "Odbc",
-    "openai",
-    "perfstress",
-    "personalizer",
+    "Onco",
+    "PLREGON",
     "Personalizer",
     "Petabit",
     "Picometer",
     "Plregon",
-    "PLREGON",
+    "Rasterize",
+    "Resourceid",
+    "Rollup",
+    "Rtsp",
+    "Sybase",
+    "Teradata",
+    "USUK",
+    "Uncapitalize",
+    "Unencrypted",
+    "Unprocessable",
+    "Usuk",
+    "Vertica",
+    "Xiaomi",
+    "adfs",
+    "agrifood",
+    "azsdk",
+    "centralus",
+    "deps",
+    "deserialization",
+    "deserializers",
+    "devboxes",
+    "devcenter",
+    "devdeps",
+    "dicom",
+    "dotenv",
+    "dtmi",
+    "dtmis",
+    "eastus",
+    "entra",
+    "etags",
+    "findsimilars",
+    "hnsw",
+    "kusto",
+    "lcov",
+    "lcovonly",
+    "loinc",
+    "mkdir",
+    "mkdirp",
+    "mongodb",
+    "msal",
+    "nise",
+    "northcentralus",
+    "npmjs",
+    "oncophenotype",
+    "openai",
+    "perfstress",
+    "personalizer",
     "pnpm",
     "prettierrc",
     "pstn",
     "pwsh",
-    "Rasterize",
     "reoffer",
-    "Resourceid",
-    "Rollup",
     "rrggbb",
-    "Rtsp",
-    "reoffer",
     "rushx",
     "soundex",
     "southcentralus",
     "struct",
     "structdef",
-    "Sybase",
-    "Teradata",
     "tmpdir",
+    "tshy",
     "uaecentral",
     "uksouth",
     "ukwest",
     "unassignment",
-    "Uncapitalize",
     "undelete",
-    "Unencrypted",
     "unpartitioned",
-    "Unprocessable",
     "unref",
     "usdodcentral",
     "usdodeast",
     "usgovarizona",
     "usgovtexas",
     "usgovvirginia",
-    "Usuk",
-    "USUK",
-    "Vertica",
+    "vectorizer",
     "westus",
-    "Xiaomi",
-    "Onco",
-    "oncophenotype"
+    "reimaging",
+    "upgradingos",
+    "Cifs",
+    "dataserviceid",
+    "uefi",
+    "Uefi"
   ],
   "allowCompoundWords": true,
   "overrides": [
     {
       "filename": "eng/pipelines",
-      "words": [
-        "azuresdkartifacts",
-        "policheck",
-        "gdnbaselines"
-      ]
+      "words": ["azuresdkartifacts", "gdnbaselines", "policheck"]
     },
     {
-      "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
-      "words": [
-        "abgr",
-        "Abgr",
-        "argb",
-        "Argb",
-        "bgra",
-        "Bgra",
-        "Grpc",
-        "onvif",
-        "Onvif"
-      ]
+      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
+      "words": ["APIM", "scaffolder"]
     },
     {
-      "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": [
-        "RAGRS"
-      ]
-    },
-    {
-      "filename": "sdk/search/search-documents/review/**/*.md",
-      "words": [
-        "Adls",
-        "adlsgen",
-        "bangla",
-        "beider",
-        "Bokmaal",
-        "Decompounder",
-        "haase",
-        "koelner",
-        "kstem",
-        "kstem",
-        "lovins",
-        "nysiis",
-        "odatatype",
-        "Phonetik",
-        "Piqd",
-        "reranker",
-        "Rslp",
-        "sorani",
-        "Sorani",
-        "Vectorizable",
-        "vectorizer",
-        "vectorizers"
-      ]
-    },
-    {
-      "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": [
-        "ECHSM",
-        "OKPHSM",
-        "RSAHSM",
-        "RSNULL",
-        "Rsnull"
-      ]
-    },
-    {
-      "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
-      "words": [
-        "ECHSM",
-        "ekus",
-        "RSAHSM",
-        "upns"
-      ]
-    },
-    {
-      "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": [
-        "dtdl"
-      ]
-    },
-    {
-      "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
-      "words": [
-        "colls",
-        "Parition",
-        "pkranges",
-        "sproc",
-        "sprocs",
-        "udfs",
-        "xmax",
-        "xmin",
-        "ymax",
-        "ymin"
-      ]
+      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
+      "words": ["APIM", "MSAPIM"]
     },
     {
       "filename": "sdk/attestation/attestation/review/**/*.md",
@@ -261,214 +185,250 @@
       ]
     },
     {
-      "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": [
-        "iddocument"
-      ]
-    },
-    {
-      "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-      "words": [
-        "WDLABCD",
-        "presentationml",
-        "spreadsheetml",
-        "wordprocessingml",
-        "heif",
-        "copays",
-        "Upca",
-        "Upce"
-      ]
-    },
-    {
-      "filename": "sdk/core/core-amqp/review/**/*.md",
-      "words": [
-        "EHOSTDOWN",
-        "ENONET",
-        "sastoken"
-      ]
-    },
-    {
-      "filename": "sdk/containerregistry/container-registry/review/**/*.md",
-      "words": [
-        "illumos",
-        "Illumos",
-        "mipsle",
-        "riscv"
-      ]
-    },
-    {
       "filename": "sdk/communication/communication-call-automation/review/**/*.md",
       "words": [
-        "ssml",
         "Ssml",
         "answeredby",
         "playsourcacheid",
         "playsourcecacheid",
+        "sipuui",
         "sipx",
-        "sipuui"
+        "ssml",
+        "unhold",
+        "Unhold"
       ]
     },
     {
       "filename": "sdk/communication/communication-common/review/**/*.md",
-      "words": [
-        "gcch"
-      ]
+      "words": ["gcch"]
     },
     {
       "filename": "sdk/communication/communication-email/review/**/*.md",
-      "words": [
-        "rpmsg",
-        "xlsb"
-      ]
+      "words": ["rpmsg", "xlsb"]
     },
     {
-      "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
-      "words": [
-        "Dicom",
-        "Gcch",
-        "gcch"
-      ]
+      "filename": "sdk/containerregistry/container-registry/review/**/*.md",
+      "words": ["Illumos", "illumos", "mipsle", "riscv"]
     },
     {
-      "filename": "sdk/identity/**/*.md",
-      "words": [
-        "MSAL",
-        "PKCE"
-      ]
+      "filename": "sdk/core/core-amqp/review/**/*.md",
+      "words": ["EHOSTDOWN", "ENONET", "sastoken"]
     },
     {
-      "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
+      "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
       "words": [
-        "Dtmi",
-        "dtmis"
-      ]
-    },
-    {
-      "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
-      "words": [
-        "Uncommited"
-      ]
-    },
-    {
-      "filename": "sdk/search/search-documents/review/search-documents.api.md",
-      "words": [
-        "Createor"
-      ]
-    },
-    {
-      "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
-      "words": [
-        "fourty",
-        "Milli"
-      ]
-    },
-    {
-      "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
-      "words": [
-        "dependecies"
+        "Parition",
+        "colls",
+        "pkranges",
+        "sproc",
+        "sprocs",
+        "udfs",
+        "xmax",
+        "xmin",
+        "ymax",
+        "ymin"
       ]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
-      "words": [
-        "Funtion"
-      ]
+      "words": ["Funtion"]
     },
     {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
-      "words": [
-        "scaffolder",
-        "APIM"
-      ]
+      "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
+      "words": ["dtdl"]
     },
     {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
-      "words": [
-        "MSAPIM",
-        "APIM"
-      ]
+      "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
+      "words": ["dependecies"]
     },
     {
-      "filename": "sdk/maps/maps-common/review/maps-common.api.md",
-      "words": [
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
-      "words": [
-        "bbox",
-        "UTURN",
-        "Hundredkm"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
-      "words": [
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
-      "words": [
-        "Neighbourhood",
-        "Xstr",
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
-      "words": [
-        "scaffolder",
-        "APIM"
-      ]
-    },
-    {
-      "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
-      "words": [
-        "vusers"
-      ]
-    },
-    {
-      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
-      "words": [
-        "protobuf"
-      ]
-    },
-    {
-      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
-      "words": [
-        "protobuf"
-      ]
+      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "words": ["presentationml", "spreadsheetml", "wordprocessingml"]
     },
     {
       "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
       "words": [
         "Alexa",
-        "alexa",
         "Asns",
+        "Easm",
+        "Whois",
+        "alexa",
         "asns",
         "cnames",
-        "Easm",
         "easm",
         "nxdomain",
-        "Whois",
         "whois"
       ]
     },
     {
-      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
+      "words": ["Dicom", "Gcch", "gcch"]
+    },
+    {
+      "filename": "sdk/eventgrid/eventgrid-system-events/review/**/*.md",
+      "words": ["Dicom", "Gcch", "gcch"]
+    },
+    {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
+      "words": ["iddocument"]
+    },
+    {
+      "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
       "words": [
-        "wordprocessingml",
+        "Upca",
+        "Upce",
+        "WDLABCD",
+        "copays",
+        "heif",
+        "presentationml",
         "spreadsheetml",
-        "presentationml"
+        "wordprocessingml"
       ]
     },
     {
-      "filename": "sdk/notificationhubs/notification-hubs/review/notification-hubs.api.md",
+      "filename": "sdk/healthdataaiservices/azure-health-deidentification/**",
       "words": [
-        "fcmv"
+        "deid",
+        "deidservices",
+        "deidentification",
+        "healthdataaiservices",
+        "deidentify",
+        "deidentified"
       ]
+    },
+    {
+      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
+      "words": ["ctxt", "mros", "nify"]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": ["MSAL", "PKCE"]
+    },
+    {
+      "filename": "sdk/identity/**/*.ts",
+      "words": ["azcmagent", "HIMDS"]
+    },
+    {
+      "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
+      "words": ["Dtmi", "dtmis"]
+    },
+    {
+      "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
+      "words": ["ECHSM", "RSAHSM", "ekus", "upns"]
+    },
+    {
+      "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
+      "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
+    },
+    {
+      "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
+      "words": ["vusers"]
+    },
+    {
+      "filename": "sdk/maps/maps-common/review/maps-common.api.md",
+      "words": ["bbox"]
+    },
+    {
+      "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
+      "words": ["bbox"]
+    },
+    {
+      "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
+      "words": ["Hundredkm", "UTURN", "bbox"]
+    },
+    {
+      "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
+      "words": ["Neighbourhood", "Xstr", "bbox"]
+    },
+    {
+      "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
+      "words": ["fourty", "Milli", "rollupby"]
+    },
+    {
+      "filename": "sdk/notificationhubs/notification-hubs/review/*.api.md",
+      "words": ["fcmv"]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/**/*.md",
+      "words": [
+        "Adls",
+        "Bokmaal",
+        "Decompounder",
+        "Phonetik",
+        "Piqd",
+        "Rslp",
+        "Sorani",
+        "Vectorizable",
+        "adlsgen",
+        "bangla",
+        "beider",
+        "haase",
+        "koelner",
+        "kstem",
+        "lovins",
+        "nysiis",
+        "odatatype",
+        "rerank",
+        "reranker",
+        "sorani",
+        "vectorize",
+        "vectorizer",
+        "vectorizers"
+      ]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/**/*.md",
+      "words": [
+        "Adls",
+        "Bokmaal",
+        "Decompounder",
+        "Phonetik",
+        "Piqd",
+        "Rslp",
+        "Sorani",
+        "Vectorizable",
+        "adlsgen",
+        "bangla",
+        "beider",
+        "haase",
+        "koelner",
+        "kstem",
+        "lovins",
+        "nysiis",
+        "odatatype",
+        "reranker",
+        "sorani",
+        "vectorizer",
+        "vectorizers"
+      ]
+    },
+    {
+      "filename": "sdk/search/search-documents/review/search-documents.api.md",
+      "words": ["Createor"]
+    },
+    {
+      "filename": "sdk/storage/storage-blob/review/**/*.md",
+      "words": ["RAGRS"]
+    },
+    {
+      "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
+      "words": ["Uncommited"]
+    },
+    {
+      "filename": "sdk/storage/storage-file-share/review/storage-file-share.api.md",
+      "words": ["Sddl"]
+    },
+    {
+      "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
+      "words": ["Abgr", "Argb", "Bgra", "Grpc", "Onvif", "abgr", "argb", "bgra", "onvif"]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
+      "words": ["protobuf"]
+    },
+    {
+      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
+      "words": ["protobuf"]
     }
   ]
 }

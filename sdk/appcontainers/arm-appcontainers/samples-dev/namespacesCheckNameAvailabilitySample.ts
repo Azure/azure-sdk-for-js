@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Certificates_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Certificates_CheckNameAvailability.json
  */
 async function certificatesCheckNameAvailability() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function certificatesCheckNameAvailability() {
   const environmentName = "testcontainerenv";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "testcertificatename",
-    type: "Microsoft.App/managedEnvironments/certificates"
+    type: "Microsoft.App/managedEnvironments/certificates",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.namespaces.checkNameAvailability(
     resourceGroupName,
     environmentName,
-    checkNameAvailabilityRequest
+    checkNameAvailabilityRequest,
   );
   console.log(result);
 }
@@ -48,7 +48,7 @@ async function certificatesCheckNameAvailability() {
  * This sample demonstrates how to Checks if resource name is available.
  *
  * @summary Checks if resource name is available.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_CheckNameAvailability.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ContainerApps_CheckNameAvailability.json
  */
 async function containerAppsCheckNameAvailability() {
   const subscriptionId =
@@ -59,14 +59,14 @@ async function containerAppsCheckNameAvailability() {
   const environmentName = "testcontainerenv";
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "testcappname",
-    type: "Microsoft.App/containerApps"
+    type: "Microsoft.App/containerApps",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.namespaces.checkNameAvailability(
     resourceGroupName,
     environmentName,
-    checkNameAvailabilityRequest
+    checkNameAvailabilityRequest,
   );
   console.log(result);
 }

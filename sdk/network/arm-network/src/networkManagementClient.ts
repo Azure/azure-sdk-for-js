@@ -57,6 +57,9 @@ import {
   FirewallPolicyIdpsSignaturesImpl,
   FirewallPolicyIdpsSignaturesOverridesImpl,
   FirewallPolicyIdpsSignaturesFilterValuesImpl,
+  FirewallPolicyDraftsImpl,
+  FirewallPolicyDeploymentsImpl,
+  FirewallPolicyRuleCollectionGroupDraftsImpl,
   IpAllocationsImpl,
   IpGroupsImpl,
   LoadBalancersImpl,
@@ -191,6 +194,9 @@ import {
   FirewallPolicyIdpsSignatures,
   FirewallPolicyIdpsSignaturesOverrides,
   FirewallPolicyIdpsSignaturesFilterValues,
+  FirewallPolicyDrafts,
+  FirewallPolicyDeployments,
+  FirewallPolicyRuleCollectionGroupDrafts,
   IpAllocations,
   IpGroups,
   LoadBalancers,
@@ -382,7 +388,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-network/33.1.0`;
+    const packageDetails = `azsdk-js-arm-network/33.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -499,6 +505,10 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       new FirewallPolicyIdpsSignaturesOverridesImpl(this);
     this.firewallPolicyIdpsSignaturesFilterValues =
       new FirewallPolicyIdpsSignaturesFilterValuesImpl(this);
+    this.firewallPolicyDrafts = new FirewallPolicyDraftsImpl(this);
+    this.firewallPolicyDeployments = new FirewallPolicyDeploymentsImpl(this);
+    this.firewallPolicyRuleCollectionGroupDrafts =
+      new FirewallPolicyRuleCollectionGroupDraftsImpl(this);
     this.ipAllocations = new IpAllocationsImpl(this);
     this.ipGroups = new IpGroupsImpl(this);
     this.loadBalancers = new LoadBalancersImpl(this);
@@ -1701,6 +1711,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
   firewallPolicyIdpsSignaturesOverrides: FirewallPolicyIdpsSignaturesOverrides;
   firewallPolicyIdpsSignaturesFilterValues: FirewallPolicyIdpsSignaturesFilterValues;
+  firewallPolicyDrafts: FirewallPolicyDrafts;
+  firewallPolicyDeployments: FirewallPolicyDeployments;
+  firewallPolicyRuleCollectionGroupDrafts: FirewallPolicyRuleCollectionGroupDrafts;
   ipAllocations: IpAllocations;
   ipGroups: IpGroups;
   loadBalancers: LoadBalancers;

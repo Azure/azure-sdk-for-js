@@ -15,7 +15,7 @@ import {
   TopicSpacesGetResponse,
   TopicSpacesCreateOrUpdateOptionalParams,
   TopicSpacesCreateOrUpdateResponse,
-  TopicSpacesDeleteOptionalParams
+  TopicSpacesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface TopicSpaces {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: TopicSpacesListByNamespaceOptionalParams
+    options?: TopicSpacesListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<TopicSpace>;
   /**
    * Get properties of a topic space.
@@ -43,7 +43,7 @@ export interface TopicSpaces {
     resourceGroupName: string,
     namespaceName: string,
     topicSpaceName: string,
-    options?: TopicSpacesGetOptionalParams
+    options?: TopicSpacesGetOptionalParams,
   ): Promise<TopicSpacesGetResponse>;
   /**
    * Create or update a topic space with the specified parameters.
@@ -58,7 +58,7 @@ export interface TopicSpaces {
     namespaceName: string,
     topicSpaceName: string,
     topicSpaceInfo: TopicSpace,
-    options?: TopicSpacesCreateOrUpdateOptionalParams
+    options?: TopicSpacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TopicSpacesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface TopicSpaces {
     namespaceName: string,
     topicSpaceName: string,
     topicSpaceInfo: TopicSpace,
-    options?: TopicSpacesCreateOrUpdateOptionalParams
+    options?: TopicSpacesCreateOrUpdateOptionalParams,
   ): Promise<TopicSpacesCreateOrUpdateResponse>;
   /**
    * Delete an existing topic space.
@@ -91,7 +91,7 @@ export interface TopicSpaces {
     resourceGroupName: string,
     namespaceName: string,
     topicSpaceName: string,
-    options?: TopicSpacesDeleteOptionalParams
+    options?: TopicSpacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete an existing topic space.
@@ -104,6 +104,6 @@ export interface TopicSpaces {
     resourceGroupName: string,
     namespaceName: string,
     topicSpaceName: string,
-    options?: TopicSpacesDeleteOptionalParams
+    options?: TopicSpacesDeleteOptionalParams,
   ): Promise<void>;
 }

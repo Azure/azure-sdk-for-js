@@ -3,7 +3,6 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure SDK Core client library samples for JavaScript",
-  "type": "module",
   "engines": {
     "node": ">=18.0.0"
   },

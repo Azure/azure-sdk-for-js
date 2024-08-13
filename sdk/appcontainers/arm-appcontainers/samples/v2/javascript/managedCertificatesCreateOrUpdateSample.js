@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or Update a Managed Certificate.
  *
  * @summary Create or Update a Managed Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedCertificate_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedCertificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function createOrUpdateCertificate() {
     resourceGroupName,
     environmentName,
     managedCertificateName,
-    options
+    options,
   );
   console.log(result);
 }

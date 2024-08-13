@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedEnvironmentStorage,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage() {
   const subscriptionId =
@@ -37,9 +37,9 @@ async function createOrUpdateEnvironmentsStorage() {
         accessMode: "ReadOnly",
         accountKey: "key",
         accountName: "account1",
-        shareName: "share1"
-      }
-    }
+        shareName: "share1",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function createOrUpdateEnvironmentsStorage() {
     resourceGroupName,
     environmentName,
     storageName,
-    storageEnvelope
+    storageEnvelope,
   );
   console.log(result);
 }

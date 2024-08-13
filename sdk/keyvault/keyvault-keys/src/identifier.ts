@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseKeyVaultIdentifier } from "../../keyvault-common/src";
+import { parseKeyVaultIdentifier } from "@azure/keyvault-common";
 
 /**
  * Represents the segments that compose a Key Vault Key Id.

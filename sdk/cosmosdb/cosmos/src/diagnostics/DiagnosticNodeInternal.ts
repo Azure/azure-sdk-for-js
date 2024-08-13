@@ -3,7 +3,6 @@
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 import { RequestContext } from "../request";
-import { v4 } from "uuid";
 import {
   DiagnosticNode,
   MetadataLookUpType,
@@ -17,6 +16,7 @@ import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
 import { Constants, OperationType, ResourceType, prepareURL } from "../common";
 import { allowTracing } from "./diagnosticLevelComparator";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * @hidden
@@ -46,7 +46,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     startTimeUTCInMs: number = getCurrentTimestampInMs(),
     ctx: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
   ) {
-    this.id = v4();
+    this.id = randomUUID();
     this.nodeType = type;
     this.startTimeUTCInMs = startTimeUTCInMs;
     this.data = data;
@@ -95,6 +95,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     const responseHeaders = pipelineResponse.headers.toJSON();
     const gatewayRequest = {
       activityId: responseHeaders[Constants.HttpHeaders.ActivityId],
+      correlateActivityId: requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId],
       startTimeUTCInMs,
       durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
       statusCode: pipelineResponse.status,
@@ -146,6 +147,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     this.diagnosticCtx.recordFailedAttempt(
       {
         activityId: responseHeaders[Constants.HttpHeaders.ActivityId] as string,
+        correlatedActivityId: requestContext.headers[
+          Constants.HttpHeaders.CorrelatedActivityId
+        ] as string,
         startTimeUTCInMs,
         durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
         statusCode,

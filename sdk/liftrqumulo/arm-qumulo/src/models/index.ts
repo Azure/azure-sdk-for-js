@@ -138,7 +138,9 @@ export interface MarketplaceDetails {
   /** Offer Id */
   offerId: string;
   /** Publisher Id */
-  publisherId: string;
+  publisherId?: string;
+  /** Term Unit */
+  termUnit?: string;
   /**
    * Marketplace subscription status
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -242,10 +244,6 @@ export interface FileSystemResourceUpdateProperties {
   userDetails?: UserDetails;
   /** Delegated subnet id for Vnet injection */
   delegatedSubnetId?: string;
-  /** File system Id of the resource */
-  clusterLoginUrl?: string;
-  /** Private IPs of the resource */
-  privateIPs?: string[];
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -256,33 +254,49 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** A FileSystem Resource by Qumulo */
+/** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface FileSystemResource extends TrackedResource {
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
   /** Marketplace details */
-  marketplaceDetails: MarketplaceDetails;
+  marketplaceDetails?: MarketplaceDetails;
   /**
    * Provisioning State of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
   /** Storage Sku */
-  storageSku: StorageSku;
+  storageSku?: string;
   /** User Details */
-  userDetails: UserDetails;
+  userDetails?: UserDetails;
   /** Delegated subnet id for Vnet injection */
-  delegatedSubnetId: string;
+  delegatedSubnetId?: string;
   /** File system Id of the resource */
   clusterLoginUrl?: string;
   /** Private IPs of the resource */
   privateIPs?: string[];
   /** Initial administrator password of the resource */
-  adminPassword: string;
-  /** Storage capacity in TB */
-  initialCapacity: number;
+  adminPassword?: string;
   /** Availability zone */
   availabilityZone?: string;
+}
+
+/** Defines headers for FileSystems_createOrUpdate operation. */
+export interface FileSystemsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for FileSystems_delete operation. */
+export interface FileSystemsDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -292,7 +306,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -309,7 +323,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -321,6 +335,66 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
+/** Known values of {@link MarketplaceSubscriptionStatus} that the service accepts. */
+export enum KnownMarketplaceSubscriptionStatus {
+  /** Fulfillment has not started */
+  PendingFulfillmentStart = "PendingFulfillmentStart",
+  /** Marketplace offer is subscribed */
+  Subscribed = "Subscribed",
+  /** Marketplace offer is suspended because of non payment */
+  Suspended = "Suspended",
+  /** Marketplace offer is unsubscribed */
+  Unsubscribed = "Unsubscribed",
+}
+
+/**
+ * Defines values for MarketplaceSubscriptionStatus. \
+ * {@link KnownMarketplaceSubscriptionStatus} can be used interchangeably with MarketplaceSubscriptionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PendingFulfillmentStart**: Fulfillment has not started \
+ * **Subscribed**: Marketplace offer is subscribed \
+ * **Suspended**: Marketplace offer is suspended because of non payment \
+ * **Unsubscribed**: Marketplace offer is unsubscribed
+ */
+export type MarketplaceSubscriptionStatus = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** File system resource creation request accepted */
+  Accepted = "Accepted",
+  /** File system resource creation started */
+  Creating = "Creating",
+  /** File system resource is being updated */
+  Updating = "Updating",
+  /** File system resource deletion started */
+  Deleting = "Deleting",
+  /** File system resource creation successful */
+  Succeeded = "Succeeded",
+  /** File system resource creation failed */
+  Failed = "Failed",
+  /** File system resource creation canceled */
+  Canceled = "Canceled",
+  /** File system resource is deleted */
+  Deleted = "Deleted",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: File system resource creation request accepted \
+ * **Creating**: File system resource creation started \
+ * **Updating**: File system resource is being updated \
+ * **Deleting**: File system resource deletion started \
+ * **Succeeded**: File system resource creation successful \
+ * **Failed**: File system resource creation failed \
+ * **Canceled**: File system resource creation canceled \
+ * **Deleted**: File system resource is deleted
+ */
+export type ProvisioningState = string;
+
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -330,7 +404,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -341,7 +415,7 @@ export enum KnownManagedServiceIdentityType {
  * **None** \
  * **SystemAssigned** \
  * **UserAssigned** \
- * **SystemAssigned, UserAssigned**
+ * **SystemAssigned,UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
 
@@ -354,7 +428,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -368,25 +442,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-/** Defines values for MarketplaceSubscriptionStatus. */
-export type MarketplaceSubscriptionStatus =
-  | "PendingFulfillmentStart"
-  | "Subscribed"
-  | "Suspended"
-  | "Unsubscribed";
-/** Defines values for ProvisioningState. */
-export type ProvisioningState =
-  | "Accepted"
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Deleted"
-  | "NotSpecified";
-/** Defines values for StorageSku. */
-export type StorageSku = "Standard" | "Performance";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -407,14 +462,16 @@ export interface FileSystemsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type FileSystemsListBySubscriptionResponse = FileSystemResourceListResult;
+export type FileSystemsListBySubscriptionResponse =
+  FileSystemResourceListResult;
 
 /** Optional parameters. */
 export interface FileSystemsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type FileSystemsListByResourceGroupResponse = FileSystemResourceListResult;
+export type FileSystemsListByResourceGroupResponse =
+  FileSystemResourceListResult;
 
 /** Optional parameters. */
 export interface FileSystemsGetOptionalParams
@@ -451,19 +508,24 @@ export interface FileSystemsDeleteOptionalParams
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type FileSystemsDeleteResponse = FileSystemsDeleteHeaders;
+
 /** Optional parameters. */
 export interface FileSystemsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type FileSystemsListBySubscriptionNextResponse = FileSystemResourceListResult;
+export type FileSystemsListBySubscriptionNextResponse =
+  FileSystemResourceListResult;
 
 /** Optional parameters. */
 export interface FileSystemsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type FileSystemsListByResourceGroupNextResponse = FileSystemResourceListResult;
+export type FileSystemsListByResourceGroupNextResponse =
+  FileSystemResourceListResult;
 
 /** Optional parameters. */
 export interface QumuloStorageOptionalParams

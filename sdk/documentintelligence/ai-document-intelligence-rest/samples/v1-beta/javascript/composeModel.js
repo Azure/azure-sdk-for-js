@@ -19,7 +19,7 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
 
   // This object will hold the SAS-encoded URLs to containers that hold
@@ -65,7 +65,7 @@ async function main() {
       })
       .map(async (model) => {
         return { modelId: (await model).modelId };
-      })
+      }),
   );
 
   // Finally, create the composed model.
@@ -97,7 +97,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    composedModel.docTypes || {}
+    composedModel.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);

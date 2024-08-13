@@ -20,7 +20,7 @@ const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-
 const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * Type guard for AmqpError.
@@ -30,7 +30,7 @@ function isAmqpError(err) {
   return rheaPromise.isAmqpError(err);
 }
 
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
@@ -77,7 +77,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
     `${HostName}/messages/events`,
     SharedAccessKey,
     SharedAccessKeyName,
-    5 // token expires in 5 minutes
+    5,
   );
 
   const connection = new Connection({
@@ -110,7 +110,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
         } else {
           const eventHubName = regexResults[1];
           resolve(
-            `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
+            `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`,
           );
         }
       } else {
@@ -127,7 +127,7 @@ async function main() {
   console.log(`Running iothubConnectionString sample`);
 
   const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
-    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"
+    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>",
   );
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, eventHubsConnectionString);
@@ -138,7 +138,7 @@ async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+            `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
           );
         }
       },
@@ -146,7 +146,7 @@ async function main() {
         console.log(`Error on partition "${context.partitionId}" : ${err}`);
       },
     },
-    { startPosition: earliestEventPosition }
+    { startPosition: earliestEventPosition },
   );
 
   // Wait for a bit before cleaning up the sample

@@ -18,7 +18,7 @@ import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
-  createFcmLegacyNotification,
+  createFcmV1Notification,
 } from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
@@ -44,17 +44,19 @@ async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
   const messageBody = `{
-	"notification":{
-		"title":"Notification Hub Test Notification",
-		"body":"This is a sample notification delivered by Azure Notification Hubs."
-	},
-	"data":{
-		"property1":"value1",
-		"property2":42
-	}
+    "message": {
+      "notification":{
+        "title":"Notification Hub Test Notification",
+        "body":"This is a sample notification delivered by Azure Notification Hubs."
+      },
+      "data":{
+        "property1":"value1",
+        "property2":"42"
+      }
+    }
 }`;
 
-  const notification = createFcmLegacyNotification({
+  const notification = createFcmV1Notification({
     body: messageBody,
   });
 

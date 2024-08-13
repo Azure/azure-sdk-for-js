@@ -26,7 +26,7 @@ async function deletesAnNetworkExperimentProfileByProfileName() {
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.networkExperimentProfiles.beginDeleteAndWait(
     resourceGroupName,
-    profileName
+    profileName,
   );
   console.log(result);
 }

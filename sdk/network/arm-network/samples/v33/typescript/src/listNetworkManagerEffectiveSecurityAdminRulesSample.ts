@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all effective security admin rules applied on a virtual network.
  *
  * @summary List all effective security admin rules applied on a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerEffectiveSecurityAdminRulesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerEffectiveSecurityAdminRulesList.json
  */
 async function listEffectiveSecurityAdminRules() {
   const subscriptionId =

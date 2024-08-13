@@ -11,7 +11,7 @@
 import {
   OrganizationResourceUpdate,
   OrganizationUpdateOptionalParams,
-  ConfluentManagementClient
+  ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update Organization resource
  *
  * @summary Update Organization resource
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Organization_Update.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Organization_Update.json
  */
 async function confluentUpdate() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function confluentUpdate() {
     process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const body: OrganizationResourceUpdate = {
-    tags: { client: "dev-client", env: "dev" }
+    tags: { client: "dev-client", env: "dev" },
   };
   const options: OrganizationUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function confluentUpdate() {
   const result = await client.organization.update(
     resourceGroupName,
     organizationName,
-    options
+    options,
   );
   console.log(result);
 }

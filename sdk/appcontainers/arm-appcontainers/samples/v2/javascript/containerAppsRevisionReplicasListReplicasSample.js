@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List replicas for a Container App Revision.
  *
  * @summary List replicas for a Container App Revision.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Replicas_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/Replicas_List.json
  */
 async function listContainerAppReplicas() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listContainerAppReplicas() {
   const result = await client.containerAppsRevisionReplicas.listReplicas(
     resourceGroupName,
     containerAppName,
-    revisionName
+    revisionName,
   );
   console.log(result);
 }

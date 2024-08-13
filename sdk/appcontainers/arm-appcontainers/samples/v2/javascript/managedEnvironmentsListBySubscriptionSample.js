@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get all Managed Environments for a subscription.
  *
  * @summary Get all Managed Environments for a subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_ListBySubscription.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_ListBySubscription.json
  */
 async function listEnvironmentsBySubscription() {
   const subscriptionId =

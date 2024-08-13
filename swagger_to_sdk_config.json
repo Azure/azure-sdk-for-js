@@ -22,6 +22,7 @@
     "parseGenerateOutput": true
   },
   "packageOptions": {
-    "breakingChangeLabel": "CI-BreakingChange-JavaScript"
+    "breakingChangeLabel": "CI-BreakingChange-JavaScript",
+    "breakingChangesLabel": "BreakingChange-JavaScript-Sdk"
   }
 }

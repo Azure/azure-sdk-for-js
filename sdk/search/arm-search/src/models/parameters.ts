@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SearchService as SearchServiceMapper,
   SearchServiceUpdate as SearchServiceUpdateMapper,
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  SharedPrivateLinkResource as SharedPrivateLinkResourceMapper
+  SharedPrivateLinkResource as SharedPrivateLinkResourceMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,22 +37,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-01",
+    defaultValue: "2024-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -61,34 +61,37 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const searchServiceName: OperationURLParameter = {
   parameterPath: "searchServiceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"),
+    },
     serializedName: "searchServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const clientRequestId: OperationParameter = {
   parameterPath: [
     "options",
     "searchManagementRequestOptions",
-    "clientRequestId"
+    "clientRequestId",
   ],
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -97,9 +100,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const keyKind: OperationURLParameter = {
@@ -109,9 +112,9 @@ export const keyKind: OperationURLParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["primary", "secondary"]
-    }
-  }
+      allowedValues: ["primary", "secondary"],
+    },
+  },
 };
 
 export const name: OperationURLParameter = {
@@ -120,9 +123,9 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const key: OperationURLParameter = {
@@ -131,9 +134,9 @@ export const key: OperationURLParameter = {
     serializedName: "key",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -142,10 +145,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -155,34 +158,45 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const service: OperationParameter = {
   parameterPath: "service",
-  mapper: SearchServiceMapper
+  mapper: SearchServiceMapper,
+};
+
+export const searchServiceName1: OperationURLParameter = {
+  parameterPath: "searchServiceName",
+  mapper: {
+    serializedName: "searchServiceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const service1: OperationParameter = {
   parameterPath: "service",
-  mapper: SearchServiceUpdateMapper
+  mapper: SearchServiceUpdateMapper,
 };
 
 export const name1: OperationParameter = {
   parameterPath: "name",
-  mapper: CheckNameAvailabilityInputMapper
+  mapper: CheckNameAvailabilityInputMapper,
 };
 
 export const typeParam: OperationParameter = {
   parameterPath: "typeParam",
-  mapper: CheckNameAvailabilityInputMapper
+  mapper: CheckNameAvailabilityInputMapper,
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -191,14 +205,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sharedPrivateLinkResource: OperationParameter = {
   parameterPath: "sharedPrivateLinkResource",
-  mapper: SharedPrivateLinkResourceMapper
+  mapper: SharedPrivateLinkResourceMapper,
 };
 
 export const sharedPrivateLinkResourceName: OperationURLParameter = {
@@ -207,9 +221,9 @@ export const sharedPrivateLinkResourceName: OperationURLParameter = {
     serializedName: "sharedPrivateLinkResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const location: OperationURLParameter = {
@@ -218,9 +232,9 @@ export const location: OperationURLParameter = {
     serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skuName: OperationURLParameter = {
@@ -229,7 +243,25 @@ export const skuName: OperationURLParameter = {
     serializedName: "skuName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nspConfigName: OperationURLParameter = {
+  parameterPath: "nspConfigName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}\\.[a-z][a-z0-9]*$",
+      ),
+      MaxLength: 100,
+      MinLength: 38,
+    },
+    serializedName: "nspConfigName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

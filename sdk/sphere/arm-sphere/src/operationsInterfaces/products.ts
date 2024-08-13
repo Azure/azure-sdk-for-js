@@ -22,7 +22,7 @@ import {
   ProductsUpdateResponse,
   ProductsDeleteOptionalParams,
   ProductsCountDevicesOptionalParams,
-  ProductsCountDevicesResponse
+  ProductsCountDevicesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface Products {
   listByCatalog(
     resourceGroupName: string,
     catalogName: string,
-    options?: ProductsListByCatalogOptionalParams
+    options?: ProductsListByCatalogOptionalParams,
   ): PagedAsyncIterableIterator<Product>;
   /**
    * Generates default device groups for the product. '.default' and '.unassigned' are system defined
@@ -51,7 +51,7 @@ export interface Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams
+    options?: ProductsGenerateDefaultDeviceGroupsOptionalParams,
   ): PagedAsyncIterableIterator<DeviceGroup>;
   /**
    * Get a Product. '.default' and '.unassigned' are system defined values and cannot be used for product
@@ -65,7 +65,7 @@ export interface Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsGetOptionalParams
+    options?: ProductsGetOptionalParams,
   ): Promise<ProductsGetResponse>;
   /**
    * Create a Product. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -81,7 +81,7 @@ export interface Products {
     catalogName: string,
     productName: string,
     resource: Product,
-    options?: ProductsCreateOrUpdateOptionalParams
+    options?: ProductsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProductsCreateOrUpdateResponse>,
@@ -102,7 +102,7 @@ export interface Products {
     catalogName: string,
     productName: string,
     resource: Product,
-    options?: ProductsCreateOrUpdateOptionalParams
+    options?: ProductsCreateOrUpdateOptionalParams,
   ): Promise<ProductsCreateOrUpdateResponse>;
   /**
    * Update a Product. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -118,7 +118,7 @@ export interface Products {
     catalogName: string,
     productName: string,
     properties: ProductUpdate,
-    options?: ProductsUpdateOptionalParams
+    options?: ProductsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ProductsUpdateResponse>,
@@ -139,7 +139,7 @@ export interface Products {
     catalogName: string,
     productName: string,
     properties: ProductUpdate,
-    options?: ProductsUpdateOptionalParams
+    options?: ProductsUpdateOptionalParams,
   ): Promise<ProductsUpdateResponse>;
   /**
    * Delete a Product. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -153,7 +153,7 @@ export interface Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsDeleteOptionalParams
+    options?: ProductsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Product. '.default' and '.unassigned' are system defined values and cannot be used for
@@ -167,7 +167,7 @@ export interface Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsDeleteOptionalParams
+    options?: ProductsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Counts devices in product. '.default' and '.unassigned' are system defined values and cannot be used
@@ -181,6 +181,6 @@ export interface Products {
     resourceGroupName: string,
     catalogName: string,
     productName: string,
-    options?: ProductsCountDevicesOptionalParams
+    options?: ProductsCountDevicesOptionalParams,
   ): Promise<ProductsCountDevicesResponse>;
 }

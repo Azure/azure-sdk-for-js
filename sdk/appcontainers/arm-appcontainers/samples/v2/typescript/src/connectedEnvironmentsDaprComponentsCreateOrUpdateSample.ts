@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DaprComponent,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Dapr Component in a connected environment.
  *
  * @summary Creates or updates a Dapr Component in a connected environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
  */
 async function createOrUpdateDaprComponent() {
   const subscriptionId =
@@ -39,20 +39,21 @@ async function createOrUpdateDaprComponent() {
       { name: "url", value: "<COSMOS-URL>" },
       { name: "database", value: "itemsDB" },
       { name: "collection", value: "items" },
-      { name: "masterkey", secretRef: "masterkey" }
+      { name: "masterkey", secretRef: "masterkey" },
     ],
     scopes: ["container-app-1", "container-app-2"],
     secrets: [{ name: "masterkey", value: "keyvalue" }],
-    version: "v1"
+    version: "v1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.connectedEnvironmentsDaprComponents.createOrUpdate(
-    resourceGroupName,
-    connectedEnvironmentName,
-    componentName,
-    daprComponentEnvelope
-  );
+  const result =
+    await client.connectedEnvironmentsDaprComponents.createOrUpdate(
+      resourceGroupName,
+      connectedEnvironmentName,
+      componentName,
+      daprComponentEnvelope,
+    );
   console.log(result);
 }
 

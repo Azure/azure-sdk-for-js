@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a list of all action groups in a resource group.
  *
  * @summary Get a list of all action groups in a resource group.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/listActionGroups.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/listActionGroups.json
  */
 async function listActionGroupsAtResourceGroupLevel() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listActionGroupsAtResourceGroupLevel() {
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.actionGroups.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

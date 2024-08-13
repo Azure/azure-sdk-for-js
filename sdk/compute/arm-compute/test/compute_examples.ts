@@ -20,14 +20,15 @@ import { ComputeManagementClient } from "../src/computeManagementClient";
 import { NetworkManagementClient, VirtualNetwork, Subnet, NetworkInterface } from "@azure/arm-network";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -55,13 +56,13 @@ describe("Compute test", () => {
     const credential = createTestCredential();
     client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroupName = "myjstest";
     availabilitySetName = "availabilitySets123";
-    network_name = "networknamexx";
-    subnet_name = "subnetnamexx";
-    interface_name = "interfacex";
-    virtual_machine_name = "virtualmachinex";
+    network_name = "networknamexx1";
+    subnet_name = "subnetnamexx1";
+    interface_name = "interfacex1";
+    virtual_machine_name = "virtualmachinex1";
   });
 
   afterEach(async function () {
@@ -128,6 +129,14 @@ describe("Compute test", () => {
     );
   }
 
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
   it("availabilitySets create test", async function () {
     const res = await client.availabilitySets.createOrUpdate(resourceGroupName, availabilitySetName, {
       platformFaultDomainCount: 2,
@@ -173,7 +182,7 @@ describe("Compute test", () => {
     const res = await client.virtualMachines.beginCreateOrUpdateAndWait(resourceGroupName, virtual_machine_name, {
       location: location,
       hardwareProfile: {
-        vmSize: "Standard_D2_v2",
+        vmSize: "Standard_B1ls",
       },
       storageProfile: {
         imageReference: {

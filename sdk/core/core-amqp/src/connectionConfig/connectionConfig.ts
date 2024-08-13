@@ -3,7 +3,7 @@
 
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "@azure/core-util";
-import { parseConnectionString } from "../util/utils";
+import { parseConnectionString } from "../util/utils.js";
 
 /**
  * Describes the options that can be provided while creating a connection config.
@@ -78,6 +78,17 @@ export interface ConnectionConfig {
    * Options to be passed to the WebSocket constructor
    */
   webSocketConstructorOptions?: any;
+  /**
+   * This should be true only if the connection string contains the slug ";UseDevelopmentEmulator=true"
+   * and the endpoint is a loopback address.
+   */
+  useDevelopmentEmulator?: boolean;
+}
+
+function getHost(endpoint: string): string {
+  const matches = /.*:\/\/([^/]*)/.exec(endpoint);
+  const match = matches?.[1];
+  return !match ? endpoint : match;
 }
 
 /**
@@ -102,6 +113,7 @@ export const ConnectionConfig = {
       SharedAccessKeyName: string;
       SharedAccessKey: string;
       EntityPath?: string;
+      UseDevelopmentEmulator?: string;
     }>(connectionString);
     if (!parsedCS.Endpoint) {
       throw new TypeError("Missing Endpoint in Connection String.");
@@ -112,9 +124,10 @@ export const ConnectionConfig = {
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
-      host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
+      host: getHost(parsedCS.Endpoint),
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey,
+      useDevelopmentEmulator: parsedCS.UseDevelopmentEmulator === "true",
     };
 
     if (path || parsedCS.EntityPath) {

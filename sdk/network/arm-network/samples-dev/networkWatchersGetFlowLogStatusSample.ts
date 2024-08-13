@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Queries status of flow log and traffic analytics (optional) on a specified resource.
  *
  * @summary Queries status of flow log and traffic analytics (optional) on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherFlowLogStatusQuery.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkWatcherFlowLogStatusQuery.json
  */
 async function getFlowLogStatus() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

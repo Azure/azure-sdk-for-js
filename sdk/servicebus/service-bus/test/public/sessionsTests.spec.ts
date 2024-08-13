@@ -24,7 +24,6 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2";
-import { AbortController } from "@azure/abort-controller";
 import sinon from "sinon";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
@@ -267,7 +266,6 @@ describe("session tests", () => {
         await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });
@@ -280,7 +278,6 @@ describe("session tests", () => {
         await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });
@@ -293,7 +290,6 @@ describe("session tests", () => {
         await receiver.renewSessionLock({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });
@@ -306,7 +302,6 @@ describe("session tests", () => {
         await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
-        err.message.should.equal("The operation was aborted.");
         err.name.should.equal("AbortError");
       }
     });

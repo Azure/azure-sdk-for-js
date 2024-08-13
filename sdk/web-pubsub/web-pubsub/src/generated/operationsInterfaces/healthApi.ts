@@ -15,6 +15,6 @@ export interface HealthApi {
    * @param options The options parameters.
    */
   getServiceStatus(
-    options?: HealthApiGetServiceStatusOptionalParams
+    options?: HealthApiGetServiceStatusOptionalParams,
   ): Promise<void>;
 }

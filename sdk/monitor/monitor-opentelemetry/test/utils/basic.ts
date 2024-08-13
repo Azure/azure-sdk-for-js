@@ -4,8 +4,12 @@
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
 import {
-  SemanticResourceAttributes,
-  SemanticAttributes,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_STACKTRACE,
 } from "@opentelemetry/semantic-conventions";
 import { SeverityNumber, logs } from "@opentelemetry/api-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -75,7 +79,7 @@ export class TraceBasicScenario implements Scenario {
       },
       ctx,
     );
-    let eventAttributes: any = {};
+    const eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";
     child1.addEvent("TestEvent", eventAttributes);
     child1.end(100);
@@ -191,9 +195,9 @@ export class TraceBasicScenario implements Scenario {
 export class MetricBasicScenario implements Scenario {
   prepare(): void {
     const testResource = new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: "my-helloworld-service",
-      [SemanticResourceAttributes.SERVICE_NAMESPACE]: "my-namespace",
-      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "my-instance",
+      [SEMRESATTRS_SERVICE_NAME]: "my-helloworld-service",
+      [SEMRESATTRS_SERVICE_NAMESPACE]: "my-namespace",
+      [SEMRESATTRS_SERVICE_INSTANCE_ID]: "my-instance",
     });
     useAzureMonitor({
       azureMonitorExporterOptions: {
@@ -205,9 +209,9 @@ export class MetricBasicScenario implements Scenario {
 
   async run(): Promise<void> {
     const meter = opentelemetry.metrics.getMeter("basic");
-    let counter = meter.createCounter("testCounter");
-    let counter2 = meter.createCounter("testCounter2");
-    let histogram = meter.createHistogram("testHistogram");
+    const counter = meter.createCounter("testCounter");
+    const counter2 = meter.createCounter("testCounter2");
+    const histogram = meter.createHistogram("testHistogram");
     let attributes: any = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
@@ -216,7 +220,7 @@ export class MetricBasicScenario implements Scenario {
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
-    let dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
+    const dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
 
     attributes = {
       "Dependency.Success": "False",
@@ -241,7 +245,7 @@ export class MetricBasicScenario implements Scenario {
       "request/resultCode": "200",
     };
 
-    let requestyDurationMetric = meter.createHistogram("TestRequestDuration");
+    const requestyDurationMetric = meter.createHistogram("TestRequestDuration");
     requestyDurationMetric.record(4567, attributes);
     await delay(0);
   }
@@ -387,6 +391,7 @@ export class LogBasicScenario implements Scenario {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async run(): Promise<void> {
     const logger = logs.getLogger("basic");
 
@@ -398,10 +403,10 @@ export class LogBasicScenario implements Scenario {
       attributes: { foo: "bar" },
     });
     // emit a exception record
-    let attributes: any = [];
-    attributes[SemanticAttributes.EXCEPTION_TYPE] = "test exception type";
-    attributes[SemanticAttributes.EXCEPTION_MESSAGE] = "test exception message";
-    attributes[SemanticAttributes.EXCEPTION_STACKTRACE] = "test exception stack";
+    const attributes: any = [];
+    attributes[SEMATTRS_EXCEPTION_TYPE] = "test exception type";
+    attributes[SEMATTRS_EXCEPTION_MESSAGE] = "test exception message";
+    attributes[SEMATTRS_EXCEPTION_STACKTRACE] = "test exception stack";
     logger.emit({
       severityNumber: SeverityNumber.ERROR,
       severityText: "ERROR",

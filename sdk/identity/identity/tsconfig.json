@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.package",
+  "extends": "../../../tsconfig",
   "compilerOptions": {
     "lib": ["DOM"],
     "declarationDir": "./types",
@@ -10,5 +10,5 @@
     }
   },
   "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
-  "exclude": ["test/manual*/**/*", "node_modules"]
+  "exclude": ["test/manual*/**/*", "integration/**", "node_modules"]
 }

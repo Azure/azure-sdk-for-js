@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the object replication policy associated with the specified storage account.
  *
  * @summary Deletes the object replication policy associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountDeleteObjectReplicationPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountDeleteObjectReplicationPolicy.json
  */
 async function storageAccountDeleteObjectReplicationPolicies() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function storageAccountDeleteObjectReplicationPolicies() {
   const result = await client.objectReplicationPoliciesOperations.delete(
     resourceGroupName,
     accountName,
-    objectReplicationPolicyId
+    objectReplicationPolicyId,
   );
   console.log(result);
 }

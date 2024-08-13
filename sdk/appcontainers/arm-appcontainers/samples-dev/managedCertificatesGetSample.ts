@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the specified Managed Certificate.
  *
  * @summary Get the specified Managed Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedCertificate_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedCertificate_Get.json
  */
 async function getCertificate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getCertificate() {
   const result = await client.managedCertificates.get(
     resourceGroupName,
     environmentName,
-    managedCertificateName
+    managedCertificateName,
   );
   console.log(result);
 }

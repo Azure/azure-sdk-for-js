@@ -18,7 +18,7 @@ import {
   DicomServicePatchResource,
   DicomServicesUpdateOptionalParams,
   DicomServicesUpdateResponse,
-  DicomServicesDeleteOptionalParams
+  DicomServicesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface DicomServices {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DicomServicesListByWorkspaceOptionalParams
+    options?: DicomServicesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DicomService>;
   /**
    * Gets the properties of the specified DICOM Service.
@@ -46,7 +46,7 @@ export interface DicomServices {
     resourceGroupName: string,
     workspaceName: string,
     dicomServiceName: string,
-    options?: DicomServicesGetOptionalParams
+    options?: DicomServicesGetOptionalParams,
   ): Promise<DicomServicesGetResponse>;
   /**
    * Creates or updates a DICOM Service resource with the specified parameters.
@@ -61,7 +61,7 @@ export interface DicomServices {
     workspaceName: string,
     dicomServiceName: string,
     dicomservice: DicomService,
-    options?: DicomServicesCreateOrUpdateOptionalParams
+    options?: DicomServicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DicomServicesCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface DicomServices {
     workspaceName: string,
     dicomServiceName: string,
     dicomservice: DicomService,
-    options?: DicomServicesCreateOrUpdateOptionalParams
+    options?: DicomServicesCreateOrUpdateOptionalParams,
   ): Promise<DicomServicesCreateOrUpdateResponse>;
   /**
    * Patch DICOM Service details.
@@ -96,7 +96,7 @@ export interface DicomServices {
     dicomServiceName: string,
     workspaceName: string,
     dicomservicePatchResource: DicomServicePatchResource,
-    options?: DicomServicesUpdateOptionalParams
+    options?: DicomServicesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DicomServicesUpdateResponse>,
@@ -116,7 +116,7 @@ export interface DicomServices {
     dicomServiceName: string,
     workspaceName: string,
     dicomservicePatchResource: DicomServicePatchResource,
-    options?: DicomServicesUpdateOptionalParams
+    options?: DicomServicesUpdateOptionalParams,
   ): Promise<DicomServicesUpdateResponse>;
   /**
    * Deletes a DICOM Service.
@@ -129,7 +129,7 @@ export interface DicomServices {
     resourceGroupName: string,
     dicomServiceName: string,
     workspaceName: string,
-    options?: DicomServicesDeleteOptionalParams
+    options?: DicomServicesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a DICOM Service.
@@ -142,6 +142,6 @@ export interface DicomServices {
     resourceGroupName: string,
     dicomServiceName: string,
     workspaceName: string,
-    options?: DicomServicesDeleteOptionalParams
+    options?: DicomServicesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get all the Managed Environments in a resource group.
  *
  * @summary Get all the Managed Environments in a resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ManagedEnvironments_ListByResourceGroup.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2024-03-01/examples/ManagedEnvironments_ListByResourceGroup.json
  */
 async function listEnvironmentsByResourceGroup() {
   const subscriptionId =

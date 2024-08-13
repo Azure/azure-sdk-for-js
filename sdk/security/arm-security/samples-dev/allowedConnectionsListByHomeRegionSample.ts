@@ -29,7 +29,7 @@ async function getAllowedConnectionsOnASubscriptionFromSecurityDataLocation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.allowedConnections.listByHomeRegion(
-    ascLocation
+    ascLocation,
   )) {
     resArray.push(item);
   }

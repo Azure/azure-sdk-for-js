@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
  *
  * @summary Create or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
  */
 async function createsSpecificPolicy() {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
@@ -61,6 +61,7 @@ async function createsSpecificPolicy() {
         },
       ],
     },
+    location: "WestUs",
     managedRules: {
       managedRuleSets: [
         {
@@ -109,19 +110,28 @@ async function createsSpecificPolicy() {
         "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
       customBlockResponseStatusCode: 429,
       enabledState: "Enabled",
+      javascriptChallengeExpirationInMinutes: 30,
       mode: "Prevention",
       redirectUrl: "http://www.bing.com",
       requestBodyCheck: "Disabled",
+      scrubbingRules: [
+        {
+          matchVariable: "RequestIPAddress",
+          selector: undefined,
+          selectorMatchOperator: "EqualsAny",
+          state: "Enabled",
+        },
+      ],
+      state: "Enabled",
     },
-    sku: { name: "Classic_AzureFrontDoor" },
-    location: "WestUs",
+    sku: { name: "Premium_AzureFrontDoor" },
   };
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
   const result = await client.policies.beginCreateOrUpdateAndWait(
     resourceGroupName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

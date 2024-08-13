@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.2 (Unreleased)
+## 2.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,105 @@
 
 ### Other Changes
 
+## 2.2.0 (2024-05-20)
+
+**Features**
+    
+  - Interface BatchDeploymentsListNextOptionalParams no longer has parameter orderBy
+  - Interface BatchDeploymentsListNextOptionalParams no longer has parameter skip
+  - Interface BatchDeploymentsListNextOptionalParams no longer has parameter top
+  - Interface BatchEndpointsListNextOptionalParams no longer has parameter count
+  - Interface BatchEndpointsListNextOptionalParams no longer has parameter skip
+  - Interface CodeContainersListNextOptionalParams no longer has parameter skip
+  - Interface CodeVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface CodeVersionsListNextOptionalParams no longer has parameter skip
+  - Interface CodeVersionsListNextOptionalParams no longer has parameter top
+  - Interface ComponentContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface ComponentContainersListNextOptionalParams no longer has parameter skip
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter skip
+  - Interface ComponentVersionsListNextOptionalParams no longer has parameter top
+  - Interface ComputeListNextOptionalParams no longer has parameter skip
+  - Interface DataContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface DataContainersListNextOptionalParams no longer has parameter skip
+  - Interface DatastoresListNextOptionalParams no longer has parameter count
+  - Interface DatastoresListNextOptionalParams no longer has parameter isDefault
+  - Interface DatastoresListNextOptionalParams no longer has parameter names
+  - Interface DatastoresListNextOptionalParams no longer has parameter orderBy
+  - Interface DatastoresListNextOptionalParams no longer has parameter orderByAsc
+  - Interface DatastoresListNextOptionalParams no longer has parameter searchText
+  - Interface DatastoresListNextOptionalParams no longer has parameter skip
+  - Interface DataVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface DataVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface DataVersionsListNextOptionalParams no longer has parameter skip
+  - Interface DataVersionsListNextOptionalParams no longer has parameter tags
+  - Interface DataVersionsListNextOptionalParams no longer has parameter top
+  - Interface EnvironmentContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface EnvironmentContainersListNextOptionalParams no longer has parameter skip
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter skip
+  - Interface EnvironmentVersionsListNextOptionalParams no longer has parameter top
+  - Interface JobsListNextOptionalParams no longer has parameter jobType
+  - Interface JobsListNextOptionalParams no longer has parameter listViewType
+  - Interface JobsListNextOptionalParams no longer has parameter skip
+  - Interface JobsListNextOptionalParams no longer has parameter tag
+  - Interface ModelContainersListNextOptionalParams no longer has parameter count
+  - Interface ModelContainersListNextOptionalParams no longer has parameter listViewType
+  - Interface ModelContainersListNextOptionalParams no longer has parameter skip
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter description
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter feed
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter listViewType
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter offset
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter orderBy
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter properties
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter skip
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter tags
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter top
+  - Interface ModelVersionsListNextOptionalParams no longer has parameter version
+  - Interface OnlineDeploymentsListNextOptionalParams no longer has parameter orderBy
+  - Interface OnlineDeploymentsListNextOptionalParams no longer has parameter skip
+  - Interface OnlineDeploymentsListNextOptionalParams no longer has parameter top
+  - Interface OnlineDeploymentsListSkusNextOptionalParams no longer has parameter count
+  - Interface OnlineDeploymentsListSkusNextOptionalParams no longer has parameter skip
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter computeType
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter count
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter name
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter orderBy
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter properties
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter skip
+  - Interface OnlineEndpointsListNextOptionalParams no longer has parameter tags
+  - Interface SchedulesListNextOptionalParams no longer has parameter listViewType
+  - Interface SchedulesListNextOptionalParams no longer has parameter skip
+  - Interface WorkspaceConnectionsListNextOptionalParams no longer has parameter category
+  - Interface WorkspaceConnectionsListNextOptionalParams no longer has parameter target
+  - Interface WorkspacesListByResourceGroupNextOptionalParams no longer has parameter skip
+  - Interface WorkspacesListBySubscriptionNextOptionalParams no longer has parameter skip
+  - Interface Classification has a new required parameter taskType
+  - Interface CustomModelJobInput has a new required parameter jobInputType
+  - Interface CustomModelJobOutput has a new required parameter jobOutputType
+  - Interface Forecasting has a new required parameter taskType
+  - Interface ImageClassification has a new required parameter taskType
+  - Interface ImageClassificationMultilabel has a new required parameter taskType
+  - Interface ImageInstanceSegmentation has a new required parameter taskType
+  - Interface ImageObjectDetection has a new required parameter taskType
+  - Interface MLFlowModelJobInput has a new required parameter jobInputType
+  - Interface MLFlowModelJobOutput has a new required parameter jobOutputType
+  - Interface MLTableJobInput has a new required parameter jobInputType
+  - Interface MLTableJobOutput has a new required parameter jobOutputType
+  - Interface Regression has a new required parameter taskType
+  - Interface TextClassification has a new required parameter taskType
+  - Interface TextClassificationMultilabel has a new required parameter taskType
+  - Interface TextNer has a new required parameter taskType
+  - Interface TritonModelJobInput has a new required parameter jobInputType
+  - Interface TritonModelJobOutput has a new required parameter jobOutputType
+  - Interface UriFileJobInput has a new required parameter jobInputType
+  - Interface UriFileJobOutput has a new required parameter jobOutputType
+  - Interface UriFolderJobInput has a new required parameter jobInputType
+  - Interface UriFolderJobOutput has a new required parameter jobOutputType
+    
+    
 ## 2.1.1 (2022-11-28)
 
 **Features**
@@ -213,4 +312,4 @@
     
 ## 1.0.0 (2022-07-13)
 
-The package of @azure/arm-machinelearning is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-machinelearning is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
