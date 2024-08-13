@@ -9,7 +9,7 @@ import { testPollerProperties } from "./utils/recorder.js";
 import { getSasToken } from "./utils/common.js";
 import { delay } from "@azure/core-util";
 import { KeyClient } from "@azure/keyvault-keys";
-import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 // TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
 describe.skip("KeyVaultBackupClient", () => {
@@ -49,15 +49,17 @@ describe.skip("KeyVaultBackupClient", () => {
         ...testPollerProperties,
       });
 
-      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
-      assert.equal(resumedPoller.getOperationState().jobId, backupPoller.getOperationState().jobId);
+      expect(resumedPoller.getOperationState().isStarted).toEqual(true); // without polling
+      expect(resumedPoller.getOperationState().jobId).toEqual(
+        backupPoller.getOperationState().jobId,
+      );
 
       const backupResult = await backupPoller.pollUntilDone();
-      assert.notExists(backupPoller.getOperationState().error);
-      assert.exists(backupResult.folderUri);
-      assert.equal(backupResult.startTime, backupPoller.getOperationState().startTime);
-      assert.equal(backupResult.endTime, backupPoller.getOperationState().endTime);
-      assert.match(backupResult.folderUri!, new RegExp(blobStorageUri));
+      expect(backupPoller.getOperationState().error).toBeUndefined();
+      expect(backupResult.folderUri).toBeDefined();
+      expect(backupResult.startTime).toEqual(backupPoller.getOperationState().startTime);
+      expect(backupResult.endTime).toEqual(backupPoller.getOperationState().endTime);
+      expect(backupResult.folderUri!).toMatch(new RegExp(blobStorageUri));
     });
 
     it("throws when polling errors", async function () {
@@ -75,7 +77,7 @@ describe.skip("KeyVaultBackupClient", () => {
         testPollerProperties,
       );
       const backupResult = await backupPoller.pollUntilDone();
-      assert.exists(backupResult.folderUri);
+      expect(backupResult.folderUri).toBeDefined();
 
       const restorePoller = await client.beginRestore(
         backupResult.folderUri!,
@@ -89,18 +91,17 @@ describe.skip("KeyVaultBackupClient", () => {
         ...testPollerProperties,
         resumeFrom: restorePoller.toString(),
       });
-      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
-      assert.equal(
-        resumedPoller.getOperationState().jobId,
+      expect(resumedPoller.getOperationState().isStarted).toEqual(true); // without polling
+      expect(resumedPoller.getOperationState().jobId).toEqual(
         restorePoller.getOperationState().jobId,
       );
 
       const restoreResult = await restorePoller.pollUntilDone();
       const operationState = restorePoller.getOperationState();
-      assert.equal(restoreResult.startTime, operationState.startTime);
-      assert.equal(restoreResult.endTime, operationState.endTime);
-      assert.equal(operationState.isCompleted, true);
-      assert.notExists(operationState.error);
+      expect(restoreResult.startTime).toEqual(operationState.startTime);
+      expect(restoreResult.endTime).toEqual(operationState.endTime);
+      expect(operationState.isCompleted).toEqual(true);
+      expect(operationState.error).toBeUndefined();
       // Restore is eventually consistent so while we work
       // through the retry operations adding a delay here allows
       // tests to pass the 5s polling delay.
@@ -120,7 +121,7 @@ describe.skip("KeyVaultBackupClient", () => {
         testPollerProperties,
       );
       const backupURI = await backupPoller.pollUntilDone();
-      assert.exists(backupURI.folderUri);
+      expect(backupURI.folderUri).toBeDefined();
 
       // Delete the key (purging it is required), then restore and ensure it's restored
       await (await keyClient.beginDeleteKey(keyName, testPollerProperties)).pollUntilDone();
@@ -144,15 +145,14 @@ describe.skip("KeyVaultBackupClient", () => {
           resumeFrom: selectiveKeyRestorePoller.toString(),
         },
       );
-      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
-      assert.equal(
-        resumedPoller.getOperationState().jobId,
+      expect(resumedPoller.getOperationState().isStarted).toEqual(true); // without polling
+      expect(resumedPoller.getOperationState().jobId).toEqual(
         selectiveKeyRestorePoller.getOperationState().jobId,
       );
 
       await selectiveKeyRestorePoller.pollUntilDone();
       const operationState = selectiveKeyRestorePoller.getOperationState();
-      assert.equal(operationState.isCompleted, true);
+      expect(operationState.isCompleted).toEqual(true);
 
       await keyClient.getKey(keyName);
     });
