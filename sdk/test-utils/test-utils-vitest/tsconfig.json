@@ -1,0 +1,24 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "lib": [
+      "dom"
+    ],
+    "paths": {
+      "@azure/test-utils-vitest": [
+        "./src/index.ts"
+      ]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "target": "ES2020",
+    "skipLibCheck": true
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "./test/**/*.ts"
+  ]
+}
