@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/**
+ * TODO: Remove this sampler in favor of the implementation in the AzMon Exporter once we support M2M approach for standard metrics.
+ * This sampler specifically marks spans as sampled out and records them instead of dropping the span altogether.
+ */
 import { Link, Attributes, SpanKind, Context, diag } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
+import { AzureMonitorSampleRate } from "../types";
 
 /**
  * ApplicationInsightsSampler is responsible for the following:
@@ -63,9 +68,11 @@ export class ApplicationInsightsSampler implements Sampler {
     } else {
       isSampledIn = this._getSamplingHashCode(traceId) < this._sampleRate;
     }
-    // Add sample rate as span attribute
+    // Add sample rate as span attribute if it is not 100
     attributes = attributes || {};
-    attributes["_MS.sampleRate"] = this._sampleRate;
+    if (this._sampleRate !== 100) {
+      attributes[AzureMonitorSampleRate] = this._sampleRate;
+    }
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.RECORD, attributes: attributes };

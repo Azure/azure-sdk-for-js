@@ -17,7 +17,7 @@ describe("defaultRetryPolicy", function () {
     const testError = new RestError("Test Error!", { code: "UNEXPECTED" });
 
     const policy = defaultRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -44,7 +44,7 @@ describe("defaultRetryPolicy", function () {
 
       const testError = new RestError("Test Error!", { code: errorCode });
 
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
       next.mockRejectedValue(testError);
 
       let catchCalled = false;
@@ -66,7 +66,7 @@ describe("defaultRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 416 });
 
     const policy = defaultRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
