@@ -38,12 +38,8 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "build:node": "tsc -p . && npm run bundle",
-    "build:browser": "tsc -p . && npm run bundle",
-    "build:nodebrowser": "npm run bundle",
-    "build:test": "tsc -p . && npm run bundle",
+    "build:test": "tshy && dev-tool run build-test --browser-test=false",
     "build": "npm run clean && tshy && dev-tool run extract-api",
-    "bundle": "dev-tool run bundle --browser-test=false",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && rimraf --glob src/**/*.js && rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",

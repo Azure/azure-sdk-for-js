@@ -1,14 +1,10 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "lib": [
-      "dom"
-    ],
+    "lib": ["dom"],
     "resolveJsonModule": true,
     "paths": {
-      "@azure/keyvault-admin": [
-        "./src/index"
-      ]
+      "@azure/keyvault-admin": ["./src/index.js"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

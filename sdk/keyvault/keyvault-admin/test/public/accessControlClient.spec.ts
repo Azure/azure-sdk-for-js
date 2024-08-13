@@ -13,7 +13,7 @@ import {
 import { authenticate } from "./utils/authentication.js";
 import { getServiceVersion } from "./utils/common.js";
 import { KnownRoleScope } from "../../src/generated/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -21,8 +21,8 @@ describe("KeyVaultAccessControlClient", () => {
   let generateFakeUUID: () => string;
   const globalScope = "/";
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;

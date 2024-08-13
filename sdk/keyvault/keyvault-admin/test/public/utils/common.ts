@@ -2,24 +2,6 @@
 // Licensed under the MIT license.
 
 import { env } from "@azure-tools/test-recorder";
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure-tools/test-utils";
-import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../../src/constants.js";
-
-export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
-  let passed = false;
-  try {
-    await cb();
-    passed = true;
-  } catch (e: any) {
-    console.log(`name: ${e.name}, message: ${e.message}`);
-    assert.equal(e.name, "AbortError");
-    assert.equal(e.message, "The operation was aborted.");
-  }
-
-  if (passed) {
-    throw new Error("Expected cb to throw an AbortError");
-  }
-}
 
 export function formatName(name: string): string {
   return name.replace(/[^0-9a-zA-Z-]/g, "");
@@ -56,32 +38,4 @@ export function getSasToken(): { blobStorageUri: string; blobSasToken: string } 
   const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
 
   return { blobStorageUri, blobSasToken };
-}
-
-/**
- * The known API versions that we support.
- */
-export const serviceVersions = ["7.2", "7.3", "7.4", "7.5"] as const;
-
-/**
- * Fetches the service version to test against. This version could be configured as part of CI
- * and then passed through the environment in order to support testing prior service versions.
- * @returns - The service version to test
- */
-export function getServiceVersion(): SUPPORTED_API_VERSIONS {
-  return (env.SERVICE_VERSION as SUPPORTED_API_VERSIONS) || LATEST_API_VERSION;
-}
-
-/**
- * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
- *
- * @param supportedVersions - The {@link SupportedVersions} to limit this test against.
- * @param serviceVersion - The service version we want to test support for. If omitted we will default to the version returned from {@link getServiceVersion}.
- * @returns A Mocha Wrapper which will skip or execute the chained tests depending the currently tested service version and the supported versions.
- */
-export function onVersions(
-  supportedVersions: SupportedVersions,
-  serviceVersion?: SUPPORTED_API_VERSIONS,
-): TestFunctionWrapper {
-  return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

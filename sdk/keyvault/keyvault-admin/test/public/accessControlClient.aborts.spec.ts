@@ -4,9 +4,8 @@
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
 import { KeyVaultAccessControlClient } from "../../src/index.js";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common.js";
 import { authenticate } from "./utils/authentication.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let client: KeyVaultAccessControlClient;
@@ -14,8 +13,8 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let generateFakeUUID: () => string;
   const globalScope = "/";
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;

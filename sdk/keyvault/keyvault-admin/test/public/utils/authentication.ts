@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -11,13 +11,10 @@ import {
   KeyVaultSettingsClient,
 } from "../../../src/index.js";
 
-import { getEnvironmentVariable, getServiceVersion } from "./common.js";
+import { getEnvironmentVariable } from "./common.js";
 
-export async function authenticate(
-  that: Context,
-  serviceVersion: ReturnType<typeof getServiceVersion>,
-): Promise<any> {
-  const recorder = new Recorder(that.currentTest);
+export async function authenticate(that: TestInfo): Promise<any> {
+  const recorder = new Recorder(that);
   let generatedUUIDs = 0;
 
   function generateFakeUUID(): string {
@@ -39,11 +36,13 @@ export async function authenticate(
     sanitizerOptions: {
       generalSanitizers: [
         {
+          // eslint-disable-next-line no-useless-escape
           target: `keyvault_name\.[a-z-]+\.azure[a-z-]*\.net`,
           regex: true,
           value: `keyvault_name.managedhsm.azure.net`,
         },
         {
+          // eslint-disable-next-line no-useless-escape
           target: `[a-zA-Z0-9\-]+\.blob\.core\.windows\.net`,
           regex: true,
           value: `uri.blob.core.windows.net`,
@@ -73,25 +72,23 @@ export async function authenticate(
     keyVaultHsmUrl,
     credential,
     recorder.configureClientOptions({
-      serviceVersion,
       disableChallengeResourceVerification: true,
     }),
   );
   const keyClient = new KeyClient(
     keyVaultHsmUrl,
     credential,
-    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true }),
+    recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
   );
   const backupClient = new KeyVaultBackupClient(
     keyVaultHsmUrl,
     credential,
-    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true }),
+    recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
   );
   const settingsClient = new KeyVaultSettingsClient(
     keyVaultHsmUrl,
     credential,
     recorder.configureClientOptions({
-      serviceVersion,
       disableChallengeResourceVerification: true,
     }),
   );
