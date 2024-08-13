@@ -1,30 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRecorder, testPollingOptions } from "./utils/recorderUtils";
-import { Context } from "mocha";
-import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
-  ComponentDocumentModelDetails,
-  DocumentIntelligenceClient,
-  DocumentModelBuildOperationDetailsOutput,
-  DocumentModelComposeOperationDetailsOutput,
-  DocumentModelCopyToOperationDetailsOutput,
-  DocumentModelDetailsOutput,
-  getLongRunningPoller,
-  isUnexpected,
-  paginate,
-} from "../../src";
-import { getRandomNumber } from "./utils/utils";
-import { containerSasUrl } from "./utils/utils";
+import { Recorder, assertEnvironmentVariable, testPollingOptions } from "@azure-tools/test-recorder";
+import { createRecorder } from "./utils/recorderUtils.js";
+import DocumentIntelligence from "../../src/documentIntelligence.js";
+import { assert, describe, beforeEach, afterEach, it, Context } from "vitest";
+import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
+import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import { AnalyzeResultOperationOutput, DocumentModelBuildOperationDetailsOutput, DocumentModelComposeOperationDetailsOutput, DocumentModelCopyToOperationDetailsOutput, DocumentModelDetailsOutput, DocumentTypeDetails, getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
 
 describe("model management", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
@@ -109,7 +98,7 @@ describe("model management", () => {
 
         // When training with labels, we will have expectations for the names
         assert.ok(
-          submodel.fieldSchema["Signature"],
+          submodel.fieldSchema!["Signature"],
           "Expecting field with name 'Signature' to be valid",
         );
       });
@@ -136,7 +125,7 @@ describe("model management", () => {
             throw initialResponse.body.error;
           }
 
-          const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+          const poller = getLongRunningPoller(client, initialResponse, { intervalInMs: testPollingOptions.updateIntervalInMs });
           const analyzeResult = (
             (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput
           ).analyzeResult;
@@ -230,7 +219,7 @@ describe("model management", () => {
 
   it.skip(`compose model`, async function () {
     // Helper function to train/validate single model
-    async function makeModel(prefix: string): Promise<ComponentDocumentModelDetails> {
+    async function makeModel(prefix: string): Promise<Record<string, DocumentTypeDetails>> {
       const modelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
       const initialResponse = await client.path("/documentModels:build").post({
         body: {
@@ -253,15 +242,18 @@ describe("model management", () => {
       assert.equal(model.modelId, modelId);
       assert.ok(model.docTypes);
 
-      return { modelId: model.modelId };
+      return { modelId: model.docTypes };
     }
 
-    const componentModelIds = await Promise.all([makeModel("input1"), makeModel("input2")]);
+    const modelIdDoctypeMap = await Promise.all([makeModel("input1"), makeModel("input2")]);
 
     const modelId = recorder.variable("composedModelName", `composedModelName${getRandomNumber()}`);
+    const component1 = modelIdDoctypeMap[0]
+    const component2 = modelIdDoctypeMap[1]
     const initialResponse = await client.path("/documentModels:compose").post({
       body: {
-        componentModels: componentModelIds,
+        classifierId: recorder.variable("classifierId", `classifierId${getRandomNumber()}`),
+        docTypes: { component1, component2 },
         modelId,
       },
     });

@@ -2,28 +2,20 @@
 // Licensed under the MIT license.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRecorder, testPollingOptions } from "./utils/recorderUtils";
-import { Context } from "mocha";
-import DocumentIntelligence, {
-  AnalyzeResultOperationOutput,
-  DocumentBarcodeOutput,
-  DocumentIntelligenceClient,
-  DocumentModelBuildOperationDetailsOutput,
-  DocumentModelDetailsOutput,
-  DocumentTableOutput,
-  getLongRunningPoller,
-  isUnexpected,
-} from "../../src";
+import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
+import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils";
+import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils.js";
 import path from "path";
 import fs from "fs";
+import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import { AnalyzeResultOperationOutput, DocumentBarcodeOutput, DocumentModelBuildOperationDetailsOutput, DocumentModelDetailsOutput, DocumentTableOutput, getLongRunningPoller, isUnexpected } from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
@@ -205,7 +197,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
-    it("url", async () => {
+    it.only("url", async () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       const initialResponse = await client

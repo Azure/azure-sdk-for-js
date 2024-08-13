@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, TestInfo, env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -72,8 +71,8 @@ export const recorderOptions: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   return recorder;
 }
