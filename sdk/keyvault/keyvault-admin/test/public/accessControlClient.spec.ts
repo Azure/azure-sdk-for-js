@@ -2,17 +2,18 @@
 // Licensed under the MIT license.
 
 import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
-import { assert, getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue } from "@azure-tools/test-utils";
 
 import {
   KeyVaultAccessControlClient,
   KeyVaultPermission,
   KeyVaultRoleDefinition,
   KnownKeyVaultDataAction,
-} from "../../src";
-import { authenticate } from "./utils/authentication";
-import { getServiceVersion } from "./utils/common";
-import { KnownRoleScope } from "../../src/generated";
+} from "../../src/index.js";
+import { authenticate } from "./utils/authentication.js";
+import { getServiceVersion } from "./utils/common.js";
+import { KnownRoleScope } from "../../src/generated/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;

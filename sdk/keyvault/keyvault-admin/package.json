@@ -23,23 +23,18 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/keyvault-admin.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "files": [
-    "types/keyvault-admin.d.ts",
     "dist/",
-    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
-  "browser": {
-    "os": false,
-    "process": false
-  },
+  "browser": "./dist/browser/index.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
@@ -47,7 +42,7 @@
     "build:browser": "tsc -p . && npm run bundle",
     "build:nodebrowser": "npm run bundle",
     "build:test": "tsc -p . && npm run bundle",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && dev-tool run extract-api",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "bundle": "dev-tool run bundle --browser-test=false",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && rimraf --glob src/**/*.js && rimraf --glob test/**/*.js",
@@ -65,8 +60,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 180000 --exclude \"test/**/*.browser.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
@@ -115,27 +110,62 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure/core-util": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/keyvault-keys": "^4.2.1",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.11",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "mocha": "^10.0.0",
-    "nyc": "^17.0.0",
+    "playwright": "^1.46.0",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
+    "tshy": "^3.0.2",
     "typescript": "~5.5.3",
-    "ts-node": "^10.0.0"
+    "vitest": "^2.0.5"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

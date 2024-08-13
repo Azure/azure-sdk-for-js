@@ -3,10 +3,11 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 
-import { KeyVaultBackupClient } from "../../src";
-import { authenticate } from "./utils/authentication";
-import { testPollerProperties } from "./utils/recorder";
-import { assertThrowsAbortError, getSasToken, getServiceVersion } from "./utils/common";
+import { KeyVaultBackupClient } from "../../src/index.js";
+import { authenticate } from "./utils/authentication.js";
+import { testPollerProperties } from "./utils/recorder.js";
+import { assertThrowsAbortError, getSasToken, getServiceVersion } from "./utils/common.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 // TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
 describe.skip("Aborting KeyVaultBackupClient's requests", () => {

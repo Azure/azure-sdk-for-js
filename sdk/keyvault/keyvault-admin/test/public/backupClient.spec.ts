@@ -3,13 +3,13 @@
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
-import { KeyVaultBackupClient } from "../../src";
-import { authenticate } from "./utils/authentication";
-import { testPollerProperties } from "./utils/recorder";
-import { getSasToken, getServiceVersion } from "./utils/common";
+import { KeyVaultBackupClient } from "../../src/index.js";
+import { authenticate } from "./utils/authentication.js";
+import { testPollerProperties } from "./utils/recorder.js";
+import { getSasToken, getServiceVersion } from "./utils/common.js";
 import { delay } from "@azure/core-util";
-import { assert } from "@azure-tools/test-utils";
 import { KeyClient } from "@azure/keyvault-keys";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 // TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
 describe.skip("KeyVaultBackupClient", () => {
@@ -114,7 +114,7 @@ describe.skip("KeyVaultBackupClient", () => {
       // This test can only be run in playback mode because running a backup
       // or restore puts the instance in a bad state (tracked in IcM).
       if (!isPlaybackMode()) {
-        this.skip();
+        ctx.task.skip();
       }
       const keyName = "rsa1";
       await keyClient.createRsaKey(keyName);
