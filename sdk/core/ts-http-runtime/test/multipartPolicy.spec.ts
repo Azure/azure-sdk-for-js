@@ -25,7 +25,7 @@ export async function performRequest(
     request,
     status: 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  const next = vi.fn<SendRequest>();
   next.mockResolvedValue(successResponse);
 
   await policy.sendRequest(request, next);
@@ -55,7 +55,7 @@ describe("multipartPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     await policy.sendRequest(request, next);
