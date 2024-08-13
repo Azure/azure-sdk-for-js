@@ -114,7 +114,7 @@
 # AzureSdkOwners: @timovv @jeremymeng
 
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh 
+# ServiceOwners: @sajeetharan @simorenoh
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99

@@ -2261,6 +2261,11 @@
       "packageName": "@azure/arm-healthdataaiservices",
       "projectFolder": "sdk/healthdataaiservices/arm-healthdataaiservices",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/batch",
+      "projectFolder": "sdk/batch/batch-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
