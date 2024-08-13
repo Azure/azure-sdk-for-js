@@ -266,6 +266,7 @@ describe("KeyVaultAccessControlClient", () => {
     });
   });
 
+  // TODO: re-enable as part of migrating to test-utils-vitest https://github.com/Azure/azure-sdk-for-js/pull/30740
   describe.skip("tracing", () => {
     it("traces through the various operations", async () => {
       // const roleDefinitionName = generateFakeUUID();
