@@ -8,6 +8,12 @@
 /** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
 ################
+# CODEOWNERS
+################
+
+/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+
+################
 # Misc.
 ################
 
@@ -114,7 +120,7 @@
 # AzureSdkOwners: @timovv @jeremymeng
 
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh 
+# ServiceOwners: @sajeetharan @simorenoh
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99
