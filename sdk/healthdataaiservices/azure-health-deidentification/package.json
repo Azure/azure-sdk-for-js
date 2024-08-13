@@ -77,7 +77,6 @@
     "@azure/core-paging": "^1.6.2"
   },
   "devDependencies": {
-    "@azure-tools/test-utils": "^1.0.3",
     "loupe": "~3.1.1",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
