@@ -8,7 +8,7 @@ extends:
     MatrixFilters:
       - TestType=^(?!sample).*
       - DependencyVersion=^$
-    TimeoutInMinutes: "180"
+    TimeoutInMinutes: "120"
     EnvVars:
       AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
       AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT: $(AOAI-ENDPOINT-NORTHCENTRALUS)

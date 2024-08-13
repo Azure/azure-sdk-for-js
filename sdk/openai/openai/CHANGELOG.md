@@ -5,6 +5,7 @@
 ### Features Added
 
 - Adds `CompletionChoice` interface with content filter result.
+- Updates the `license` property to be optional in `ContentFilterCitedDetectionResultOutput`.
 
 ### Breaking Changes
 

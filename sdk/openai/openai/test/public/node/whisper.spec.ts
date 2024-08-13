@@ -22,6 +22,7 @@ describe("OpenAI", function () {
     describe(`[${authMethod}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
       let deployments: DeploymentInfo[] = [];
+      const waitingTime = 30000;
 
       beforeAll(async function () {
         deployments = await getDeployments("audio");
@@ -38,6 +39,7 @@ describe("OpenAI", function () {
             },
             (audio) => assertAudioResult("json", audio),
             whisperModels,
+            { waitingTime },
           );
         });
       });
@@ -53,6 +55,7 @@ describe("OpenAI", function () {
             },
             (audio) => assertAudioResult("json", audio),
             whisperModels,
+            { waitingTime },
           );
         });
       });
@@ -78,6 +81,7 @@ describe("OpenAI", function () {
                 },
                 (audio) => assertAudioResult(format, audio),
                 whisperModels,
+                { waitingTime },
               );
             });
           });
@@ -97,6 +101,7 @@ describe("OpenAI", function () {
                 },
                 (audio) => assertAudioResult(format, audio),
                 whisperModels,
+                { waitingTime },
               );
             });
           });

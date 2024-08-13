@@ -8,7 +8,7 @@ import {
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import OpenAI, { AzureClientOptions, AzureOpenAI } from "openai";
-import { AzurePipelinesCredential, getBearerTokenProvider, TokenCredential } from "@azure/identity";
+import { getBearerTokenProvider } from "@azure/identity";
 import {
   EnvironmentVariableNames,
   EnvironmentVariableNamesForCompletions,
@@ -61,27 +61,7 @@ export function createClient(
   switch (apiVersion) {
     case APIVersion.Preview:
     case APIVersion.Stable: {
-      const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
-      let credential: TokenCredential;
-      // If we have a system access token, we are in Azure Pipelines
-      if (systemAccessToken) {
-        const serviceConnectionID = process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
-        const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
-        const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
-        if (serviceConnectionID && clientID && tenantID) {
-          credential = new AzurePipelinesCredential(
-            tenantID,
-            clientID,
-            serviceConnectionID,
-            systemAccessToken
-          );
-        } else {
-          throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
-            serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
-        }
-      } else {
-        credential = createTestCredential();
-      }
+      const credential = createTestCredential();
       return new AzureOpenAI({
         azureADTokenProvider: getBearerTokenProvider(credential, scope),
         apiVersion,
