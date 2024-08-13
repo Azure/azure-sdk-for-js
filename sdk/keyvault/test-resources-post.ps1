@@ -87,9 +87,6 @@ $wrappingFiles = foreach ($i in 0..2) {
     Resolve-Path "$baseName.cer"
 }
 
-Log "Refreshing credentials"
-Connect-AzAccount
-
 Log "Downloading security domain from '$hsmUrl'"
 
 $sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key"
