@@ -39,7 +39,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
@@ -87,7 +87,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
@@ -118,7 +118,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [
@@ -168,7 +168,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
@@ -197,7 +197,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     const request = createPipelineRequest({ url: "http://example.com" });
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
 
     let error: Error | undefined;
     try {
@@ -237,7 +237,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
