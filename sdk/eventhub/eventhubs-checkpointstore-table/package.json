@@ -83,7 +83,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.4.1",
     "@microsoft/api-extractor": "^7.31.1",
-    "@rollup/plugin-inject": "5.0.5",
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/chai-as-promised": "^7.1.8",
     "@types/debug": "^4.1.4",
     "@types/node": "^18.0.0",

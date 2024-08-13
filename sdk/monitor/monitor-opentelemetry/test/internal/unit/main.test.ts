@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { metrics, trace, Context } from "@opentelemetry/api";
+import { metrics, trace, Context, TracerProvider } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import {
   useAzureMonitor,
@@ -11,11 +11,41 @@ import {
   shutdownAzureMonitor,
 } from "../../../src/index";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
-import { StatsbeatFeature, StatsbeatInstrumentation } from "../../../src/types";
+import {
+  AZURE_MONITOR_STATSBEAT_FEATURES,
+  StatsbeatEnvironmentConfig,
+  StatsbeatFeature,
+  StatsbeatInstrumentation,
+  StatsbeatInstrumentationMap,
+} from "../../../src/types";
 import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat";
+import { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
+
+const testInstrumentation: Instrumentation = {
+  instrumentationName: "@opentelemetry/instrumentation-fs",
+  instrumentationVersion: "1.0",
+  disable: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  enable: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  setTracerProvider: function (_tracerProvider: TracerProvider): void {
+    throw new Error("Function not implemented.");
+  },
+  setMeterProvider: function (_meterProvider: MeterProvider): void {
+    throw new Error("Function not implemented.");
+  },
+  setConfig: function (_config: InstrumentationConfig): void {
+    throw new Error("Function not implemented.");
+  },
+  getConfig: function (): InstrumentationConfig {
+    throw new Error("Function not implemented.");
+  },
+};
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -134,6 +164,7 @@ describe("Main functions", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        disableOfflineStorage: true,
       },
       enableLiveMetrics: true,
       instrumentationOptions: {
@@ -162,6 +193,7 @@ describe("Main functions", () => {
     assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
     assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
+    assert.strictEqual(features, 8);
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
       "AZURE_CORE_TRACING not set",
@@ -171,6 +203,7 @@ describe("Main functions", () => {
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
+    assert.strictEqual(instrumentations, 31);
   });
 
   it("should set shim feature in statsbeat if env var is populated", () => {
@@ -316,5 +349,43 @@ describe("Main functions", () => {
     Object.keys(resource).forEach((attr) => {
       assert.ok(!attr.includes("process"));
     });
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  it("should update statsbeat env var based on reading instrumentations array", () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        azureSdk: { enabled: false },
+        http: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+        bunyan: { enabled: false },
+        winston: { enabled: false },
+      },
+    };
+    useAzureMonitor(config);
+    const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
+
+    const statsbeatOptions: StatsbeatEnvironmentConfig = JSON.parse(
+      process.env[AZURE_MONITOR_STATSBEAT_FEATURES] || emptyStatsbeatConfig,
+    );
+    const instrumentations = [testInstrumentation];
+    let updatedStatsbeat = { instrumentation: 0, feature: 0 };
+
+    // Dynamic statsbeat update logic
+    for (let i = 0; i < instrumentations.length; i++) {
+      updatedStatsbeat = {
+        instrumentation: (statsbeatOptions.instrumentation |=
+          StatsbeatInstrumentationMap.get(instrumentations[i].instrumentationName) || 0),
+        feature: statsbeatOptions.feature,
+      };
+    }
+    assert.strictEqual(updatedStatsbeat.instrumentation, StatsbeatInstrumentation.FS);
   });
 });

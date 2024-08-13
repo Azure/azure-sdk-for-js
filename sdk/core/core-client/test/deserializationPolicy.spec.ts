@@ -822,7 +822,7 @@ async function getDeserializedResponse(
     bodyAsText: options.bodyAsText,
     status: options.status ?? 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  const next = vi.fn<SendRequest>();
   next.mockResolvedValue(res);
 
   const response = await policy.sendRequest(request, next);
