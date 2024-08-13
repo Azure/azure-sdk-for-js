@@ -15,7 +15,7 @@ You can read more about how we use rush in the following links:
 - [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
 
 Keep in mind that `@azure/test-utils-vitest` is not a published package. It is only intended
-to be used by the libraries in the `azure-sdk-for-js` repository.
+to be used by the libraries in the `Azure/azure-sdk-for-js` repository and its forks.
 
 ### Installing the package
 
