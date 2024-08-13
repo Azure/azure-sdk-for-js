@@ -319,7 +319,11 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const tokenRefreshAfter = Date.now() + refreshAfterWindow;
     let tokenExpiration = Date.now() + expireOnWindow;
 
-    const credential = new MockRefreshAzureCredential(tokenExpiration, tokenRefreshAfter);
+    const credential = new MockRefreshAzureCredential(
+      tokenExpiration,
+      undefined,
+      tokenRefreshAfter,
+    );
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -370,8 +374,8 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   constructor(
     public expiresOnTimestamp: number,
-    public refreshAfterTimestamp?: number,
     public getTokenDelay?: number,
+    public refreshAfterTimestamp?: number,
   ) {}
 
   public async getToken(): Promise<AccessToken> {
