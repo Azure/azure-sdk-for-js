@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT license.
 
 /**
  * AI MS Links.
@@ -31,7 +31,7 @@ export enum DependencyTypes {
   Wcf = "WCF Service",
 }
 
-export const AzureMonitorSampleRate = "_MS.sampleRate";
+export const AzureMonitorSampleRate = "microsoft.sample_rate";
 export const ApplicationInsightsBaseType = "_MS.baseType";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

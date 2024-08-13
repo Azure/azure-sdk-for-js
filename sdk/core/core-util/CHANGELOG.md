@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `calculateRetryDelay` helper that can be used to calculate the next delay interval for exponential delay with jitter. [#30572](https://github.com/Azure/azure-sdk-for-js/pull/30572)
+
 ### Breaking Changes
 
 ### Bugs Fixed

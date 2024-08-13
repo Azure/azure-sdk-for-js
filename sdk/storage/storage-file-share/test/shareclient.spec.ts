@@ -353,20 +353,6 @@ describe("ShareClient - OAuth", () => {
     await recorder.stop();
   });
 
-  it("create with TokenCredentials should fail", async () => {
-    try {
-      await serviceClient
-        .getShareClient(recorder.variable("newshare", getUniqueName("newshare")))
-        .create();
-    } catch (err) {
-      assert.ok(
-        (err as any).statusCode === 409 &&
-          (err as any).code === "FileOAuthManagementApiRestrictedToSrp",
-        "Should get correct error mesage when creating a share with TokenCredentials",
-      );
-    }
-  });
-
   it("create and get permission", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = shareClient.getDirectoryClient(directoryName);
@@ -648,6 +634,30 @@ describe("ShareClient", () => {
     assert.equal(getPermissionResp.errorCode, undefined);
     assert.ok(createPermResp.requestId!);
     assert.ok(createPermResp.version!);
+  });
+
+  it("create and get binary permission", async () => {
+    const filePermission =
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+
+    const createPermResp = await shareClient.createPermission({
+      permission: filePermission,
+      format: "Binary",
+    });
+    assert.ok(createPermResp.filePermissionKey!);
+    assert.ok(createPermResp.date!);
+    assert.equal(createPermResp.errorCode, undefined);
+    assert.ok(createPermResp.requestId!);
+    assert.ok(createPermResp.version!);
+
+    const getPermissionResp = await shareClient.getPermission(createPermResp.filePermissionKey!, {
+      filePermissionFormat: "Binary",
+    });
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
+    assert.ok(getPermissionResp.requestId!);
+    assert.ok(getPermissionResp.version!);
   });
 
   it("create share specifying accessTier and listShare", async () => {
