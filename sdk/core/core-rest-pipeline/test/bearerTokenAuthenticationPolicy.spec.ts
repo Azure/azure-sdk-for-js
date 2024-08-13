@@ -313,10 +313,12 @@ describe("BearerTokenAuthenticationPolicy", function () {
   });
 
   it("correctly refreshes the accessToken when refreshAfterTimestamp",async()=>{
-    let tokenRefreshAfter = Date.now() + 5000;
+    const refreshAfterWindow = 5000 * 2;
+    const expireOnWindow = refreshAfterWindow * 100;
 
-    const expireDelayMs = defaultRefreshWindow + (5000 * 60 * 10);
-    let tokenExpiration = Date.now() + expireDelayMs;
+    const tokenRefreshAfter = Date.now() + refreshAfterWindow;
+    let tokenExpiration = Date.now() + expireOnWindow;
+
     const credential = new MockRefreshAzureCredential(tokenExpiration, tokenRefreshAfter);
 
     const request = createPipelineRequest({ url: "https://example.com" });
@@ -335,20 +337,18 @@ describe("BearerTokenAuthenticationPolicy", function () {
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 1);
 
- 
     // The token will refresh after 5000 milliseconds.
-    vi.advanceTimersByTime(expireDelayMs - defaultRefreshWindow + (5000 * 2));
+    vi.advanceTimersByTime(refreshAfterWindow + 100);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 2);
 
-    console.log("check now??");
-    // The new token will last for a few minutes again.
-    tokenExpiration = Date.now() + expireDelayMs;
+    // The new token will last for a few seconds with no refreshAfter.
+    tokenExpiration = Date.now() + 5000;
     credential.expiresOnTimestamp = tokenExpiration;
-    credential.refreshAfterTimestamp = Date.now() + expireDelayMs + 5000;
+    credential.refreshAfterTimestamp = undefined;
 
     // Now we wait until it expires:
-    vi.advanceTimersByTime(400);
+    vi.advanceTimersByTime(tokenExpiration + 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 3);
 
