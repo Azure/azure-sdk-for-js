@@ -99,7 +99,6 @@ describe("[AAD] ConfigurationClient functional tests", function () {
       // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers
       // Proxy tool doesn't treat these headers differently, tries to match them with the headers in the recording, and fails.
       // More details here - https://github.com/Azure/azure-sdk-tools/issues/2674
-
       //  TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
       // await recorder.setMatcher("HeaderlessMatcher");
       // const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
