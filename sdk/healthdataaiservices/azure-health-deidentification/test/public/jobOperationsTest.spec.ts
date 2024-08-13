@@ -7,12 +7,11 @@ import {
   getStorageAccountLocation,
   getTestEnvironment,
 } from "./utils/recordedClient.js";
-import { beforeEach, afterEach, it, describe } from "vitest";
+import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { DeidentificationJob } from "../../src/models.js";
 import { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
-import { assert } from "@azure-tools/test-utils";
 import { Recorder, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
