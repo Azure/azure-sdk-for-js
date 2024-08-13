@@ -197,7 +197,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.equal(table.boundingRegions?.[0].pageNumber, 1);
     });
 
-    it.only("url", async () => {
+    it("url", async () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       const initialResponse = await client
