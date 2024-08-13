@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export * from "./azureMatchers.js";
+export * from "./azureAssert.js";
 export { matrix } from "./matrix.js";
 export { getYieldedValue } from "./getYieldedValue.js";
 export { TestSpan } from "./tracing/testSpan.js";
