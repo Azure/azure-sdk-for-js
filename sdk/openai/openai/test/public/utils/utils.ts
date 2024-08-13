@@ -53,7 +53,6 @@ export async function withDeployments<T>(
   run: (model: string) => Promise<T>,
   validate: (result: T) => void,
   modelsList?: ModelInfo[],
-  options?: { waitingTime?: number },
 ): Promise<DeploymentInfo[]> {
   const errors = [];
   const succeeded = [];
@@ -73,9 +72,6 @@ export async function withDeployments<T>(
       const res = await run(deployment.deploymentName);
       validate(res);
       succeeded.push(deployment);
-      if (options?.waitingTime) {
-        await new Promise((resolve) => setTimeout(resolve, options.waitingTime));
-      }
     } catch (e) {
       const error = e as any;
       if (!e) continue;
