@@ -3,7 +3,7 @@
 
 import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
 import { TokenCredential } from "@azure/core-auth";
-import { describe, it, assert } from "vitest";
+import { describe, it, expect } from "vitest";
 
 describe("Key Vault Admin's user agent", function () {
   it("SDK_VERSION and user-agent should match", async function () {
@@ -26,7 +26,7 @@ describe("Key Vault Admin's user agent", function () {
     } catch {
       // no-op, we don't care about the response, only the user-agent header
     }
-    assert.exists(userAgent, "Expected a User-Agent header to be sent");
-    assert.include(userAgent!, `azsdk-js-keyvault-admin/${SDK_VERSION}`);
+    expect(userAgent).toBeDefined();
+    expect(userAgent).toContain(`azsdk-js-keyvault-admin/${SDK_VERSION}`);
   });
 });

@@ -12,7 +12,7 @@ import {
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
-import { describe, it, assert, expect, beforeEach, afterEach, vi, MockInstance } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi, MockInstance } from "vitest";
 
 // Adding this to the source would change the public API.
 type ApiVersions = "7.2" | "7.3";
@@ -67,7 +67,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
       expect(spy).toHaveBeenCalled();
       const params = new URL(spy.mock.calls[0][0].url);
-      assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
+      expect(params.searchParams.get("api-version")).toEqual(LATEST_API_VERSION);
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async function () {
@@ -80,7 +80,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
       expect(spy).toHaveBeenCalled();
       const params = new URL(spy.mock.calls[0][0].url);
-      assert.equal(params.searchParams.get("api-version"), serviceVersion);
+      expect(params.searchParams.get("api-version")).toEqual(serviceVersion);
     });
   });
 
@@ -98,7 +98,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
       expect(spy).toHaveBeenCalled();
       const params = new URL(spy.mock.calls[0][0].url);
-      assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
+      expect(params.searchParams.get("api-version")).toEqual(LATEST_API_VERSION);
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async function () {
@@ -111,7 +111,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
       expect(spy).toHaveBeenCalled();
       const params = new URL(spy.mock.calls[0][0].url);
-      assert.equal(params.searchParams.get("api-version"), serviceVersion);
+      expect(params.searchParams.get("api-version")).toEqual(serviceVersion);
     });
   });
 });
