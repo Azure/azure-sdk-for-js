@@ -312,6 +312,49 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.equal(error?.message, "Failed to refresh access token.");
   });
 
+  it("correctly refreshes the accessToken when refreshAfterTimestamp",async()=>{
+    let tokenRefreshAfter = Date.now() + 5000;
+
+    const expireDelayMs = defaultRefreshWindow + (5000 * 60 * 10);
+    let tokenExpiration = Date.now() + expireDelayMs;
+    const credential = new MockRefreshAzureCredential(tokenExpiration, tokenRefreshAfter);
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
+
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    // The token is cached and remains cached for a bit.
+    await policy.sendRequest(request, next);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+
+ 
+    // The token will refresh after 5000 milliseconds.
+    vi.advanceTimersByTime(expireDelayMs - defaultRefreshWindow + (5000 * 2));
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 2);
+
+    console.log("check now??");
+    // The new token will last for a few minutes again.
+    tokenExpiration = Date.now() + expireDelayMs;
+    credential.expiresOnTimestamp = tokenExpiration;
+    credential.refreshAfterTimestamp = Date.now() + expireDelayMs + 5000;
+
+    // Now we wait until it expires:
+    vi.advanceTimersByTime(400);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 3);
+
+  })
+
+
   function createBearerTokenPolicy(
     scopes: string | string[],
     credential: TokenCredential,
@@ -329,7 +372,8 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   constructor(
     public expiresOnTimestamp: number,
-    public getTokenDelay?: number,
+    public refreshAfterTimestamp?: number,
+    public getTokenDelay?: number,  
   ) {}
 
   public async getToken(): Promise<AccessToken> {
@@ -344,6 +388,7 @@ class MockRefreshAzureCredential implements TokenCredential {
       vi.advanceTimersByTime(this.getTokenDelay);
     }
 
-    return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };
+    return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp, refreshAfterTimestamp: this.refreshAfterTimestamp };
   }
+  
 }
