@@ -66,7 +66,7 @@
     "eslint": "^8.0.0",
     "express": "^4.16.3",
     "rimraf": "^5.0.5",
-    "tshy": "^1.17.0",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
     "vitest": "^2.0.5"
   },
@@ -91,12 +91,10 @@
     "./package.json": "./package.json",
     ".": {
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }

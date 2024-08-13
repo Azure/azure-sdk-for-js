@@ -143,7 +143,7 @@
     "playwright": "^1.45.3",
     "rimraf": "^6.0.1",
     "start-server-and-test": "^2.0.4",
-    "tshy": "^3.0.2",
+    "tshy": "^2.0.0",
     "tsx": "^4.16.2",
     "typescript": "~5.5.4",
     "vitest": "^2.0.5",
