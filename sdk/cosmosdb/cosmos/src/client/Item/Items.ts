@@ -660,7 +660,7 @@ export class Items {
           diagnosticNode,
           DiagnosticNodeType.BATCH_REQUEST,
         );
-        if (this.clientContext.enableEncyption) {
+        if (this.clientContext.enableEncryption) {
           for (const result of response.result) {
             result.resourceBody = await this.container.encryptionProcessor.decrypt(
               result.resourceBody,

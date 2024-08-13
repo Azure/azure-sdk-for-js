@@ -41,7 +41,6 @@ export class QueryIterator<T> {
   private isInitialized: boolean;
   private correlatedActivityId: string;
   private nonStreamingOrderBy: boolean = false;
-  private encryptionProcessor: EncryptionProcessor;
   /**
    * @hidden
    */
