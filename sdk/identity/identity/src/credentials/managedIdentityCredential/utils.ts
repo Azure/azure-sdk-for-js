@@ -95,12 +95,8 @@ export function parseRefreshTimestamp(body: TokenResponseParsedBody): number | u
         return asDate;
       }
     }
-    throw new Error(
-      `Failed to parse refresh_on from body. refresh_on="${body.refresh_on}", body="${body}"`,
-    );
-  }
-  else{
+    throw new Error(`Failed to parse refresh_on from body. refresh_on="${body.refresh_on}"`);
+  } else {
     return undefined;
   }
-  
 }

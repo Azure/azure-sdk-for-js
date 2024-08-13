@@ -312,7 +312,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.equal(error?.message, "Failed to refresh access token.");
   });
 
-  it("correctly refreshes the accessToken when refreshAfterTimestamp",async()=>{
+  it("correctly refreshes the accessToken when refreshAfterTimestamp", async () => {
     const refreshAfterWindow = 5000 * 2;
     const expireOnWindow = refreshAfterWindow * 100;
 
@@ -351,9 +351,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     vi.advanceTimersByTime(tokenExpiration + 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 3);
-
-  })
-
+  });
 
   function createBearerTokenPolicy(
     scopes: string | string[],
@@ -373,7 +371,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   constructor(
     public expiresOnTimestamp: number,
     public refreshAfterTimestamp?: number,
-    public getTokenDelay?: number,  
+    public getTokenDelay?: number,
   ) {}
 
   public async getToken(): Promise<AccessToken> {
@@ -388,7 +386,10 @@ class MockRefreshAzureCredential implements TokenCredential {
       vi.advanceTimersByTime(this.getTokenDelay);
     }
 
-    return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp, refreshAfterTimestamp: this.refreshAfterTimestamp };
+    return {
+      token: "mock-token",
+      expiresOnTimestamp: this.expiresOnTimestamp,
+      refreshAfterTimestamp: this.refreshAfterTimestamp,
+    };
   }
-  
 }
