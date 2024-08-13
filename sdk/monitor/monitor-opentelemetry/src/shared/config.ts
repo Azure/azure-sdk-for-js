@@ -98,13 +98,15 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.browserSdkLoaderOptions,
       );
       this.enableLiveMetrics =
-        options.enableLiveMetrics != undefined ? options.enableLiveMetrics : this.enableLiveMetrics;
+        options.enableLiveMetrics !== undefined
+          ? options.enableLiveMetrics
+          : this.enableLiveMetrics;
       this.enableStandardMetrics =
-        options.enableStandardMetrics != undefined
+        options.enableStandardMetrics !== undefined
           ? options.enableStandardMetrics
           : this.enableStandardMetrics;
       this.enableTraceBasedSamplingForLogs =
-        options.enableTraceBasedSamplingForLogs != undefined
+        options.enableTraceBasedSamplingForLogs !== undefined
           ? options.enableTraceBasedSamplingForLogs
           : this.enableTraceBasedSamplingForLogs;
     }
@@ -112,7 +114,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this._mergeConfig();
   }
 
-  private _mergeConfig() {
+  private _mergeConfig(): void {
     try {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
@@ -167,6 +169,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     if (vmResource.asyncAttributesPending) {
       vmResource.waitForAsyncAttributes?.().then(() => {
         this._resource = this._resource.merge(vmResource) as Resource;
+        return;
       });
     }
   }

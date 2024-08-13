@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import * as zlib from "zlib";
 import { promisify } from "util";
 import * as http from "http";
@@ -9,7 +14,7 @@ export enum contentEncodingMethod {
   BR = "br",
 }
 
-//current supported encoding types
+// current supported encoding types
 export const bufferEncodingTypes = [
   "utf8",
   "utf16le",
@@ -21,7 +26,7 @@ export const bufferEncodingTypes = [
   "ucs2",
 ];
 
-//for node version under 10, Brotli compression is not supported.
+// for node version under 10, Brotli compression is not supported.
 export const isBrotliSupported = (): boolean => {
   const majVer = process.versions.node.split(".")[0];
   return parseInt(majVer) >= 10;
@@ -32,43 +37,49 @@ export const gunzipAsync = promisify(zlib.gunzip);
 export const deflateAsync = promisify(zlib.deflate);
 export const inflateAsync = promisify(zlib.inflate);
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliCompressAsync = (zlibObject: any): Function | null => {
-  let isMajorVer = isBrotliSupported();
+  const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompress === "function") {
     return promisify(zlibObject.brotliCompress);
   }
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliCompressSync = (zlibObject: any): Function | null => {
-  let isMajorVer = isBrotliSupported();
+  const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompressSync === "function") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return zlibObject.brotliCompressSync;
   }
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliDecompressAsync = (zlibObject: any): Function | null => {
-  let isMajorVer = isBrotliSupported();
+  const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompress === "function") {
     return promisify(zlibObject.brotliDecompress);
   }
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const getBrotliDecompressSync = (zlibObject: any): Function | null => {
-  let isMajorVer = isBrotliSupported();
+  const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompressSync === "function") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return zlibObject.brotliDecompressSync;
   }
   return null;
 };
 
 export const isBufferType = (buffer: Buffer, type?: string): boolean | null => {
-  let encodingType = type ? type : "utf8";
+  const encodingType = type ? type : "utf8";
   let result = false;
   if (Buffer.isEncoding(encodingType)) {
-    let newBuffer = Buffer.from(buffer.toString(encodingType), encodingType);
+    const newBuffer = Buffer.from(buffer.toString(encodingType), encodingType);
     result = newBuffer.toJSON().data.toString() === buffer.toJSON().data.toString();
   }
 
@@ -77,8 +88,7 @@ export const isBufferType = (buffer: Buffer, type?: string): boolean | null => {
 
 export const findBufferEncodingType = (buffer: Buffer): string | null => {
   let bufferType = null;
-  for (let key in bufferEncodingTypes) {
-    let type = bufferEncodingTypes[key];
+  for (const type of bufferEncodingTypes) {
     if (Buffer.isEncoding(type) && isBufferType(buffer, type)) {
       bufferType = type;
       break;
@@ -111,11 +121,11 @@ export const isSupportedContentEncoding = (
 export const getContentEncodingFromHeaders = (
   response: http.ServerResponse,
 ): contentEncodingMethod[] | null => {
-  let headers: contentEncodingMethod[] = [];
-  let contentEncodingHeaders = response.getHeader("Content-Encoding");
+  const headers: contentEncodingMethod[] = [];
+  const contentEncodingHeaders = response.getHeader("Content-Encoding");
   if (!contentEncodingHeaders) return null;
   if (typeof contentEncodingHeaders === "string") {
-    let supportedContentEncoding = isSupportedContentEncoding(contentEncodingHeaders);
+    const supportedContentEncoding = isSupportedContentEncoding(contentEncodingHeaders);
     if (supportedContentEncoding) {
       headers.push(supportedContentEncoding);
     }
@@ -130,15 +140,15 @@ export const insertBrowserSdkLoaderByIndex = (
 ): string | null => {
   if (index < 0) return null;
   let newHtml = null;
-  let subStart = html.substring(0, index);
-  let subEnd = html.substring(index);
+  const subStart = html.substring(0, index);
+  const subEnd = html.substring(index);
   newHtml = subStart + '<script type="text/javascript">' + snippet + "</script>" + subEnd;
   return newHtml;
 };
 
 export const isContentTypeHeaderHtml = (response: http.ServerResponse): boolean => {
   let isHtml = false;
-  let contentType = response.getHeader("Content-Type");
+  const contentType = response.getHeader("Content-Type");
   if (contentType) {
     if (typeof contentType === "string") {
       isHtml = contentType.indexOf("html") >= 0;

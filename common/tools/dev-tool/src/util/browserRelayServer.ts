@@ -6,6 +6,7 @@ import type { Express } from "express-serve-static-core";
 import {
   AzureCliCredential,
   AzureDeveloperCliCredential,
+  AzurePipelinesCredential,
   AzurePowerShellCredential,
   ChainedTokenCredential,
   EnvironmentCredential,
@@ -53,16 +54,37 @@ function buildServer(app: Express) {
   // Endpoint for creating a new credential
   app.put("/credential", (req, res) => {
     const id = randomUUID();
+    let cred: TokenCredential;
     try {
-      const cred = new ChainedTokenCredential(
-        new AzurePowerShellCredential(req.body),
-        new AzureCliCredential(req.body),
-        new AzureDeveloperCliCredential(req.body),
-        // Keep Environment Credential for packages that have not migrated to Federated Authentication
-        // See the migration guide for more information
-        // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
-        new EnvironmentCredential(req.body),
-      );
+      const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
+      // If we have a system access token, we are in Azure Pipelines
+      if (systemAccessToken) {
+        const serviceConnectionID = process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
+        const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
+        const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
+        if (serviceConnectionID && clientID && tenantID) {
+          cred = new AzurePipelinesCredential(
+            tenantID,
+            clientID,
+            serviceConnectionID,
+            systemAccessToken,
+            req.body,
+          );
+        } else {
+          throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
+            serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
+        }
+      } else {
+        cred = new ChainedTokenCredential(
+          new AzurePowerShellCredential(req.body),
+          new AzureCliCredential(req.body),
+          new AzureDeveloperCliCredential(req.body),
+          // Keep Environment Credential for packages that have not migrated to Federated Authentication
+          // See the migration guide for more information
+          // https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/1080/Secret-auth-migration
+          new EnvironmentCredential(req.body),
+        );
+      }
       credentials[id] = cred;
       res.status(201).send({ id });
     } catch (error: unknown) {

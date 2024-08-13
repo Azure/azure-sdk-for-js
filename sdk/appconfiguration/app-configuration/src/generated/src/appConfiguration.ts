@@ -22,7 +22,7 @@ import { createLroSpec } from "./lroImpl";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20231001,
+  ApiVersion20231101,
   AppConfigurationOptionalParams,
   GetKeysOptionalParams,
   GetKeysResponse,
@@ -84,7 +84,7 @@ import {
 export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   syncToken?: string;
-  apiVersion: ApiVersion20231001;
+  apiVersion: ApiVersion20231101;
 
   /**
    * Initializes a new instance of the AppConfiguration class.
@@ -94,7 +94,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20231001,
+    apiVersion: ApiVersion20231101,
     options?: AppConfigurationOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -112,7 +112,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.6.2`;
+    const packageDetails = `azsdk-js-app-configuration/1.7.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -618,6 +618,7 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.label,
     Parameters.select,
     Parameters.snapshot,
+    Parameters.tags,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -645,6 +646,7 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.label,
     Parameters.select,
     Parameters.snapshot,
+    Parameters.tags,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -996,6 +998,7 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.key,
     Parameters.label,
     Parameters.select,
+    Parameters.tags,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -1020,6 +1023,7 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.key,
     Parameters.label,
     Parameters.select,
+    Parameters.tags,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],

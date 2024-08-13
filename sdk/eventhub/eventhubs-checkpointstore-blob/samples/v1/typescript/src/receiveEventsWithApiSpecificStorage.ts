@@ -23,7 +23,7 @@ import "dotenv/config";
 const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<fully qualified namespace>";
 const eventHubName = process.env["EVENTHUB_NAME"] || "<eventHubName>";
 const consumerGroup =
-  process.env["EVENTHUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
+  process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || EventHubConsumerClient.defaultConsumerGroupName;
 const storageContainerUrl =
   process.env["STORAGE_CONTAINER_URL"] ||
   "https://<storageaccount>.blob.core.windows.net/<containername>";

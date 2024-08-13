@@ -22,6 +22,10 @@ const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
 // Load the .env file if it exists
 require("dotenv/config");
 
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+const iotHubConnectionString =
+  process.env["IOTHUB_CONNECTION_STRING"] || "<your iot hub connection string>";
+
 /**
  * Type guard for AmqpError.
  * @param err - An unknown error.
@@ -29,8 +33,6 @@ require("dotenv/config");
 function isAmqpError(err) {
   return rheaPromise.isAmqpError(err);
 }
-
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
@@ -126,9 +128,8 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
 async function main() {
   console.log(`Running iothubConnectionString sample`);
 
-  const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
-    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>",
-  );
+  const eventHubsConnectionString =
+    await convertIotHubToEventHubsConnectionString(iotHubConnectionString);
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, eventHubsConnectionString);
 

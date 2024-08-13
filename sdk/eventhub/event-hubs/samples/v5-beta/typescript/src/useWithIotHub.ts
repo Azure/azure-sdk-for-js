@@ -14,7 +14,7 @@ import "dotenv/config";
 // To find the correct connection string to use, visit:
 // https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
 const connectionString = process.env["IOTHUB_EH_COMPATIBLE_CONNECTION_STRING"] || "";
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
 export async function main(): Promise<void> {
   console.log(`Running useWithIotHub sample`);
