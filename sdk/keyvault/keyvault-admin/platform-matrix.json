@@ -7,17 +7,7 @@
           "Pool": "env:LINUXPOOL",
           "ArmTemplateParameters": "@{ enableHsm = $true }"
         }
-      },
-      "Versions": {
-        "18.x_service_version_7_2": {
-          "NodeTestVersion": "18.x",
-          "ServiceVersion": "7.2"
-        },
-        "20.x": {
-          "NodeTestVersion": "20.x"
-        }
-      },
-      "TestType": "node"
+      }
     }
   ]
 }
