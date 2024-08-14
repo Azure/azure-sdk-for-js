@@ -2,7 +2,7 @@
 
 The Azure SDK for JavaScript is composed of a multitude of repositories that attempt to deliver a common, homogenous SDK to make use of all the services that Azure can provide.
 
-This non-shipping library `@azure/test-utils-vitest` attempts to add additional testing support to libraries. It is supposed to be added only as a devDependency and should be used only for the tests of an SDK library.
+This non-shipping library `@azure-tools/test-utils-vitest` attempts to add additional testing support to libraries. It is supposed to be added only as a devDependency and should be used only for the tests of an SDK library.
 
 ## Getting started
 
