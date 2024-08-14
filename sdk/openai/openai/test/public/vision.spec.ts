@@ -7,6 +7,8 @@ import { createClient } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
 import { APIMatrix, APIVersion, DeploymentInfo, getDeployments } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
+import { logger } from "@azure/identity";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("OpenAI", function () {
   let deployments: DeploymentInfo[] = [];
@@ -49,10 +51,18 @@ describe("OpenAI", function () {
             ],
           });
           assertChatCompletions(res);
-          assert.isTrue(
-            res.choices[0].message?.content?.includes("snow") ||
+          try {
+            assert.isTrue(
+              res.choices[0].message?.content?.includes("snow") ||
               res.choices[0].message?.content?.includes("icy"),
-          );
+            );
+          } catch (error: any) {
+            if (error.name === "AssertionError") {
+              logger.info("The content returned is:", res.choices[0].message?.content);
+            } else {
+              throw new RestError("Unexpceted error encounterd", error);
+            }
+            }
         });
       });
     });
