@@ -62,7 +62,7 @@ export class TestSpan implements Span {
 
   /**
    * Starts a new Span.
-   * @param parentTracer-  The tracer that created this Span
+   * @param parentTracer - The tracer that created this Span
    * @param name - The name of the span.
    * @param context - The SpanContext this span belongs to
    * @param kind - The SpanKind of this Span
