@@ -10912,24 +10912,6 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
-  /tshy@1.18.0:
-    resolution: {integrity: sha512-FQudIujBazHRu7CVPHKQE9/Xq1Wc7lezxD/FCnTXx2PTcnoSN32DVpb/ZXvzV2NJBTDB3XKjqX8Cdm+2UK1DlQ==}
-    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
-    hasBin: true
-    dependencies:
-      chalk: 5.3.0
-      chokidar: 3.6.0
-      foreground-child: 3.3.0
-      minimatch: 9.0.5
-      mkdirp: 3.0.1
-      polite-json: 5.0.0
-      resolve-import: 1.4.6
-      rimraf: 5.0.10
-      sync-content: 1.0.2
-      typescript: 5.5.4
-      walk-up-path: 3.0.1
-    dev: false
-
   /tshy@2.0.1:
     resolution: {integrity: sha512-U5fC+3pMaGfmULhPTVpxKMd62AcX13yfsFrjhAP/daTLG6LFRLIuxqYOmkejJ4MT/s5bEa29+1Jy/9mXkMiMfA==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -25020,7 +25002,7 @@ packages:
     dev: false
 
   file:projects/test-utils-vitest.tgz:
-    resolution: {integrity: sha512-3H2Q1sLGfRHTsYbQlWOW1XkwkE8EWCXM9UCEhe8M8ngdoxhg5raBAIWTxu4YIGhd5RQX2ptAc3NB1Rcrhn8a3A==, tarball: file:projects/test-utils-vitest.tgz}
+    resolution: {integrity: sha512-B+7UtywzLzak0ygqHSUnHwXafQGcVcajMBpZo6UhLiWFKlWN5qWpr5250nrGAS1jNRcThxUsJrLZu8B7hM8Rsw==, tarball: file:projects/test-utils-vitest.tgz}
     name: '@rush-temp/test-utils-vitest'
     version: 0.0.0
     dependencies:
@@ -25033,7 +25015,7 @@ packages:
       eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
-      tshy: 1.18.0
+      tshy: 2.0.1
       tslib: 2.6.3
       typescript: 5.5.4
       vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
