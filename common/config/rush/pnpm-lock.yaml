@@ -22371,7 +22371,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-H+PatDF3wnToQYZXIAYOSAngUbf1Vw8HC/u0C7Ck2CsPC73rhukCLi5K9WCoYN0np19waST2qriDM5uTMv+jzg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-ltYTc+/BITk2srGla3kIfazonpcrIw+Rt8n9C/hQ1OsnaOEBl3MnnFYhkJEEPBR6onwZmgSbxXDZrTspW21miA==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -22384,22 +22384,40 @@ packages:
       '@types/node': 18.19.44
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       mocha: 10.7.3
       nyc: 17.0.0
+      playwright: 1.46.0
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
+      tshy: 2.0.1
       tslib: 2.6.3
       typescript: 5.5.4
       uuid: 8.3.2
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/keyvault-certificates.tgz:
