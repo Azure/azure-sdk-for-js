@@ -3932,12 +3932,6 @@ packages:
       '@types/node': 22.2.0
     dev: false
 
-  /@types/fs-extra@9.0.13:
-    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
-    dependencies:
-      '@types/node': 22.2.0
-    dev: false
-
   /@types/http-errors@2.0.4:
     resolution: {integrity: sha512-D0CFMMtydbJAegzOyHjtiKPLlvnm3iTZyZRSZoLq2mRhDdmLfIWOCYPfQJ4cu2erKghU++QvjcUjp/5h7hESpA==}
     dev: false
@@ -6902,15 +6896,6 @@ packages:
 
   /fs-constants@1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
-    dev: false
-
-  /fs-extra@10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.1.0
-      universalify: 2.0.1
     dev: false
 
   /fs-extra@11.2.0:
@@ -21364,7 +21349,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-RVgh2LhHvyVsqZ/yF/dl+YkYH/2VjI8xomfx8Acg5pgSaK9p+ylReMh9YPtFVd1ZvB8v5bl94m1z0cY5SCFEaQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-66IidRFwPa23K2J6Gdws3gd3uYJ1jWzv5dWcCW8gzjBAu7nonW/XibhqDhX7HX+ThJRgGBde96Cx2Hx5xQBVng==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -24935,15 +24920,15 @@ packages:
     dev: false
 
   file:projects/test-perf.tgz:
-    resolution: {integrity: sha512-dV5mAryJelTRusThrDkqIKakjuFlNr1LfE8QZVyTIOMZf+mxjaYa+gItkPOXhU7wnHAHVQGVGgSbdJFT/RF+IA==, tarball: file:projects/test-perf.tgz}
+    resolution: {integrity: sha512-dOxYVneFdt7VksrDfZkwTADpjCFjFb7pd7p+j55MC9GonmLUYrDUAnxiHzaoEilYPxq2E5xsQ+/IeRmqJe2RBA==, tarball: file:projects/test-perf.tgz}
     name: '@rush-temp/test-perf'
     version: 0.0.0
     dependencies:
-      '@types/fs-extra': 9.0.13
+      '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
       '@types/node': 18.19.44
       eslint: 8.57.0
-      fs-extra: 10.1.0
+      fs-extra: 11.2.0
       karma: 6.4.4(debug@4.3.6)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -24963,7 +24948,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-w8Xro01K++cd8y4lQBcvRhCZRVlJH4l9V4BPu/p44u5PFmYAya4FYaMamwivA2pj6RZHsqMitzeLJkkk8AK74g==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-TT/AANNJqwewH9gxgDofnm/xVA5p6LGqlP7wKg+X8NdwHdHjjWK3rxA3raBKKVqp1y3EwzmUaJ56E7uNsANYXQ==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
