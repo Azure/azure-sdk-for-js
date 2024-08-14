@@ -271,7 +271,15 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 
 You can run the plugin by excuting `rushx lint` inside your package directory.
 
-If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the [internal configuration file](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/.eslintrc.internal.json) instead. For example: `"lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json package.json src test --ext .ts"`
+If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
+
+```javascript
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default [
+  ...azsdkEslint.configs.internal,
+];
+```
 
 ## Onboarding a new library
 
