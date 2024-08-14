@@ -50,6 +50,7 @@ export async function toSupportTracing<
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface AzureMatchers<R> extends Record<string, any> {
   toSupportTracing<
     Options extends { tracingOptions?: OperationTracingOptions },

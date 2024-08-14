@@ -9,7 +9,6 @@ import { MockInstrumenter } from "./mockInstrumenter.js";
  * parent Span in a tree-like structure
  * @param traceId - The traceId to return the graph for
  */
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGraph {
   const traceSpans = instrumenter.startedSpans.filter((span) => {
     return span.traceId === traceId;
