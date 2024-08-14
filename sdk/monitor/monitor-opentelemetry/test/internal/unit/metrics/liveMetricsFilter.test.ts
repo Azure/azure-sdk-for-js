@@ -14,20 +14,20 @@ import {
   UnexpectedFilterCreateError,
   KnownRequestColumns,
   Filter,
-  Projection,
+  // Projection,
 } from "../../../../src/metrics/quickpulse/filtering";
 import {
   RequestData,
-  DependencyData,
+  /* DependencyData,
   ExceptionData,
-  TraceData,
+  TraceData,*/
 } from "../../../../src/metrics/quickpulse/types";
 
 describe("Live Metrics filtering - Validator", () => {
   // "x-ms-qps-configuration-etag"
 
   it("The validator rejects the invalid telemetry types", () => {
-    let invalid1: DerivedMetricInfo = {
+    const invalid1: DerivedMetricInfo = {
       id: "random-id1",
       telemetryType: "Event",
       filterGroups: [],
@@ -36,7 +36,7 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    let invalid2: DerivedMetricInfo = {
+    const invalid2: DerivedMetricInfo = {
       id: "random-id2",
       telemetryType: "PerformanceCounter",
       filterGroups: [],
@@ -45,7 +45,7 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Avg",
     };
 
-    let invalid3: DerivedMetricInfo = {
+    const invalid3: DerivedMetricInfo = {
       id: "random-id3",
       telemetryType: "Metric",
       filterGroups: [],
@@ -54,7 +54,7 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    let invalid4: DerivedMetricInfo = {
+    const invalid4: DerivedMetricInfo = {
       id: "random-id4",
       telemetryType: "does not exist",
       filterGroups: [],
@@ -71,7 +71,7 @@ describe("Live Metrics filtering - Validator", () => {
   });
 
   it("The validator rejects CustomMetrics projections and filters (not supported in Otel)", () => {
-    let invalid1: DerivedMetricInfo = {
+    const invalid1: DerivedMetricInfo = {
       id: "random-id1",
       telemetryType: "Request",
       filterGroups: [],
@@ -80,13 +80,13 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    let conjunctionGroup: FilterConjunctionGroupInfo = {
+    const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [
         { fieldName: "CustomMetrics.property", predicate: KnownPredicateType.Equal, comparand: "5" },
       ]
     };
 
-    let invalid2: DerivedMetricInfo = {
+    const invalid2: DerivedMetricInfo = {
       id: "random-id2",
       telemetryType: "Request",
       filterGroups: [conjunctionGroup],
@@ -101,175 +101,175 @@ describe("Live Metrics filtering - Validator", () => {
   });
 
   it("The validator rejects invalid filters", () => {
-    let emptyFilterName: FilterInfo = {
+    const emptyFilterName: FilterInfo = {
       fieldName: "",
       predicate: KnownPredicateType.Equal,
       comparand: "blah"
     };
 
-    let emptyComparand: FilterInfo = {
+    const emptyComparand: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Equal,
       comparand: ""
     };
 
-    let invalidAnyFieldEqual: FilterInfo = {
+    const invalidAnyFieldEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Equal,
       comparand: "5"
     };
 
-    let invalidAnyFieldNotEqual: FilterInfo = {
+    const invalidAnyFieldNotEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.NotEqual,
       comparand: "5"
     };
 
-    let invalidAnyFieldLessThan: FilterInfo = {
+    const invalidAnyFieldLessThan: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.LessThan,
       comparand: "5"
     };
 
-    let invalidAnyFieldLessThanOrEqual: FilterInfo = {
+    const invalidAnyFieldLessThanOrEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.LessThanOrEqual,
       comparand: "5"
     };
 
-    let invalidAnyFieldGreaterThan: FilterInfo = {
+    const invalidAnyFieldGreaterThan: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.GreaterThan,
       comparand: "5"
     };
 
-    let invalidAnyFieldGreaterThanOrEqual: FilterInfo = {
+    const invalidAnyFieldGreaterThanOrEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.GreaterThanOrEqual,
       comparand: "5"
     };
 
-    let invalidStringFieldPredicate: FilterInfo = {
+    const invalidStringFieldPredicate: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.LessThan,
       comparand: "hi"
     }
 
-    let invalidStringFieldPredicate2: FilterInfo = {
+    const invalidStringFieldPredicate2: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.GreaterThan,
       comparand: "hi"
     }
 
-    let invalidStringFieldPredicate3: FilterInfo = {
+    const invalidStringFieldPredicate3: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.GreaterThanOrEqual,
       comparand: "hi"
     }
 
-    let invalidStringFieldPredicate4: FilterInfo = {
+    const invalidStringFieldPredicate4: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.LessThanOrEqual,
       comparand: "hi"
     }
 
-    let invalidCustomDimLess: FilterInfo = {
+    const invalidCustomDimLess: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.LessThan,
       comparand: "hi"
     }
 
-    let invalidCustomDimGreater: FilterInfo = {
+    const invalidCustomDimGreater: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.GreaterThan,
       comparand: "hi"
     }
 
-    let invalidCustomDimGreaterThanOrEqual: FilterInfo = {
+    const invalidCustomDimGreaterThanOrEqual: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.GreaterThanOrEqual,
       comparand: "hi"
     }
 
-    let invalidCustomDimLessThanOrEqual: FilterInfo = {
+    const invalidCustomDimLessThanOrEqual: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.LessThanOrEqual,
       comparand: "hi"
     }
 
-    let invalidNumericFieldPredicate: FilterInfo = {
+    const invalidNumericFieldPredicate: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Contains,
       comparand: "5"
     }
 
-    let invalidNumericFieldPredicate2: FilterInfo = {
+    const invalidNumericFieldPredicate2: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.DoesNotContain,
       comparand: "5"
     }
 
-    let invalidNumericFieldComparand: FilterInfo = {
+    const invalidNumericFieldComparand: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
       comparand: "hi"
     }
 
-    let invalidDurationComparand: FilterInfo = {
+    const invalidDurationComparand: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.NotEqual,
       comparand: "invalid timestamp"
     }
 
-    let unknownFieldName: FilterInfo = {
+    const unknownFieldName: FilterInfo = {
       fieldName: "unknown field",
       predicate: KnownPredicateType.Contains,
       comparand: "hi"
     }
 
-    let successLessThan: FilterInfo = {
+    const successLessThan: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.LessThan,
       comparand: "true"
     };
 
-    let successLessThanOrEqual: FilterInfo = {
+    const successLessThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.LessThanOrEqual,
       comparand: "true"
     };
 
-    let successFieldGreaterThan: FilterInfo = {
+    const successFieldGreaterThan: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.GreaterThan,
       comparand: "true"
     };
 
-    let successGreaterThanOrEqual: FilterInfo = {
+    const successGreaterThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.GreaterThanOrEqual,
       comparand: "true"
     };
 
-    let successContains: FilterInfo = {
+    const successContains: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Contains,
       comparand: "true"
     };
 
-    let successNotContain: FilterInfo = {
+    const successNotContain: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.DoesNotContain,
       comparand: "true"
     };
 
-    let invalidBool: FilterInfo = {
+    const invalidBool: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Equal,
       comparand: "hi"
     };
 
-    let filterInfoList: FilterInfo[] =
+    const filterInfoList: FilterInfo[] =
       [emptyFilterName, emptyComparand, invalidAnyFieldEqual, invalidAnyFieldNotEqual, invalidAnyFieldLessThan, invalidAnyFieldLessThanOrEqual,
         invalidAnyFieldGreaterThan, invalidAnyFieldGreaterThanOrEqual, invalidStringFieldPredicate, invalidStringFieldPredicate2,
         invalidStringFieldPredicate3, invalidStringFieldPredicate4, invalidCustomDimGreater, invalidCustomDimGreaterThanOrEqual,
@@ -277,7 +277,7 @@ describe("Live Metrics filtering - Validator", () => {
         invalidNumericFieldComparand, invalidDurationComparand, successLessThan, successLessThanOrEqual, successFieldGreaterThan,
         successGreaterThanOrEqual, successContains, successNotContain, invalidBool];
 
-    let derivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [],
@@ -287,7 +287,7 @@ describe("Live Metrics filtering - Validator", () => {
     }
 
     filterInfoList.forEach(filter => {
-      let conjunctionGroup: FilterConjunctionGroupInfo = {
+      const conjunctionGroup: FilterConjunctionGroupInfo = {
         filters: [filter]
       };
 
@@ -296,7 +296,7 @@ describe("Live Metrics filtering - Validator", () => {
     });
 
     derivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
-    let supportedTelemetryTypes: KnownTelemetryType[] =
+    const supportedTelemetryTypes: KnownTelemetryType[] =
       [KnownTelemetryType.Request, KnownTelemetryType.Dependency, KnownTelemetryType.Exception, KnownTelemetryType.Trace];
 
     supportedTelemetryTypes.forEach(telemetryType => {
@@ -309,23 +309,23 @@ describe("Live Metrics filtering - Validator", () => {
 
   it("The validator rejects an entire derivedMetricInfo if one out of multiple filters is invalid", () => {
 
-    let invalidFilter: FilterInfo = {
+    const invalidFilter: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.NotEqual,
       comparand: "invalid timestamp"
     }
 
-    let validFilter: FilterInfo = {
+    const validFilter: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
       comparand: "200"
     }
 
-    let conjunctionGroup: FilterConjunctionGroupInfo = {
+    const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [validFilter, invalidFilter]
     };
 
-    let derivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [conjunctionGroup],
@@ -338,126 +338,126 @@ describe("Live Metrics filtering - Validator", () => {
   });
 
   it("The validator accepts valid filters", () => {
-    let anyFieldContains: FilterInfo = {
+    const anyFieldContains: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
       comparand: "hi"
     }
 
-    let anyFieldDoesNotContain: FilterInfo = {
+    const anyFieldDoesNotContain: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.DoesNotContain,
       comparand: "hi"
     }
 
-    let stringNotEqual: FilterInfo = {
+    const stringNotEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.NotEqual,
       comparand: "hi"
     }
 
-    let stringEquals: FilterInfo = {
+    const stringEquals: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Equal,
       comparand: "hi"
     }
 
-    let stringContain: FilterInfo = {
+    const stringContain: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Contains,
       comparand: "hi"
     }
 
-    let stringNotContain: FilterInfo = {
+    const stringNotContain: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.DoesNotContain,
       comparand: "hi"
     }
 
-    let customDimNotEqual: FilterInfo = {
+    const customDimNotEqual: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.NotEqual,
       comparand: "hi"
     }
 
-    let customDimEquals: FilterInfo = {
+    const customDimEquals: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.Equal,
       comparand: "hi"
     }
 
-    let customDimContain: FilterInfo = {
+    const customDimContain: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.Contains,
       comparand: "hi"
     }
 
-    let customDimNotContain: FilterInfo = {
+    const customDimNotContain: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.DoesNotContain,
       comparand: "hi"
     }
 
-    let numericEquals: FilterInfo = {
+    const numericEquals: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
       comparand: "5"
     }
 
-    let numericNotEqual: FilterInfo = {
+    const numericNotEqual: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.NotEqual,
       comparand: "5"
     }
 
-    let numericLessThan: FilterInfo = {
+    const numericLessThan: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.LessThan,
       comparand: "5"
     }
 
-    let numericGreaterThan: FilterInfo = {
+    const numericGreaterThan: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.GreaterThan,
       comparand: "5"
     }
 
-    let numericLessThanOrEqual: FilterInfo = {
+    const numericLessThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.LessThanOrEqual,
       comparand: "5"
     }
 
-    let numericGreaterThanOrEqual: FilterInfo = {
+    const numericGreaterThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.GreaterThanOrEqual,
       comparand: "5"
     }
 
-    let durationEquals: FilterInfo = {
+    const durationEquals: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.Equal,
       comparand: "0.0:0:0.2" // 200 ms in iso 8601 format
     }
 
-    let successEqual: FilterInfo = {
+    const successEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Equal,
       comparand: "true"
     };
 
-    let successNotEqual: FilterInfo = {
+    const successNotEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.NotEqual,
       comparand: "false"
     };
 
-    let filterInfoList: FilterInfo[] = [anyFieldContains, anyFieldDoesNotContain, stringNotEqual, stringEquals,
+    const filterInfoList: FilterInfo[] = [anyFieldContains, anyFieldDoesNotContain, stringNotEqual, stringEquals,
       stringContain, stringNotContain, numericEquals, numericNotEqual, numericLessThan, numericLessThanOrEqual,
       numericGreaterThan, numericGreaterThanOrEqual, customDimContain, customDimNotContain, customDimEquals,
       customDimNotEqual, durationEquals, successEqual, successNotEqual];
 
-    let derivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [],
@@ -467,7 +467,7 @@ describe("Live Metrics filtering - Validator", () => {
     }
 
     filterInfoList.forEach(filter => {
-      let conjunctionGroup: FilterConjunctionGroupInfo = {
+      const conjunctionGroup: FilterConjunctionGroupInfo = {
         filters: [filter]
       };
 
@@ -501,37 +501,37 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
 
 describe("Live Metrics filtering - Applying valid filters", () => {
   it("Can handle AnyField filter", () => {
-    let anyFieldContainsHi: FilterInfo = {
+    const anyFieldContainsHi: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
       comparand: "hi"
     }
 
-    let anyFieldNotContains: FilterInfo = {
+    const anyFieldNotContains: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.DoesNotContain,
       comparand: "hi"
     }
 
-    let anyFieldContainsCool: FilterInfo = {
+    const anyFieldContainsCool: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
       comparand: "cool"
     }
 
-    let anyFieldForNumeric: FilterInfo = {
+    const anyFieldForNumeric: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
       comparand: "200"
     }
 
-    let anyFieldForBoolean: FilterInfo = {
+    const anyFieldForBoolean: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
       comparand: "true"
     }
 
-    let request1: RequestData = {
+    const request1: RequestData = {
       Url: "https://test.com/hiThere",
       Duration: 200,
       ResponseCode: 200,
@@ -540,7 +540,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
-    let request2: RequestData = {
+    const request2: RequestData = {
       Url: "https://test.com/bye",
       Duration: 200,
       ResponseCode: 200,
@@ -549,11 +549,11 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       CustomDimensions: new Map<string, string>([["property", "cool"]]),
     };
 
-    let conjunctionGroup: FilterConjunctionGroupInfo = {
+    const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [anyFieldContainsHi]
     };
 
-    let derivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [conjunctionGroup],
@@ -597,18 +597,17 @@ describe("Live Metrics filtering - Applying valid filters", () => {
   });
 
   it("Can handle CustomDimension filter", () => {
-    let predicateList = [KnownPredicateType.Equal, KnownPredicateType.NotEqual, KnownPredicateType.Contains, KnownPredicateType.DoesNotContain];
-    let customDimFilter: FilterInfo = {
+    const customDimFilter: FilterInfo = {
       fieldName: "CustomDimensions.hi",
       predicate: KnownPredicateType.Equal,
       comparand: "hi"
     }
 
-    let conjunctionGroup: FilterConjunctionGroupInfo = {
+    const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [customDimFilter]
     };
 
-    let derivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [conjunctionGroup],
@@ -617,7 +616,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       backEndAggregation: "Sum",
     }
 
-    let request: RequestData = {
+    const request: RequestData = {
       Url: "https://test.com/hiThere",
       Duration: 200,
       ResponseCode: 200,

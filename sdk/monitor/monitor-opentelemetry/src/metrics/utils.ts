@@ -113,7 +113,7 @@ export function getDependencyTarget(attributes: Attributes): string {
   return "";
 }
 
-export function isSqlDB(dbSystem: string) {
+export function isSqlDB(dbSystem: string): boolean {
   return (
     dbSystem === DBSYSTEMVALUES_DB2 ||
     dbSystem === DBSYSTEMVALUES_DERBY ||

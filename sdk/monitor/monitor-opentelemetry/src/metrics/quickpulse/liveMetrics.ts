@@ -214,7 +214,7 @@ export class LiveMetrics {
         };
         await context.with(suppressTracing(context.active()), async () => {
           console.log("ping getting called");
-          let response = await this.pingSender.isSubscribed(params);
+          const response = await this.pingSender.isSubscribed(params);
           console.log("ping response {}", response);
           this.quickPulseDone(response);
         });
@@ -444,7 +444,7 @@ export class LiveMetrics {
     if (this.isCollectingData) {
       console.log(span); // implementation note: remove
 
-      let columns: RequestData | DependencyData = getSpanColumns(span);
+      const columns: RequestData | DependencyData = getSpanColumns(span);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
@@ -453,7 +453,7 @@ export class LiveMetrics {
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
 
-      let document: Request | RemoteDependency = getSpanDocument(columns);
+      const document: Request | RemoteDependency = getSpanDocument(columns);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
       const success = span.status.code !== SpanStatusCode.ERROR;
@@ -475,11 +475,11 @@ export class LiveMetrics {
         span.events.forEach((event: TimedEvent) => {
           event.attributes = event.attributes || {};
           if (event.name === "exception") {
-            let exceptionColumns: ExceptionData = getSpanExceptionColumns(event.attributes, span.attributes);
-            let derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+            const exceptionColumns: ExceptionData = getSpanExceptionColumns(event.attributes, span.attributes);
+            derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
             this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
-            let document: Exception = getLogDocument(exceptionColumns, event.attributes[SEMATTRS_EXCEPTION_TYPE] as string) as Exception;
-            this.addDocument(document);
+            const exceptionDocument: Exception = getLogDocument(exceptionColumns, event.attributes[SEMATTRS_EXCEPTION_TYPE] as string) as Exception;
+            this.addDocument(exceptionDocument);
             this.totalExceptionCount++;
           }
         });
@@ -494,7 +494,7 @@ export class LiveMetrics {
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
       // implementation note: apply filtering logic here for exception, trace 
-      let columns: TraceData | ExceptionData = getLogColumns(logRecord);
+      const columns: TraceData | ExceptionData = getLogColumns(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isTraceData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
@@ -502,8 +502,8 @@ export class LiveMetrics {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
-      let exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]) || "";
-      let document: Trace | Exception = getLogDocument(columns, exceptionType);
+      const exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]) || "";
+      const document: Trace | Exception = getLogDocument(columns, exceptionType);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
         this.totalExceptionCount++;
@@ -711,7 +711,7 @@ export class LiveMetrics {
           throw new DuplicateMetricIdError(`Duplicate Metric Id: ${derivedMetricInfo.id}`);
         }
       } catch (error) {
-        let configError: CollectionConfigurationError = {
+        const configError: CollectionConfigurationError = {
           collectionConfigurationErrorType: "",
           message: "",
           fullException: "",
@@ -739,13 +739,13 @@ export class LiveMetrics {
 
   }
 
-  private checkMetricFilterAndCreateProjection(derivedMetricInfoList: DerivedMetricInfo[], data: TelemetryData) {
+  private checkMetricFilterAndCreateProjection(derivedMetricInfoList: DerivedMetricInfo[], data: TelemetryData): void {
     derivedMetricInfoList.forEach((derivedMetricInfo: DerivedMetricInfo) => {
       if (Filter.checkMetricFilters(derivedMetricInfo, data)) {
         try {
           this.derivedMetricProjection.calculateProjection(derivedMetricInfo, data);
         } catch (error) {
-          let configError: CollectionConfigurationError = {
+          const configError: CollectionConfigurationError = {
             collectionConfigurationErrorType: "",
             message: "",
             fullException: "",
@@ -758,10 +758,10 @@ export class LiveMetrics {
               configError.message = error.message;
               configError.fullException = error.stack || "";
             }
-            const data: KeyValuePairString[] = [];
-            data.push({ key: "MetricId", value: derivedMetricInfo.id });
-            data.push({ key: "ETag", value: this.etag });
-            configError.data = data;
+            const errorData: KeyValuePairString[] = [];
+            errorData.push({ key: "MetricId", value: derivedMetricInfo.id });
+            errorData.push({ key: "ETag", value: this.etag });
+            configError.data = errorData;
             this.errorTracker.addRunTimeError(configError);
           }
         }

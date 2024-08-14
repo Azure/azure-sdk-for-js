@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import {
   DerivedMetricInfo,
   KnownTelemetryType,
@@ -72,11 +74,11 @@ KnownDependencyColumns.Type, KnownDependencyColumns.Data, "Message", "Exception.
 export class Validator {
 
   public static validateTelemetryType(derivedMetricInfo: DerivedMetricInfo): void {
-    if (derivedMetricInfo.telemetryType === KnownTelemetryType.PerformanceCounter) {
+    if (derivedMetricInfo.telemetryType === KnownTelemetryType.PerformanceCounter.toString()) {
       throw new TelemetryTypeError('The telemetry type PerformanceCounter was specified, but this distro does not send performance counters to quickpulse.');
-    } else if (derivedMetricInfo.telemetryType === KnownTelemetryType.Event) {
+    } else if (derivedMetricInfo.telemetryType === KnownTelemetryType.Event.toString()) {
       throw new TelemetryTypeError('The telemetry type Event was specified, but this telemetry type is not supported via OpenTelemetry.');
-    } else if (derivedMetricInfo.telemetryType === KnownTelemetryType.Metric) {
+    } else if (derivedMetricInfo.telemetryType === KnownTelemetryType.Metric.toString()) {
       throw new TelemetryTypeError('The telemetry type Metric was specified, but this distro does not send custom live metrics to quickpulse.');
     } else if (!(derivedMetricInfo.telemetryType in KnownTelemetryType)) {
       throw new TelemetryTypeError(`'${derivedMetricInfo.telemetryType}' is not a valid telemetry type.`);
@@ -111,22 +113,22 @@ export class Validator {
     }
 
     switch (telemetryType) {
-      case KnownTelemetryType.Request:
+      case KnownTelemetryType.Request.toString():
         if (!Validator.isCustomDimOrAnyField(fieldName) && !(fieldName in KnownRequestColumns)) {
           throw new UnexpectedFilterCreateError(`'${fieldName}' is not a valid field name for the telemetry type Request.`);
         }
         break;
-      case KnownTelemetryType.Dependency:
+      case KnownTelemetryType.Dependency.toString():
         if (!Validator.isCustomDimOrAnyField(fieldName) && !(fieldName in KnownDependencyColumns)) {
           throw new UnexpectedFilterCreateError(`'${fieldName}' is not a valid field name for the telemetry type Dependency.`);
         }
         break;
-      case KnownTelemetryType.Exception:
+      case KnownTelemetryType.Exception.toString():
         if (!Validator.isCustomDimOrAnyField(fieldName) && fieldName !== "Exception.Message" && fieldName !== "Exception.StackTrace") {
           throw new UnexpectedFilterCreateError(`'${fieldName}' is not a valid field name for the telemetry type Exception.`);
         }
         break;
-      case KnownTelemetryType.Trace:
+      case KnownTelemetryType.Trace.toString():
         if (!Validator.isCustomDimOrAnyField(fieldName) && fieldName !== "Message") {
           throw new UnexpectedFilterCreateError(`'${fieldName}' is not a valid field name for the telemetry type Trace.`);
         }
@@ -141,14 +143,14 @@ export class Validator {
       throw new UnexpectedFilterCreateError(`'${filter.predicate}' is not a valid predicate.`);
     } else if (filter.comparand === "") {
       throw new UnexpectedFilterCreateError(`A filter must have a comparand. FilterName: '${filter.fieldName}' Predicate: '${filter.predicate}' Comparand: '${filter.comparand}'`);
-    } else if (filter.fieldName === "*" && !(filter.predicate === KnownPredicateType.Contains || filter.predicate === KnownPredicateType.DoesNotContain)) {
+    } else if (filter.fieldName === "*" && !(filter.predicate === KnownPredicateType.Contains.toString() || filter.predicate === KnownPredicateType.DoesNotContain.toString())) {
       throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '*'`);
-    } else if (filter.fieldName === KnownDependencyColumns.ResultCode || filter.fieldName === KnownRequestColumns.ResponseCode || filter.fieldName === KnownDependencyColumns.Duration) {
-      if (filter.predicate === KnownPredicateType.Contains || filter.predicate === KnownPredicateType.DoesNotContain) {
+    } else if (filter.fieldName === KnownDependencyColumns.ResultCode.toString() || filter.fieldName === KnownRequestColumns.ResponseCode.toString() || filter.fieldName === KnownDependencyColumns.Duration.toString()) {
+      if (filter.predicate === KnownPredicateType.Contains.toString() || filter.predicate === KnownPredicateType.DoesNotContain.toString()) {
         throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'`);
       }
       // Duration comparand should be a timestamp; Response/ResultCode comparand should be interpreted as double.
-      if (filter.fieldName === KnownDependencyColumns.Duration) {
+      if (filter.fieldName === KnownDependencyColumns.Duration.toString()) {
         const date = new Date(filter.comparand);
         if (isNaN(date.getTime())) {
           throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' can't be converted to a double.`);
@@ -157,14 +159,14 @@ export class Validator {
         throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' can't be converted to a double.`);
       }
     } else if (knownStringColumns.has(filter.fieldName) || filter.fieldName.startsWith("CustomDimensions.")) {
-      if (filter.predicate === KnownPredicateType.GreaterThan ||
-        filter.predicate === KnownPredicateType.GreaterThanOrEqual ||
-        filter.predicate === KnownPredicateType.LessThan ||
-        filter.predicate === KnownPredicateType.LessThanOrEqual) {
+      if (filter.predicate === KnownPredicateType.GreaterThan.toString() ||
+        filter.predicate === KnownPredicateType.GreaterThanOrEqual.toString() ||
+        filter.predicate === KnownPredicateType.LessThan.toString() ||
+        filter.predicate === KnownPredicateType.LessThanOrEqual.toString()) {
         throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'. If this is a custom dimension, it would be treated as string.`);
       }
-    } else if (filter.fieldName === KnownRequestColumns.Success) {
-      if (filter.predicate !== KnownPredicateType.Equal && filter.predicate !== KnownPredicateType.NotEqual) {
+    } else if (filter.fieldName === KnownRequestColumns.Success.toString()) {
+      if (filter.predicate !== KnownPredicateType.Equal.toString() && filter.predicate !== KnownPredicateType.NotEqual.toString()) {
         throw new UnexpectedFilterCreateError(`The predicate '${filter.predicate}' is not supported for the field name '${filter.fieldName}'.`);
       }
       filter.comparand = filter.comparand.toLowerCase();
@@ -239,13 +241,13 @@ export class Filter {
     return matched;
   }
 
-  /*public static checkDocumentFilters(documentStreamInfo: DocumentStreamInfo, data: TelemetryData): boolean {
+  /* public static checkDocumentFilters(documentStreamInfo: DocumentStreamInfo, data: TelemetryData): boolean {
     return true; // to be implemented
   }*/
 
   private static checkFilterConjunctionGroup(filters: FilterInfo[], data: TelemetryData): boolean {
     // All of the filters need to match for this to return true (and operation).
-    for (let filter of filters) {
+    for (const filter of filters) {
       if (!this.checkFilter(filter, data)) {
         return false;
       }
@@ -263,44 +265,40 @@ export class Filter {
       let dataValue: string | number | boolean | Map<string, string>;
       // use filter.fieldname to get the property of data to query
       if (isRequestData(data)) {
-        data as RequestData;
         dataValue = data[filter.fieldName as keyof RequestData];
       } else if (isDependencyData(data)) {
-        data as DependencyData;
         dataValue = data[filter.fieldName as keyof DependencyData];
       } else if (isExceptionData(data)) {
-        data as ExceptionData;
         dataValue = data[filter.fieldName as keyof ExceptionData];
       } else if (isTraceData(data)) {
-        data as TraceData;
         dataValue = data[filter.fieldName as keyof TraceData];
       } else {
         return false; // should not reach here
       }
 
-      if (filter.fieldName === KnownRequestColumns.Success) {
-        if (filter.predicate === KnownPredicateType.Equal) {
+      if (filter.fieldName === KnownRequestColumns.Success.toString()) {
+        if (filter.predicate === KnownPredicateType.Equal.toString()) {
           return dataValue === (filter.comparand.toLowerCase() === "true");
-        } else if (filter.predicate === KnownPredicateType.NotEqual) {
+        } else if (filter.predicate === KnownPredicateType.NotEqual.toString()) {
           return dataValue !== (filter.comparand.toLowerCase() === "true");
         }
-      } else if (filter.fieldName === KnownDependencyColumns.ResultCode ||
-        filter.fieldName === KnownRequestColumns.ResponseCode ||
-        filter.fieldName === KnownDependencyColumns.Duration) {
-        let comparand: number = filter.fieldName === KnownDependencyColumns.Duration ?
+      } else if (filter.fieldName === KnownDependencyColumns.ResultCode.toString() ||
+        filter.fieldName === KnownRequestColumns.ResponseCode.toString() ||
+        filter.fieldName === KnownDependencyColumns.Duration.toString()) {
+        const comparand: number = filter.fieldName === KnownDependencyColumns.Duration.toString() ?
           new Date(filter.comparand).getTime() : parseFloat(filter.comparand);
         switch (filter.predicate) {
-          case KnownPredicateType.Equal:
+          case KnownPredicateType.Equal.toString():
             return dataValue === comparand;
-          case KnownPredicateType.NotEqual:
+          case KnownPredicateType.NotEqual.toString():
             return dataValue !== comparand;
-          case KnownPredicateType.GreaterThan:
+          case KnownPredicateType.GreaterThan.toString():
             return dataValue as number > comparand;
-          case KnownPredicateType.GreaterThanOrEqual:
+          case KnownPredicateType.GreaterThanOrEqual.toString():
             return dataValue as number >= comparand;
-          case KnownPredicateType.LessThan:
+          case KnownPredicateType.LessThan.toString():
             return dataValue as number < comparand;
-          case KnownPredicateType.LessThanOrEqual:
+          case KnownPredicateType.LessThanOrEqual.toString():
             return dataValue as number <= comparand;
           default:
             return false;
@@ -313,19 +311,19 @@ export class Filter {
   }
 
   private static checkAnyFieldFilter(filter: FilterInfo, data: TelemetryData): boolean {
-    let properties: string[] = Object.keys(data);
+    const properties: string[] = Object.keys(data);
     // At this point, the only predicates possible to pass in are Contains and DoesNotContain
     // At config validation time the predicate is checked to be one of these two.
-    for (let property of properties) {
+    for (const property of properties) {
       if (property === "CustomDimensions") {
-        for (let value of data.CustomDimensions.values()) {
+        for (const value of data.CustomDimensions.values()) {
           if (this.stringCompare(value, filter.comparand, filter.predicate)) {
             return true;
           }
         }
       } else {
-        //@ts-ignore
-        let value: string = String(data[property]);
+        // @ts-expect-error - data can be any type of telemetry data and we know property is a valid key
+        const value: string = String(data[property]);
         if (this.stringCompare(value, filter.comparand, filter.predicate)) {
           return true;
         }
@@ -335,7 +333,7 @@ export class Filter {
   }
 
   private static checkCustomDimFilter(filter: FilterInfo, data: TelemetryData): boolean {
-    let fieldName: string = filter.fieldName.replace("CustomDimensions.", "");
+    const fieldName: string = filter.fieldName.replace("CustomDimensions.", "");
     let value: string | undefined;
     if (data.CustomDimensions.has(fieldName)) {
       value = data.CustomDimensions.get(fieldName) as string;
@@ -347,13 +345,13 @@ export class Filter {
 
   private static stringCompare(dataValue: string, comparand: string, predicate: string): boolean {
     switch (predicate) {
-      case KnownPredicateType.Equal:
+      case KnownPredicateType.Equal.toString():
         return dataValue === comparand;
-      case KnownPredicateType.NotEqual:
+      case KnownPredicateType.NotEqual.toString():
         return dataValue !== comparand;
-      case KnownPredicateType.Contains:
+      case KnownPredicateType.Contains.toString():
         return dataValue.includes(comparand);
-      case KnownPredicateType.DoesNotContain:
+      case KnownPredicateType.DoesNotContain.toString():
         return !dataValue.includes(comparand);
       default:
         return false;
@@ -387,10 +385,10 @@ export class Projection {
         throw new MetricFailureToCreateError('The projection Duration is not supported for the telemetry type Exception or Trace.');
       }
     } else if (derivedMetricInfo.projection.startsWith("CustomDimensions.")) {
-      let customDimKey: string = derivedMetricInfo.projection.replace("CustomDimensions.", "");
+      const customDimKey: string = derivedMetricInfo.projection.replace("CustomDimensions.", "");
       let customDimValue: number;
       if (data.CustomDimensions.has(customDimKey)) {
-        let parsedValue = parseFloat(data.CustomDimensions.get(customDimKey) as string);
+        const parsedValue = parseFloat(data.CustomDimensions.get(customDimKey) as string);
         if (isNaN(parsedValue)) {
           throw new MetricFailureToCreateError(`Could not calculate the projection because the custom dimension value '${data.CustomDimensions.get(customDimKey)}' for the dimension '${customDimKey}' is not a valid number.`);
         } else {
@@ -404,22 +402,22 @@ export class Projection {
       throw new MetricFailureToCreateError(`The projection '${derivedMetricInfo.projection}' is not supported in this SDK.`);
     }
 
-    let projection: number = this.calculateAggregation(derivedMetricInfo.aggregation, derivedMetricInfo.id, incrementBy);
+    const projection: number = this.calculateAggregation(derivedMetricInfo.aggregation, derivedMetricInfo.id, incrementBy);
     this.projectionMap.set(derivedMetricInfo.id, projection);
   }
 
   public getMetricValues(): Map<string, number> {
-    let result = this.projectionMap;
+    const result = this.projectionMap;
     this.resetProjectionValues();
     return result;
   }
 
   private resetProjectionValues(): void {
-    for (let key of this.projectionMap.keys()) {
+    for (const key of this.projectionMap.keys()) {
       this.projectionMap.set(key, 0);
     }
 
-    for (let key of this.countMap.keys()) {
+    for (const key of this.countMap.keys()) {
       this.countMap.set(key, 0);
     }
   }
@@ -430,19 +428,20 @@ export class Projection {
   }
 
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
-    let prevValue: number = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
+    const prevValue: number = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
     switch (aggregation) {
-      case KnownAggregationType.Sum:
+      case KnownAggregationType.Sum.toString():
         return prevValue + incrementBy;
-      case KnownAggregationType.Min:
+      case KnownAggregationType.Min.toString():
         return Math.min(prevValue, incrementBy);
-      case KnownAggregationType.Max:
+      case KnownAggregationType.Max.toString():
         return Math.max(prevValue, incrementBy);
-      case KnownAggregationType.Avg:
+      case KnownAggregationType.Avg.toString(): {
         // add this telemetry to count when we know it's valid
         this.countMap.set(id, (this.countMap.get(id) as number) + 1);
-        let count: number = this.countMap.get(id) as number;
+        const count: number = this.countMap.get(id) as number;
         return (prevValue + incrementBy) / count;
+      }
       default:
         throw new MetricFailureToCreateError(`The aggregation '${aggregation}' is not supported in this SDK.`);
     }

@@ -178,7 +178,7 @@ export function resourceMetricsToQuickpulseDataPoint(
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
-        let metricPoint: MetricPoint = {
+        const metricPoint: MetricPoint = {
           weight: 1,
           name: "",
           value: 0,
@@ -231,7 +231,7 @@ export function resourceMetricsToQuickpulseDataPoint(
   });
 
   derivedMetricValues.forEach((value, id) => {
-    let metricPoint: MetricPoint = {
+    const metricPoint: MetricPoint = {
       weight: 1,
       name: id,
       value: value,
@@ -239,7 +239,7 @@ export function resourceMetricsToQuickpulseDataPoint(
     metricPoints.push(metricPoint);
   });
 
-  let quickpulseDataPoint: MonitoringDataPoint = {
+  const quickpulseDataPoint: MonitoringDataPoint = {
     ...baseMonitoringDataPoint,
     timestamp: new Date(),
     metrics: metricPoints,
@@ -256,16 +256,16 @@ function getIso8601Duration(milliseconds: number): string {
 
 export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData {
   if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
-    //request
+    // request
     return getRequestData(span);
   } else {
-    //dependency
+    // dependency
     return getDependencyData(span);
   }
 }
 
 export function getSpanExceptionColumns(eventAttributes: Attributes, spanAttributes: Attributes): ExceptionData {
-  let exceptionData: ExceptionData = {
+  const exceptionData: ExceptionData = {
     Message: eventAttributes[SEMATTRS_EXCEPTION_MESSAGE] as string,
     StackTrace: eventAttributes[SEMATTRS_EXCEPTION_STACKTRACE] as string,
     CustomDimensions: createCustomDimsFromAttributes(spanAttributes),
@@ -277,7 +277,7 @@ export function getSpanExceptionColumns(eventAttributes: Attributes, spanAttribu
 // A slightly modified version of createRequestData from spanUtils in exporter
 function getRequestData(span: ReadableSpan): RequestData {
 
-  let requestData: RequestData = {
+  const requestData: RequestData = {
     Url: "",
     Duration: hrTimeToMilliseconds(span.duration),
     ResponseCode: 0,
@@ -304,7 +304,7 @@ function getRequestData(span: ReadableSpan): RequestData {
 // A slightly modified version of createDependencyData from spanUtils in exporter
 function getDependencyData(span: ReadableSpan): DependencyData {
 
-  let dependencyData: DependencyData = {
+  const dependencyData: DependencyData = {
     Target: "",
     Duration: hrTimeToMilliseconds(span.duration),
     Success: span.status.code !== SpanStatusCode.ERROR,
@@ -332,7 +332,9 @@ function getDependencyData(span: ReadableSpan): DependencyData {
       try {
         const dependencyUrl = new URL(String(httpUrl));
         dependencyData.Name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) { }
+      } catch (ex: any) {
+        /* no-op */
+      }
     }
     dependencyData.Type = DependencyTypes.Http;
     dependencyData.Data = getUrl(span.attributes);
@@ -357,7 +359,9 @@ function getDependencyData(span: ReadableSpan): DependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (ex: any) { }
+      } catch (ex: any) {
+        /* no-op */
+      }
       dependencyData.Target = `${target}`;
     }
   }
@@ -395,7 +399,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
 
   // grpc Dependency
   else if (rpcSystem) {
-    if (rpcSystem == DependencyTypes.Wcf) {
+    if (rpcSystem === DependencyTypes.Wcf) {
       dependencyData.Type = DependencyTypes.Wcf;
     } else {
       dependencyData.Type = DependencyTypes.Grpc;
@@ -416,7 +420,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
 
 export function getLogColumns(log: LogRecord): ExceptionData | TraceData {
   const exceptionType = log.attributes[SEMATTRS_EXCEPTION_TYPE];
-  let customDims = createCustomDimsFromAttributes(log.attributes);
+  const customDims = createCustomDimsFromAttributes(log.attributes);
   if (exceptionType) {
     return {
       Message: String(log.attributes[SEMATTRS_EXCEPTION_MESSAGE]),
