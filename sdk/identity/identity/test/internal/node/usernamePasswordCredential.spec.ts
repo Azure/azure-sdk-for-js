@@ -6,6 +6,7 @@
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { Context } from "mocha";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
@@ -41,65 +42,22 @@ describe("UsernamePasswordCredential (internal)", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("Should throw if the parameteres are not correctly specified", async function () {
-    const errors: Error[] = [];
-    try {
-      new UsernamePasswordCredential(
-        undefined as any,
-        "azure_client_id",
-        "azure_username",
-        "azure_password",
-      );
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new UsernamePasswordCredential(
-        "azure_tenant_id",
-        undefined as any,
-        "azure_username",
-        "azure_password",
-      );
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new UsernamePasswordCredential(
-        "azure_tenant_id",
-        "azure_client_id",
-        undefined as any,
-        "azure_password",
-      );
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new UsernamePasswordCredential(
-        "azure_tenant_id",
-        "azure_client_id",
-        "azure_username",
-        undefined as any,
-      );
-    } catch (e: any) {
-      errors.push(e);
-    }
-
-    try {
-      new UsernamePasswordCredential(
-        undefined as any,
-        undefined as any,
-        undefined as any,
-        undefined as any,
-      );
-    } catch (e: any) {
-      errors.push(e);
-    }
-    assert.equal(errors.length, 5);
-    errors.forEach((e) => {
-      assert.equal(
-        e.message,
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
-      );
-    });
+    assert.throws(
+      () => new UsernamePasswordCredential("", "clientId", "username", "password"),
+      /tenantId is a required parameter/,
+    );
+    assert.throws(
+      () => new UsernamePasswordCredential("tenantId", "", "username", "password"),
+      /clientId is a required parameter/,
+    );
+    assert.throws(
+      () => new UsernamePasswordCredential("tenantId", "clientId", "", "password"),
+      /username is a required parameter/,
+    );
+    assert.throws(
+      () => new UsernamePasswordCredential("tenantId", "clientId", "username", ""),
+      /password is a required parameter/,
+    );
   });
 
   it("Authenticates silently after the initial request", async function (this: Context) {

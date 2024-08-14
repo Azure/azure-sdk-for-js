@@ -28,6 +28,7 @@ import {
   IsSubscribedResponse,
   PublishResponse,
   RemoteDependency,
+  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
   KnownCollectionConfigurationErrorType,
@@ -155,7 +156,7 @@ export class LiveMetrics {
    */
   constructor(config: InternalConfig) {
     this.config = config;
-    let idGenerator = new RandomIdGenerator();
+    const idGenerator = new RandomIdGenerator();
     const streamId = idGenerator.generateTraceId();
     const machineName = os.hostname();
     const instance = getCloudRoleInstance(this.config.resource);
@@ -172,15 +173,17 @@ export class LiveMetrics {
       isWebApp: process.env["WEBSITE_SITE_NAME"] ? true : false,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
-      this.config.azureMonitorExporterOptions.connectionString,
+      this.config.azureMonitorExporterOptions.connectionString ||
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
     });
-    let exporterOptions: QuickpulseExporterOptions = {
+    const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       getErrorsFn: this.getErrors.bind(this),
@@ -191,19 +194,20 @@ export class LiveMetrics {
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
   }
 
-  public shutdown() {
+  public shutdown(): void {
     this.meterProvider?.shutdown();
   }
 
-  private async goQuickpulse() {
+  private async goQuickpulse(): Promise<void> {
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
-        let params: IsSubscribedOptionalParams = {
+        const params: IsSubscribedOptionalParams = {
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
           configurationEtag: this.etag,
@@ -217,6 +221,7 @@ export class LiveMetrics {
       } catch (error) {
         this.quickPulseDone(undefined);
       }
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
       this.handle.unref();
     }
@@ -225,7 +230,10 @@ export class LiveMetrics {
     }
   }
 
-  private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  private async quickPulseDone(
+    response: PublishResponse | IsSubscribedResponse | undefined,
+  ): Promise<void> {
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
@@ -253,6 +261,7 @@ export class LiveMetrics {
       if (!this.isCollectingData && this.meterProvider) {
         this.etag = "";
         this.deactivateMetrics();
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();
       }
@@ -272,13 +281,13 @@ export class LiveMetrics {
   }
 
   // Activate live metrics collection
-  public activateMetrics(options?: { collectionInterval: number }) {
+  public activateMetrics(options?: { collectionInterval: number }): void {
     if (this.meterProvider) {
       return;
     }
     // Turn on live metrics active collection for statsbeat
     if (!this.statsbeatOptionsUpdated) {
-      getInstance().setStatsbeatFeatures({ liveMetrics: true });
+      getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
     this.lastCpus = os.cpus();
@@ -379,7 +388,7 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public deactivateMetrics() {
+  public deactivateMetrics(): void {
     this.documents = [];
     this.errorTracker.clearRunTimeErrors();
     this.errorTracker.clearValidationTimeErrors();
@@ -417,7 +426,7 @@ export class LiveMetrics {
     return result;
   }
 
-  private addDocument(document: DocumentIngress) {
+  private addDocument(document: DocumentIngress): void {
     if (document) {
       // Limit risk of memory leak by limiting doc length to something manageable
       if (this.documents.length > 20) {
@@ -447,7 +456,7 @@ export class LiveMetrics {
       let document: Request | RemoteDependency = getSpanDocument(columns);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
-      let success = span.status.code !== SpanStatusCode.ERROR;
+      const success = span.status.code !== SpanStatusCode.ERROR;
 
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
         this.totalRequestCount++;
@@ -502,7 +511,7 @@ export class LiveMetrics {
     }
   }
 
-  private getRequestDuration(observableResult: ObservableResult) {
+  private getRequestDuration(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const requestInterval = this.totalRequestCount - this.lastRequestDuration.count || 0;
     const durationInterval = this.requestDuration - this.lastRequestDuration.duration || 0;
@@ -518,7 +527,7 @@ export class LiveMetrics {
     };
   }
 
-  private getRequestRate(observableResult: ObservableResult) {
+  private getRequestRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalRequestCount - this.lastRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastRequestRate.time;
@@ -533,7 +542,7 @@ export class LiveMetrics {
     };
   }
 
-  private getRequestFailedRate(observableResult: ObservableResult) {
+  private getRequestFailedRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalFailedRequestCount - this.lastFailedRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastFailedRequestRate.time;
@@ -548,7 +557,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyDuration(observableResult: ObservableResult) {
+  private getDependencyDuration(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const dependencyInterval = this.totalDependencyCount - this.lastDependencyDuration.count || 0;
     const durationInterval = this.dependencyDuration - this.lastDependencyDuration.duration || 0;
@@ -564,7 +573,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyRate(observableResult: ObservableResult) {
+  private getDependencyRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalDependencyCount - this.lastDependencyRate.count || 0;
     const elapsedMs = currentTime - this.lastDependencyRate.time;
@@ -579,7 +588,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyFailedRate(observableResult: ObservableResult) {
+  private getDependencyFailedRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalFailedDependencyCount - this.lastFailedDependencyRate.count || 0;
     const elapsedMs = currentTime - this.lastFailedDependencyRate.time;
@@ -594,7 +603,7 @@ export class LiveMetrics {
     };
   }
 
-  private getExceptionRate(observableResult: ObservableResult) {
+  private getExceptionRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalExceptionCount - this.lastExceptionRate.count || 0;
     const elapsedMs = currentTime - this.lastExceptionRate.time;
@@ -609,13 +618,16 @@ export class LiveMetrics {
     };
   }
 
-  private getCommitedMemory(observableResult: ObservableResult) {
-    var freeMem = os.freemem();
-    var committedMemory = os.totalmem() - freeMem;
+  private getCommitedMemory(observableResult: ObservableResult): void {
+    const freeMem = os.freemem();
+    const committedMemory = os.totalmem() - freeMem;
     observableResult.observe(committedMemory);
   }
 
-  private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
+  private getTotalCombinedCpu(
+    cpus: os.CpuInfo[],
+    lastCpus: os.CpuInfo[],
+  ): { combinedTotal: number; totalUser: number; totalIdle: number } {
     let totalUser = 0;
     let totalSys = 0;
     let totalNice = 0;
@@ -655,7 +667,7 @@ export class LiveMetrics {
     };
   }
 
-  private getProcessorTime(observableResult: ObservableResult) {
+  private getProcessorTime(observableResult: ObservableResult): void {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
     const cpus = os.cpus();

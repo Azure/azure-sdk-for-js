@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-underscore-dangle*/
+
 import * as fs from "fs";
 import * as path from "path";
 import {
@@ -41,7 +43,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   private _tempDir: string;
 
   /** Get Singleton instance */
-  public static getInstance() {
+  public static getInstance(): JsonConfig {
     if (!JsonConfig._instance) {
       JsonConfig._instance = new JsonConfig();
     }
@@ -61,10 +63,10 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     }
     // JSON file
     else {
-      let configFileName = "applicationinsights.json";
-      let rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
+      const configFileName = "applicationinsights.json";
+      const rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
       this._tempDir = path.join(rootPath, configFileName); // default
-      let configFile = process.env[ENV_CONFIGURATION_FILE];
+      const configFile = process.env[ENV_CONFIGURATION_FILE];
       if (configFile) {
         if (path.isAbsolute(configFile)) {
           this._tempDir = configFile;

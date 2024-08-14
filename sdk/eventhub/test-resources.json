@@ -15,12 +15,19 @@
       "metadata": {
         "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
       }
+    },
+    "testApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The client OID to grant access to test resources."
+      }
     }
   },
   "variables": {
-    "apiVersion": "2022-10-01-preview",
-    "storageApiVersion": "2019-04-01",
-    "iotApiVersion": "2018-04-01",
+    "apiVersion": "2024-01-01",
+    "storageApiVersion": "2023-05-01",
+    "iotApiVersion": "2023-06-30",
+    "authorizationApiVersion": "2022-04-01",
     "namespaceName": "[parameters('baseName')]",
     "storageAccountName": "[concat('storage', parameters('baseName'))]",
     "containerName": "container",
@@ -28,7 +35,14 @@
     "authorizationName": "[concat(parameters('baseName'), '/RootManageSharedAccessKey')]",
     "eventHubName": "eventhub",
     "eventHubNameFull": "[concat(parameters('baseName'), '/eventhub')]",
-    "location": "[resourceGroup().location]"
+    "eventHubConsumerGroupName": "$Default",
+    "retentionTimeInDays": 1,
+    "partitionCount": 4,
+    "location": "[resourceGroup().location]",
+    "eventHubsDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec')]",
+    "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
+    "tablesDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3')]",
+    "iotHubDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/4fc6c259-987e-4a07-842e-c321cc9d413f')]"
   },
   "resources": [
     {
@@ -64,14 +78,14 @@
       "location": "[variables('location')]",
       "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
       "properties": {
-        "messageRetentionInDays": 1,
-        "partitionCount": 4
+        "messageRetentionInDays": "[variables('retentionTimeInDays')]",
+        "partitionCount": "[variables('partitionCount')]"
       }
     },
     {
       "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
       "apiVersion": "[variables('apiVersion')]",
-      "name": "[concat(variables('eventHubNameFull'), '/$Default')]",
+      "name": "[concat(variables('eventHubNameFull'), '/', variables('eventHubConsumerGroupName'))]",
       "location": "[variables('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.EventHub/namespaces/eventhubs', variables('namespaceName'), variables('eventHubName'))]",
@@ -136,8 +150,8 @@
         "ipFilterRules": [],
         "eventHubEndpoints": {
           "events": {
-            "retentionTimeInDays": 1,
-            "partitionCount": 4
+            "retentionTimeInDays": "[variables('retentionTimeInDays')]",
+            "partitionCount": "[variables('partitionCount')]"
           }
         },
         "routing": {
@@ -182,20 +196,60 @@
         },
         "features": "None"
       }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('dataOwnerRoleId', parameters('baseName')))]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))]"],
+      "properties": {
+        "roleDefinitionId": "[variables('eventHubsDataOwnerRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('blobDataContributorRoleId', variables('storageAccountName')))]",
+      "dependsOn": ["[variables('storageAccountName')]"],
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('tablesDataContributorRoleId', variables('storageAccountName')))]",
+      "dependsOn": ["[variables('storageAccountName')]"],
+      "properties": {
+        "roleDefinitionId": "[variables('tablesDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('iotHubDataContributorRoleId', variables('iotName')))]",
+      "dependsOn": ["[resourceId('Microsoft.Devices/IoTHubs', variables('iotName'))]"],
+      "properties": {
+        "roleDefinitionId": "[variables('iotHubDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
     }
   ],
   "outputs": {
-    "STORAGE_ACCOUNT_NAME": {
+    "EVENTHUB_FQDN": {
       "type": "string",
-      "value": "[variables('storageAccountName')]"
-    },
-    "STORAGE_ACCOUNT_KEY": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value]"
+      "value": "[replace(replace(reference(resourceId('Microsoft.EventHub/namespaces', variables('namespaceName'))).serviceBusEndpoint, ':443/', ''), 'https://', '')]"
     },
     "EVENTHUB_NAME": {
       "type": "string",
       "value": "[variables('eventHubName')]"
+    },
+    "EVENTHUB_CONSUMER_GROUP_NAME": {
+      "type": "string",
+      "value": "[variables('eventHubConsumerGroupName')]"
     },
     "EVENTHUB_CONNECTION_STRING": {
       "type": "string",
@@ -205,9 +259,29 @@
       "type": "string",
       "value": "[concat('HostName=', reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).hostName, ';SharedAccessKeyName=iothubowner;SharedAccessKey=', listKeys(resourceId('Microsoft.Devices/IotHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).value[0].primaryKey)]"
     },
-    "STORAGE_CONNECTION_STRING": {
+    "IOTHUB_EVENTHUB_FQDN": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
+      "value": "[reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).eventHubEndpoints.events.endpoint]"
+    },
+    "IOTHUB_EVENTHUB_NAME": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Devices/IoTHubs', variables('iotName')), providers('Microsoft.Devices', 'IoTHubs').apiVersions[0]).eventHubEndpoints.events.path]"
+    },
+    "STORAGE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
+    },
+    "STORAGE_ENDPOINT": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob]"
+    },
+    "STORAGE_CONTAINER_NAME": {
+      "type": "string",
+      "value": "[variables('containerName')]"
+    },
+    "STORAGE_CONTAINER_URL": {
+      "type": "string",
+      "value": "[concat(reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob, variables('containerName'))]"
     }
   }
 }

@@ -241,6 +241,7 @@ export {
   FileCreateHeaders,
   FileDeleteHeaders,
   FileGetPropertiesHeaders,
+  FilePermissionFormat,
   FileProperty,
   FileListHandlesHeaders,
   FileRenameHeaders,

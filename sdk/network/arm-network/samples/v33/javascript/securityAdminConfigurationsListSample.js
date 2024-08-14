@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all the network manager security admin configurations in a network manager, in a paginated format.
  *
  * @summary Lists all the network manager security admin configurations in a network manager, in a paginated format.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerSecurityAdminConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerSecurityAdminConfigurationList.json
  */
 async function listSecurityAdminConfigurationsInANetworkManager() {
   const subscriptionId =

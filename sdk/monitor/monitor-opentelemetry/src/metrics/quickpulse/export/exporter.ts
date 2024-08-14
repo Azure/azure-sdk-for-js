@@ -63,7 +63,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
-    let optionalParams: PublishOptionalParams = {
+    const optionalParams: PublishOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,

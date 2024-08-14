@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restarts one or more VMs belonging to the specified Network Virtual Appliance.
  *
  * @summary Restarts one or more VMs belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceEmptyRestart.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkVirtualApplianceEmptyRestart.json
  */
 async function restartAllNetworkVirtualApplianceVMSInVMScaleSet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function restartAllNetworkVirtualApplianceVMSInVMScaleSet() {
  * This sample demonstrates how to Restarts one or more VMs belonging to the specified Network Virtual Appliance.
  *
  * @summary Restarts one or more VMs belonging to the specified Network Virtual Appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkVirtualApplianceSpecificRestart.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkVirtualApplianceSpecificRestart.json
  */
 async function restartSpecificNetworkVirtualApplianceVMSInVMScaleSet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

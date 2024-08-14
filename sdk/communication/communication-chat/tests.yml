@@ -9,20 +9,12 @@ extends:
         - DependencyVersion=^$
       CloudConfig:
         Public:
+          ServiceConnection: azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzurePublicMsft.json
           SubscriptionConfigurations:
-            - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-        PPE:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-ppe-test-resources-common)
-            - $(sub-config-communication-ppe-test-resources-js)
-        Int:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-int-test-resources-common)
-            - $(sub-config-communication-int-test-resources-js)
-          MatrixFilters:
-            - TestType=^(?!browser).*
-      Clouds: Public,PPE,Int
+      Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/

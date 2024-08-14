@@ -13,7 +13,15 @@ import {
   TelemetryTypeError,
   UnexpectedFilterCreateError,
   KnownRequestColumns,
+  Filter,
+  Projection,
 } from "../../../../src/metrics/quickpulse/filtering";
+import {
+  RequestData,
+  DependencyData,
+  ExceptionData,
+  TraceData,
+} from "../../../../src/metrics/quickpulse/types";
 
 describe("Live Metrics filtering - Validator", () => {
   // "x-ms-qps-configuration-etag"
@@ -467,13 +475,253 @@ describe("Live Metrics filtering - Validator", () => {
       Validator.validateFilters(derivedMetricInfo);
     });
   });
+});
 
-  // multiple filterconjuncitongroups?
-  // custom dimensions span/log parsing
-  // any field span/log parsing
+describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () => {
+  it("Can parse a Span into a RequestData", () => {
 
+  });
 
+  it("Can parse a Span into a DepedencyData", () => {
 
+  });
 
+  it("Can parse a Span into an ExceptionData", () => {
 
+  });
+
+  it("Can parse a Log into an ExceptionData", () => {
+
+  });
+
+  it("Can parse a Log into a TraceData", () => {
+
+  });
+});
+
+describe("Live Metrics filtering - Applying valid filters", () => {
+  it("Can handle AnyField filter", () => {
+    let anyFieldContainsHi: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.Contains,
+      comparand: "hi"
+    }
+
+    let anyFieldNotContains: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.DoesNotContain,
+      comparand: "hi"
+    }
+
+    let anyFieldContainsCool: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.Contains,
+      comparand: "cool"
+    }
+
+    let anyFieldForNumeric: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.Contains,
+      comparand: "200"
+    }
+
+    let anyFieldForBoolean: FilterInfo = {
+      fieldName: "*",
+      predicate: KnownPredicateType.Contains,
+      comparand: "true"
+    }
+
+    let request1: RequestData = {
+      Url: "https://test.com/hiThere",
+      Duration: 200,
+      ResponseCode: 200,
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>(),
+    };
+
+    let request2: RequestData = {
+      Url: "https://test.com/bye",
+      Duration: 200,
+      ResponseCode: 200,
+      Success: true,
+      Name: "GET /bye",
+      CustomDimensions: new Map<string, string>([["property", "cool"]]),
+    };
+
+    let conjunctionGroup: FilterConjunctionGroupInfo = {
+      filters: [anyFieldContainsHi]
+    };
+
+    let derivedMetricInfo: DerivedMetricInfo = {
+      id: "random-id",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [conjunctionGroup],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    // request contains "hi" in multiple fields & filter is contains hi
+    // return true
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request1));
+
+    // request does not contain "hi" in any field & filter is contains hi
+    // return false
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request2) === false);
+
+    // request does not contain "hi" in any field & filter is does not contain hi
+    // return true
+    conjunctionGroup.filters = [anyFieldNotContains];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request2));
+
+    // request contains "cool" in custom dimensions & filter is contains cool
+    // return true
+    conjunctionGroup.filters = [anyFieldContainsCool];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request2));
+
+    // request contains 200 in duration & filter is contains "200".
+    // fields are expected to be treated as string
+    conjunctionGroup.filters = [anyFieldForNumeric];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request1));
+
+    // request contains true in Success & filter is contains "true".
+    // fields are expected to be treated as string
+    conjunctionGroup.filters = [anyFieldForBoolean];
+    derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request1));
+
+  });
+
+  it("Can handle CustomDimension filter", () => {
+    let predicateList = [KnownPredicateType.Equal, KnownPredicateType.NotEqual, KnownPredicateType.Contains, KnownPredicateType.DoesNotContain];
+    let customDimFilter: FilterInfo = {
+      fieldName: "CustomDimensions.hi",
+      predicate: KnownPredicateType.Equal,
+      comparand: "hi"
+    }
+
+    let conjunctionGroup: FilterConjunctionGroupInfo = {
+      filters: [customDimFilter]
+    };
+
+    let derivedMetricInfo: DerivedMetricInfo = {
+      id: "random-id",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [conjunctionGroup],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    let request: RequestData = {
+      Url: "https://test.com/hiThere",
+      Duration: 200,
+      ResponseCode: 200,
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>([["bye", "hi"]]),
+    };
+
+    // the asked for field is not in the custom dimensions so return false
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request) === false);
+
+    // the asked for field is in the custom dimensions but value does not match
+    request.CustomDimensions.clear();
+    request.CustomDimensions.set("hi", "bye");
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request) === false);
+
+    // the asked for field is in the custom dimensions and value matches
+    request.CustomDimensions.set("hi", "hi");
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // testing not equal predicate. The CustomDimensions.hi value != hi so return true.
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
+    request.CustomDimensions.set("hi", "bye");
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // testing does not contain predicate. The CustomDimensions.hi value does not contain hi so return true.
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.DoesNotContain;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // testing contains predicate. The CustomDimensions.hi value contains hi so return true.
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.Contains;
+    request.CustomDimensions.set("hi", "hi there");
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+  });
+
+  it("Can handle filter on known boolean columns", () => {
+    // Request Success
+    // Dependency Success
+    // == and !=
+    // match and not match
+  });
+
+  it("Can handle filter on known numeric columns", () => {
+    // Request ResponseCode
+    // Dependency ResultCode
+    // Request Duration
+    // Dependency Duration
+    // ==, !=, <, >, <=, >=
+    // match and not match
+  });
+
+  it("Can handle filter on known string columns", () => {
+    // Request Url
+    // Dependency Target
+    // Trace Message
+    // Exception Message
+    // ==, !=, contains, not contains
+    // match and not match
+  });
+
+  it("Empty filter conjunction group - should match", () => {
+
+  });
+
+  it("Can handle multiple filters in a filter conjunction group", () => {
+    // matches neither filter
+    // matches one filter
+  });
+
+  it("Can handle multiple filter conjunction groups", () => {
+    // matches neither group
+    // matches one group
+  });
+});
+
+describe("Live Metrics filtering - Metric Projection", () => {
+  it("Count()", () => {
+    // create a derived metric info for each telemetry type, with count() projection
+    // call the projection function with the corresponding telemetry data for each telemetry type
+    // get the projection map at the end and check if the count is correct
+  });
+
+  it("Duration", () => {
+    // create derived metric infos for request & dependency, with duration projection
+    // also try for each aggregation: Avg, Min, Max
+    // call the projection function with the corresponding telemetry data for request/dependency
+    // get the projection map at the end and check if the values are correct.
+  });
+
+  it("CustomDimension", () => {
+    // create derived metric info for a custom dim that doesn't exist
+    // create derived metric info for a custom dim that exists, but with a value that doesn't convert to a number
+    // create derived metric infos for a custom dim that exists, with all the aggregations
+    // call the projection function with the corresponding telemetry data for each case
+    // get the projection map at the end and check if the values are correct.
+  });
+});
+
+describe("Live Metrics filtering - Documents", () => {
+  it("Can create document for an exception that comes from a span", () => {
+
+  });
+
+  it("Can create docuemnt for an exception that comes from a log", () => {
+
+  });
 });

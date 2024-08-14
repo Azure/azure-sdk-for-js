@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+
 import * as os from "os";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
@@ -11,6 +14,7 @@ import {
   MetricPoint,
   MonitoringDataPoint,
   RemoteDependency,
+  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
   CollectionConfigurationError
@@ -85,7 +89,8 @@ export function getSdkVersion(): string {
   return internalSdkVersion;
 }
 
-/** Set the version prefix to a string in the format {ResourceProvider}{OS}m_ */
+// eslint-disable-next-line tsdoc/syntax
+/** Set the version prefix to a string in the format "{ResourceProvider}{OS}m_ */
 export function setSdkPrefix(): void {
   if (!process.env[AZURE_MONITOR_PREFIX]) {
     const prefixAttachType: string =
@@ -169,7 +174,7 @@ export function resourceMetricsToQuickpulseDataPoint(
   errors: CollectionConfigurationError[],
   derivedMetricValues: Map<string, number>,
 ): MonitoringDataPoint[] {
-  let metricPoints: MetricPoint[] = [];
+  const metricPoints: MetricPoint[] = [];
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
@@ -244,7 +249,7 @@ export function resourceMetricsToQuickpulseDataPoint(
   return [quickpulseDataPoint];
 }
 
-function getIso8601Duration(milliseconds: number) {
+function getIso8601Duration(milliseconds: number): string {
   const seconds = milliseconds / 1000;
   return `PT${seconds}S`;
 }
@@ -559,13 +564,11 @@ function getUrl(attributes: Attributes): string {
 }
 
 /**
- * @description UTC time the request was made. Expressed as the number of 100-nanosecond intervals that have elapsed since 12:00:00 midnight on January 1, 0001. This is used for clock skew calculations, so the value can never be stale (cached).
+ * UTC time the request was made. Expressed as the number of 100-nanosecond intervals that have elapsed since 12:00:00 midnight on January 1, 0001. This is used for clock skew calculations, so the value can never be stale (cached).
  *
  * @example
- * 8/5/2020 10:15:00 PM UTC => 637322625000000000
- * 8/5/2020 10:15:01 PM UTC => 637322625010000000
- *
- * @returns {number}
+ * 8/5/2020 10:15:00 PM UTC =\> 637322625000000000
+ * 8/5/2020 10:15:01 PM UTC =\> 637322625010000000
  */
 export function getTransmissionTime(): number {
   return (Date.now() + 62135596800000) * 10000;

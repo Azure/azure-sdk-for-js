@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.6.1",
+  "version": "1.7.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -29,10 +29,10 @@
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
+    "dist-esm/src/**/*.js",
+    "dist-esm/src/**/*.js.map",
+    "dist-esm/src/**/*.d.ts",
+    "dist-esm/src/**/*.d.ts.map",
     "types/app-configuration.d.ts",
     "README.md",
     "LICENSE"
@@ -83,7 +83,7 @@
     ]
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-client": "^1.5.0",
     "@azure/core-http-compat": "^2.0.0",
     "@azure/core-lro": "^2.5.1",
@@ -99,7 +99,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/eventgrid": "^5.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.4.1",
     "@azure/keyvault-secrets": "^4.2.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.1.0",
