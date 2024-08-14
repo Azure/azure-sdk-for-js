@@ -54,7 +54,7 @@ describe("OpenAI", function () {
           try {
             assert.isTrue(
               res.choices[0].message?.content?.includes("snow") ||
-              res.choices[0].message?.content?.includes("icy"),
+                res.choices[0].message?.content?.includes("icy"),
             );
           } catch (error: any) {
             if (error.name === "AssertionError") {
@@ -62,7 +62,7 @@ describe("OpenAI", function () {
             } else {
               throw new RestError("Unexpceted error encounterd", error);
             }
-            }
+          }
         });
       });
     });
