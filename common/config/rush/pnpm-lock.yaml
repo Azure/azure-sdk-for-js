@@ -1184,6 +1184,9 @@ dependencies:
   '@rush-temp/test-utils':
     specifier: file:./projects/test-utils.tgz
     version: file:projects/test-utils.tgz
+  '@rush-temp/test-utils-vitest':
+    specifier: file:./projects/test-utils-vitest.tgz
+    version: file:projects/test-utils-vitest.tgz
   '@rush-temp/ts-http-runtime':
     specifier: file:./projects/ts-http-runtime.tgz
     version: file:projects/ts-http-runtime.tgz
@@ -2711,6 +2714,16 @@ packages:
       - '@types/node'
     dev: false
 
+  /@microsoft/api-extractor-model@7.29.5(@types/node@18.19.44):
+    resolution: {integrity: sha512-axMwj4pgtYH6/IclP9ly33laSwTym1kBwSUcoHElc2LYAE5NNlhGT78ucEpIZtqEZaGgA8yxGXIyS17XCC2Iuw==}
+    dependencies:
+      '@microsoft/tsdoc': 0.15.0
+      '@microsoft/tsdoc-config': 0.17.0
+      '@rushstack/node-core-library': 5.6.0(@types/node@18.19.44)
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   /@microsoft/api-extractor@7.39.5(@types/node@20.10.8):
     resolution: {integrity: sha512-EvKAUU5XlWpvJwnTieQyd+EKJwMVkUwSrt1lDTJ6J9rMQ1WUlLl85U5UaifZ3meaDBek5euVmdLvuPkfahTJzA==}
     hasBin: true
@@ -2742,6 +2755,27 @@ packages:
       '@rushstack/rig-package': 0.5.3
       '@rushstack/terminal': 0.13.3(@types/node@18.19.44)
       '@rushstack/ts-command-line': 4.22.4(@types/node@18.19.44)
+      lodash: 4.17.21
+      minimatch: 3.0.8
+      resolve: 1.22.8
+      semver: 7.5.4
+      source-map: 0.6.1
+      typescript: 5.4.2
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor@7.47.6(@types/node@18.19.44):
+    resolution: {integrity: sha512-saI7n319+PdJ8PAePr14LWeIPOW2fHSr3KZfYFqJ2VUpIc1TTSh6ATFZfLPWI1LK7eZHun8+FpNsuxonyvxTgQ==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.29.5(@types/node@18.19.44)
+      '@microsoft/tsdoc': 0.15.0
+      '@microsoft/tsdoc-config': 0.17.0
+      '@rushstack/node-core-library': 5.6.0(@types/node@18.19.44)
+      '@rushstack/rig-package': 0.5.3
+      '@rushstack/terminal': 0.13.4(@types/node@18.19.44)
+      '@rushstack/ts-command-line': 4.22.5(@types/node@18.19.44)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.8
@@ -3574,6 +3608,25 @@ packages:
       semver: 7.5.4
     dev: false
 
+  /@rushstack/node-core-library@5.6.0(@types/node@18.19.44):
+    resolution: {integrity: sha512-3ixIcEHseqU1sbnvoQkvxvfTYWbi1IIhnq/vexJcex7j6D8lnQCiYnd/E2oXbUH0Zv48CjtfslC/2MVFd71mpg==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 18.19.44
+      ajv: 8.13.0
+      ajv-draft-04: 1.0.0(ajv@8.13.0)
+      ajv-formats: 3.0.1
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.8
+      semver: 7.5.4
+    dev: false
+
   /@rushstack/rig-package@0.5.1:
     resolution: {integrity: sha512-pXRYSe29TjRw7rqxD4WS3HN/sRSbfr+tJs4a9uuaSIBAITbUggygdhuG0VrO0EO+QqH91GhYMN4S6KRtOEmGVA==}
     dependencies:
@@ -3601,6 +3654,19 @@ packages:
       supports-color: 8.1.1
     dev: false
 
+  /@rushstack/terminal@0.13.4(@types/node@18.19.44):
+    resolution: {integrity: sha512-h7g2RuffpqBCDKOijlUmvQ0b2O9kpIOK9TWCX9IR+2kvudp6MdtCYDu29zeqweWwCSWUnuAaUfB5HT88s0YCiw==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@rushstack/node-core-library': 5.6.0(@types/node@18.19.44)
+      '@types/node': 18.19.44
+      supports-color: 8.1.1
+    dev: false
+
   /@rushstack/ts-command-line@4.17.1:
     resolution: {integrity: sha512-2jweO1O57BYP5qdBGl6apJLB+aRIn5ccIRTPDyULh0KMwVzFqWtw6IZWt1qtUoZD/pD2RNkIOosH6Cq45rIYeg==}
     dependencies:
@@ -3614,6 +3680,17 @@ packages:
     resolution: {integrity: sha512-QoyhbWfyF9Ixg5DWdPzxO3h2RmJ7i5WH9b7qLzD5h5WFya/ZqicjdPrVwQiGtrFvAbBj8jhcC9DhbzU9xAk78g==}
     dependencies:
       '@rushstack/terminal': 0.13.3(@types/node@18.19.44)
+      '@types/argparse': 1.0.38
+      argparse: 1.0.10
+      string-argv: 0.3.2
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@rushstack/ts-command-line@4.22.5(@types/node@18.19.44):
+    resolution: {integrity: sha512-eFm+5DJboPHAy3epLNQtmG+hDlBzS950g26nZPbciMQeXmZ5shGGNe6ERjV77wnr5IuxfLhYGJ4ZjPy8Z56MBA==}
+    dependencies:
+      '@rushstack/terminal': 0.13.4(@types/node@18.19.44)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -3818,7 +3895,7 @@ packages:
   /@types/express-serve-static-core@4.19.0:
     resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
     dependencies:
-      '@types/node': 18.19.44
+      '@types/node': 22.2.0
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -4595,7 +4672,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -24884,6 +24961,43 @@ packages:
       cross-env: 7.0.3
       eslint: 8.57.0
       express: 4.19.2
+      playwright: 1.46.0
+      rimraf: 5.0.10
+      tshy: 2.0.1
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
+    dev: false
+
+  file:projects/test-utils-vitest.tgz:
+    resolution: {integrity: sha512-B+7UtywzLzak0ygqHSUnHwXafQGcVcajMBpZo6UhLiWFKlWN5qWpr5250nrGAS1jNRcThxUsJrLZu8B7hM8Rsw==, tarball: file:projects/test-utils-vitest.tgz}
+    name: '@rush-temp/test-utils-vitest'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
+      '@opentelemetry/api': 1.9.0
+      '@types/node': 18.19.44
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
+      '@vitest/expect': 2.0.5
+      eslint: 8.57.0
       playwright: 1.46.0
       rimraf: 5.0.10
       tshy: 2.0.1
