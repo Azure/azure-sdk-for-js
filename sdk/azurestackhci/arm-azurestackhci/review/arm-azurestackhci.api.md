@@ -17,13 +17,6 @@ export type AccessLevel = string;
 export type ActionType = string;
 
 // @public
-export interface AdapterPropertyOverrides {
-    jumboPacket?: string;
-    networkDirect?: string;
-    networkDirectTechnology?: string;
-}
-
-// @public
 export interface ArcConnectivityProperties {
     enabled?: boolean;
     serviceConfigurations?: ServiceConfiguration[];
@@ -487,7 +480,7 @@ export interface DeploymentData {
     adouPath?: string;
     cluster?: DeploymentCluster;
     domainFqdn?: string;
-    hostNetwork?: HostNetwork;
+    hostNetwork?: DeploymentSettingHostNetwork;
     infrastructureNetwork?: InfrastructureNetwork[];
     namingPrefix?: string;
     observability?: Observability;
@@ -525,6 +518,34 @@ export interface DeploymentSetting extends ProxyResource {
     operationType?: OperationType;
     readonly provisioningState?: ProvisioningState;
     readonly reportedProperties?: EceReportedProperties;
+}
+
+// @public
+export interface DeploymentSettingAdapterPropertyOverrides {
+    jumboPacket?: string;
+    networkDirect?: string;
+    networkDirectTechnology?: string;
+}
+
+// @public
+export interface DeploymentSettingHostNetwork {
+    enableStorageAutoIp?: boolean;
+    intents?: DeploymentSettingIntents[];
+    storageConnectivitySwitchless?: boolean;
+    storageNetworks?: DeploymentSettingStorageNetworks[];
+}
+
+// @public
+export interface DeploymentSettingIntents {
+    adapter?: string[];
+    adapterPropertyOverrides?: DeploymentSettingAdapterPropertyOverrides;
+    name?: string;
+    overrideAdapterProperty?: boolean;
+    overrideQosPolicy?: boolean;
+    overrideVirtualSwitchConfiguration?: boolean;
+    qosPolicyOverrides?: QosPolicyOverrides;
+    trafficType?: string[];
+    virtualSwitchConfigurationOverrides?: DeploymentSettingVirtualSwitchConfigurationOverrides;
 }
 
 // @public
@@ -592,6 +613,27 @@ export interface DeploymentSettingsListByClustersOptionalParams extends coreClie
 
 // @public
 export type DeploymentSettingsListByClustersResponse = DeploymentSettingListResult;
+
+// @public
+export interface DeploymentSettingStorageAdapterIPInfo {
+    ipv4Address?: string;
+    physicalNode?: string;
+    subnetMask?: string;
+}
+
+// @public
+export interface DeploymentSettingStorageNetworks {
+    name?: string;
+    networkAdapterName?: string;
+    storageAdapterIPInfo?: DeploymentSettingStorageAdapterIPInfo[];
+    vlanId?: string;
+}
+
+// @public
+export interface DeploymentSettingVirtualSwitchConfigurationOverrides {
+    enableIov?: string;
+    loadBalancingAlgorithm?: string;
+}
 
 // @public
 export interface DeploymentStep {
@@ -902,6 +944,13 @@ export interface HciEdgeDevice extends EdgeDevice {
 }
 
 // @public
+export interface HciEdgeDeviceAdapterPropertyOverrides {
+    readonly jumboPacket?: string;
+    readonly networkDirect?: string;
+    readonly networkDirectTechnology?: string;
+}
+
+// @public
 export interface HciEdgeDeviceArcExtension {
     readonly errorDetails?: HciValidationFailureDetail[];
     readonly extensionName?: string;
@@ -912,13 +961,63 @@ export interface HciEdgeDeviceArcExtension {
 }
 
 // @public
+export interface HciEdgeDeviceHostNetwork {
+    readonly enableStorageAutoIp?: boolean;
+    readonly intents?: HciEdgeDeviceIntents[];
+    readonly storageConnectivitySwitchless?: boolean;
+    readonly storageNetworks?: HciEdgeDeviceStorageNetworks[];
+}
+
+// @public
+export interface HciEdgeDeviceIntents {
+    readonly adapterPropertyOverrides?: HciEdgeDeviceAdapterPropertyOverrides;
+    readonly intentAdapters?: string[];
+    readonly intentName?: string;
+    readonly intentType?: number;
+    readonly isComputeIntentSet?: boolean;
+    readonly isManagementIntentSet?: boolean;
+    readonly isNetworkIntentType?: boolean;
+    readonly isOnlyStorage?: boolean;
+    readonly isOnlyStretch?: boolean;
+    readonly isStorageIntentSet?: boolean;
+    readonly isStretchIntentSet?: boolean;
+    readonly overrideAdapterProperty?: boolean;
+    readonly overrideQosPolicy?: boolean;
+    readonly overrideVirtualSwitchConfiguration?: boolean;
+    readonly qosPolicyOverrides?: QosPolicyOverrides;
+    readonly scope?: number;
+    readonly virtualSwitchConfigurationOverrides?: HciEdgeDeviceVirtualSwitchConfigurationOverrides;
+}
+
+// @public
 export interface HciEdgeDeviceProperties extends EdgeDeviceProperties {
     readonly reportedProperties?: HciReportedProperties;
 }
 
 // @public
+export interface HciEdgeDeviceStorageAdapterIPInfo {
+    readonly ipv4Address?: string;
+    readonly physicalNode?: string;
+    readonly subnetMask?: string;
+}
+
+// @public
+export interface HciEdgeDeviceStorageNetworks {
+    readonly name?: string;
+    readonly networkAdapterName?: string;
+    readonly storageAdapterIPInfo?: HciEdgeDeviceStorageAdapterIPInfo[];
+    readonly storageVlanId?: string;
+}
+
+// @public
+export interface HciEdgeDeviceVirtualSwitchConfigurationOverrides {
+    readonly enableIov?: string;
+    readonly loadBalancingAlgorithm?: string;
+}
+
+// @public
 export interface HciNetworkProfile {
-    readonly hostNetwork?: HostNetwork;
+    readonly hostNetwork?: HciEdgeDeviceHostNetwork;
     readonly nicDetails?: HciNicDetail[];
     readonly switchDetails?: SwitchDetail[];
 }
@@ -964,14 +1063,6 @@ export interface HciValidationFailureDetail {
 export type HealthState = string;
 
 // @public
-export interface HostNetwork {
-    enableStorageAutoIp?: boolean;
-    intents?: Intents[];
-    storageConnectivitySwitchless?: boolean;
-    storageNetworks?: StorageNetworks[];
-}
-
-// @public
 export type ImdsAttestation = string;
 
 // @public
@@ -981,19 +1072,6 @@ export interface InfrastructureNetwork {
     ipPools?: IpPools[];
     subnetMask?: string;
     useDhcp?: boolean;
-}
-
-// @public
-export interface Intents {
-    adapter?: string[];
-    adapterPropertyOverrides?: AdapterPropertyOverrides;
-    name?: string;
-    overrideAdapterProperty?: boolean;
-    overrideQosPolicy?: boolean;
-    overrideVirtualSwitchConfiguration?: boolean;
-    qosPolicyOverrides?: QosPolicyOverrides;
-    trafficType?: string[];
-    virtualSwitchConfigurationOverrides?: VirtualSwitchConfigurationOverrides;
 }
 
 // @public
@@ -2024,21 +2102,6 @@ interface Storage_2 {
 export { Storage_2 as Storage }
 
 // @public
-export interface StorageAdapterIPInfo {
-    ipv4Address?: string;
-    physicalNode?: string;
-    subnetMask?: string;
-}
-
-// @public
-export interface StorageNetworks {
-    name?: string;
-    networkAdapterName?: string;
-    storageAdapterIPInfo?: StorageAdapterIPInfo[];
-    vlanId?: string;
-}
-
-// @public
 export interface SwitchDetail {
     readonly extensions?: SwitchExtension[];
     readonly switchName?: string;
@@ -2344,12 +2407,6 @@ export interface ValidateRequest {
 // @public
 export interface ValidateResponse {
     readonly status?: string;
-}
-
-// @public
-export interface VirtualSwitchConfigurationOverrides {
-    enableIov?: string;
-    loadBalancingAlgorithm?: string;
 }
 
 // @public

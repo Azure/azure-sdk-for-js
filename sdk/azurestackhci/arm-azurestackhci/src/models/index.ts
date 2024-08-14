@@ -681,7 +681,7 @@ export interface DeploymentData {
   /** list of physical nodes config to deploy AzureStackHCI Cluster. */
   physicalNodes?: PhysicalNodes[];
   /** HostNetwork config to deploy AzureStackHCI Cluster. */
-  hostNetwork?: HostNetwork;
+  hostNetwork?: DeploymentSettingHostNetwork;
   /** SDN Integration config to deploy AzureStackHCI Cluster. */
   sdnIntegration?: SdnIntegration;
   /** The path to the Active Directory Organizational Unit container object prepared for the deployment. */
@@ -779,11 +779,11 @@ export interface PhysicalNodes {
 }
 
 /** The HostNetwork of a cluster. */
-export interface HostNetwork {
+export interface DeploymentSettingHostNetwork {
   /** The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM. */
-  intents?: Intents[];
+  intents?: DeploymentSettingIntents[];
   /** List of StorageNetworks config to deploy AzureStackHCI Cluster. */
-  storageNetworks?: StorageNetworks[];
+  storageNetworks?: DeploymentSettingStorageNetworks[];
   /** Defines how the storage adapters between nodes are connected either switch or switch less.. */
   storageConnectivitySwitchless?: boolean;
   /** Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically. */
@@ -791,7 +791,7 @@ export interface HostNetwork {
 }
 
 /** The Intents of a cluster. */
-export interface Intents {
+export interface DeploymentSettingIntents {
   /** Name of the network intent you wish to create. */
   name?: string;
   /** List of network traffic types. Only allowed values are 'Compute', 'Storage', 'Management'. */
@@ -801,7 +801,7 @@ export interface Intents {
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   overrideVirtualSwitchConfiguration?: boolean;
   /** Set virtualSwitch ConfigurationOverrides for cluster. */
-  virtualSwitchConfigurationOverrides?: VirtualSwitchConfigurationOverrides;
+  virtualSwitchConfigurationOverrides?: DeploymentSettingVirtualSwitchConfigurationOverrides;
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   overrideQosPolicy?: boolean;
   /** Set QoS PolicyOverrides for cluster. */
@@ -809,11 +809,11 @@ export interface Intents {
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   overrideAdapterProperty?: boolean;
   /** Set Adapter PropertyOverrides for cluster. */
-  adapterPropertyOverrides?: AdapterPropertyOverrides;
+  adapterPropertyOverrides?: DeploymentSettingAdapterPropertyOverrides;
 }
 
 /** The VirtualSwitchConfigurationOverrides of a cluster. */
-export interface VirtualSwitchConfigurationOverrides {
+export interface DeploymentSettingVirtualSwitchConfigurationOverrides {
   /** Enable IoV for Virtual Switch */
   enableIov?: string;
   /** Load Balancing Algorithm for Virtual Switch */
@@ -831,7 +831,7 @@ export interface QosPolicyOverrides {
 }
 
 /** The AdapterPropertyOverrides of a cluster. */
-export interface AdapterPropertyOverrides {
+export interface DeploymentSettingAdapterPropertyOverrides {
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
   jumboPacket?: string;
   /** This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. */
@@ -841,7 +841,7 @@ export interface AdapterPropertyOverrides {
 }
 
 /** The StorageNetworks of a cluster. */
-export interface StorageNetworks {
+export interface DeploymentSettingStorageNetworks {
   /** Name of the storage network. */
   name?: string;
   /** Name of the storage network adapter. */
@@ -849,11 +849,11 @@ export interface StorageNetworks {
   /** ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic. */
   vlanId?: string;
   /** List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster. */
-  storageAdapterIPInfo?: StorageAdapterIPInfo[];
+  storageAdapterIPInfo?: DeploymentSettingStorageAdapterIPInfo[];
 }
 
 /** The StorageAdapter physical nodes of a cluster. */
-export interface StorageAdapterIPInfo {
+export interface DeploymentSettingStorageAdapterIPInfo {
   /** storage adapter physical node name. */
   physicalNode?: string;
   /** The IPv4 address assigned to each storage adapter physical node on your Azure Stack HCI cluster. */
@@ -1411,6 +1411,25 @@ export interface ServiceConfiguration {
   port: number;
 }
 
+/** The AdapterPropertyOverrides of a cluster. */
+export interface HciEdgeDeviceAdapterPropertyOverrides {
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jumboPacket?: string;
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkDirect?: string;
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation. Expected values are 'iWARP', 'RoCEv2', 'RoCE'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkDirectTechnology?: string;
+}
+
 /** The device Configuration for edge device. */
 export interface DeviceConfiguration {
   /** NIC Details of device */
@@ -1520,7 +1539,7 @@ export interface HciNetworkProfile {
    * HostNetwork config to deploy AzureStackHCI Cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly hostNetwork?: HostNetwork;
+  readonly hostNetwork?: HciEdgeDeviceHostNetwork;
 }
 
 /** The NIC Detail of a device. */
@@ -1638,6 +1657,176 @@ export interface SwitchExtension {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly extensionEnabled?: boolean;
+}
+
+/** The HostNetwork of a cluster. */
+export interface HciEdgeDeviceHostNetwork {
+  /**
+   * The network intents assigned to the network reference pattern used for the deployment. Each intent will define its own name, traffic type, adapter names, and overrides as recommended by your OEM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intents?: HciEdgeDeviceIntents[];
+  /**
+   * List of StorageNetworks config to deploy AzureStackHCI Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageNetworks?: HciEdgeDeviceStorageNetworks[];
+  /**
+   * Defines how the storage adapters between nodes are connected either switch or switch less.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageConnectivitySwitchless?: boolean;
+  /**
+   * Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enableStorageAutoIp?: boolean;
+}
+
+/** The Intents of a cluster. */
+export interface HciEdgeDeviceIntents {
+  /**
+   * Scope for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: number;
+  /**
+   * IntentType for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intentType?: number;
+  /**
+   * IsComputeIntentSet for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isComputeIntentSet?: boolean;
+  /**
+   * IsStorageIntentSet for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isStorageIntentSet?: boolean;
+  /**
+   * IntentType for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isOnlyStorage?: boolean;
+  /**
+   * IsManagementIntentSet for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isManagementIntentSet?: boolean;
+  /**
+   * IsStretchIntentSet for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isStretchIntentSet?: boolean;
+  /**
+   * IsOnlyStretch for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isOnlyStretch?: boolean;
+  /**
+   * IsNetworkIntentType for host network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isNetworkIntentType?: boolean;
+  /**
+   * Name of the network intent you wish to create.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intentName?: string;
+  /**
+   * Array of adapters used for the network intent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly intentAdapters?: string[];
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly overrideVirtualSwitchConfiguration?: boolean;
+  /**
+   * Set virtualSwitch ConfigurationOverrides for cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualSwitchConfigurationOverrides?: HciEdgeDeviceVirtualSwitchConfigurationOverrides;
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly overrideQosPolicy?: boolean;
+  /**
+   * Set QoS PolicyOverrides for cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly qosPolicyOverrides?: QosPolicyOverrides;
+  /**
+   * This parameter should only be modified based on your OEM guidance. Do not modify this parameter without OEM validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly overrideAdapterProperty?: boolean;
+  /**
+   * Set Adapter PropertyOverrides for cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly adapterPropertyOverrides?: HciEdgeDeviceAdapterPropertyOverrides;
+}
+
+/** The VirtualSwitchConfigurationOverrides of a cluster. */
+export interface HciEdgeDeviceVirtualSwitchConfigurationOverrides {
+  /**
+   * Enable IoV for Virtual Switch
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enableIov?: string;
+  /**
+   * Load Balancing Algorithm for Virtual Switch
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancingAlgorithm?: string;
+}
+
+/** The StorageNetworks of a cluster. */
+export interface HciEdgeDeviceStorageNetworks {
+  /**
+   * Name of the storage network.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Name of the storage network adapter.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkAdapterName?: string;
+  /**
+   * ID specified for the VLAN storage network. This setting is applied to the network interfaces that route the storage and VM migration traffic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageVlanId?: string;
+  /**
+   * List of Storage adapter physical nodes config to deploy AzureStackHCI Cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAdapterIPInfo?: HciEdgeDeviceStorageAdapterIPInfo[];
+}
+
+/** The StorageAdapter physical nodes of a cluster. */
+export interface HciEdgeDeviceStorageAdapterIPInfo {
+  /**
+   * storage adapter physical node name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalNode?: string;
+  /**
+   * The IPv4 address assigned to each storage adapter physical node on your Azure Stack HCI cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipv4Address?: string;
+  /**
+   * The SubnetMask address assigned to each storage adapter physical node on your Azure Stack HCI cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnetMask?: string;
 }
 
 /** OS configurations for HCI device. */

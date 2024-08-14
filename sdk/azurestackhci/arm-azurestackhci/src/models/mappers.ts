@@ -1410,7 +1410,7 @@ export const DeploymentData: coreClient.CompositeMapper = {
         serializedName: "hostNetwork",
         type: {
           name: "Composite",
-          className: "HostNetwork",
+          className: "DeploymentSettingHostNetwork",
         },
       },
       sdnIntegration: {
@@ -1711,10 +1711,10 @@ export const PhysicalNodes: coreClient.CompositeMapper = {
   },
 };
 
-export const HostNetwork: coreClient.CompositeMapper = {
+export const DeploymentSettingHostNetwork: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HostNetwork",
+    className: "DeploymentSettingHostNetwork",
     modelProperties: {
       intents: {
         serializedName: "intents",
@@ -1723,7 +1723,7 @@ export const HostNetwork: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Intents",
+              className: "DeploymentSettingIntents",
             },
           },
         },
@@ -1735,7 +1735,7 @@ export const HostNetwork: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StorageNetworks",
+              className: "DeploymentSettingStorageNetworks",
             },
           },
         },
@@ -1758,10 +1758,10 @@ export const HostNetwork: coreClient.CompositeMapper = {
   },
 };
 
-export const Intents: coreClient.CompositeMapper = {
+export const DeploymentSettingIntents: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Intents",
+    className: "DeploymentSettingIntents",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -1802,7 +1802,7 @@ export const Intents: coreClient.CompositeMapper = {
         serializedName: "virtualSwitchConfigurationOverrides",
         type: {
           name: "Composite",
-          className: "VirtualSwitchConfigurationOverrides",
+          className: "DeploymentSettingVirtualSwitchConfigurationOverrides",
         },
       },
       overrideQosPolicy: {
@@ -1830,33 +1830,34 @@ export const Intents: coreClient.CompositeMapper = {
         serializedName: "adapterPropertyOverrides",
         type: {
           name: "Composite",
-          className: "AdapterPropertyOverrides",
+          className: "DeploymentSettingAdapterPropertyOverrides",
         },
       },
     },
   },
 };
 
-export const VirtualSwitchConfigurationOverrides: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "VirtualSwitchConfigurationOverrides",
-    modelProperties: {
-      enableIov: {
-        serializedName: "enableIov",
-        type: {
-          name: "String",
+export const DeploymentSettingVirtualSwitchConfigurationOverrides: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentSettingVirtualSwitchConfigurationOverrides",
+      modelProperties: {
+        enableIov: {
+          serializedName: "enableIov",
+          type: {
+            name: "String",
+          },
         },
-      },
-      loadBalancingAlgorithm: {
-        serializedName: "loadBalancingAlgorithm",
-        type: {
-          name: "String",
+        loadBalancingAlgorithm: {
+          serializedName: "loadBalancingAlgorithm",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const QosPolicyOverrides: coreClient.CompositeMapper = {
   type: {
@@ -1885,37 +1886,38 @@ export const QosPolicyOverrides: coreClient.CompositeMapper = {
   },
 };
 
-export const AdapterPropertyOverrides: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AdapterPropertyOverrides",
-    modelProperties: {
-      jumboPacket: {
-        serializedName: "jumboPacket",
-        type: {
-          name: "String",
+export const DeploymentSettingAdapterPropertyOverrides: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentSettingAdapterPropertyOverrides",
+      modelProperties: {
+        jumboPacket: {
+          serializedName: "jumboPacket",
+          type: {
+            name: "String",
+          },
         },
-      },
-      networkDirect: {
-        serializedName: "networkDirect",
-        type: {
-          name: "String",
+        networkDirect: {
+          serializedName: "networkDirect",
+          type: {
+            name: "String",
+          },
         },
-      },
-      networkDirectTechnology: {
-        serializedName: "networkDirectTechnology",
-        type: {
-          name: "String",
+        networkDirectTechnology: {
+          serializedName: "networkDirectTechnology",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
-export const StorageNetworks: coreClient.CompositeMapper = {
+export const DeploymentSettingStorageNetworks: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "StorageNetworks",
+    className: "DeploymentSettingStorageNetworks",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -1942,7 +1944,7 @@ export const StorageNetworks: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StorageAdapterIPInfo",
+              className: "DeploymentSettingStorageAdapterIPInfo",
             },
           },
         },
@@ -1951,32 +1953,33 @@ export const StorageNetworks: coreClient.CompositeMapper = {
   },
 };
 
-export const StorageAdapterIPInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StorageAdapterIPInfo",
-    modelProperties: {
-      physicalNode: {
-        serializedName: "physicalNode",
-        type: {
-          name: "String",
+export const DeploymentSettingStorageAdapterIPInfo: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "DeploymentSettingStorageAdapterIPInfo",
+      modelProperties: {
+        physicalNode: {
+          serializedName: "physicalNode",
+          type: {
+            name: "String",
+          },
         },
-      },
-      ipv4Address: {
-        serializedName: "ipv4Address",
-        type: {
-          name: "String",
+        ipv4Address: {
+          serializedName: "ipv4Address",
+          type: {
+            name: "String",
+          },
         },
-      },
-      subnetMask: {
-        serializedName: "subnetMask",
-        type: {
-          name: "String",
+        subnetMask: {
+          serializedName: "subnetMask",
+          type: {
+            name: "String",
+          },
         },
       },
     },
-  },
-};
+  };
 
 export const SdnIntegration: coreClient.CompositeMapper = {
   type: {
@@ -3281,6 +3284,37 @@ export const ServiceConfiguration: coreClient.CompositeMapper = {
   },
 };
 
+export const HciEdgeDeviceAdapterPropertyOverrides: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "HciEdgeDeviceAdapterPropertyOverrides",
+      modelProperties: {
+        jumboPacket: {
+          serializedName: "jumboPacket",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        networkDirect: {
+          serializedName: "networkDirect",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        networkDirectTechnology: {
+          serializedName: "networkDirectTechnology",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const DeviceConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3529,7 +3563,7 @@ export const HciNetworkProfile: coreClient.CompositeMapper = {
         serializedName: "hostNetwork",
         type: {
           name: "Composite",
-          className: "HostNetwork",
+          className: "HciEdgeDeviceHostNetwork",
         },
       },
     },
@@ -3715,6 +3749,285 @@ export const SwitchExtension: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const HciEdgeDeviceHostNetwork: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HciEdgeDeviceHostNetwork",
+    modelProperties: {
+      intents: {
+        serializedName: "intents",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HciEdgeDeviceIntents",
+            },
+          },
+        },
+      },
+      storageNetworks: {
+        serializedName: "storageNetworks",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HciEdgeDeviceStorageNetworks",
+            },
+          },
+        },
+      },
+      storageConnectivitySwitchless: {
+        serializedName: "storageConnectivitySwitchless",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableStorageAutoIp: {
+        serializedName: "enableStorageAutoIp",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const HciEdgeDeviceIntents: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HciEdgeDeviceIntents",
+    modelProperties: {
+      scope: {
+        serializedName: "scope",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      intentType: {
+        serializedName: "intentType",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+      isComputeIntentSet: {
+        serializedName: "isComputeIntentSet",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      isStorageIntentSet: {
+        serializedName: "isStorageIntentSet",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      isOnlyStorage: {
+        serializedName: "isOnlyStorage",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      isManagementIntentSet: {
+        serializedName: "isManagementIntentSet",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      isStretchIntentSet: {
+        serializedName: "isStretchIntentSet",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      isOnlyStretch: {
+        serializedName: "isOnlyStretch",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      isNetworkIntentType: {
+        serializedName: "isNetworkIntentType",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      intentName: {
+        serializedName: "intentName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      intentAdapters: {
+        serializedName: "intentAdapters",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      overrideVirtualSwitchConfiguration: {
+        serializedName: "overrideVirtualSwitchConfiguration",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      virtualSwitchConfigurationOverrides: {
+        serializedName: "virtualSwitchConfigurationOverrides",
+        type: {
+          name: "Composite",
+          className: "HciEdgeDeviceVirtualSwitchConfigurationOverrides",
+        },
+      },
+      overrideQosPolicy: {
+        serializedName: "overrideQosPolicy",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      qosPolicyOverrides: {
+        serializedName: "qosPolicyOverrides",
+        type: {
+          name: "Composite",
+          className: "QosPolicyOverrides",
+        },
+      },
+      overrideAdapterProperty: {
+        serializedName: "overrideAdapterProperty",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      adapterPropertyOverrides: {
+        serializedName: "adapterPropertyOverrides",
+        type: {
+          name: "Composite",
+          className: "HciEdgeDeviceAdapterPropertyOverrides",
+        },
+      },
+    },
+  },
+};
+
+export const HciEdgeDeviceVirtualSwitchConfigurationOverrides: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "HciEdgeDeviceVirtualSwitchConfigurationOverrides",
+      modelProperties: {
+        enableIov: {
+          serializedName: "enableIov",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        loadBalancingAlgorithm: {
+          serializedName: "loadBalancingAlgorithm",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const HciEdgeDeviceStorageNetworks: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HciEdgeDeviceStorageNetworks",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      networkAdapterName: {
+        serializedName: "networkAdapterName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageVlanId: {
+        serializedName: "storageVlanId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageAdapterIPInfo: {
+        serializedName: "storageAdapterIPInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HciEdgeDeviceStorageAdapterIPInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const HciEdgeDeviceStorageAdapterIPInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HciEdgeDeviceStorageAdapterIPInfo",
+    modelProperties: {
+      physicalNode: {
+        serializedName: "physicalNode",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ipv4Address: {
+        serializedName: "ipv4Address",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      subnetMask: {
+        serializedName: "subnetMask",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },

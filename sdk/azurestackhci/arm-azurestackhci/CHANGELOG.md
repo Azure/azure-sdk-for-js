@@ -1,6 +1,6 @@
 # Release History
     
-## 4.0.0-beta.2 (2024-08-12)
+## 4.0.0-beta.2 (2024-08-14)
     
 ### Features Added
 
@@ -24,7 +24,6 @@
   - Added operation Clusters.beginTriggerLogCollectionAndWait
   - Added operation Extensions.beginUpgrade
   - Added operation Extensions.beginUpgradeAndWait
-  - Added Interface AdapterPropertyOverrides
   - Added Interface ArcSettingsConsentAndInstallDefaultExtensionsOptionalParams
   - Added Interface ArcSettingsInitializeDisableProcessOptionalParams
   - Added Interface ClustersConfigureRemoteSupportHeaders
@@ -38,6 +37,9 @@
   - Added Interface DeploymentData
   - Added Interface DeploymentSecuritySettings
   - Added Interface DeploymentSetting
+  - Added Interface DeploymentSettingAdapterPropertyOverrides
+  - Added Interface DeploymentSettingHostNetwork
+  - Added Interface DeploymentSettingIntents
   - Added Interface DeploymentSettingListResult
   - Added Interface DeploymentSettingsCreateOrUpdateHeaders
   - Added Interface DeploymentSettingsCreateOrUpdateOptionalParams
@@ -46,6 +48,9 @@
   - Added Interface DeploymentSettingsGetOptionalParams
   - Added Interface DeploymentSettingsListByClustersNextOptionalParams
   - Added Interface DeploymentSettingsListByClustersOptionalParams
+  - Added Interface DeploymentSettingStorageAdapterIPInfo
+  - Added Interface DeploymentSettingStorageNetworks
+  - Added Interface DeploymentSettingVirtualSwitchConfigurationOverrides
   - Added Interface DeploymentStep
   - Added Interface DeviceConfiguration
   - Added Interface EceActionStatus
@@ -71,16 +76,20 @@
   - Added Interface ExtensionsUpgradeOptionalParams
   - Added Interface ExtensionUpgradeParameters
   - Added Interface HciEdgeDevice
+  - Added Interface HciEdgeDeviceAdapterPropertyOverrides
   - Added Interface HciEdgeDeviceArcExtension
+  - Added Interface HciEdgeDeviceHostNetwork
+  - Added Interface HciEdgeDeviceIntents
   - Added Interface HciEdgeDeviceProperties
+  - Added Interface HciEdgeDeviceStorageAdapterIPInfo
+  - Added Interface HciEdgeDeviceStorageNetworks
+  - Added Interface HciEdgeDeviceVirtualSwitchConfigurationOverrides
   - Added Interface HciNetworkProfile
   - Added Interface HciNicDetail
   - Added Interface HciOsProfile
   - Added Interface HciReportedProperties
   - Added Interface HciValidationFailureDetail
-  - Added Interface HostNetwork
   - Added Interface InfrastructureNetwork
-  - Added Interface Intents
   - Added Interface IpPools
   - Added Interface IsolatedVmAttestationConfiguration
   - Added Interface LogCollectionError
@@ -144,8 +153,6 @@
   - Added Interface SoftwareAssuranceProperties
   - Added Interface Step
   - Added Interface Storage_2
-  - Added Interface StorageAdapterIPInfo
-  - Added Interface StorageNetworks
   - Added Interface SwitchDetail
   - Added Interface SwitchExtension
   - Added Interface SystemData
@@ -179,7 +186,6 @@
   - Added Interface UserAssignedIdentity
   - Added Interface ValidateRequest
   - Added Interface ValidateResponse
-  - Added Interface VirtualSwitchConfigurationOverrides
   - Added Type Alias AccessLevel
   - Added Type Alias ArcExtensionState
   - Added Type Alias ArcSettingsConsentAndInstallDefaultExtensionsResponse
