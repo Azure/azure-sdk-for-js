@@ -28,7 +28,7 @@ import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
 import { tracingClient } from "./tracing.js";
-import { v4 as v4uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
@@ -447,7 +447,7 @@ export class KeyVaultAccessControlClient {
         const response = await this.client.roleDefinitions.createOrUpdate(
           this.vaultUrl,
           roleScope,
-          options.roleDefinitionName || v4uuid(),
+          options.roleDefinitionName || randomUUID(),
           {
             properties: {
               description: options.description,

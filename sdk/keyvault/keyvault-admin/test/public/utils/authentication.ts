@@ -4,7 +4,6 @@
 import { createTestCredential } from "@azure-tools/test-credential";
 import { env, Recorder, RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
-import { v4 as uuidv4 } from "uuid";
 import {
   KeyVaultAccessControlClient,
   KeyVaultBackupClient,
@@ -12,13 +11,14 @@ import {
 } from "../../../src/index.js";
 
 import { getEnvironmentVariable } from "./common.js";
+import { randomUUID } from "@azure/core-util";
 
 export async function authenticate(that: TestInfo): Promise<any> {
   const recorder = new Recorder(that);
   let generatedUUIDs = 0;
 
   function generateFakeUUID(): string {
-    return recorder.variable(`uuid-${++generatedUUIDs}`, uuidv4());
+    return recorder.variable(`uuid-${++generatedUUIDs}`, randomUUID());
   }
 
   const recorderStartOptions: RecorderStartOptions = {

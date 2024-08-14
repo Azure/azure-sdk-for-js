@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure-tools/test-utils";
+import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 import {
   KeyVaultAccessControlClient,
@@ -12,6 +12,8 @@ import {
 } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { KnownRoleScope } from "../../src/generated/index.js";
+expect.extend({ toSupportTracing });
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -267,42 +269,39 @@ describe("KeyVaultAccessControlClient", () => {
   });
 
   // TODO: re-enable as part of migrating to test-utils-vitest https://github.com/Azure/azure-sdk-for-js/pull/30740
-  describe.skip("tracing", () => {
+  describe("tracing", () => {
     it("traces through the various operations", async () => {
-      // const roleDefinitionName = generateFakeUUID();
-      // const roleAssignmentName = generateFakeUUID();
-      // await assert.supportsTracing(
-      //   async (options) => {
-      //     const roleDefinition = await client.setRoleDefinition(KnownRoleScope.Global, {
-      //       roleDefinitionName,
-      //       roleName: roleDefinitionName,
-      //       ...options,
-      //     });
-      //     await client.getRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
-      //     await client.createRoleAssignment(
-      //       globalScope,
-      //       roleAssignmentName,
-      //       roleDefinition.id,
-      //       assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-      //       options,
-      //     );
-      //     await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
-      //     await client.listRoleAssignments(KnownRoleScope.Global, options).next();
-      //     await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
-      //     await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
-      //     await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
-      //   },
-      //   [
-      //     "KeyVaultAccessControlClient.setRoleDefinition",
-      //     "KeyVaultAccessControlClient.getRoleDefinition",
-      //     "KeyVaultAccessControlClient.createRoleAssignment",
-      //     "KeyVaultAccessControlClient.getRoleAssignment",
-      //     "KeyVaultAccessControlClient.listRoleAssignmentsPage",
-      //     "KeyVaultAccessControlClient.listRoleDefinitionsPage",
-      //     "KeyVaultAccessControlClient.deleteRoleAssignment",
-      //     "KeyVaultAccessControlClient.deleteRoleDefinition",
-      //   ],
-      // );
+      const roleDefinitionName = generateFakeUUID();
+      const roleAssignmentName = generateFakeUUID();
+      await expect(async (options: any) => {
+        const roleDefinition = await client.setRoleDefinition(KnownRoleScope.Global, {
+          roleDefinitionName,
+          roleName: roleDefinitionName,
+          ...options,
+        });
+        await client.getRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+        await client.createRoleAssignment(
+          globalScope,
+          roleAssignmentName,
+          roleDefinition.id,
+          assertEnvironmentVariable("CLIENT_OBJECT_ID"),
+          options,
+        );
+        await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
+        await client.listRoleAssignments(KnownRoleScope.Global, options).next();
+        await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
+        await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
+        await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+      }).toSupportTracing([
+        "KeyVaultAccessControlClient.setRoleDefinition",
+        "KeyVaultAccessControlClient.getRoleDefinition",
+        "KeyVaultAccessControlClient.createRoleAssignment",
+        "KeyVaultAccessControlClient.getRoleAssignment",
+        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
+        "KeyVaultAccessControlClient.listRoleDefinitionsPage",
+        "KeyVaultAccessControlClient.deleteRoleAssignment",
+        "KeyVaultAccessControlClient.deleteRoleDefinition",
+      ]);
     });
   });
 });
