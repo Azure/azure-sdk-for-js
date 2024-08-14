@@ -267,6 +267,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     }
   }
 
+  /**
+   * @internal
+   */
   public beginEncryptionDiagnostics(operation: string): void {
     const startTime = getCurrentTimestampInMs();
     switch (operation) {
@@ -282,7 +285,9 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         throw new ErrorResponse("Invalid operation type for encryption diagnostics");
     }
   }
-
+  /**
+   * @internal
+   */
   public endEncryptionDiagnostics(operation: string, propertiesCount: number): void {
     const endTime = getCurrentTimestampInMs();
     let processingDuration = 0;

@@ -177,7 +177,6 @@
     "test/internal/unit/timeoutFailoverRetryPolicy.spec.ts",
     "test/internal/unit/nonStreamingOrderByMap.spec.ts",
     "test/internal/unit/utils/supportedQueryFeaturesBuilder.spec.ts",
-    "test/internal/unit/utils/strings.spec.ts",
     "test/internal/unit/encryption/*",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",

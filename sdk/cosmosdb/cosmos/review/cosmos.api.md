@@ -1040,8 +1040,6 @@ export interface DiagnosticNode {
 // @public
 export class DiagnosticNodeInternal implements DiagnosticNode {
     // (undocumented)
-    beginEncryptionDiagnostics(operation: string): void;
-    // (undocumented)
     children: DiagnosticNodeInternal[];
     // (undocumented)
     data: Partial<DiagnosticDataValue>;
@@ -1049,8 +1047,6 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     diagnosticLevel: CosmosDbDiagnosticLevel;
     // (undocumented)
     durationInMs: number;
-    // (undocumented)
-    endEncryptionDiagnostics(operation: string, propertiesCount: number): void;
     // (undocumented)
     id: string;
     // (undocumented)
@@ -1087,6 +1083,20 @@ export enum DiagnosticNodeType {
 export enum EncryptionAlgorithm {
     // (undocumented)
     AEAD_AES_256_CBC_HMAC_SHA256 = "AEAD_AES_256_CBC_HMAC_SHA256"
+}
+
+// @public
+export interface EncryptionDiagnostics {
+    // (undocumented)
+    decryptContent: {
+        [key: string]: any;
+    };
+    // (undocumented)
+    encryptContent: {
+        [key: string]: any;
+    };
+    // (undocumented)
+    processingDurationInMs: number;
 }
 
 // @public (undocumented)
@@ -2782,10 +2792,6 @@ export enum VectorIndexType {
     Flat = "flat",
     QuantizedFlat = "quantizedFlat"
 }
-
-// Warnings were encountered during analysis:
-//
-// src/CosmosDiagnostics.ts:223:3 - (ae-forgotten-export) The symbol "EncryptionDiagnostics" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

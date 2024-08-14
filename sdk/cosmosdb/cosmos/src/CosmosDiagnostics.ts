@@ -164,6 +164,9 @@ export interface FailedRequestAttemptDiagnostic {
   responsePayloadLengthInBytes: number;
 }
 
+/**
+ * Represents the diagnostics information for encryption operations.
+ */
 export interface EncryptionDiagnostics {
   encryptContent: { [key: string]: any };
   decryptContent: { [key: string]: any };
