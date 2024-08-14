@@ -73,6 +73,9 @@ if (!$DeploymentOutputs['AZURE_MANAGEDHSM_URI']) {
     exit
 }
 
+Log "Getting access token 1"
+Get-AzAccessToken -AsSecureString
+
 [Uri] $hsmUrl = $DeploymentOutputs['AZURE_MANAGEDHSM_URI']
 $hsmName = $hsmUrl.Host.Substring(0, $hsmUrl.Host.IndexOf('.'))
 
@@ -89,6 +92,9 @@ $wrappingFiles = foreach ($i in 0..2) {
 
 Log "Downloading security domain from '$hsmUrl'"
 
+Log "Getting access token 2"
+Get-AzAccessToken -AsSecureString
+
 $sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key"
 if (Test-Path $sdpath) {
     Log "Deleting old security domain: $sdPath"
@@ -96,6 +102,10 @@ if (Test-Path $sdpath) {
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
+
+Log "Getting access token 3"
+Get-AzAccessToken -AsSecureString
+
 if ( !$? ) {
     Write-Host $Error[0].Exception
     Write-Error $Error[0]
