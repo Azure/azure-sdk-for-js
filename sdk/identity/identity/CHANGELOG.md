@@ -1,12 +1,21 @@
 # Release History
 
-## 4.5.0-beta.2 (Unreleased)
+## 4.5.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.5.0-beta.2 (2024-08-13)
 
 ### Features Added
 
 - Added support in `EnvironmentCredential` and `DefaultAzureCredential` for `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` environment variable to configure subject name / issuer authentication. [#30570](https://github.com/Azure/azure-sdk-for-js/pull/30570)
-
-### Breaking Changes
+- Added support for `AsSecureString` in `AzurePowerShellCredential`. [#30720](https://github.com/Azure/azure-sdk-for-js/pull/30720)
 
 ### Bugs Fixed
 

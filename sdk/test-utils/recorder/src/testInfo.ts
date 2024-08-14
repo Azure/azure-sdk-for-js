@@ -32,7 +32,7 @@ export interface VitestTask extends VitestTaskBase {
   /**
    * The Vitest Context Task Suite.
    */
-  suite: VitestSuite;
+  suite?: VitestSuite;
 }
 
 /**
