@@ -73,6 +73,11 @@ if (!$DeploymentOutputs['AZURE_MANAGEDHSM_URI']) {
     exit
 }
 
+Log "Refreshing Access token before activating managed HSM"
+$token = Get-AzAccessToken -AsSecureString
+
+Log "Token expiration: $($token.ExpiresOn)"
+
 [Uri] $hsmUrl = $DeploymentOutputs['AZURE_MANAGEDHSM_URI']
 $hsmName = $hsmUrl.Host.Substring(0, $hsmUrl.Host.IndexOf('.'))
 
@@ -108,6 +113,12 @@ Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsm
 $testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
 
 Log "Creating additional required role assignments for resource access."
+
+Log "Refreshing Access token before setting role assignments"
+$token = Get-AzAccessToken -AsSecureString
+
+Log "Token expiration: $($token.ExpiresOn)"
+
 New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $testApplicationOid
 New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $testApplicationOid
 Log "Role assignments created for '$testApplicationOid'"
