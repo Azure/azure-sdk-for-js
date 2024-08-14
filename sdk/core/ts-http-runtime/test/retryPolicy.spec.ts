@@ -42,7 +42,7 @@ describe("retryPolicy", function () {
         },
       },
     ]);
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValueOnce(testError);
     next.mockResolvedValueOnce(successResponse);
 
@@ -81,7 +81,7 @@ describe("retryPolicy", function () {
         },
       },
     ]);
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -123,7 +123,7 @@ describe("retryPolicy", function () {
       },
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -160,7 +160,7 @@ describe("retryPolicy", function () {
       },
     ]);
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -199,7 +199,7 @@ describe("retryPolicy", function () {
       },
     ]);
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -244,7 +244,7 @@ describe("retryPolicy", function () {
       },
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -325,7 +325,7 @@ describe("retryPolicy", function () {
       },
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -389,7 +389,7 @@ describe("retryPolicy", function () {
       },
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     abortController.abort();
@@ -450,7 +450,7 @@ describe("retryPolicy", function () {
       },
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();
@@ -517,7 +517,7 @@ describe("retryPolicy", function () {
       },
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();

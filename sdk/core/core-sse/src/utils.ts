@@ -3,6 +3,10 @@
 
 import type { IncomingMessage } from "node:http";
 
+type Nullable<T, K extends keyof T> = {
+  [P in K]: T[P] | null;
+} & Omit<T, K>;
+
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
   cancel: () => PromiseLike<void>,
@@ -60,7 +64,9 @@ function iteratorToStream<T>(
   });
 }
 
-export function ensureAsyncIterable(stream: IncomingMessage | ReadableStream<Uint8Array>): {
+export function ensureAsyncIterable(
+  stream: Nullable<IncomingMessage, "socket"> | ReadableStream<Uint8Array>,
+): {
   cancel(): Promise<void>;
   iterable: AsyncIterable<Uint8Array>;
 } {
@@ -73,7 +79,11 @@ export function ensureAsyncIterable(stream: IncomingMessage | ReadableStream<Uin
   } else {
     return {
       cancel: async () => {
-        stream.socket.end();
+        /**
+         * socket is set to null when the stream has been consumed
+         * so we need to make sure to guard against nullability.
+         */
+        stream.socket?.end();
       },
       iterable: stream as AsyncIterable<Uint8Array>,
     };

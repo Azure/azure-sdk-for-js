@@ -36,7 +36,10 @@ import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./tran
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
 import { tracingClient } from "./utils/tracing";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
+import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
 import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
 
@@ -348,6 +351,49 @@ export class DataLakeServiceClient extends StorageClient {
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Only available for DataLakeServiceClient constructed with a shared key credential.
+   *
+   * Generates string to sign for an account Shared Access Signature (SAS) based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param permissions - Specifies the list of permissions to be associated with the SAS.
+   * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+   * @param options - Optional parameters.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateSasStringToSign(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {},
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    return generateAccountSASQueryParametersInternal(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("b").toString(),
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 
   /**
