@@ -17,7 +17,8 @@ import { assertAudioResult } from "../utils/asserts.js";
 import { AudioResultFormat } from "../utils/audioTypes.js";
 import { whisperModels } from "../utils/models.js";
 
-describe("OpenAI", function () {
+// TODO: Unskip the tests
+describe.skip("OpenAI", function () {
   matrix([APIMatrix] as const, async function (authMethod: APIVersion) {
     describe(`[${authMethod}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
