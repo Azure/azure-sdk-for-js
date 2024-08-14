@@ -111,7 +111,7 @@ handle it as soon as we find the time.
 
 ## Next steps
 
-Check out the [source folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils/src/) and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils/test/).
+Check out the [source folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils-vitest/src/) and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/test-utils-vitest/test/).
 
 ## Contributing
 
