@@ -713,7 +713,6 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
-    // (undocumented)
     ThrowIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void>;
     get url(): string;
 }
