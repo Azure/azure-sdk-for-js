@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, SanitizerOptions, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 type BodyKeySanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["bodyKeySanitizers"];
 
@@ -24,12 +24,12 @@ function getUriSanitizerForQueryParam(paramName: string) {
   };
 }
 
-export function getSanitizers() {
+export function getSanitizers(): SanitizerOptions {
   const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
   const regexSanitizers : UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
   regexSanitizers.push({
     regex: true,
-    target: `https\:\/\/(?<account>.*?).blob.core.windows.net`,
+    target: `https://(?<account>.*?).blob.core.windows.net`,
     groupForReplace: "account",
     value: "dummystorageaccount",
   });

@@ -11,4 +11,15 @@ extends:
       SupportedClouds: "Preview,UsGov,China"
       CloudConfig:
         Preview:
+          ServiceConnection: azure-sdk-tests-preview
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzurePreviewMsft.json
           Location: "westcentralus"
+        UsGov:
+          ServiceConnection: usgov_azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
+        China:
+          ServiceConnection: china_azure-sdk-tests
+          SubscriptionConfigurationFilePaths:
+            - eng/common/TestResources/sub-config/AzureChinaMsft.json

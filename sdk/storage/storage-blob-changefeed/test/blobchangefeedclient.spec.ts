@@ -4,7 +4,6 @@
 import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient, streamToString, uriSanitizers } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
-import { AbortController } from "@azure/abort-controller";
 import { assert } from "@azure-tools/test-utils";
 import { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
@@ -125,7 +124,7 @@ describe("BlobChangeFeedClient", async () => {
   it("could abort", async () => {
     const maxPageSize = 2;
     const iter = changeFeedClient
-      .listChanges({ abortSignal: AbortController.timeout(1) })
+      .listChanges({ abortSignal: AbortSignal.timeout(1) })
       .byPage({ maxPageSize });
     try {
       await iter.next();

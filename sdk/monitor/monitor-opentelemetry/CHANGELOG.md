@@ -8,7 +8,12 @@
 
 ### Bugs Fixed
 
+- Live Metrics instrumentation key should be set when env var is used to set the connection string.
+
 ### Other Changes
+
+- Add statsbeat tracking for all OpenTelemetry instrumentations.
+- Update value used to send sample rate to ingestion.
 
 ## 1.6.0 (2024-06-13)
 

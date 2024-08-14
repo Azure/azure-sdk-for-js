@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all RouteFilterRules in a route filter.
  *
  * @summary Gets all RouteFilterRules in a route filter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/RouteFilterRuleListByRouteFilter.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/RouteFilterRuleListByRouteFilter.json
  */
 async function routeFilterRuleListByRouteFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

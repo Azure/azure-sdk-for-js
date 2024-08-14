@@ -13,7 +13,7 @@ export class Logger {
   private logToAzureLogger: boolean;
   private logToOpenTelemetry: boolean;
 
-  static getInstance() {
+  static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger();
     }
@@ -60,26 +60,24 @@ export class Logger {
       suppressOverrideMessage: true,
     });
 
-    let azureLogLevelEnv =
-      process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL || process.env.AZURE_LOG_LEVEL;
-    let azureLogLevel: AzureLogLevel = "warning"; // default
+    const azureLogLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
     switch (azureLogLevelEnv) {
       // Application Insights levels
       case "VERBOSE":
-        azureLogLevel = "verbose";
+        setLogLevel("verbose");
         break;
       case "INFO":
-        azureLogLevel = "info";
+        setLogLevel("info");
         break;
       case "WARN":
-        azureLogLevel = "warning";
+        setLogLevel("warning");
         break;
       case "ERROR":
-        azureLogLevel = "error";
+        setLogLevel("error");
         break;
-    }
-    if (azureLogLevel) {
-      setLogLevel(azureLogLevel);
+      default:
+        setLogLevel((process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "warning");
+        break;
     }
     // Override Azure logger
     AzureLogger.log = (...args) => {
@@ -87,7 +85,8 @@ export class Logger {
     };
   }
 
-  public error(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public error(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.error(message, args);
     }
@@ -96,7 +95,8 @@ export class Logger {
     }
   }
 
-  public warn(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public warn(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.warning(message, args);
     }
@@ -105,7 +105,8 @@ export class Logger {
     }
   }
 
-  public info(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public info(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.info(message, args);
     }
@@ -114,7 +115,8 @@ export class Logger {
     }
   }
 
-  public debug(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public debug(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.verbose(message, args);
     }
@@ -123,7 +125,8 @@ export class Logger {
     }
   }
 
-  public verbose(message?: any, ...args: any[]) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public verbose(message?: any, ...args: any[]): void {
     if (this.logToAzureLogger) {
       this.azureLogger.verbose(message, args);
     }
@@ -132,11 +135,11 @@ export class Logger {
     }
   }
 
-  public setLogToAzureLogger(value: boolean) {
+  public setLogToAzureLogger(value: boolean): void {
     this.logToAzureLogger = value;
   }
 
-  public setLogToOpenTelemetry(value: boolean) {
+  public setLogToOpenTelemetry(value: boolean): void {
     this.logToOpenTelemetry = value;
   }
 }

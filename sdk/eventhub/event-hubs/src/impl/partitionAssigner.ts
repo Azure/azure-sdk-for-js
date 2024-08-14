@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isDefined } from "@azure/core-util";
-import { mapPartitionKeyToId } from "./partitionKeyToIdMapper";
+import { mapPartitionKeyToId } from "./partitionKeyToIdMapper.js";
 
 /**
  * @internal

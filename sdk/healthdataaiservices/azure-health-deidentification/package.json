@@ -1,0 +1,147 @@
+{
+  "name": "@azure-rest/health-deidentification",
+  "version": "1.0.0-beta.1",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/azure-health-deidentification",
+  "description": "Health Deidentification Service",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "type": "module",
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "review/*"
+  ],
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/deidentificationClient.ts",
+        "prefix": "package-version"
+      }
+    ],
+    "sampleConfiguration": {
+      "skipFolder": false,
+      "disableDocsMs": true,
+      "productName": "Health Deidentification Service",
+      "productSlugs": [],
+      "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+      "requiredResources": {
+        "De-identification Service": "https://docs.microsoft.com/javascript/api/"
+      }
+    }
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "@azure-rest/core-client": "^2.2.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/identity": "^4.4.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.6.2",
+    "@azure/core-lro": "^3.0.0",
+    "@azure/abort-controller": "^2.0.0",
+    "@azure/core-paging": "^1.6.2"
+  },
+  "devDependencies": {
+    "loupe": "~3.1.1",
+    "@microsoft/api-extractor": "^7.40.3",
+    "@types/node": "^18.0.0",
+    "eslint": "^8.55.0",
+    "rimraf": "^5.0.5",
+    "mkdirp": "^3.0.1",
+    "typescript": "~5.4.5",
+    "tshy": "^2.0.0",
+    "@azure/core-util": "^1.9.0",
+    "@azure-tools/test-credential": "^2.1.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "playwright": "^1.41.2",
+    "vitest": "^2.0.5",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:node": "tshy",
+    "build:samples": "echo Obsolete.",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tshy && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
+    "generate:client": "autorest --typescript ./swagger/README.md",
+    "integration-test:browser": "tshy && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "integration-test:node": "tshy && dev-tool run build-test && dev-tool run test:vitest",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && tshy && npm run unit-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser",
+    "unit-test:browser": "npm run integration-test:browser",
+    "unit-test:node": "npm run integration-test:node",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "module": "./dist/esm/index.js"
+}

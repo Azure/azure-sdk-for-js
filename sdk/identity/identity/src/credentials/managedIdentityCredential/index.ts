@@ -5,6 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { LegacyMsiProvider } from "./legacyMsiProvider";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { MsalMsiProvider } from "./msalMsiProvider";
 
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
@@ -41,7 +42,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
  * https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
  */
 export class ManagedIdentityCredential implements TokenCredential {
-  private implProvider: LegacyMsiProvider;
+  private implProvider: LegacyMsiProvider | MsalMsiProvider;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -74,7 +75,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       | ManagedIdentityCredentialResourceIdOptions,
     options?: TokenCredentialOptions,
   ) {
-    this.implProvider = new LegacyMsiProvider(clientIdOrOptions, options);
+    // https://github.com/Azure/azure-sdk-for-js/issues/30189
+    // If needed, you may release a hotfix to quickly rollback to the legacy implementation by changing the following line to:
+    // this.implProvider = new LegacyMsiProvider(clientIdOrOptions, options);
+    // Once stabilized, you can remove the legacy implementation and inline the msalMsiProvider code here as a drop-in replacement.
+    this.implProvider = new MsalMsiProvider(clientIdOrOptions, options);
   }
 
   /**

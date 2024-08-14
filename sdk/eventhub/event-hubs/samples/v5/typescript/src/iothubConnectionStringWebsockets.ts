@@ -30,7 +30,7 @@ function isAmqpError(err: any): err is AmqpError {
   return rheaPromise.isAmqpError(err);
 }
 
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(

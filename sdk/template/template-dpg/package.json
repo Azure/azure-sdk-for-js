@@ -104,7 +104,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "puppeteer": "^22.2.0",
+    "puppeteer": "^23.0.2",
     "rimraf": "^5.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.5.3",

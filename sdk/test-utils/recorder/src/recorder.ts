@@ -43,7 +43,7 @@ import { env } from "./utils/env.js";
  */
 export function calculatePaths(testContext: TestInfo): TestContext {
   if (isVitestTestContext(testContext)) {
-    if (!testContext.task.name || !testContext.task.suite.name) {
+    if (!testContext.task.name || !testContext.task.suite?.name) {
       throw new RecorderError(
         `Unable to determine the recording file path. Unexpected empty Vitest context`,
       );

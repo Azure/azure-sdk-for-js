@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the ResourceGuardProxy object associated with the vault, and that matches the name in the request
  *
  * @summary Returns the ResourceGuardProxy object associated with the vault, and that matches the name in the request
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardProxyCRUD/GetResourceGuardProxy.json
  */
 async function getResourceGuardProxy() {
   const subscriptionId =

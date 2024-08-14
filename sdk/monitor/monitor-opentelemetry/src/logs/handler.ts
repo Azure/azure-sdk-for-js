@@ -55,7 +55,7 @@ export class LogHandler {
   /**
    * Start auto collection of telemetry
    */
-  private _initializeInstrumentations() {
+  private _initializeInstrumentations(): void {
     const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
 
     if (this._config.instrumentationOptions.bunyan?.enabled) {

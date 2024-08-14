@@ -21,7 +21,11 @@ export function failedBreezeResponse(count: number, statusCode: number): any {
   };
 }
 
-export function partialBreezeResponse(statusCodes: number[]) {
+export function partialBreezeResponse(statusCodes: number[]): {
+  itemsAccepted: number;
+  itemsReceived: number;
+  errors: { index: number; statusCode: number; message: string }[];
+} {
   const itemsAccepted = statusCodes.filter((v) => v === 200).length;
   return {
     itemsAccepted,

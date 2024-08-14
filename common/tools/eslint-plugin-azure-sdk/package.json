@@ -30,7 +30,8 @@
       "types": "./dist-esm/src/index.d.ts",
       "default": "./dist-esm/src/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./prettier.json": "./prettier.json"
   },
   "files": [
     "prettier.json",
@@ -65,6 +66,7 @@
     "@typescript-eslint/parser": "~7.16.0",
     "eslint": "^8.50.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-n": "^17.10.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-tsdoc": "^0.2.10",
@@ -94,7 +96,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.50.0",
     "eslint-plugin-markdown": "^5.0.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
     "vitest": "^1.4.0",
