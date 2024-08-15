@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import { KeyVaultClient } from "../generated/keyVaultClient";
+import { KeyVaultClient } from "../generated/keyVaultClient.js";
 import { OperationOptions } from "@azure/core-client";
 
 /**

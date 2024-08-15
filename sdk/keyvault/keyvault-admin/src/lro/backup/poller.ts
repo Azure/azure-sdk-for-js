@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdminPoller";
+import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdminPoller.js";
 import {
   KeyVaultBackupOperationState,
   KeyVaultBackupPollOperation,
   KeyVaultBackupPollOperationState,
-} from "./operation";
-import { KeyVaultBackupResult } from "../../backupClientModels";
+} from "./operation.js";
+import { KeyVaultBackupResult } from "../../backupClientModels.js";
 
 export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {
   blobStorageUri: string;

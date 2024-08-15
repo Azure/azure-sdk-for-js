@@ -4,21 +4,21 @@
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState,
-} from "../keyVaultAdminPoller";
+} from "../keyVaultAdminPoller.js";
 import {
   KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultSelectiveKeyRestoreResult,
-} from "../../backupClientModels";
+} from "../../backupClientModels.js";
 import {
   RestoreOperation,
   RestoreStatusResponse,
   SelectiveKeyRestoreOperationOptionalParams,
   SelectiveKeyRestoreOperationResponse,
-} from "../../generated/models";
+} from "../../generated/models/index.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
+import { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import { OperationOptions } from "@azure/core-client";
-import { tracingClient } from "../../tracing";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
