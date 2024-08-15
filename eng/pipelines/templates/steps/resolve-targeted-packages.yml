@@ -20,7 +20,7 @@ steps:
         cat $diff
 
         $diffContent = Get-Content $diff | ConvertFrom-Json
-        $changedServices = $diffContent.ChangedServices | -join " "
+        $changedServices = ($diffContent.ChangedServices | -join " ")
 
         Write-Host "Setting ArtifactServices to $changedServices"
         Write-Host "##vso[task.setvariable variable=ArtifactServices;]$changedServices"
