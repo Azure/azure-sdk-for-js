@@ -108,7 +108,6 @@ Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsm
 $testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
 
 Log "Creating additional required role assignments for resource access."
-
 New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $testApplicationOid
 New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $testApplicationOid
 Log "Role assignments created for '$testApplicationOid'"
