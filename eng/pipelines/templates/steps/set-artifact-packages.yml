@@ -1,12 +1,21 @@
 parameters:
-  Artifacts: []
+  PackageInfoFolder: ''
 steps:
+    # Package-Properties folder now contains the package properties for the packages that should be built or tested.
+    - pwsh: |
+      $packageProperties = Get-ChildItem -Recurse -Force "${{ parameters.PackageInfoFolder }}" `
+        | Where-Object { $_.Extension -eq '.json' } `
+        | Foreach-Object { $_.Name } `
+        | ForEach-Object { $_.Replace(".json", "") }
+      $setting = $packageProperties -join ","
+
+      Write-Host "Setting ArtifactPackageNames to: `n$setting"
+      Write-Host "##vso[task.setvariable variable=ArtifactPackageNames;]$setting"
+    displayName: Resolve Targeted Packages
+    # if targeting has been set by matrix, this value will already be populated, can't override it
+    condition: eq(variables['ArtifactPackageNames'], '')
+    # we still want to dump it visibly though
   - pwsh: |
-      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
-      $packages = ""
-      foreach ($artifact in $artifacts)
-      {
-        $packages += "$($artifact.name),"
-      }
-      echo "##vso[task.setvariable variable=ArtifactPackageNames]$packages"
-    displayName: "Find Packages to build"
+      Write-Host "This run is targeting: `n$(ArtifactPackageNames)"
+    displayName: Resolve Targeted Packages
+    condition: ne(variables['ArtifactPackageNames'], '')

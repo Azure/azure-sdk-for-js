@@ -84,15 +84,15 @@ steps:
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
-      Artifacts: ${{ parameters.Artifacts }}
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner.js build -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
   - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner.js build:samples -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build samples"
 
   - pwsh: |
@@ -100,7 +100,7 @@ steps:
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner.js pack -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
