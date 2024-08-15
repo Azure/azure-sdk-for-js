@@ -1,16 +1,11 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.6 (2024-08-15)
 
 ### Other Changes
 
 - Export the AzureSdkInstrumentation class directly for compatibility with [@opentelemetry/auto-instrumentations-node](https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-node)
+- Updated to latest OTEL libraries
 
 ## 1.0.0-beta.5 (2023-08-09)
 
