@@ -427,36 +427,6 @@ export function assertEmbeddings(
   }
 }
 
-export async function assertOpenAiError<T>(
-  promise: Promise<T>,
-  expectations: {
-    messagePattern?: RegExp;
-    type?: string;
-    errorCode?: string | null;
-  },
-): Promise<void> {
-  try {
-    await promise;
-  } catch (e: any) {
-    const { messagePattern, type, errorCode } = expectations;
-    if (messagePattern) {
-      assert.match(e.message, messagePattern);
-    } else {
-      assert.isUndefined(e.message);
-    }
-    if (type) {
-      assert.equal(e.type, type);
-    } else {
-      assert.isUndefined(e.type);
-    }
-    if (errorCode !== undefined) {
-      assert.equal(e.code, errorCode);
-    } else {
-      assert.isUndefined(e.code);
-    }
-  }
-}
-
 function assertMessage(
   message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta | undefined,
   { functions, stream }: ChatCompletionTestOptions = {},

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient } from "./utils/createClient.js";
@@ -16,7 +16,7 @@ describe("OpenAIAssistants", () => {
 
       const codeAssistant = {
         tools: [{ type: "code_interpreter" as const }],
-        model: "gpt-4-1106-preview",
+        model,
         name: "JS CI Math Tutor",
         description: "Math Tutor for Math Problems",
         instructions: "You are a personal math tutor. Write and run code to answer math questions.",
@@ -137,7 +137,7 @@ describe("OpenAIAssistants", () => {
 
         it("create, lists, gets, and cancels a run", async function () {
           const assistant = await client.beta.assistants.create({
-            model: "gpt-4-1106-preview",
+            model,
             name: "JS CI Math Tutor",
             instructions:
               "You are a personal math tutor. Write and run code to answer math questions.",

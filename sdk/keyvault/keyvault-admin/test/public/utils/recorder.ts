@@ -2,12 +2,6 @@
 // Licensed under the MIT license.
 
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
-import * as dotenv from "dotenv";
-
-if (isNode) {
-  dotenv.config();
-}
 
 /**
  * Properties that are used to configure our polling operations

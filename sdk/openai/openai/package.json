@@ -106,7 +106,7 @@
     "@azure-rest/core-client": "^1.0.0",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils": "^1.0.1",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/arm-cognitiveservices": "^7.5.0",
     "@azure/core-rest-pipeline": "^1.16.2",
     "@azure/logger": "^1.1.3",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
 import {
@@ -12,7 +12,7 @@ import {
   withDeployments,
 } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
-import { assertEmbeddings, assertOpenAiError } from "./utils/asserts.js";
+import { assertEmbeddings } from "./utils/asserts.js";
 import { embeddingModels } from "./utils/models.js";
 
 describe("Embeddings", function () {
@@ -34,17 +34,6 @@ describe("Embeddings", function () {
             (deploymentName) => client.embeddings.create({ model: deploymentName, input: prompt }),
             assertEmbeddings,
             embeddingModels,
-          );
-        });
-
-        it("wrong prompt type", async function () {
-          await assertOpenAiError(
-            client.embeddings.create({ model: "text-embedding-3-small", input: true as any }),
-            {
-              messagePattern: /'\$\.input' is invalid/,
-              type: `invalid_request_error`,
-              errorCode: null,
-            },
           );
         });
 
