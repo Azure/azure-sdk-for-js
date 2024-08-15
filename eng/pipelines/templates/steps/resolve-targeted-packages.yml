@@ -18,7 +18,7 @@ steps:
         Write-Host "This is the diff for this PR"
         $diff = $(Build.ArtifactStagingDirectory)/diff/diff.json
 
-        cat $diff
+        Get-Content $diff
 
         $changedServices = (Get-Content $diff | ConvertFrom-Json).ChangedServices
         $changedServices = $changedServices -join " "
