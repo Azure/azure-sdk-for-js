@@ -17,7 +17,6 @@ steps:
     displayName: Resolve Targeted Packages
     condition: eq(variables['ArtifactPackageNames'], '')
 
-
   - pwsh: |
       Write-Host "This run is targeting: `n$(ArtifactPackageNames)"
     displayName: Resolve Targeted Packages

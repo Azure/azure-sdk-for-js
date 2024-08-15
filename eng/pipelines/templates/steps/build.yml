@@ -26,56 +26,9 @@ steps:
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
 
-  - ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-    - pwsh: |
-        mkdir -p $(Build.ArtifactStagingDirectory)/diff
-      displayName: Create PR Diff Folder
-
-    - pwsh: |
-        $location = Join-Path "$(Build.ArtifactStagingDirectory)" "diff"
-
-        Write-Host "./eng/common/scripts/Generate-PR-Diff.ps1 -TargetPath `"$(Build.SourcesDirectory)`" -ArtifactPath `"$location`""
-        ./eng/common/scripts/Generate-PR-Diff.ps1 -TargetPath "$(Build.SourcesDirectory)" -ArtifactPath "$location"
-      displayName: Generate PR Diff
-
-    - pwsh: |
-        Write-Host "We freshly generated the PR diff, and this is what it sees!"
-        Get-ChildItem -R -Force $(Build.ArtifactStagingDirectory)/diff | % { $_.FullName }
-        cat $(Build.ArtifactStagingDirectory)/diff/diff.json
-      displayName: Dump PR Diff
-
-    - task: Powershell@2
-      inputs:
-        filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
-        arguments: >
-          -PrDiff $(Build.ArtifactStagingDirectory)/diff/diff.json
-          -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
-        pwsh: true
-        workingDirectory: $(Pipeline.Workspace)
-      displayName: Save package properties filtered for PR
-
-  - ${{ else }}:
-    - task: Powershell@2
-      condition: and(succeeded(), eq(variables['SetDevVersion'],'true'))
-      inputs:
-        filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
-        arguments: >
-          -ServiceDirectory ${{parameters.ServiceDirectory}}
-          -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
-          -AddDevVersion
-        pwsh: true
-        workingDirectory: $(Pipeline.Workspace)
-        displayName: Save package properties with dev version
-    - task: Powershell@2
-      condition: and(succeeded(), ne(variables['SetDevVersion'],'true'))
-      inputs:
-        filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
-        arguments: >
-          -ServiceDirectory ${{parameters.ServiceDirectory}}
-          -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
-        pwsh: true
-        workingDirectory: $(Pipeline.Workspace)
-        displayName: Save package properties for service
+  - template: /eng/pipelines/templates/steps/resolve-targeted-packages.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
       node common/scripts/install-run-rush.js install
@@ -89,10 +42,10 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner.js build $(ArtifactServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
   - script: |
-      node eng/tools/rush-runner.js build:samples -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner.js build:samples $(ArtifactServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build samples"
 
   - pwsh: |
@@ -100,7 +53,7 @@ steps:
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner.js pack -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner.js pack $(ArtifactServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
