@@ -6,6 +6,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
