@@ -6,6 +6,7 @@ import typescriptEslint from "typescript-eslint";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import markdown from "eslint-plugin-markdown";
+import promise from "eslint-plugin-promise";
 
 import eslintCustomized from "./eslint-customized";
 import markdownCustomized from "./markdown-customized";
@@ -35,8 +36,12 @@ function recommended(plugin: FlatConfig.Plugin) {
       plugins: {
         "@azure/azure-sdk": plugin,
         markdown,
+        promise,
       },
     },
+
+    promise.configs["flat/recommended"],
+
     // azure sdk customized
     eslintCustomized,
     ...markdownCustomized,
