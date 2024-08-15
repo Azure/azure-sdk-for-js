@@ -8,9 +8,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { assert } from "@azure-tools/test-utils";
-import { createKeyVaultChallengeCallbacks } from "../../src";
-import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate";
+import { createKeyVaultChallengeCallbacks } from "../../src/index.js";
+import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate.js";
+import { describe, it, assert } from "vitest";
 
 describe("Challenge based authentication tests", function () {
   let request: PipelineRequest;

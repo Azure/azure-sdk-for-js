@@ -12,7 +12,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && npm run build:test && dev-tool run extract-api",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -27,14 +27,12 @@
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
-    "types/keyvault-common.d.ts",
     "dist/",
-    "dist-esm/src/",
     "README.md",
     "LICENSE"
   ],
@@ -62,21 +60,36 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
     "@azure-tools/test-utils": "^1.0.1",
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "eslint": "^8.0.0",
-    "rimraf": "^5.0.5",
-    "cross-env": "^7.0.2",
-    "mocha": "^10.0.0",
-    "nyc": "^17.0.0",
-    "puppeteer": "^23.0.2",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
-    "typescript": "~5.5.3",
-    "ts-node": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/mocha": "^10.0.0"
-  }
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "cross-env": "^7.0.2",
+    "eslint": "^8.0.0",
+    "playwright": "^1.46.0",
+    "rimraf": "^5.0.5",
+    "tshy": "^3.0.2",
+    "typescript": "~5.5.3",
+    "vitest": "^2.0.5"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "browser": "./dist/browser/index.js"
 }
