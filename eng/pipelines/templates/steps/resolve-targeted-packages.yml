@@ -17,14 +17,15 @@ steps:
     - pwsh: |
         Write-Host "This is the diff for this PR"
         $diff = $(Build.ArtifactStagingDirectory)/diff/diff.json
+
         cat $diff
 
-        $diffContent = Get-Content $diff | ConvertFrom-Json
-        $changedServices = ($diffContent.ChangedServices | -join " ")
+        $changedServices = (Get-Content $diff | ConvertFrom-Json).ChangedServices
+        $changedServices = $changedServices -join " "
 
         Write-Host "Setting ArtifactServices to $changedServices"
         Write-Host "##vso[task.setvariable variable=ArtifactServices;]$changedServices"
-      displayName: Dump PR Diff
+      displayName: Dump PR Diff and Set Targeted Services
 
     - task: Powershell@2
       inputs:
