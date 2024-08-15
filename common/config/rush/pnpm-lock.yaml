@@ -24964,16 +24964,18 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-7mABgnyVZKGwgwpS8yU/p5u/1RZvlFEC8yv37YpY3YrapxkpdmPCxbnGFc6O92CDbinUZb3yTvN1nbFsZ6Y9VA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-vAWZ/lgdy7UjDtLWoCJKHPSEayxZJWELZREkYldM1ESozDyjNml4n9tmBn9DgoSXWbUAZP06XEcRmPnC7bmRrA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
+      '@eslint/js': 9.2.0
       '@types/node': 18.19.44
       eslint: 8.57.0
       prettier: 3.3.3
       rimraf: 5.0.10
       tslib: 2.6.3
       typescript: 5.5.4
+      typescript-eslint: 7.16.1(eslint@8.57.0)(typescript@5.5.4)
     transitivePeerDependencies:
       - supports-color
     dev: false

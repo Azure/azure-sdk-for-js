@@ -122,7 +122,7 @@ const nCustomization = {
     "n/no-unpublished-import": "off",
     "n/no-unpublished-require": "off",
   },
-}
+};
 
 const noOnlyTestsCustomization = {
   name: "no-only-tests-azsdk-customized",
