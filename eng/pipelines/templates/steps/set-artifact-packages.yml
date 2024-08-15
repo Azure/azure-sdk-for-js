@@ -2,7 +2,7 @@ parameters:
   PackageInfoFolder: ''
 steps:
     # Package-Properties folder now contains the package properties for the packages that should be built or tested.
-    - pwsh: |
+  - pwsh: |
       $packageProperties = Get-ChildItem -Recurse -Force "${{ parameters.PackageInfoFolder }}" `
         | Where-Object { $_.Extension -eq '.json' } `
         | Foreach-Object { $_.Name } `
