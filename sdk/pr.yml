@@ -1,7 +1,7 @@
 trigger:
   branches:
     exclude:
-    - pipelinev3-v2
+    - pipelinev3
 
 pr:
   branches:
