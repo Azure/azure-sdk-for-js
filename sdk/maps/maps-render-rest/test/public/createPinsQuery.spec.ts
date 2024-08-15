@@ -74,11 +74,11 @@ describe("create pins query helper", () => {
     );
 
     /* We don't test custom pin E2E since we have no reliable image source */
-    const res = await client.path("/map/static/{format}", "png").get({
+    const res = await client.path("/map/static").get({
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: createPinsQuery([defaultPinSet, coloredPinSet, noImagePinSet]),
+        pins: [createPinsQuery([defaultPinSet, coloredPinSet, noImagePinSet])],
       },
       skipUrlEncoding: true,
     });
@@ -109,11 +109,11 @@ describe("create pins query helper", () => {
       "default|al0.8|la10 4|lc000000|ls10|an0 0|ro90|sc2|co123456||13.35 52.577",
     );
 
-    const res = await client.path("/map/static/{format}", "png").get({
+    const res = await client.path("/map/static").get({
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: pinsQuery,
+        pins: [pinsQuery],
       },
       skipUrlEncoding: true,
     });

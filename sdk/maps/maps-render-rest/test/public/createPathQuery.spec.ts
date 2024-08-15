@@ -67,11 +67,11 @@ describe("create path query helper", () => {
       "lc000000|la0.9|lw2|ra10000||13.228 52.4559&path=lc000000|la0.9|lw2||13.35 52.577|13.2988 52.6|13.2988 52.32&path=lc000000|la0.9|lw2|fcFFFFFF|fa0.8||13.35 52.577|13.2988 52.6|13.2988 52.32|13.35 52.577",
     );
 
-    const res = await client.path("/map/static/{format}", "png").get({
+    const res = await client.path("/map/static").get({
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        path,
+        path: [path],
       },
       // Need to skip the url encoding to make the path works.
       skipUrlEncoding: true,

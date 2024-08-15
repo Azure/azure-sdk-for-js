@@ -147,7 +147,7 @@ describe("MapsRender", () => {
   });
 
   it("can get static image", async function () {
-    const response = await client.path("/map/static/{format}", "png").get({
+    const response = await client.path("/map/static").get({
       queryParameters: {
         layer: "basic",
         style: "main",

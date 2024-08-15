@@ -4,7 +4,7 @@
 import { RequestParameters } from "@azure-rest/core-client";
 
 export interface RenderGetMapTileQueryParamProperties {
-  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/en-us/rest/api/maps/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
+  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/rest/api/maps-creator/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
   tilesetId:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -31,7 +31,7 @@ export interface RenderGetMapTileQueryParamProperties {
   /**
    * Zoom level for the desired tile.
    *
-   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   zoom: number;
   /**
@@ -95,7 +95,7 @@ export type RenderGetMapTileParameters = RenderGetMapTileQueryParam &
   RequestParameters;
 
 export interface RenderGetMapTilesetQueryParamProperties {
-  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/en-us/rest/api/maps/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
+  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/rest/api/maps-creator/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
   tilesetId:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -129,7 +129,7 @@ export type RenderGetMapTilesetParameters = RenderGetMapTilesetQueryParam &
   RequestParameters;
 
 export interface RenderGetMapAttributionQueryParamProperties {
-  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/en-us/rest/api/maps/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
+  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/rest/api/maps-creator/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
   tilesetId:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -170,7 +170,7 @@ export interface RenderGetMapStateTileQueryParamProperties {
   /**
    * Zoom level for the desired tile.
    *
-   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   zoom: number;
   /**
@@ -198,38 +198,59 @@ export type RenderGetMapStateTileParameters = RenderGetMapStateTileQueryParam &
 export type RenderGetCopyrightCaptionParameters = RequestParameters;
 
 export interface RenderGetMapStaticImageQueryParamProperties {
-  /** Map layer requested. If layer is set to labels or hybrid, the format should be png. */
-  layer?: "basic" | "hybrid" | "labels";
-  /** Map style to be returned. Possible values are main and dark. */
-  style?: "main" | "dark";
-  /** Desired zoom level of the map. Zoom value must be in the range: 0-20 (inclusive). Default value is 12.<br><br>Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details. */
+  /** Map style to be returned. Possible values are microsoft.base.road, microsoft.base.darkgrey, and microsoft.imagery.  Default value is set to be microsoft.base.road. For more information, see [Render TilesetId](https://learn.microsoft.com/en-us/rest/api/maps/render/get-map-tileset?view=rest-maps-2023-06-01&tabs=HTTP#tilesetid). */
+  tilesetId?:
+    | "microsoft.base"
+    | "microsoft.base.labels"
+    | "microsoft.base.hybrid"
+    | "microsoft.terra.main"
+    | "microsoft.base.road"
+    | "microsoft.base.darkgrey"
+    | "microsoft.base.labels.road"
+    | "microsoft.base.labels.darkgrey"
+    | "microsoft.base.hybrid.road"
+    | "microsoft.base.hybrid.darkgrey"
+    | "microsoft.imagery"
+    | "microsoft.weather.radar.main"
+    | "microsoft.weather.infrared.main"
+    | "microsoft.traffic.absolute"
+    | "microsoft.traffic.absolute.main"
+    | "microsoft.traffic.relative"
+    | "microsoft.traffic.relative.main"
+    | "microsoft.traffic.relative.dark"
+    | "microsoft.traffic.delay"
+    | "microsoft.traffic.delay.main"
+    | "microsoft.traffic.reduced.main"
+    | "microsoft.traffic.incident";
+  /** Optional Value, indicating no traffic flow overlaid on the image result. Possible values are microsoft.traffic.relative.main and none. Default value is none, indicating no traffic flow returned. If traffic related tilesetId is provided, will return map image with corresponding traffic layer. For more information, see [Render TilesetId](https://learn.microsoft.com/en-us/rest/api/maps/render/get-map-tileset?view=rest-maps-2023-06-01&tabs=HTTP#tilesetid). */
+  trafficLayer?: "microsoft.traffic.relative.main" | "none";
+  /** Desired zoom level of the map. Support zoom value range from 0-20 (inclusive) for tilesetId being microsoft.base.road or microsoft.base.darkgrey. Support zoom value range from 0-19 (inclusive) for tilesetId being microsoft.imagery. Default value is 12.<br><br>For more information, see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid). */
   zoom?: number;
   /**
-   * Coordinates of the center point. Format: 'lon,lat'. Projection used
-   * - EPSG:3857. Longitude range: -180 to 180. Latitude range: -85 to 85.
+   * Coordinates of the center point in double. Format: 'lon,lat'. Longitude range: -180 to 180. Latitude range: -90 to 90.
    *
    * Note: Either center or bbox are required parameters. They are
    * mutually exclusive.
    */
   center?: Array<number>;
   /**
-   * Bounding box. Projection used - EPSG:3857. Format : 'minLon, minLat,
-   * maxLon, maxLat'.
+   * A bounding box is defined by two latitudes and two longitudes that represent the four sides of a rectangular area on the Earth. Format : 'minLon, minLat,
+   * maxLon, maxLat' (in double).
    *
    * Note: Either bbox or center are required
-   * parameters. They are mutually exclusive. It shouldn’t be used with
+   * parameters. They are mutually exclusive. bbox shouldn’t be used with
    * height or width.
    *
-   * The maximum allowed ranges for Lat and Lon are defined for each zoom level
+   * The maximum and minimum allowed ranges for Lat and Lon are defined for each zoom level
    * in the table at the top of this page.
    */
   bbox?: Array<number>;
   /**
-   * Height of the resulting image in pixels. Range is 1 to 8192. Default
+   * Height of the resulting image in pixels. Range from 80 to 1500. Default
    * is 512. It shouldn’t be used with bbox.
    */
   height?: number;
-  /** Width of the resulting image in pixels. Range is 1 to 8192. Default is 512. It shouldn’t be used with bbox. */
+  /** Width of the resulting image in pixels. Range from 80 to 2000. Default is 512. It should not be used with bbox. */
   width?: number;
   /**
    * Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
@@ -264,7 +285,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
   /**
    * Pushpin style and instances. Use this parameter to optionally add pushpins to the image.
    * The pushpin style describes the appearance of the pushpins, and the instances specify
-   * the coordinates of the pushpins and optional labels for each pin. (Be sure to properly URL-encode values of this
+   * the coordinates of the pushpins (in double) and optional labels for each pin. (Be sure to properly URL-encode values of this
    * parameter since it will contain reserved characters such as pipes and punctuation.)
    *
    * The Azure Maps account S0 SKU only supports a single instance of the pins parameter. Other SKUs
@@ -303,12 +324,12 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    *
    * ### Pushpin Labels
    *
-   * To add a label to the pins, put the label in single quotes just before the coordinates. For example, to label
+   * To add a label to the pins, put the label in single quotes just before the coordinates. Avoid using special character such as `|` or `||` in label. For example, to label
    * three pins with the values '1', '2', and '3', use
    *
    * `pins=default||'1'-122 45|'2'-119.5 43.2|'3'-121.67 47.12`
    *
-   * There is a built in pushpin style called 'none' that does not display a pushpin image. You can use this if
+   * There is a built-in pushpin style called 'none' that does not display a pushpin image. You can use this if
    * you want to display labels without any pin image. For example,
    *
    * `pins=none||'A'-122 45|'B'-119.5 43.2`
@@ -335,7 +356,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    * ### Custom Pushpins
    *
    * To use a custom pushpin image, use the word 'custom' as the pin style name, and then specify a URL after the
-   * location and label information. Use two pipe characters to indicate that you're done specifying locations and are
+   * location and label information. The maximum allowed size for a customized label image is 65,536 pixels. Use two pipe characters to indicate that you're done specifying locations and are
    * starting the URL. For example,
    *
    * `pins=custom||-122 45||http://contoso.com/pushpins/red.png`
@@ -379,23 +400,23 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    *
    * ### Style Modifier Summary
    *
-   * Modifier  | Description     | Range
-   * :--------:|-----------------|------------------
-   * al        | Alpha (opacity) | 0 to 1
-   * an        | Pin anchor      | *
-   * co        | Pin color       | 000000 to FFFFFF
-   * la        | Label anchor    | *
-   * lc        | Label color     | 000000 to FFFFFF
-   * ls        | Label size      | Greater than 0
-   * ro        | Rotation        | -360 to 360
-   * sc        | Scale           | Greater than 0
+   * Modifier  | Description    | Type    | Range
+   * :--------:|---------------|--------|----------
+   * al        | Alpha (opacity) |  float | 0 to 1
+   * an        | Pin anchor    | <int32, int32>  | *
+   * co        | Pin color      | string | 000000 to FFFFFF
+   * la        | Label anchor   | <int32, int32> | *
+   * lc        | Label color   | string  | 000000 to FFFFFF
+   * ls        | Label size      | float | Greater than 0
+   * ro        | Rotation    | float    | -360 to 360
+   * sc        | Scale         | float  | Greater than 0
    *
    * * X and Y coordinates can be anywhere within pin image or a margin around it.
    * The margin size is the minimum of the pin width and height.
    */
-  pins?: string;
+  pins?: Array<string>;
   /**
-   * Path style and locations. Use this parameter to optionally add lines, polygons or circles to the image.
+   * Path style and locations (in double). Use this parameter to optionally add lines, polygons or circles to the image.
    * The path style describes the appearance of the line and fill. (Be sure to properly URL-encode values of this
    * parameter since it will contain reserved characters such as pipes and punctuation.)
    *
@@ -419,11 +440,11 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    *
    * `path=||-122 45|-119.5 43.2|-121.67 47.12`
    *
-   * To render a polygon, last location must be equal to the start location. For example, use
+   * A polygon is specified with a closed path, where the first and last points are equal. For example, use
    *
    * `path=||-122 45|-119.5 43.2|-121.67 47.12|-122 45`
    *
-   * Longitude and latitude values for locations of lines and polygons can be in the range from -360 to 360 to allow for rendering of geometries crossing the anti-meridian.
+   * Longitude value for locations of lines and polygons can be in the range from -360 to 360 to allow for rendering of geometries crossing the anti-meridian.
    *
    * ### Style Modifiers
    *
@@ -437,22 +458,22 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    *
    * `path=lcFF1493||-122 45|-119.5 43.2`
    *
-   * Multiple style modifiers may be combined together to create a more complex visual style.
+   * Multiple style modifiers may be combined to create a more complex visual style.
    *
    * `lc0000FF|lw3|la0.60|fa0.50||-122.2 47.6|-122.2 47.7|-122.3 47.7|-122.3 47.6|-122.2 47.6`
    *
    * ### Style Modifier Summary
    *
-   * Modifier  | Description            | Range
-   * :--------:|------------------------|------------------
-   * lc        | Line color             | 000000 to FFFFFF
-   * fc        | Fill color             | 000000 to FFFFFF
-   * la        | Line alpha (opacity)   | 0 to 1
-   * fa        | Fill alpha (opacity)   | 0 to 1
-   * lw        | Line width             | Greater than 0
-   * ra        | Circle radius (meters) | Greater than 0
+   * Modifier  | Description       | Type     | Range
+   * :--------:|---------------|--------|----------
+   * lc        | Line color      | string       | 000000 to FFFFFF
+   * fc        | Fill color        | string       | 000000 to FFFFFF
+   * la    | Line alpha (opacity)     |  float     | 0 to 1
+   * fa  | Fill alpha (opacity)   |     float       | 0 to 1
+   * lw   | Line width     |int32        | (0, 50]
+   * ra        | Circle radius (meters) |   float  | Greater than 0
    */
-  path?: string;
+  path?: Array<string>;
 }
 
 export interface RenderGetMapStaticImageQueryParam {
@@ -482,7 +503,7 @@ export interface RenderGetCopyrightForTileQueryParamProperties {
   /**
    * Zoom level for the desired tile.
    *
-   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   zoom: number;
   /**
