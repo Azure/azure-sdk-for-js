@@ -86,8 +86,7 @@
       "commonjs"
     ],
     "esmDialects": [
-      "browser",
-      "react-native"
+      "browser"
     ],
     "selfLink": false
   },
@@ -97,10 +96,6 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",
