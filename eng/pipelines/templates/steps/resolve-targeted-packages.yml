@@ -60,3 +60,7 @@ steps:
         pwsh: true
         workingDirectory: $(Pipeline.Workspace)
         displayName: Save package properties for service
+
+    - pwsh: |
+        Write-Host "##vso[task.setvariable variable=ArtifactServices;]${{parameters.ServiceDirectory}}"
+      displayName: Set ArtifactServices
