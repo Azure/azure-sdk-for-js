@@ -14,13 +14,14 @@ import {
   UnexpectedFilterCreateError,
   KnownRequestColumns,
   Filter,
+  KnownDependencyColumns,
   // Projection,
 } from "../../../../src/metrics/quickpulse/filtering";
 import {
   RequestData,
-  /* DependencyData,
-  ExceptionData,
-  TraceData,*/
+  DependencyData,
+  /* ExceptionData,
+   TraceData,*/
 } from "../../../../src/metrics/quickpulse/types";
 
 describe("Live Metrics filtering - Validator", () => {
@@ -653,13 +654,152 @@ describe("Live Metrics filtering - Applying valid filters", () => {
   });
 
   it("Can handle filter on known boolean columns", () => {
-    // Request Success
-    // Dependency Success
-    // == and !=
-    // match and not match
+    const filter: FilterInfo = {
+      fieldName: KnownRequestColumns.Success,
+      predicate: KnownPredicateType.Equal,
+      comparand: "true"
+    }
+
+    const conjunctionGroup: FilterConjunctionGroupInfo = {
+      filters: [filter]
+    };
+
+    const derivedMetricInfo: DerivedMetricInfo = {
+      id: "random-id",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [conjunctionGroup],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    const request: RequestData = {
+      Url: "https://test.com/hiThere",
+      Duration: 200,
+      ResponseCode: 200,
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>(),
+    };
+
+    const dependency: DependencyData = {
+      Target: "test.com",
+      Data: "https://test.com/hiThere?x=y",
+      Duration: 200,
+      ResultCode: 200,
+      Type: "HTTP",
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>(),
+    };
+
+    // Request Success filter matches
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // Request Success filter does not match
+    request.Success = false;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request) === false);
+
+    // Request Success filter matches for != predicate
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // Dependency Success filter matches
+    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.Equal;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency));
+
+    // Dependency Success filter does not match
+    dependency.Success = false;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency) === false);
+
+    // Dependency Success filter matches for != predicate
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency));
+
   });
 
   it("Can handle filter on known numeric columns", () => {
+
+    const filter: FilterInfo = {
+      fieldName: KnownRequestColumns.ResponseCode,
+      predicate: KnownPredicateType.Equal,
+      comparand: "200"
+    }
+
+    const conjunctionGroup: FilterConjunctionGroupInfo = {
+      filters: [filter]
+    };
+
+    const derivedMetricInfo: DerivedMetricInfo = {
+      id: "random-id",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [conjunctionGroup],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    const request: RequestData = {
+      Url: "https://test.com/hiThere",
+      Duration: 200,
+      ResponseCode: 200,
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>(),
+    };
+
+    const dependency: DependencyData = {
+      Target: "test.com",
+      Data: "https://test.com/hiThere?x=y",
+      Duration: 200,
+      ResultCode: 200,
+      Type: "HTTP",
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>(),
+    };
+
+    // Request ResponseCode filter matches
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // Request ResponseCode filter does not match
+    request.ResponseCode = 404;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request) === false);
+
+    // Dependency ResultCode filter matches
+    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.ResultCode;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency));
+
+    // Dependency ResultCode filter does not match
+    dependency.ResultCode = 404;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency) === false);
+
+    // Dependency duration filter matches
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownDependencyColumns.Duration;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency));
+
+    // Dependency duration filter does not match
+    dependency.Duration = 400;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request) === false);
+
+    // Request duration filter matches
+    derivedMetricInfo.telemetryType = KnownTelemetryType.Request;
+    derivedMetricInfo.filterGroups[0].filters[0].fieldName = KnownRequestColumns.Duration;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // Request duration filter does not match
+    request.Duration = 400;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request) === false);
+
+    // != predicate
+    derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
+    assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request));
+
+    // 
+
+
     // Request ResponseCode
     // Dependency ResultCode
     // Request Duration
