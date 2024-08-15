@@ -35,15 +35,21 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       // 2. MsalMsiProvider(clientId: string, options: MsalMsiOptions)
       // by relying on the error handling of the constructor
       it("throws when both clientId and resourceId are provided", function () {
-        assert.throws(
-          () => new MsalMsiProvider("id", { resourceId: "id" }),
-          /provided at the same time./,
-        );
+        assert.throws(() => new MsalMsiProvider("id", { resourceId: "id" }), /may be provided./);
       });
       it("throws when both clientId and resourceId are provided via options", function () {
         assert.throws(
           () => new MsalMsiProvider({ clientId: "id", resourceId: "id" }),
-          /provided at the same time./,
+          /may be provided./,
+        );
+      });
+      it("throws when both clientId and objectId are provided", function () {
+        assert.throws(() => new MsalMsiProvider("id", { objectId: "id" }), /may be provided./);
+      });
+      it("throws when both resourceId and objectId are provided via options", function () {
+        assert.throws(
+          () => new MsalMsiProvider({ resourceId: "id", objectId: "id" }),
+          /may be provided./,
         );
       });
     });

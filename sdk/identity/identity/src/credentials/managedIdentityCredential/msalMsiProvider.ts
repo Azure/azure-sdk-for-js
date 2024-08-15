@@ -38,6 +38,11 @@ interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
    * without having to first determine the client Id of the created identity.
    */
   resourceId?: string;
+
+  /**
+   * The objectID of the user-assigned managed identity.
+   */
+  objectId?: string;
 }
 
 export class MsalMsiProvider {
@@ -45,6 +50,7 @@ export class MsalMsiProvider {
   private identityClient: IdentityClient;
   private clientId?: string;
   private resourceId?: string;
+  private objectId?: string;
   private msiRetryConfig: MSIConfiguration["retryConfig"] = {
     maxRetries: 5,
     startDelayInMs: 800,
@@ -65,11 +71,13 @@ export class MsalMsiProvider {
       _options = clientIdOrOptions ?? {};
     }
     this.resourceId = _options?.resourceId;
+    this.objectId = _options?.objectId;
 
     // For JavaScript users.
-    if (this.clientId && this.resourceId) {
+    const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
+    if (providedIds.length > 1) {
       throw new Error(
-        `ManagedIdentityCredential - Client Id and Resource Id can't be provided at the same time.`,
+        `ManagedIdentityCredential - Only one of 'clientId', 'resourceId', or 'objectId' may be provided. Received values: ${providedIds.join(", ")}`,
       );
     }
 
@@ -89,6 +97,7 @@ export class MsalMsiProvider {
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
         userAssignedResourceId: this.resourceId,
+        userAssignedObjectId: this.objectId,
       },
       system: {
         // todo: proxyUrl?

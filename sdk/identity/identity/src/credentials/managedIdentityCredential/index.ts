@@ -34,6 +34,17 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
 }
 
 /**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `objectId` as a constructor argument.
+ */
+export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
+  /**
+   * TODO
+   */
+  objectId: string;
+}
+
+/**
  * Attempts authentication using a managed identity available at the deployment environment.
  * This authentication type works in Azure VMs, App Service instances, Azure Functions applications,
  * Azure Kubernetes Services, Azure Service Fabric instances and inside of the Azure Cloud Shell.
@@ -65,6 +76,12 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(options?: ManagedIdentityCredentialResourceIdOptions);
   /**
+   * Creates an instance of ManagedIdentityCredential with Object Id
+   *
+   * @param options - Options for configuring the resource which makes the access token request.
+   */
+  constructor(options?: ManagedIdentityCredentialObjectIdOptions);
+  /**
    * @internal
    * @hidden
    */
@@ -72,7 +89,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientIdOrOptions?:
       | string
       | ManagedIdentityCredentialClientIdOptions
-      | ManagedIdentityCredentialResourceIdOptions,
+      | ManagedIdentityCredentialResourceIdOptions
+      | ManagedIdentityCredentialObjectIdOptions,
     options?: TokenCredentialOptions,
   ) {
     // https://github.com/Azure/azure-sdk-for-js/issues/30189
