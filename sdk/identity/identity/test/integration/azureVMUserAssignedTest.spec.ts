@@ -18,7 +18,7 @@ describe("AzureVM UserAssigned Integration test", function () {
       throw new Error("IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID is not set");
     }
     const credential = new ManagedIdentityCredential({ clientId: userAssignedClientId });
-    const accessToken = await credential.getToken("https://management.azure.com//.default");
+    const accessToken = await credential.getToken("https://management.azure.com/.default");
     assert.exists(accessToken.token);
   });
 
@@ -33,21 +33,7 @@ describe("AzureVM UserAssigned Integration test", function () {
       throw new Error("IDENTITY_VM_USER_ASSIGNED_MI_OBJECT_ID is not set");
     }
     const credential = new ManagedIdentityCredential({ objectId: userAssignedObjectId });
-    const accessToken = await credential.getToken("https://management.azure.com//.default");
-    assert.exists(accessToken.token);
-  });
-
-  it("test the Azure VM IMDS endpoint where the MI credential is used.", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-    const userAssignedVM = process.env.IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID;
-    if (!userAssignedVM) {
-      console.log("IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID is not set");
-      throw new Error("IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID is not set");
-    }
-    const credential = new ManagedIdentityCredential({ clientId: userAssignedVM });
-    const accessToken = await credential.getToken("https://management.azure.com//.default");
+    const accessToken = await credential.getToken("https://management.azure.com/.default");
     assert.exists(accessToken.token);
   });
 });
