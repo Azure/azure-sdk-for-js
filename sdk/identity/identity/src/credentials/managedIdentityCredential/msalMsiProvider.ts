@@ -40,7 +40,8 @@ interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
   resourceId?: string;
 
   /**
-   * The objectID of the user-assigned managed identity.
+   * Allows specifying the object ID of the service principal used to authenticate a user-assigned managed identity.
+   * This is an alternative for providing a client ID and is not required for system-assigned managed identities.
    */
   objectId?: string;
 }

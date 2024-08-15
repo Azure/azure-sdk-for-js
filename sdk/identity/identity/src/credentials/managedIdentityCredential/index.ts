@@ -39,7 +39,8 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
  */
 export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
   /**
-   * TODO
+   * Allows specifying the object ID of the service principal used to authenticate a user-assigned managed identity.
+   * This is an alternative for providing a client ID and is not required for system-assigned managed identities.
    */
   objectId: string;
 }
@@ -64,19 +65,19 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential with clientId
+   * Creates an instance of ManagedIdentityCredential with a Client Id
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(options?: ManagedIdentityCredentialClientIdOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential with Resource Id
+   * Creates an instance of ManagedIdentityCredential with a Resource Id
    *
    * @param options - Options for configuring the resource which makes the access token request.
    */
   constructor(options?: ManagedIdentityCredentialResourceIdOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential with Object Id
+   * Creates an instance of ManagedIdentityCredential with an Object Id
    *
    * @param options - Options for configuring the resource which makes the access token request.
    */
