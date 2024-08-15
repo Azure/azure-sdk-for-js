@@ -26,10 +26,10 @@ steps:
       ArtifactName: 'package-diffs'
       SbomEnabled: false
 
-
-  - template: /eng/common/pipelines/templates/steps/verify-readme.yml
+  - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:
-      ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
+      Condition: succeededOrFailed()
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
