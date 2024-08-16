@@ -114,7 +114,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "generate": "tsp-client update",
+    "generate": "rimraf ./src/generated && mkdirp ./src/generated && cp tsp-location.yaml ./src/generated && tsp-client update -o ./src/generated && rm ./src/generated/tsp-location.yaml",
     "check-format": "echo skipped",
     "clean": "rimraf --glob dist dist-* test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
