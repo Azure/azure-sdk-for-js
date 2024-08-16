@@ -76,7 +76,7 @@ async function deleteIndexIfExists(indexClient, indexName) {
 async function askOpenAI(azureSearchIndexName, messages) {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const apiVersion = "2024-04-01-preview";
+  const apiVersion = "2024-07-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment: chatDeploymentId, apiVersion });
   const events = client.chat.completions.create({
     messages,
