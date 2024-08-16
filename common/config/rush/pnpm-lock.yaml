@@ -11784,7 +11784,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-qsbgUXp/2RcQCa+sDOQ6/J2CKlvsxRR6R2XGX3gjxSRNOSTf3TaBr3T6AEL9ZINSaPPLzVLJr2L3sqdWgt6dRw==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-ICqL8vb343FMBDp3o2nIrGFEi0M3ngMJwtTv8Xa40jKYvTw6hXyir9MwnlsC79JgHuMyl96YPNm//xdkoZ6NFw==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -11797,6 +11797,7 @@ packages:
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -11816,18 +11817,15 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       nyc: 17.0.0
+      prettier: 3.3.3
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
       typescript: 5.5.4
+      uglify-js: 3.19.2
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
       - supports-color
-      - utf-8-validate
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:

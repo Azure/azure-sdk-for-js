@@ -5,10 +5,11 @@
 ## Configuration
 
 ```yaml
+flavor: azure 
 package-name: "@azure-rest/agrifood-farming"
 title: FarmBeats
 description: Azure FarmBeats Service
-generate-metadata: false
+generate-metadata: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
