@@ -1,6 +1,5 @@
 import { assert } from "vitest";
 import { get, Metadata } from "./utils.js";
-import { OpenAI } from "openai";
 import { getImageDimensionsFromResponse } from "./images.js";
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
@@ -12,11 +11,13 @@ import {
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-  AzureChatEnhancementConfiguration,
-  AzureChatGroundingEnhancementConfiguration,
-  AzureChatOCREnhancementConfiguration,
   ChatFinishDetailsOutput,
   StopFinishDetailsOutput,
+  AzureChatEnhancementsOutput,
+  AzureGroundingEnhancementOutput,
+  AzureGroundingEnhancementLineSpanOutput,
+  AzureGroundingEnhancementCoordinatePointOutput,
+  AzureGroundingEnhancementLineOutput,
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
@@ -25,10 +26,15 @@ import {
   ChatCompletionTokenLogprob,
   Completion,
   CompletionChoice,
+  CompletionUsage,
   CreateEmbeddingResponse,
+  ImagesResponse,
 } from "openai/resources/index";
 import { ErrorModel } from "@azure-rest/core-client";
-import { ChatCompletion } from "openai/resources/chat/completions.mjs";
+import {
+  ChatCompletion,
+  ChatCompletionMessageToolCall,
+} from "openai/resources/chat/completions.mjs";
 import { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 
@@ -153,7 +159,7 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.self_harm, assertContentFilterResult);
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
-    ifDefined(cfr.profanity, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.custom_blocklists, assertContentFilterBlocklistIdResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
@@ -241,7 +247,7 @@ function assertChoice(
 }
 
 export async function assertCompletionsStream(
-  stream: AsyncIterable<Omit<OpenAI.Completions.Completion, "usage">>,
+  stream: AsyncIterable<Omit<Completion, "usage">>,
   options: CompletionTestOptions = {},
 ): Promise<number> {
   return assertAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
@@ -275,9 +281,7 @@ function assertLogprobs(logprobs: CompletionChoice.Logprobs): void {
   ifDefined(logprobs.tokens, (token) => assert.isNumber(token));
   ifDefined(logprobs.top_logprobs, (top_logprob) => assert.instanceOf(top_logprob, Object));
 }
-function assertLogProbability(
-  logProbability: OpenAI.Chat.Completions.ChatCompletion.Choice.Logprobs,
-): void {
+function assertLogProbability(logProbability: ChatCompletion.Choice.Logprobs): void {
   assertNonEmptyArray(logProbability.content ?? [], assertTokenLogProbability);
 }
 
@@ -289,9 +293,9 @@ function assertTokenLogProbability(tokenLogprob: ChatCompletionTokenLogprob): vo
   assert.isNumber(tokenLogprob.logprob);
 }
 
-function assertUsage(usage: OpenAI.Completions.CompletionUsage | undefined): void {
+function assertUsage(usage: CompletionUsage | undefined): void {
   assert.isDefined(usage);
-  const castUsage = usage as OpenAI.Completions.CompletionUsage;
+  const castUsage = usage as CompletionUsage;
   assert.isNumber(castUsage.completion_tokens);
   assert.isNumber(castUsage.prompt_tokens);
   assert.isNumber(castUsage.total_tokens);
@@ -305,9 +309,9 @@ function assertIf<T>(condition: boolean, val: T, check: (x: T) => void): void {
   }
 }
 
-function ifDefined(
-  val: any,
-  validate: (x: any) => void,
+function ifDefined<T>(
+  val: T | undefined | null,
+  validate: (x: T) => void,
   { defined }: { defined?: boolean } = {},
 ): void {
   if (val !== undefined && val !== null) {
@@ -318,7 +322,7 @@ function ifDefined(
 }
 
 function assertFunctionCall(
-  functionCall: OpenAI.Chat.Completions.ChatCompletionMessage.FunctionCall,
+  functionCall: ChatCompletionChunk.Choice.Delta.ToolCall.Function,
   { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, functionCall.arguments, assert.isString);
@@ -326,9 +330,7 @@ function assertFunctionCall(
 }
 
 function assertToolCall(
-  toolCall:
-    | OpenAI.Chat.Completions.ChatCompletionMessageToolCall
-    | ChatCompletionChunk.Choice.Delta.ToolCall,
+  toolCall: ChatCompletionMessageToolCall | ChatCompletionChunk.Choice.Delta.ToolCall,
   { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, toolCall.type, assert.isString);
@@ -369,11 +371,7 @@ function assertArray<T>(val: T[], validate: (x: T) => void): void {
   }
 }
 
-export function assertImagesWithURLs(
-  image: OpenAI.Images.ImagesResponse,
-  height: number,
-  width: number,
-): void {
+export function assertImagesWithURLs(image: ImagesResponse, height: number, width: number): void {
   assert.isNotNull(image);
   assert.isNumber(image.created);
   assert.isArray(image.data);
@@ -390,11 +388,7 @@ export function assertImagesWithURLs(
   });
 }
 
-export function assertImagesWithJSON(
-  image: OpenAI.Images.ImagesResponse,
-  height: number,
-  width: number,
-): void {
+export function assertImagesWithJSON(image: ImagesResponse, height: number, width: number): void {
   assert.isNotNull(image);
   assert.isNumber(image.created);
   assert.isArray(image.data);
@@ -448,18 +442,34 @@ function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
   ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
 }
 
-function assertAzureChatEnhancements(val: AzureChatEnhancementConfiguration): void {
+function assertAzureChatEnhancements(val: AzureChatEnhancementsOutput): void {
   ifDefined(val.grounding, assertAzureGroundingEnhancement);
-  ifDefined(val.ocr, assertAzureOCREnhancement);
 }
 
-function assertAzureGroundingEnhancement(val: AzureChatGroundingEnhancementConfiguration): void {
-  assert.isBoolean(val.enabled);
+function assertAzureGroundingEnhancementLine(val: AzureGroundingEnhancementLineOutput): void {
+  assertNonEmptyArray(val.spans, assertAzureGroundingEnhancementLineSpan);
 }
 
-function assertAzureOCREnhancement(val: AzureChatOCREnhancementConfiguration): void {
-  assert.isBoolean(val.enabled);
+function assertAzureGroundingEnhancement(val: AzureGroundingEnhancementOutput): void {
+  assertNonEmptyArray(val.lines, assertAzureGroundingEnhancementLine);
 }
+
+function assertAzureGroundingEnhancementLineSpan(
+  val: AzureGroundingEnhancementLineSpanOutput,
+): void {
+  assert.isNumber(val.length);
+  assert.isNumber(val.offset);
+  assert.isString(val.text);
+  assertNonEmptyArray(val.polygon, assertAzureGroundingEnhancementCoordinatePoint);
+}
+
+function assertAzureGroundingEnhancementCoordinatePoint(
+  val: AzureGroundingEnhancementCoordinatePointOutput,
+): void {
+  assert.isNumber(val.x);
+  assert.isNumber(val.y);
+}
+
 function assertCitations(citations: AzureChatExtensionDataSourceResponseCitationOutput): void {
   assert.isDefined(citations.content);
   ifDefined(citations.title, assert.isString);

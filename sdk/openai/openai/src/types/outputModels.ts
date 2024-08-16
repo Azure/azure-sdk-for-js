@@ -33,7 +33,7 @@ export interface ContentFilterResultsForChoiceOutput {
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
   /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+  custom_blocklists?: ContentFilterBlocklistIdResultOutput;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.

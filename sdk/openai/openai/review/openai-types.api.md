@@ -260,7 +260,7 @@ export interface ContentFilterResultOutput {
 
 // @public
 export interface ContentFilterResultsForChoiceOutput {
-    custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+    custom_blocklists?: ContentFilterBlocklistIdResultOutput;
     error?: ErrorModel;
     hate?: ContentFilterResultOutput;
     profanity?: ContentFilterDetectionResultOutput;
