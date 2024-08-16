@@ -127,7 +127,7 @@ const nCustomization = {
 const noOnlyTestsCustomization = {
   name: "no-only-tests-azsdk-customized",
   plugins: {
-    "no-only-tests": fixupPluginRules(noOnlyTests),
+    "no-only-tests": noOnlyTests,
   },
   files: ["**/test/**/*.ts"],
   rules: {
