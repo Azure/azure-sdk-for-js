@@ -2,7 +2,7 @@
   "name": "@azure-rest/health-insights-radiologyinsights",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for Health Insights Radiology Insights Rest",
   "keywords": [
     "node",
