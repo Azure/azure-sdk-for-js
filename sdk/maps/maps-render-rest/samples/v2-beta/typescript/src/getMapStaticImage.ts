@@ -33,7 +33,7 @@ async function main(): Promise<void>  {
   /** In this example, we handle the response stream in Node.js. For how to handle the browser stream, please refer to getMapTileInBrowser.ts */
   /** To get static image, one can assign bbox and zoom to the queryParameters */
   const res1 = await client
-    .path("/map/static/{format}", "png")
+    .path("/map/static")
     .get({
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
@@ -49,7 +49,7 @@ async function main(): Promise<void>  {
 
   /** The other way is to assign center with image width and height to the queryParameters */
   const res2 = await client
-    .path("/map/static/{format}", "png")
+    .path("/map/static")
     .get({
       queryParameters: {
         center: [13.228, 52.4559],
@@ -105,13 +105,13 @@ async function main(): Promise<void>  {
 
   // Make the request
   const res3 = await client
-    .path("/map/static/{format}", "png")
+    .path("/map/static")
     .get({
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
         zoom: 10,
-        path,
-        pins,
+        path: [path],
+        pins: [pins],
       },
       // Need to skip the url encoding to make the path & pins works.
       skipUrlEncoding: true,
