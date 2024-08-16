@@ -16,9 +16,10 @@ steps:
 
     - pwsh: |
         Write-Host "This is the diff for this PR"
-        $diff = $(Build.ArtifactStagingDirectory)/diff/diff.json
 
-        Get-Content $diff
+        Get-ChildItem -Path $(Build.ArtifactStagingDirectory)/diff -Recurse -Force
+
+        $diff = $(Build.ArtifactStagingDirectory)/diff/diff.json
 
         $changedServices = (Get-Content $diff | ConvertFrom-Json).ChangedServices
         $changedServices = $changedServices -join " "
