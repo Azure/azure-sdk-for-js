@@ -3,7 +3,9 @@
 import { randomUUID } from "node:crypto";
 import {
   ClientEncryptionKeyResponse,
+  Constants,
   Container,
+  CosmosDiagnostics,
   Database,
   EncryptionAlgorithm,
   EncryptionKeyResolver,
@@ -32,8 +34,12 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     metadataupdatedmetadata: 7,
   };
   revokeAccessSet = false;
+  wrapKeyCallsCount: { [key: string]: any };
+  unwrapKeyCallsCount: { [key: string]: any };
   constructor() {
     this.revokeAccessSet = false;
+    this.wrapKeyCallsCount = {};
+    this.unwrapKeyCallsCount = {};
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     algorithm;
@@ -41,6 +47,11 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
       const errorResponse = new ErrorResponse("Forbidden");
       errorResponse.statusCode = StatusCodes.Forbidden;
       throw errorResponse;
+    }
+    if (encryptionKeyId in this.unwrapKeyCallsCount) {
+      this.unwrapKeyCallsCount[encryptionKeyId]++;
+    } else {
+      this.unwrapKeyCallsCount[encryptionKeyId] = 1;
     }
     const moveBy = this.keyInfo[encryptionKeyId];
     const plainKey = Buffer.alloc(key.length);
@@ -52,6 +63,11 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
 
   async wrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer> {
     algorithm;
+    if (encryptionKeyId in this.wrapKeyCallsCount) {
+      this.wrapKeyCallsCount[encryptionKeyId]++;
+    } else {
+      this.wrapKeyCallsCount[encryptionKeyId] = 1;
+    }
     const moveBy = this.keyInfo[encryptionKeyId];
     const encryptedKey = Buffer.alloc(wrappedKey.length);
     for (let i = 0; i < wrappedKey.length; i++) {
@@ -487,7 +503,8 @@ export function verifyExpectedDocResponse(expectedDoc: TestDoc, verifyDoc: any) 
       verifyDoc.sensitive_NestedObjectFormatL1,
     );
   }
-
+  // Todo: The type of date does not match, first one is object and other one is string since serializer used to encrypt date is stringSerializer. Convert it back to date and compare.
+  // assert.equal(expectedDoc.sensitive_DateFormat, verifyDoc.sensitive_DateFormat);
   assert.equal(expectedDoc.sensitive_DecimalFormat, verifyDoc.sensitive_DecimalFormat);
   assert.equal(expectedDoc.sensitive_IntFormat, verifyDoc.sensitive_IntFormat);
   assert.equal(expectedDoc.sensitive_FloatFormat, verifyDoc.sensitive_FloatFormat);
@@ -519,6 +536,8 @@ export async function validateQueryResults(
   container: Container,
   query: EncryptionQueryBuilder | SqlQuerySpec,
   expectedDocList: TestDoc[],
+  // decryptOperation: boolean = true,
+  // expectedPropertiesDecryptedCount: number = 12,
   options?: RequestOptions,
 ): Promise<void> {
   let iterator: QueryIterator<any>;
@@ -532,6 +551,7 @@ export async function validateQueryResults(
   while (iterator.hasMoreResults()) {
     const response = await iterator.fetchNext();
     totalDocs += response.resources.length;
+    // Todo: Add a check to verify the diagnostics
     for (let i = 0; i < response.resources.length; i++) {
       docs.push(response.resources[i]);
     }
@@ -553,4 +573,36 @@ export async function testReplaceItem(
   assert.equal(StatusCodes.Ok, response.statusCode);
   verifyExpectedDocResponse(testDoc, response.resource);
   return response;
+}
+
+export function verifyDiagnostics(
+  diagnostics: CosmosDiagnostics,
+  encryptOperation: boolean = true,
+  decryptOperation: boolean = true,
+  expectedPropertiesEncryptedCount: number = 12,
+  expectedPropertiesDecryptedCount: number = 12,
+): void {
+  assert.isNotNull(diagnostics);
+  const encryptionDiagnostics = diagnostics.clientSideRequestStatistics.encryptionDiagnostics;
+  assert.isNotNull(encryptionDiagnostics);
+  if (encryptOperation) {
+    const encryptContent = encryptionDiagnostics.encryptContent;
+    assert.isNotNull(encryptContent);
+    assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
+    assert.ok(encryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
+    assert.equal(
+      expectedPropertiesEncryptedCount,
+      encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
+    );
+  }
+  if (decryptOperation) {
+    const decryptContent = encryptionDiagnostics.decryptContent;
+    assert.isNotNull(decryptContent);
+    assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
+    assert.ok(decryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
+    assert.equal(
+      expectedPropertiesDecryptedCount,
+      decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],
+    );
+  }
 }

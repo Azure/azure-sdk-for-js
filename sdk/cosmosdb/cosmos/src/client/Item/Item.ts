@@ -4,6 +4,7 @@ import { ClientContext } from "../../ClientContext";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   addContainerRid,
+  Constants,
   copyObject,
   createDocumentUri,
   getIdFromLink,
@@ -321,11 +322,19 @@ export class Item {
         options.containerRid = this.container._rid;
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+        let propertiesEncryptedCount = 0;
         for (const operation of operations) {
+          if (operation.op === PatchOperationType.remove) {
+            continue;
+          }
           const isPathEncrypted = await this.container.encryptionProcessor.isPathEncrypted(
             operation.path,
           );
-          if (operation.op === PatchOperationType.incr && isPathEncrypted) {
+          if (!isPathEncrypted) {
+            continue;
+          }
+          if (operation.op === PatchOperationType.incr) {
             throw new ErrorResponse(
               `Increment patch operation is not allowed for encrypted path '${operation.path}'`,
             );
@@ -336,7 +345,12 @@ export class Item {
               operation.value,
             );
           }
+          propertiesEncryptedCount++;
         }
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsEncryptOperation,
+          propertiesEncryptedCount,
+        );
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );

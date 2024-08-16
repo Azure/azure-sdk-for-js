@@ -200,11 +200,12 @@ export class Items {
   }
 
   private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
-    const encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
+    let encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
     const sqlQuerySpec: SqlQuerySpec = {
       query: encryptionSqlQuerySpec.query,
       parameters: [],
     };
+    encryptionParameters = copyObject(encryptionParameters);
     for (const parameter of encryptionParameters) {
       const value = await this.container.encryptionProcessor.encryptQueryParameter(
         parameter.path,
@@ -678,6 +679,9 @@ export class Items {
           orderedResponses[batch.indexes[index]] = operationResponse;
         });
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         // In the case of 410 errors, we need to recompute the partition key ranges
         // and redo the batch request, however, 410 errors occur for unsupported
         // partition key types as well since we don't support them, so for now we throw
