@@ -15194,7 +15194,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-xwL8k5XHduPAn9IWm+uk0Aj+MWXA5jMPEl3UWW1dVpN32SYDNKjDteWq6Zy+qV6agDYpocNBsgm5Ej5siAq3oA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-v9JXTPG1ZGV9ie822WCOXA7PSmgRzAQk75dPIrbIjLcgD3zrPZNtYP4CNHjFy511q0cVbbEIv8vxzFfkAjkeqw==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -15213,10 +15213,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.17.0
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
       - '@swc/core'
