@@ -19067,7 +19067,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-y1xojAu1/swoNagklzVJoWdb08hvPGTTDEVIWD6aIrFalETHWQFgCM0axyF+DK6YTTXpcV276eSg8mw/nPkDlw==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-NoWytyGM+4kY5HJeoLDo4CG5g8+wq08w1m2UiR2Xzvn214YsPg6/5O+SFifDlCoaXkQVFUoOPccT/GDJeUGWow==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -19087,10 +19087,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.16.5
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
       - '@swc/core'
