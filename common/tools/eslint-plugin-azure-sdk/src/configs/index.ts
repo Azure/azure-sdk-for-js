@@ -92,4 +92,48 @@ export default (plugin: FlatConfig.Plugin) => ({
     },
   },
   "azure-sdk-base": rootConfig,
+  internal: typescriptEslint.config(
+    {
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
+    },
+    {
+      languageOptions: {
+        parser: typescriptEslint.parser,
+        parserOptions: {
+          project: ["./tsconfig.json"],
+        },
+      },
+    },
+    eslint.configs.recommended,
+    ...typescriptEslint.configs.recommended,
+    typescriptEslint.configs.eslintRecommended,
+    eslintConfigPrettier,
+    {
+      plugins: {
+        "@azure/azure-sdk": plugin,
+      },
+    },
+    {
+      rules: {
+        "@typescript-eslint/no-unused-vars": "off",
+        "@azure/azure-sdk/github-source-headers": "warn",
+        "@azure/azure-sdk/ts-apisurface-standardized-verbs": "off",
+        "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
+        "@azure/azure-sdk/ts-config-include": "off",
+        "@azure/azure-sdk/ts-doc-internal": "off",
+        "@azure/azure-sdk/ts-doc-internal-private-member": "off",
+        "@azure/azure-sdk/ts-error-handling": "off",
+        "@azure/azure-sdk/ts-modules-only-named": "off",
+        "@azure/azure-sdk/ts-naming-drop-noun": "off",
+        "@azure/azure-sdk/ts-naming-options": "off",
+        "@azure/azure-sdk/ts-naming-subclients": "off",
+        "@azure/azure-sdk/ts-no-const-enums": "off",
+        "@azure/azure-sdk/ts-no-window": "warn",
+        "@azure/azure-sdk/ts-pagination-list": "off",
+        "@azure/azure-sdk/ts-use-interface-parameters": "off",
+        "@azure/azure-sdk/ts-use-promises": "warn",
+        "@azure/azure-sdk/ts-versioning-semver": "off",
+      },
+    },
+  ),
 });

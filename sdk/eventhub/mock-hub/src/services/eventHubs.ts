@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Connection,
-  ConnectionEvents,
-  EventContext,
-  Message,
-  ReceiverEvents,
-  Sender,
-  SenderEvents,
-} from "rhea";
+import rhea from "rhea";
 import {
   ConnectionCloseEvent,
   MockServer,
@@ -18,21 +10,20 @@ import {
   ReceiverOpenEvent,
   SenderCloseEvent,
   SenderOpenEvent,
-} from "../server/mockServer";
+} from "../server/mockServer.js";
 import {
   generateBadPartitionInfoResponse,
   generatePartitionInfoResponse,
   isPartitionInfo,
-} from "../messages/event-hubs/partitionInfo";
+} from "../messages/event-hubs/partitionInfo.js";
 import {
   generateHubRuntimeInfoResponse,
   isHubRuntimeInfo,
-} from "../messages/event-hubs/runtimeInfo";
-import { MessageStore } from "../storage/messageStore";
-import { StreamingPartitionSender } from "../sender/streamingPartitionSender";
-import { URL } from "url";
-import { createCbsAccepted } from "../messages/cbs/cbsAccepted";
-import { getEventPosition } from "../utils/eventPosition";
+} from "../messages/event-hubs/runtimeInfo.js";
+import { MessageStore } from "../storage/messageStore.js";
+import { StreamingPartitionSender } from "../sender/streamingPartitionSender.js";
+import { createCbsAccepted } from "../messages/cbs/cbsAccepted.js";
+import { getEventPosition } from "../utils/eventPosition.js";
 
 export interface IMockEventHub {
   readonly partitionIds: string[];
@@ -111,11 +102,11 @@ export class MockEventHub implements IMockEventHub {
    * This provides convenient access to a `Sender`'s `StreamingPartitionSender`
    * so that we can stop it when a `Sender` is closed.
    */
-  private _streamingPartitionSenderMap = new Map<Sender, StreamingPartitionSender>();
+  private _streamingPartitionSenderMap = new Map<rhea.Sender, StreamingPartitionSender>();
 
   private _connectionInactivityTimeoutInMs: number;
 
-  private _connections: Set<Connection> = new Set();
+  private _connections: Set<rhea.Connection> = new Set();
 
   private _clearableTimeouts = new Set<ReturnType<typeof setTimeout>>();
   /**
@@ -124,7 +115,7 @@ export class MockEventHub implements IMockEventHub {
    *
    * This is needed to support `ownerLevel` (epoch).
    */
-  private _consumerGroupPartitionSenderMap = new Map<string, Map<string, Set<Sender>>>();
+  private _consumerGroupPartitionSenderMap = new Map<string, Map<string, Set<rhea.Sender>>>();
 
   /**
    * The Event Hub's partition ids.
@@ -177,7 +168,7 @@ export class MockEventHub implements IMockEventHub {
     });
   }
 
-  private _handleConnectionInactivity = (connection: Connection): void => {
+  private _handleConnectionInactivity = (connection: rhea.Connection): void => {
     if (!this._connectionInactivityTimeoutInMs) {
       return;
     }
@@ -199,11 +190,11 @@ export class MockEventHub implements IMockEventHub {
       this._clearableTimeouts.add(tid);
     };
 
-    connection.addListener(ConnectionEvents.settled, bounceTimeout);
-    connection.addListener(SenderEvents.senderFlow, bounceTimeout);
-    connection.addListener(SenderEvents.settled, bounceTimeout);
-    connection.addListener(ReceiverEvents.receiverFlow, bounceTimeout);
-    connection.addListener(ReceiverEvents.settled, bounceTimeout);
+    connection.addListener(rhea.ConnectionEvents.settled, bounceTimeout);
+    connection.addListener(rhea.SenderEvents.senderFlow, bounceTimeout);
+    connection.addListener(rhea.SenderEvents.settled, bounceTimeout);
+    connection.addListener(rhea.ReceiverEvents.receiverFlow, bounceTimeout);
+    connection.addListener(rhea.ReceiverEvents.settled, bounceTimeout);
   };
 
   /**
@@ -416,8 +407,8 @@ export class MockEventHub implements IMockEventHub {
    * Handles responding to CBS messages.
    * @param event -
    */
-  private _handleCbsMessage(event: OnMessagesEvent, message: Message): void {
-    let outgoingMessage: Message;
+  private _handleCbsMessage(event: OnMessagesEvent, message: rhea.Message): void {
+    let outgoingMessage: rhea.Message;
     if (!this.isValidCbsAuth(message)) {
       outgoingMessage = {
         correlation_id: message.message_id?.toString(),
@@ -443,7 +434,7 @@ export class MockEventHub implements IMockEventHub {
    * Handles responding to Management READ EventHubs messages.
    * @param event -
    */
-  private _handleHubRuntimeInfoMessage(event: OnMessagesEvent, message: Message): void {
+  private _handleHubRuntimeInfoMessage(event: OnMessagesEvent, message: rhea.Message): void {
     const outgoingMessage = generateHubRuntimeInfoResponse({
       correlationId: message.message_id?.toString(),
       partitions: this.partitionIds,
@@ -459,9 +450,9 @@ export class MockEventHub implements IMockEventHub {
    * Handles responding to Management READ Partition messages.
    * @param event -
    */
-  private _handlePartitionInfoMessage(event: OnMessagesEvent, message: Message): void {
+  private _handlePartitionInfoMessage(event: OnMessagesEvent, message: rhea.Message): void {
     const partitionId = message.application_properties?.partition;
-    let outgoingMessage: Message;
+    let outgoingMessage: rhea.Message;
     if (!this.partitionIds.includes(partitionId)) {
       outgoingMessage = generateBadPartitionInfoResponse({
         correlationId: message.message_id?.toString(),
@@ -513,7 +504,7 @@ export class MockEventHub implements IMockEventHub {
    * Gets the Sender's `ownerLevel`, if it has one.
    * @param sender -
    */
-  private _getSenderOwnerLevel(sender: Sender): number | undefined {
+  private _getSenderOwnerLevel(sender: rhea.Sender): number | undefined {
     const ownerLevel: number | undefined = sender.properties?.["com.microsoft:epoch"];
     return ownerLevel;
   }
@@ -527,14 +518,19 @@ export class MockEventHub implements IMockEventHub {
    * @param partitionId -
    * @param sender -
    */
-  private _storePartitionSender(consumerGroup: string, partitionId: string, sender: Sender): void {
+  private _storePartitionSender(
+    consumerGroup: string,
+    partitionId: string,
+    sender: rhea.Sender,
+  ): void {
     // Ensure we have an entry for the consumer group.
     const consumerGroupPartitionMap =
-      this._consumerGroupPartitionSenderMap.get(consumerGroup) ?? new Map<string, Set<Sender>>();
+      this._consumerGroupPartitionSenderMap.get(consumerGroup) ??
+      new Map<string, Set<rhea.Sender>>();
     this._consumerGroupPartitionSenderMap.set(consumerGroup, consumerGroupPartitionMap);
 
     // Ensure we have an entry for the partition id.
-    const partitionSenderSet = consumerGroupPartitionMap.get(partitionId) ?? new Set<Sender>();
+    const partitionSenderSet = consumerGroupPartitionMap.get(partitionId) ?? new Set<rhea.Sender>();
     consumerGroupPartitionMap.set(partitionId, partitionSenderSet);
 
     partitionSenderSet.add(sender);
@@ -547,7 +543,11 @@ export class MockEventHub implements IMockEventHub {
    * @param partitionId -
    * @param sender -
    */
-  private _deletePartitionSender(consumerGroup: string, partitionId: string, sender: Sender): void {
+  private _deletePartitionSender(
+    consumerGroup: string,
+    partitionId: string,
+    sender: rhea.Sender,
+  ): void {
     const partitionSenders = this._consumerGroupPartitionSenderMap
       .get(consumerGroup)
       ?.get(partitionId);
@@ -571,7 +571,7 @@ export class MockEventHub implements IMockEventHub {
   private _handleSenderOwnerLevel(
     consumerGroup: string,
     partitionId: string,
-    sender: Sender,
+    sender: rhea.Sender,
   ): boolean {
     const ownerLevel = this._getSenderOwnerLevel(sender);
 
@@ -643,7 +643,7 @@ export class MockEventHub implements IMockEventHub {
    * @param message -
    * @param partitionId -
    */
-  private _storeMessage(messages: Message[], partitionId?: string): void {
+  private _storeMessage(messages: rhea.Message[], partitionId?: string): void {
     if (!messages.length) {
       return;
     }
@@ -687,8 +687,8 @@ export class MockEventHub implements IMockEventHub {
    */
   private _handlePartitionSenderOpenValidation(
     entityComponents: PartionSenderEntityComponents,
-    sender: Sender,
-    context: EventContext,
+    sender: rhea.Sender,
+    context: rhea.EventContext,
   ): boolean {
     const { eventHubName, consumerGroup, partitionId } = entityComponents;
     if (!this.partitionIds.includes(partitionId)) {
@@ -759,7 +759,7 @@ export class MockEventHub implements IMockEventHub {
     };
   }
 
-  private isValidCbsAuth(message: Message): boolean | undefined {
+  private isValidCbsAuth(message: rhea.Message): boolean | undefined {
     const name = message.application_properties?.name as string | undefined;
     if (!name) {
       return;

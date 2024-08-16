@@ -9,28 +9,29 @@
     "amqp",
     "cloud"
   ],
-  "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tsc -p .",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
+    "build:samples": "echo Obsolete.",
     "build:test": "echo skipped",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist types *.tgz *.log",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "clean": "rimraf --glob dist dist-* temp *.tgz *.log .tshy *.xml",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json src test README.md --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test README.md --ext .ts --ext .cts --ext .mts",
     "pack": "npm pack 2>&1",
     "test": "echo \"No tests implemented\"",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -43,29 +44,63 @@
   },
   "files": [
     "dist/",
-    "types/",
     "README.md",
     "License"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/README.md",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "selfLink": false
+  },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.5.3",
-    "ts-node": "^10.0.0"
+    "playwright": "^1.45.3",
+    "rimraf": "^6.0.1",
+    "tshy": "^2.0.0",
+    "typescript": "~5.5.4",
+    "vitest": "^2.0.5"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "rhea": "^3.0.0",
-    "tslib": "^2.2.0"
+    "@azure/abort-controller": "^2.1.2",
+    "rhea": "^3.0.2",
+    "tslib": "^2.6.3"
   },
   "//sampleConfiguration": {
-    "skip": [
-      "ehSample.js"
-    ]
+    "productName": "Internal Mock Hub",
+    "productSlugs": [
+      "azure",
+      "azure-event-hubs"
+    ],
+    "requiredResources": {
+      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+    }
+  },
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

@@ -153,7 +153,7 @@
     "moment": "^2.24.0",
     "nyc": "^17.0.0",
     "promise": "^8.0.3",
-    "puppeteer": "^22.2.0",
+    "puppeteer": "^23.0.2",
     "rimraf": "^5.0.5",
     "ts-node": "^10.0.0",
     "typescript": "~5.5.3",

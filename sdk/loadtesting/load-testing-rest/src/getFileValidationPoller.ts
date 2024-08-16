@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
@@ -92,17 +92,29 @@ export async function getFileValidationPoller(
     }): Promise<TestGetFile200Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
-        const { signal: abortSignal } = inputAbortSignal
-          ? new AbortController([inputAbortSignal, abortController.signal])
-          : abortController;
-        if (!poller.isDone()) {
-          await poller.poll({ abortSignal });
-          while (!poller.isDone()) {
-            const delay = sleep(currentPollIntervalInMs, abortSignal);
-            cancelJob = () => abortController.abort();
-            await delay;
+        // In the future we can use AbortSignal.any() instead
+        function abortListener(): void {
+          abortController.abort();
+        }
+        const abortSignal = abortController.signal;
+        if (inputAbortSignal?.aborted) {
+          abortController.abort();
+        } else if (!abortSignal.aborted) {
+          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+        }
+
+        try {
+          if (!poller.isDone()) {
             await poller.poll({ abortSignal });
+            while (!poller.isDone()) {
+              const delay = sleep(currentPollIntervalInMs, abortSignal);
+              cancelJob = () => abortController.abort();
+              await delay;
+              await poller.poll({ abortSignal });
+            }
           }
+        } finally {
+          inputAbortSignal?.removeEventListener("abort", abortListener);
         }
         switch (state.status) {
           case "succeeded":

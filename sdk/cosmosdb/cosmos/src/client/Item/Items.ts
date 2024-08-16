@@ -129,7 +129,7 @@ export class Items {
         options: innerOptions,
         partitionKey: options.partitionKey,
         diagnosticNode,
-        correlatedActivityId,
+        correlatedActivityId: correlatedActivityId,
       });
       return response;
     };
@@ -551,8 +551,8 @@ export class Items {
         // partition key types as well since we don't support them, so for now we throw
         if (err.code === StatusCodes.Gone) {
           const isPartitionSplit =
-            err.subStatusCode === SubStatusCodes.PartitionKeyRangeGone ||
-            err.subStatusCode === SubStatusCodes.CompletingSplit;
+            err.substatus === SubStatusCodes.PartitionKeyRangeGone ||
+            err.substatus === SubStatusCodes.CompletingSplit;
 
           if (isPartitionSplit) {
             const queryRange = new QueryRange(batch.min, batch.max, true, false);

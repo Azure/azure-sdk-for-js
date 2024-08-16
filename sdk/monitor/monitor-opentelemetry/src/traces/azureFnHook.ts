@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Context as AzureFnV3Context } from "@azure/functions-old";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { InvocationContext as AzureFnV4Context } from "@azure/functions";
 import { context, propagation, Context as OpenTelemetryContext } from "@opentelemetry/api";
 import { Logger } from "../shared/logging";
@@ -38,6 +40,7 @@ export class AzureFunctionsHook {
 
   constructor() {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       this._functionsCoreModule = require("@azure/functions-core");
       this._addPreInvocationHook();
     } catch (error) {
@@ -47,7 +50,7 @@ export class AzureFunctionsHook {
     }
   }
 
-  public shutdown() {
+  public shutdown(): void {
     if (this._preInvocationHook) {
       this._preInvocationHook.dispose();
       this._preInvocationHook = undefined;
@@ -55,14 +58,16 @@ export class AzureFunctionsHook {
     this._functionsCoreModule = undefined;
   }
 
-  private _addPreInvocationHook() {
+  private _addPreInvocationHook(): void {
     if (!this._preInvocationHook) {
       this._preInvocationHook = this._functionsCoreModule.registerHook(
         "preInvocation",
+        // eslint-disable-next-line @typescript-eslint/require-await
         async (preInvocationContext: PreInvocationContext) => {
           const sharedContext = <AzureFnContext>preInvocationContext.invocationContext;
           const traceContext = sharedContext.traceContext;
           // Update context to use Azure Functions one
+          // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
           let extractedContext: OpenTelemetryContext | any = null;
           try {
             if (traceContext) {

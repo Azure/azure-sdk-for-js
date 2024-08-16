@@ -68,7 +68,7 @@
   "dependencies": {
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.1.1",
     "ws": "^7.4.5",
     "buffer": "^6.0.0"
@@ -103,7 +103,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "puppeteer": "^22.2.0",
+    "puppeteer": "^23.0.2",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",

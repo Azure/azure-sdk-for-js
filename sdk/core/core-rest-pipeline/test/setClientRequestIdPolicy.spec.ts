@@ -23,7 +23,7 @@ describe("setClientRequestIdPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(successResponse);
     assert.isFalse(request.headers.has("x-ms-client-request-id"));
     await policy.sendRequest(request, next);

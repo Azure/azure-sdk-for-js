@@ -76,8 +76,6 @@
       ]
     },
     "skip": [
-      "iothubConnectionString.js",
-      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js"
     ],
     "productName": "Azure Event Hubs",
@@ -119,7 +117,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -131,7 +129,7 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "@types/chai-as-promised": "7.1.8",
+    "@types/chai-as-promised": "^7.1.8",
     "@types/ws": "^7.2.4",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
@@ -145,7 +143,7 @@
     "playwright": "^1.45.3",
     "rimraf": "^6.0.1",
     "start-server-and-test": "^2.0.4",
-    "tshy": "^3.0.2",
+    "tshy": "^2.0.0",
     "tsx": "^4.16.2",
     "typescript": "~5.5.4",
     "vitest": "^2.0.5",
