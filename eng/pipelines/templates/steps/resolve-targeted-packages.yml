@@ -12,16 +12,11 @@ steps:
 
         Write-Host "./eng/common/scripts/Generate-PR-Diff.ps1 -TargetPath `"$(Build.SourcesDirectory)`" -ArtifactPath `"$location`""
         ./eng/common/scripts/Generate-PR-Diff.ps1 -TargetPath "$(Build.SourcesDirectory)" -ArtifactPath "$location"
-
-        Get-ChildItem -Path $location -Recurse -Force | % { Write-Host $_.FullName }
       displayName: Generate PR Diff
 
     - pwsh: |
         Write-Host "This is the diff for this PR"
-
-        Get-ChildItem -Path $(Build.ArtifactStagingDirectory)/diff -Recurse -Force
-
-        $diff = $(Build.ArtifactStagingDirectory)/diff/diff.json
+        $diff = "$(Build.ArtifactStagingDirectory)/diff/diff.json"
 
         $changedServices = (Get-Content $diff | ConvertFrom-Json).ChangedServices
         $changedServices = $changedServices -join " "
