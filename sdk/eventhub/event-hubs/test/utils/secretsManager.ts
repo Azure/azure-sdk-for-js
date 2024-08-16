@@ -22,7 +22,7 @@ export class SecretsManager {
     if (this.eventHubConnectionString) {
       return this.eventHubConnectionString;
     }
-    const secretName = assertEnvironmentVariable(EnvVarKeys.EVENTHUB_CONNECTION_STRING_NAME);
+    const secretName = assertEnvironmentVariable(EnvVarKeys.EVENTHUB_CONNECTION_STRING_SECRET_NAME);
     const { value } = await this._client.getSecret(secretName);
     if (!value) {
       throw new Error(`Failed to retrieve the event hub connection string from Key Vault.`);

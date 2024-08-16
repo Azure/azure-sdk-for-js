@@ -268,5 +268,5 @@ output STORAGE_ENDPOINT string = storageAccount.properties.primaryEndpoints.blob
 output STORAGE_CONTAINER_NAME string = containerName
 output STORAGE_CONTAINER_URL string = '${storageAccount.properties.primaryEndpoints.blob}${containerName}'
 output KEYVAULT_URI string = keyVault.properties.vaultUri
-output EVENTHUB_CONNECTION_STRING_NAME string = eventHubConnectionStringSecret.name
-output IOTHUB_CONNECTION_STRING_NAME string = iotHubConnectionStringSecret.name
+output EVENTHUB_CONNECTION_STRING_SECRET_NAME string = eventHubConnectionStringSecret.name
+output IOTHUB_CONNECTION_STRING_SECRET_NAME string = iotHubConnectionStringSecret.name
