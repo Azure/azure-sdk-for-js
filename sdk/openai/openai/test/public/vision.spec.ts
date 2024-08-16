@@ -15,6 +15,7 @@ import {
 import OpenAI, { AzureOpenAI } from "openai";
 import { logger } from "@azure/identity";
 import { RestError } from "@azure/core-rest-pipeline";
+import { visionModelsToSkip } from "./utils/models.js";
 
 describe("OpenAI", function () {
   let deployments: DeploymentInfo[] = [];
@@ -74,6 +75,7 @@ describe("OpenAI", function () {
                 }
               }
             },
+            visionModelsToSkip,
           );
         });
       });
