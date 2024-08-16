@@ -12,6 +12,8 @@ steps:
 
         Write-Host "./eng/common/scripts/Generate-PR-Diff.ps1 -TargetPath `"$(Build.SourcesDirectory)`" -ArtifactPath `"$location`""
         ./eng/common/scripts/Generate-PR-Diff.ps1 -TargetPath "$(Build.SourcesDirectory)" -ArtifactPath "$location"
+
+        Get-ChildItem -Path $location -Recurse -Force | % { Write-Host $_.FullName }
       displayName: Generate PR Diff
 
     - pwsh: |
