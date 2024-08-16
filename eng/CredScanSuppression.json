@@ -35,7 +35,8 @@
         "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
         "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
         "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts",
-        "sdk/test-utils/test-utils/src/fakeTestSecrets.ts"
+        "sdk/test-utils/test-utils/src/fakeTestSecrets.ts",
+        "sdk/test-utils/test-utils-vitest/src/fakeTestSecrets.ts"
       ],
       "_justification": "File contains fake credentials used by test code."
     }

@@ -122,12 +122,12 @@ const nCustomization = {
     "n/no-unpublished-import": "off",
     "n/no-unpublished-require": "off",
   },
-}
+};
 
 const noOnlyTestsCustomization = {
   name: "no-only-tests-azsdk-customized",
   plugins: {
-    "no-only-tests": fixupPluginRules(noOnlyTests),
+    "no-only-tests": noOnlyTests,
   },
   files: ["**/test/**/*.ts"],
   rules: {

@@ -40,7 +40,7 @@ export async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-turbo";
-  const apiVersion = "2024-05-01-preview";
+  const apiVersion = "2024-07-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const result = await client.chat.completions.create({
     messages: [{ role: "user", content: "What's the weather like in Boston?" }],
