@@ -13,7 +13,6 @@ import {
 } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
 import { assertEmbeddings } from "./utils/asserts.js";
-import { embeddingModels } from "./utils/models.js";
 
 describe("Embeddings", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -33,7 +32,6 @@ describe("Embeddings", function () {
             deployments,
             (deploymentName) => client.embeddings.create({ model: deploymentName, input: prompt }),
             assertEmbeddings,
-            embeddingModels,
           );
         });
 
@@ -45,7 +43,6 @@ describe("Embeddings", function () {
             (deploymentName) =>
               client.embeddings.create({ model: deploymentName, input: prompt, dimensions }),
             (embedding) => assertEmbeddings(embedding, { dimensions }),
-            embeddingModels,
           );
         });
       });

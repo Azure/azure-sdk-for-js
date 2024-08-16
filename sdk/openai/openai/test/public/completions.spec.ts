@@ -22,7 +22,7 @@ import {
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import "@azure/openai/types";
-import { functionCallModels } from "./utils/models.js";
+import { functionCallModelsToSkip } from "./utils/models.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
@@ -226,7 +226,7 @@ describe("Completions", function () {
                 });
               },
               (result) => assertChatCompletions(result, { functions: true }),
-              functionCallModels,
+              functionCallModelsToSkip,
             );
           });
 

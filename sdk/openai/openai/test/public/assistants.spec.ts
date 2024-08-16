@@ -6,7 +6,7 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient } from "./utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
-import { APIVersion, handleAssistantsRunFailure, Metadata } from "./utils/utils.js";
+import { APIVersion, isRateLimitRun, Metadata } from "./utils/utils.js";
 
 describe("OpenAIAssistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
@@ -221,7 +221,9 @@ describe("OpenAIAssistants", () => {
             assistant_id: assistant.id,
             instructions,
           });
-          handleAssistantsRunFailure(run, context);
+          if (isRateLimitRun(run)) {
+            context.skip();
+          }
           assert.isNotNull(run.id);
           assert.equal(run.thread_id, thread.id);
           assert.equal(run.assistant_id, assistant.id);
@@ -351,7 +353,9 @@ describe("OpenAIAssistants", () => {
               timeout: 10000,
             },
           );
-          handleAssistantsRunFailure(run, context);
+          if (isRateLimitRun(run)) {
+            context.skip();
+          }
           if (
             run.status === "requires_action" &&
             run.required_action?.type === "submit_tool_outputs"
@@ -368,7 +372,9 @@ describe("OpenAIAssistants", () => {
               tool_outputs: toolOutputs,
             });
           }
-          handleAssistantsRunFailure(run, context);
+          if (isRateLimitRun(run)) {
+            context.skip();
+          }
           assert.equal(favoriteCityCalled, true);
           assert.equal(nicknameCalled, true);
 

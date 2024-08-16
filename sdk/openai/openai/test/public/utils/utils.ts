@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, TaskContext, Test, TestContext } from "vitest";
+import { assert } from "vitest";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -39,7 +39,7 @@ interface ModelInfo {
   version: string;
 }
 export enum APIVersion {
-  Preview = "2024-05-01-preview",
+  Preview = "2024-07-01-preview",
   Stable = "2024-06-01",
   OpenAI = "OpenAI",
 }
@@ -52,7 +52,7 @@ export async function withDeployments<T>(
   deploymentsInfo: DeploymentInfo[] = [],
   run: (model: string) => Promise<T>,
   validate: (result: T) => void,
-  modelsList?: ModelInfo[],
+  modelsListToSkip?: ModelInfo[],
 ): Promise<DeploymentInfo[]> {
   const errors = [];
   const succeeded = [];
@@ -63,7 +63,7 @@ export async function withDeployments<T>(
       logger.info(
         `[${++i}/${deploymentsInfo.length}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
       );
-      if (modelsList && !isModelInList(deployment.model, modelsList)) {
+      if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
         logger.info(
           `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
         );
@@ -213,14 +213,11 @@ export function createAzureSearchExtension(): AzureChatExtensionConfiguration {
   };
 }
 
-export function handleAssistantsRunFailure(
-  run: Run,
-  context: TaskContext<Test> & TestContext & object,
-): void {
+export function isRateLimitRun(run: Run): boolean {
   if (run.status === "failed") {
     if (run.last_error?.message.includes("Rate limit")) {
       logger.info(`Rate limit error: ${run.last_error.message}`);
-      context.skip();
+      return true;
     }
     throw new RestError(`Run failed with unexpected error: ${run.last_error?.message}`, {
       code: run.last_error?.code,
@@ -229,4 +226,5 @@ export function handleAssistantsRunFailure(
   if (!["completed", "requires_action"].includes(run.status)) {
     throw new RestError(`Run failed with unexpected status: ${run.status}`);
   }
+  return false;
 }
