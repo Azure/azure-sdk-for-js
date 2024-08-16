@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createReadStream } from "fs";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";
 import { createClient } from "../utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
@@ -15,7 +15,6 @@ import {
 } from "../utils/utils.js";
 import { assertAudioResult } from "../utils/asserts.js";
 import { AudioResultFormat } from "../utils/audioTypes.js";
-import { whisperModels } from "../utils/models.js";
 
 // TODO: Unskip the tests
 describe.skip("OpenAI", function () {
@@ -37,7 +36,6 @@ describe.skip("OpenAI", function () {
               return client.audio.transcriptions.create({ model: "", file });
             },
             (audio) => assertAudioResult("json", audio),
-            whisperModels,
           );
         });
       });
@@ -52,7 +50,6 @@ describe.skip("OpenAI", function () {
               return client.audio.translations.create({ model: "", file });
             },
             (audio) => assertAudioResult("json", audio),
-            whisperModels,
           );
         });
       });
@@ -77,7 +74,6 @@ describe.skip("OpenAI", function () {
                   });
                 },
                 (audio) => assertAudioResult(format, audio),
-                whisperModels,
               );
             });
           });
@@ -96,7 +92,6 @@ describe.skip("OpenAI", function () {
                   });
                 },
                 (audio) => assertAudioResult(format, audio),
-                whisperModels,
               );
             });
           });

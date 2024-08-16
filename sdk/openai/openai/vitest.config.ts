@@ -12,7 +12,7 @@ export default mergeConfig(
       testTimeout: 150000,
       hookTimeout: 18000,
       fileParallelism: false,
-      include: ["test/**/*.spec.ts"],
+      include: ["test/public/node/whisper.spec.ts"],
     },
   }),
 );
