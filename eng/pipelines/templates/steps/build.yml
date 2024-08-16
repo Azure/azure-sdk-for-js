@@ -62,23 +62,27 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  - template: ../steps/generate-doc.yml
-    parameters:
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
+  # todo: re-enable
+  # - template: ../steps/generate-doc.yml
+  #   parameters:
+  #     ServiceDirectory: ${{parameters.ServiceDirectory}}
 
+  # todo: figure out the right way to handle when docs are generated
+  # probably check the artifacts list, and if there IS for the name, we can check it that way.
   - pwsh: |
-      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
-      foreach ($artifact in $artifacts)
+      $packageProperties = Get-ChildItem -Recurse "$(Build.ArtifactStagingDirectory)/PackageInfo" *.json `
+        | ForEach-Object { $_.Name.Replace(".json", "") }
+
+      foreach ($artifact in $packageProperties)
       {
-        $artifactName = $artifact.name
-        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
-        New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifact.skipPublishDocMs -ne $true)
+        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
+        New-Item -Type Directory -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
+        if ($${{ parameters.IncludeRelease }} -eq $true)
         {
-          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
-          Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
         }
       }
     displayName: 'Copy Packages'

@@ -6,8 +6,7 @@ steps:
   - pwsh: |
       Get-ChildItem -R "${{ parameters.PackageInfo }}"
 
-      $packageProperties = Get-ChildItem -Recurse -Force "${{ parameters.PackageInfo }}" `
-        | Where-Object { $_.Extension -eq '.json' } `
+      $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
         | Foreach-Object { $_.Name } `
         | ForEach-Object { $_.Replace(".json", "") }
       $setting = $packageProperties -join ","
