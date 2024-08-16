@@ -18947,7 +18947,7 @@ packages:
     dev: false
 
   file:projects/arm-servicenetworking.tgz:
-    resolution: {integrity: sha512-maazgr+eyrXsmSJtpsikdHOKm/+dLJC82Ch/HTYnYjEeFejVl/c8f8xYuKUY8+WSJ0SQbK6cQWuowd9cm3iheA==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-RXXOh0417tCyxUJqcnFDubE2ccjLwCWdoIlCvhb2pUNyKiuuBC+KfFZTEKQL0csgDzWN2yR0C7IpkoNdfoZEeg==, tarball: file:projects/arm-servicenetworking.tgz}
     name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
@@ -18966,10 +18966,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.0
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.43)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.16.5
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.1
     transitivePeerDependencies:
       - '@swc/core'
