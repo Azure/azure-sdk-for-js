@@ -15578,7 +15578,7 @@ packages:
     dev: false
 
   file:projects/arm-hdinsightcontainers.tgz:
-    resolution: {integrity: sha512-JWH7jgrGAvCWVPBxiwQj3+LwOLAvUNaIh4S0S7/daKsO0N40Z9GVZ1PZjkOH1YDbfn4wYK66beZLU/IJ1BvEfw==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    resolution: {integrity: sha512-ezvq4u6T7Ytz67lJ40ksM/pW3b3fsB3Y+BjWBZS0X6JfHXvGl936/mB5OwWIl/L2IkIUN/wcOXCGMlDM1NXLDw==, tarball: file:projects/arm-hdinsightcontainers.tgz}
     name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
@@ -15597,10 +15597,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
       tsx: 4.17.0
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.2
     transitivePeerDependencies:
       - '@swc/core'
