@@ -16,7 +16,7 @@ import {
 
 const TEST_FAILURE = "test failure";
 
-describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via", function () {
+describe.skipIf(isMock())("Authentication via", function () {
   let connectionString: string;
 
   beforeAll(async function () {
@@ -32,11 +32,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
     let sharedAccessKey: string;
 
     beforeAll(async function () {
-      const curConnectionString = getConnectionStringWithKey();
-      if (!curConnectionString) {
-        assert.fail("Connection string is not available in the environment.");
-      }
-      connectionString = curConnectionString;
+      connectionString = await getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
       if (!t1 || !t2) {
@@ -191,11 +187,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
     let sharedAccessSignature: string;
 
     beforeEach(async function () {
-      const curConnectionString = await getConnectionStringWithSAS();
-      if (!curConnectionString) {
-        assert.fail("Connection string is not available in the environment.");
-      }
-      connectionString = curConnectionString;
+      connectionString = await getConnectionStringWithSAS();
       const { sharedAccessSignature: t } = parseEventHubConnectionString(connectionString);
       if (!t) {
         assert.fail("Failed to parse connection string.");

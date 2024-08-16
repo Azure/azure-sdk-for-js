@@ -33,6 +33,7 @@ import {
 } from "../../src/partitionReceiver.js";
 import { randomUUID } from "@azure/core-util";
 import { PartitionReceiverOptions } from "../../src/models/private.js";
+import { SecretsManager } from "./secretsManager.js";
 
 function getEnvVarValue(name: string): string | undefined {
   try {
@@ -60,10 +61,16 @@ export function getConsumerGroupName(): string {
     : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_CONSUMER_GROUP_NAME);
 }
 
-export function getConnectionStringWithKey(): string | undefined {
-  return isMock()
-    ? MOCKS.EVENTHUB_CONNECTION_STRING_WITH_KEY
-    : getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING);
+let secretsManager: SecretsManager;
+
+export async function getConnectionStringWithKey(): Promise<string> {
+  if (isMock()) {
+    return MOCKS.EVENTHUB_CONNECTION_STRING_WITH_KEY;
+  }
+  if (!secretsManager) {
+    secretsManager = new SecretsManager();
+  }
+  return secretsManager.getEventHubConnectionString();
 }
 
 export async function getSasTokenFromConnectionStringWithKey(
@@ -94,14 +101,12 @@ export async function getConnectionStringWithSasTokenFromConnectionStringWithKey
   return `Endpoint=${parsed.endpoint};SharedAccessSignature=${token}`;
 }
 
-export async function getConnectionStringWithSAS(): Promise<string | undefined> {
+export async function getConnectionStringWithSAS(): Promise<string> {
   if (isMock()) {
     return MOCKS.EVENTHUB_CONNECTION_STRING_WITH_SAS;
   }
-  const connectionString = getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING);
-  return connectionString
-    ? getConnectionStringWithSasTokenFromConnectionStringWithKey(connectionString)
-    : undefined;
+  const connectionString = await getConnectionStringWithKey();
+  return getConnectionStringWithSasTokenFromConnectionStringWithKey(connectionString);
 }
 
 let clientId = 0;

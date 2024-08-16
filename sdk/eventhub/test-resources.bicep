@@ -168,6 +168,52 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
   }
 }
 
+resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' = {
+  name: '${baseName}-kv'
+  location: location
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    tenantId: subscription().tenantId
+    accessPolicies: [
+      {
+        tenantId: subscription().tenantId
+        objectId: testApplicationOid
+        permissions: {
+          secrets: [
+            'get'
+            'list'
+            'set'
+          ]
+        }
+      }
+    ]
+  }
+  dependsOn: [
+    eventHubAuthorizationRule
+    storageAccount
+    iotHub
+  ]
+}
+
+resource eventHubConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  name: 'eventhub-connection-string'
+  properties: {
+    value: listKeys(eventHubAuthorizationRule.id, apiVersion).primaryConnectionString
+  }
+  parent: keyVault
+}
+
+resource iotHubConnectionStringSecret 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
+  name: 'iothub-connection-string'
+  properties: {
+    value: 'HostName=${iotHub.properties.hostName};SharedAccessKeyName=iothubowner;SharedAccessKey=${listKeys(iotHub.id, iotApiVersion).value[0].primaryKey}'
+  }
+  parent: keyVault
+}
+
 resource eventHubsDataOwnerRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid('dataOwnerRoleId', baseName)
   dependsOn: [
@@ -221,6 +267,6 @@ output STORAGE_ACCOUNT_NAME string = storageAccountName
 output STORAGE_ENDPOINT string = storageAccount.properties.primaryEndpoints.blob
 output STORAGE_CONTAINER_NAME string = containerName
 output STORAGE_CONTAINER_URL string = '${storageAccount.properties.primaryEndpoints.blob}${containerName}'
-// connection strings
-output EVENTHUB_CONNECTION_STRING string = listKeys(eventHubAuthorizationRule.id, apiVersion).primaryConnectionString
-output IOTHUB_CONNECTION_STRING string = 'HostName=${iotHub.properties.hostName};SharedAccessKeyName=iothubowner;SharedAccessKey=${listKeys(iotHub.id, iotApiVersion).value[0].primaryKey}'
+output KEYVAULT_URI string = keyVault.properties.vaultUri
+output EVENTHUB_CONNECTION_STRING_NAME string = eventHubConnectionStringSecret.name
+output IOTHUB_CONNECTION_STRING_NAME string = iotHubConnectionStringSecret.name

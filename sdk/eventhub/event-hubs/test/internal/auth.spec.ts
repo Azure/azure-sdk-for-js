@@ -30,7 +30,7 @@ function getCredential(client: EventHubConsumerClient | EventHubProducerClient):
   return (cred as any)["_credential"];
 }
 
-describe.skipIf(!getConnectionStringWithKey())("Authentication via", function () {
+describe("Authentication via", function () {
   let client: EventHubConsumerClient | EventHubProducerClient;
   let connectionString: string;
   afterEach(async function () {
@@ -44,11 +44,7 @@ describe.skipIf(!getConnectionStringWithKey())("Authentication via", function ()
     let sharedAccessKey: string;
 
     beforeAll(async function () {
-      const curConnectionString = getConnectionStringWithKey();
-      if (!curConnectionString) {
-        assert.fail("Connection string is not available in the environment.");
-      }
-      connectionString = curConnectionString;
+      connectionString = await getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
       if (!t1 || !t2) {
@@ -107,11 +103,7 @@ describe.skipIf(!getConnectionStringWithKey())("Authentication via", function ()
     let sharedAccessSignature: string;
 
     beforeEach(async function () {
-      const curConnectionString = await getConnectionStringWithSAS();
-      if (!curConnectionString) {
-        assert.fail("Connection string is not available in the environment.");
-      }
-      connectionString = curConnectionString;
+      connectionString = await getConnectionStringWithSAS();
       const { sharedAccessSignature: t } = parseEventHubConnectionString(connectionString);
       if (!t) {
         assert.fail("Failed to parse connection string.");
