@@ -75,7 +75,7 @@ steps:
 
       foreach ($artifact in $packageProperties)
       {
-        $artifactInfo = Get-Content $artifact | ConvertFrom-Json
+        $artifactInfo = Get-Content "$artifact.json" | ConvertFrom-Json
         $service = $artifactInfo.ServiceDirectory
 
         Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
