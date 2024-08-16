@@ -160,7 +160,7 @@ function tryGetPkgRelativePath(absolutePath) {
   return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
-const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs] || serviceDirs.split(' ').length > 1;
+const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs];
 if (isReducedTestScopeEnabled) {
   // If a service is configured to have reduced test matrix then run rush for those reduced projects
   console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
@@ -168,10 +168,8 @@ if (isReducedTestScopeEnabled) {
 }
 const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
-  console.log("servicedirs = 0");
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
-  console.log("multiple service dirs");
   const actionComponents = action.toLowerCase().split(":");
   switch (actionComponents[0]) {
     case "build":
@@ -179,7 +177,7 @@ if (serviceDirs.length === 0) {
       // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
       // if this is build:test for any non-configured package service then all impacted projects downstream and it's dependents should be built
       var rushCommandFlag = "--impacted-by";
-      if (isReducedTestScopeEnabled) {
+      if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
         // reduced preconfigured set of projects and it's required projects
         rushCommandFlag = "--to";
       }
