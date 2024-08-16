@@ -75,10 +75,13 @@ steps:
 
       foreach ($artifact in $packageProperties)
       {
+        $artifactInfo = Get-Content $artifact | ConvertFrom-Json
+        $service = $artifactInfo.ServiceDirectory
+
         Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
         New-Item -Type Directory -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
+        Copy-Item sdk/$service/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
+        Copy-Item sdk/$service/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
         if ($${{ parameters.IncludeRelease }} -eq $true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
