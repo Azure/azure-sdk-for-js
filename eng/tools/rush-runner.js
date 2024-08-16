@@ -150,8 +150,8 @@ function rushRunAll(direction, packages) {
 /**
  * Helper function to get the relative path of a package directory from an absolute
  * one
- * 
- * @param {string} absolutePath absolute path to a package 
+ *
+ * @param {string} absolutePath absolute path to a package
  * @returns either the relative path of the package starting from the "sdk" directory
  *          or the just the absolute path itself if "sdk" if not found
  */
@@ -160,7 +160,7 @@ function tryGetPkgRelativePath(absolutePath) {
   return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
-const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs];
+const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs] || serviceDirs.split(' ').length > 1;
 if (isReducedTestScopeEnabled) {
   // If a service is configured to have reduced test matrix then run rush for those reduced projects
   console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
@@ -168,8 +168,10 @@ if (isReducedTestScopeEnabled) {
 }
 const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
+  console.log("servicedirs = 0");
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
+  console.log("multiple service dirs");
   const actionComponents = action.toLowerCase().split(":");
   switch (actionComponents[0]) {
     case "build":
