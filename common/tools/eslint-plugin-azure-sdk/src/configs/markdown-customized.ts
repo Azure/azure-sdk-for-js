@@ -11,7 +11,7 @@ const markdownConfigs: FlatConfig.ConfigArray = [
   },
   {
     name: "markdown-js-azsdk-customized",
-    files: ["*.md/*.js"],
+    files: ["*.md/*.js", "*/*/*.md/*.js"],
     languageOptions: {
       parserOptions: {
         project: true,
@@ -40,7 +40,7 @@ const markdownConfigs: FlatConfig.ConfigArray = [
   },
   {
     name: "markdown-ts-azsdk-customized",
-    files: ["*.md/*.ts"],
+    files: ["*.md/*.ts", "*/*/*.md/*.ts"],
     languageOptions: {
       parserOptions: {
         project: true,
