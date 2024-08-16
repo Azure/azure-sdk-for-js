@@ -29,7 +29,7 @@
     "review/*",
     "CHANGELOG.md"
   ],
-  "sdk-type": "mgmt",
+  "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

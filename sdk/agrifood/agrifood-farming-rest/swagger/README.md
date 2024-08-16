@@ -5,7 +5,8 @@
 ## Configuration
 
 ```yaml
-flavor: azure 
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/agrifood-farming"
 title: FarmBeats
 description: Azure FarmBeats Service
