@@ -459,10 +459,10 @@ export interface RenderGetMapStaticImageQueryParamProperties {
     center?: Array<number>;
     height?: number;
     language?: string;
-    layer?: "basic" | "hybrid" | "labels";
-    path?: string;
-    pins?: string;
-    style?: "main" | "dark";
+    path?: Array<string>;
+    pins?: Array<string>;
+    tilesetId?: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
+    trafficLayer?: "microsoft.traffic.relative.main" | "none";
     view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
     width?: number;
     zoom?: number;
@@ -548,7 +548,7 @@ export interface Routes {
     (path: "/map/attribution"): GetMapAttribution;
     (path: "/map/statetile"): GetMapStateTile;
     (path: "/map/copyright/caption/{format}", format: "json" | "xml"): GetCopyrightCaption;
-    (path: "/map/static/{format}", format: "png"): GetMapStaticImage;
+    (path: "/map/static"): GetMapStaticImage;
     (path: "/map/copyright/bounding/{format}", format: "json" | "xml"): GetCopyrightFromBoundingBox;
     (path: "/map/copyright/tile/{format}", format: "json" | "xml"): GetCopyrightForTile;
     (path: "/map/copyright/world/{format}", format: "json" | "xml"): GetCopyrightForWorld;
