@@ -579,8 +579,8 @@ export function verifyDiagnostics(
   diagnostics: CosmosDiagnostics,
   encryptOperation: boolean = true,
   decryptOperation: boolean = true,
-  expectedPropertiesEncryptedCount: number = 12,
-  expectedPropertiesDecryptedCount: number = 12,
+  expectedPropertiesEncryptedCount?: number,
+  expectedPropertiesDecryptedCount?: number,
 ): void {
   assert.isNotNull(diagnostics);
   const encryptionDiagnostics = diagnostics.clientSideRequestStatistics.encryptionDiagnostics;

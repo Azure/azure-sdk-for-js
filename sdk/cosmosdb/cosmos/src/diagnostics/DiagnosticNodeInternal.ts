@@ -288,7 +288,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   /**
    * @internal
    */
-  public endEncryptionDiagnostics(operation: string, propertiesCount: number): void {
+  public endEncryptionDiagnostics(operation: string, propertiesCount?: number): void {
     const endTime = getCurrentTimestampInMs();
     let processingDuration = 0;
     switch (operation) {
@@ -298,19 +298,25 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
           this.encryptionDiagnostics.encryptContent[Constants.Encryption.DiagnosticsStartTime];
         this.encryptionDiagnostics.encryptContent[Constants.Encryption.DiagnosticsDuration] =
           processingDuration;
-        this.encryptionDiagnostics.encryptContent[
-          Constants.Encryption.DiagnosticsPropertiesEncryptedCount
-        ] = propertiesCount;
+        // will be undefined in case of bulk/batch
+        if (propertiesCount !== undefined) {
+          this.encryptionDiagnostics.encryptContent[
+            Constants.Encryption.DiagnosticsPropertiesEncryptedCount
+          ] = propertiesCount;
+        }
         break;
+
       case Constants.Encryption.DiagnosticsDecryptOperation:
         processingDuration =
           endTime -
           this.encryptionDiagnostics.decryptContent[Constants.Encryption.DiagnosticsStartTime];
         this.encryptionDiagnostics.decryptContent[Constants.Encryption.DiagnosticsDuration] =
           processingDuration;
-        this.encryptionDiagnostics.decryptContent[
-          Constants.Encryption.DiagnosticsPropertiesDecryptedCount
-        ] = propertiesCount;
+        if (propertiesCount !== undefined) {
+          this.encryptionDiagnostics.decryptContent[
+            Constants.Encryption.DiagnosticsPropertiesDecryptedCount
+          ] = propertiesCount;
+        }
         break;
       default:
         throw new ErrorResponse("Invalid operation type for encryption diagnostics");

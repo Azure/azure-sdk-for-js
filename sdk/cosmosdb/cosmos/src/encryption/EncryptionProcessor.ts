@@ -32,12 +32,14 @@ export class EncryptionProcessor {
 
   async encrypt<T extends ItemDefinition>(
     body: T,
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticNode?: DiagnosticNodeInternal,
   ): Promise<T> {
     if (!body) {
       throw new ErrorResponse("Input body is null or undefined.");
     }
-    diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+    if (diagnosticNode !== undefined) {
+      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+    }
     let propertiesEncryptedCount = 0;
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return body;
@@ -58,10 +60,12 @@ export class EncryptionProcessor {
       );
       propertiesEncryptedCount++;
     }
-    diagnosticNode.endEncryptionDiagnostics(
-      Constants.Encryption.DiagnosticsEncryptOperation,
-      propertiesEncryptedCount,
-    );
+    if (diagnosticNode !== undefined) {
+      diagnosticNode.endEncryptionDiagnostics(
+        Constants.Encryption.DiagnosticsEncryptOperation,
+        propertiesEncryptedCount,
+      );
+    }
     return body;
   }
 
@@ -214,12 +218,14 @@ export class EncryptionProcessor {
 
   async decrypt<T extends ItemDefinition>(
     body: T,
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticNode?: DiagnosticNodeInternal,
   ): Promise<T> {
     if (body == null) {
       return body;
     }
-    diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+    if (diagnosticNode !== undefined) {
+      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+    }
     let propertiesDecryptedCount = 0;
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return body;
@@ -240,10 +246,12 @@ export class EncryptionProcessor {
       );
       propertiesDecryptedCount++;
     }
-    diagnosticNode.endEncryptionDiagnostics(
-      Constants.Encryption.DiagnosticsDecryptOperation,
-      propertiesDecryptedCount,
-    );
+    if (diagnosticNode !== undefined) {
+      diagnosticNode.endEncryptionDiagnostics(
+        Constants.Encryption.DiagnosticsDecryptOperation,
+        propertiesDecryptedCount,
+      );
+    }
     return body;
   }
 

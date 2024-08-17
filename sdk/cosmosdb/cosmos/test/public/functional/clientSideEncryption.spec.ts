@@ -298,6 +298,7 @@ describe("Client Side Encryption", () => {
     ];
 
     const response = await encryptionContainerWithBulk.items.bulk(operations);
+    verifyDiagnostics(response.diagnostics, true, true, undefined, undefined);
     assert.equal(StatusCodes.Created, response[0].statusCode);
     verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
     assert.equal(StatusCodes.Created, response[1].statusCode);
@@ -656,7 +657,7 @@ describe("Client Side Encryption", () => {
     ];
 
     const response = await encryptionContainer.items.batch(operations, partitionKey);
-    // Todo: verifyDiagnostics
+    verifyDiagnostics(response.diagnostics, true, true, undefined, undefined);
     assert.equal(StatusCodes.Ok, response.code);
 
     const doc1 = response.result[0];
@@ -859,7 +860,7 @@ describe("Client Side Encryption", () => {
       docPostPatching,
       StatusCodes.Ok,
     );
-    verifyDiagnostics(patchResponse.diagnostics, true, true, 6);
+    verifyDiagnostics(patchResponse.diagnostics, true, true, 6, 12);
     patchOperations = [
       {
         op: PatchOperationType.incr,
@@ -1945,25 +1946,25 @@ describe("Client Side Encryption", () => {
 
   it("encryption diagnostics test", async () => {
     const createResponse = await testCreateItem(encryptionContainer);
-    verifyDiagnostics(createResponse.diagnostics);
+    verifyDiagnostics(createResponse.diagnostics, true, true, 12, 12);
 
     const testDoc = new TestDoc(createResponse.resource);
 
     const readResponse = await encryptionContainer.item(testDoc.id, testDoc.PK).read();
-    verifyDiagnostics(readResponse.diagnostics, false, true);
+    verifyDiagnostics(readResponse.diagnostics, false, true, undefined, 12);
 
     const testDoc1 = TestDoc.create();
     testDoc1.nonsensitive = randomUUID();
     testDoc1.sensitive_StringFormat = randomUUID();
     const upsertResponse = await testUpsertItem(encryptionContainer, testDoc1, StatusCodes.Created);
     const upsertedDoc = new TestDoc(upsertResponse.resource);
-    verifyDiagnostics(upsertResponse.diagnostics);
+    verifyDiagnostics(upsertResponse.diagnostics, true, true, 12, 12);
 
     upsertedDoc.nonsensitive = randomUUID();
     upsertedDoc.sensitive_StringFormat = randomUUID();
 
     const replaceResponse = await testReplaceItem(encryptionContainer, upsertedDoc);
-    verifyDiagnostics(replaceResponse.diagnostics);
+    verifyDiagnostics(replaceResponse.diagnostics, true, true, 12, 12);
   });
 
   it("validate caching of protected dek", async () => {

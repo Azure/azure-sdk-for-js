@@ -6,6 +6,7 @@ import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import {
   addContainerRid,
+  Constants,
   copyObject,
   getIdFromLink,
   getPathFromLink,
@@ -668,12 +669,15 @@ export class Items {
           DiagnosticNodeType.BATCH_REQUEST,
         );
         if (this.clientContext.enableEncryption) {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
           for (const result of response.result) {
             result.resourceBody = await this.container.encryptionProcessor.decrypt(
               result.resourceBody,
-              diagnosticNode,
             );
           }
+          diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
         }
         response.result.forEach((operationResponse: OperationResponse, index: number) => {
           orderedResponses[batch.indexes[index]] = operationResponse;
@@ -883,14 +887,17 @@ export class Items {
         });
 
         if (this.clientContext.enableEncryption) {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
           for (const result of response.result) {
             if (result.resourceBody) {
               result.resourceBody = await this.container.encryptionProcessor.decrypt(
                 result.resourceBody,
-                diagnosticNode,
               );
             }
           }
+          diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
         }
 
         return response;
@@ -907,6 +914,7 @@ export class Items {
     operations: OperationInput[],
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<OperationInput[]> {
+    diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
     for (const operation of operations) {
       if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
         const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
@@ -920,7 +928,6 @@ export class Items {
         case BulkOperationType.Upsert:
           operation.resourceBody = await this.container.encryptionProcessor.encrypt(
             operation.resourceBody,
-            diagnosticNode,
           );
           break;
         case BulkOperationType.Read:
@@ -931,7 +938,6 @@ export class Items {
           operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
           operation.resourceBody = await this.container.encryptionProcessor.encrypt(
             operation.resourceBody,
-            diagnosticNode,
           );
           break;
         case BulkOperationType.Patch:
@@ -949,6 +955,7 @@ export class Items {
           break;
       }
     }
+    diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
     return operations;
   }
 }
