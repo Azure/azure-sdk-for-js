@@ -63,10 +63,10 @@ npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node dist/getI
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/typescript/getTimezoneById.ts
-[getTimezoneByCoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/typescript/getTimezoneByCoordinates.ts
-[getWindowsTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/typescript/getWindowsTimezoneIds.ts
-[getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/typescript/getIanaTimezoneIds.ts
-[getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/typescript/getIanaVersion.ts
-[convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/typescript/convertWindowsToIana.ts
+[getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/getTimezoneById.ts
+[getTimezoneByCoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/getTimezoneByCoordinates.ts
+[getWindowsTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/getWindowsTimezoneIds.ts
+[getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/getIanaTimezoneIds.ts
+[getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/getIanaVersion.ts
+[convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/typescript/convertWindowsToIana.ts
 

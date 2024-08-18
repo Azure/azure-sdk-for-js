@@ -51,9 +51,9 @@ npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getIanaVe
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/javascript/getTimezoneById.js
-[getTimezoneByCoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/javascript/getTimezoneByCoordinates.js
-[getWindowsTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/javascript/getWindowsTimezoneIds.js
-[getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/javascript/getIanaTimezoneIds.js
-[getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/javascript/getIanaVersion.js
-[convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v2-beta/javascript/convertWindowsToIana.js
+[getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getTimezoneById.js
+[getTimezoneByCoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getTimezoneByCoordinates.js
+[getWindowsTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getWindowsTimezoneIds.js
+[getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaTimezoneIds.js
+[getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaVersion.js
+[convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/convertWindowsToIana.js
