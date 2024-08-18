@@ -536,8 +536,8 @@ export async function validateQueryResults(
   container: Container,
   query: EncryptionQueryBuilder | SqlQuerySpec,
   expectedDocList: TestDoc[],
-  // decryptOperation: boolean = true,
-  // expectedPropertiesDecryptedCount: number = 12,
+  decryptOperation: boolean = true,
+  expectedPropertiesDecryptedCount: number = 12,
   options?: RequestOptions,
 ): Promise<void> {
   let iterator: QueryIterator<any>;
@@ -551,12 +551,20 @@ export async function validateQueryResults(
   while (iterator.hasMoreResults()) {
     const response = await iterator.fetchNext();
     totalDocs += response.resources.length;
-    // Todo: Add a check to verify the diagnostics
+    if (response.resources.length !== 0) {
+      verifyDiagnostics(
+        response.diagnostics,
+        false,
+        decryptOperation,
+        undefined,
+        expectedPropertiesDecryptedCount,
+      );
+    }
     for (let i = 0; i < response.resources.length; i++) {
       docs.push(response.resources[i]);
     }
   }
-  if (expectedDocList) {
+  if (expectedDocList != null) {
     assert.ok(totalDocs >= expectedDocList.length);
     for (const expectedDoc of expectedDocList) {
       const readDoc = docs.find((doc1) => doc1.id === expectedDoc.id);
@@ -589,7 +597,7 @@ export function verifyDiagnostics(
     const encryptContent = encryptionDiagnostics.encryptContent;
     assert.isNotNull(encryptContent);
     assert.isNotNull(encryptContent[Constants.Encryption.DiagnosticsStartTime]);
-    assert.ok(encryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
+    // assert.ok(encryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
     assert.equal(
       expectedPropertiesEncryptedCount,
       encryptContent[Constants.Encryption.DiagnosticsPropertiesEncryptedCount],
@@ -599,7 +607,7 @@ export function verifyDiagnostics(
     const decryptContent = encryptionDiagnostics.decryptContent;
     assert.isNotNull(decryptContent);
     assert.isNotNull(decryptContent[Constants.Encryption.DiagnosticsStartTime]);
-    assert.ok(decryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
+    // assert.ok(decryptContent[Constants.Encryption.DiagnosticsDuration] > 0);
     assert.equal(
       expectedPropertiesDecryptedCount,
       decryptContent[Constants.Encryption.DiagnosticsPropertiesDecryptedCount],

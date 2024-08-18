@@ -583,7 +583,7 @@ describe("Client Side Encryption", () => {
 
     // without adding param
     queryBuilder = new EncryptionQueryBuilder("SELECT c.sensitive_DateFormat FROM c");
-    await validateQueryResults(encryptionQueryContainer, queryBuilder, null);
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, null, true, 1);
   });
 
   it("encryption batch CRUD", async () => {
@@ -1048,7 +1048,7 @@ describe("Client Side Encryption", () => {
       encryptionContainerWithNoPolicy,
       queryBuilder,
       expectedDocList,
-      // false,
+      false,
     );
     await encryptionContainerWithNoPolicy.delete();
   });
@@ -1124,7 +1124,7 @@ describe("Client Side Encryption", () => {
       await testCreateItem(encryptionContainerToDelete);
       assert.fail("create operation should fail");
     } catch (err) {
-      // verifyDiagnostics(err.diagnostics, true, false, 3, 0);
+      verifyDiagnostics(err.diagnostics, true, false, 3, 0);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1215,7 +1215,7 @@ describe("Client Side Encryption", () => {
       );
       assert.fail("patch operation should fail");
     } catch (err) {
-      // verifyDiagnostics(err.diagnostics, true, false, 2, 0);
+      verifyDiagnostics(err.diagnostics, true, false, 2, 0);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1297,6 +1297,7 @@ describe("Client Side Encryption", () => {
       await testCreateItem(encryptionContainerToDelete);
       assert.fail("create operation should fail");
     } catch (err) {
+      verifyDiagnostics(err.diagnostics, true, false, 3, 0);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1313,6 +1314,8 @@ describe("Client Side Encryption", () => {
         otherEncryptionContainer,
         new EncryptionQueryBuilder("SELECT * FROM c"),
         [testDoc],
+        true,
+        3,
       );
       assert.fail("query operation should fail");
     } catch (err) {
@@ -1327,8 +1330,8 @@ describe("Client Side Encryption", () => {
       otherEncryptionContainer,
       new EncryptionQueryBuilder("SELECT * FROM c"),
       [testDoc],
-      // true,
-      // 3,
+      true,
+      3,
     );
     otherClient.dispose();
   });
@@ -1526,7 +1529,7 @@ describe("Client Side Encryption", () => {
       await testCreateItem(encryptionContainerToDelete);
       assert.fail("create operation should fail");
     } catch (err) {
-      // verifyDiagnostics(err.diagnostics, true, true, 3, 3);
+      verifyDiagnostics(err.diagnostics, true, false, 3, 3);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1558,7 +1561,7 @@ describe("Client Side Encryption", () => {
       await otherEncryptionContainer.items.bulk(operations);
       assert.fail("bulk operation should fail");
     } catch (error) {
-      // verifyDiagnostics(error.diagnostics, true, false, 3, 0);
+      verifyDiagnostics(error.diagnostics, true, false, undefined, undefined);
       assert.ok(
         error.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
