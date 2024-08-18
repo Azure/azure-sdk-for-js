@@ -1,5 +1,10 @@
 {
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": { "outDir": "./dist-esm", "declarationDir": "./types" },
-  "include": ["src/**/*.ts", "./test/**/*.ts"]
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": { "@azure-rest/maps-timezone": ["./src/index"] },
+    "lib": ["DOM"]
+  },
+  "include": ["src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]
 }
