@@ -678,6 +678,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/maps-timezone",
+      "projectFolder": "sdk/maps/maps-timezone-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/maps-geolocation",
       "projectFolder": "sdk/maps/maps-geolocation-rest",
       "versionPolicyName": "client"
