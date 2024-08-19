@@ -337,12 +337,29 @@ export interface CommunicationIdentifierModel {
   microsoftTeamsApp: MicrosoftTeamsAppIdentifierModel;
 }
 
-/** Communication model identifier kind */
-export type CommunicationIdentifierModelKind =
-  | "unknown"
-  | "communicationUser"
-  | "phoneNumber"
-  | "microsoftTeamsUser";
+/** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
+export enum KnownCommunicationIdentifierModelKind {
+  /** unknown */
+  unknown = "unknown",
+  /** communicationUser */
+  communicationUser = "communicationUser",
+  /** phoneNumber */
+  phoneNumber = "phoneNumber",
+  /** microsoftTeamsUser */
+  microsoftTeamsUser = "microsoftTeamsUser",
+}
+
+/**
+ * Communication model identifier kind \
+ * {@link KnownCommunicationIdentifierModelKind} can be used interchangeably with CommunicationIdentifierModelKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown** \
+ * **communicationUser** \
+ * **phoneNumber** \
+ * **microsoftTeamsUser**
+ */
+export type CommunicationIdentifierModelKind = string;
 
 /** A user that got created with an Azure Communication Services resource. */
 export interface CommunicationUserIdentifierModel {
@@ -366,8 +383,26 @@ export interface MicrosoftTeamsUserIdentifierModel {
   cloud: CommunicationCloudEnvironmentModel;
 }
 
-/** Communication cloud environment model. */
-export type CommunicationCloudEnvironmentModel = "public" | "dod" | "gcch";
+/** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
+export enum KnownCommunicationCloudEnvironmentModel {
+  /** public */
+  "public" = "public",
+  /** dod */
+  dod = "dod",
+  /** gcch */
+  gcch = "gcch",
+}
+
+/**
+ * Communication cloud environment model. \
+ * {@link KnownCommunicationCloudEnvironmentModel} can be used interchangeably with CommunicationCloudEnvironmentModel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **public** \
+ * **dod** \
+ * **gcch**
+ */
+export type CommunicationCloudEnvironmentModel = string;
 
 /** A Microsoft Teams application. */
 export interface MicrosoftTeamsAppIdentifierModel {
@@ -706,12 +741,62 @@ export interface AcsRecordingChunkInfo {
   deleteLocation?: string;
 }
 
-/** Recording content type */
-export type RecordingContentType = "AudioVideo" | "Audio";
-/** Recording channel type */
-export type RecordingChannelType = "Mixed" | "Unmixed";
-/** Recording format type */
-export type RecordingFormatType = "Wav" | "Mp3" | "Mp4";
+/** Known values of {@link RecordingContentType} that the service accepts. */
+export enum KnownRecordingContentType {
+  /** AudioVideo */
+  AudioVideo = "AudioVideo",
+  /** Audio */
+  Audio = "Audio",
+}
+
+/**
+ * Recording content type \
+ * {@link KnownRecordingContentType} can be used interchangeably with RecordingContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AudioVideo** \
+ * **Audio**
+ */
+export type RecordingContentType = string;
+
+/** Known values of {@link RecordingChannelType} that the service accepts. */
+export enum KnownRecordingChannelType {
+  /** Mixed */
+  Mixed = "Mixed",
+  /** Unmixed */
+  Unmixed = "Unmixed",
+}
+
+/**
+ * Recording channel type \
+ * {@link KnownRecordingChannelType} can be used interchangeably with RecordingChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Mixed** \
+ * **Unmixed**
+ */
+export type RecordingChannelType = string;
+
+/** Known values of {@link RecordingFormatType} that the service accepts. */
+export enum KnownRecordingFormatType {
+  /** Wav */
+  Wav = "Wav",
+  /** Mp3 */
+  Mp3 = "Mp3",
+  /** Mp4 */
+  Mp4 = "Mp4",
+}
+
+/**
+ * Recording format type \
+ * {@link KnownRecordingFormatType} can be used interchangeably with RecordingFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Wav** \
+ * **Mp3** \
+ * **Mp4**
+ */
+export type RecordingFormatType = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
 export interface AcsEmailDeliveryReportReceivedEventData {
@@ -729,14 +814,35 @@ export interface AcsEmailDeliveryReportReceivedEventData {
   deliveryAttemptTimestamp: Date;
 }
 
-/** The status of the email. Any value other than Delivered is considered failed. */
-export type AcsEmailDeliveryReportStatus =
-  | "Bounced"
-  | "Delivered"
-  | "Failed"
-  | "FilteredSpam"
-  | "Quarantined"
-  | "Suppressed";
+/** Known values of {@link AcsEmailDeliveryReportStatus} that the service accepts. */
+export enum KnownAcsEmailDeliveryReportStatus {
+  /** Bounced */
+  Bounced = "Bounced",
+  /** Delivered */
+  Delivered = "Delivered",
+  /** Failed */
+  Failed = "Failed",
+  /** FilteredSpam */
+  FilteredSpam = "FilteredSpam",
+  /** Quarantined */
+  Quarantined = "Quarantined",
+  /** Suppressed */
+  Suppressed = "Suppressed",
+}
+
+/**
+ * The status of the email. Any value other than Delivered is considered failed. \
+ * {@link KnownAcsEmailDeliveryReportStatus} can be used interchangeably with AcsEmailDeliveryReportStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Bounced** \
+ * **Delivered** \
+ * **Failed** \
+ * **FilteredSpam** \
+ * **Quarantined** \
+ * **Suppressed**
+ */
+export type AcsEmailDeliveryReportStatus = string;
 
 /** Detailed information about the status if any */
 export interface AcsEmailDeliveryReportStatusDetails {
@@ -762,8 +868,23 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
   engagement: AcsUserEngagement;
 }
 
-/** The type of engagement user have with email. */
-export type AcsUserEngagement = "view" | "click";
+/** Known values of {@link AcsUserEngagement} that the service accepts. */
+export enum KnownAcsUserEngagement {
+  /** view */
+  view = "view",
+  /** click */
+  click = "click",
+}
+
+/**
+ * The type of engagement user have with email. \
+ * {@link KnownAcsUserEngagement} can be used interchangeably with AcsUserEngagement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **view** \
+ * **click**
+ */
+export type AcsUserEngagement = string;
 
 /** Schema of common properties of all Router events */
 export interface AcsRouterEventData {
@@ -853,16 +974,53 @@ export interface AcsRouterWorkerSelector {
   expirationTime: Date;
 }
 
-/** Router Job Worker Selector Label Operator */
-export type AcsRouterLabelOperator =
-  | "Equal"
-  | "NotEqual"
-  | "Greater"
-  | "Less"
-  | "GreaterThanOrEqual"
-  | "LessThanOrEqual";
-/** Router Worker Selector State */
-export type AcsRouterWorkerSelectorState = "active" | "expired";
+/** Known values of {@link AcsRouterLabelOperator} that the service accepts. */
+export enum KnownAcsRouterLabelOperator {
+  /** Equal */
+  Equal = "Equal",
+  /** NotEqual */
+  NotEqual = "NotEqual",
+  /** Greater */
+  Greater = "Greater",
+  /** Less */
+  Less = "Less",
+  /** GreaterThanOrEqual */
+  GreaterThanOrEqual = "GreaterThanOrEqual",
+  /** LessThanOrEqual */
+  LessThanOrEqual = "LessThanOrEqual",
+}
+
+/**
+ * Router Job Worker Selector Label Operator \
+ * {@link KnownAcsRouterLabelOperator} can be used interchangeably with AcsRouterLabelOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equal** \
+ * **NotEqual** \
+ * **Greater** \
+ * **Less** \
+ * **GreaterThanOrEqual** \
+ * **LessThanOrEqual**
+ */
+export type AcsRouterLabelOperator = string;
+
+/** Known values of {@link AcsRouterWorkerSelectorState} that the service accepts. */
+export enum KnownAcsRouterWorkerSelectorState {
+  /** active */
+  active = "active",
+  /** expired */
+  expired = "expired",
+}
+
+/**
+ * Router Worker Selector State \
+ * {@link KnownAcsRouterWorkerSelectorState} can be used interchangeably with AcsRouterWorkerSelectorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **active** \
+ * **expired**
+ */
+export type AcsRouterWorkerSelectorState = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClosed event */
 export interface AcsRouterJobClosedEventData extends AcsRouterJobEventData {
@@ -919,20 +1077,53 @@ export interface AcsRouterJobReceivedEventData extends AcsRouterJobEventData {
   unavailableForMatching: boolean;
 }
 
-/** Acs Router Job Status */
-export type AcsRouterJobStatus =
-  | "PendingClassification"
-  | "Queued"
-  | "Assigned"
-  | "Completed"
-  | "Closed"
-  | "Cancelled"
-  | "ClassificationFailed"
-  | "Created"
-  | "PendingSchedule"
-  | "Scheduled"
-  | "ScheduleFailed"
-  | "WaitingForActivation";
+/** Known values of {@link AcsRouterJobStatus} that the service accepts. */
+export enum KnownAcsRouterJobStatus {
+  /** PendingClassification */
+  PendingClassification = "PendingClassification",
+  /** Queued */
+  Queued = "Queued",
+  /** Assigned */
+  Assigned = "Assigned",
+  /** Completed */
+  Completed = "Completed",
+  /** Closed */
+  Closed = "Closed",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** ClassificationFailed */
+  ClassificationFailed = "ClassificationFailed",
+  /** Created */
+  Created = "Created",
+  /** PendingSchedule */
+  PendingSchedule = "PendingSchedule",
+  /** Scheduled */
+  Scheduled = "Scheduled",
+  /** ScheduleFailed */
+  ScheduleFailed = "ScheduleFailed",
+  /** WaitingForActivation */
+  WaitingForActivation = "WaitingForActivation",
+}
+
+/**
+ * Acs Router Job Status \
+ * {@link KnownAcsRouterJobStatus} can be used interchangeably with AcsRouterJobStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PendingClassification** \
+ * **Queued** \
+ * **Assigned** \
+ * **Completed** \
+ * **Closed** \
+ * **Cancelled** \
+ * **ClassificationFailed** \
+ * **Created** \
+ * **PendingSchedule** \
+ * **Scheduled** \
+ * **ScheduleFailed** \
+ * **WaitingForActivation**
+ */
+export type AcsRouterJobStatus = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobSchedulingFailed event */
 export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
@@ -1103,14 +1294,35 @@ export interface AcsRouterWorkerUpdatedEventData {
   updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
-/** Worker properties that can be updated */
-export type AcsRouterUpdatedWorkerProperty =
-  | "AvailableForOffers"
-  | "TotalCapacity"
-  | "QueueAssignments"
-  | "Labels"
-  | "Tags"
-  | "ChannelConfigurations";
+/** Known values of {@link AcsRouterUpdatedWorkerProperty} that the service accepts. */
+export enum KnownAcsRouterUpdatedWorkerProperty {
+  /** AvailableForOffers */
+  AvailableForOffers = "AvailableForOffers",
+  /** TotalCapacity */
+  TotalCapacity = "TotalCapacity",
+  /** QueueAssignments */
+  QueueAssignments = "QueueAssignments",
+  /** Labels */
+  Labels = "Labels",
+  /** Tags */
+  Tags = "Tags",
+  /** ChannelConfigurations */
+  ChannelConfigurations = "ChannelConfigurations",
+}
+
+/**
+ * Worker properties that can be updated \
+ * {@link KnownAcsRouterUpdatedWorkerProperty} can be used interchangeably with AcsRouterUpdatedWorkerProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AvailableForOffers** \
+ * **TotalCapacity** \
+ * **QueueAssignments** \
+ * **Labels** \
+ * **Tags** \
+ * **ChannelConfigurations**
+ */
+export type AcsRouterUpdatedWorkerProperty = string;
 
 /** Schema of common properties of all chat thread events */
 export interface AcsMessageEventData {
@@ -1142,16 +1354,50 @@ export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEven
   channelKind: AcsMessageChannelKind;
 }
 
-/** Message delivery status */
-export type AcsMessageDeliveryStatus =
-  | "read"
-  | "delivered"
-  | "failed"
-  | "sent"
-  | "warning"
-  | "unknown";
-/** Message channel kind */
-export type AcsMessageChannelKind = "whatsapp";
+/** Known values of {@link AcsMessageDeliveryStatus} that the service accepts. */
+export enum KnownAcsMessageDeliveryStatus {
+  /** read */
+  read = "read",
+  /** delivered */
+  delivered = "delivered",
+  /** failed */
+  failed = "failed",
+  /** sent */
+  sent = "sent",
+  /** warning */
+  warning = "warning",
+  /** unknown */
+  unknown = "unknown",
+}
+
+/**
+ * Message delivery status \
+ * {@link KnownAcsMessageDeliveryStatus} can be used interchangeably with AcsMessageDeliveryStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **read** \
+ * **delivered** \
+ * **failed** \
+ * **sent** \
+ * **warning** \
+ * **unknown**
+ */
+export type AcsMessageDeliveryStatus = string;
+
+/** Known values of {@link AcsMessageChannelKind} that the service accepts. */
+export enum KnownAcsMessageChannelKind {
+  /** whatsapp */
+  whatsapp = "whatsapp",
+}
+
+/**
+ * Message channel kind \
+ * {@link KnownAcsMessageChannelKind} can be used interchangeably with AcsMessageChannelKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **whatsapp**
+ */
+export type AcsMessageChannelKind = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
 export interface AcsMessageReceivedEventData extends AcsMessageEventData {
@@ -1207,8 +1453,26 @@ export interface AcsMessageInteractiveContent {
   listReply: AcsMessageInteractiveListReplyContent;
 }
 
-/** Interactive reply kind */
-export type AcsInteractiveReplyKind = "buttonReply" | "listReply" | "unknown";
+/** Known values of {@link AcsInteractiveReplyKind} that the service accepts. */
+export enum KnownAcsInteractiveReplyKind {
+  /** buttonReply */
+  buttonReply = "buttonReply",
+  /** listReply */
+  listReply = "listReply",
+  /** unknown */
+  unknown = "unknown",
+}
+
+/**
+ * Interactive reply kind \
+ * {@link KnownAcsInteractiveReplyKind} can be used interchangeably with AcsInteractiveReplyKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **buttonReply** \
+ * **listReply** \
+ * **unknown**
+ */
+export type AcsInteractiveReplyKind = string;
 
 /** Message Interactive button reply content for a user to business message */
 export interface AcsMessageInteractiveButtonReplyContent {
@@ -1403,8 +1667,26 @@ export interface DataBoxCopyStartedEventData {
   stageTime: Date;
 }
 
-/** Schema of DataBox Stage Name enumeration. */
-export type DataBoxStageName = "CopyStarted" | "CopyCompleted" | "OrderCompleted";
+/** Known values of {@link DataBoxStageName} that the service accepts. */
+export enum KnownDataBoxStageName {
+  /** CopyStarted */
+  CopyStarted = "CopyStarted",
+  /** CopyCompleted */
+  CopyCompleted = "CopyCompleted",
+  /** OrderCompleted */
+  OrderCompleted = "OrderCompleted",
+}
+
+/**
+ * Schema of DataBox Stage Name enumeration. \
+ * {@link KnownDataBoxStageName} can be used interchangeably with DataBoxStageName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CopyStarted** \
+ * **CopyCompleted** \
+ * **OrderCompleted**
+ */
+export type DataBoxStageName = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyCompleted event. */
 export interface DataBoxCopyCompletedEventData {
@@ -1606,169 +1888,500 @@ export interface HealthcareFhirResourceCreatedEventData {
   resourceVersionId?: number;
 }
 
-/** Schema of FHIR resource type enumeration. */
-export type HealthcareFhirResourceType =
-  | "Account"
-  | "ActivityDefinition"
-  | "AdverseEvent"
-  | "AllergyIntolerance"
-  | "Appointment"
-  | "AppointmentResponse"
-  | "AuditEvent"
-  | "Basic"
-  | "Binary"
-  | "BiologicallyDerivedProduct"
-  | "BodySite"
-  | "BodyStructure"
-  | "Bundle"
-  | "CapabilityStatement"
-  | "CarePlan"
-  | "CareTeam"
-  | "CatalogEntry"
-  | "ChargeItem"
-  | "ChargeItemDefinition"
-  | "Claim"
-  | "ClaimResponse"
-  | "ClinicalImpression"
-  | "CodeSystem"
-  | "Communication"
-  | "CommunicationRequest"
-  | "CompartmentDefinition"
-  | "Composition"
-  | "ConceptMap"
-  | "Condition"
-  | "Consent"
-  | "Contract"
-  | "Coverage"
-  | "CoverageEligibilityRequest"
-  | "CoverageEligibilityResponse"
-  | "DataElement"
-  | "DetectedIssue"
-  | "Device"
-  | "DeviceComponent"
-  | "DeviceDefinition"
-  | "DeviceMetric"
-  | "DeviceRequest"
-  | "DeviceUseStatement"
-  | "DiagnosticReport"
-  | "DocumentManifest"
-  | "DocumentReference"
-  | "DomainResource"
-  | "EffectEvidenceSynthesis"
-  | "EligibilityRequest"
-  | "EligibilityResponse"
-  | "Encounter"
-  | "Endpoint"
-  | "EnrollmentRequest"
-  | "EnrollmentResponse"
-  | "EpisodeOfCare"
-  | "EventDefinition"
-  | "Evidence"
-  | "EvidenceVariable"
-  | "ExampleScenario"
-  | "ExpansionProfile"
-  | "ExplanationOfBenefit"
-  | "FamilyMemberHistory"
-  | "Flag"
-  | "Goal"
-  | "GraphDefinition"
-  | "Group"
-  | "GuidanceResponse"
-  | "HealthcareService"
-  | "ImagingManifest"
-  | "ImagingStudy"
-  | "Immunization"
-  | "ImmunizationEvaluation"
-  | "ImmunizationRecommendation"
-  | "ImplementationGuide"
-  | "InsurancePlan"
-  | "Invoice"
-  | "Library"
-  | "Linkage"
-  | "List"
-  | "Location"
-  | "Measure"
-  | "MeasureReport"
-  | "Media"
-  | "Medication"
-  | "MedicationAdministration"
-  | "MedicationDispense"
-  | "MedicationKnowledge"
-  | "MedicationRequest"
-  | "MedicationStatement"
-  | "MedicinalProduct"
-  | "MedicinalProductAuthorization"
-  | "MedicinalProductContraindication"
-  | "MedicinalProductIndication"
-  | "MedicinalProductIngredient"
-  | "MedicinalProductInteraction"
-  | "MedicinalProductManufactured"
-  | "MedicinalProductPackaged"
-  | "MedicinalProductPharmaceutical"
-  | "MedicinalProductUndesirableEffect"
-  | "MessageDefinition"
-  | "MessageHeader"
-  | "MolecularSequence"
-  | "NamingSystem"
-  | "NutritionOrder"
-  | "Observation"
-  | "ObservationDefinition"
-  | "OperationDefinition"
-  | "OperationOutcome"
-  | "Organization"
-  | "OrganizationAffiliation"
-  | "Parameters"
-  | "Patient"
-  | "PaymentNotice"
-  | "PaymentReconciliation"
-  | "Person"
-  | "PlanDefinition"
-  | "Practitioner"
-  | "PractitionerRole"
-  | "Procedure"
-  | "ProcedureRequest"
-  | "ProcessRequest"
-  | "ProcessResponse"
-  | "Provenance"
-  | "Questionnaire"
-  | "QuestionnaireResponse"
-  | "ReferralRequest"
-  | "RelatedPerson"
-  | "RequestGroup"
-  | "ResearchDefinition"
-  | "ResearchElementDefinition"
-  | "ResearchStudy"
-  | "ResearchSubject"
-  | "Resource"
-  | "RiskAssessment"
-  | "RiskEvidenceSynthesis"
-  | "Schedule"
-  | "SearchParameter"
-  | "Sequence"
-  | "ServiceDefinition"
-  | "ServiceRequest"
-  | "Slot"
-  | "Specimen"
-  | "SpecimenDefinition"
-  | "StructureDefinition"
-  | "StructureMap"
-  | "Subscription"
-  | "Substance"
-  | "SubstanceNucleicAcid"
-  | "SubstancePolymer"
-  | "SubstanceProtein"
-  | "SubstanceReferenceInformation"
-  | "SubstanceSourceMaterial"
-  | "SubstanceSpecification"
-  | "SupplyDelivery"
-  | "SupplyRequest"
-  | "Task"
-  | "TerminologyCapabilities"
-  | "TestReport"
-  | "TestScript"
-  | "ValueSet"
-  | "VerificationResult"
-  | "VisionPrescription";
+/** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
+export enum KnownHealthcareFhirResourceType {
+  /** Account */
+  Account = "Account",
+  /** ActivityDefinition */
+  ActivityDefinition = "ActivityDefinition",
+  /** AdverseEvent */
+  AdverseEvent = "AdverseEvent",
+  /** AllergyIntolerance */
+  AllergyIntolerance = "AllergyIntolerance",
+  /** Appointment */
+  Appointment = "Appointment",
+  /** AppointmentResponse */
+  AppointmentResponse = "AppointmentResponse",
+  /** AuditEvent */
+  AuditEvent = "AuditEvent",
+  /** Basic */
+  Basic = "Basic",
+  /** Binary */
+  Binary = "Binary",
+  /** BiologicallyDerivedProduct */
+  BiologicallyDerivedProduct = "BiologicallyDerivedProduct",
+  /** BodySite */
+  BodySite = "BodySite",
+  /** BodyStructure */
+  BodyStructure = "BodyStructure",
+  /** Bundle */
+  Bundle = "Bundle",
+  /** CapabilityStatement */
+  CapabilityStatement = "CapabilityStatement",
+  /** CarePlan */
+  CarePlan = "CarePlan",
+  /** CareTeam */
+  CareTeam = "CareTeam",
+  /** CatalogEntry */
+  CatalogEntry = "CatalogEntry",
+  /** ChargeItem */
+  ChargeItem = "ChargeItem",
+  /** ChargeItemDefinition */
+  ChargeItemDefinition = "ChargeItemDefinition",
+  /** Claim */
+  Claim = "Claim",
+  /** ClaimResponse */
+  ClaimResponse = "ClaimResponse",
+  /** ClinicalImpression */
+  ClinicalImpression = "ClinicalImpression",
+  /** CodeSystem */
+  CodeSystem = "CodeSystem",
+  /** Communication */
+  Communication = "Communication",
+  /** CommunicationRequest */
+  CommunicationRequest = "CommunicationRequest",
+  /** CompartmentDefinition */
+  CompartmentDefinition = "CompartmentDefinition",
+  /** Composition */
+  Composition = "Composition",
+  /** ConceptMap */
+  ConceptMap = "ConceptMap",
+  /** Condition */
+  Condition = "Condition",
+  /** Consent */
+  Consent = "Consent",
+  /** Contract */
+  Contract = "Contract",
+  /** Coverage */
+  Coverage = "Coverage",
+  /** CoverageEligibilityRequest */
+  CoverageEligibilityRequest = "CoverageEligibilityRequest",
+  /** CoverageEligibilityResponse */
+  CoverageEligibilityResponse = "CoverageEligibilityResponse",
+  /** DataElement */
+  DataElement = "DataElement",
+  /** DetectedIssue */
+  DetectedIssue = "DetectedIssue",
+  /** Device */
+  Device = "Device",
+  /** DeviceComponent */
+  DeviceComponent = "DeviceComponent",
+  /** DeviceDefinition */
+  DeviceDefinition = "DeviceDefinition",
+  /** DeviceMetric */
+  DeviceMetric = "DeviceMetric",
+  /** DeviceRequest */
+  DeviceRequest = "DeviceRequest",
+  /** DeviceUseStatement */
+  DeviceUseStatement = "DeviceUseStatement",
+  /** DiagnosticReport */
+  DiagnosticReport = "DiagnosticReport",
+  /** DocumentManifest */
+  DocumentManifest = "DocumentManifest",
+  /** DocumentReference */
+  DocumentReference = "DocumentReference",
+  /** DomainResource */
+  DomainResource = "DomainResource",
+  /** EffectEvidenceSynthesis */
+  EffectEvidenceSynthesis = "EffectEvidenceSynthesis",
+  /** EligibilityRequest */
+  EligibilityRequest = "EligibilityRequest",
+  /** EligibilityResponse */
+  EligibilityResponse = "EligibilityResponse",
+  /** Encounter */
+  Encounter = "Encounter",
+  /** Endpoint */
+  Endpoint = "Endpoint",
+  /** EnrollmentRequest */
+  EnrollmentRequest = "EnrollmentRequest",
+  /** EnrollmentResponse */
+  EnrollmentResponse = "EnrollmentResponse",
+  /** EpisodeOfCare */
+  EpisodeOfCare = "EpisodeOfCare",
+  /** EventDefinition */
+  EventDefinition = "EventDefinition",
+  /** Evidence */
+  Evidence = "Evidence",
+  /** EvidenceVariable */
+  EvidenceVariable = "EvidenceVariable",
+  /** ExampleScenario */
+  ExampleScenario = "ExampleScenario",
+  /** ExpansionProfile */
+  ExpansionProfile = "ExpansionProfile",
+  /** ExplanationOfBenefit */
+  ExplanationOfBenefit = "ExplanationOfBenefit",
+  /** FamilyMemberHistory */
+  FamilyMemberHistory = "FamilyMemberHistory",
+  /** Flag */
+  Flag = "Flag",
+  /** Goal */
+  Goal = "Goal",
+  /** GraphDefinition */
+  GraphDefinition = "GraphDefinition",
+  /** Group */
+  Group = "Group",
+  /** GuidanceResponse */
+  GuidanceResponse = "GuidanceResponse",
+  /** HealthcareService */
+  HealthcareService = "HealthcareService",
+  /** ImagingManifest */
+  ImagingManifest = "ImagingManifest",
+  /** ImagingStudy */
+  ImagingStudy = "ImagingStudy",
+  /** Immunization */
+  Immunization = "Immunization",
+  /** ImmunizationEvaluation */
+  ImmunizationEvaluation = "ImmunizationEvaluation",
+  /** ImmunizationRecommendation */
+  ImmunizationRecommendation = "ImmunizationRecommendation",
+  /** ImplementationGuide */
+  ImplementationGuide = "ImplementationGuide",
+  /** InsurancePlan */
+  InsurancePlan = "InsurancePlan",
+  /** Invoice */
+  Invoice = "Invoice",
+  /** Library */
+  Library = "Library",
+  /** Linkage */
+  Linkage = "Linkage",
+  /** List */
+  List = "List",
+  /** Location */
+  Location = "Location",
+  /** Measure */
+  Measure = "Measure",
+  /** MeasureReport */
+  MeasureReport = "MeasureReport",
+  /** Media */
+  Media = "Media",
+  /** Medication */
+  Medication = "Medication",
+  /** MedicationAdministration */
+  MedicationAdministration = "MedicationAdministration",
+  /** MedicationDispense */
+  MedicationDispense = "MedicationDispense",
+  /** MedicationKnowledge */
+  MedicationKnowledge = "MedicationKnowledge",
+  /** MedicationRequest */
+  MedicationRequest = "MedicationRequest",
+  /** MedicationStatement */
+  MedicationStatement = "MedicationStatement",
+  /** MedicinalProduct */
+  MedicinalProduct = "MedicinalProduct",
+  /** MedicinalProductAuthorization */
+  MedicinalProductAuthorization = "MedicinalProductAuthorization",
+  /** MedicinalProductContraindication */
+  MedicinalProductContraindication = "MedicinalProductContraindication",
+  /** MedicinalProductIndication */
+  MedicinalProductIndication = "MedicinalProductIndication",
+  /** MedicinalProductIngredient */
+  MedicinalProductIngredient = "MedicinalProductIngredient",
+  /** MedicinalProductInteraction */
+  MedicinalProductInteraction = "MedicinalProductInteraction",
+  /** MedicinalProductManufactured */
+  MedicinalProductManufactured = "MedicinalProductManufactured",
+  /** MedicinalProductPackaged */
+  MedicinalProductPackaged = "MedicinalProductPackaged",
+  /** MedicinalProductPharmaceutical */
+  MedicinalProductPharmaceutical = "MedicinalProductPharmaceutical",
+  /** MedicinalProductUndesirableEffect */
+  MedicinalProductUndesirableEffect = "MedicinalProductUndesirableEffect",
+  /** MessageDefinition */
+  MessageDefinition = "MessageDefinition",
+  /** MessageHeader */
+  MessageHeader = "MessageHeader",
+  /** MolecularSequence */
+  MolecularSequence = "MolecularSequence",
+  /** NamingSystem */
+  NamingSystem = "NamingSystem",
+  /** NutritionOrder */
+  NutritionOrder = "NutritionOrder",
+  /** Observation */
+  Observation = "Observation",
+  /** ObservationDefinition */
+  ObservationDefinition = "ObservationDefinition",
+  /** OperationDefinition */
+  OperationDefinition = "OperationDefinition",
+  /** OperationOutcome */
+  OperationOutcome = "OperationOutcome",
+  /** Organization */
+  Organization = "Organization",
+  /** OrganizationAffiliation */
+  OrganizationAffiliation = "OrganizationAffiliation",
+  /** Parameters */
+  Parameters = "Parameters",
+  /** Patient */
+  Patient = "Patient",
+  /** PaymentNotice */
+  PaymentNotice = "PaymentNotice",
+  /** PaymentReconciliation */
+  PaymentReconciliation = "PaymentReconciliation",
+  /** Person */
+  Person = "Person",
+  /** PlanDefinition */
+  PlanDefinition = "PlanDefinition",
+  /** Practitioner */
+  Practitioner = "Practitioner",
+  /** PractitionerRole */
+  PractitionerRole = "PractitionerRole",
+  /** Procedure */
+  Procedure = "Procedure",
+  /** ProcedureRequest */
+  ProcedureRequest = "ProcedureRequest",
+  /** ProcessRequest */
+  ProcessRequest = "ProcessRequest",
+  /** ProcessResponse */
+  ProcessResponse = "ProcessResponse",
+  /** Provenance */
+  Provenance = "Provenance",
+  /** Questionnaire */
+  Questionnaire = "Questionnaire",
+  /** QuestionnaireResponse */
+  QuestionnaireResponse = "QuestionnaireResponse",
+  /** ReferralRequest */
+  ReferralRequest = "ReferralRequest",
+  /** RelatedPerson */
+  RelatedPerson = "RelatedPerson",
+  /** RequestGroup */
+  RequestGroup = "RequestGroup",
+  /** ResearchDefinition */
+  ResearchDefinition = "ResearchDefinition",
+  /** ResearchElementDefinition */
+  ResearchElementDefinition = "ResearchElementDefinition",
+  /** ResearchStudy */
+  ResearchStudy = "ResearchStudy",
+  /** ResearchSubject */
+  ResearchSubject = "ResearchSubject",
+  /** Resource */
+  Resource = "Resource",
+  /** RiskAssessment */
+  RiskAssessment = "RiskAssessment",
+  /** RiskEvidenceSynthesis */
+  RiskEvidenceSynthesis = "RiskEvidenceSynthesis",
+  /** Schedule */
+  Schedule = "Schedule",
+  /** SearchParameter */
+  SearchParameter = "SearchParameter",
+  /** Sequence */
+  Sequence = "Sequence",
+  /** ServiceDefinition */
+  ServiceDefinition = "ServiceDefinition",
+  /** ServiceRequest */
+  ServiceRequest = "ServiceRequest",
+  /** Slot */
+  Slot = "Slot",
+  /** Specimen */
+  Specimen = "Specimen",
+  /** SpecimenDefinition */
+  SpecimenDefinition = "SpecimenDefinition",
+  /** StructureDefinition */
+  StructureDefinition = "StructureDefinition",
+  /** StructureMap */
+  StructureMap = "StructureMap",
+  /** Subscription */
+  Subscription = "Subscription",
+  /** Substance */
+  Substance = "Substance",
+  /** SubstanceNucleicAcid */
+  SubstanceNucleicAcid = "SubstanceNucleicAcid",
+  /** SubstancePolymer */
+  SubstancePolymer = "SubstancePolymer",
+  /** SubstanceProtein */
+  SubstanceProtein = "SubstanceProtein",
+  /** SubstanceReferenceInformation */
+  SubstanceReferenceInformation = "SubstanceReferenceInformation",
+  /** SubstanceSourceMaterial */
+  SubstanceSourceMaterial = "SubstanceSourceMaterial",
+  /** SubstanceSpecification */
+  SubstanceSpecification = "SubstanceSpecification",
+  /** SupplyDelivery */
+  SupplyDelivery = "SupplyDelivery",
+  /** SupplyRequest */
+  SupplyRequest = "SupplyRequest",
+  /** Task */
+  Task = "Task",
+  /** TerminologyCapabilities */
+  TerminologyCapabilities = "TerminologyCapabilities",
+  /** TestReport */
+  TestReport = "TestReport",
+  /** TestScript */
+  TestScript = "TestScript",
+  /** ValueSet */
+  ValueSet = "ValueSet",
+  /** VerificationResult */
+  VerificationResult = "VerificationResult",
+  /** VisionPrescription */
+  VisionPrescription = "VisionPrescription",
+}
+
+/**
+ * Schema of FHIR resource type enumeration. \
+ * {@link KnownHealthcareFhirResourceType} can be used interchangeably with HealthcareFhirResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Account** \
+ * **ActivityDefinition** \
+ * **AdverseEvent** \
+ * **AllergyIntolerance** \
+ * **Appointment** \
+ * **AppointmentResponse** \
+ * **AuditEvent** \
+ * **Basic** \
+ * **Binary** \
+ * **BiologicallyDerivedProduct** \
+ * **BodySite** \
+ * **BodyStructure** \
+ * **Bundle** \
+ * **CapabilityStatement** \
+ * **CarePlan** \
+ * **CareTeam** \
+ * **CatalogEntry** \
+ * **ChargeItem** \
+ * **ChargeItemDefinition** \
+ * **Claim** \
+ * **ClaimResponse** \
+ * **ClinicalImpression** \
+ * **CodeSystem** \
+ * **Communication** \
+ * **CommunicationRequest** \
+ * **CompartmentDefinition** \
+ * **Composition** \
+ * **ConceptMap** \
+ * **Condition** \
+ * **Consent** \
+ * **Contract** \
+ * **Coverage** \
+ * **CoverageEligibilityRequest** \
+ * **CoverageEligibilityResponse** \
+ * **DataElement** \
+ * **DetectedIssue** \
+ * **Device** \
+ * **DeviceComponent** \
+ * **DeviceDefinition** \
+ * **DeviceMetric** \
+ * **DeviceRequest** \
+ * **DeviceUseStatement** \
+ * **DiagnosticReport** \
+ * **DocumentManifest** \
+ * **DocumentReference** \
+ * **DomainResource** \
+ * **EffectEvidenceSynthesis** \
+ * **EligibilityRequest** \
+ * **EligibilityResponse** \
+ * **Encounter** \
+ * **Endpoint** \
+ * **EnrollmentRequest** \
+ * **EnrollmentResponse** \
+ * **EpisodeOfCare** \
+ * **EventDefinition** \
+ * **Evidence** \
+ * **EvidenceVariable** \
+ * **ExampleScenario** \
+ * **ExpansionProfile** \
+ * **ExplanationOfBenefit** \
+ * **FamilyMemberHistory** \
+ * **Flag** \
+ * **Goal** \
+ * **GraphDefinition** \
+ * **Group** \
+ * **GuidanceResponse** \
+ * **HealthcareService** \
+ * **ImagingManifest** \
+ * **ImagingStudy** \
+ * **Immunization** \
+ * **ImmunizationEvaluation** \
+ * **ImmunizationRecommendation** \
+ * **ImplementationGuide** \
+ * **InsurancePlan** \
+ * **Invoice** \
+ * **Library** \
+ * **Linkage** \
+ * **List** \
+ * **Location** \
+ * **Measure** \
+ * **MeasureReport** \
+ * **Media** \
+ * **Medication** \
+ * **MedicationAdministration** \
+ * **MedicationDispense** \
+ * **MedicationKnowledge** \
+ * **MedicationRequest** \
+ * **MedicationStatement** \
+ * **MedicinalProduct** \
+ * **MedicinalProductAuthorization** \
+ * **MedicinalProductContraindication** \
+ * **MedicinalProductIndication** \
+ * **MedicinalProductIngredient** \
+ * **MedicinalProductInteraction** \
+ * **MedicinalProductManufactured** \
+ * **MedicinalProductPackaged** \
+ * **MedicinalProductPharmaceutical** \
+ * **MedicinalProductUndesirableEffect** \
+ * **MessageDefinition** \
+ * **MessageHeader** \
+ * **MolecularSequence** \
+ * **NamingSystem** \
+ * **NutritionOrder** \
+ * **Observation** \
+ * **ObservationDefinition** \
+ * **OperationDefinition** \
+ * **OperationOutcome** \
+ * **Organization** \
+ * **OrganizationAffiliation** \
+ * **Parameters** \
+ * **Patient** \
+ * **PaymentNotice** \
+ * **PaymentReconciliation** \
+ * **Person** \
+ * **PlanDefinition** \
+ * **Practitioner** \
+ * **PractitionerRole** \
+ * **Procedure** \
+ * **ProcedureRequest** \
+ * **ProcessRequest** \
+ * **ProcessResponse** \
+ * **Provenance** \
+ * **Questionnaire** \
+ * **QuestionnaireResponse** \
+ * **ReferralRequest** \
+ * **RelatedPerson** \
+ * **RequestGroup** \
+ * **ResearchDefinition** \
+ * **ResearchElementDefinition** \
+ * **ResearchStudy** \
+ * **ResearchSubject** \
+ * **Resource** \
+ * **RiskAssessment** \
+ * **RiskEvidenceSynthesis** \
+ * **Schedule** \
+ * **SearchParameter** \
+ * **Sequence** \
+ * **ServiceDefinition** \
+ * **ServiceRequest** \
+ * **Slot** \
+ * **Specimen** \
+ * **SpecimenDefinition** \
+ * **StructureDefinition** \
+ * **StructureMap** \
+ * **Subscription** \
+ * **Substance** \
+ * **SubstanceNucleicAcid** \
+ * **SubstancePolymer** \
+ * **SubstanceProtein** \
+ * **SubstanceReferenceInformation** \
+ * **SubstanceSourceMaterial** \
+ * **SubstanceSpecification** \
+ * **SupplyDelivery** \
+ * **SupplyRequest** \
+ * **Task** \
+ * **TerminologyCapabilities** \
+ * **TestReport** \
+ * **TestScript** \
+ * **ValueSet** \
+ * **VerificationResult** \
+ * **VisionPrescription**
+ */
+export type HealthcareFhirResourceType = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceUpdated event. */
 export interface HealthcareFhirResourceUpdatedEventData {
@@ -2115,15 +2728,38 @@ export interface MediaJobStateChangeEventData {
   correlationData: Record<string, string>;
 }
 
-/** State of a Media Job. */
-export type MediaJobState =
-  | "Canceled"
-  | "Canceling"
-  | "Error"
-  | "Finished"
-  | "Processing"
-  | "Queued"
-  | "Scheduled";
+/** Known values of {@link MediaJobState} that the service accepts. */
+export enum KnownMediaJobState {
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Canceling */
+  Canceling = "Canceling",
+  /** Error */
+  Error = "Error",
+  /** Finished */
+  Finished = "Finished",
+  /** Processing */
+  Processing = "Processing",
+  /** Queued */
+  Queued = "Queued",
+  /** Scheduled */
+  Scheduled = "Scheduled",
+}
+
+/**
+ * State of a Media Job. \
+ * {@link KnownMediaJobState} can be used interchangeably with MediaJobState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Canceled** \
+ * **Canceling** \
+ * **Error** \
+ * **Finished** \
+ * **Processing** \
+ * **Queued** \
+ * **Scheduled**
+ */
+export type MediaJobState = string;
 
 /** Details of JobOutput errors. */
 export interface MediaJobError {
@@ -2139,28 +2775,95 @@ export interface MediaJobError {
   details: MediaJobErrorDetail[];
 }
 
-/** Media Job Error Codes. */
-export type MediaJobErrorCode =
-  | "ServiceError"
-  | "ServiceTransientError"
-  | "DownloadNotAccessible"
-  | "DownloadTransientError"
-  | "UploadNotAccessible"
-  | "UploadTransientError"
-  | "ConfigurationUnsupported"
-  | "ContentMalformed"
-  | "ContentUnsupported"
-  | "IdentityUnsupported";
-/** Error categories for Media Job Errors. */
-export type MediaJobErrorCategory =
-  | "Service"
-  | "Download"
-  | "Upload"
-  | "Configuration"
-  | "Content"
-  | "Account";
-/** Media Job Retry Options. */
-export type MediaJobRetry = "DoNotRetry" | "MayRetry";
+/** Known values of {@link MediaJobErrorCode} that the service accepts. */
+export enum KnownMediaJobErrorCode {
+  /** ServiceError */
+  ServiceError = "ServiceError",
+  /** ServiceTransientError */
+  ServiceTransientError = "ServiceTransientError",
+  /** DownloadNotAccessible */
+  DownloadNotAccessible = "DownloadNotAccessible",
+  /** DownloadTransientError */
+  DownloadTransientError = "DownloadTransientError",
+  /** UploadNotAccessible */
+  UploadNotAccessible = "UploadNotAccessible",
+  /** UploadTransientError */
+  UploadTransientError = "UploadTransientError",
+  /** ConfigurationUnsupported */
+  ConfigurationUnsupported = "ConfigurationUnsupported",
+  /** ContentMalformed */
+  ContentMalformed = "ContentMalformed",
+  /** ContentUnsupported */
+  ContentUnsupported = "ContentUnsupported",
+  /** IdentityUnsupported */
+  IdentityUnsupported = "IdentityUnsupported",
+}
+
+/**
+ * Media Job Error Codes. \
+ * {@link KnownMediaJobErrorCode} can be used interchangeably with MediaJobErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServiceError** \
+ * **ServiceTransientError** \
+ * **DownloadNotAccessible** \
+ * **DownloadTransientError** \
+ * **UploadNotAccessible** \
+ * **UploadTransientError** \
+ * **ConfigurationUnsupported** \
+ * **ContentMalformed** \
+ * **ContentUnsupported** \
+ * **IdentityUnsupported**
+ */
+export type MediaJobErrorCode = string;
+
+/** Known values of {@link MediaJobErrorCategory} that the service accepts. */
+export enum KnownMediaJobErrorCategory {
+  /** Service */
+  Service = "Service",
+  /** Download */
+  Download = "Download",
+  /** Upload */
+  Upload = "Upload",
+  /** Configuration */
+  Configuration = "Configuration",
+  /** Content */
+  Content = "Content",
+  /** Account */
+  Account = "Account",
+}
+
+/**
+ * Error categories for Media Job Errors. \
+ * {@link KnownMediaJobErrorCategory} can be used interchangeably with MediaJobErrorCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Service** \
+ * **Download** \
+ * **Upload** \
+ * **Configuration** \
+ * **Content** \
+ * **Account**
+ */
+export type MediaJobErrorCategory = string;
+
+/** Known values of {@link MediaJobRetry} that the service accepts. */
+export enum KnownMediaJobRetry {
+  /** DoNotRetry */
+  DoNotRetry = "DoNotRetry",
+  /** MayRetry */
+  MayRetry = "MayRetry",
+}
+
+/**
+ * Media Job Retry Options. \
+ * {@link KnownMediaJobRetry} can be used interchangeably with MediaJobRetry,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DoNotRetry** \
+ * **MayRetry**
+ */
+export type MediaJobRetry = string;
 
 /** Details of JobOutput errors. */
 export interface MediaJobErrorDetail {
@@ -2939,8 +3642,32 @@ export interface StorageBlobCreatedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
-/** The access tier of the blob. */
-export type StorageBlobAccessTier = "Hot" | "Cool" | "Cold" | "Archive" | "Default";
+/** Known values of {@link StorageBlobAccessTier} that the service accepts. */
+export enum KnownStorageBlobAccessTier {
+  /** Hot */
+  Hot = "Hot",
+  /** Cool */
+  Cool = "Cool",
+  /** Cold */
+  Cold = "Cold",
+  /** Archive */
+  Archive = "Archive",
+  /** Default */
+  Default = "Default",
+}
+
+/**
+ * The access tier of the blob. \
+ * {@link KnownStorageBlobAccessTier} can be used interchangeably with StorageBlobAccessTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hot** \
+ * **Cool** \
+ * **Cold** \
+ * **Archive** \
+ * **Default**
+ */
+export type StorageBlobAccessTier = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.BlobDeleted event. */
 export interface StorageBlobDeletedEventData {
@@ -3150,8 +3877,23 @@ export interface StorageTaskCompletedEventData {
   summaryReportBlobUrl: string;
 }
 
-/** The status for a storage task. */
-export type StorageTaskCompletedStatus = "Succeeded" | "Failed";
+/** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
+export enum KnownStorageTaskCompletedStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * The status for a storage task. \
+ * {@link KnownStorageTaskCompletedStatus} can be used interchangeably with StorageTaskCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskCompletedStatus = string;
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskQueued event. */
 export interface StorageTaskQueuedEventData {
@@ -3183,8 +3925,23 @@ export interface StorageTaskAssignmentCompletedEventData {
   summaryReportBlobUri: string;
 }
 
-/** The status for a storage task. */
-export type StorageTaskAssignmentCompletedStatus = "Succeeded" | "Failed";
+/** Known values of {@link StorageTaskAssignmentCompletedStatus} that the service accepts. */
+export enum KnownStorageTaskAssignmentCompletedStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * The status for a storage task. \
+ * {@link KnownStorageTaskAssignmentCompletedStatus} can be used interchangeably with StorageTaskAssignmentCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskAssignmentCompletedStatus = string;
 
 /** Detail of action on the app. */
 export interface AppEventTypeDetail {
@@ -3192,14 +3949,35 @@ export interface AppEventTypeDetail {
   action: AppAction;
 }
 
-/** Type of action of the operation */
-export type AppAction =
-  | "Restarted"
-  | "Stopped"
-  | "ChangedAppSettings"
-  | "Started"
-  | "Completed"
-  | "Failed";
+/** Known values of {@link AppAction} that the service accepts. */
+export enum KnownAppAction {
+  /** Restarted */
+  Restarted = "Restarted",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** ChangedAppSettings */
+  ChangedAppSettings = "ChangedAppSettings",
+  /** Started */
+  Started = "Started",
+  /** Completed */
+  Completed = "Completed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Type of action of the operation \
+ * {@link KnownAppAction} can be used interchangeably with AppAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Restarted** \
+ * **Stopped** \
+ * **ChangedAppSettings** \
+ * **Started** \
+ * **Completed** \
+ * **Failed**
+ */
+export type AppAction = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.AppUpdated event. */
 export interface WebAppUpdatedEventData {
@@ -3447,12 +4225,62 @@ export interface AppServicePlanEventTypeDetail {
   status: AsyncStatus;
 }
 
-/** Kind of environment where app service plan is. */
-export type StampKind = "Public" | "AseV1" | "AseV2";
-/** Type of action on the app service plan. */
-export type AppServicePlanAction = "Updated";
-/** Asynchronous operation status of the operation on the app service plan. */
-export type AsyncStatus = "Started" | "Completed" | "Failed";
+/** Known values of {@link StampKind} that the service accepts. */
+export enum KnownStampKind {
+  /** Public */
+  Public = "Public",
+  /** AseV1 */
+  AseV1 = "AseV1",
+  /** AseV2 */
+  AseV2 = "AseV2",
+}
+
+/**
+ * Kind of environment where app service plan is. \
+ * {@link KnownStampKind} can be used interchangeably with StampKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public** \
+ * **AseV1** \
+ * **AseV2**
+ */
+export type StampKind = string;
+
+/** Known values of {@link AppServicePlanAction} that the service accepts. */
+export enum KnownAppServicePlanAction {
+  /** Updated */
+  Updated = "Updated",
+}
+
+/**
+ * Type of action on the app service plan. \
+ * {@link KnownAppServicePlanAction} can be used interchangeably with AppServicePlanAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Updated**
+ */
+export type AppServicePlanAction = string;
+
+/** Known values of {@link AsyncStatus} that the service accepts. */
+export enum KnownAsyncStatus {
+  /** Started */
+  Started = "Started",
+  /** Completed */
+  Completed = "Completed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Asynchronous operation status of the operation on the app service plan. \
+ * {@link KnownAsyncStatus} can be used interchangeably with AsyncStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Started** \
+ * **Completed** \
+ * **Failed**
+ */
+export type AsyncStatus = string;
 
 /** sku of app service plan. */
 export interface WebAppServicePlanUpdatedEventDataSku {
@@ -3534,8 +4362,23 @@ export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridM
   attributes: Record<string, string>;
 }
 
-/** EventGrid MQTT Client State */
-export type EventGridMqttClientState = "Enabled" | "Disabled";
+/** Known values of {@link EventGridMqttClientState} that the service accepts. */
+export enum KnownEventGridMqttClientState {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * EventGrid MQTT Client State \
+ * {@link KnownEventGridMqttClientState} can be used interchangeably with EventGridMqttClientState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type EventGridMqttClientState = string;
 
 /** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
 export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {}
@@ -3576,19 +4419,50 @@ export interface EventGridMqttClientSessionDisconnectedEventData
   disconnectionReason: EventGridMqttClientDisconnectionReason;
 }
 
-/** EventGrid MQTT Client Disconnection Reason */
-export type EventGridMqttClientDisconnectionReason =
-  | "ClientAuthenticationError"
-  | "ClientAuthorizationError"
-  | "ClientError"
-  | "ClientInitiatedDisconnect"
-  | "ConnectionLost"
-  | "IpForbidden"
-  | "QuotaExceeded"
-  | "ServerError"
-  | "ServerInitiatedDisconnect"
-  | "SessionOverflow"
-  | "SessionTakenOver";
+/** Known values of {@link EventGridMqttClientDisconnectionReason} that the service accepts. */
+export enum KnownEventGridMqttClientDisconnectionReason {
+  /** ClientAuthenticationError */
+  ClientAuthenticationError = "ClientAuthenticationError",
+  /** ClientAuthorizationError */
+  ClientAuthorizationError = "ClientAuthorizationError",
+  /** ClientError */
+  ClientError = "ClientError",
+  /** ClientInitiatedDisconnect */
+  ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
+  /** ConnectionLost */
+  ConnectionLost = "ConnectionLost",
+  /** IpForbidden */
+  IpForbidden = "IpForbidden",
+  /** QuotaExceeded */
+  QuotaExceeded = "QuotaExceeded",
+  /** ServerError */
+  ServerError = "ServerError",
+  /** ServerInitiatedDisconnect */
+  ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
+  /** SessionOverflow */
+  SessionOverflow = "SessionOverflow",
+  /** SessionTakenOver */
+  SessionTakenOver = "SessionTakenOver",
+}
+
+/**
+ * EventGrid MQTT Client Disconnection Reason \
+ * {@link KnownEventGridMqttClientDisconnectionReason} can be used interchangeably with EventGridMqttClientDisconnectionReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ClientAuthenticationError** \
+ * **ClientAuthorizationError** \
+ * **ClientError** \
+ * **ClientInitiatedDisconnect** \
+ * **ConnectionLost** \
+ * **IpForbidden** \
+ * **QuotaExceeded** \
+ * **ServerError** \
+ * **ServerInitiatedDisconnect** \
+ * **SessionOverflow** \
+ * **SessionTakenOver**
+ */
+export type EventGridMqttClientDisconnectionReason = string;
 
 /** Describes the schema of the common properties across all ARN system topic events */
 export interface ResourceNotificationsResourceUpdatedEventData {

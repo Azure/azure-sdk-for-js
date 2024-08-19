@@ -177,7 +177,7 @@ export interface AcsEmailDeliveryReportReceivedEventData {
 }
 
 // @public
-export type AcsEmailDeliveryReportStatus = "Bounced" | "Delivered" | "Failed" | "FilteredSpam" | "Quarantined" | "Suppressed";
+export type AcsEmailDeliveryReportStatus = string;
 
 // @public
 export interface AcsEmailDeliveryReportStatusDetails {
@@ -213,7 +213,7 @@ export interface AcsIncomingCallEventData {
 }
 
 // @public
-export type AcsInteractiveReplyKind = "buttonReply" | "listReply" | "unknown";
+export type AcsInteractiveReplyKind = string;
 
 // @public
 export interface AcsMessageButtonContent {
@@ -228,7 +228,7 @@ export interface AcsMessageChannelEventError {
 }
 
 // @public
-export type AcsMessageChannelKind = "whatsapp";
+export type AcsMessageChannelKind = string;
 
 // @public
 export interface AcsMessageContext {
@@ -237,7 +237,7 @@ export interface AcsMessageContext {
 }
 
 // @public
-export type AcsMessageDeliveryStatus = "read" | "delivered" | "failed" | "sent" | "warning" | "unknown";
+export type AcsMessageDeliveryStatus = string;
 
 // @public
 export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
@@ -418,7 +418,7 @@ export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEvent
 }
 
 // @public
-export type AcsRouterJobStatus = "PendingClassification" | "Queued" | "Assigned" | "Completed" | "Closed" | "Cancelled" | "ClassificationFailed" | "Created" | "PendingSchedule" | "Scheduled" | "ScheduleFailed" | "WaitingForActivation";
+export type AcsRouterJobStatus = string;
 
 // @public
 export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
@@ -442,7 +442,7 @@ export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJo
 }
 
 // @public
-export type AcsRouterLabelOperator = "Equal" | "NotEqual" | "Greater" | "Less" | "GreaterThanOrEqual" | "LessThanOrEqual";
+export type AcsRouterLabelOperator = string;
 
 // @public
 export interface AcsRouterQueueDetails {
@@ -452,7 +452,7 @@ export interface AcsRouterQueueDetails {
 }
 
 // @public
-export type AcsRouterUpdatedWorkerProperty = "AvailableForOffers" | "TotalCapacity" | "QueueAssignments" | "Labels" | "Tags" | "ChannelConfigurations";
+export type AcsRouterUpdatedWorkerProperty = string;
 
 // @public
 export interface AcsRouterWorkerDeletedEventData extends AcsRouterWorkerEventData {
@@ -532,7 +532,7 @@ export interface AcsRouterWorkerSelector {
 }
 
 // @public
-export type AcsRouterWorkerSelectorState = "active" | "expired";
+export type AcsRouterWorkerSelectorState = string;
 
 // @public
 export interface AcsRouterWorkerUpdatedEventData {
@@ -580,7 +580,7 @@ export interface AcsUserDisconnectedEventData {
 }
 
 // @public
-export type AcsUserEngagement = "view" | "click";
+export type AcsUserEngagement = string;
 
 // @public
 export interface ApiCenterApiDefinitionAddedEventData {
@@ -733,7 +733,7 @@ export interface ApiManagementUserUpdatedEventData {
 }
 
 // @public
-export type AppAction = "Restarted" | "Stopped" | "ChangedAppSettings" | "Started" | "Completed" | "Failed";
+export type AppAction = string;
 
 // @public
 export interface AppConfigurationKeyValueDeletedEventData {
@@ -772,7 +772,7 @@ export interface AppEventTypeDetail {
 }
 
 // @public
-export type AppServicePlanAction = "Updated";
+export type AppServicePlanAction = string;
 
 // @public
 export interface AppServicePlanEventTypeDetail {
@@ -782,7 +782,7 @@ export interface AppServicePlanEventTypeDetail {
 }
 
 // @public
-export type AsyncStatus = "Started" | "Completed" | "Failed";
+export type AsyncStatus = string;
 
 // @public
 export interface AvsClusterCreatedEventData extends AvsClusterEventData {
@@ -871,7 +871,7 @@ export interface CloudEvent<T> {
 }
 
 // @public
-export type CommunicationCloudEnvironmentModel = "public" | "dod" | "gcch";
+export type CommunicationCloudEnvironmentModel = string;
 
 // @public
 export interface CommunicationIdentifierModel {
@@ -884,7 +884,7 @@ export interface CommunicationIdentifierModel {
 }
 
 // @public
-export type CommunicationIdentifierModelKind = "unknown" | "communicationUser" | "phoneNumber" | "microsoftTeamsUser";
+export type CommunicationIdentifierModelKind = string;
 
 // @public
 export interface CommunicationUserIdentifierModel {
@@ -1037,7 +1037,7 @@ export interface DataBoxOrderCompletedEventData {
 }
 
 // @public
-export type DataBoxStageName = "CopyStarted" | "CopyCompleted" | "OrderCompleted";
+export type DataBoxStageName = string;
 
 // @public
 export interface DeviceConnectionStateEvent {
@@ -1128,7 +1128,7 @@ export interface EventGridMqttClientDeletedEventData extends EventGridMqttClient
 }
 
 // @public
-export type EventGridMqttClientDisconnectionReason = "ClientAuthenticationError" | "ClientAuthorizationError" | "ClientError" | "ClientInitiatedDisconnect" | "ConnectionLost" | "IpForbidden" | "QuotaExceeded" | "ServerError" | "ServerInitiatedDisconnect" | "SessionOverflow" | "SessionTakenOver";
+export type EventGridMqttClientDisconnectionReason = string;
 
 // @public
 export interface EventGridMqttClientEventData {
@@ -1151,7 +1151,7 @@ export interface EventGridMqttClientSessionDisconnectedEventData extends EventGr
 }
 
 // @public
-export type EventGridMqttClientState = "Enabled" | "Disabled";
+export type EventGridMqttClientState = string;
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
@@ -1213,7 +1213,7 @@ export interface HealthcareFhirResourceDeletedEventData {
 }
 
 // @public
-export type HealthcareFhirResourceType = "Account" | "ActivityDefinition" | "AdverseEvent" | "AllergyIntolerance" | "Appointment" | "AppointmentResponse" | "AuditEvent" | "Basic" | "Binary" | "BiologicallyDerivedProduct" | "BodySite" | "BodyStructure" | "Bundle" | "CapabilityStatement" | "CarePlan" | "CareTeam" | "CatalogEntry" | "ChargeItem" | "ChargeItemDefinition" | "Claim" | "ClaimResponse" | "ClinicalImpression" | "CodeSystem" | "Communication" | "CommunicationRequest" | "CompartmentDefinition" | "Composition" | "ConceptMap" | "Condition" | "Consent" | "Contract" | "Coverage" | "CoverageEligibilityRequest" | "CoverageEligibilityResponse" | "DataElement" | "DetectedIssue" | "Device" | "DeviceComponent" | "DeviceDefinition" | "DeviceMetric" | "DeviceRequest" | "DeviceUseStatement" | "DiagnosticReport" | "DocumentManifest" | "DocumentReference" | "DomainResource" | "EffectEvidenceSynthesis" | "EligibilityRequest" | "EligibilityResponse" | "Encounter" | "Endpoint" | "EnrollmentRequest" | "EnrollmentResponse" | "EpisodeOfCare" | "EventDefinition" | "Evidence" | "EvidenceVariable" | "ExampleScenario" | "ExpansionProfile" | "ExplanationOfBenefit" | "FamilyMemberHistory" | "Flag" | "Goal" | "GraphDefinition" | "Group" | "GuidanceResponse" | "HealthcareService" | "ImagingManifest" | "ImagingStudy" | "Immunization" | "ImmunizationEvaluation" | "ImmunizationRecommendation" | "ImplementationGuide" | "InsurancePlan" | "Invoice" | "Library" | "Linkage" | "List" | "Location" | "Measure" | "MeasureReport" | "Media" | "Medication" | "MedicationAdministration" | "MedicationDispense" | "MedicationKnowledge" | "MedicationRequest" | "MedicationStatement" | "MedicinalProduct" | "MedicinalProductAuthorization" | "MedicinalProductContraindication" | "MedicinalProductIndication" | "MedicinalProductIngredient" | "MedicinalProductInteraction" | "MedicinalProductManufactured" | "MedicinalProductPackaged" | "MedicinalProductPharmaceutical" | "MedicinalProductUndesirableEffect" | "MessageDefinition" | "MessageHeader" | "MolecularSequence" | "NamingSystem" | "NutritionOrder" | "Observation" | "ObservationDefinition" | "OperationDefinition" | "OperationOutcome" | "Organization" | "OrganizationAffiliation" | "Parameters" | "Patient" | "PaymentNotice" | "PaymentReconciliation" | "Person" | "PlanDefinition" | "Practitioner" | "PractitionerRole" | "Procedure" | "ProcedureRequest" | "ProcessRequest" | "ProcessResponse" | "Provenance" | "Questionnaire" | "QuestionnaireResponse" | "ReferralRequest" | "RelatedPerson" | "RequestGroup" | "ResearchDefinition" | "ResearchElementDefinition" | "ResearchStudy" | "ResearchSubject" | "Resource" | "RiskAssessment" | "RiskEvidenceSynthesis" | "Schedule" | "SearchParameter" | "Sequence" | "ServiceDefinition" | "ServiceRequest" | "Slot" | "Specimen" | "SpecimenDefinition" | "StructureDefinition" | "StructureMap" | "Subscription" | "Substance" | "SubstanceNucleicAcid" | "SubstancePolymer" | "SubstanceProtein" | "SubstanceReferenceInformation" | "SubstanceSourceMaterial" | "SubstanceSpecification" | "SupplyDelivery" | "SupplyRequest" | "Task" | "TerminologyCapabilities" | "TestReport" | "TestScript" | "ValueSet" | "VerificationResult" | "VisionPrescription";
+export type HealthcareFhirResourceType = string;
 
 // @public
 export interface HealthcareFhirResourceUpdatedEventData {
@@ -1360,7 +1360,7 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 }
 
 // @public
-export const enum KnownAcsEmailDeliveryReportStatus {
+export enum KnownAcsEmailDeliveryReportStatus {
     Bounced = "Bounced",
     Delivered = "Delivered",
     Failed = "Failed",
@@ -1370,109 +1370,77 @@ export const enum KnownAcsEmailDeliveryReportStatus {
 }
 
 // @public
-export const enum KnownAcsInteractiveReplyKind {
-    ButtonReply = "buttonReply",
-    ListReply = "listReply",
-    Unknown = "unknown"
+export enum KnownAcsInteractiveReplyKind {
+    buttonReply = "buttonReply",
+    listReply = "listReply",
+    unknown = "unknown"
 }
 
 // @public
-export const enum KnownAcsMessageChannelKind {
-    Whatsapp = "whatsapp"
+export enum KnownAcsMessageChannelKind {
+    whatsapp = "whatsapp"
 }
 
 // @public
-export const enum KnownAcsMessageDeliveryStatus {
-    // (undocumented)
-    Delivered = "delivered",
-    // (undocumented)
-    Failed = "failed",
-    // (undocumented)
-    Read = "read",
-    // (undocumented)
-    Sent = "sent",
-    // (undocumented)
-    Unknown = "unknown",
-    // (undocumented)
-    Warning = "warning"
+export enum KnownAcsMessageDeliveryStatus {
+    delivered = "delivered",
+    failed = "failed",
+    read = "read",
+    sent = "sent",
+    unknown = "unknown",
+    warning = "warning"
 }
 
 // @public
-export const enum KnownAcsRouterJobStatus {
-    // (undocumented)
+export enum KnownAcsRouterJobStatus {
     Assigned = "Assigned",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     ClassificationFailed = "ClassificationFailed",
-    // (undocumented)
     Closed = "Closed",
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     PendingClassification = "PendingClassification",
-    // (undocumented)
     PendingSchedule = "PendingSchedule",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Scheduled = "Scheduled",
-    // (undocumented)
     ScheduleFailed = "ScheduleFailed",
-    // (undocumented)
     WaitingForActivation = "WaitingForActivation"
 }
 
 // @public
-export const enum KnownAcsRouterLabelOperator {
-    // (undocumented)
+export enum KnownAcsRouterLabelOperator {
     Equal = "Equal",
-    // (undocumented)
     Greater = "Greater",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     Less = "Less",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     NotEqual = "NotEqual"
 }
 
 // @public
-export const enum KnownAcsRouterUpdatedWorkerProperty {
-    // (undocumented)
+export enum KnownAcsRouterUpdatedWorkerProperty {
     AvailableForOffers = "AvailableForOffers",
-    // (undocumented)
     ChannelConfigurations = "ChannelConfigurations",
-    // (undocumented)
     Labels = "Labels",
-    // (undocumented)
     QueueAssignments = "QueueAssignments",
-    // (undocumented)
     Tags = "Tags",
-    // (undocumented)
     TotalCapacity = "TotalCapacity"
 }
 
 // @public
-export const enum KnownAcsRouterWorkerSelectorState {
-    Active = "active",
-    Expired = "expired"
+export enum KnownAcsRouterWorkerSelectorState {
+    active = "active",
+    expired = "expired"
 }
 
 // @public
-export const enum KnownAcsUserEngagement {
-    // (undocumented)
-    Click = "click",
-    // (undocumented)
-    View = "view"
+export enum KnownAcsUserEngagement {
+    click = "click",
+    view = "view"
 }
 
 // @public
-export const enum KnownAppAction {
+export enum KnownAppAction {
     ChangedAppSettings = "ChangedAppSettings",
     Completed = "Completed",
     Failed = "Failed",
@@ -1482,50 +1450,41 @@ export const enum KnownAppAction {
 }
 
 // @public
-export const enum KnownAppServicePlanAction {
+export enum KnownAppServicePlanAction {
     Updated = "Updated"
 }
 
 // @public
-export const enum KnownAsyncStatus {
+export enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
 }
 
 // @public
-export const enum KnownCommunicationCloudEnvironmentModel {
-    // (undocumented)
-    Dod = "dod",
-    // (undocumented)
-    Gcch = "gcch",
-    // (undocumented)
-    Public = "public"
+export enum KnownCommunicationCloudEnvironmentModel {
+    dod = "dod",
+    gcch = "gcch",
+    "public" = "public"
 }
 
 // @public
-export const enum KnownCommunicationIdentifierModelKind {
-    // (undocumented)
-    CommunicationUser = "communicationUser",
-    // (undocumented)
-    MicrosoftTeamsApp = "microsoftTeamsApp",
-    // (undocumented)
-    MicrosoftTeamsUser = "microsoftTeamsUser",
-    // (undocumented)
-    PhoneNumber = "phoneNumber",
-    // (undocumented)
-    Unknown = "unknown"
+export enum KnownCommunicationIdentifierModelKind {
+    communicationUser = "communicationUser",
+    microsoftTeamsUser = "microsoftTeamsUser",
+    phoneNumber = "phoneNumber",
+    unknown = "unknown"
 }
 
 // @public
-export const enum KnownDataBoxStageName {
+export enum KnownDataBoxStageName {
     CopyCompleted = "CopyCompleted",
     CopyStarted = "CopyStarted",
     OrderCompleted = "OrderCompleted"
 }
 
 // @public
-export const enum KnownEventGridMqttClientDisconnectionReason {
+export enum KnownEventGridMqttClientDisconnectionReason {
     ClientAuthenticationError = "ClientAuthenticationError",
     ClientAuthorizationError = "ClientAuthorizationError",
     ClientError = "ClientError",
@@ -1540,15 +1499,13 @@ export const enum KnownEventGridMqttClientDisconnectionReason {
 }
 
 // @public
-export const enum KnownEventGridMqttClientState {
-    // (undocumented)
+export enum KnownEventGridMqttClientState {
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
-export const enum KnownHealthcareFhirResourceType {
+export enum KnownHealthcareFhirResourceType {
     Account = "Account",
     ActivityDefinition = "ActivityDefinition",
     AdverseEvent = "AdverseEvent",
@@ -1713,51 +1670,90 @@ export const enum KnownHealthcareFhirResourceType {
 }
 
 // @public
-export const enum KnownRecordingChannelType {
-    // (undocumented)
+export enum KnownMediaJobErrorCategory {
+    Account = "Account",
+    Configuration = "Configuration",
+    Content = "Content",
+    Download = "Download",
+    Service = "Service",
+    Upload = "Upload"
+}
+
+// @public
+export enum KnownMediaJobErrorCode {
+    ConfigurationUnsupported = "ConfigurationUnsupported",
+    ContentMalformed = "ContentMalformed",
+    ContentUnsupported = "ContentUnsupported",
+    DownloadNotAccessible = "DownloadNotAccessible",
+    DownloadTransientError = "DownloadTransientError",
+    IdentityUnsupported = "IdentityUnsupported",
+    ServiceError = "ServiceError",
+    ServiceTransientError = "ServiceTransientError",
+    UploadNotAccessible = "UploadNotAccessible",
+    UploadTransientError = "UploadTransientError"
+}
+
+// @public
+export enum KnownMediaJobRetry {
+    DoNotRetry = "DoNotRetry",
+    MayRetry = "MayRetry"
+}
+
+// @public
+export enum KnownMediaJobState {
+    Canceled = "Canceled",
+    Canceling = "Canceling",
+    Error = "Error",
+    Finished = "Finished",
+    Processing = "Processing",
+    Queued = "Queued",
+    Scheduled = "Scheduled"
+}
+
+// @public
+export enum KnownRecordingChannelType {
     Mixed = "Mixed",
-    // (undocumented)
     Unmixed = "Unmixed"
 }
 
 // @public
-export const enum KnownRecordingContentType {
-    // (undocumented)
+export enum KnownRecordingContentType {
     Audio = "Audio",
-    // (undocumented)
     AudioVideo = "AudioVideo"
 }
 
 // @public
-export const enum KnownRecordingFormatType {
-    // (undocumented)
+export enum KnownRecordingFormatType {
     Mp3 = "Mp3",
-    // (undocumented)
     Mp4 = "Mp4",
-    // (undocumented)
     Wav = "Wav"
 }
 
 // @public
-export const enum KnownStampKind {
+export enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
     Public = "Public"
 }
 
 // @public
-export const enum KnownStorageTaskAssignmentCompletedStatus {
-    // (undocumented)
+export enum KnownStorageBlobAccessTier {
+    Archive = "Archive",
+    Cold = "Cold",
+    Cool = "Cool",
+    Default = "Default",
+    Hot = "Hot"
+}
+
+// @public
+export enum KnownStorageTaskAssignmentCompletedStatus {
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
-export const enum KnownStorageTaskCompletedStatus {
-    // (undocumented)
+export enum KnownStorageTaskCompletedStatus {
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -1863,10 +1859,10 @@ export interface MediaJobError {
 }
 
 // @public
-export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content" | "Account";
+export type MediaJobErrorCategory = string;
 
 // @public
-export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported" | "IdentityUnsupported";
+export type MediaJobErrorCode = string;
 
 // @public
 export interface MediaJobErrorDetail {
@@ -1945,14 +1941,14 @@ export interface MediaJobProcessingEventData extends MediaJobStateChangeEventDat
 }
 
 // @public
-export type MediaJobRetry = "DoNotRetry" | "MayRetry";
+export type MediaJobRetry = string;
 
 // @public
 export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {
 }
 
 // @public
-export type MediaJobState = "Canceled" | "Canceling" | "Error" | "Finished" | "Processing" | "Queued" | "Scheduled";
+export type MediaJobState = string;
 
 // @public
 export interface MediaJobStateChangeEventData {
@@ -2118,13 +2114,13 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
 }
 
 // @public
-export type RecordingChannelType = "Mixed" | "Unmixed";
+export type RecordingChannelType = string;
 
 // @public
-export type RecordingContentType = "AudioVideo" | "Audio";
+export type RecordingContentType = string;
 
 // @public
-export type RecordingFormatType = "Wav" | "Mp3" | "Mp4";
+export type RecordingFormatType = string;
 
 // @public
 export interface RedisExportRDBCompletedEventData {
@@ -2416,7 +2412,7 @@ export interface SignalRServiceClientConnectionDisconnectedEventData {
 }
 
 // @public
-export type StampKind = "Public" | "AseV1" | "AseV2";
+export type StampKind = string;
 
 // @public
 export interface StorageAsyncOperationInitiatedEventData {
@@ -2433,7 +2429,11 @@ export interface StorageAsyncOperationInitiatedEventData {
 }
 
 // @public
+export type StorageBlobAccessTier = string;
+
+// @public
 export interface StorageBlobCreatedEventData {
+    accessTier: StorageBlobAccessTier;
     api?: string;
     blobType?: string;
     clientRequestId?: string;
@@ -2486,12 +2486,14 @@ export interface StorageBlobRenamedEventData {
 
 // @public
 export interface StorageBlobTierChangedEventData {
+    accessTier: StorageBlobAccessTier;
     api?: string;
     blobType?: string;
     clientRequestId?: string;
     contentLength?: number;
     contentType?: string;
     identity?: string;
+    previousTier: StorageBlobAccessTier;
     requestId?: string;
     sequencer?: string;
     storageDiagnostics: Record<string, any>;
@@ -2559,7 +2561,7 @@ export interface StorageTaskAssignmentCompletedEventData {
 }
 
 // @public
-export type StorageTaskAssignmentCompletedStatus = "Succeeded" | "Failed";
+export type StorageTaskAssignmentCompletedStatus = string;
 
 // @public
 export interface StorageTaskAssignmentQueuedEventData {
@@ -2577,7 +2579,7 @@ export interface StorageTaskCompletedEventData {
 }
 
 // @public
-export type StorageTaskCompletedStatus = "Succeeded" | "Failed";
+export type StorageTaskCompletedStatus = string;
 
 // @public
 export interface StorageTaskQueuedEventData {
