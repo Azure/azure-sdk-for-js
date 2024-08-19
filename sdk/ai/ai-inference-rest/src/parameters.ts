@@ -20,6 +20,8 @@ export interface GetChatCompletionsHeaders {
    * Controls what happens if extra parameters, undefined by the REST API,
    * are passed in the JSON request payload.
    * This sets the HTTP request header `extra-parameters`.
+   *
+   * Possible values: "error", "drop", "pass-through"
    */
   "extra-parameters"?: ExtraParameters;
 }
@@ -37,8 +39,8 @@ export interface GetChatCompletionsBodyParam {
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
     tool_choice?:
-    | ChatCompletionsToolSelectionPreset
-    | ChatCompletionsNamedToolSelection;
+      | ChatCompletionsToolSelectionPreset
+      | ChatCompletionsNamedToolSelection;
     seed?: number;
     model?: string;
   };
@@ -58,6 +60,8 @@ export interface GetEmbeddingsHeaders {
    * Controls what happens if extra parameters, undefined by the REST API,
    * are passed in the JSON request payload.
    * This sets the HTTP request header `extra-parameters`.
+   *
+   * Possible values: "error", "drop", "pass-through"
    */
   "extra-parameters"?: ExtraParameters;
 }
@@ -85,6 +89,8 @@ export interface GetImageEmbeddingsHeaders {
    * Controls what happens if extra parameters, undefined by the REST API,
    * are passed in the JSON request payload.
    * This sets the HTTP request header `extra-parameters`.
+   *
+   * Possible values: "error", "drop", "pass-through"
    */
   "extra-parameters"?: ExtraParameters;
 }
