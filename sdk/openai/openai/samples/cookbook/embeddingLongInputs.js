@@ -35,7 +35,7 @@ const scope = "https://cognitiveservices.azure.com/.default";
 const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
 
 // Set the AZURE_OPENAI_ENDPOINT environment variable to the Azure OpenAI endpoint
-const client = new AzureOpenAI({ azureADTokenProvider, apiVersion: "2024-04-01-preview" });
+const client = new AzureOpenAI({ azureADTokenProvider, apiVersion: "2024-07-01-preview" });
 
 async function getEmbeddings(text, model = deployment) {
   const res = await client.embeddings.create({ input: text, model });

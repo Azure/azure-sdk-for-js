@@ -6,6 +6,7 @@ import typescriptEslint from "typescript-eslint";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
 import markdown from "eslint-plugin-markdown";
+import promise from "eslint-plugin-promise";
 
 import eslintCustomized from "./eslint-customized";
 import markdownCustomized from "./markdown-customized";
@@ -14,7 +15,7 @@ import azureSdkCustomized from "./azure-sdk-customized";
 // to keep compat with old .eslintrc style usage
 import rootConfig from "./azure-sdk-base";
 
-function recommended(plugin: FlatConfig.Plugin) {
+function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
   return typescriptEslint.config(
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
@@ -28,15 +29,21 @@ function recommended(plugin: FlatConfig.Plugin) {
       },
     },
     eslint.configs.recommended,
-    ...typescriptEslint.configs.recommended,
+    ...(options.typeChecked
+      ? typescriptEslint.configs.recommendedTypeChecked
+      : typescriptEslint.configs.recommended),
     typescriptEslint.configs.eslintRecommended,
     eslintConfigPrettier,
     {
       plugins: {
         "@azure/azure-sdk": plugin,
         markdown,
+        promise,
       },
     },
+
+    promise.configs["flat/recommended"],
+
     // azure sdk customized
     eslintCustomized,
     ...markdownCustomized,
@@ -45,7 +52,8 @@ function recommended(plugin: FlatConfig.Plugin) {
 }
 
 export default (plugin: FlatConfig.Plugin) => ({
-  recommended: recommended(plugin),
+  recommended: recommended(plugin, { typeChecked: false }),
+  recommendedTypeChecked: recommended(plugin, { typeChecked: true }),
   "recommended-legacy": {
     plugins: ["@azure/azure-sdk"],
     env: {

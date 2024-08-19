@@ -9,22 +9,22 @@ import {
   KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
-} from "./backupClientModels";
-import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
-import { KeyVaultBackupOperationState } from "./lro/backup/operation";
-import { KeyVaultBackupPoller } from "./lro/backup/poller";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
-import { KeyVaultRestorePoller } from "./lro/restore/poller";
-import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
-import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
-import { LATEST_API_VERSION } from "./constants";
+} from "./backupClientModels.js";
+import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller.js";
+import { KeyVaultBackupOperationState } from "./lro/backup/operation.js";
+import { KeyVaultBackupPoller } from "./lro/backup/poller.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { KeyVaultRestoreOperationState } from "./lro/restore/operation.js";
+import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
+import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation.js";
+import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller.js";
+import { LATEST_API_VERSION } from "./constants.js";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { logger } from "./log";
-import { mappings } from "./mappings";
+import { logger } from "./log.js";
+import { mappings } from "./mappings.js";
 
 export {
   KeyVaultBackupOperationState,
