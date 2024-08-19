@@ -83,7 +83,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.4.1",
     "@microsoft/api-extractor": "^7.31.1",
-    "@rollup/plugin-inject": "5.0.5",
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/chai-as-promised": "^7.1.8",
     "@types/debug": "^4.1.4",
     "@types/node": "^18.0.0",
@@ -99,7 +99,7 @@
     "process": "^0.11.10",
     "rimraf": "^6.0.1",
     "stream": "^0.0.3",
-    "tshy": "^3.0.2",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.4",
     "vitest": "^2.0.5"
   },

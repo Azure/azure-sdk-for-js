@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdminPoller";
+import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdminPoller.js";
 import {
   KeyVaultSelectiveKeyRestoreOperationState,
   KeyVaultSelectiveKeyRestorePollOperation,
   KeyVaultSelectiveKeyRestorePollOperationState,
-} from "./operation";
-import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
+} from "./operation.js";
+import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels.js";
 
 export interface KeyVaultSelectiveKeyRestorePollerOptions extends KeyVaultAdminPollerOptions {
   keyName: string;

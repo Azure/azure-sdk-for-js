@@ -14,12 +14,16 @@ import { authorizeRequestOnTenantChallenge } from "../src/index.js";
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
   let getTokenStub: Mock<
-    [string | string[], GetTokenOptions | undefined],
-    Promise<AccessToken | null>
+    (scopes: string | string[], options: GetTokenOptions | undefined) => Promise<AccessToken | null>
   >;
   beforeEach(() => {
     getTokenStub = vi
-      .fn<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
+      .fn<
+        (
+          scopes: string | string[],
+          options: GetTokenOptions | undefined,
+        ) => Promise<AccessToken | null>
+      >()
       .mockResolvedValue({ expiresOnTimestamp: 1, token: "originalToken" });
   });
 
@@ -260,7 +264,12 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
 
   it("should reuse token if it hasn't expired", async () => {
     getTokenStub = vi
-      .fn<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
+      .fn<
+        (
+          scopes: string | string[],
+          options: GetTokenOptions | undefined,
+        ) => Promise<AccessToken | null>
+      >()
       .mockResolvedValue({ expiresOnTimestamp: Date.now() + 100000000, token: "originalToken" });
 
     const policy = bearerTokenAuthenticationPolicy({
@@ -301,7 +310,12 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
 
   it("should refresh token if it has expired", async () => {
     getTokenStub = vi
-      .fn<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
+      .fn<
+        (
+          scopes: string | string[],
+          options: GetTokenOptions | undefined,
+        ) => Promise<AccessToken | null>
+      >()
       .mockResolvedValue({ expiresOnTimestamp: Date.now() - 1000000, token: "originalToken" });
 
     const policy = bearerTokenAuthenticationPolicy({
@@ -344,7 +358,12 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
 
   it("should refresh token if valid but within window it has expired", async () => {
     getTokenStub = vi
-      .fn<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
+      .fn<
+        (
+          scopes: string | string[],
+          options: GetTokenOptions | undefined,
+        ) => Promise<AccessToken | null>
+      >()
       // Refresh window is 1000ms setting 999 to make sure we are in the refresh window
       .mockResolvedValue({ expiresOnTimestamp: Date.now() + 999, token: "originalToken" });
 

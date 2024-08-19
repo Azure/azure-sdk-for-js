@@ -49,7 +49,7 @@ describe("throttlingRetryPolicy", function () {
         };
 
         const policy = throttlingRetryPolicy();
-        const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+        const next = vi.fn<SendRequest>();
         next.mockResolvedValueOnce(retryResponse);
         next.mockResolvedValueOnce(successResponse);
 
@@ -88,7 +88,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -129,7 +129,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -166,7 +166,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -207,7 +207,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -238,7 +238,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     let i = 0;
     for (; i < DEFAULT_RETRY_POLICY_COUNT; ++i) {
       next.mockResolvedValueOnce(retryResponse);
@@ -279,7 +279,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 

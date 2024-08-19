@@ -67,7 +67,7 @@
     "eslint": "^8.50.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-n": "^17.10.1",
-    "eslint-plugin-no-only-tests": "^3.0.0",
+    "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-tsdoc": "^0.2.10",
     "eslint-plugin-markdown": "^5.0.0"
