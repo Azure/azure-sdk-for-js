@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
