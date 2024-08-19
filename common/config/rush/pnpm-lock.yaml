@@ -1184,6 +1184,9 @@ dependencies:
   '@rush-temp/test-utils':
     specifier: file:./projects/test-utils.tgz
     version: file:projects/test-utils.tgz
+  '@rush-temp/test-utils-vitest':
+    specifier: file:./projects/test-utils-vitest.tgz
+    version: file:projects/test-utils-vitest.tgz
   '@rush-temp/ts-http-runtime':
     specifier: file:./projects/ts-http-runtime.tgz
     version: file:projects/ts-http-runtime.tgz
@@ -1513,7 +1516,7 @@ packages:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.7.2
       '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.1
+      '@azure/core-util': 1.9.2
       '@azure/logger': 1.1.4
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
@@ -1522,8 +1525,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/core-sse@2.1.2:
-    resolution: {integrity: sha512-yf+pFIu8yCzXu9RbH2+8kp9vITIKJLHgkLgFNA6hxiDHK3fxeP596cHUj4c8Cm8JlooaUnYdHmF84KCZt3jbmw==}
+  /@azure/core-sse@2.1.3:
+    resolution: {integrity: sha512-KSSdIKy8kvWCpYr8Hzpu22j3wcXsVTYE0IlgmI1T/aHvBDsLgV91y90UTfVWnuiuApRLCCVC4gS09ApBGOmYQA==}
     engines: {node: '>=18.0.0'}
     dependencies:
       tslib: 2.6.3
@@ -1533,14 +1536,6 @@ packages:
     resolution: {integrity: sha512-dawW9ifvWAWmUm9/h+/UQ2jrdvjCJ7VJEuCJ6XVNudzcOwm53BFZH4Q845vjfgoUAM8ZxokvVNxNxAITc502YA==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      tslib: 2.6.3
-    dev: false
-
-  /@azure/core-util@1.9.1:
-    resolution: {integrity: sha512-OLsq0etbHO1MA7j6FouXFghuHrAFGk+5C1imcpQ2e+0oZhYF07WLA+NW2Vqs70R7d+zOAWiWM3tbE1sXcDN66g==}
-    engines: {node: '>=18.0.0'}
-    dependencies:
-      '@azure/abort-controller': 2.1.2
       tslib: 2.6.3
     dev: false
 
@@ -1608,8 +1603,8 @@ packages:
       '@azure/core-tracing': 1.1.2
       '@azure/core-util': 1.9.2
       '@azure/logger': 1.1.4
-      '@azure/msal-browser': 3.20.0
-      '@azure/msal-node': 2.12.0
+      '@azure/msal-browser': 3.21.0
+      '@azure/msal-node': 2.13.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -1658,15 +1653,20 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-browser@3.20.0:
-    resolution: {integrity: sha512-ErsxbfCGIwdqD8jipqdxpfAGiUEQS7MWUe39Rjhl0ZVPsb1JEe9bZCe2+0g23HDH6DGyCAtnTNN9scPtievrMQ==}
+  /@azure/msal-browser@3.21.0:
+    resolution: {integrity: sha512-BAwcFsVvOrYzKuUZHhFuvRykUmQGq6lDxst2qGnjxnpNZc3d/tnVPcmhgvUdeKl28VSE0ltgBzT3HkdpDtz9rg==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 14.14.0
+      '@azure/msal-common': 14.14.1
     dev: false
 
   /@azure/msal-common@14.14.0:
     resolution: {integrity: sha512-OxcOk9H1/1fktHh6//VCORgSNJc2dCQObTm6JNmL824Z6iZSO6eFo/Bttxe0hETn9B+cr7gDouTQtsRq3YPuSQ==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
+  /@azure/msal-common@14.14.1:
+    resolution: {integrity: sha512-2Q3tqNz/PZLfSr8BvcHZVpRRfSn4MjGSqjj9J+HlBsmbf1Uu4P0WeXnemjTJwwx9KrmplsrN3UkZ/LPOR720rw==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1685,11 +1685,11 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@azure/msal-node@2.12.0:
-    resolution: {integrity: sha512-jmk5Im5KujRA2AcyCb0awA3buV8niSrwXZs+NBJWIvxOz76RvNlusGIqi43A0h45BPUy93Qb+CPdpJn82NFTIg==}
+  /@azure/msal-node@2.13.0:
+    resolution: {integrity: sha512-DhP97ycs7qlCVzzzWGzJiwAFyFj5okno74E4FUZ61oCLfKh4IxA1kxirqzrWuYZWpBe9HVPL6GA4NvmlEOBN5Q==}
     engines: {node: '>=16'}
     dependencies:
-      '@azure/msal-common': 14.14.0
+      '@azure/msal-common': 14.14.1
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -1701,7 +1701,7 @@ packages:
       '@azure-rest/core-client': 1.4.0
       '@azure/core-auth': 1.7.2
       '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-sse': 2.1.2
+      '@azure/core-sse': 2.1.3
       '@azure/core-util': 1.9.2
       '@azure/logger': 1.1.4
       tslib: 2.6.3
@@ -2584,7 +2584,7 @@ packages:
       '@inquirer/figures': 1.0.5
       '@inquirer/type': 1.5.2
       '@types/mute-stream': 0.0.4
-      '@types/node': 22.2.0
+      '@types/node': 22.3.0
       '@types/wrap-ansi': 3.0.0
       ansi-escapes: 4.3.2
       cli-spinners: 2.9.2
@@ -2701,12 +2701,12 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor-model@7.29.4(@types/node@18.19.44):
-    resolution: {integrity: sha512-LHOMxmT8/tU1IiiiHOdHFF83Qsi+V8d0kLfscG4EvQE9cafiR8blOYr8SfkQKWB1wgEilQgXJX3MIA4vetDLZw==}
+  /@microsoft/api-extractor-model@7.29.5(@types/node@18.19.44):
+    resolution: {integrity: sha512-axMwj4pgtYH6/IclP9ly33laSwTym1kBwSUcoHElc2LYAE5NNlhGT78ucEpIZtqEZaGgA8yxGXIyS17XCC2Iuw==}
     dependencies:
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.5.1(@types/node@18.19.44)
+      '@rushstack/node-core-library': 5.6.0(@types/node@18.19.44)
     transitivePeerDependencies:
       - '@types/node'
     dev: false
@@ -2731,17 +2731,17 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor@7.47.5(@types/node@18.19.44):
-    resolution: {integrity: sha512-edKt4dFO2t25xmI2FX2rsP5liIgwKW1yuQImA0JM+5YGHCoo51GEQ7j+On17SvVpRJnuqLE/QVgtjIQ1Hpg98w==}
+  /@microsoft/api-extractor@7.47.6(@types/node@18.19.44):
+    resolution: {integrity: sha512-saI7n319+PdJ8PAePr14LWeIPOW2fHSr3KZfYFqJ2VUpIc1TTSh6ATFZfLPWI1LK7eZHun8+FpNsuxonyvxTgQ==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.29.4(@types/node@18.19.44)
+      '@microsoft/api-extractor-model': 7.29.5(@types/node@18.19.44)
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.5.1(@types/node@18.19.44)
+      '@rushstack/node-core-library': 5.6.0(@types/node@18.19.44)
       '@rushstack/rig-package': 0.5.3
-      '@rushstack/terminal': 0.13.3(@types/node@18.19.44)
-      '@rushstack/ts-command-line': 4.22.4(@types/node@18.19.44)
+      '@rushstack/terminal': 0.13.4(@types/node@18.19.44)
+      '@rushstack/ts-command-line': 4.22.5(@types/node@18.19.44)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.8
@@ -3287,8 +3287,8 @@ packages:
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
     dev: false
 
-  /@puppeteer/browsers@2.3.0:
-    resolution: {integrity: sha512-ioXoq9gPxkss4MYhD+SFaU9p1IHFUX0ILAWFPyjGaBdjLsYAlZw6j1iLA0N/m12uVHLFDfSYNF7EQccjinIMDA==}
+  /@puppeteer/browsers@2.3.1:
+    resolution: {integrity: sha512-uK7o3hHkK+naEobMSJ+2ySYyXtQkBxIH8Gn4MK9ciePjNV+Pf+PgY/W7iPzn2MTjl3stcYB5AlcTmPYw7AXDwA==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
@@ -3555,8 +3555,8 @@ packages:
       z-schema: 5.0.5
     dev: false
 
-  /@rushstack/node-core-library@5.5.1(@types/node@18.19.44):
-    resolution: {integrity: sha512-ZutW56qIzH8xIOlfyaLQJFx+8IBqdbVCZdnj+XT1MorQ1JqqxHse8vbCpEM+2MjsrqcbxcgDIbfggB1ZSQ2A3g==}
+  /@rushstack/node-core-library@5.6.0(@types/node@18.19.44):
+    resolution: {integrity: sha512-3ixIcEHseqU1sbnvoQkvxvfTYWbi1IIhnq/vexJcex7j6D8lnQCiYnd/E2oXbUH0Zv48CjtfslC/2MVFd71mpg==}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
@@ -3588,15 +3588,15 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/terminal@0.13.3(@types/node@18.19.44):
-    resolution: {integrity: sha512-fc3zjXOw8E0pXS5t9vTiIPx9gHA0fIdTXsu9mT4WbH+P3mYvnrX0iAQ5a6NvyK1+CqYWBTw/wVNx7SDJkI+WYQ==}
+  /@rushstack/terminal@0.13.4(@types/node@18.19.44):
+    resolution: {integrity: sha512-h7g2RuffpqBCDKOijlUmvQ0b2O9kpIOK9TWCX9IR+2kvudp6MdtCYDu29zeqweWwCSWUnuAaUfB5HT88s0YCiw==}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
       '@types/node':
         optional: true
     dependencies:
-      '@rushstack/node-core-library': 5.5.1(@types/node@18.19.44)
+      '@rushstack/node-core-library': 5.6.0(@types/node@18.19.44)
       '@types/node': 18.19.44
       supports-color: 8.1.1
     dev: false
@@ -3610,10 +3610,10 @@ packages:
       string-argv: 0.3.2
     dev: false
 
-  /@rushstack/ts-command-line@4.22.4(@types/node@18.19.44):
-    resolution: {integrity: sha512-QoyhbWfyF9Ixg5DWdPzxO3h2RmJ7i5WH9b7qLzD5h5WFya/ZqicjdPrVwQiGtrFvAbBj8jhcC9DhbzU9xAk78g==}
+  /@rushstack/ts-command-line@4.22.5(@types/node@18.19.44):
+    resolution: {integrity: sha512-eFm+5DJboPHAy3epLNQtmG+hDlBzS950g26nZPbciMQeXmZ5shGGNe6ERjV77wnr5IuxfLhYGJ4ZjPy8Z56MBA==}
     dependencies:
-      '@rushstack/terminal': 0.13.3(@types/node@18.19.44)
+      '@rushstack/terminal': 0.13.4(@types/node@18.19.44)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -3743,13 +3743,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3765,7 +3765,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3779,7 +3779,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/debug@4.1.12:
@@ -3791,7 +3791,7 @@ packages:
   /@types/decompress@4.2.7:
     resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/eslint-config-prettier@6.11.3:
@@ -3815,19 +3815,10 @@ packages:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
     dev: false
 
-  /@types/express-serve-static-core@4.19.0:
-    resolution: {integrity: sha512-bGyep3JqPCRry1wq+O5n7oiBgGWmeIJXPjXXCo8EK0u8duZGSYar7cGqd3ML2JUsLGeB7fmc06KYo9fLGWqPvQ==}
-    dependencies:
-      '@types/node': 18.19.44
-      '@types/qs': 6.9.15
-      '@types/range-parser': 1.2.7
-      '@types/send': 0.17.4
-    dev: false
-
   /@types/express-serve-static-core@4.19.5:
     resolution: {integrity: sha512-y6W03tvrACO72aijJ5uF02FRq5cgDR9lUxddQ8vyF+GvmjJQqbzDcJngEjURc+ZsG31VI3hODNZJ2URj86pzmg==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3847,18 +3838,6 @@ packages:
     dependencies:
       '@types/jsonfile': 6.1.4
       '@types/node': 18.19.44
-    dev: false
-
-  /@types/fs-extra@8.1.5:
-    resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
-    dependencies:
-      '@types/node': 22.2.0
-    dev: false
-
-  /@types/fs-extra@9.0.13:
-    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
-    dependencies:
-      '@types/node': 22.2.0
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3889,7 +3868,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3948,19 +3927,19 @@ packages:
   /@types/mute-stream@0.0.4:
     resolution: {integrity: sha512-CPM9nzrCPPJHQNA9keH9CVkVI+WR5kMa+7XEs5jcGQ0VoAGnLv242w8lIVgwAEfmE4oufJRaTc9PNLQl0ioAow==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 22.3.0
     dev: false
 
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
       form-data: 4.0.0
     dev: false
 
@@ -3976,10 +3955,10 @@ packages:
       undici-types: 5.26.5
     dev: false
 
-  /@types/node@22.2.0:
-    resolution: {integrity: sha512-bm6EG6/pCpkxDf/0gDNDdtDILMOHgaQBVOJGdwsqClnxA3xL6jtMv76rLBc006RVMWbmaf0xbmom4Z/5o2nRkQ==}
+  /@types/node@22.3.0:
+    resolution: {integrity: sha512-nrWpWVaDZuaVc5X84xJ0vNrLvomM205oQyLsRt7OHNZbSHslcWsvgFR7O7hire2ZonjLrWBbedmotmIlJDVd6g==}
     dependencies:
-      undici-types: 6.13.0
+      undici-types: 6.18.2
     dev: false
 
   /@types/pako@2.0.3:
@@ -3995,7 +3974,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
       pg-protocol: 1.6.1
       pg-types: 2.2.0
     dev: false
@@ -4015,7 +3994,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4034,14 +4013,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
       '@types/send': 0.17.4
     dev: false
 
@@ -4072,7 +4051,7 @@ packages:
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4106,13 +4085,13 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/ws@8.5.12:
     resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
 
   /@types/yargs-parser@21.0.3:
@@ -4129,7 +4108,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
     dev: false
     optional: true
 
@@ -4304,36 +4283,6 @@ packages:
       playwright: 1.46.0
       sirv: 2.0.4
       vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
-    dev: false
-
-  /@vitest/browser@2.0.5(playwright@1.45.3)(typescript@5.5.4)(vitest@2.0.5):
-    resolution: {integrity: sha512-VbOYtu/6R3d7ASZREcrJmRY/sQuRFO9wMVsEDqfYbWiJRh2fDNi8CL1Csn7Ux31pOcPmmM5QvzFCMpiojvVh8g==}
-    peerDependencies:
-      playwright: '*'
-      safaridriver: '*'
-      vitest: 2.0.5
-      webdriverio: '*'
-    peerDependenciesMeta:
-      playwright:
-        optional: true
-      safaridriver:
-        optional: true
-      webdriverio:
-        optional: true
-    dependencies:
-      '@testing-library/dom': 10.4.0
-      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
-      '@vitest/utils': 2.0.5
-      magic-string: 0.30.11
-      msw: 2.3.5(typescript@5.5.4)
-      playwright: 1.45.3
-      sirv: 2.0.4
-      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
-      ws: 8.18.0
-    transitivePeerDependencies:
-      - bufferutil
-      - typescript
-      - utf-8-validate
     dev: false
 
   /@vitest/browser@2.0.5(playwright@1.46.0)(typescript@5.4.5)(vitest@2.0.5):
@@ -4882,8 +4831,8 @@ packages:
     engines: {node: '>=0.11'}
     dev: false
 
-  /axios@1.7.3(debug@4.3.6):
-    resolution: {integrity: sha512-Ar7ND9pU99eJ9GpoGQKhKf58GpUOgnzuaB7ueNQ5BMi0p+LZ5oaEnfF999fAArcTIBwXTCHAmGcHOZJaWPq9Nw==}
+  /axios@1.7.4(debug@4.3.6):
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.6)
       form-data: 4.0.0
@@ -5024,7 +4973,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001651
-      electron-to-chromium: 1.5.6
+      electron-to-chromium: 1.5.7
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
     dev: false
@@ -5894,8 +5843,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.5.6:
-    resolution: {integrity: sha512-jwXWsM5RPf6j9dPYzaorcBSUg6AiqocPEyMpkchkvntaH9HGfOOMZwxMJjDY/XEs3T5dM7uyH1VhRMkqUU9qVw==}
+  /electron-to-chromium@1.5.7:
+    resolution: {integrity: sha512-6FTNWIWMxMy/ZY6799nBlPtF1DFDQ6VQJ7yyDP27SJNt5lwtQ5ufqVvHylb3fdQefvRcgA3fKcFMJi9OLwBRNw==}
     dev: false
 
   /emoji-regex@8.0.0:
@@ -5928,7 +5877,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -6295,8 +6244,8 @@ packages:
       semver: 7.6.3
     dev: false
 
-  /eslint-plugin-no-only-tests@3.1.0:
-    resolution: {integrity: sha512-Lf4YW/bL6Un1R6A76pRZyE1dl1vr31G/ev8UzIc/geCgFWyrKil8hVjYqWVKGB/UIGmb6Slzs9T0wNezdSVegw==}
+  /eslint-plugin-no-only-tests@3.3.0:
+    resolution: {integrity: sha512-brcKcxGnISN2CcVhXJ/kEQlNa0MEfGRtwKtWA16SkqXHKitaKIMrfemJKLKX1YqDU5C/5JY3PvZXd5jEW04e0Q==}
     engines: {node: '>=5.0.0'}
     dev: false
 
@@ -6825,15 +6774,6 @@ packages:
 
   /fs-constants@1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
-    dev: false
-
-  /fs-extra@10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      graceful-fs: 4.2.11
-      jsonfile: 6.1.0
-      universalify: 2.0.1
     dev: false
 
   /fs-extra@11.2.0:
@@ -8945,8 +8885,8 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.55.4:
-    resolution: {integrity: sha512-TEC75Y6U/OKIJp9fHao3zkTYfKLYGqXdD2TI+xN2Zd5W8KNKvv6E4/OBTOW7jg7fySfrBrhy5fYzBbyBcdHEtQ==}
+  /openai@4.55.7:
+    resolution: {integrity: sha512-I2dpHTINt0Zk+Wlns6KzkKu77MmNW3VfIIQf5qYziEUI6t7WciG1zTobfKqdPzBmZi3TTM+3DtjPumxQdcvzwA==}
     hasBin: true
     peerDependencies:
       zod: ^3.23.8
@@ -9281,26 +9221,10 @@ packages:
       pathe: 1.1.2
     dev: false
 
-  /playwright-core@1.45.3:
-    resolution: {integrity: sha512-+ym0jNbcjikaOwwSZycFbwkWgfruWvYlJfThKYAlImbxUgdWFO2oW70ojPm4OpE4t6TAo2FY/smM+hpVTtkhDA==}
-    engines: {node: '>=18'}
-    hasBin: true
-    dev: false
-
   /playwright-core@1.46.0:
     resolution: {integrity: sha512-9Y/d5UIwuJk8t3+lhmMSAJyNP1BUC/DqP3cQJDQQL/oWqAiuPTLgy7Q5dzglmTLwcBRdetzgNM/gni7ckfTr6A==}
     engines: {node: '>=18'}
     hasBin: true
-    dev: false
-
-  /playwright@1.45.3:
-    resolution: {integrity: sha512-QhVaS+lpluxCaioejDZ95l4Y4jSFCsBvl2UZkpeXlzxmqS+aABr5c82YmfMHrL6x27nvrvykJAFpkzT2eWdJww==}
-    engines: {node: '>=18'}
-    hasBin: true
-    dependencies:
-      playwright-core: 1.45.3
-    optionalDependencies:
-      fsevents: 2.3.2
     dev: false
 
   /playwright@1.46.0:
@@ -9484,7 +9408,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.2.0
+      '@types/node': 18.19.44
       long: 5.2.3
     dev: false
 
@@ -9549,14 +9473,15 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /puppeteer-core@23.0.2:
-    resolution: {integrity: sha512-MvOHn+g1TYkAR2oVd/bf/YWXKqFTJmkhyyurYgxkrjh8rBOL1ZH5VyOsLJi0bLO7/yoipAmk1gFZEx9HUJnaoA==}
+  /puppeteer-core@23.1.0:
+    resolution: {integrity: sha512-SvAsu+xnLN2FMXE/59bp3s3WXp8ewqUGzVV4AQtml/2xmsciZnU/bXcCW+eETHPWQ6Agg2vTI7QzWXPpEARK2g==}
     engines: {node: '>=18'}
     dependencies:
-      '@puppeteer/browsers': 2.3.0
+      '@puppeteer/browsers': 2.3.1
       chromium-bidi: 0.6.4(devtools-protocol@0.0.1312386)
       debug: 4.3.6(supports-color@8.1.1)
       devtools-protocol: 0.0.1312386
+      typed-query-selector: 2.12.0
       ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
@@ -9564,17 +9489,18 @@ packages:
       - utf-8-validate
     dev: false
 
-  /puppeteer@23.0.2(typescript@5.5.4):
-    resolution: {integrity: sha512-I/l1P8s8brcLG+oW9AwF8hUaOSGGJcGKMflXRgULUH0S3ABptlLI9ZKjqWDo8ipY6v789ZKd+bNKtcCwpTh5Ww==}
+  /puppeteer@23.1.0(typescript@5.5.4):
+    resolution: {integrity: sha512-m+CyicDlGN1AVUeOsCa6/+KQydJzxfsPowL7fQy+VGNeaWafB0m8G5aGfXdfZztKMxzCsdz7KNNzbJPeG9wwFw==}
     engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@puppeteer/browsers': 2.3.0
+      '@puppeteer/browsers': 2.3.1
       chromium-bidi: 0.6.4(devtools-protocol@0.0.1312386)
       cosmiconfig: 9.0.0(typescript@5.5.4)
       devtools-protocol: 0.0.1312386
-      puppeteer-core: 23.0.2
+      puppeteer-core: 23.1.0
+      typed-query-selector: 2.12.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -10974,6 +10900,10 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: false
 
+  /typed-query-selector@2.12.0:
+    resolution: {integrity: sha512-SbklCd1F0EiZOyPiW192rrHZzZ5sBijB6xM+cpmrwDqObvdtunOHHIk9fCGsoK5JVIYXoyEp4iEdE3upFH3PAg==}
+    dev: false
+
   /typedarray-to-buffer@3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
     dependencies:
@@ -11071,8 +11001,8 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: false
 
-  /undici-types@6.13.0:
-    resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
+  /undici-types@6.18.2:
+    resolution: {integrity: sha512-5ruQbENj95yDYJNS3TvcaxPMshV7aizdv/hWYjGIKoANWKjhWNBsr2YEuYZKodQulB1b8l7ILOuDQep3afowQQ==}
     dev: false
 
   /undici@5.28.4:
@@ -11397,7 +11327,7 @@ packages:
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
-      axios: 1.7.3(debug@4.3.6)
+      axios: 1.7.4(debug@4.3.6)
       joi: 17.13.3
       lodash: 4.17.21
       minimist: 1.2.8
@@ -11751,7 +11681,7 @@ packages:
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -11791,7 +11721,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -11838,7 +11768,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -11884,7 +11814,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -11931,7 +11861,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -11976,7 +11906,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12021,7 +11951,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.20.0)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
@@ -12068,7 +11998,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -12111,7 +12041,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -12161,7 +12091,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
@@ -12208,7 +12138,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       autorest: 3.7.1
@@ -12237,7 +12167,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12282,7 +12212,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -12330,7 +12260,7 @@ packages:
       '@azure/core-lro': 3.0.0-beta.1
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12376,7 +12306,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12420,7 +12350,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure/core-lro': 3.0.0-beta.1
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -12453,7 +12383,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-zTS3hFS7O8OPYXm4uENfz0YR20bpyVt9q0RelECnrcvwpbx9i4wIU7JbOYwF2VCH+w/Qqyz5Cn6I+sB7HHcb/g==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-QfHG2jBEfs0+PK0aTSGABk2KzFAsXxMeIhh2holZ5g8odJR316/mei4xFHXTIY01L69SZPb9aSiWu+gMAv8LDw==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
@@ -12548,7 +12478,7 @@ packages:
       '@azure-rest/core-client': 1.4.0
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -12588,7 +12518,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12628,7 +12558,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12658,7 +12588,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12687,7 +12617,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12716,7 +12646,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12746,7 +12676,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12776,7 +12706,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12807,7 +12737,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12837,7 +12767,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12866,7 +12796,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12895,7 +12825,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12925,7 +12855,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12956,7 +12886,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -12986,7 +12916,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13032,7 +12962,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13060,7 +12990,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13087,7 +13017,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13117,7 +13047,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13145,7 +13075,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13175,7 +13105,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13205,7 +13135,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13236,7 +13166,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13263,7 +13193,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13292,7 +13222,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13323,7 +13253,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13353,7 +13283,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13383,7 +13313,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13412,7 +13342,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13441,7 +13371,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13471,7 +13401,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13499,7 +13429,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13526,7 +13456,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13556,7 +13486,7 @@ packages:
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13586,7 +13516,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13614,7 +13544,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13642,7 +13572,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13669,7 +13599,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13698,7 +13628,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13729,7 +13659,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13760,7 +13690,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13791,7 +13721,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13833,7 +13763,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -13876,7 +13806,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13907,7 +13837,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13937,7 +13867,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13965,7 +13895,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -13995,7 +13925,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14025,7 +13955,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14055,7 +13985,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14086,7 +14016,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14132,7 +14062,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14163,7 +14093,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14194,7 +14124,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14224,7 +14154,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14254,7 +14184,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14283,7 +14213,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14313,7 +14243,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14343,7 +14273,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14373,7 +14303,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14402,7 +14332,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14432,7 +14362,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14461,7 +14391,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14491,7 +14421,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14522,7 +14452,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14551,7 +14481,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14580,7 +14510,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14611,7 +14541,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14641,7 +14571,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14668,7 +14598,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14698,7 +14628,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14727,7 +14657,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14757,7 +14687,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14787,7 +14717,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14818,7 +14748,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14848,7 +14778,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14879,7 +14809,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14908,7 +14838,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14937,7 +14867,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14967,7 +14897,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -14997,7 +14927,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15026,7 +14956,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15056,7 +14986,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15085,7 +15015,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15111,7 +15041,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -15152,7 +15082,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15182,7 +15112,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15212,7 +15142,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15242,7 +15172,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15272,7 +15202,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15303,7 +15233,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15333,7 +15263,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15361,7 +15291,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15388,7 +15318,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15418,7 +15348,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15448,7 +15378,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15476,7 +15406,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15507,7 +15437,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15536,7 +15466,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15566,7 +15496,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15596,7 +15526,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15626,7 +15556,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15655,7 +15585,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15681,7 +15611,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -15724,7 +15654,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15753,7 +15683,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15783,7 +15713,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15813,7 +15743,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15842,7 +15772,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15873,7 +15803,7 @@ packages:
       '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15904,7 +15834,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15935,7 +15865,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15962,7 +15892,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -15992,7 +15922,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16022,7 +15952,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16052,7 +15982,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16082,7 +16012,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16112,7 +16042,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16142,7 +16072,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16172,7 +16102,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16202,7 +16132,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16230,7 +16160,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16258,7 +16188,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16286,7 +16216,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16314,7 +16244,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16343,7 +16273,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16373,7 +16303,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16404,7 +16334,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16431,7 +16361,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16459,7 +16389,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16490,7 +16420,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16520,7 +16450,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16550,7 +16480,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16577,7 +16507,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16605,7 +16535,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16635,7 +16565,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16662,7 +16592,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16692,7 +16622,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16720,7 +16650,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16750,7 +16680,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16778,7 +16708,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16807,7 +16737,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16834,7 +16764,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -16875,7 +16805,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16905,7 +16835,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16933,7 +16863,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16963,7 +16893,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -16994,7 +16924,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17023,7 +16953,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17054,7 +16984,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17085,7 +17015,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17115,7 +17045,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17161,7 +17091,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17191,7 +17121,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17221,7 +17151,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17250,7 +17180,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17280,7 +17210,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17310,7 +17240,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17340,7 +17270,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17369,7 +17299,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17399,7 +17329,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17428,7 +17358,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17459,7 +17389,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17489,7 +17419,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17517,7 +17447,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17546,7 +17476,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17574,7 +17504,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17602,7 +17532,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17632,7 +17562,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17660,7 +17590,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17690,7 +17620,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17720,7 +17650,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17749,7 +17679,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17779,7 +17709,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17808,7 +17738,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17838,7 +17768,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17867,7 +17797,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17897,7 +17827,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17928,7 +17858,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17958,7 +17888,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -17988,7 +17918,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18020,7 +17950,7 @@ packages:
       '@azure/arm-recoveryservices': 5.4.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18051,7 +17981,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18081,7 +18011,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18113,7 +18043,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18144,7 +18074,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18175,7 +18105,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18205,7 +18135,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18235,7 +18165,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18263,7 +18193,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18290,7 +18220,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18320,7 +18250,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18350,7 +18280,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18378,7 +18308,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18408,7 +18338,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18438,7 +18368,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18469,7 +18399,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18500,7 +18430,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18531,7 +18461,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18562,7 +18492,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18592,7 +18522,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18622,7 +18552,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18651,7 +18581,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18680,7 +18610,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18710,7 +18640,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18740,7 +18670,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18786,7 +18716,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18815,7 +18745,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18845,7 +18775,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18873,7 +18803,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18903,7 +18833,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18933,7 +18863,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18963,7 +18893,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -18993,7 +18923,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19023,7 +18953,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19054,7 +18984,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19084,7 +19014,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19114,7 +19044,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19143,7 +19073,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19174,7 +19104,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19204,7 +19134,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19233,7 +19163,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19263,7 +19193,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19294,7 +19224,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19323,7 +19253,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19352,7 +19282,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19381,7 +19311,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19409,7 +19339,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19439,7 +19369,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19468,7 +19398,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19498,7 +19428,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19526,7 +19456,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19555,7 +19485,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19583,7 +19513,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19613,7 +19543,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19642,7 +19572,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19672,7 +19602,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19702,7 +19632,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19732,7 +19662,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19761,7 +19691,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19791,7 +19721,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19819,7 +19749,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19846,7 +19776,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -19897,7 +19827,7 @@ packages:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.2.0
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
@@ -19938,7 +19868,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -19981,7 +19911,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/communication-phone-numbers': 1.2.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20027,7 +19957,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/communication-signaling': 1.0.0-beta.28
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20073,7 +20003,7 @@ packages:
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -20120,7 +20050,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20163,8 +20093,8 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@azure/msal-node': 2.12.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@azure/msal-node': 2.13.0
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20207,7 +20137,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20257,7 +20187,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20302,7 +20232,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20347,7 +20277,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20391,7 +20321,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20436,7 +20366,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20472,7 +20402,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20518,7 +20448,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20563,7 +20493,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20609,7 +20539,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20653,7 +20583,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -20681,7 +20611,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -20722,7 +20652,7 @@ packages:
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@rollup/plugin-inject': 5.0.5(rollup@4.20.0)
       '@types/debug': 4.1.12
       '@types/node': 18.19.44
@@ -20768,7 +20698,7 @@ packages:
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -20803,7 +20733,7 @@ packages:
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -20838,7 +20768,7 @@ packages:
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -20873,7 +20803,7 @@ packages:
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -20907,7 +20837,7 @@ packages:
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -20942,7 +20872,7 @@ packages:
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -20977,7 +20907,7 @@ packages:
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -21014,7 +20944,7 @@ packages:
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/express': 4.17.21
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
@@ -21053,7 +20983,7 @@ packages:
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -21088,7 +21018,7 @@ packages:
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -21123,7 +21053,7 @@ packages:
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@types/trusted-types': 2.0.7
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
@@ -21161,7 +21091,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@sinonjs/fake-timers': 11.2.2
       '@types/chai': 4.3.17
       '@types/debug': 4.1.12
@@ -21204,7 +21134,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -21250,7 +21180,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -21288,7 +21218,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-RVgh2LhHvyVsqZ/yF/dl+YkYH/2VjI8xomfx8Acg5pgSaK9p+ylReMh9YPtFVd1ZvB8v5bl94m1z0cY5SCFEaQ==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-66IidRFwPa23K2J6Gdws3gd3uYJ1jWzv5dWcCW8gzjBAu7nonW/XibhqDhX7HX+ThJRgGBde96Cx2Hx5xQBVng==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -21296,7 +21226,7 @@ packages:
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.1
       '@eslint/js': 9.2.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.20.0)
       '@rollup/plugin-inject': 5.0.5(rollup@4.20.0)
       '@rollup/plugin-json': 6.1.0(rollup@4.20.0)
@@ -21305,7 +21235,7 @@ packages:
       '@types/archiver': 6.0.2
       '@types/decompress': 4.2.7
       '@types/express': 4.17.21
-      '@types/express-serve-static-core': 4.19.0
+      '@types/express-serve-static-core': 4.19.5
       '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
       '@types/node': 18.19.44
@@ -21364,7 +21294,7 @@ packages:
     dependencies:
       '@azure/core-lro': 3.0.0
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -21404,7 +21334,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -21443,7 +21373,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk-helper.tgz:
-    resolution: {integrity: sha512-xHpH9pq2/ySvOp5t8KNaBzNF4pcAysfUMzfOf2o+7xWwVgHaunwEpXKw6fg1zJoaJM06sjh8TpL2rTcka9yzRg==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
+    resolution: {integrity: sha512-BNAjKfF+QfoGeAHl3ED/z/aDIJTM5ylb7gO2V6q5bwvhJHnCFWTNm0lRd0jK9c3JVyIxD+LWPJO0P2i0hGXNiA==, tarball: file:projects/eslint-plugin-azure-sdk-helper.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk-helper'
     version: 0.0.0
     dependencies:
@@ -21460,7 +21390,7 @@ packages:
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
       eslint-plugin-markdown: 5.1.0(eslint@8.57.0)
       eslint-plugin-n: 17.10.2(eslint@8.57.0)
-      eslint-plugin-no-only-tests: 3.1.0
+      eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-promise: 6.6.0(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
       glob: 10.4.5
@@ -21472,7 +21402,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-A0owIVA9YqDG8X7LQ+phP23yxojh7pQ/JoIX2xNdF1ItiZFy+5IIyAUN5QmqC7uShmAPQqL80G+J438xMuF0Ig==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-PmDtKMlzVHnqzw+ALXhDOvsHlS6tzEfC0NCMpeNeidFcxzG2PKpen3KYfea4aCIzqJuFMePAdg5fwf1wqdQ16w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -21496,7 +21426,7 @@ packages:
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
       eslint-plugin-markdown: 5.1.0(eslint@8.57.0)
       eslint-plugin-n: 17.10.2(eslint@8.57.0)
-      eslint-plugin-no-only-tests: 3.1.0
+      eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-promise: 6.6.0(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
       glob: 10.4.5
@@ -21524,13 +21454,13 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-TPrnO5Gxjcr2M/N+/VcKpDYnlqj1FfWM5DIDLnxgAZq3nKeXBMQi9bwolSVVy7uYF5Tqd28SuEE0hgx6UvHL5g==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-xLnyilBbbHQfmzOAAd5SjygGVv4ge2nrp4WzLc8ifOjRhBLsWdDXsg11j4nGj0/z5/qC1mM6tDtAdoKEF4moiA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
       '@azure/core-amqp': 4.4.0-beta.1
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@rollup/plugin-inject': 5.0.5(rollup@4.20.0)
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
@@ -21589,7 +21519,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -21636,7 +21566,7 @@ packages:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -21683,7 +21613,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -21726,16 +21656,14 @@ packages:
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-util': 1.9.1
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@rollup/plugin-inject': 5.0.5(rollup@4.20.0)
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
       '@types/node': 18.19.44
-      '@vitest/browser': 2.0.5(playwright@1.45.3)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       buffer: 6.0.3
       chai-as-promised: 8.0.0(chai@4.3.10)
@@ -21743,7 +21671,7 @@ packages:
       debug: 4.3.6(supports-color@8.1.1)
       dotenv: 16.4.5
       eslint: 8.57.0
-      playwright: 1.45.3
+      playwright: 1.46.0
       process: 0.11.10
       rimraf: 6.0.1
       stream: 0.0.3
@@ -21781,7 +21709,7 @@ packages:
     dependencies:
       '@azure/event-hubs': 5.12.0
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@rollup/plugin-inject': 5.0.5(rollup@4.20.0)
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
@@ -21832,7 +21760,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/functions': 3.5.1
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -21874,7 +21802,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.4.5)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -21918,7 +21846,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -21965,7 +21893,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22012,7 +21940,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22056,16 +21984,16 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.4.1
-      '@azure/msal-node': 2.12.0
+      '@azure/msal-node': 2.13.0
       '@azure/msal-node-extensions': 1.1.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       '@types/sinon': 17.0.3
       cross-env: 7.0.3
       eslint: 8.57.0
       mocha: 10.7.3
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       tslib: 2.6.3
@@ -22083,9 +22011,9 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@azure/msal-node': 2.12.0
+      '@azure/msal-node': 2.13.0
       '@azure/msal-node-extensions': 1.1.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/jws': 3.2.10
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22097,7 +22025,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.7.3
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
@@ -22119,7 +22047,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/jws': 3.2.10
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22132,7 +22060,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.7.3
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
@@ -22154,9 +22082,9 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/keyvault-keys': 4.8.0
-      '@azure/msal-browser': 3.20.0
-      '@azure/msal-node': 2.12.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@azure/msal-browser': 3.21.0
+      '@azure/msal-node': 2.13.0
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/jsonwebtoken': 9.0.6
       '@types/jws': 3.2.10
@@ -22186,7 +22114,7 @@ packages:
       ms: 2.1.3
       nyc: 17.0.0
       open: 8.4.2
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       stoppable: 1.1.0
@@ -22213,7 +22141,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22256,7 +22184,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22295,7 +22223,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-H+PatDF3wnToQYZXIAYOSAngUbf1Vw8HC/u0C7Ck2CsPC73rhukCLi5K9WCoYN0np19waST2qriDM5uTMv+jzg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-apDSonXIGR4V18FGs4+t4A5R3GScYn2hViO2mo1U5J2f4IOcXH8zPgggu5qcAU/M49MLBeEOBIw/iJchWm+zaA==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -22303,27 +22231,45 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       mocha: 10.7.3
       nyc: 17.0.0
+      playwright: 1.46.0
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
+      tshy: 2.0.1
       tslib: 2.6.3
       typescript: 5.5.4
       uuid: 8.3.2
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/keyvault-certificates.tgz:
@@ -22335,7 +22281,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       '@types/sinon': 17.0.3
@@ -22355,7 +22301,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22376,14 +22322,14 @@ packages:
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       cross-env: 7.0.3
       eslint: 8.57.0
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22407,7 +22353,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       '@types/sinon': 17.0.3
@@ -22428,7 +22374,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22453,7 +22399,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       '@types/sinon': 17.0.3
@@ -22471,7 +22417,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -22497,7 +22443,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22540,7 +22486,7 @@ packages:
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -22577,7 +22523,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -22599,7 +22545,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22645,7 +22591,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22692,7 +22638,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22739,7 +22685,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22782,7 +22728,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -22826,7 +22772,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -22870,7 +22816,7 @@ packages:
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
@@ -22907,7 +22853,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -22952,7 +22898,7 @@ packages:
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.52.1
       '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
@@ -22982,13 +22928,13 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-5Gl35CDEuoqfATvL1SM2nAgJx8BY0l19+YfQxqq/+kwmgI2PRDPmJBynU3ydy7O+QQoVgQ/03F6E3Vu0dExI9Q==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-thwsoEaOyjBXBsnArTgvp+jJD5RGkA60bQxm9M5FINEikCj1ExvOfKuz92mlczAz9ucFDoUtoqlrRRRsRykkkg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 4.5.0
       '@azure/functions-old': /@azure/functions@3.5.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@microsoft/applicationinsights-web-snippet': 1.2.1
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.52.1
@@ -23030,14 +22976,14 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-K0oIAXSqWEec33diTPRBZU+N7V2ZIf+US37Z2Dj6HGlCH1BW2UgVNiCtzIiSjfn1rO8H/KRUJya0sjQaZDbVAQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-ihLsubKVYU9jaXZo1mmKS5vpC+COwujWvF+iXDj85MmJFDsFzZ+XdoQxqqCFIToFJdjJr7P34Bx6vesPFMOzJw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/sdk-trace-base': 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.25.1(@opentelemetry/api@1.9.0)
@@ -23079,7 +23025,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -23117,12 +23063,12 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
-      openai: 4.55.4
+      openai: 4.55.7
       rimraf: 3.0.2
       tshy: 2.0.1
       tslib: 2.6.3
@@ -23138,7 +23084,7 @@ packages:
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.52.1(@opentelemetry/api@1.9.0)
@@ -23178,12 +23124,13 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-+2sdLr5s1rQuWZmjNq61hKRTw4MofspwVuLr2M1xJqvJzMvS9uaEiHzQhGL8SQnDCAiriEGWlOKE0cPTwk1OaA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-POWpOoVpfQdjEWbBSiHCj+DvlYTRfyzU0XtydXNXGs+bM0n+BNUTuoh7n/tk1ZJKa2cr8c6NZnESJpkB5tDb3Q==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23197,12 +23144,13 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-dTrpF9+EBstw1nnG9iqZ+dxBNWk5dVSHzvkLWmXMPmSS2Zrp+PmnZdpeTCbSicv8duSiCuJKk3QAdPqrJBxvDw==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-5/7jXL83XnX5OXadOHW4gTycoTsLDth3As/KDepCiJ8HsZBR32xLVwtVkE5/ukB0zOlKW5f/2OE24ctUhbdS5g==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23216,11 +23164,12 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-uFklYxMKebBVlMr+MfLCoHnh+blJN/nyNCckjRwF8c8QrO4hQG/7TP0rNn8bRZH1YPlETazOzdhm9Ze7ReDC+A==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-td1pfbo0dFobWlifHe8T3e04KBYDiXImEtfD0rInUstpoVyXCksg7dzbFLjBltjblJ1i/r97ID+3bvaJPWFmiQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23234,12 +23183,13 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-OJXISLbv9M5c4mxqAxcLReTivG7P+03AtPfhrUDqfTv+Q0NK3FUWpRrj3yvXycArK1Lr0jYk6+ntp17T9T5iqw==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-kmAYfpIiEjg7ILSlzcXGWpbbYXUt2TjiqPARqaTqzNW7hHf+0rHFnCduyQc6PPtldN8fr1NTuW1tUiDCV54b7A==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23253,12 +23203,13 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-yH3GCyUaVFuIc5Fx/xHuToZK0NanODuc0k8TRzfcaEN0+xEr0j8bOkHGZ5F7ryyROO9jaJzc/pz7b6hyxOqtnw==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-eEVIqKSFpKM8WmN1Nd9tBdDsl3lh/SXig304S9gF7hwu9aOC5I0pmuxR+QK09rDUQCkhGcUvojePzr90YvtEhw==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
       '@azure/app-configuration': 1.5.0-beta.2
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23272,11 +23223,12 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-PP4GcU3xYYApVoB1YxZ+mbp+WkmPKNvPV5tB3IgShYa/yrDfrCGMAaSKZS4UpMzOde7++xi93R9aHhnZnOhqzg==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-/4KU5u3ORhJT+YmLWoWK25Ym8hMrTQtGrJLi/lTgZALWYaq29RqBzT/ElXRrfhpQSqtlpL7nU6frr0mJEH0Hhw==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23290,13 +23242,14 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-gUEA7TVFT7UbP+NwVhQYhS9SML8v7EbO/WdcqoN3cRNIuyYRJ0ON6sEHrjm5h2vgGyv+9BpLipxvJ/CsCz7hWw==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-oh4S+j2b8xUVN8+/+AeKCD1P10gPLP5gk1KqTE9dVGANcUoMMJGZoD75n3dtLqkxIAqljhCOCuosl+CUXGof1A==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@types/express': 4.17.21
       '@types/node': 18.19.44
       concurrently: 8.2.2
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       express: 4.19.2
@@ -23312,11 +23265,12 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-CuECh5wyMvGA21e1ZxnnKsD0OHmJ6u9iIzn58P37BMp2U6AOdzA1+6Ve/6I+GP82FdehQzHP4DILidorrZrdnw==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-oh3fFCWwG6EPkoIU5tvolvN21oD4EKzC97YNDXoyyzORBEKegYXELTKXz7Kf1eYbXf30fOZWVQBAtqYlm6sOng==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23330,7 +23284,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-XcspnaxQqDYmY/ATVfrjDlzOgx1LzCFQuWvOkXDYydfUTYwOEEtZhz5ZVXIJ26vVmDTWg5AlBs1vZ+UAOCItsQ==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-WNUyx88CRHgtyRV9gumkfvO//QpFFiaIQXifUdPQanrtcPq/9lrLdijrBGpl39ADnOMCSGeuMFptl6xEgmq6LQ==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -23338,6 +23292,7 @@ packages:
       '@azure/event-hubs': 5.12.0
       '@types/node': 18.19.44
       '@types/uuid': 8.3.4
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       moment: 2.30.1
@@ -23353,11 +23308,12 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-UNKjJtAuoW6BpkNXnjYeyREI/tjYC40HaFGK0yS8UZabqUOImYQ+soj3WdMmbB08T9uz1t0BggIWwKHW9lX2mw==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-qKB5+KeoStnNZC/FkG5g9l26AEuxs7zmgqAacC9IZotoy2GE9ZG7q6m2WsMKLZOQt7plB5KayvQ/MdpDjv51cA==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23371,13 +23327,14 @@ packages:
     dev: false
 
   file:projects/perf-identity.tgz:
-    resolution: {integrity: sha512-GTXGJ32TSMYU25L64IKFzf3eLwEGhNtYzbqT2WmCBItZLeKLafEEgP50RE8Gz0vG8fa2lrcIpzttoUWS34ZVtQ==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-XzYh+7p+G/O0SMjw2P4RWD61k7E1aNPnKa3iVWehQb1AjpqrSZMQjdUSS+YL4IzFBHcxpV6y2Pt8559jxYj23A==, tarball: file:projects/perf-identity.tgz}
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
       '@types/uuid': 8.3.4
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23391,13 +23348,14 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-YTQ7Gv3hfyaG46QXcgEqp0aicllEnEjaCSuvuDUAg2iHlfrDs3I56WI7kNvwHPTW7sD7XrMu3fYCAW07HVTBlg==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-g5OCl4cgItrWrxSaJ0W4MJelVE4bELSwc7f9ePWdgpl6RiiG+ibfQ1HBL6h2RBI90OfagfLVjbpOskZ07OXApQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
       '@types/uuid': 8.3.4
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23412,13 +23370,14 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-qdbunS9P9zV1knHd3/bHRDM6Tqktcq1ssFmzZKx0V9t8ulxOwTf1F77emaxTpFT4X3iJeWA9IV9mZwr374shLQ==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-mx8RrUBBQ6HcsZ9p5BRoqEQnpCQZSFP/rVDd6kHfDuRwCm5CQwzTFKNwMXklZ9CyA6tzT+zoKYWvm5CBQgalkw==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
       '@types/uuid': 8.3.4
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23433,13 +23392,14 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-5hBxFCxNy2PAbBwL9ro7PU9yER84QNNRXP+TUBJB4U4zHuXFgFdqPcKEaiWeUNkvB3Dq/mHr31oZlvF4012Q7w==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-jLWlsayX1Dpm+pI5o2MwFnHqkk94+0VpaznqL+TYvLXxIZJaOH+ihVglHxs1F9eeSAxz8vKZ/3x1B2A1JEp+9Q==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
       '@types/uuid': 8.3.4
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23454,12 +23414,13 @@ packages:
     dev: false
 
   file:projects/perf-monitor-ingestion.tgz:
-    resolution: {integrity: sha512-zh4+v7/7MFpXAZDZFZI0v9IhUx1RWqnfb7XhcYc/yG5uvROql1FvMOHeF/yX6c33vi88ddW2jslGxBKuxLKD1w==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-Jsd9dNsPBlbDq2G2sBTVgtvmu4dAS2q2tp7vQwbxJyuMg7x4qjTi1QYGzXgP5gCdujGc5PR1mVEeA+hI+9t7sw==, tarball: file:projects/perf-monitor-ingestion.tgz}
     name: '@rush-temp/perf-monitor-ingestion'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23473,7 +23434,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-7aa3K5UlWLk7fS516+aDrAhhWZ7dIYr2twHaUkk57LeSfiLeEIL8zoL3GjTdmB4iwKNhjfE2Lq4dE+5bHAKhjw==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-q2N9qSHI4hcuh4nZA37gc1hs3zPj5tiVIEmce6b53y6kaqiXYvCWIHXnZU5WovIFuXshvyznZlMd3EEjNUjAPA==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -23481,6 +23442,7 @@ packages:
       '@opentelemetry/api-logs': 0.52.1
       '@opentelemetry/sdk-logs': 0.52.1(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23491,12 +23453,13 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-CEXnEZX18YBKd0OGlQbJuomtGSCxpWUVD6wFEV2v+sM6z5upzey8Jc1BW/NqOcVa1LedXtVQsJSmD5gb85dNhA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-Bi1scWVWErZXsjaY3pFVoTLMmEvrcl4ItW+jp+KrrxshKl3gHkOlvpoE6wexaTGHs7TsUaxVox+cbCEzOzdojw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23510,12 +23473,13 @@ packages:
     dev: false
 
   file:projects/perf-schema-registry-avro.tgz:
-    resolution: {integrity: sha512-kgs3jPjkAEmUVnS9ilcM9A9RyirvSaSR5kEItqZyUq4e6woFAyOEP60V10hX7xzloQ9qccy1h1acU+4FkC4z1g==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-YI5gF9T+LTgZQJM47Vr8gIm5ylgI7yWVciw1ArTcoqwR69VBxOR+0xCTc5RhiYsupxcFURor4IiKAl6M2qoM5Q==, tarball: file:projects/perf-schema-registry-avro.tgz}
     name: '@rush-temp/perf-schema-registry-avro'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23529,13 +23493,14 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-sGnIwo+w2CXlRmezb7lUHUTvNAI/7L0Hx+rM0GmGQ+KjqmHCP5Ew8QGHJqRR5xpiZrKio0ib6VDV2zTMlbCLug==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-wz98B8+Xvwn9hp568Z8ZF+NYPVwrUeVfeW1d2OnnsvzRRsFqeDvbbhVG+3o+zikCfqA8n4wbIu3DnE/R7k8O8g==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@azure/search-documents': 12.0.0-beta.4
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23549,12 +23514,13 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-BEwGslYbUSg8CGxjLxn+dXxWy11xELFDFH964lrP1DV8g1eVypQND/FTFCZyFUjyQ5a+Q9SAy8ISQ0m8Kk9n9Q==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-yXm3d1qM7wa2dVvai7LYcmaNIpSsnZDjnk5JWZkIZWc8yrlWzf+lDNuMU7MuF0jwmhkRUmIpwLRpREtv8gczFw==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.44
       '@types/uuid': 8.3.4
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23569,12 +23535,13 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-dQH/HCO5kW72KABjr8hCRLsNc2GHR4g0+OQhY6mu5gpDD/vpdIYFQF5zLJitWQeeoxsuZD1nPBUFZhuEILTrxw==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-XP4ocqPxj5wgyhpDZpi0RIHlNPxXPuPi84tXdJvy16KjQfdfUMeHRvrhdD0saj5fI/+k8CxdtVSO1TfVyHtAwg==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
       '@azure/storage-blob': 12.24.0
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23588,12 +23555,13 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-sthamhhXTGk8YBAsCfhcJhx8AEPNLry8p4rF4UjJXdU08FxPoYR9l2FRrxLOBFdoL7lpDqT5AKrM1rAOiufKyg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-qRtfxWRFCwWD0pzaQdSPmrrxMtN0GRVAIETHcTAjEtsg3y2R0RtEZ/unElbYHWvw5RRmoISXF1JXDbprKJTO2w==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
       '@azure/storage-file-datalake': 12.23.0
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23607,12 +23575,13 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-WiIi9DG+2U8Gh/1+NJ/OraG2LIa2jUue2p5rP6llrxHXU1blLhc3c5YvFJVUS6YGlP+mgBc2x6qqY54YUhheAA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-JzcotzFitxPWurPENl0VPyx1k9nJi3/nU7y9ywg6ujO5qGNPKYjvMeiA5BNt/YcKdurIWnNCXsXJCHQAWhgtrQ==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
       '@azure/storage-file-share': 12.24.0
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23626,13 +23595,14 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-biEyZTz/EjEE/EF9kIccf93THbNNIEEa7RszNKzN3VeWAoJL8U2L7t4orFIlwEf32r8z0I7fr3Pwup/3X56cbA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-lK1FvvHtQaImUpzyGCrIR2aeQDBkxvzg5QFB3Tt4SDpQDAr7CQYWnHf1/0SAJT7NzQOzMy/Z9mSFoorLN1KTXg==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
       '@azure/app-configuration': 1.5.0-beta.2
       '@azure/identity': 4.4.1
       '@types/node': 18.19.44
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -23654,7 +23624,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23699,7 +23669,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23743,7 +23713,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23788,7 +23758,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23834,7 +23804,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23879,7 +23849,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23924,7 +23894,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -23971,7 +23941,7 @@ packages:
       '@azure/event-hubs': 5.12.0
       '@azure/identity': 4.4.1
       '@azure/schema-registry': 1.2.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -24023,7 +23993,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/event-hubs': 5.12.0
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       ajv: 8.17.1
@@ -24065,7 +24035,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       cross-env: 7.0.3
@@ -24105,7 +24075,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@azure/openai': 1.0.0-beta.12
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24151,7 +24121,7 @@ packages:
     dependencies:
       '@azure/core-amqp': 4.3.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
@@ -24188,7 +24158,7 @@ packages:
       nyc: 17.0.0
       process: 0.11.10
       promise: 8.3.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rhea-promise: 3.0.3
       rimraf: 5.0.10
       sinon: 17.0.1
@@ -24213,7 +24183,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24238,7 +24208,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -24264,7 +24234,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24286,7 +24256,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
@@ -24310,7 +24280,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24335,7 +24305,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -24361,7 +24331,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24384,7 +24354,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -24406,7 +24376,7 @@ packages:
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24427,7 +24397,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
@@ -24452,7 +24422,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
       '@azure/storage-blob': 12.24.0
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24473,7 +24443,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
@@ -24496,7 +24466,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -24544,7 +24514,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -24593,7 +24563,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -24641,7 +24611,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -24684,7 +24654,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
       cross-env: 7.0.3
@@ -24721,7 +24691,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.7
@@ -24765,7 +24735,7 @@ packages:
       '@azure-rest/core-client': 1.4.0
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
@@ -24785,7 +24755,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.44)(typescript@5.5.4)
       tslib: 2.6.3
@@ -24807,7 +24777,7 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
       '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
@@ -24845,7 +24815,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       eslint: 8.57.0
       rimraf: 5.0.10
@@ -24859,15 +24829,15 @@ packages:
     dev: false
 
   file:projects/test-perf.tgz:
-    resolution: {integrity: sha512-dV5mAryJelTRusThrDkqIKakjuFlNr1LfE8QZVyTIOMZf+mxjaYa+gItkPOXhU7wnHAHVQGVGgSbdJFT/RF+IA==, tarball: file:projects/test-perf.tgz}
+    resolution: {integrity: sha512-dOxYVneFdt7VksrDfZkwTADpjCFjFb7pd7p+j55MC9GonmLUYrDUAnxiHzaoEilYPxq2E5xsQ+/IeRmqJe2RBA==, tarball: file:projects/test-perf.tgz}
     name: '@rush-temp/test-perf'
     version: 0.0.0
     dependencies:
-      '@types/fs-extra': 9.0.13
+      '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
       '@types/node': 18.19.44
       eslint: 8.57.0
-      fs-extra: 10.1.0
+      fs-extra: 11.2.0
       karma: 6.4.4(debug@4.3.6)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -24887,12 +24857,11 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-w8Xro01K++cd8y4lQBcvRhCZRVlJH4l9V4BPu/p44u5PFmYAya4FYaMamwivA2pj6RZHsqMitzeLJkkk8AK74g==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-TT/AANNJqwewH9gxgDofnm/xVA5p6LGqlP7wKg+X8NdwHdHjjWK3rxA3raBKKVqp1y3EwzmUaJ56E7uNsANYXQ==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
-      '@types/fs-extra': 8.1.5
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -24925,13 +24894,50 @@ packages:
       - webdriverio
     dev: false
 
+  file:projects/test-utils-vitest.tgz:
+    resolution: {integrity: sha512-B+7UtywzLzak0ygqHSUnHwXafQGcVcajMBpZo6UhLiWFKlWN5qWpr5250nrGAS1jNRcThxUsJrLZu8B7hM8Rsw==, tarball: file:projects/test-utils-vitest.tgz}
+    name: '@rush-temp/test-utils-vitest'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
+      '@opentelemetry/api': 1.9.0
+      '@types/node': 18.19.44
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
+      '@vitest/expect': 2.0.5
+      eslint: 8.57.0
+      playwright: 1.46.0
+      rimraf: 5.0.10
+      tshy: 2.0.1
+      tslib: 2.6.3
+      typescript: 5.5.4
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
+    dev: false
+
   file:projects/test-utils.tgz:
     resolution: {integrity: sha512-dy4yWOviUvykLKxFyvx0+Gm2BCVCmsoPEPu6zkl0yOe8nmR7y0Ee0O2/h03m7Nvj0p+qaP9s+iVOoy3tcV0vFg==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@opentelemetry/api': 1.9.0
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
@@ -24967,7 +24973,7 @@ packages:
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/node': 18.19.44
       '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -25001,16 +25007,18 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-7mABgnyVZKGwgwpS8yU/p5u/1RZvlFEC8yv37YpY3YrapxkpdmPCxbnGFc6O92CDbinUZb3yTvN1nbFsZ6Y9VA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-vAWZ/lgdy7UjDtLWoCJKHPSEayxZJWELZREkYldM1ESozDyjNml4n9tmBn9DgoSXWbUAZP06XEcRmPnC7bmRrA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
+      '@eslint/js': 9.2.0
       '@types/node': 18.19.44
       eslint: 8.57.0
       prettier: 3.3.3
       rimraf: 5.0.10
       tslib: 2.6.3
       typescript: 5.5.4
+      typescript-eslint: 7.16.1(eslint@8.57.0)(typescript@5.5.4)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -25021,7 +25029,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/web-pubsub-client': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/express': 4.17.21
@@ -25056,7 +25064,7 @@ packages:
       nyc: 17.0.0
       protobufjs: 7.3.2
       protobufjs-cli: 1.1.2(protobufjs@7.3.2)
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       rollup: 4.20.0
       sinon: 17.0.1
@@ -25079,7 +25087,7 @@ packages:
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/chai-as-promised': 7.1.8
       '@types/express': 4.17.21
@@ -25109,7 +25117,7 @@ packages:
       mocha: 10.7.3
       mock-socket: 9.3.1
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -25132,7 +25140,7 @@ packages:
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/express': 4.17.21
       '@types/express-serve-static-core': 4.19.5
       '@types/jsonwebtoken': 9.0.6
@@ -25174,7 +25182,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.5(@types/node@18.19.44)
+      '@microsoft/api-extractor': 7.47.6(@types/node@18.19.44)
       '@types/chai': 4.3.17
       '@types/jsonwebtoken': 9.0.6
       '@types/mocha': 10.0.7
@@ -25197,7 +25205,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
-      puppeteer: 23.0.2(typescript@5.5.4)
+      puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21

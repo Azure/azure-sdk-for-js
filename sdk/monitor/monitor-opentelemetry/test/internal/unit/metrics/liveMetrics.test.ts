@@ -10,6 +10,7 @@ import { InternalConfig } from "../../../../src/shared";
 import { QuickPulseOpenTelemetryMetricNames } from "../../../../src/metrics/quickpulse/types";
 /* eslint-disable-next-line @typescript-eslint/no-redeclare */
 import { Exception, RemoteDependency, Request } from "../../../../src/generated";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 
 describe("#LiveMetrics", () => {
   let exportStub: sinon.SinonStub;
@@ -237,5 +238,52 @@ describe("#LiveMetrics", () => {
     autoCollect.deactivateMetrics();
     await new Promise((resolve) => setTimeout(resolve, 120));
     assert.ok(exportStub.notCalled);
+  });
+
+  it("entra authentication", () => {
+    const testConfig = new InternalConfig();
+    const testCredential: TokenCredential = {
+      getToken() {
+        const accessToken: AccessToken = {
+          token: "testToken",
+          expiresOnTimestamp: Date.now() + 10000,
+        };
+        return Promise.resolve(accessToken);
+      },
+    };
+    testConfig.azureMonitorExporterOptions.connectionString =
+      "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/";
+    testConfig.azureMonitorExporterOptions.credential = testCredential;
+    testConfig.azureMonitorExporterOptions.credentialScopes = "testScope";
+    const testAuto = new LiveMetrics(testConfig);
+    assert.equal(
+      testAuto["pingSender"]["endpointUrl"],
+      "https://westus2.livediagnostics.monitor.azure.com",
+    );
+    assert.equal(
+      testAuto["pingSender"]["instrumentationKey"],
+      "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+    );
+    assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
+    assert.equal(
+      testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"],
+      "testScope",
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["endpointUrl"],
+      "https://westus2.livediagnostics.monitor.azure.com",
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["instrumentationKey"],
+      "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credential"],
+      testCredential,
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
+      "testScope",
+    );
   });
 });
