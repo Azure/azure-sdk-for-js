@@ -22,7 +22,7 @@ export default function createClient(
   { apiVersion = "2024-02-28-preview", ...options }: HealthDataAIServicesContextOptions = {},
 ): HealthDataAIServicesContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-  const userAgentInfo = `azsdk-js-arm-healthdataaiservices/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-healthdataaiservices/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

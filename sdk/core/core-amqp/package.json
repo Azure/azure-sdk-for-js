@@ -9,22 +9,18 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
@@ -98,15 +94,15 @@
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
     "@types/ws": "^8.5.10",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "debug": "^4.3.4",
     "eslint": "^8.57.0",
     "playwright": "^1.43.1",
     "rimraf": "^5.0.7",
-    "tshy": "^1.17.0",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
-    "vitest": "^1.6.0",
+    "vitest": "^2.0.5",
     "ws": "^8.17.0"
   },
   "//metadata": {

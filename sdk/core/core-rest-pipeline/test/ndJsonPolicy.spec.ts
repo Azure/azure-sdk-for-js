@@ -21,7 +21,7 @@ describe("NdJsonPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = ndJsonPolicy();

@@ -1,6 +1,6 @@
 {
   "name": "@azure/opentelemetry-instrumentation-azure-sdk",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.7",
   "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
   "main": "dist/index.js",

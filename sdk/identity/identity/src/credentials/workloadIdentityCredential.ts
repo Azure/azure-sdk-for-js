@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { ClientAssertionCredential } from "./clientAssertionCredential";
-import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
-import { readFile } from "fs/promises";
-import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, processEnvVars } from "../util/logging";
+
+import { ClientAssertionCredential } from "./clientAssertionCredential";
+import { CredentialUnavailableError } from "../errors";
+import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 import { checkTenantId } from "../util/tenantIdUtils";
+import { readFile } from "fs/promises";
 
 const credentialName = "WorkloadIdentityCredential";
 /**
@@ -61,17 +62,36 @@ export class WorkloadIdentityCredential implements TokenCredential {
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
-    if (clientId && tenantId && this.federatedTokenFilePath) {
-      logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
-      );
-      this.client = new ClientAssertionCredential(
-        tenantId,
-        clientId,
-        this.readFileContents.bind(this),
-        options,
+    if (!clientId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. clientId is a required parameter. In DefaultAzureCredential and ManagedIdentityCredential, this can be provided as an environment variable - "AZURE_CLIENT_ID".
+        See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`,
       );
     }
+
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. tenantId is a required parameter. In DefaultAzureCredential and ManagedIdentityCredential, this can be provided as an environment variable - "AZURE_TENANT_ID".
+        See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`,
+      );
+    }
+
+    if (!this.federatedTokenFilePath) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. federatedTokenFilePath is a required parameter. In DefaultAzureCredential and ManagedIdentityCredential, this can be provided as an environment variable - "AZURE_FEDERATED_TOKEN_FILE".
+        See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`,
+      );
+    }
+
+    logger.info(
+      `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
+    );
+    this.client = new ClientAssertionCredential(
+      tenantId,
+      clientId,
+      this.readFileContents.bind(this),
+      options,
+    );
   }
 
   /**
@@ -91,7 +111,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       In DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
-      "AZURE_FEDERATED_TOKEN_FILE". See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot  `;
+      "AZURE_FEDERATED_TOKEN_FILE". See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/workloadidentitycredential/troubleshoot`;
       logger.info(errorMessage);
       throw new CredentialUnavailableError(errorMessage);
     }
