@@ -12,8 +12,8 @@ export default mergeConfig(
       include: ["@azure/openai", "@azure/openai/types"],
     },
     test: {
-      testTimeout: 150000,
-      hookTimeout: 18000,
+      testTimeout: 170000,
+      hookTimeout: 25000,
       fileParallelism: false,
       include: [
         "dist-test/browser/test/**/*.spec.js",

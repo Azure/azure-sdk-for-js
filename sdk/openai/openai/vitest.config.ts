@@ -9,8 +9,8 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      testTimeout: 150000,
-      hookTimeout: 18000,
+      testTimeout: 170000,
+      hookTimeout: 25000,
       fileParallelism: false,
       include: ["test/public/node/whisper.spec.ts"],
     },

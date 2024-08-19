@@ -235,6 +235,12 @@ export interface ContentFilterCitedDetectionResultOutput {
 }
 
 // @public
+export interface ContentFilterDetailedResults {
+    details: ContentFilterBlocklistIdResultOutput[];
+    filtered: boolean;
+}
+
+// @public
 export interface ContentFilterDetectionResultOutput {
     detected: boolean;
     filtered: boolean;
@@ -242,7 +248,7 @@ export interface ContentFilterDetectionResultOutput {
 
 // @public
 export interface ContentFilterResultDetailsForPromptOutput {
-    custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+    custom_blocklists?: ContentFilterDetailedResults;
     error?: ErrorModel;
     hate?: ContentFilterResultOutput;
     jailbreak?: ContentFilterDetectionResultOutput;
@@ -260,7 +266,7 @@ export interface ContentFilterResultOutput {
 
 // @public
 export interface ContentFilterResultsForChoiceOutput {
-    custom_blocklists?: ContentFilterBlocklistIdResultOutput;
+    custom_blocklists?: ContentFilterDetailedResults;
     error?: ErrorModel;
     hate?: ContentFilterResultOutput;
     profanity?: ContentFilterDetectionResultOutput;
