@@ -1,13 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable, testPollingOptions } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  assertEnvironmentVariable,
+  testPollingOptions,
+} from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recorderUtils.js";
 import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it, Context } from "vitest";
 import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
 import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import { AnalyzeResultOperationOutput, DocumentModelBuildOperationDetailsOutput, DocumentModelComposeOperationDetailsOutput, DocumentModelCopyToOperationDetailsOutput, DocumentModelDetailsOutput, DocumentTypeDetails, getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
+import {
+  AnalyzeResultOperationOutput,
+  DocumentModelBuildOperationDetailsOutput,
+  DocumentModelComposeOperationDetailsOutput,
+  DocumentModelCopyToOperationDetailsOutput,
+  DocumentModelDetailsOutput,
+  DocumentTypeDetails,
+  getLongRunningPoller,
+  isUnexpected,
+  paginate,
+} from "../../src/index.js";
 
 describe("model management", () => {
   let recorder: Recorder;
@@ -125,7 +139,9 @@ describe("model management", () => {
             throw initialResponse.body.error;
           }
 
-          const poller = getLongRunningPoller(client, initialResponse, { intervalInMs: testPollingOptions.updateIntervalInMs });
+          const poller = getLongRunningPoller(client, initialResponse, {
+            intervalInMs: testPollingOptions.updateIntervalInMs,
+          });
           const analyzeResult = (
             (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput
           ).analyzeResult;
@@ -248,8 +264,8 @@ describe("model management", () => {
     const modelIdDoctypeMap = await Promise.all([makeModel("input1"), makeModel("input2")]);
 
     const modelId = recorder.variable("composedModelName", `composedModelName${getRandomNumber()}`);
-    const component1 = modelIdDoctypeMap[0]
-    const component2 = modelIdDoctypeMap[1]
+    const component1 = modelIdDoctypeMap[0];
+    const component2 = modelIdDoctypeMap[1];
     const initialResponse = await client.path("/documentModels:compose").post({
       body: {
         classifierId: recorder.variable("classifierId", `classifierId${getRandomNumber()}`),

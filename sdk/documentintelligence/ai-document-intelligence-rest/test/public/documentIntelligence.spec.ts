@@ -8,7 +8,11 @@ import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
 import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import { DocumentClassifierBuildOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import {
+  DocumentClassifierBuildOperationDetailsOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;

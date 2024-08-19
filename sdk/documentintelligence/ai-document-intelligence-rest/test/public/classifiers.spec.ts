@@ -7,7 +7,13 @@ import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it, Context } from "vitest";
 import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils.js";
 import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import { AnalyzeResultOperationOutput, DocumentClassifierBuildOperationDetailsOutput, DocumentClassifierDetailsOutput, getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import {
+  AnalyzeResultOperationOutput,
+  DocumentClassifierBuildOperationDetailsOutput,
+  DocumentClassifierDetailsOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "../../src/index.js";
 import path from "path";
 import fs from "fs";
 

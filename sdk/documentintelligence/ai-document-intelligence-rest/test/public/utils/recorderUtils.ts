@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, TestInfo, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  TestInfo,
+  env,
+  isPlaybackMode,
+} from "@azure-tools/test-recorder";
 
 const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -15,6 +21,8 @@ const envSetupForPlayback: { [k: string]: string } = {
   DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL:
     "https://storageaccount/selectionmark-v3?sastoken",
   DOCUMENT_INTELLIGENCE_TARGET_RESOURCE_REGION: "westus2",
+  DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL:
+    "https://storageaccount/batchtraining?sastoken",
   // fake resource id
   DOCUMENT_INTELLIGENCE_TARGET_RESOURCE_ID:
     "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr",
@@ -61,6 +69,14 @@ export const recorderOptions: RecorderStartOptions = {
           envSetupForPlayback[
             "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
           ].split("?")[1],
+      },
+      {
+        target:
+          env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"]?.split("?")[1] || "",
+        value:
+          envSetupForPlayback["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"].split(
+            "?",
+          )[1],
       },
     ],
   },
