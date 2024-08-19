@@ -46,6 +46,7 @@ async function runCommands(commands: string[][], timeout?: number): Promise<stri
       encoding: "utf8",
       timeout,
     })) as string;
+
     results.push(result);
   }
 
@@ -143,29 +144,45 @@ export class AzurePowerShellCredential implements TokenCredential {
         continue;
       }
 
-      let tenantSection = "";
-      if (tenantId) {
-        tenantSection = `-TenantId "${tenantId}"`;
-      }
-
       const results = await runCommands([
         [
           powerShellCommand,
           "-NoProfile",
           "-NonInteractive",
           "-Command",
-          "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
-        ],
-        [
-          powerShellCommand,
-          "-NoProfile",
-          "-NonInteractive",
-          "-Command",
-          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
+          `
+          $tenantId = "${tenantId ?? ""}"
+          $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru
+          $useSecureString = $m.Version -ge [version]'2.17.0'
+
+          $params = @{
+            ResourceUrl = "${resource}"
+          }
+
+          if ($tenantId.Length -gt 0) {
+            $params["TenantId"] = $tenantId
+          }
+
+          if ($useSecureString) {
+            $params["AsSecureString"] = $true
+          }
+
+          $token = Get-AzAccessToken @params
+
+          $result = New-Object -TypeName PSObject
+          $result | Add-Member -MemberType NoteProperty -Name ExpiresOn -Value $token.ExpiresOn
+          if ($useSecureString) {
+            $result | Add-Member -MemberType NoteProperty -Name Token -Value (ConvertFrom-SecureString -AsPlainText $token.Token)
+          } else {
+            $result | Add-Member -MemberType NoteProperty -Name Token -Value $token.Token
+          }
+
+          Write-Output (ConvertTo-Json $result)
+          `,
         ],
       ]);
 
-      const result = results[1];
+      const result = results[0];
       return parseJsonToken(result);
     }
     throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);

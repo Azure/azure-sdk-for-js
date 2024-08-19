@@ -5,8 +5,8 @@ import {
   KeyVaultRoleAssignment,
   KeyVaultRoleDefinition,
   KeyVaultRoleScope,
-} from "./accessControlModels";
-import { RoleAssignment, RoleDefinition } from "./generated/models";
+} from "./accessControlModels.js";
+import { RoleAssignment, RoleDefinition } from "./generated/models/index.js";
 
 export const mappings = {
   roleAssignment: {
