@@ -152,7 +152,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the function accepts, described as a JSON Schema object. */
-  parameters?: Record<string, unknown>;
+  parameters?: unknown;
 }
 
 /** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
