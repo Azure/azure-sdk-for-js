@@ -6,7 +6,7 @@
 
 - Adds `CompletionChoice` interface with content filter result.
 - Updates the `license` property to be optional in `ContentFilterCitedDetectionResultOutput`.
-- Updates `custom_blocklists` type in `ContentFilterResultsForChoiceOutput` to `ContentFilterBlocklistIdResultOutput`.
+- Updates `custom_blocklists` type in `ContentFilterResultsForChoiceOutput` to `ContentFilterDetailedResults`.
 
 ### Breaking Changes
 
