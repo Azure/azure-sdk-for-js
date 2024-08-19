@@ -1,6 +1,6 @@
 # Release History
 
-## 5.5.2 (2024-08-20)
+## 5.6.0 (2024-08-20)
 
 ### Other Changes
 
