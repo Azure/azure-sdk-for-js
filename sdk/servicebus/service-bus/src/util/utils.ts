@@ -5,7 +5,6 @@ import Long from "long";
 import { logger, receiverLogger, messageLogger, ServiceBusLogger } from "../log";
 import { AmqpError, OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
-import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
@@ -13,21 +12,6 @@ import { isDefined } from "@azure/core-util";
 import { HttpResponse, toHttpResponse } from "./compat";
 import { ErrorNameConditionMapper, StandardAbortMessage, delay } from "@azure/core-amqp";
 import { translateServiceBusError } from "../serviceBusError";
-
-// This is the only dependency we have on DOM types, so rather than require
-// the DOM lib we can just shim this in.
-/**
- * @hidden
- * @internal
- */
-interface Navigator {
-  hardwareConcurrency: number;
-}
-/**
- * @hidden
- * @internal
- */
-declare const navigator: Navigator;
 
 /**
  * @internal
