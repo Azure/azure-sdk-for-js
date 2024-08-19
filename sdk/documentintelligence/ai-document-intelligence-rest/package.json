@@ -45,7 +45,6 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
@@ -53,8 +52,7 @@
         "path": "src/documentIntelligence.ts",
         "prefix": "userAgentInfo"
       }
-    ],
-    "migrationDate": "2023-03-08T18:36:03.000Z"
+    ]
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.1.0",
@@ -78,10 +76,10 @@
     "tshy": "^1.11.1",
     "@azure/core-util": "^1.0.0",
     "@azure/identity": "^4.2.1",
-    "@vitest/browser": "^1.3.1",
-    "@vitest/coverage-istanbul": "^1.3.1",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "playwright": "^1.41.2",
-    "vitest": "^1.3.1",
+    "vitest": "^2.0.5",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
     "@azure/dev-tool": "^1.0.0",
@@ -91,8 +89,8 @@
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --ext .cts --ext .mts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",

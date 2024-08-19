@@ -5,5 +5,11 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "test/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "./test/**/*.ts"
+  ]
 }

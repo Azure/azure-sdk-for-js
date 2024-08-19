@@ -46,13 +46,15 @@ export interface GetDocumentModelBuildOperation200Headers {
 }
 
 /** The request has succeeded. */
-export interface GetDocumentModelBuildOperation200Response extends HttpResponse {
+export interface GetDocumentModelBuildOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentModelBuildOperationDetailsOutput;
   headers: RawHttpHeaders & GetDocumentModelBuildOperation200Headers;
 }
 
-export interface GetDocumentModelBuildOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentModelBuildOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -63,13 +65,15 @@ export interface GetDocumentModelComposeOperation200Headers {
 }
 
 /** The request has succeeded. */
-export interface GetDocumentModelComposeOperation200Response extends HttpResponse {
+export interface GetDocumentModelComposeOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentModelComposeOperationDetailsOutput;
   headers: RawHttpHeaders & GetDocumentModelComposeOperation200Headers;
 }
 
-export interface GetDocumentModelComposeOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentModelComposeOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -80,13 +84,15 @@ export interface GetDocumentModelCopyToOperation200Headers {
 }
 
 /** The request has succeeded. */
-export interface GetDocumentModelCopyToOperation200Response extends HttpResponse {
+export interface GetDocumentModelCopyToOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentModelCopyToOperationDetailsOutput;
   headers: RawHttpHeaders & GetDocumentModelCopyToOperation200Headers;
 }
 
-export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentModelCopyToOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -97,13 +103,15 @@ export interface GetDocumentClassifierCopyToOperation200Headers {
 }
 
 /** The request has succeeded. */
-export interface GetDocumentClassifierCopyToOperation200Response extends HttpResponse {
+export interface GetDocumentClassifierCopyToOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentClassifierCopyToOperationDetailsOutput;
   headers: RawHttpHeaders & GetDocumentClassifierCopyToOperation200Headers;
 }
 
-export interface GetDocumentClassifierCopyToOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentClassifierCopyToOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -114,13 +122,15 @@ export interface GetDocumentClassifierBuildOperation200Headers {
 }
 
 /** The request has succeeded. */
-export interface GetDocumentClassifierBuildOperation200Response extends HttpResponse {
+export interface GetDocumentClassifierBuildOperation200Response
+  extends HttpResponse {
   status: "200";
   body: DocumentClassifierBuildOperationDetailsOutput;
   headers: RawHttpHeaders & GetDocumentClassifierBuildOperation200Headers;
 }
 
-export interface GetDocumentClassifierBuildOperationDefaultResponse extends HttpResponse {
+export interface GetDocumentClassifierBuildOperationDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -488,13 +498,15 @@ export interface ClassifyDocumentFromStream202Response extends HttpResponse {
   headers: RawHttpHeaders & ClassifyDocumentFromStream202Headers;
 }
 
-export interface ClassifyDocumentFromStreamDefaultResponse extends HttpResponse {
+export interface ClassifyDocumentFromStreamDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
 
 /** The final response for long-running classifyDocumentFromStream operation */
-export interface ClassifyDocumentFromStreamLogicalResponse extends HttpResponse {
+export interface ClassifyDocumentFromStreamLogicalResponse
+  extends HttpResponse {
   status: "200";
 }
 

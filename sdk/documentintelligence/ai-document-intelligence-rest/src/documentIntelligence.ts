@@ -21,11 +21,16 @@ export interface DocumentIntelligenceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  { apiVersion = "2024-07-31-preview", ...options }: DocumentIntelligenceClientOptions = {},
+  {
+    apiVersion = "2024-07-31-preview",
+    ...options
+  }: DocumentIntelligenceClientOptions = {},
 ): DocumentIntelligenceClient {
   const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpointParam}/documentintelligence`;
-  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.3`;
+    options.endpoint ??
+    options.baseUrl ??
+    `${endpointParam}/documentintelligence`;
+  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -39,11 +44,18 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      scopes: options.credentials?.scopes ?? [
+        "https://cognitiveservices.azure.com/.default",
+      ],
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
-  const client = getClient(endpointUrl, credentials, options) as DocumentIntelligenceClient;
+  const client = getClient(
+    endpointUrl,
+    credentials,
+    options,
+  ) as DocumentIntelligenceClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
