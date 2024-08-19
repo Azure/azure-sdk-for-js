@@ -18,7 +18,7 @@ export default function createClient(
   options: SystemEventsContextOptions = {},
 ): SystemEventsContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-eventgrid-system-events/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-eventgrid-system-events/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

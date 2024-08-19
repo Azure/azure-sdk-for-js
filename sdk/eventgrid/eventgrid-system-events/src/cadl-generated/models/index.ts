@@ -269,6 +269,7 @@ export {
   SignalRServiceClientConnectionConnectedEventData,
   SignalRServiceClientConnectionDisconnectedEventData,
   StorageBlobCreatedEventData,
+  StorageBlobAccessTier,
   StorageBlobDeletedEventData,
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
