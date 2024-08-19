@@ -1,0 +1,42 @@
+{
+  "name": "@azure-samples/arm-edgezones-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": " client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/edgezones/arm-edgezones"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/edgezones/arm-edgezones",
+  "dependencies": {
+    "@azure/arm-edgezones": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "~5.5.3",
+    "rimraf": "latest"
+  }
+}
