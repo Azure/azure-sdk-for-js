@@ -22281,7 +22281,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-kR/wShtnhfbQpdLgfQw2L4t6ezDCK2D9AbkAwo8G46aCQJ7UQF+2olw+92HoBz7UbHQ9jnN/iChzaoO4B/mBkA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-59phFn/uDbWAEy/6aD/z1XbHZVBwbljU73MXp3tG4ZQeBnaRgQqm4gonJLWyXo+S/HSi/BOpZXfFP0Zj1ktMeQ==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -22293,6 +22293,8 @@ packages:
       '@types/mocha': 10.0.7
       '@types/node': 18.19.45
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -22309,20 +22311,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
+      playwright: 1.46.1
       puppeteer: 23.1.0(typescript@5.5.4)
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
+      tshy: 3.0.2
       tslib: 2.6.3
       typescript: 5.5.4
+      vitest: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/keyvault-common.tgz:
