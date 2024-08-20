@@ -4,6 +4,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const createFaceClient = require("@azure-rest/ai-vision-face").default,
   { isUnexpected } = require("@azure-rest/ai-vision-face");
 
+require("dotenv").config()
+
 /**
  * This sample demonstrates how to authenticate FaceClient using Microsoft Entra ID.
  *

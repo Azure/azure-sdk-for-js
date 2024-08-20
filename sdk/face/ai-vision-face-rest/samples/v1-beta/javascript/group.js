@@ -4,6 +4,8 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 const createFaceClient = require("@azure-rest/ai-vision-face").default,
   { isUnexpected } = require("@azure-rest/ai-vision-face");
 
+require("dotenv").config()
+
 /**
  * This sample demonstrates how to group similar faces.
  *
