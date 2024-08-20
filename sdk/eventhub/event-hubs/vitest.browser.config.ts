@@ -23,7 +23,7 @@ export default mergeConfig(
       testTimeout: 600000,
       hookTimeout: 60000,
       fileParallelism: false,
-      include: ["dist-test/browser/test/public/auth.spec.js"],
+      include: ["dist-test/browser/**/*.spec.js"],
       setupFiles: !process.env["AZURE_LOG_LEVEL"] ? [] : ['./test/activate-browser-logging.ts'],
       fakeTimers: {
         toFake: [
