@@ -72,10 +72,12 @@ async function getTokenFromRelay(
 
   if (!response.ok) {
     if (response.status === 400) {
+      const error = await response.json();
+      console.log("Error received", error);
       // Throw the error that the relay received
       throw new RelayAuthenticationError(
         "Relay was unable to get token",
-        ((await response.json()) as { error: unknown }).error,
+        ((error) as { error: unknown }).error,
       );
     }
 
