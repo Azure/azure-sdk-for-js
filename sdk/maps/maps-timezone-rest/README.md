@@ -132,11 +132,13 @@ You can get timezone information for a specific IANA time zone ID.
 
 ```javascript
 const response = await client.path("/timezone/byId/{format}", "json").get({
-  queryParameters: { id: "America/New_York" },
+    queryParameters: {
+        query: "America/New_York"
+    },
 });
 
 if (isUnexpected(response)) {
-  throw response.body.error;
+    throw response.body.error;
 }
 
 console.log(response.body);
@@ -148,11 +150,13 @@ You can get timezone information for a specific latitude-longitude pair.
 
 ```javascript
 const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
-  queryParameters: { lat: 40.7128, lon: -74.0060 },
+    queryParameters: {
+        query: [40.7128, -74.0060]
+    },
 });
 
 if (isUnexpected(response)) {
-  throw response.body.error;
+    throw response.body.error;
 }
 
 console.log(response.body);
@@ -166,7 +170,7 @@ You can get a list of Windows Time Zone IDs.
 const response = await client.path("/timezone/enumWindows/{format}", "json").get();
 
 if (isUnexpected(response)) {
-  throw response.body.error;
+    throw response.body.error;
 }
 
 console.log(response.body);
@@ -180,7 +184,7 @@ You can get a list of IANA Time Zone IDs.
 const response = await client.path("/timezone/enumIana/{format}", "json").get();
 
 if (isUnexpected(response)) {
-  throw response.body.error;
+    throw response.body.error;
 }
 
 console.log(response.body);
@@ -194,10 +198,10 @@ You can get the current IANA version number.
 const response = await client.path("/timezone/ianaVersion/{format}", "json").get();
 
 if (isUnexpected(response)) {
-  throw response.body.error;
+    throw response.body.error;
 }
 
-console.log(response.body.version);
+console.log(response.body.Version);
 ```
 
 ### Convert Windows timezone to IANA
@@ -206,14 +210,16 @@ You can convert a Windows Time Zone ID to a corresponding IANA ID.
 
 ```javascript
 const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
-  queryParameters: { windowsTimezoneId: "Eastern Standard Time" },
+    queryParameters: { query: "Eastern Standard Time" },
 });
 
 if (isUnexpected(response)) {
-  throw response.body.error;
+    throw response.body.error;
+} else if (response.body) {
+    console.log(response.body.map((ianaId) => ianaId).join(", "));
+} else {
+    console.error("No data returned");
 }
-
-console.log(response.body.ianaTimezoneIds);
 ```
 
 ## Troubleshooting

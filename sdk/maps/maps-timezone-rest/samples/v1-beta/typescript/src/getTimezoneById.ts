@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone from "../src/mapsTimezone";
+import MapsTimezone from "../src";
+import { isUnexpected } from "../src";
 
 /**
  * @summary How to get the timezone by IANA ID.
@@ -13,8 +14,14 @@ async function main(): Promise<void> {
     const client = MapsTimezone(credential, mapsClientId);
 
     const response = await client.path("/timezone/byId/{format}", "json").get({
-        queryParameters: { id: "America/New_York" },
+        queryParameters: {
+            query: "America/New_York"
+        },
     });
+
+    if (isUnexpected(response)) {
+        throw response.body.error;
+    }
 
     console.log(response.body);
 }

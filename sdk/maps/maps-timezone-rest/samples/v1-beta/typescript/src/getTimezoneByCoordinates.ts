@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone from "../src/mapsTimezone";
+import MapsTimezone from "../src";
+import { isUnexpected } from "../src";
 
 /**
  * @summary How to get the timezone by coordinates.
@@ -13,8 +14,14 @@ async function main(): Promise<void> {
     const client = MapsTimezone(credential, mapsClientId);
 
     const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
-        queryParameters: { lat: 40.7128, lon: -74.0060 },
+        queryParameters: {
+            query: [40.7128, -74.0060]
+        },
     });
+
+    if (isUnexpected(response)) {
+        throw response.body.error;
+    }
 
     console.log(response.body);
 }

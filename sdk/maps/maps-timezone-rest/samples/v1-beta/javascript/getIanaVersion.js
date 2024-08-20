@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const MapsTimezone = require("../src/mapsTimezone").default;
+const MapsTimezone = require("../src");
+const { isUnexpected } = require("../src");
 
 /**
  * @summary How to get the IANA version number.
@@ -14,7 +15,11 @@ async function main() {
 
     const response = await client.path("/timezone/ianaVersion/{format}", "json").get();
 
-    console.log(response.body.version);
+    if (isUnexpected(response)) {
+        throw response.body.error;
+    }
+
+    console.log(response.body.Version);
 }
 
 main().catch((err) => {

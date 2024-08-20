@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const MapsTimezone = require("../src/mapsTimezone").default;
+const MapsTimezone = require("../src");
+const { isUnexpected } = require("../src");
 
 /**
  * @summary How to convert a Windows Timezone ID to IANA Timezone IDs.
@@ -13,10 +14,16 @@ async function main() {
     const client = MapsTimezone(credential, mapsClientId);
 
     const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
-        queryParameters: { windowsTimezoneId: "Eastern Standard Time" },
+        queryParameters: { query: "Eastern Standard Time" },
     });
 
-    console.log(response.body.ianaTimezoneIds);
+    if (isUnexpected(response)) {
+        throw response.body.error;
+    } else if (response.body) {
+        console.log(response.body.map((ianaId) => ianaId).join(", "));
+    } else {
+        console.error("No data returned");
+    }
 }
 
 main().catch((err) => {
