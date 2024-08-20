@@ -23022,7 +23022,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-M8VAFPbPhNdTPFOVBSGTA1MJ1plh6SpurzDXvvx60IHkfq/6bE07zJJUHD3U2GW04ajIuRS74wp8pYILruBA2Q==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-1NZPBco5pUUtGn4hbYETrn7d1IAe1q2HZ7Fg0UdkliV2/7xjt58TfvC2bf5q7MjExdQveNt2uXZmt2lw6TuJ0A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -23030,17 +23030,36 @@ packages:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.6(@types/node@18.19.45)
       '@types/node': 18.19.45
+      '@vitest/browser': 2.0.5(playwright@1.46.1)(typescript@5.4.5)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       openai: 4.56.0
+      playwright: 1.46.1
       rimraf: 3.0.2
       tshy: 2.0.1
       tslib: 2.6.3
       typescript: 5.4.5
+      vitest: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
       - encoding
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
       - zod
     dev: false
 
