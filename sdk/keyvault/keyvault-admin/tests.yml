@@ -3,6 +3,13 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
+      PreSteps:
+      - task: AzureCLI@2
+        displayName: Set OIDC variables
+        env:
+          ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
       PackageName: "@azure/keyvault-admin"
       ServiceDirectory: keyvault
       # KV HSM limitation prevents us from running live tests
@@ -15,7 +22,10 @@ extends:
           Path: sdk/keyvault/keyvault-admin/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-
+      EnvVars:
+        ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
+        ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+        ARM_TENANT_ID: $(ARM_TENANT_ID)
       ${{ if not(contains(variables['Build.DefinitionName'], 'tests-weekly')) }}:
         # Due to the high cost of Managed HSMs, which keyvault-admin requires, we only want to run
         # the live tests weekly.

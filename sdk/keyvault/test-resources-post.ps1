@@ -15,6 +15,9 @@ param (
     [Parameter()]
     [hashtable] $DeploymentOutputs,
 
+    [Parameter()]
+    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
+
     # Captures any arguments from eng/New-TestResources.ps1 not declared here (no parameter errors).
     [Parameter(ValueFromRemainingArguments = $true)]
     $RemainingArguments
@@ -85,6 +88,12 @@ $wrappingFiles = foreach ($i in 0..2) {
     Export-X509Certificate2PEM "$baseName.cer" $certificate
 
     Resolve-Path "$baseName.cer"
+}
+
+
+if ($CI) {
+  Log "Refreshing credentials"
+  Connect-AzAccount -ServicePrincipal -ApplicationId $env:ARM_CLIENT_ID -TenantId $env:ARM_TENANT_ID -FederatedToken $env:ARM_OIDC_TOKEN
 }
 
 Log "Downloading security domain from '$hsmUrl'"
