@@ -47,8 +47,12 @@ import {
   ManagedInstancesUpdateOptionalParams,
   ManagedInstancesUpdateResponse,
   ManagedInstancesFailoverOptionalParams,
+  ManagedInstancesRefreshStatusOptionalParams,
+  ManagedInstancesRefreshStatusResponse,
   ManagedInstancesStartOptionalParams,
+  ManagedInstancesStartResponse,
   ManagedInstancesStopOptionalParams,
+  ManagedInstancesStopResponse,
   ManagedInstancesListNextResponse,
   ManagedInstancesListByInstancePoolNextResponse,
   ManagedInstancesListByResourceGroupNextResponse,
@@ -887,6 +891,98 @@ export class ManagedInstancesImpl implements ManagedInstances {
   }
 
   /**
+   * Refresh external governance enablement status.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  async beginRefreshStatus(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesRefreshStatusOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstancesRefreshStatusResponse>,
+      ManagedInstancesRefreshStatusResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ManagedInstancesRefreshStatusResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, managedInstanceName, options },
+      spec: refreshStatusOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ManagedInstancesRefreshStatusResponse,
+      OperationState<ManagedInstancesRefreshStatusResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Refresh external governance enablement status.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param options The options parameters.
+   */
+  async beginRefreshStatusAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    options?: ManagedInstancesRefreshStatusOptionalParams,
+  ): Promise<ManagedInstancesRefreshStatusResponse> {
+    const poller = await this.beginRefreshStatus(
+      resourceGroupName,
+      managedInstanceName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Starts the managed instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -897,11 +993,16 @@ export class ManagedInstancesImpl implements ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstancesStartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstancesStartResponse>,
+      ManagedInstancesStartResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ManagedInstancesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -941,7 +1042,10 @@ export class ManagedInstancesImpl implements ManagedInstances {
       args: { resourceGroupName, managedInstanceName, options },
       spec: startOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ManagedInstancesStartResponse,
+      OperationState<ManagedInstancesStartResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -961,7 +1065,7 @@ export class ManagedInstancesImpl implements ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstancesStartOptionalParams,
-  ): Promise<void> {
+  ): Promise<ManagedInstancesStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       managedInstanceName,
@@ -981,11 +1085,16 @@ export class ManagedInstancesImpl implements ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstancesStopOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedInstancesStopResponse>,
+      ManagedInstancesStopResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ManagedInstancesStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -1025,7 +1134,10 @@ export class ManagedInstancesImpl implements ManagedInstances {
       args: { resourceGroupName, managedInstanceName, options },
       spec: stopOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ManagedInstancesStopResponse,
+      OperationState<ManagedInstancesStopResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -1045,7 +1157,7 @@ export class ManagedInstancesImpl implements ManagedInstances {
     resourceGroupName: string,
     managedInstanceName: string,
     options?: ManagedInstancesStopOptionalParams,
-  ): Promise<void> {
+  ): Promise<ManagedInstancesStopResponse> {
     const poller = await this.beginStop(
       resourceGroupName,
       managedInstanceName,
@@ -1178,7 +1290,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion2],
+  queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1192,7 +1304,7 @@ const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion2],
+  queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1211,7 +1323,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion2],
+  queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1229,7 +1341,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion2],
+  queryParameters: [Parameters.expand, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1257,8 +1369,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters86,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters102,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1273,7 +1385,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1300,8 +1412,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  requestBody: Parameters.parameters87,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters103,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1316,7 +1428,7 @@ const failoverOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/failover",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.replicaType, Parameters.apiVersion2],
+  queryParameters: [Parameters.replicaType, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1335,7 +1447,7 @@ const listOutboundNetworkDependenciesByManagedInstanceOperationSpec: coreClient.
       },
       default: {},
     },
-    queryParameters: [Parameters.apiVersion2],
+    queryParameters: [Parameters.apiVersion4],
     urlParameters: [
       Parameters.$host,
       Parameters.subscriptionId,
@@ -1345,30 +1457,90 @@ const listOutboundNetworkDependenciesByManagedInstanceOperationSpec: coreClient.
     headerParameters: [Parameters.accept],
     serializer,
   };
-const startOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/start",
+const refreshStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/refreshExternalGovernanceStatus",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RefreshExternalGovernanceStatusOperationResultMI,
+    },
+    201: {
+      bodyMapper: Mappers.RefreshExternalGovernanceStatusOperationResultMI,
+    },
+    202: {
+      bodyMapper: Mappers.RefreshExternalGovernanceStatusOperationResultMI,
+    },
+    204: {
+      bodyMapper: Mappers.RefreshExternalGovernanceStatusOperationResultMI,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
   ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const startOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/start",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    201: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    202: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    204: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion4],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.managedInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/stop",
   httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    201: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    202: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    204: {
+      bodyMapper: Mappers.ManagedInstance,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
   ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
@@ -1381,7 +1553,7 @@ const listByManagedInstanceOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion4,
     Parameters.startTime,
     Parameters.endTime,
     Parameters.interval,
