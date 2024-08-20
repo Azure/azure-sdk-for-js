@@ -933,9 +933,7 @@ describe("DocumentIntelligenceClient", () => {
           throw initialResponse.body.error;
         }
         const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-        const response = (
-          (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput
-        );
+        const response = (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput;
         console.log(response, JSON.stringify(response));
         if (!response) {
           throw new Error("Expected a DocumentModelDetailsOutput response.");
@@ -969,7 +967,7 @@ describe("DocumentIntelligenceClient", () => {
       // get the poller
       const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
       // poll until the operation is done
-      (await (await poller).pollUntilDone())
+      await (await poller).pollUntilDone();
     });
   });
 
@@ -996,9 +994,15 @@ describe("DocumentIntelligenceClient", () => {
 
       await poller.pollUntilDone();
 
-      const output = await client.path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-read", (poller).getOperationId()).get();
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}",
+          "prebuilt-read",
+          poller.getOperationId(),
+        )
+        .get();
       console.log(output);
-    })
+    });
 
     it("getAnalyzeResult pdf", async function () {
       const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
@@ -1011,7 +1015,8 @@ describe("DocumentIntelligenceClient", () => {
           contentType: "application/json",
           body: {
             base64Source,
-          }, queryParameters: { output: ["pdf"] },
+          },
+          queryParameters: { output: ["pdf"] },
         });
 
       if (isUnexpected(initialResponse)) {
@@ -1022,11 +1027,17 @@ describe("DocumentIntelligenceClient", () => {
 
       await poller.pollUntilDone();
 
-      const output = await client.path("/documentModels/{modelId}/analyzeResults/{resultId}/pdf", "prebuilt-read", (poller).getOperationId()).get();
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
+          "prebuilt-read",
+          poller.getOperationId(),
+        )
+        .get();
 
       // A PDF's header is expected to be: %PDF-
       assert.ok(output.body.toString().startsWith("%PDF-"));
-    })
+    });
 
     it("getAnalyzeResult figures", async function () {
       const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
@@ -1039,7 +1050,8 @@ describe("DocumentIntelligenceClient", () => {
           contentType: "application/json",
           body: {
             base64Source,
-          }, queryParameters: { output: ["figures"] },
+          },
+          queryParameters: { output: ["figures"] },
         });
 
       if (isUnexpected(initialResponse)) {
@@ -1050,17 +1062,22 @@ describe("DocumentIntelligenceClient", () => {
 
       const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
       const figures = result.analyzeResult?.figures;
-      assert.isArray(figures)
-      assert.isNotEmpty(figures?.[0])
-      const figureId = figures?.[0].id
-      assert.isDefined(figureId)
+      assert.isArray(figures);
+      assert.isNotEmpty(figures?.[0]);
+      const figureId = figures?.[0].id;
+      assert.isDefined(figureId);
 
-
-      const output = await client.path("/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}", "prebuilt-layout", (poller).getOperationId(), figureId).get();
-
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+          "prebuilt-layout",
+          poller.getOperationId(),
+          figureId,
+        )
+        .get();
 
       // Header starts with a special character followed by "PNG"
-      assert.equal(output.body.toString().slice(1, 4), "PNG")
-    })
+      assert.equal(output.body.toString().slice(1, 4), "PNG");
+    });
   });
 });

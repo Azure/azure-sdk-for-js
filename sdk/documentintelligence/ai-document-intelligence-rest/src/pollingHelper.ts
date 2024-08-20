@@ -160,8 +160,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-  | AnalyzeDocumentFromStreamLogicalResponse
-  | AnalyzeDocumentFromStreamDefaultResponse,
+    | AnalyzeDocumentFromStreamLogicalResponse
+    | AnalyzeDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse,
@@ -169,8 +169,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-  | ClassifyDocumentFromStreamLogicalResponse
-  | ClassifyDocumentFromStreamDefaultResponse,
+    | ClassifyDocumentFromStreamLogicalResponse
+    | ClassifyDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -228,9 +228,9 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
     ...options,
     updateState: (state, response) => {
       const flatResponse = <HttpResponse>response.flatResponse;
-      if (!("body" in (flatResponse))) return;
+      if (!("body" in flatResponse)) return;
       const flatResponseBody = <AnalyzeBatchResultOperationOutput>flatResponse.body;
-      if (!(("status" in flatResponseBody) && ((flatResponseBody).status === "completed"))) return;
+      if (!("status" in flatResponseBody && flatResponseBody.status === "completed")) return;
       state.status = "succeeded";
     },
   });
@@ -283,7 +283,9 @@ function parseOperationId(operationLocationHeader: string): string {
   const regex = /[^:]+:\/\/[^/]+\/documentintelligence\/.+\/([^?/]+)/;
   const match = operationLocationHeader.match(regex);
   if (!match) {
-    throw new Error(`Failed to parse operation id from the operation-location header: ${operationLocationHeader}`);
+    throw new Error(
+      `Failed to parse operation id from the operation-location header: ${operationLocationHeader}`,
+    );
   }
   return match[1];
 }
