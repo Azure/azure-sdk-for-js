@@ -23,6 +23,8 @@ const envSetupForPlayback: { [k: string]: string } = {
   DOCUMENT_INTELLIGENCE_TARGET_RESOURCE_REGION: "westus2",
   DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL:
     "https://storageaccount/batchtraining?sastoken",
+  DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL:
+    "https://storageaccount/batchtrainingresult?sastoken",
   // fake resource id
   DOCUMENT_INTELLIGENCE_TARGET_RESOURCE_ID:
     "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr",
@@ -75,6 +77,14 @@ export const recorderOptions: RecorderStartOptions = {
           env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"]?.split("?")[1] || "",
         value:
           envSetupForPlayback["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"].split(
+            "?",
+          )[1],
+      },
+      {
+        target:
+          env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"]?.split("?")[1] || "",
+        value:
+          envSetupForPlayback["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"].split(
             "?",
           )[1],
       },
