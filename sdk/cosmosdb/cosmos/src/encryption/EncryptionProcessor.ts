@@ -433,7 +433,7 @@ export class EncryptionProcessor {
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );
-      const key = this.databaseId + "/" + cekId;
+      const key = dbRid + "/" + cekId;
       this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
         key,
         clientEncryptionKeyProperties,

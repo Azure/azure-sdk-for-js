@@ -1581,7 +1581,7 @@ describe("Client Side Encryption", () => {
     otherClient.dispose();
   });
 
-  it.skip("encryption validate policy refresh post database delete", async () => {
+  it("encryption validate policy refresh post database delete", async () => {
     const mainCLient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
@@ -1736,26 +1736,26 @@ describe("Client Side Encryption", () => {
     const otherEncryptionContainer3 = otherDatabase2.container(otherEncryptionContainer2.id);
     await verifyItemByRead(otherEncryptionContainer3, newDoc);
 
-    // // validate from other client that we indeed are using the key with metadata2
-    // const otherEncryptionContainerFromClient2 = otherDatabase2.container(
-    //   encryptionContainerToDelete.id,
-    // );
-    // await verifyItemByRead(otherEncryptionContainerFromClient2, testDoc);
+    // validate from other client that we indeed are using the key with metadata2
+    const otherEncryptionContainerFromClient2 = otherDatabase2.container(
+      encryptionContainerToDelete.id,
+    );
+    await verifyItemByRead(otherEncryptionContainerFromClient2, testDoc);
 
-    // // previous referenced container
-    // await testCreateItem(otherEncryptionContainer);
+    // previous referenced container
+    await testCreateItem(otherEncryptionContainer);
 
-    // await testCreateItem(otherEncryptionContainer);
-    // await verifyItemByRead(otherEncryptionContainer, testDoc);
+    await testCreateItem(otherEncryptionContainer);
+    await verifyItemByRead(otherEncryptionContainer, testDoc);
 
-    // testDoc = new TestDoc((await testCreateItem(otherEncryptionContainer)).resource);
+    testDoc = new TestDoc((await testCreateItem(otherEncryptionContainer)).resource);
 
-    // // to be sure if it was indeed encrypted with the new key.
-    // await verifyItemByRead(encryptionContainerToDelete, testDoc);
+    // to be sure if it was indeed encrypted with the new key.
+    await verifyItemByRead(encryptionContainerToDelete, testDoc);
 
-    // // validate if the right policy was used, by reading them all back
-    // await encryptionContainerToDelete.items.readAll().fetchAll();
-    // await otherEncryptionContainer.items.readAll().fetchAll();
+    // validate if the right policy was used, by reading them all back
+    await encryptionContainerToDelete.items.readAll().fetchAll();
+    await otherEncryptionContainer.items.readAll().fetchAll();
 
     await mainCLient.database(mainDatabase.id).delete();
 
@@ -2006,5 +2006,9 @@ describe("Client Side Encryption", () => {
     // expecting just one unwrap
     assert.ok(unwrapCount === 1);
     newClient.dispose();
+  });
+  after(async () => {
+    await removeAllDatabases();
+    encryptionClient.dispose();
   });
 });

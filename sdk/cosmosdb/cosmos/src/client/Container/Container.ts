@@ -446,7 +446,7 @@ export class Container {
         for (const clientEncryptionKeyId of clientEncryptionKeyIds) {
           const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
           const encryptionKeyProperties = res.clientEncryptionKeyProperties;
-          const key = this.database.id + "/" + clientEncryptionKeyId;
+          const key = this.database._rid + "/" + clientEncryptionKeyId;
 
           this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
             key,
