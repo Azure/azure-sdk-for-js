@@ -8,7 +8,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import {
-  isAggregateUploadLogsError,
+  isAggregateLogsUploadError,
   LogsIngestionClient,
   UploadLogsError,
 } from "@azure/monitor-ingestion";
@@ -48,7 +48,7 @@ async function main() {
       abortSignal: abortController.signal,
     });
   } catch (e) {
-    if (isAggregateUploadLogsError(e)) {
+    if (isAggregateLogsUploadError(e)) {
       let aggregateErrors = e.errors;
       if (aggregateErrors.length > 0) {
         console.log(

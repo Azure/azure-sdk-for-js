@@ -6,7 +6,7 @@
  * The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object.
  */
 import { DefaultAzureCredential } from "@azure/identity";
-import { isAggregateUploadLogsError, LogsIngestionClient } from "@azure/monitor-ingestion";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -32,7 +32,7 @@ export async function main() {
   try {
     await client.upload(ruleId, streamName, logs);
   } catch (e) {
-    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    let aggregateErrors = isAggregateLogsUploadError(e) ? e.errors : [];
     console.log(
       "Some logs have failed to complete ingestion. Length of errors =",
       aggregateErrors.length
