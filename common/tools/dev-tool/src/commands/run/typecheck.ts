@@ -17,7 +17,7 @@ export const commandInfo = makeCommandInfo(
     paths: {
       kind: "string",
       description:
-        "relative path pattern of additional files (not included in tsconfig.json) to check for compilation errors. Examples: '--paths samples-dev/**/*.ts'.",
+        "comma-separated relative path patterns of additional files not included in tsconfig.json to check for compilation errors. Examples: '--paths samples-dev/**/*.ts,test/**/*.ts'.",
     },
   },
 );
@@ -31,9 +31,12 @@ export default leafCommand(commandInfo, async (options) => {
   });
 
   if (options.paths) {
-    const fullPaths = `${projPath}/${options.paths}`;
-    log.info(`  adding additional files at ${fullPaths}`);
-    project.addSourceFilesAtPaths(fullPaths);
+    const patterns = options.paths.split(",");
+    for (const pattern of patterns) {
+      const fullPaths = `${projPath}/${pattern}`;
+      log.info(`  adding additional files at ${fullPaths}`);
+      project.addSourceFilesAtPaths(fullPaths);
+    }
   }
 
   const diagnostics = project.getPreEmitDiagnostics();
