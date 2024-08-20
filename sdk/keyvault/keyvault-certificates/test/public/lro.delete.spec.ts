@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
-import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import { getServiceVersion } from "./utils/common.js";
+import TestClient from "./utils/testClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - lro - delete", () => {
   const certificatePrefix = `lroDelete${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -19,7 +17,7 @@ describe("Certificates client - lro - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -33,7 +31,7 @@ describe("Certificates client - lro - delete", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is deleted", async function (this: Context) {
+  it("can wait until a certificate is deleted", async function (ctx) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
@@ -61,7 +59,7 @@ describe("Certificates client - lro - delete", () => {
     assert.equal(poller.getOperationState().result!.name, certificateName);
   });
 
-  it("can resume from a stopped poller", async function (this: Context) {
+  it("can resume from a stopped poller", async function (ctx) {
     this.retries(5);
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,

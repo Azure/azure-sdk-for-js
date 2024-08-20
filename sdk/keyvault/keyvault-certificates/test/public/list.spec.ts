@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
 import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
-import { CertificateClient } from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { CertificateClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import { getServiceVersion } from "./utils/common.js";
+import TestClient from "./utils/testClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - list certificates in various ways", () => {
   const prefix = `list${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -23,7 +21,7 @@ describe("Certificates client - list certificates in various ways", () => {
     subject: "cn=MyCert",
   };
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
@@ -40,10 +38,10 @@ describe("Certificates client - list certificates in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all certificates", async function (this: Context): Promise<void> {
+  it("can purge all certificates", async function (ctx): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
     if (!isRecordMode()) {
-      return this.skip();
+      return ctx.task.skip();
     }
     for await (const certificate of client.listPropertiesOfCertificates({
       includePending: true,
@@ -63,7 +61,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can list certificates", async function (this: Context) {
+  it("can list certificates", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -85,7 +83,7 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
   });
 
-  it("can list deleted certificates", async function (this: Context) {
+  it("can list deleted certificates", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -115,7 +113,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can list certificates by page", async function (this: Context) {
+  it("can list certificates by page", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -139,7 +137,7 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
   });
 
-  it("can list deleted certificates by page", async function (this: Context) {
+  it("can list deleted certificates by page", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -169,7 +167,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can retrieve all versions of a certificate", async function (this: Context) {
+  it("can retrieve all versions of a certificate", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const certificateTags = ["tag01", "tag02", "tag03"];
@@ -214,7 +212,7 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  it("can list certificate versions (non existing)", async function (this: Context) {
+  it("can list certificate versions (non existing)", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let totalVersions = 0;
     for await (const page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {

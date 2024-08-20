@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 import {
@@ -10,11 +7,12 @@ import {
   CertificateOperation,
   DefaultCertificatePolicy,
   KeyVaultCertificateWithPolicy,
-} from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+} from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import { getServiceVersion } from "./utils/common.js";
+import TestClient from "./utils/testClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `lroOperation${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -23,7 +21,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -37,7 +35,7 @@ describe("Certificates client - LRO - certificate operation", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function (this: Context) {
+  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function (ctx) {
     this.retries(5);
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
@@ -65,7 +63,7 @@ describe("Certificates client - LRO - certificate operation", () => {
     assert.equal(poller.getOperationState().certificateOperation!.status, "completed");
   });
 
-  it("can resume from a stopped poller", async function (this: Context) {
+  it("can resume from a stopped poller", async function (ctx) {
     this.retries(5);
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,

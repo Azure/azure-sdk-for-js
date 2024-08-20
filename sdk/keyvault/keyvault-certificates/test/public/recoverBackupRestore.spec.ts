@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
-import { CertificateClient } from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { CertificateClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import { getServiceVersion } from "./utils/common.js";
+import TestClient from "./utils/testClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -23,7 +21,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     subject: "cn=MyCert",
   };
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
@@ -37,7 +35,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   // The tests follow
 
-  it("can recover a deleted certificate", async function (this: Context) {
+  it("can recover a deleted certificate", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -64,7 +62,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
   });
 
-  it("can recover a deleted certificate (non existing)", async function (this: Context) {
+  it("can recover a deleted certificate (non existing)", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -80,7 +78,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a certificate", async function (this: Context) {
+    it("can restore a certificate", async function (ctx) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
