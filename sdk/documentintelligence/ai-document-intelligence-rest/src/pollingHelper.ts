@@ -37,6 +37,7 @@ import {
   CopyClassifierToDefaultResponse,
   CopyClassifierToLogicalResponse,
 } from "./responses.js";
+import { AnalyzeBatchResultOperationOutput } from "./outputModels.js";
 
 /**
  * A simple poller that can be used to poll a long running operation.
@@ -155,8 +156,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentFromStreamDefaultResponse,
+  | AnalyzeDocumentFromStreamLogicalResponse
+  | AnalyzeDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse,
@@ -164,8 +165,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentFromStreamDefaultResponse,
+  | ClassifyDocumentFromStreamLogicalResponse
+  | ClassifyDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -218,7 +219,17 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
   };
 
   options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
-  const httpPoller = createHttpPoller(poller, options);
+
+  const httpPoller = createHttpPoller(poller, {
+    ...options,
+    updateState: (state, response) => {
+      const flatResponse = <HttpResponse>response.flatResponse;
+      if (!("body" in (flatResponse))) return;
+      const flatResponseBody = <AnalyzeBatchResultOperationOutput>flatResponse.body;
+      if (!(("status" in flatResponseBody) && ((flatResponseBody).status === "completed"))) return;
+      state.status = "succeeded";
+    },
+  });
   const simplePoller: SimplePollerLike<OperationState<TResult>, TResult> = {
     isDone() {
       return httpPoller.isDone;

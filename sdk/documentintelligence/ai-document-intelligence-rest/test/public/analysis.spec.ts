@@ -5,11 +5,25 @@ import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder"
 import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
 import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
-import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils.js";
+import {
+  ASSET_PATH,
+  batchTrainingFilesContainerUrl,
+  batchTrainingFilesResultContainerUrl,
+  getRandomNumber,
+  makeTestUrl,
+} from "./utils/utils.js";
 import path from "path";
 import fs from "fs";
 import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import { AnalyzeResultOperationOutput, DocumentBarcodeOutput, DocumentModelBuildOperationDetailsOutput, DocumentModelDetailsOutput, DocumentTableOutput, getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import {
+  AnalyzeResultOperationOutput,
+  DocumentBarcodeOutput,
+  DocumentModelBuildOperationDetailsOutput,
+  DocumentModelDetailsOutput,
+  DocumentTableOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
@@ -831,7 +845,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("tax - US - w2", () => {
-    it("png file stream", async function (this: Mocha.Context) {
+    it("png file stream", async function () {
       const filePath = path.join(ASSET_PATH, "w2", "w2-single.png");
       //
 
@@ -865,7 +879,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("healthInsuranceCard - US", function () {
-    it("png file stream", async function (this: Mocha.Context) {
+    it("png file stream", async function () {
       const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
 
       const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -893,4 +907,70 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(documents);
     });
   });
+
+  describe("batch analysis", function () {
+    // We only want to create the model once, but because of the recorder's
+    // precedence, we have to create it in a test, so one test will end up
+    // recording the entire creation and the other tests will still be able
+    // to use it
+    let _model: DocumentModelDetailsOutput | undefined;
+    let modelId: string;
+
+    async function requireModel(): Promise<DocumentModelDetailsOutput> {
+      if (!_model) {
+        // Compute a unique name for the model
+        modelId = recorder.variable("batch-model", `modelName${getRandomNumber()}`);
+        const initialResponse = await client.path("/documentModels:build").post({
+          body: {
+            buildMode: "generative",
+            modelId: modelId,
+            azureBlobSource: {
+              containerUrl: batchTrainingFilesContainerUrl(),
+            },
+          },
+        });
+        if (isUnexpected(initialResponse)) {
+          throw initialResponse.body.error;
+        }
+        const poller = getLongRunningPoller(client, initialResponse);
+        const response = (
+          (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput
+        );
+        console.log(response, JSON.stringify(response));
+        if (!response) {
+          throw new Error("Expected a DocumentModelDetailsOutput response.");
+        }
+        _model = response;
+
+        assert.equal(_model!.modelId, modelId);
+      }
+
+      return _model!;
+    }
+
+    it("batch training", async function () {
+      const model = await requireModel();
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyzeBatch", model.modelId)
+        .post({
+          contentType: "application/json",
+          body: {
+            azureBlobSource: {
+              containerUrl: batchTrainingFilesContainerUrl(),
+            },
+            resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+            resultPrefix: "result",
+          },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+      // get the poller
+      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      // poll until the operation is done
+      (await (await poller).pollUntilDone())
+    });
+  });
+
 });
