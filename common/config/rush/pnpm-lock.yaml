@@ -22360,7 +22360,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-Ahg3qYtGq+utf820e193wjYqU2dybJkU6PITsqiDYKSwAOu6cKlvZTHkSVhOWAbxCaSVIfp+11oDG3qzVH/ZuA==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-Ciy4ViV4tjk8xKOTPuF4cCbgdA9mmzn3NZSFUIXOwSikKzy7xGS0H8UYKLamMAry9/QnGl/tlvXzVJPBRuH21Q==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -22384,11 +22384,22 @@ packages:
       typescript: 5.5.4
       vitest: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/keyvault-keys.tgz:
@@ -23104,7 +23115,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-SVSYam7kT7xgvxpdUlTXkm+lumdFQFAggMAHmJ9ZTeH/LTGm8oOoWEfMXML0nSISQ9d1a46ZNU/GjsH6/9LCRg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-H48T2Roeqsl/F7HvAZqr8AmIkBG1jazlU6i9rSC+7ymiFMI+N8tNCJF2HMYo+ZhsDbn3vGicriy6BAG6Fzl3jw==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -23125,8 +23136,23 @@ packages:
       typescript: 5.4.5
       vitest: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
       - encoding
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - webdriverio
       - zod
     dev: false
 
