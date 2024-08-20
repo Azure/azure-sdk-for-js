@@ -52,6 +52,10 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
    */
   getOperationState(): TState;
   /**
+   * Returns the id of the operation.
+   */
+  getOperationId(): string;
+  /**
    * Returns the result value of the operation,
    * regardless of the state of the poller.
    * It can return undefined or an incomplete form of the final TResult value
@@ -266,8 +270,22 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
     pollUntilDone: httpPoller.pollUntilDone,
     serialize: httpPoller.serialize,
     submitted: httpPoller.submitted,
+    getOperationId: () => parseOperationId(initialResponse.headers["operation-location"]),
   };
   return simplePoller;
+}
+
+/**
+ * Returns the operation-id from the operation-location header
+ */
+function parseOperationId(operationLocationHeader: string): string {
+  // regex to extract the operation id from the operation-location header with the regex "[^:]+://[^/]+/documentintelligence/.+/([^?/]+)"
+  const regex = /[^:]+:\/\/[^/]+\/documentintelligence\/.+\/([^?/]+)/;
+  const match = operationLocationHeader.match(regex);
+  if (!match) {
+    throw new Error(`Failed to parse operation id from the operation-location header: ${operationLocationHeader}`);
+  }
+  return match[1];
 }
 
 /**
