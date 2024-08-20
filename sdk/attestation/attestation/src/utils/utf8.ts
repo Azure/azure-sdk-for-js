@@ -14,7 +14,7 @@ const decoder =
 const encoder =
   typeof Buffer === "undefined"
     ? // eslint-disable-next-line @typescript-eslint/no-require-imports
-      new (TextEncoder ?? require("util").TextEncoder)("ascii")
+      new (TextEncoder ?? require("util").TextEncoder)()
     : undefined;
 
 const decode: (buffer: ArrayBuffer) => string = decoder
