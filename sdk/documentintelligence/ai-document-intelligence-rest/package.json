@@ -137,5 +137,14 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "//sampleConfiguration": {
+    "productName": "Azure Document Intelligence Rest Client",
+    "productSlugs": [
+      "azure",
+      "document-intelligence",
+      "ai-document-intelligence"
+    ],
+    "disableDocsMs": true
+  }
 }
