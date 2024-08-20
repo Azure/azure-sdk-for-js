@@ -12001,7 +12001,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-yuTSJ/qPVgJhR0zhnpnfm+74vjRzYNtwVLCJ4uB8BYuQw/8p457HSZJW8fmoja6UBgW2yF3pTTXK6hZYUfmMAQ==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-vz9jPN1VeITQ9J8Z5W4FaW4TpWHGyOH4BrudrSX3clGLVdFDY9tzUVyAC5a4EQA5mJluMpVCtLzLNHhBe8Ki4w==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -12015,8 +12015,8 @@ packages:
       '@types/chai': 4.3.17
       '@types/mocha': 10.0.7
       '@types/node': 18.19.44
-      '@vitest/browser': 1.6.0(playwright@1.46.0)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.0.5(playwright@1.46.0)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12043,10 +12043,11 @@ packages:
       tshy: 1.18.0
       tslib: 2.6.3
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.44)(@vitest/browser@1.6.0)
+      vitest: 2.0.5(@types/node@18.19.44)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jsdom
       - less
@@ -12058,6 +12059,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
       - webdriverio
     dev: false
 
