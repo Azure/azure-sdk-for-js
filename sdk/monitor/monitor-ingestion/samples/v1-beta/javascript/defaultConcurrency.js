@@ -7,7 +7,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isAggregateUploadLogsError, LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { isAggregateLogsUploadError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -33,7 +33,7 @@ async function main() {
   try {
     await client.upload(ruleId, streamName, logs);
   } catch (e) {
-    if (isAggregateUploadLogsError(e)) {
+    if (isAggregateLogsUploadError(e)) {
       let aggregateErrors = e.errors;
       if (aggregateErrors.length > 0) {
         console.log(
