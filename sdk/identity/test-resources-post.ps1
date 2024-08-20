@@ -11,6 +11,14 @@ param (
   [hashtable] $DeploymentOutputs,
 
   [Parameter()]
+  [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
+  [string] $TestApplicationId,
+
+  [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $TenantId,
+
+  [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
   [Parameter()]
@@ -39,7 +47,7 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
+  az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
   az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 }
 
