@@ -187,6 +187,7 @@ jobs:
           condition: and(succeeded(), eq(variables['TestType'], 'browser'))
           env:
             TEST_MODE: "live"
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
 
       - ${{ else }}:
