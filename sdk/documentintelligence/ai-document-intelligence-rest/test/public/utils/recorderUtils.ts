@@ -88,11 +88,13 @@ export const recorderOptions: RecorderStartOptions = {
       },
       {
         target:
-          env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"]?.split("?")[1] || "",
-        value:
-          envSetupForPlayback["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"].split(
+          env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"]?.split(
             "?",
-          )[1],
+          )[1] || "",
+        value:
+          envSetupForPlayback[
+            "DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"
+          ].split("?")[1],
       },
     ],
   },
