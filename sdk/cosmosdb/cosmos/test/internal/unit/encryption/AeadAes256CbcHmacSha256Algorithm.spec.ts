@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { randomBytes } from "crypto";
 import { EncryptionType } from "../../../../src";
 import { AeadAes256CbcHmacSha256Algorithm } from "../../../../src/encryption/AeadAes256CbcHmacSha256Algorithm";
 import { DataEncryptionKey } from "../../../../src/encryption/EncryptionKey";
@@ -18,7 +17,8 @@ describe("AeadAes256CbcHmacSha256 Algorithm", () => {
   let algorithm: AeadAes256CbcHmacSha256Algorithm;
 
   beforeEach(() => {
-    const rootKey = randomBytes(32);
+    const hexString = "A5237E37726177F68CBC114F96B3B2DE4E792E701CC5AA955BEFF41BCF4862A8";
+    const rootKey = Buffer.from(hexString, "hex");
     dataEncryptionKey = new TestDataEncryptionKey(rootKey);
     algorithm = new AeadAes256CbcHmacSha256Algorithm(dataEncryptionKey, EncryptionType.RANDOMIZED);
   });
