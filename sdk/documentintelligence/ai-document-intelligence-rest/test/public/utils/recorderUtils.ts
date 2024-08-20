@@ -32,6 +32,12 @@ const envSetupForPlayback: { [k: string]: string } = {
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK4001", // envSetupForPlayback handles endpoint sanitization
+    "AZSDK2030", // no need to sanitize "operation-location" header since the endpoint is already sanitized
+    "AZSDK3430", // $.id
+    "AZSDK3496", // $..resourceLocation
+  ],
   sanitizerOptions: {
     generalSanitizers: [
       // endpoints
