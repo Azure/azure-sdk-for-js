@@ -15,6 +15,7 @@ import {
   MonitoringDataPoint,
   PublishOptionalParams,
   PublishResponse,
+  CollectionConfigurationError,
 } from "../../../generated";
 import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
 
@@ -27,6 +28,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
   private getDocumentsFn: () => DocumentIngress[];
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
+  private etag: string;
+  private getErrorsFn: () => CollectionConfigurationError[];
+  private getDerivedMetricValuesFn: () => Map<string, number>;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -43,6 +47,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.postCallback = options.postCallback;
     this.getDocumentsFn = options.getDocumentsFn;
     this.baseMonitoringDataPoint = options.baseMonitoringDataPoint;
+    this.getErrorsFn = options.getErrorsFn;
+    this.etag = "";
+    this.getDerivedMetricValuesFn = options.getDerivedMetricValuesFn;
     diag.debug("QuickpulseMetricExporter was successfully setup");
   }
 
@@ -61,13 +68,18 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
         metrics,
         this.baseMonitoringDataPoint,
         this.getDocumentsFn(),
+        this.getErrorsFn(),
+        this.getDerivedMetricValuesFn(),
       ),
       transmissionTime: getTransmissionTime(),
+      configurationEtag: this.etag,
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       try {
-        const postResponse = await this.sender.publish(optionalParams);
+        console.log("calling post");
+        let postResponse = await this.sender.publish(optionalParams);
+        console.log("post response {}", postResponse);
         this.postCallback(postResponse);
         resultCallback({ code: ExportResultCode.SUCCESS });
       } catch (error) {
@@ -110,5 +122,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    */
   public getSender(): QuickpulseSender {
     return this.sender;
+  }
+
+  public setEtag(etag: string) {
+    this.etag = etag;
   }
 }

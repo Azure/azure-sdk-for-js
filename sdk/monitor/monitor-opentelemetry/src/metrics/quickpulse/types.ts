@@ -3,7 +3,10 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { MonitoringDataPoint, PublishResponse } from "../../generated";
-import { DocumentIngress } from "../../generated";
+import {
+  DocumentIngress,
+  CollectionConfigurationError
+} from "../../generated";
 
 /**
  * Quickpulse Exporter Options
@@ -24,6 +27,10 @@ export interface QuickpulseExporterOptions {
   postCallback: (response: PublishResponse | undefined) => void;
 
   getDocumentsFn: () => DocumentIngress[];
+
+  getErrorsFn: () => CollectionConfigurationError[];
+
+  getDerivedMetricValuesFn: () => Map<string, number>;
 }
 
 export enum QuickPulseOpenTelemetryMetricNames {
@@ -53,4 +60,36 @@ export enum QuickPulseMetricNames {
   DEPENDENCY_DURATION = "\\ApplicationInsights\\Dependency Call Duration",
   // Exception
   EXCEPTION_RATE = "\\ApplicationInsights\\Exceptions/Sec",
+}
+export interface TelemetryData {
+  CustomDimensions: Map<string, string>;
+}
+export interface RequestData extends TelemetryData {
+  Url: string;
+  Duration: number;
+  ResponseCode: number;
+  Success: boolean;
+  Name: string;
+}
+
+export interface DependencyData extends TelemetryData {
+  //  Target site of a dependency call. Examples are server name, host address.
+  Target: string;
+  Duration: number;
+  Success: boolean;
+  Name: string;
+  ResultCode: number;
+  // Dependency type name. Very low cardinality value for logical grouping of dependencies and interpretation of other fields like commandName and resultCode.Examples are SQL, Azure table, and HTTP. 
+  Type: string;
+  // Command initiated by this dependency call. Examples are SQL statement and HTTP URL with all query parameters.
+  Data: string;
+}
+
+export interface ExceptionData extends TelemetryData {
+  Message: string;
+  StackTrace: string;
+}
+
+export interface TraceData extends TelemetryData {
+  Message: string;
 }
