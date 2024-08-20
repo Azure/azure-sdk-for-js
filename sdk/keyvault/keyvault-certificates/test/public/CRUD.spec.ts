@@ -16,6 +16,7 @@ import { authenticate } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+expect.extend({ toSupportTracing });
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -436,7 +437,7 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(updated.policy!.issuerName).toEqual("Self");
   });
 
-  it("can read, cancel and delete a certificate's operation", { retry: 5 }, async function (ctx) {
+  it("can read, cancel and delete a certificate's operation", { retry: 5 }, async function () {
     const certificateName = recorder.variable(
       "crudcertoperation",
       `crudcertoperation-${Math.floor(Math.random() * 10000)}`,
@@ -508,26 +509,18 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("supports tracing", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
-
-    await assert.supportsTracing(
-      async (tracingOptions) => {
-        const poller = await client.beginCreateCertificate(
-          certificateName,
-          basicCertificatePolicy,
-          {
-            ...testPollerProperties,
-            ...tracingOptions,
-          },
-        );
-        await poller.pollUntilDone();
-        await client.getCertificate(certificateName, { ...tracingOptions });
-      },
-      [
-        "CreateCertificatePoller.createCertificate",
-        "CreateCertificatePoller.getPlainCertificateOperation",
-        "CreateCertificatePoller.getCertificate",
-        "CertificateClient.getCertificate",
-      ],
-    );
+    await expect(async (tracingOptions: any) => {
+      const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+        ...testPollerProperties,
+        ...tracingOptions,
+      });
+      await poller.pollUntilDone();
+      await client.getCertificate(certificateName, { ...tracingOptions });
+    }).toSupportTracing([
+      "CreateCertificatePoller.createCertificate",
+      "CreateCertificatePoller.getPlainCertificateOperation",
+      "CreateCertificatePoller.getCertificate",
+      "CertificateClient.getCertificate",
+    ]);
   });
 });

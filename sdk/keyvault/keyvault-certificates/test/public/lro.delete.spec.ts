@@ -3,12 +3,15 @@
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
-import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src/index.js";
+import {
+  CertificateClient,
+  DeletedCertificate,
+  DefaultCertificatePolicy,
+} from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import { getServiceVersion } from "./utils/common.js";
 import TestClient from "./utils/testClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - lro - delete", () => {
   const certificatePrefix = `lroDelete${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -18,7 +21,7 @@ describe("Certificates client - lro - delete", () => {
   let recorder: Recorder;
 
   beforeEach(async function (ctx) {
-    const authentication = await authenticate(this, getServiceVersion());
+    const authentication = await authenticate(ctx);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -33,7 +36,7 @@ describe("Certificates client - lro - delete", () => {
 
   it("can wait until a certificate is deleted", async function (ctx) {
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
+      `${certificatePrefix}-${ctx.task.name}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -42,27 +45,26 @@ describe("Certificates client - lro - delete", () => {
     );
     await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    expect(poller.getOperationState().isStarted).toBeTruthy();
 
     // The pending deleted certificate can be obtained this way:
-    assert.equal(poller.getOperationState().result!.name, certificateName);
+    expect(poller.getOperationState().result!.name).toEqual(certificateName);
 
     let deletedCertificate: DeletedCertificate = await poller.pollUntilDone();
-    assert.equal(deletedCertificate.name, certificateName);
-    assert.ok(poller.getOperationState().isCompleted);
+    expect(deletedCertificate.name).toEqual(certificateName);
+    expect(poller.getOperationState().isCompleted).toBeTruthy();
 
     // Retrieving it without the poller
     deletedCertificate = await client.getDeletedCertificate(certificateName);
-    assert.equal(deletedCertificate.name, certificateName);
+    expect(deletedCertificate.name).toEqual(certificateName);
 
     // The final deleted certificate can also be obtained this way:
-    assert.equal(poller.getOperationState().result!.name, certificateName);
+    expect(poller.getOperationState().result!.name).toEqual(certificateName);
   });
 
-  it("can resume from a stopped poller", async function (ctx) {
-    this.retries(5);
+  it("can resume from a stopped poller", { retry: 5 }, async function (ctx) {
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
+      `${certificatePrefix}-${ctx.task.name}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -71,17 +73,17 @@ describe("Certificates client - lro - delete", () => {
     );
     await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    assert.ok(poller.getOperationState().isStarted);
+    expect(poller.getOperationState().isStarted).toBeTruthy();
 
     poller.pollUntilDone().catch((e) => {
-      assert.ok(e instanceof PollerStoppedError);
-      assert.equal(e.name, "PollerStoppedError");
-      assert.equal(e.message, "This poller is already stopped");
+      expect(e).toBeInstanceOf(PollerStoppedError);
+      expect(e.name).toEqual("PollerStoppedError");
+      expect(e.message).toEqual("This poller is already stopped");
     });
 
     poller.stopPolling();
-    assert.ok(poller.isStopped());
-    assert.ok(!poller.getOperationState().isCompleted);
+    expect(poller.isStopped()).toBeTruthy();
+    expect(poller.getOperationState().isCompleted).toBeFalsy();
 
     const serialized = poller.toString();
 
@@ -90,13 +92,13 @@ describe("Certificates client - lro - delete", () => {
       ...testPollerProperties,
     });
 
-    assert.ok(resumePoller.getOperationState().isStarted);
+    expect(resumePoller.getOperationState().isStarted).toBeTruthy();
 
     let deletedCertificate: DeletedCertificate = await resumePoller.pollUntilDone();
-    assert.equal(deletedCertificate.name, certificateName);
+    expect(deletedCertificate.name).toEqual(certificateName);
 
     // Retrieving it without the poller
     deletedCertificate = await client.getDeletedCertificate(certificateName);
-    assert.equal(deletedCertificate.name, certificateName);
+    expect(deletedCertificate.name).toEqual(certificateName);
   });
 });

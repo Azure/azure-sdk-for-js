@@ -8,12 +8,12 @@ import {
   isLiveMode,
   Recorder,
   RecorderStartOptions,
-  VitestTestContext,
+  TestInfo,
 } from "@azure-tools/test-recorder";
 import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-export async function authenticate(ctx: VitestTestContext): Promise<any> {
+export async function authenticate(ctx: TestInfo): Promise<any> {
   const suffix = uniqueString();
 
   const startOptions: RecorderStartOptions = {
