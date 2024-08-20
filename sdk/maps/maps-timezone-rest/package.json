@@ -54,7 +54,9 @@
     "@azure-rest/core-client": "1.0.0-beta.10",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@azure/maps-common": "~1.0.0-beta.3",
+    "@azure/core-util": "~1.9.3"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -72,8 +74,8 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^2.0.0",
-    "mocha": "^7.1.1",
-    "@types/mocha": "^7.0.2",
+    "mocha": "^10.0.7",
+    "@types/mocha": "^10.0.7",
     "mocha-junit-reporter": "^1.18.0",
     "cross-env": "^7.0.2",
     "@types/chai": "^4.2.8",

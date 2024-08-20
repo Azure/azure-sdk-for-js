@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
+import { ClientOptions } from "@azure-rest/core-client";
+import {createTestCredential} from "@azure-tools/test-credential";
+import MapsTimezone, {MapsTimezoneClient} from "@azure-rest/maps-timezone";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -26,4 +29,10 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export function createClient(options?: ClientOptions): MapsTimezoneClient {
+  const credential = createTestCredential();
+  const client = MapsTimezone(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
+  return client;
 }

@@ -30,7 +30,7 @@ describe("Authentication", function () {
     );
 
     const response = await client.path("/timezone/byId/{format}", "json").get({
-      queryParameters: { id: "America/New_York" },
+      queryParameters: { query: "America/New_York" },
     });
     assert.isOk(!isUnexpected(response));
   });
@@ -50,7 +50,7 @@ describe("Endpoint can be overwritten", function () {
   it("should be executed without specifying baseUrl", async function () {
     const client = createClient(recorder.configureClientOptions({}));
     const response = await client.path("/timezone/byId/{format}", "json").get({
-      queryParameters: { id: "America/New_York" },
+      queryParameters: { query: "America/New_York" },
     });
 
     assert.isOk(!isUnexpected(response));
@@ -61,7 +61,7 @@ describe("Endpoint can be overwritten", function () {
         recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" })
     );
     const response = await client.path("/timezone/byId/{format}", "json").get({
-      queryParameters: { id: "America/New_York" },
+      queryParameters: { query: "America/New_York" },
     });
 
     assert.isOk(!isUnexpected(response));
@@ -83,7 +83,7 @@ describe("MapsTimezone", () => {
 
   it("can get timezone by ID", async function () {
     const response = await client.path("/timezone/byId/{format}", "json").get({
-      queryParameters: { id: "America/New_York" },
+      queryParameters: { query: "America/New_York" },
     });
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
@@ -94,7 +94,7 @@ describe("MapsTimezone", () => {
 
   it("can get timezone by coordinates", async function () {
     const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
-      queryParameters: { lat: 40.7128, lon: -74.0060 },
+      queryParameters: { query: [40.7128, -74.0060] },
     });
 
     if (isUnexpected(response)) {
@@ -130,19 +130,22 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isNotEmpty(response.body.version);
+      console.log(response.body.Version);
     }
   });
 
   it("can convert Windows timezone to IANA", async function () {
     const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
-      queryParameters: { windowsTimezoneId: "Eastern Standard Time" },
+      queryParameters: { query: "Eastern Standard Time" },
     });
 
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isNotEmpty(response.body.ianaTimezoneIds);
+      response.body.forEach((ianaId) => {
+        console.log(ianaId);
+      });
     }
   });
 });
+

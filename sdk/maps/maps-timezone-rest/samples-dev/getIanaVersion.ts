@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone from "../src/mapsTimezone";
+import MapsTimezone from "../src";
+import { isUnexpected } from "../src";
 
 /**
  * @summary How to get the IANA version number.
@@ -14,7 +15,11 @@ async function main(): Promise<void> {
 
     const response = await client.path("/timezone/ianaVersion/{format}", "json").get();
 
-    console.log(response.body.version);
+    if (isUnexpected(response)) {
+        throw response.body.error;
+    }
+
+    console.log(response.body.Version);
 }
 
 main().catch((err) => {
