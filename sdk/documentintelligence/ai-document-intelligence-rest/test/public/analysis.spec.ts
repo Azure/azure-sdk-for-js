@@ -934,7 +934,6 @@ describe("DocumentIntelligenceClient", () => {
         }
         const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
         const response = (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput;
-        console.log(response, JSON.stringify(response));
         if (!response) {
           throw new Error("Expected a DocumentModelDetailsOutput response.");
         }
@@ -1001,7 +1000,6 @@ describe("DocumentIntelligenceClient", () => {
           poller.getOperationId(),
         )
         .get();
-      console.log(output);
     });
 
     it("getAnalyzeResult pdf", async function () {
