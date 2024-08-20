@@ -1,11 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-declare let TextDecoder:
-  | undefined
-  | (new () => { decode(buffer: ArrayBuffer | ArrayBufferView): string });
-declare let TextEncoder: undefined | (new () => { encode(str: string): ArrayBuffer });
-
 // TextDecoder and TextEncoder are in the global namespace for Node version 11 and
 // higher, but before that, they were in the "util" namespace. If we're running
 // under node ("Buffer" is defined), then check to see if the global namespace version
