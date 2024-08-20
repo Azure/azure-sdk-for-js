@@ -932,7 +932,7 @@ describe("DocumentIntelligenceClient", () => {
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
-        const poller = getLongRunningPoller(client, initialResponse);
+        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
         const response = (
           (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput
         );
@@ -973,4 +973,94 @@ describe("DocumentIntelligenceClient", () => {
     });
   });
 
+  describe("get AnalyzeResult methods", function () {
+    it("getAnalyzeResult", async function () {
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-read")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+      await poller.pollUntilDone();
+
+      const output = await client.path("/documentModels/{modelId}/analyzeResults/{resultId}", "prebuilt-read", (poller).getOperationId()).get();
+      console.log(output);
+    })
+
+    it("getAnalyzeResult pdf", async function () {
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-read")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          }, queryParameters: { output: ["pdf"] },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+      await poller.pollUntilDone();
+
+      const output = await client.path("/documentModels/{modelId}/analyzeResults/{resultId}/pdf", "prebuilt-read", (poller).getOperationId()).get();
+
+      // A PDF's header is expected to be: %PDF-
+      assert.ok(output.body.toString().startsWith("%PDF-"));
+    })
+
+    it("getAnalyzeResult figures", async function () {
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          }, queryParameters: { output: ["figures"] },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+      const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+      const figures = result.analyzeResult?.figures;
+      assert.isArray(figures)
+      assert.isNotEmpty(figures?.[0])
+      const figureId = figures?.[0].id
+      assert.isDefined(figureId)
+
+
+      const output = await client.path("/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}", "prebuilt-layout", (poller).getOperationId(), figureId).get();
+
+
+      // Header starts with a special character followed by "PNG"
+      assert.equal(output.body.toString().slice(1, 4), "PNG")
+    })
+  });
 });
