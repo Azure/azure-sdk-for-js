@@ -5,7 +5,7 @@
 ### Other Changes
 
 - A new field `accessTier` is added to the `StorageBlobCreatedEventData` object.
-- Two new fields `accessTier` & `previousTier` are added to the StorageBlobTierChangedEventData object.
+- Two new properties `accessTier` & `previousTier` are added to the `StorageBlobTierChangedEventData` interface.
 
 ### Bugs Fixed
 
