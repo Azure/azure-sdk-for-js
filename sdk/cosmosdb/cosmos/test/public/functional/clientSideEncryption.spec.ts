@@ -1761,7 +1761,7 @@ describe("Client Side Encryption", () => {
 
     mainCLient.dispose();
     otherClient.dispose();
-    // otherClient2.dispose();
+    otherClient2.dispose();
   });
 
   it("encryption decrypt group by query result test", async () => {
