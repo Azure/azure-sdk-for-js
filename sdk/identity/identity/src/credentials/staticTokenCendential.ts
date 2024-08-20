@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TokenCredential, AccessToken } from "@azure/core-auth";
 
 export class StaticTokenCredential implements TokenCredential {
