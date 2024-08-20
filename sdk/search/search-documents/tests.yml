@@ -1,25 +1,30 @@
 trigger: none
 
 extends:
-    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
-    parameters:
-      PackageName: "@azure/search-documents"
-      ServiceDirectory: search
-      TimeoutInMinutes: 90
-      # TODO: change 'Preview' cloud back to public after search RP fixes deletion metadata issue
-      Clouds: "Preview"
-      SupportedClouds: "Preview,UsGov,China"
-      CloudConfig:
-        Preview:
-          ServiceConnection: azure-sdk-tests-preview
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePreviewMsft.json
-          Location: "westcentralus"
-        UsGov:
-          ServiceConnection: usgov_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
-        China:
-          ServiceConnection: china_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureChinaMsft.json
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/search-documents"
+    SDKType: client
+    UseFederatedAuth: true
+    ServiceDirectory: search
+    TimeoutInMinutes: 90
+    Location: "westcentralus"
+    Clouds: "Public"
+    SupportedClouds: "Public,Preview,UsGov,China"
+    CloudConfig:
+      Public:
+        ServiceConnection: azure-sdk-tests
+        SubscriptionConfigurationFilePaths:
+          - eng/common/TestResources/sub-config/AzurePublicMsft.json
+      Preview:
+        ServiceConnection: azure-sdk-tests-preview
+        SubscriptionConfigurationFilePaths:
+          - eng/common/TestResources/sub-config/AzurePreviewMsft.json
+      UsGov:
+        ServiceConnection: usgov_azure-sdk-tests
+        SubscriptionConfigurationFilePaths:
+          - eng/common/TestResources/sub-config/AzureUsGovMsft.json
+      China:
+        ServiceConnection: china_azure-sdk-tests
+        SubscriptionConfigurationFilePaths:
+          - eng/common/TestResources/sub-config/AzureChinaMsft.json
