@@ -13,6 +13,7 @@ import {
   EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 /* eslint no-constant-condition: "off" */
 async function clearMessages(receiverClient: EventGridReceiverClient): Promise<void> {
