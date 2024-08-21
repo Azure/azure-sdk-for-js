@@ -54,8 +54,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/mustache": "^4.2.1",
     "@types/node": "^18.0.0",
