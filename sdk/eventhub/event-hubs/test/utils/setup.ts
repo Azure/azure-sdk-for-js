@@ -57,15 +57,15 @@ export default async function ({ provide }: GlobalSetupContext) {
       "EVENTHUB_CONNECTION_STRING_SECRET_NAME",
     );
     const kvClient = new SecretClient(kvUri, createTestCredential());
-    const { value: connectionStringWithKey } = await kvClient.getSecret(
+    const { value: connectionString } = await kvClient.getSecret(
       eventHubConnectionStringSecretName,
     );
-    if (!connectionStringWithKey) {
+    if (!connectionString) {
       throw new Error(
         `Secret ${eventHubConnectionStringSecretName} not found in Key Vault ${kvUri}`,
       );
     }
-    process.env[EnvVarKeys.EVENTHUB_CONNECTION_STRING] = connectionStringWithKey;
+    process.env[EnvVarKeys.EVENTHUB_CONNECTION_STRING] = connectionString;
     for (const key of Object.values(EnvVarKeys)) {
       provide(key, assertEnvironmentVariable(key));
     }
