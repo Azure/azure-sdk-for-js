@@ -93,6 +93,7 @@ async function cancel(this: RestoreSecretBackupPollOperation): Promise<never> {
 /**
  * Serializes the create secret's poll operation
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function toString(this: RestoreSecretBackupPollOperation): string {
   return JSON.stringify({
     state: this.state,

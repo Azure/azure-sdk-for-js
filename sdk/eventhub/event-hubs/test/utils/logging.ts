@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { afterAll, beforeAll } from "vitest";
+import { afterAll, beforeAll, inject } from "vitest";
 import { AzureLogLevel, setLogLevel } from "@azure/logger";
 
-const logLevel = (process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "info";
+const logLevel = inject("AZURE_LOG_LEVEL") as AzureLogLevel;
 const localStorage: { debug?: string } = {};
 
 beforeAll(async function () {

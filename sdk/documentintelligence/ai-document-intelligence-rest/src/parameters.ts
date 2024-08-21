@@ -4,14 +4,22 @@
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import {
+  StringIndexType,
+  DocumentAnalysisFeature,
+  ContentFormat,
+  AnalyzeOutputOption,
   AnalyzeDocumentRequest,
+  AnalyzeBatchDocumentsRequest,
   BuildDocumentModelRequest,
   ComposeDocumentModelRequest,
   AuthorizeCopyRequest,
   CopyAuthorization,
   BuildDocumentClassifierRequest,
+  SplitMode,
   ClassifyDocumentRequest,
-} from "./models";
+  AuthorizeClassifierCopyRequest,
+  ClassifierCopyAuthorization,
+} from "./models.js";
 
 export interface ListOperationsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -60,6 +68,18 @@ export interface GetDocumentModelCopyToOperationHeaderParam {
 export type GetDocumentModelCopyToOperationParameters = GetDocumentModelCopyToOperationHeaderParam &
   RequestParameters;
 
+export interface GetDocumentClassifierCopyToOperationHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface GetDocumentClassifierCopyToOperationHeaderParam {
+  headers?: RawHttpHeadersInput & GetDocumentClassifierCopyToOperationHeaders;
+}
+
+export type GetDocumentClassifierCopyToOperationParameters =
+  GetDocumentClassifierCopyToOperationHeaderParam & RequestParameters;
+
 export interface GetDocumentClassifierBuildOperationHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
@@ -84,6 +104,8 @@ export interface GetOperationHeaderParam {
 export type GetOperationParameters = GetOperationHeaderParam & RequestParameters;
 export type GetResourceInfoParameters = RequestParameters;
 export type GetAnalyzeResultParameters = RequestParameters;
+export type GetAnalyzeResultPdfParameters = RequestParameters;
+export type GetAnalyzeResultFigureParameters = RequestParameters;
 
 export interface AnalyzeDocumentFromStreamBodyParam {
   /**
@@ -107,9 +129,9 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
    *
    * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
-  stringIndexType?: string;
+  stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
-  features?: string[];
+  features?: DocumentAnalysisFeature[];
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
   queryFields?: string[];
   /**
@@ -117,7 +139,9 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
    *
    * Possible values: "text", "markdown"
    */
-  outputContentFormat?: string;
+  outputContentFormat?: ContentFormat;
+  /** Additional outputs to generate during analysis. */
+  output?: AnalyzeOutputOption[];
 }
 
 export interface AnalyzeDocumentFromStreamQueryParam {
@@ -163,9 +187,9 @@ export interface AnalyzeDocumentQueryParamProperties {
    *
    * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
-  stringIndexType?: string;
+  stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
-  features?: string[];
+  features?: DocumentAnalysisFeature[];
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
   queryFields?: string[];
   /**
@@ -173,7 +197,9 @@ export interface AnalyzeDocumentQueryParamProperties {
    *
    * Possible values: "text", "markdown"
    */
-  outputContentFormat?: string;
+  outputContentFormat?: ContentFormat;
+  /** Additional outputs to generate during analysis. */
+  output?: AnalyzeOutputOption[];
 }
 
 export interface AnalyzeDocumentQueryParam {
@@ -181,13 +207,61 @@ export interface AnalyzeDocumentQueryParam {
 }
 
 export interface AnalyzeDocumentMediaTypesParam {
-  /** Input content type */
+  /** Input content type. */
   contentType: "application/json";
 }
 
 export type AnalyzeDocumentParameters = AnalyzeDocumentQueryParam &
   AnalyzeDocumentMediaTypesParam &
   AnalyzeDocumentBodyParam &
+  RequestParameters;
+export type GetAnalyzeBatchResultParameters = RequestParameters;
+
+export interface AnalyzeBatchDocumentsBodyParam {
+  /** Analyze batch request parameters. */
+  body?: AnalyzeBatchDocumentsRequest;
+}
+
+export interface AnalyzeBatchDocumentsQueryParamProperties {
+  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  pages?: string;
+  /**
+   * Locale hint for text recognition and document analysis.  Value may contain only
+   * the language code (ex. "en", "fr") or BCP 47 language tag (ex. "en-US").
+   */
+  locale?: string;
+  /**
+   * Method used to compute string offset and length.
+   *
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
+   */
+  stringIndexType?: StringIndexType;
+  /** List of optional analysis features. */
+  features?: DocumentAnalysisFeature[];
+  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
+  queryFields?: string[];
+  /**
+   * Format of the analyze result top-level content.
+   *
+   * Possible values: "text", "markdown"
+   */
+  outputContentFormat?: ContentFormat;
+  /** Additional outputs to generate during analysis. */
+  output?: AnalyzeOutputOption[];
+}
+
+export interface AnalyzeBatchDocumentsQueryParam {
+  queryParameters?: AnalyzeBatchDocumentsQueryParamProperties;
+}
+
+export interface AnalyzeBatchDocumentsMediaTypesParam {
+  /** Input content type */
+  contentType: "application/json";
+}
+
+export type AnalyzeBatchDocumentsParameters = AnalyzeBatchDocumentsQueryParam &
+  AnalyzeBatchDocumentsMediaTypesParam &
+  AnalyzeBatchDocumentsBodyParam &
   RequestParameters;
 
 export interface GetModelHeaders {
@@ -306,13 +380,15 @@ export interface ClassifyDocumentFromStreamQueryParamProperties {
    *
    * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
-  stringIndexType?: string;
+  stringIndexType?: StringIndexType;
   /**
    * Document splitting mode.
    *
    * Possible values: "auto", "none", "perPage"
    */
-  split?: string;
+  split?: SplitMode;
+  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  pages?: string;
 }
 
 export interface ClassifyDocumentFromStreamQueryParam {
@@ -351,13 +427,15 @@ export interface ClassifyDocumentQueryParamProperties {
    *
    * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
-  stringIndexType?: string;
+  stringIndexType?: StringIndexType;
   /**
    * Document splitting mode.
    *
    * Possible values: "auto", "none", "perPage"
    */
-  split?: string;
+  split?: SplitMode;
+  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  pages?: string;
 }
 
 export interface ClassifyDocumentQueryParam {
@@ -374,3 +452,18 @@ export type ClassifyDocumentParameters = ClassifyDocumentQueryParam &
   ClassifyDocumentBodyParam &
   RequestParameters;
 export type GetClassifyResultParameters = RequestParameters;
+
+export interface AuthorizeClassifierCopyBodyParam {
+  /** Authorize copy request parameters. */
+  body: AuthorizeClassifierCopyRequest;
+}
+
+export type AuthorizeClassifierCopyParameters = AuthorizeClassifierCopyBodyParam &
+  RequestParameters;
+
+export interface CopyClassifierToBodyParam {
+  /** Copy to request parameters. */
+  body: ClassifierCopyAuthorization;
+}
+
+export type CopyClassifierToParameters = CopyClassifierToBodyParam & RequestParameters;
