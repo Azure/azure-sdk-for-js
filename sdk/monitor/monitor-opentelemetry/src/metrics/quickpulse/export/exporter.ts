@@ -37,8 +37,8 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.sender = new QuickpulseSender({
       endpointUrl: options.endpointUrl,
       instrumentationKey: options.instrumentationKey,
-      aadAudience: options.aadAudience,
       credential: options.credential,
+      credentialScopes: options.credentialScopes,
     });
     this.postCallback = options.postCallback;
     this.getDocumentsFn = options.getDocumentsFn;

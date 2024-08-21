@@ -220,7 +220,7 @@
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
-/sdk/web-pubsub/ @vicancy
+/sdk/web-pubsub/ @vicancy @chenkennt @zackliu
 
 # PRLabel: %EngSys
 /sdk/template/ @ckairen @mikeharder @weshaggard @benbp

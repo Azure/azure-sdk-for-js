@@ -43,7 +43,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential);
@@ -66,7 +66,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
@@ -86,7 +86,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
@@ -126,7 +126,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
@@ -157,7 +157,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
@@ -192,7 +192,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
@@ -228,7 +228,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     const request = createPipelineRequest({ url: "http://example.com" });
     const policy = createBearerTokenPolicy("test-scope", credential);
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
 
     let error: Error | undefined;
     try {
@@ -247,7 +247,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     // tokens can live for a long time
     const oneDayInMs = 24 * 60 * 60 * 1000;
     const tokenExpiration = Date.now() + oneDayInMs;
-    const getToken = vi.fn<[], Promise<AccessToken | null>>();
+    const getToken = vi.fn<() => Promise<AccessToken | null>>();
 
     // first time getToken is called to put the header on the initial request
     getToken.mockResolvedValueOnce({
@@ -285,7 +285,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         authorizeRequestOnChallenge,
       },
     });
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
 
     // first response is an auth challenge
     const challengeResponse: PipelineResponse = {

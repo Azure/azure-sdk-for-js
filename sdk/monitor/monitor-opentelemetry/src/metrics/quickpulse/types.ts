@@ -13,7 +13,7 @@ export interface QuickpulseExporterOptions {
 
   instrumentationKey: string;
 
-  aadAudience?: string;
+  credentialScopes?: string | string[];
   /**
    * Token Credential
    */
