@@ -1,21 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// TextDecoder and TextEncoder are in the global namespace for Node version 11 and
-// higher, but before that, they were in the "util" namespace. If we're running
-// under node ("Buffer" is defined), then check to see if the global namespace version
-// of the decoders are present, if not, import them from the util namespace.
-const decoder =
-  typeof Buffer === "undefined"
-    ? // eslint-disable-next-line @typescript-eslint/no-require-imports
-      new (TextDecoder ?? require("util").TextDecoder)("ascii")
-    : undefined;
+const decoder = typeof Buffer === "undefined" ? new TextDecoder("ascii") : undefined;
 
-const encoder =
-  typeof Buffer === "undefined"
-    ? // eslint-disable-next-line @typescript-eslint/no-require-imports
-      new (TextEncoder ?? require("util").TextEncoder)()
-    : undefined;
+const encoder = typeof Buffer === "undefined" ? new TextEncoder() : undefined;
 
 const decode: (buffer: ArrayBuffer) => string = decoder
   ? (buffer) => decoder.decode(buffer)
