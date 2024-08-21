@@ -300,6 +300,7 @@ output DFS_ACCOUNT_KEY string = listKeys(datalakeAccount.id, storageApiVersion).
 output DFS_ACCOUNT_SAS string = '?${listAccountSas(datalakeAccountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
 output DFS_STORAGE_CONNECTION_STRING string = 'DefaultEndpointsProtocol=https;AccountName=${datalakeAccountName};AccountKey=${listKeys(datalakeAccount.id, storageApiVersion).keys[0].value};EndpointSuffix=${storageEndpointSuffix}'
 
+output SOFT_DELETE_ACCOUNT_NAME string = accountName
 output DFS_SOFT_DELETE_ACCOUNT_NAME string = datalakeSoftDeleteAccountName
 output DFS_SOFT_DELETE_ACCOUNT_KEY string = listKeys(datalakeSoftDeleteAccount.id, storageApiVersion).keys[0].value
 output DFS_SOFT_DELETE_ACCOUNT_SAS string = '?${listAccountSas(datalakeSoftDeleteAccountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
