@@ -37,14 +37,14 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       it("throws when both clientId and resourceId are provided", function () {
         assert.throws(
           () => new MsalMsiProvider("id", { resourceId: "id" }),
-          /At most one of 'clientId', 'resourceId', or 'objectId' may be provided/,
+          /At most, one of 'clientId', 'resourceId', or 'objectId' may be provided/,
         );
       });
 
       it("throws when both clientId and resourceId are provided via options", function () {
         assert.throws(
           () => new MsalMsiProvider({ clientId: "id", resourceId: "id" }),
-          /may be provided./,
+          /At most, one of 'clientId', 'resourceId', or 'objectId' may be provided/,
         );
       });
 
