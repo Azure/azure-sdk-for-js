@@ -34,7 +34,7 @@
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/dev-tool": "workspace:~",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.1.0",

@@ -83,9 +83,9 @@
     "playwright": "^1.41.2",
     "vitest": "^2.0.5",
     "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
+    "@azure-tools/test-recorder": "workspace:~",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~"
   },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",

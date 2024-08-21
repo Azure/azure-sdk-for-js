@@ -14,8 +14,5 @@
     "tsx": "^4.17.0",
     "typescript": "~5.5.4",
     "vitest": "^2.0.5"
-  },
-  "dependencies": {
-    "@azure/eslint-plugin-azure-sdk": "link:./common/tools/eslint-plugin-azure-sdk"
   }
 }

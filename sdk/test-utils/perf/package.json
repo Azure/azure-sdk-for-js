@@ -67,7 +67,7 @@
     "fs-extra": "^11.0.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@types/node": "^18.0.0",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
@@ -78,6 +78,6 @@
     "typescript": "~5.5.3",
     "ts-node": "^10.0.0",
     "@types/fs-extra": "^11.0.0",
-    "@azure/dev-tool": "^1.0.0"
+    "@azure/dev-tool": "workspace:~"
   }
 }

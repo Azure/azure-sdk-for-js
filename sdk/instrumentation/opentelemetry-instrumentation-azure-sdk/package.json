@@ -77,8 +77,8 @@
   },
   "devDependencies": {
     "@azure/core-rest-pipeline": "^1.5.1",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@microsoft/api-extractor": "^7.31.1",
     "@opentelemetry/sdk-trace-base": "^1.25.1",
     "@opentelemetry/sdk-trace-node": "^1.25.1",

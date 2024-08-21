@@ -93,8 +93,8 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-utils": "^1.0.1",

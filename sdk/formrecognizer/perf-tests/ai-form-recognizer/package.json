@@ -23,7 +23,7 @@
     "rimraf": "^5.0.5",
     "typescript": "~5.5.3",
     "ts-node": "^10.0.0",
-    "@azure/dev-tool": "^1.0.0"
+    "@azure/dev-tool": "workspace:~"
   },
   "scripts": {
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",

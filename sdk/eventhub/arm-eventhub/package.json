@@ -44,7 +44,7 @@
     "@azure/arm-network": "^32.2.0",
     "@azure/arm-storage": "^18.0.0",
     "@types/node": "^18.0.0",
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/dev-tool": "workspace:~",
     "ts-node": "^10.0.0",
     "@types/mocha": "^10.0.0"
   },

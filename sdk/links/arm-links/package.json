@@ -41,7 +41,7 @@
     "cross-env": "^7.0.2",
     "@azure/arm-resources": "^5.0.0",
     "@types/node": "^18.0.0",
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/dev-tool": "workspace:~",
     "ts-node": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/links/arm-links",

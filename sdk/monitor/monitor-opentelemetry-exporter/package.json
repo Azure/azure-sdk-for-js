@@ -80,8 +80,8 @@
     }
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@microsoft/api-extractor": "^7.31.1",
     "@opentelemetry/instrumentation": "^0.52.1",
     "@opentelemetry/instrumentation-http": "^0.52.1",

@@ -62,8 +62,8 @@
     }
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/functions": "^4.5.0",
     "@azure/functions-old": "npm:@azure/functions@3.5.1",
     "@azure-tools/test-utils": "^1.0.1",

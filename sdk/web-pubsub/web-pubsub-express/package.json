@@ -53,8 +53,8 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/express": "^4.16.0",
     "@types/express-serve-static-core": "^4.17.19",

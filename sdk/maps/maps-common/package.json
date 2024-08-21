@@ -70,8 +70,8 @@
   },
   "devDependencies": {
     "@azure-tools/test-utils": "^1.0.1",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/dev-tool": "workspace:~",
     "@microsoft/api-extractor": "^7.31.1",
     "eslint": "^8.0.0",
     "rimraf": "^5.0.5",
