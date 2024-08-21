@@ -65,9 +65,9 @@
     "@azure/logger": "^1.0.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "file:../../../common/tools/dev-tool",
-    "@azure/eslint-plugin-azure-sdk": "file:../../../common/tools/eslint-plugin-azure-sdk",
-    "@azure-tools/vite-plugin-browser-test-map": "file:../../../common/tools/vite-plugin-browser-test-map",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",

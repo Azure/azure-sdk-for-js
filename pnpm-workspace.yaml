@@ -27,3 +27,4 @@ packages:
   - 'sdk/agrifood/agrifood-farming-rest'
   - 'sdk/agrifood/arm-agrifood'
   - 'sdk/ai/ai-inference-rest'
+  - 'sdk/analysisservices/arm-analysisservices'
