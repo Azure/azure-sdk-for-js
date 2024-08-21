@@ -8,7 +8,7 @@ import {
   PipelineRequest,
   RequestBodyType,
 } from "@azure/core-rest-pipeline";
-import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate";
+import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import { GetTokenOptions } from "@azure/core-auth";
 

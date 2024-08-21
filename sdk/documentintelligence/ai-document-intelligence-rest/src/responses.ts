@@ -9,16 +9,19 @@ import {
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
   DocumentModelCopyToOperationDetailsOutput,
+  DocumentClassifierCopyToOperationDetailsOutput,
   DocumentClassifierBuildOperationDetailsOutput,
   OperationDetailsOutput,
   ResourceDetailsOutput,
   AnalyzeResultOperationOutput,
+  AnalyzeBatchResultOperationOutput,
   DocumentModelDetailsOutput,
   CopyAuthorizationOutput,
   PagedDocumentModelDetailsOutput,
   PagedDocumentClassifierDetailsOutput,
   DocumentClassifierDetailsOutput,
-} from "./outputModels";
+  ClassifierCopyAuthorizationOutput,
+} from "./outputModels.js";
 
 export interface ListOperations200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -88,6 +91,23 @@ export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResp
   body: ErrorResponseOutput;
 }
 
+export interface GetDocumentClassifierCopyToOperation200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface GetDocumentClassifierCopyToOperation200Response extends HttpResponse {
+  status: "200";
+  body: DocumentClassifierCopyToOperationDetailsOutput;
+  headers: RawHttpHeaders & GetDocumentClassifierCopyToOperation200Headers;
+}
+
+export interface GetDocumentClassifierCopyToOperationDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
 export interface GetDocumentClassifierBuildOperation200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
@@ -144,6 +164,42 @@ export interface GetAnalyzeResultDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+export interface GetAnalyzeResultPdf200Headers {
+  /** Response content type. */
+  "content-type": "application/pdf";
+}
+
+/** The request has succeeded. */
+export interface GetAnalyzeResultPdf200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+  headers: RawHttpHeaders & GetAnalyzeResultPdf200Headers;
+}
+
+export interface GetAnalyzeResultPdfDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+export interface GetAnalyzeResultFigure200Headers {
+  /** Response content type. */
+  "content-type": "image/png";
+}
+
+/** The request has succeeded. */
+export interface GetAnalyzeResultFigure200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+  headers: RawHttpHeaders & GetAnalyzeResultFigure200Headers;
+}
+
+export interface GetAnalyzeResultFigureDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
 export interface AnalyzeDocumentFromStream202Headers {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   "retry-after"?: number;
@@ -185,6 +241,39 @@ export interface AnalyzeDocumentDefaultResponse extends HttpResponse {
 
 /** The final response for long-running analyzeDocument operation */
 export interface AnalyzeDocumentLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+/** The request has succeeded. */
+export interface GetAnalyzeBatchResult200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeBatchResultOperationOutput;
+}
+
+export interface GetAnalyzeBatchResultDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+export interface AnalyzeBatchDocuments202Headers {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  "retry-after"?: number;
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface AnalyzeBatchDocuments202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & AnalyzeBatchDocuments202Headers;
+}
+
+export interface AnalyzeBatchDocumentsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The final response for long-running analyzeBatchDocuments operation */
+export interface AnalyzeBatchDocumentsLogicalResponse extends HttpResponse {
   status: "200";
 }
 
@@ -440,4 +529,37 @@ export interface GetClassifyResult200Response extends HttpResponse {
 export interface GetClassifyResultDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
+}
+
+/** The request has succeeded. */
+export interface AuthorizeClassifierCopy200Response extends HttpResponse {
+  status: "200";
+  body: ClassifierCopyAuthorizationOutput;
+}
+
+export interface AuthorizeClassifierCopyDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+export interface CopyClassifierTo202Headers {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  "retry-after"?: number;
+  "operation-location": string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface CopyClassifierTo202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & CopyClassifierTo202Headers;
+}
+
+export interface CopyClassifierToDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponseOutput;
+}
+
+/** The final response for long-running copyClassifierTo operation */
+export interface CopyClassifierToLogicalResponse extends HttpResponse {
+  status: "200";
 }

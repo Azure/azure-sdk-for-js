@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./challengeBasedAuthenticationPolicy";
-export * from "./parseKeyVaultIdentifier";
+export * from "./challengeBasedAuthenticationPolicy.js";
+export * from "./parseKeyVaultIdentifier.js";
