@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "5.5.2",
+  "version": "5.6.0",
   "keywords": [
     "node",
     "azure",

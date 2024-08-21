@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 import chai, { assert } from "chai";
 const should = chai.should();

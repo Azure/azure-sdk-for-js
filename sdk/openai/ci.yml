@@ -23,6 +23,7 @@ extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: openai
+    RunUnitTests: false
     Artifacts:
       - name: azure-openai
         safeName: azureopenai
