@@ -19,14 +19,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
   DeletedCertificate
 > {
   constructor(options: DeleteCertificatePollerOptions) {
-    const {
-      vaultUrl,
-      client,
-      certificateName,
-      operationOptions,
-      intervalInMs = 2000,
-      resumeFrom,
-    } = options;
+    const { client, certificateName, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteCertificatePollOperationState | undefined;
 
@@ -39,7 +32,6 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
         ...state,
         certificateName,
       },
-      vaultUrl,
       client,
       operationOptions,
     );
