@@ -1,3 +1,4 @@
+@minLength(4)
 param baseName string = resourceGroup().name
 param testApplicationOid string = 'b3653439-8136-4cd5-aac3-2a9460871ca6'
 param location string = resourceGroup().location
