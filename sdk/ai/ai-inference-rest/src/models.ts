@@ -55,6 +55,8 @@ export interface ChatMessageImageUrl {
   /**
    * The evaluation quality setting to use, which controls relative prioritization of speed, token consumption, and
    * accuracy.
+   *
+   * Possible values: "auto", "low", "high"
    */
   detail?: ChatMessageImageDetailLevel;
 }
@@ -72,25 +74,13 @@ export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
   tool_calls?: Array<ChatCompletionsToolCall>;
 }
 
-/**
- * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
- * chat completion.
- */
-export interface ChatCompletionsToolCallParent {
+/** A function tool call requested by the AI model. */
+export interface ChatCompletionsToolCall {
   /** The ID of the tool call. */
   id: string;
-  type: string;
-}
-
-/**
- * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
- * a function invocation needed for a subsequent chat completions request to resolve.
- */
-export interface ChatCompletionsFunctionToolCall
-  extends ChatCompletionsToolCallParent {
-  /** The type of tool call, in this case always 'function'. */
+  /** The type of tool call. Currently, only `function` is supported. */
   type: "function";
-  /** The details of the function invocation requested by the tool call. */
+  /** The details of the function call requested by the AI model. */
   function: FunctionCall;
 }
 
@@ -117,15 +107,36 @@ export interface ChatRequestToolMessage extends ChatRequestMessageParent {
   tool_call_id: string;
 }
 
-/** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
-export interface ChatCompletionsToolDefinitionParent {
+/**
+ * Represents the format that the model must output. Use this to enable JSON mode instead of the default text mode.
+ * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
+ * via a system or user message.
+ */
+export interface ChatCompletionsResponseFormatParent {
   type: string;
 }
 
-/** The definition information for a chat completions function tool that can call a function in response to a tool call. */
-export interface ChatCompletionsFunctionToolDefinition
-  extends ChatCompletionsToolDefinitionParent {
-  /** The object name, which is always 'function'. */
+/** A response format for Chat Completions that emits text responses. This is the default response format. */
+export interface ChatCompletionsResponseFormatText
+  extends ChatCompletionsResponseFormatParent {
+  /** Response format type: always 'text' for this object. */
+  type: "text";
+}
+
+/**
+ * A response format for Chat Completions that restricts responses to emitting valid JSON objects.
+ * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
+ * via a system or user message.
+ */
+export interface ChatCompletionsResponseFormatJSON
+  extends ChatCompletionsResponseFormatParent {
+  /** Response format type: always 'json_object' for this object. */
+  type: "json_object";
+}
+
+/** The definition of a chat completions tool that can call a function. */
+export interface ChatCompletionsToolDefinition {
+  /** The type of the tool. Currently, only `function` is supported. */
   type: "function";
   /** The function definition details for the function tool. */
   function: FunctionDefinition;
@@ -144,15 +155,9 @@ export interface FunctionDefinition {
   parameters?: unknown;
 }
 
-/** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
-export interface ChatCompletionsNamedToolSelectionParent {
-  type: string;
-}
-
 /** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
-export interface ChatCompletionsNamedFunctionToolSelection
-  extends ChatCompletionsNamedToolSelectionParent {
-  /** The object type, which is always 'function'. */
+export interface ChatCompletionsNamedToolSelection {
+  /** The type of the tool. Currently, only `function` is supported. */
   type: "function";
   /** The function that should be called. */
   function: ChatCompletionsFunctionToolSelection;
@@ -188,34 +193,22 @@ export type ChatMessageContentItem =
   | ChatMessageTextContentItem
   | ChatMessageImageContentItem;
 /**
- * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
- * chat completion.
+ * Represents the format that the model must output. Use this to enable JSON mode instead of the default text mode.
+ * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
+ * via a system or user message.
  */
-export type ChatCompletionsToolCall =
-  | ChatCompletionsToolCallParent
-  | ChatCompletionsFunctionToolCall;
-/** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
-export type ChatCompletionsToolDefinition =
-  | ChatCompletionsToolDefinitionParent
-  | ChatCompletionsFunctionToolDefinition;
-/** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
-export type ChatCompletionsNamedToolSelection =
-  | ChatCompletionsNamedToolSelectionParent
-  | ChatCompletionsNamedFunctionToolSelection;
+export type ChatCompletionsResponseFormat =
+  | ChatCompletionsResponseFormatParent
+  | ChatCompletionsResponseFormatText
+  | ChatCompletionsResponseFormatJSON;
 /** Alias for ExtraParameters */
 export type ExtraParameters = string;
 /** Alias for ChatRole */
 export type ChatRole = string;
 /** Alias for ChatMessageImageDetailLevel */
 export type ChatMessageImageDetailLevel = string;
-/** Alias for ChatCompletionsResponseFormat */
-export type ChatCompletionsResponseFormat = string;
 /** Alias for ChatCompletionsToolSelectionPreset */
-export type ChatCompletionsToolSelectionPreset =
-  | string
-  | "auto"
-  | "none"
-  | "required";
+export type ChatCompletionsToolSelectionPreset = string;
 /** Alias for EmbeddingEncodingFormat */
 export type EmbeddingEncodingFormat = string;
 /** Alias for EmbeddingInputType */

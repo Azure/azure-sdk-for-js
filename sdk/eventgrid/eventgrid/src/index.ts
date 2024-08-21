@@ -363,4 +363,5 @@ export {
   AcsChatThreadDeletedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatThreadEventInThreadBase,
+  StorageBlobAccessTier,
 } from "./generated/models";
