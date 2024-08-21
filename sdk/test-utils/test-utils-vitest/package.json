@@ -51,14 +51,14 @@
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-rest-pipeline": "^1.16.3",
     "@azure/core-tracing": "^1.1.2",
-    "@azure-tools/test-recorder": "^4.0.0",
     "@opentelemetry/api": "^1.9.0",
     "tslib": "^2.6.3",
     "vitest": "^2.0.5"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "file:../../../common/tools/dev-tool",
+    "@azure/eslint-plugin-azure-sdk": "file:../../../common/tools/eslint-plugin-azure-sdk",
+    "@azure-tools/vite-plugin-browser-test-map": "file:../../../common/tools/vite-plugin-browser-test-map",
     "@microsoft/api-extractor": "^7.47.6",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",

@@ -564,6 +564,170 @@ importers:
         specifier: ~5.5.3
         version: 5.5.4
 
+  sdk/agrifood/arm-agrifood:
+    dependencies:
+      '@azure/abort-controller':
+        specifier: ^1.0.0
+        version: 1.1.0
+      '@azure/core-auth':
+        specifier: ^1.3.0
+        version: 1.7.2
+      '@azure/core-client':
+        specifier: ^1.6.1
+        version: 1.9.2
+      '@azure/core-lro':
+        specifier: ^2.2.0
+        version: 2.7.2
+      '@azure/core-paging':
+        specifier: ^1.2.0
+        version: 1.6.2
+      '@azure/core-rest-pipeline':
+        specifier: ^1.8.0
+        version: 1.16.3
+      tslib:
+        specifier: ^2.2.0
+        version: 2.6.3
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: ^1.0.0
+        version: 1.2.0
+      '@azure-tools/test-recorder':
+        specifier: ^3.0.0
+        version: 3.5.2
+      '@azure/dev-tool':
+        specifier: file:../../../common/tools/dev-tool
+        version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: ^4.0.1
+        version: 4.4.1
+      '@microsoft/api-extractor':
+        specifier: ^7.31.1
+        version: 7.47.7(@types/node@18.19.45)
+      '@types/chai':
+        specifier: ^4.2.8
+        version: 4.3.17
+      '@types/mocha':
+        specifier: ^10.0.0
+        version: 10.0.7
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.45
+      chai:
+        specifier: ^4.2.0
+        version: 4.5.0
+      cross-env:
+        specifier: ^7.0.2
+        version: 7.0.3
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
+      mocha:
+        specifier: ^10.0.0
+        version: 10.7.3
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      ts-node:
+        specifier: ^10.0.0
+        version: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
+      typescript:
+        specifier: ~5.5.3
+        version: 5.5.4
+      uglify-js:
+        specifier: ^3.4.9
+        version: 3.19.2
+
+  sdk/ai/ai-inference-rest:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.1.0
+        version: 2.2.0
+      '@azure/abort-controller':
+        specifier: ^1.0.0
+        version: 1.1.0
+      '@azure/core-auth':
+        specifier: ^1.7.2
+        version: 1.7.2
+      '@azure/core-lro':
+        specifier: ^2.6.0
+        version: 2.7.2
+      '@azure/core-rest-pipeline':
+        specifier: ^1.14.0
+        version: 1.16.3
+      '@azure/logger':
+        specifier: ^1.0.0
+        version: 1.1.4
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.3
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: ^2.0.0
+        version: 2.1.0
+      '@azure-tools/test-recorder':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@azure-tools/vite-plugin-browser-test-map':
+        specifier: file:../../../common/tools/vite-plugin-browser-test-map
+        version: link:../../../common/tools/vite-plugin-browser-test-map
+      '@azure/core-sse':
+        specifier: ^2.1.3
+        version: 2.1.3
+      '@azure/core-util':
+        specifier: ^1.9.0
+        version: 1.9.2
+      '@azure/dev-tool':
+        specifier: file:../../../common/tools/dev-tool
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: file:../../../common/tools/eslint-plugin-azure-sdk
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: ^4.3.0
+        version: 4.4.1
+      '@microsoft/api-extractor':
+        specifier: ^7.47.0
+        version: 7.47.7(@types/node@18.19.45)
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.45
+      '@vitest/browser':
+        specifier: ^2.0.5
+        version: 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: ^2.0.5
+        version: 2.0.5(vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5))
+      autorest:
+        specifier: latest
+        version: 3.7.1
+      cross-env:
+        specifier: 7.0.3
+        version: 7.0.3
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      mkdirp:
+        specifier: ^3.0.1
+        version: 3.0.1
+      playwright:
+        specifier: ^1.41.2
+        version: 1.46.1
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      source-map-support:
+        specifier: ^0.5.9
+        version: 0.5.21
+      tshy:
+        specifier: ^2.0.0
+        version: 2.0.1
+      typescript:
+        specifier: ~5.5.3
+        version: 5.5.4
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
+
   sdk/core/abort-controller:
     dependencies:
       tslib:
@@ -1447,6 +1611,271 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
+  sdk/test-utils/recorder:
+    dependencies:
+      '@azure/core-auth':
+        specifier: ^1.3.2
+        version: 1.7.2
+      '@azure/core-client':
+        specifier: ^1.9.2
+        version: 1.9.2
+      '@azure/core-rest-pipeline':
+        specifier: ^1.13.0
+        version: 1.16.3
+      '@azure/core-util':
+        specifier: ^1.6.1
+        version: 1.9.2
+      '@azure/logger':
+        specifier: ^1.0.0
+        version: 1.1.4
+    devDependencies:
+      '@azure-tools/vite-plugin-browser-test-map':
+        specifier: file:../../../common/tools/vite-plugin-browser-test-map
+        version: link:../../../common/tools/vite-plugin-browser-test-map
+      '@azure/dev-tool':
+        specifier: file:../../../common/tools/dev-tool
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: file:../../../common/tools/eslint-plugin-azure-sdk
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@microsoft/api-extractor':
+        specifier: ^7.40.3
+        version: 7.47.7(@types/node@18.19.45)
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.45
+      '@vitest/browser':
+        specifier: ^2.0.5
+        version: 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: ^2.0.5
+        version: 2.0.5(vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5))
+      concurrently:
+        specifier: ^8.2.0
+        version: 8.2.2
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.0
+      express:
+        specifier: ^4.19.2
+        version: 4.19.2
+      playwright:
+        specifier: ^1.41.2
+        version: 1.46.1
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      tshy:
+        specifier: ^2.0.0
+        version: 2.0.1
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.3
+      typescript:
+        specifier: ~5.5.3
+        version: 5.5.4
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
+
+  sdk/test-utils/test-credential:
+    dependencies:
+      '@azure-tools/test-recorder':
+        specifier: file:../recorder
+        version: link:../recorder
+      '@azure/core-auth':
+        specifier: ^1.3.2
+        version: 1.7.2
+      '@azure/core-util':
+        specifier: ^1.9.1
+        version: 1.9.2
+      '@azure/identity':
+        specifier: ^4.4.1
+        version: 4.4.1
+      tslib:
+        specifier: ^2.6.2
+        version: 2.6.3
+    devDependencies:
+      '@azure-tools/vite-plugin-browser-test-map':
+        specifier: file:../../../common/tools/vite-plugin-browser-test-map
+        version: link:../../../common/tools/vite-plugin-browser-test-map
+      '@azure/dev-tool':
+        specifier: file:../../../common/tools/dev-tool
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: file:../../../common/tools/eslint-plugin-azure-sdk
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@microsoft/api-extractor':
+        specifier: ^7.31.1
+        version: 7.47.7(@types/node@18.19.45)
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.45
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.0
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      ts-node:
+        specifier: ^10.0.0
+        version: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
+      typescript:
+        specifier: ~5.5.3
+        version: 5.5.4
+
+  sdk/test-utils/test-utils:
+    dependencies:
+      '@azure-tools/test-recorder':
+        specifier: ^3.0.0
+        version: 3.5.2
+      '@azure/abort-controller':
+        specifier: ^2.0.0
+        version: 2.1.2
+      '@azure/core-rest-pipeline':
+        specifier: ^1.1.0
+        version: 1.16.3
+      '@azure/core-tracing':
+        specifier: ^1.0.0
+        version: 1.1.2
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
+      '@types/chai':
+        specifier: ^4.1.6
+        version: 4.3.17
+      '@types/chai-as-promised':
+        specifier: ^7.1.4
+        version: 7.1.8
+      chai:
+        specifier: ^4.2.0
+        version: 4.5.0
+      chai-as-promised:
+        specifier: ^7.1.1
+        version: 7.1.2(chai@4.5.0)
+      chai-exclude:
+        specifier: ^2.1.0
+        version: 2.1.1(chai@4.5.0)
+      mocha:
+        specifier: ^10.0.0
+        version: 10.7.3
+      tslib:
+        specifier: ^2.2.0
+        version: 2.6.3
+    devDependencies:
+      '@azure/dev-tool':
+        specifier: file:../../../common/tools/dev-tool
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: file:../../../common/tools/eslint-plugin-azure-sdk
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@microsoft/api-extractor':
+        specifier: ^7.31.1
+        version: 7.47.7(@types/node@18.19.45)
+      '@types/mocha':
+        specifier: ^10.0.0
+        version: 10.0.7
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.45
+      '@types/sinon':
+        specifier: ^17.0.0
+        version: 17.0.3
+      cross-env:
+        specifier: ^7.0.2
+        version: 7.0.3
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.0
+      karma:
+        specifier: ^6.2.0
+        version: 6.4.4
+      karma-chrome-launcher:
+        specifier: ^3.0.0
+        version: 3.2.0
+      karma-coverage:
+        specifier: ^2.0.0
+        version: 2.2.1
+      karma-env-preprocessor:
+        specifier: ^0.1.1
+        version: 0.1.1
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      sinon:
+        specifier: ^17.0.0
+        version: 17.0.2
+      ts-node:
+        specifier: ^10.0.0
+        version: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
+      typescript:
+        specifier: ~5.5.3
+        version: 5.5.4
+
+  sdk/test-utils/test-utils-vitest:
+    dependencies:
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: 2.1.2
+      '@azure/core-rest-pipeline':
+        specifier: ^1.16.3
+        version: 1.16.3
+      '@azure/core-tracing':
+        specifier: ^1.1.2
+        version: 1.1.2
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+      vitest:
+        specifier: ^2.0.5
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
+    devDependencies:
+      '@azure-tools/vite-plugin-browser-test-map':
+        specifier: file:../../../common/tools/vite-plugin-browser-test-map
+        version: link:../../../common/tools/vite-plugin-browser-test-map
+      '@azure/dev-tool':
+        specifier: file:../../../common/tools/dev-tool
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: file:../../../common/tools/eslint-plugin-azure-sdk
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@microsoft/api-extractor':
+        specifier: ^7.47.6
+        version: 7.47.7(@types/node@18.19.45)
+      '@types/node':
+        specifier: ^18.0.0
+        version: 18.19.45
+      '@vitest/browser':
+        specifier: ^2.0.5
+        version: 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: ^2.0.5
+        version: 2.0.5(vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5))
+      '@vitest/expect':
+        specifier: ^2.0.5
+        version: 2.0.5
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.0
+      playwright:
+        specifier: ^1.46.0
+        version: 1.46.1
+      rimraf:
+        specifier: ^5.0.5
+        version: 5.0.10
+      tshy:
+        specifier: ^2.0.0
+        version: 2.0.1
+      typescript:
+        specifier: ~5.5.3
+        version: 5.5.4
+
 packages:
 
   '@ampproject/remapping@2.3.0':
@@ -1465,12 +1894,20 @@ packages:
     resolution: {integrity: sha512-+uqfapzrsYnT6lB9SAjooGKQOA/XcMDxyejmShTDCVlay6F/ZQMrTgEqZcCNoRC9TE1yEnFLKLR0iFv7LcoKCg==}
     engines: {node: '>=18.0.0'}
 
+  '@azure-tools/test-credential@2.1.0':
+    resolution: {integrity: sha512-mDDzpsoC/MZbuxEE34EwxhRcShTaFYtjH1jX4ROSGXZiayMHU5yXP6/DrHRQtM7yWIRMsuqAmQ5sLMc8KjvS8w==}
+    engines: {node: '>=18.0.0'}
+
   '@azure-tools/test-perf@1.0.0':
     resolution: {integrity: sha512-wnsGpHLmMgKKvX4FX4lCwGJ2QX2aXb6QxWYJuBNE2CUbUvDyWxrwDh6NhkAwmCIXrvPsUUZ67o0w5jwr76CW/Q==}
     engines: {node: '>=18.0.0'}
 
   '@azure-tools/test-recorder@3.5.2':
     resolution: {integrity: sha512-81vTGIiF7enEu4ekVrcLPlDPP9oQHL725pX87EIaVhmh1C3Sky4GE19adBiTcGXoahwB70xtHQ7i4HuFXDlhGg==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure-tools/test-recorder@4.0.0':
+    resolution: {integrity: sha512-sFLvVGZc6ZjSfNz8cxd7qzDJE7CeNbT6VWGXFyQZf6EjRb8kKryPZiy4B9LaENzJjFbj+2yrPUY7E4O+OYuatw==}
     engines: {node: '>=18.0.0'}
 
   '@azure-tools/test-utils@1.0.1':
@@ -1503,6 +1940,10 @@ packages:
 
   '@azure/core-rest-pipeline@1.16.3':
     resolution: {integrity: sha512-VxLk4AHLyqcHsfKe4MZ6IQ+D+ShuByy+RfStKfSjxJoL3WBWq17VNmrz8aT8etKzqc2nAeIyLxScjpzsS4fz8w==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/core-sse@2.1.3':
+    resolution: {integrity: sha512-KSSdIKy8kvWCpYr8Hzpu22j3wcXsVTYE0IlgmI1T/aHvBDsLgV91y90UTfVWnuiuApRLCCVC4gS09ApBGOmYQA==}
     engines: {node: '>=18.0.0'}
 
   '@azure/core-tracing@1.1.2':
@@ -2223,6 +2664,21 @@ packages:
   '@rushstack/ts-command-line@4.22.6':
     resolution: {integrity: sha512-QSRqHT/IfoC5nk9zn6+fgyqOPXHME0BfchII9EUPR19pocsNp/xSbeBCbD3PIR2Lg+Q5qk7OFqk1VhWPMdKHJg==}
 
+  '@sinonjs/commons@2.0.0':
+    resolution: {integrity: sha512-uLa0j859mMrg2slwQYdO/AkrOfmH+X6LTVmNTS9CqexuE2IvVORIkSpJLqePAbEnKJ77aMmCwr1NUZ57120Xcg==}
+
+  '@sinonjs/commons@3.0.1':
+    resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
+
+  '@sinonjs/fake-timers@11.2.2':
+    resolution: {integrity: sha512-G2piCSxQ7oWOxwGSAyFHfPIsyeJGXYtc6mFbnFA+kRXkiEnTl8c/8jul2S329iFBnDI9HGoeWWAZvuvOkZccgw==}
+
+  '@sinonjs/samsam@8.0.0':
+    resolution: {integrity: sha512-Bp8KUVlLp8ibJZrnvq2foVhP0IVX2CIprMJPK0vqGqgrDa0OHVKeZyBykqskkrdxV6yKBPmGasO8LVjAKR3Gew==}
+
+  '@sinonjs/text-encoding@0.7.3':
+    resolution: {integrity: sha512-DE427ROAphMQzU4ENbliGYrBSYPXF+TtLg9S8vzeA+OF4ZKzoDdzfL8sxuMUGS/lgRhM6j1URSk9ghf7Xo1tyA==}
+
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
@@ -2364,6 +2820,12 @@ packages:
 
   '@types/serve-static@1.15.7':
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
+
+  '@types/sinon@17.0.3':
+    resolution: {integrity: sha512-j3uovdn8ewky9kRBG19bOwaZbexJu/XjtkHyjvUgt4xfPFz18dcORIMqnYh66Fx3Powhcr85NT5+er3+oViapw==}
+
+  '@types/sinonjs__fake-timers@8.1.5':
+    resolution: {integrity: sha512-mQkU2jY8jJEF7YHjHvsQO8+3ughTL1mcnn96igfhONmR+fUPSKIkefQYpSe8bsly2Ep7oQbn/6VG5/9/0qcArQ==}
 
   '@types/statuses@2.0.5':
     resolution: {integrity: sha512-jmIUGWrAiwu3dZpxntxieC+1n/5c3mjrImkmOSQ2NC5uP6cYO4aAZDdSmRcI5C1oiTmqlZGHC+/NmJrKogbP5A==}
@@ -3951,6 +4413,9 @@ packages:
     resolution: {integrity: sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==}
     engines: {node: '>=12', npm: '>=6'}
 
+  just-extend@6.2.0:
+    resolution: {integrity: sha512-cYofQu2Xpom82S6qD778jBDpwvvy39s1l/hrYij2u9AMdQcGRpaBu6kY4mVhuno5kJVi1DAz4aiphA2WI1/OAw==}
+
   jwa@1.4.1:
     resolution: {integrity: sha512-qiLX/xhEEFKUAJ6FiBMbes3w9ATzyk5W7Hvzpa/SLYdxNtng+gcurvrI7TbACjIXlsJyr05/S1oUhZrc63evQA==}
 
@@ -4030,6 +4495,9 @@ packages:
 
   lodash.flattendeep@4.4.0:
     resolution: {integrity: sha512-uHaJFihxmJcEX3kT4I23ABqKKalJ/zDrDg0lsFtc1h+3uw49SIJ5beyhx5ExVRti3AvKoOJngIj7xz3oylPdWQ==}
+
+  lodash.get@4.4.2:
+    resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
 
   lodash.includes@4.3.0:
     resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
@@ -4249,6 +4717,9 @@ packages:
   negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
     engines: {node: '>= 0.6'}
+
+  nise@5.1.9:
+    resolution: {integrity: sha512-qOnoujW4SV6e40dYxJOb3uvuoPHtmLzIk4TFo+j0jPJoC+5Z9xja5qH5JZobEPsa8+YYphMrOSwnrshEhG2qww==}
 
   node-preload@0.2.1:
     resolution: {integrity: sha512-RM5oyBy45cLEoHqCeh+MNuFAxO0vTFBLskvQbOKnEE7YTTSN4tbN8QWDIPQ6L+WvKsB/qLEGpYe2ZZ9d4W9OIQ==}
@@ -4736,6 +5207,10 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
+  sinon@17.0.2:
+    resolution: {integrity: sha512-uihLiaB9FhzesElPDFZA7hDcNABzsVHwr3YfmM9sBllVwab3l0ltGlRV1XhpNfIacNDLGD1QRZNLs5nU5+hTuA==}
+    deprecated: There
+
   sirv@2.0.4:
     resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==}
     engines: {node: '>= 10'}
@@ -5008,6 +5483,10 @@ packages:
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
+
+  type-detect@4.0.8:
+    resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
+    engines: {node: '>=4'}
 
   type-detect@4.1.0:
     resolution: {integrity: sha512-Acylog8/luQ8L7il+geoSxhEkazvkslg7PSNKOX59mbB9cOveP5aq9h74Y7YU8yDpJwetzQQrfIwtf4Wp4LKcw==}
@@ -5403,6 +5882,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure-tools/test-credential@2.1.0':
+    dependencies:
+      '@azure-tools/test-recorder': 4.0.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-util': 1.9.2
+      '@azure/identity': 4.4.1
+      tslib: 2.6.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure-tools/test-perf@1.0.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -5419,6 +5908,16 @@ snapshots:
   '@azure-tools/test-recorder@3.5.2':
     dependencies:
       '@azure/core-auth': 1.7.2
+      '@azure/core-rest-pipeline': 1.16.3
+      '@azure/core-util': 1.9.2
+      '@azure/logger': 1.1.4
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure-tools/test-recorder@4.0.0':
+    dependencies:
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
       '@azure/core-rest-pipeline': 1.16.3
       '@azure/core-util': 1.9.2
       '@azure/logger': 1.1.4
@@ -5491,6 +5990,10 @@ snapshots:
       tslib: 2.6.3
     transitivePeerDependencies:
       - supports-color
+
+  '@azure/core-sse@2.1.3':
+    dependencies:
+      tslib: 2.6.3
 
   '@azure/core-tracing@1.1.2':
     dependencies:
@@ -6156,6 +6659,26 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
+  '@sinonjs/commons@2.0.0':
+    dependencies:
+      type-detect: 4.0.8
+
+  '@sinonjs/commons@3.0.1':
+    dependencies:
+      type-detect: 4.0.8
+
+  '@sinonjs/fake-timers@11.2.2':
+    dependencies:
+      '@sinonjs/commons': 3.0.1
+
+  '@sinonjs/samsam@8.0.0':
+    dependencies:
+      '@sinonjs/commons': 2.0.0
+      lodash.get: 4.4.2
+      type-detect: 4.1.0
+
+  '@sinonjs/text-encoding@0.7.3': {}
+
   '@socket.io/component-emitter@3.1.2': {}
 
   '@testing-library/dom@10.4.0':
@@ -6315,6 +6838,12 @@ snapshots:
       '@types/http-errors': 2.0.4
       '@types/node': 18.19.45
       '@types/send': 0.17.4
+
+  '@types/sinon@17.0.3':
+    dependencies:
+      '@types/sinonjs__fake-timers': 8.1.5
+
+  '@types/sinonjs__fake-timers@8.1.5': {}
 
   '@types/statuses@2.0.5': {}
 
@@ -8184,6 +8713,8 @@ snapshots:
       ms: 2.1.3
       semver: 7.6.3
 
+  just-extend@6.2.0: {}
+
   jwa@1.4.1:
     dependencies:
       buffer-equal-constant-time: 1.0.1
@@ -8314,6 +8845,8 @@ snapshots:
       p-locate: 5.0.0
 
   lodash.flattendeep@4.4.0: {}
+
+  lodash.get@4.4.2: {}
 
   lodash.includes@4.3.0: {}
 
@@ -8539,6 +9072,14 @@ snapshots:
   natural-compare@1.4.0: {}
 
   negotiator@0.6.3: {}
+
+  nise@5.1.9:
+    dependencies:
+      '@sinonjs/commons': 3.0.1
+      '@sinonjs/fake-timers': 11.2.2
+      '@sinonjs/text-encoding': 0.7.3
+      just-extend: 6.2.0
+      path-to-regexp: 6.2.2
 
   node-preload@0.2.1:
     dependencies:
@@ -9070,6 +9611,15 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
+  sinon@17.0.2:
+    dependencies:
+      '@sinonjs/commons': 3.0.1
+      '@sinonjs/fake-timers': 11.2.2
+      '@sinonjs/samsam': 8.0.0
+      diff: 5.2.0
+      nise: 5.1.9
+      supports-color: 7.2.0
+
   sirv@2.0.4:
     dependencies:
       '@polka/url': 1.0.0-next.25
@@ -9377,6 +9927,8 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  type-detect@4.0.8: {}
 
   type-detect@4.1.0: {}
 
