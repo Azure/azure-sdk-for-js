@@ -13,7 +13,7 @@ var baseNameCustom = '${baseName}-custom'
 var schemaRegistryGroup = 'azsdk_js_test_group'
 var eventHubsDataOwnerRoleId = 'f526a384-b230-433a-b45c-95f59c4a2dec'
 
-resource eventHubNamespaceAvro 'Microsoft.EventHub/namespaces@2024-05-01-preview' = {
+resource eventHubNamespaceAvro 'Microsoft.EventHub/namespaces@2024-01-01' = {
   name: baseNameAvro
   location: location
   sku: {
@@ -29,7 +29,7 @@ resource eventHubNamespaceAvro 'Microsoft.EventHub/namespaces@2024-05-01-preview
   }
 }
 
-resource eventHubNamespaceJson 'Microsoft.EventHub/namespaces@2024-05-01-preview' = {
+resource eventHubNamespaceJson 'Microsoft.EventHub/namespaces@2024-01-01' = {
   name: baseNameJson
   location: location
   sku: {
@@ -45,7 +45,7 @@ resource eventHubNamespaceJson 'Microsoft.EventHub/namespaces@2024-05-01-preview
   }
 }
 
-resource eventHubNamespaceCustom 'Microsoft.EventHub/namespaces@2024-05-01-preview' = {
+resource eventHubNamespaceCustom 'Microsoft.EventHub/namespaces@2024-01-01' = {
   name: baseNameCustom
   location: location
   sku: {
@@ -61,7 +61,7 @@ resource eventHubNamespaceCustom 'Microsoft.EventHub/namespaces@2024-05-01-previ
   }
 }
 
-resource authorizationRuleAvro 'Microsoft.EventHub/namespaces/authorizationRules@2024-05-01-preview' = {
+resource authorizationRuleAvro 'Microsoft.EventHub/namespaces/authorizationRules@2024-01-01' = {
   name: 'RootManageSharedAccessKey'
   properties: {
     rights: [
@@ -73,7 +73,7 @@ resource authorizationRuleAvro 'Microsoft.EventHub/namespaces/authorizationRules
   parent: eventHubNamespaceAvro
 }
 
-resource authorizationRuleJson 'Microsoft.EventHub/namespaces/authorizationRules@2024-05-01-preview' = {
+resource authorizationRuleJson 'Microsoft.EventHub/namespaces/authorizationRules@2024-01-01' = {
   name: 'RootManageSharedAccessKey'
   properties: {
     rights: [
@@ -85,7 +85,7 @@ resource authorizationRuleJson 'Microsoft.EventHub/namespaces/authorizationRules
   parent: eventHubNamespaceJson
 }
 
-resource authorizationRuleCustom 'Microsoft.EventHub/namespaces/authorizationRules@2024-05-01-preview' = {
+resource authorizationRuleCustom 'Microsoft.EventHub/namespaces/authorizationRules@2024-01-01' = {
   name: 'RootManageSharedAccessKey'
   properties: {
     rights: [
@@ -110,7 +110,7 @@ resource eventHubsDataOwnerRoleAssignment 'Microsoft.Authorization/roleAssignmen
   }
 }
 
-resource eventHubAvro 'Microsoft.EventHub/namespaces/eventhubs@2024-05-01-preview' = {
+resource eventHubAvro 'Microsoft.EventHub/namespaces/eventhubs@2024-01-01' = {
   name: eventHubName
   properties: {
     messageRetentionInDays: retentionTimeInDays
@@ -119,7 +119,7 @@ resource eventHubAvro 'Microsoft.EventHub/namespaces/eventhubs@2024-05-01-previe
   parent: eventHubNamespaceAvro
 }
 
-resource eventHubJson 'Microsoft.EventHub/namespaces/eventhubs@2024-05-01-preview' = {
+resource eventHubJson 'Microsoft.EventHub/namespaces/eventhubs@2024-01-01' = {
   name: eventHubName
   properties: {
     messageRetentionInDays: retentionTimeInDays
@@ -128,7 +128,7 @@ resource eventHubJson 'Microsoft.EventHub/namespaces/eventhubs@2024-05-01-previe
   parent: eventHubNamespaceJson
 }
 
-resource eventHubCustom 'Microsoft.EventHub/namespaces/eventhubs@2024-05-01-preview' = {
+resource eventHubCustom 'Microsoft.EventHub/namespaces/eventhubs@2024-01-01' = {
   name: eventHubName
   properties: {
     messageRetentionInDays: retentionTimeInDays
@@ -137,25 +137,25 @@ resource eventHubCustom 'Microsoft.EventHub/namespaces/eventhubs@2024-05-01-prev
   parent: eventHubNamespaceCustom
 }
 
-resource consumerGroupAvro 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-05-01-preview' = {
+resource consumerGroupAvro 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-01-01' = {
   name: consumerGroupName
   properties: {}
   parent: eventHubAvro
 }
 
-resource consumerGroupJson 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-05-01-preview' = {
+resource consumerGroupJson 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-01-01' = {
   name: consumerGroupName
   properties: {}
   parent: eventHubJson
 }
 
-resource consumerGroupCustom 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-05-01-preview' = {
+resource consumerGroupCustom 'Microsoft.EventHub/namespaces/eventhubs/consumergroups@2024-01-01' = {
   name: consumerGroupName
   properties: {}
   parent: eventHubCustom
 }
 
-resource schemaGroupAvro 'Microsoft.EventHub/namespaces/schemagroups@2024-05-01-preview' = {
+resource schemaGroupAvro 'Microsoft.EventHub/namespaces/schemagroups@2024-01-01' = {
   name: schemaRegistryGroup
   properties: {
     schemaType: 'avro'
@@ -163,7 +163,7 @@ resource schemaGroupAvro 'Microsoft.EventHub/namespaces/schemagroups@2024-05-01-
   parent: eventHubNamespaceAvro
 }
 
-resource schemaGroupJson 'Microsoft.EventHub/namespaces/schemagroups@2024-05-01-preview' = {
+resource schemaGroupJson 'Microsoft.EventHub/namespaces/schemagroups@2024-01-01' = {
   name: schemaRegistryGroup
   properties: {
     schemaType: 'json'
@@ -171,7 +171,7 @@ resource schemaGroupJson 'Microsoft.EventHub/namespaces/schemagroups@2024-05-01-
   parent: eventHubNamespaceJson
 }
 
-resource schemaGroupCustom 'Microsoft.EventHub/namespaces/schemagroups@2024-05-01-preview' = {
+resource schemaGroupCustom 'Microsoft.EventHub/namespaces/schemagroups@2024-01-01' = {
   name: schemaRegistryGroup
   properties: {
     schemaType: 'custom'
