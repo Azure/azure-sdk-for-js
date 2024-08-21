@@ -1,50 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { defineConfig } from "vitest/config";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.browser.shared.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
-export default defineConfig({
-  optimizeDeps: {
-    include: ["process", "buffer"],
-  },
-  plugins: [
-    browserMap(),
-    inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
-  ],
-  test: {
-    testTimeout: 600000,
-    hookTimeout: 60000,
-    fileParallelism: false,
-    include: ["dist-test/browser/**/*.spec.js"],
-    globalSetup: ["./test/utils/setup.ts"],
-    setupFiles: ["./test/utils/logging.ts"],
-    reporters: ["verbose", "junit"],
-    outputFile: {
-      junit: "test-results.browser.xml",
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    optimizeDeps: {
+      include: ["@azure-tools/test-recorder", "process", "buffer"],
     },
-    browser: {
-      enabled: true,
-      headless: true,
-      name: "chromium",
-      provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"],
-        },
+    plugins: [
+      browserMap(),
+      inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
+    ],
+    test: {
+      testTimeout: 600000,
+      hookTimeout: 60000,
+      fileParallelism: false,
+      include: ["dist-test/browser/**/*.spec.js"],
+      globalSetup: ["./test/utils/setup.ts"],
+      setupFiles: ["./test/utils/logging.ts"],
+      fakeTimers: {
+        toFake: [
+          "setTimeout",
+          "clearTimeout",
+          "setImmediate",
+          "clearImmediate",
+          "setInterval",
+          "clearInterval",
+          "Date",
+        ],
       },
     },
-    watch: false,
-    coverage: {
-      include: ["dist-test/browser/**/*.js"],
-      exclude: [
-        "dist-test/browser/**/*./*-browser.mjs",
-        "dist-test/browser/**/*./*-react-native.mjs",
-      ],
-      provider: "istanbul",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage-browser",
-    },
-  },
-});
+  })
+);
