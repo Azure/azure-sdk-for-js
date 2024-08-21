@@ -16,7 +16,7 @@
     "eslint-plugin-markdown": "^5.0.0"
   },
   "dependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/eslint-plugin-azure-sdk": "file:../eslint-plugin-azure-sdk",
     "@eslint/compat": "^1.0.1",
     "@eslint/js": "~9.2.0",
     "@typescript-eslint/typescript-estree": "~7.16.0",

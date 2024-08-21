@@ -86,9 +86,9 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure/dev-tool": "file:../../../common/tools/dev-tool",
+    "@azure/eslint-plugin-azure-sdk": "file:../../../common/tools/eslint-plugin-azure-sdk",
+    "@azure-tools/vite-plugin-browser-test-map": "file:../../../common/tools/vite-plugin-browser-test-map",
     "@microsoft/api-extractor": "^7.43.1",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/debug": "^4.1.12",

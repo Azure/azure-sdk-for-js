@@ -1,0 +1,21 @@
+{
+  "name": "@azure/monorepo",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@9.7.1",
+  "scripts": {
+    "build": "pnpm -r --workspace-concurrency=Infinity --aggregate-output --reporter=append-only build",
+    "clean": "pnpm -r run clean"
+  },
+  "devDependencies": {
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "rimraf": "^5.0.0",
+    "tsx": "^4.17.0",
+    "typescript": "~5.5.4",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "@azure/eslint-plugin-azure-sdk": "link:./common/tools/eslint-plugin-azure-sdk"
+  }
+}

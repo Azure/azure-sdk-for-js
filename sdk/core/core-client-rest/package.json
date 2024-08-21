@@ -81,8 +81,8 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "file:../../../common/tools/dev-tool",
+    "@azure/eslint-plugin-azure-sdk": "file:../../../common/tools/eslint-plugin-azure-sdk",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
