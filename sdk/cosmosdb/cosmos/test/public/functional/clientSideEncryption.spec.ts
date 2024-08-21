@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { randomUUID } from "node:crypto";
+import { randomUUID } from "@azure/core-util";
 import {
   CosmosClient,
   EncryptionKeyWrapMetadata,

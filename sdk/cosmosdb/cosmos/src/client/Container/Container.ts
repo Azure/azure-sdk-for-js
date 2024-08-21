@@ -114,6 +114,10 @@ export class Container {
    */
   public _rid: string;
   /**
+   * @internal
+   */
+  public isEncryptionInitialized: boolean = false;
+  /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
    * @param id - The id of the given container.
@@ -126,15 +130,16 @@ export class Container {
     private encryptionManager?: EncryptionManager,
     _rid?: string,
   ) {
+    this._rid = _rid;
     if (this.clientContext.enableEncryption) {
       this.encryptionProcessor = new EncryptionProcessor(
         this.id,
-        this.database.id,
+        this._rid,
+        this.database,
         this.clientContext,
         this.encryptionManager,
       );
     }
-    this._rid = _rid;
   }
 
   /**
@@ -398,23 +403,6 @@ export class Container {
       );
     }, this.clientContext);
   }
-
-  private async refreshRidAndPolicy(): Promise<void> {
-    await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const readResponse = await this.readInternal(diagnosticNode);
-      this._rid = readResponse.resource._rid;
-      const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
-      if (!clientEncryptionPolicy) return;
-      const partitionKeyPaths = readResponse.resource.partitionKey.paths;
-      const key = this.database.id + "/" + this.id;
-      await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
-        key,
-        this._rid,
-        partitionKeyPaths,
-        clientEncryptionPolicy,
-      );
-    }, this.clientContext);
-  }
   /**
    * @hidden
    * Warms up encryption related caches for the container.
@@ -429,7 +417,10 @@ export class Container {
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
-        const key = this.database.id + "/" + this.id;
+        const { resource: databaseDefinition } = await this.database.read();
+        this.database._rid = databaseDefinition._rid;
+
+        const key = this.database._rid + "/" + this._rid;
 
         await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
           key,
@@ -453,6 +444,7 @@ export class Container {
             encryptionKeyProperties,
           );
         }
+        this.isEncryptionInitialized = true;
       }, this.clientContext);
     }
   }
@@ -462,8 +454,8 @@ export class Container {
    * So, when the container being referenced here gets recreated we would end up with a stale encryption settings and container Rid and this would result in BadRequest (and a substatus 1024).
    * This would allow us to refresh the encryption settings and Container Rid, on the premise that the container recreated could possibly be configured with a new encryption policy.
    */
-  async ThrowIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void> {
-    const key = this.database.id + "/" + this.id;
+  async throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void> {
+    const key = this.database._rid + "/" + this._rid;
     const encryptionSetting =
       this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
     const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
@@ -498,9 +490,10 @@ export class Container {
       if (currentContainerRid === updatedContainerRid) {
         return;
       }
-      await this.refreshRidAndPolicy();
+      await this.initializeEncryption();
       throw new ErrorResponse(
-        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue.",
+        "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
+          errorResponse.message,
       );
     }
   }

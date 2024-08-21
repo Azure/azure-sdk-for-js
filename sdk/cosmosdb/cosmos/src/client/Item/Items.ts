@@ -5,7 +5,6 @@ import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import {
-  addContainerRid,
   Constants,
   copyObject,
   getIdFromLink,
@@ -396,7 +395,10 @@ export class Items {
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       if (this.clientContext.enableEncryption) {
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         options.containerRid = this.container._rid;
@@ -421,7 +423,8 @@ export class Items {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          // Todo: internally retry post policy refresh
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
@@ -497,7 +500,10 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -523,7 +529,7 @@ export class Items {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
@@ -598,7 +604,10 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
@@ -684,7 +693,7 @@ export class Items {
         });
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(err);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
         }
         // In the case of 410 errors, we need to recompute the partition key ranges
         // and redo the batch request, however, 410 errors occur for unsupported
@@ -864,7 +873,10 @@ export class Items {
       if (this.clientContext.enableEncryption) {
         operations = copyObject(operations);
         options = options || {};
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         if (partitionKey) {
           const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
@@ -903,7 +915,7 @@ export class Items {
         return response;
       } catch (err: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(err);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
         }
         throw new Error(`Batch request error: ${err.message}`);
       }

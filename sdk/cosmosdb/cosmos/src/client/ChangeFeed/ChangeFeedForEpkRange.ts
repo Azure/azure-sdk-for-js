@@ -6,13 +6,7 @@ import { PartitionKeyRangeCache, QueryRange } from "../../routing";
 import { FeedRangeQueue } from "./FeedRangeQueue";
 import { ClientContext } from "../../ClientContext";
 import { Container, Resource } from "../../client";
-import {
-  Constants,
-  SubStatusCodes,
-  StatusCodes,
-  ResourceType,
-  addContainerRid,
-} from "../../common";
+import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
 import { Response, FeedOptions, ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
@@ -433,7 +427,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
-      addContainerRid(this.container);
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      this.container.encryptionProcessor.containerRid = this.container._rid;
       feedOptions.containerRid = this.container._rid;
     }
     try {

@@ -3,7 +3,6 @@
 import { ClientContext } from "../../ClientContext";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
-  addContainerRid,
   Constants,
   copyObject,
   createDocumentUri,
@@ -90,7 +89,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -112,7 +114,7 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         if (error.code !== StatusCodes.NotFound) {
           throw error;
@@ -184,7 +186,10 @@ export class Item {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
@@ -207,7 +212,7 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
@@ -251,7 +256,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -272,7 +280,7 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
@@ -318,7 +326,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        await addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
@@ -371,7 +382,7 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }

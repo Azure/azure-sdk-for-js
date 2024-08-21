@@ -4,7 +4,7 @@
 import { EncryptionSettings } from "./EncryptionSettings";
 import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 import { AeadAes256CbcHmacSha256Algorithm } from "./AeadAes256CbcHmacSha256Algorithm";
-import { ContainerDefinition, DatabaseDefinition, ItemDefinition } from "../client";
+import { ContainerDefinition, Database, ItemDefinition } from "../client";
 import { PartitionKeyInternal } from "../documents";
 import { TypeMarker } from "./enums/TypeMarker";
 import { ClientContext } from "../ClientContext";
@@ -25,7 +25,8 @@ import { EncryptionManager } from "./EncryptionManager";
 export class EncryptionProcessor {
   constructor(
     private readonly containerId: string,
-    private readonly databaseId: string,
+    public containerRid: string,
+    private readonly database: Database,
     private readonly clientContext: ClientContext,
     private encryptionManager: EncryptionManager,
   ) {}
@@ -311,13 +312,13 @@ export class EncryptionProcessor {
   }
 
   async getEncryptionSetting(forceRefresh?: boolean): Promise<EncryptionSettings> {
-    const key = this.databaseId + "/" + this.containerId;
+    const key = this.database._rid + "/" + this.containerRid;
     const encryptionSetting =
       this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
     if (forceRefresh || !encryptionSetting) {
       return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-        const path = `/dbs/${this.databaseId}/colls/${this.containerId}`;
-        const id = `dbs/${this.databaseId}/colls/${this.containerId}`;
+        const path = `/dbs/${this.database.id}/colls/${this.containerId}`;
+        const id = `dbs/${this.database.id}/colls/${this.containerId}`;
         const response = await this.clientContext.read<ContainerDefinition>({
           path,
           resourceType: ResourceType.container,
@@ -339,11 +340,11 @@ export class EncryptionProcessor {
     }
     return encryptionSetting;
   }
+
   private async buildEncryptionAlgorithm(
     propertySetting: EncryptionSettingForProperty,
   ): Promise<AeadAes256CbcHmacSha256Algorithm> {
-    const key = `${this.databaseId}/${propertySetting.encryptionKeyId}`;
-
+    const key = `${this.database._rid}/${propertySetting.encryptionKeyId}`;
     let clientEncryptionKeyProperties =
       this.encryptionManager.clientEncryptionKeyPropertiesCache.getClientEncryptionKeyProperties(
         key,
@@ -396,8 +397,8 @@ export class EncryptionProcessor {
     cekEtag?: string,
   ): Promise<ClientEncryptionKeyProperties> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      const path = `/dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
-      const id = `dbs/${this.databaseId}/clientencryptionkeys/${cekId}`;
+      const path = `/dbs/${this.database.id}/clientencryptionkeys/${cekId}`;
+      const id = `dbs/${this.database.id}/clientencryptionkeys/${cekId}`;
       const options: RequestOptions = {};
       if (cekEtag) {
         options.accessCondition = {
@@ -405,15 +406,7 @@ export class EncryptionProcessor {
           condition: cekEtag,
         };
       }
-      const dbResponse = await this.clientContext.read<DatabaseDefinition>({
-        path: `/dbs/${this.databaseId}`,
-        resourceType: ResourceType.database,
-        resourceId: `dbs/${this.databaseId}`,
-        options,
-        diagnosticNode,
-      });
-      const dbRid = dbResponse.result._rid;
-      options.databaseRid = dbRid;
+      options.databaseRid = this.database._rid;
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
         path: path,
         resourceType: ResourceType.clientencryptionkey,
@@ -423,7 +416,7 @@ export class EncryptionProcessor {
       });
       if (response.code === StatusCodes.NotModified) {
         throw new ErrorResponse(
-          `The Client Encryption Key with key id: ${cekId} on database: ${this.databaseId} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,
+          `The Client Encryption Key with key id: ${cekId} on database: ${this.database.id} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,
         );
       }
       const clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
@@ -433,7 +426,7 @@ export class EncryptionProcessor {
         Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
         response.result.keyWrapMetadata,
       );
-      const key = dbRid + "/" + cekId;
+      const key = this.database._rid + "/" + cekId;
       this.encryptionManager.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
         key,
         clientEncryptionKeyProperties,
