@@ -5,14 +5,12 @@ import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { parseEventHubConnectionString } from "../../src/index.js";
 import { should, assert } from "../utils/chai.js";
 import { afterAll, beforeAll, beforeEach, describe, it, vi } from "vitest";
+import { createConsumer, createProducer } from "../utils/clients.js";
 import {
-  createConsumer,
-  createProducer,
-  getConnectionStringWithKey,
   getConnectionStringWithSAS,
   getSasTokenFromConnectionStringWithKey,
-  isMock,
-} from "../utils/clients.js";
+} from "../utils/sas.js";
+import { getConnectionStringWithKey, isMock } from "../utils/vars.js";
 
 const TEST_FAILURE = "test failure";
 
@@ -32,7 +30,7 @@ describe.skipIf(isMock())("Authentication via", function () {
     let sharedAccessKey: string;
 
     beforeAll(async function () {
-      connectionString = await getConnectionStringWithKey();
+      connectionString = getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
       if (!t1 || !t2) {

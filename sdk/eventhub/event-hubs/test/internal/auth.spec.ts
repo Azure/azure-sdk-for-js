@@ -7,15 +7,12 @@ import {
   EventHubConsumerClient,
   type EventHubProducerClient,
 } from "../../src/index.js";
-import {
-  createConsumer,
-  createProducer,
-  getConnectionStringWithKey,
-  getConnectionStringWithSAS,
-} from "../utils/clients.js";
+import { createConsumer, createProducer } from "../utils/clients.js";
 import { isSasTokenProvider } from "@azure/core-amqp";
 import { should, assert } from "../utils/chai.js";
 import { describe, it, afterEach, beforeEach, beforeAll } from "vitest";
+import { getConnectionStringWithKey } from "../utils/vars.js";
+import { getConnectionStringWithSAS } from "../utils/sas.js";
 
 function getCredential(client: EventHubConsumerClient | EventHubProducerClient): any {
   const cred =
@@ -44,7 +41,7 @@ describe("Authentication via", function () {
     let sharedAccessKey: string;
 
     beforeAll(async function () {
-      connectionString = await getConnectionStringWithKey();
+      connectionString = getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
       if (!t1 || !t2) {
