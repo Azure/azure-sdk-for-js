@@ -39,7 +39,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
  */
 export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
   /**
-   * Allows specifying the object ID of the service principal used to authenticate a user-assigned managed identity.
+   * Allows specifying the object ID of the underlying service principal used to authenticate a user-assigned managed identity.
    * This is an alternative to providing a client ID and is not required for system-assigned managed identities.
    */
   objectId: string;

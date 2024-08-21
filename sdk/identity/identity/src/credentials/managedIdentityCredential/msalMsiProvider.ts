@@ -78,7 +78,7 @@ export class MsalMsiProvider {
     const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
     if (providedIds.length > 1) {
       throw new Error(
-        `ManagedIdentityCredential - At most one of 'clientId', 'resourceId', or 'objectId' may be provided. Received values: ${JSON.stringify(
+        `ManagedIdentityCredential - At most, one of 'clientId', 'resourceId', or 'objectId' may be provided. Received values: ${JSON.stringify(
           { clientId: this.clientId, resourceId: this.resourceId, objectId: this.objectId },
         )}`,
       );
