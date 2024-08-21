@@ -126,7 +126,7 @@ describe(`batch operations`, function () {
     });
   });
 
-  it.only("should send a set of update batch operations", async function () {
+  it("should send a set of update batch operations", async function () {
     const actions: TransactionAction[] = [];
 
     for (const entity of testEntities) {
