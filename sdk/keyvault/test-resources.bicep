@@ -1,46 +1,3 @@
-@allowed([
-  'australiacentral'
-  'australiacentral2'
-  'australiaeast'
-  'brazilsouth'
-  'brazilsoutheast'
-  'canadacentral'
-  'canadaeast'
-  'centralindia'
-  'centralus'
-  'eastasia'
-  'eastus'
-  'eastus2'
-  'eastus2euap'
-  'francecentral'
-  'germanywestcentral'
-  'israelcentral'
-  'italynorth'
-  'japaneast'
-  'japanwest'
-  'koreacentral'
-  'northcentralus'
-  'northeurope'
-  'norwayeast'
-  'norwaywest'
-  'polandcentral'
-  'qatarcentral'
-  'southafricanorth'
-  'southcentralus'
-  'southindia'
-  'southeastasia'
-  'swedencentral'
-  'switzerlandnorth'
-  'switzerlandwest'
-  'uaenorth'
-  'uksouth'
-  'westcentralus'
-  'westeurope'
-  'westindia'
-  'westus'
-  'westus2'
-  'westus3'
-])
 param hsmLocation string = 'australiaeast'
 
 param baseName string = resourceGroup().name
@@ -75,14 +32,6 @@ var networkAcls = {
   virtualNetworkRules: []
   ipRules: []
   defaultAction: 'Allow'
-}
-var accountSasProperties = {
-  signedServices: 'b'
-  signedPermission: 'rwdlacu'
-  signedProtocol: 'https'
-  signedExpiry: dateTimeAdd(baseTime, 'PT2H')
-  signedResourceTypes: 'sco'
-  keyToSign: 'key1'
 }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2024-04-01-preview' = {
