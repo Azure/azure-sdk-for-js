@@ -4,6 +4,7 @@
 import { spawn } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { resolveRoot } from "./resolveProject";
 
 /**
  * Uses the git command line to ask whether a path has any tracked, unstaged changes (if they would appear in a git
@@ -124,6 +125,38 @@ export function currentBranch(): Promise<string> {
     command.stdout.on("data", (data) => (output += data.toString()));
     command.on("exit", (code) => {
       code === 0 ? resolve(output.trim()) : reject("git exited nonzero");
+    });
+    command.on("error", reject);
+  });
+}
+
+export async function getRemoteAlias(url: string): Promise<string> {
+  const output = await new Promise((resolve, reject) => {
+    const command = spawn("git", ["remote", "-v", "show"]);
+
+    let output = "";
+    command.stdout.on("data", (data) => { console.log(data.toString()); return output += data.toString() });
+    command.on("exit", (code) => {
+      code === 0 ? resolve(output.trim()) : reject("git exited nonzero");
+    });
+    command.on("error", reject);
+  });
+
+  console.log(output, url);
+  return "upstream";
+}
+
+export async function getLockFileFromMain(): Promise<void> {
+  const remoteUrl = "https://github.com/Azure/azure-sdk-for-js";
+  const remoteAlias = await getRemoteAlias(remoteUrl);
+  const root = await resolveRoot();
+  return new Promise((resolve, reject) => {
+    const command = spawn("git", ["checkout", `${remoteAlias}/main`, "--", path.join(root, `common/config/rush/pnpm-lock.yaml`)], {
+      stdio: "inherit",
+    });
+
+    command.on("exit", (code) => {
+      code === 0 ? resolve() : reject("git exited nonzero");
     });
     command.on("error", reject);
   });
