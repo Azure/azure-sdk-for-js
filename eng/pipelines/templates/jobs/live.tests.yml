@@ -77,6 +77,8 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - ${{ parameters.PreSteps }}
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/build-test-resource-config.yml
           parameters:
@@ -153,8 +155,6 @@ jobs:
         displayName: "Build test package"
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
-
-      - ${{ parameters.PreSteps }}
 
       - pwsh: |
           npm install

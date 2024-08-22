@@ -4,7 +4,7 @@
 import { OperationOptions } from "@azure/core-client";
 import { delay } from "@azure/core-util";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { KeyVaultClient } from "../generated/keyVaultClient";
+import { KeyVaultClient } from "../generated/keyVaultClient.js";
 
 /**
  * Common parameters to a Key Vault Certificate Poller.

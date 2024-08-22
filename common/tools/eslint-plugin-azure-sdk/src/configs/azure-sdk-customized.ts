@@ -188,7 +188,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   },
   {
     name: "@azure/azure-sdk/recommended-json",
-    files: ["*.json"],
+    files: ["*.json", "*/*/*.json"],
     ignores: ["**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
     languageOptions: {
       parser,
