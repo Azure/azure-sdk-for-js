@@ -7,14 +7,14 @@ import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
   RecoverDeletedCertificateOptions,
-} from "../../certificatesModels";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { tracingClient } from "../../tracing";
-import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
+} from "../../certificatesModels.js";
+import { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { tracingClient } from "../../tracing.js";
+import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations.js";
 import {
   KeyVaultCertificatePollOperation,
   KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller";
+} from "../keyVaultCertificatePoller.js";
 
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
