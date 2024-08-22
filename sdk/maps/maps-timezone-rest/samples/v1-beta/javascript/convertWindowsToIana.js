@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const MapsTimezone = require("../src");
-const { isUnexpected } = require("../src");
+const MapsTimezone = require("@azure-rest/maps-timezone").default,
+    { isUnexpected } = require("@azure-rest/maps-timezone");
 
 /**
  * @summary How to convert a Windows Timezone ID to IANA Timezone IDs.
@@ -20,7 +20,7 @@ async function main() {
     if (isUnexpected(response)) {
         throw response.body.error;
     } else if (response.body) {
-        console.log(response.body.map((ianaId) => ianaId).join(", "));
+        console.log(response.body.map((ianaId) => ianaId.Id).join(", "));
     } else {
         console.error("No data returned");
     }

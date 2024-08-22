@@ -7,7 +7,9 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import MapsTimezone, { isUnexpected, MapsTimezoneClient } from "../../src";
+import MapsTimezone, { isUnexpected } from "../../src";
+import { IanaIdOutput } from "../../src";
+
 
 describe("Authentication", function () {
   let recorder: Recorder;
@@ -70,7 +72,7 @@ describe("Endpoint can be overwritten", function () {
 
 describe("MapsTimezone", () => {
   let recorder: Recorder;
-  let client: MapsTimezoneClient;
+  let client: ReturnType<typeof MapsTimezone>;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -88,7 +90,7 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isNotEmpty(response.body);
+      assert.isTrue(response.body.TimeZones?.length == 1, "TimeZones array should contain one element.");
     }
   });
 
@@ -100,7 +102,8 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isNotEmpty(response.body);
+      const timeZoneId = response.body.TimeZones?.[0]?.Id ?? "No time zone available";
+      assert.equal(timeZoneId, "America/New_York");
     }
   });
 
@@ -110,7 +113,7 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isNotEmpty(response.body);
+      assert.equal(response.body.length, 505);
     }
   });
 
@@ -120,7 +123,7 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isNotEmpty(response.body);
+      assert.equal(response.body.length, 596);
     }
   });
 
@@ -130,7 +133,7 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      console.log(response.body.Version);
+      assert.isNotEmpty(response.body.Version);
     }
   });
 
@@ -142,9 +145,32 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      response.body.forEach((ianaId) => {
-        console.log(ianaId);
-      });
+      // Define the expected IANA IDs based on the example output
+      const expectedIanaIds = [
+        "America/Nassau",
+        "America/Toronto",
+        "America/Iqaluit",
+        "America/Montreal",
+        "America/Nipigon",
+        "America/Pangnirtung",
+        "America/Thunder_Bay",
+        "America/New_York",
+        "America/Detroit",
+        "America/Indiana/Petersburg",
+        "America/Indiana/Vincennes",
+        "America/Indiana/Winamac",
+        "America/Kentucky/Monticello",
+        "America/Louisville",
+        "EST5EDT"
+      ];
+
+      // Extract the IANA IDs from the response
+      const ianaIds: string[] = response.body
+          .map((ianaId: IanaIdOutput) => ianaId.Id)
+          .filter((id: string | undefined): id is string => id !== undefined);
+
+      // Assert that the IANA IDs returned by the API match the expected IDs
+      assert.deepEqual(ianaIds, expectedIanaIds, "The IANA IDs should match the expected values.");
     }
   });
 });

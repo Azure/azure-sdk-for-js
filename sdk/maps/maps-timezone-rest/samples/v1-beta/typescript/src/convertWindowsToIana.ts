@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone from "../src";
-import { isUnexpected } from "../src";
+import MapsTimezone, {IanaIdOutput} from "../src";
+import { isUnexpected } from "../../src";
 
 /**
  * @summary How to convert a Windows Timezone ID to IANA Timezone IDs.
@@ -20,7 +20,10 @@ async function main(): Promise<void> {
     if (isUnexpected(response)) {
         throw response.body.error;
     } else if (response.body) {
-        console.log(response.body.map((ianaId) => ianaId).join(", "));
+        const ianaIds: string[] = response.body
+            .map((ianaId: IanaIdOutput) => ianaId.Id)
+            .filter((id: string | undefined): id is string => id !== undefined);
+        console.log(ianaIds)
     } else {
         console.error("No data returned");
     }

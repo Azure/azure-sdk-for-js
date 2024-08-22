@@ -19,7 +19,7 @@ async function main(): Promise<void> {
         throw response.body.error;
     }
 
-    console.log(response.body);
+    console.log(response.body.length);
 }
 
 main().catch((err) => {

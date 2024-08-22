@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const MapsTimezone = require("../src");
-const { isUnexpected } = require("../src");
+const MapsTimezone = require("@azure-rest/maps-timezone").default,
+    { isUnexpected } = require("@azure-rest/maps-timezone");
 
 /**
  * @summary How to get the timezone by coordinates.
@@ -23,7 +23,9 @@ async function main() {
         throw response.body.error;
     }
 
-    console.log(response.body);
+    const timeZoneId = response.body.TimeZones?.[0]?.Id ?? "No time zone available";
+
+    console.log("Extracted TimeZone Id:", timeZoneId);
 }
 
 main().catch((err) => {

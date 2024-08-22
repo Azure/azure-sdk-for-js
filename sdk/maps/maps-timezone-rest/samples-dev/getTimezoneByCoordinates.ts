@@ -23,7 +23,7 @@ async function main(): Promise<void> {
         throw response.body.error;
     }
 
-    console.log(response.body);
+    console.log(response.body.TimeZones?.[0]?.Id ?? "No time zone available");
 }
 
 main().catch((err) => {
