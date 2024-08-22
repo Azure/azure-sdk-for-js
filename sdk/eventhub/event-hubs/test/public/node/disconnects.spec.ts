@@ -4,7 +4,8 @@
 import { Subscription } from "../../../src/index.js";
 import { should } from "../../utils/chai.js";
 import { describe, it } from "vitest";
-import { createConsumer, createProducer, isMock } from "../../utils/clients.js";
+import { createConsumer, createProducer } from "../../utils/clients.js";
+import { isMock } from "../../utils/vars.js";
 
 describe("disconnected", function () {
   describe("EventHubConsumerClient", function () {
@@ -164,7 +165,7 @@ describe("disconnected", function () {
       await client.close();
     });
 
-    it.runIf(!isMock())("should not throw an uncaught exception", async function () {
+    it.skipIf(isMock())("should not throw an uncaught exception", async function () {
       const client = createProducer({
         options: {
           retryOptions: {

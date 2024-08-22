@@ -185,6 +185,7 @@ jobs:
           displayName: "Start browser credential relay"
           condition: and(succeeded(), eq(variables['TestType'], 'browser'))
           env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             TEST_MODE: "live"
             ${{ insert }}: ${{ parameters.EnvVars }}
 
