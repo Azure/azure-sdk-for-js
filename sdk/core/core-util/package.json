@@ -73,7 +73,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
+    "@azure/abort-controller": "workspace:~",
     "tslib": "catalog:"
   },
   "devDependencies": {

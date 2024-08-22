@@ -88,9 +88,9 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-util": "^1.2.0",
-    "@azure/logger": "^1.0.0",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/logger": "workspace:~",
     "tslib": "catalog:"
   },
   "devDependencies": {

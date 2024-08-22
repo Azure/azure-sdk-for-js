@@ -73,11 +73,11 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.5.0",
-    "@azure/core-util": "^1.0.0",
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-tracing": "^1.0.1",
+    "@azure/core-auth": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-tracing": "workspace:~",
     "tslib": "catalog:"
   },
   "devDependencies": {

@@ -74,10 +74,10 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.7.2",
-    "@azure/core-util": "^1.9.0",
-    "@azure/logger": "^1.1.2",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-auth": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/logger": "workspace:~",
     "buffer": "^6.0.3",
     "events": "^3.3.0",
     "process": "^0.11.10",
@@ -99,7 +99,7 @@
     "debug": "^4.3.4",
     "eslint": "catalog:",
     "playwright": "catalog:",
-    "rimraf": "^5.0.7",
+    "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",

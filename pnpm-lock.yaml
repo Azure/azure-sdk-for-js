@@ -7912,17 +7912,17 @@ importers:
   sdk/core/core-amqp:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-auth':
-        specifier: ^1.7.2
-        version: 1.7.2
+        specifier: workspace:~
+        version: link:../core-auth
       '@azure/core-util':
-        specifier: ^1.9.0
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-util
       '@azure/logger':
-        specifier: ^1.1.2
-        version: 1.1.4
+        specifier: workspace:~
+        version: link:../logger
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -7982,7 +7982,7 @@ importers:
         specifier: 'catalog:'
         version: 1.46.1
       rimraf:
-        specifier: ^5.0.7
+        specifier: 'catalog:'
         version: 5.0.10
       tshy:
         specifier: 'catalog:'
@@ -8000,11 +8000,11 @@ importers:
   sdk/core/core-auth:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-util':
-        specifier: ^1.1.0
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-util
       tslib:
         specifier: 'catalog:'
         version: 2.6.3
@@ -8049,30 +8049,30 @@ importers:
   sdk/core/core-client:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-auth':
-        specifier: ^1.4.0
-        version: 1.7.2
+        specifier: workspace:~
+        version: link:../core-auth
       '@azure/core-rest-pipeline':
-        specifier: ^1.9.1
-        version: 1.16.3
+        specifier: workspace:~
+        version: link:../core-rest-pipeline
       '@azure/core-tracing':
-        specifier: ^1.0.0
-        version: 1.1.2
+        specifier: workspace:~
+        version: link:../core-tracing
       '@azure/core-util':
-        specifier: ^1.6.1
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-util
       '@azure/logger':
-        specifier: ^1.0.0
-        version: 1.1.4
+        specifier: workspace:~
+        version: link:../logger
       tslib:
         specifier: 'catalog:'
         version: 2.6.3
     devDependencies:
       '@azure/core-xml':
-        specifier: ^1.3.4
-        version: 1.4.3
+        specifier: workspace:~
+        version: link:../core-xml
       '@azure/dev-tool':
         specifier: workspace:~
         version: link:../../../common/tools/dev-tool
@@ -8113,20 +8113,20 @@ importers:
   sdk/core/core-client-rest:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-auth':
-        specifier: ^1.3.0
-        version: 1.7.2
+        specifier: workspace:~
+        version: link:../core-auth
       '@azure/core-rest-pipeline':
-        specifier: ^1.5.0
-        version: 1.16.3
+        specifier: workspace:~
+        version: link:../core-rest-pipeline
       '@azure/core-tracing':
-        specifier: ^1.0.1
-        version: 1.1.2
+        specifier: workspace:~
+        version: link:../core-tracing
       '@azure/core-util':
-        specifier: ^1.0.0
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-util
       tslib:
         specifier: 'catalog:'
         version: 2.6.3
@@ -8171,18 +8171,15 @@ importers:
   sdk/core/core-http-compat:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-client':
-        specifier: ^1.3.0
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-client
       '@azure/core-rest-pipeline':
-        specifier: ^1.3.0
-        version: 1.16.3
+        specifier: workspace:~
+        version: link:../core-rest-pipeline
     devDependencies:
-      '@azure-tools/test-utils':
-        specifier: ^1.0.1
-        version: 1.0.1
       '@azure/dev-tool':
         specifier: workspace:~
         version: link:../../../common/tools/dev-tool
@@ -8223,14 +8220,14 @@ importers:
   sdk/core/core-lro:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-util':
-        specifier: ^1.2.0
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-util
       '@azure/logger':
-        specifier: ^1.0.0
-        version: 1.1.4
+        specifier: workspace:~
+        version: link:../logger
       tslib:
         specifier: 'catalog:'
         version: 2.6.3
@@ -8321,20 +8318,20 @@ importers:
   sdk/core/core-rest-pipeline:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       '@azure/core-auth':
-        specifier: ^1.4.0
-        version: 1.7.2
+        specifier: workspace:~
+        version: link:../core-auth
       '@azure/core-tracing':
-        specifier: ^1.0.1
-        version: 1.1.2
+        specifier: workspace:~
+        version: link:../core-tracing
       '@azure/core-util':
-        specifier: ^1.9.0
-        version: 1.9.2
+        specifier: workspace:~
+        version: link:../core-util
       '@azure/logger':
-        specifier: ^1.0.0
-        version: 1.1.4
+        specifier: workspace:~
+        version: link:../logger
       http-proxy-agent:
         specifier: ^7.0.0
         version: 7.0.2
@@ -8392,11 +8389,8 @@ importers:
         version: 2.6.3
     devDependencies:
       '@azure-rest/core-client':
-        specifier: ^2.2.0
-        version: 2.2.0
-      '@azure-tools/test-utils':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: workspace:~
+        version: link:../core-client-rest
       '@azure-tools/vite-plugin-browser-test-map':
         specifier: workspace:~
         version: link:../../../common/tools/vite-plugin-browser-test-map
@@ -8407,8 +8401,8 @@ importers:
         specifier: workspace:~
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/logger':
-        specifier: ^1.1.4
-        version: 1.1.4
+        specifier: workspace:~
+        version: link:../logger
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -8437,8 +8431,8 @@ importers:
         specifier: 'catalog:'
         version: 1.46.1
       rimraf:
-        specifier: ^6.0.1
-        version: 6.0.1
+        specifier: 'catalog:'
+        version: 5.0.10
       tshy:
         specifier: 'catalog:'
         version: 2.0.1
@@ -8446,7 +8440,7 @@ importers:
         specifier: ^4.17.0
         version: 4.17.0
       typescript:
-        specifier: ~5.5.4
+        specifier: 'catalog:'
         version: 5.5.4
       vitest:
         specifier: 'catalog:'
@@ -8459,8 +8453,8 @@ importers:
         version: 2.6.3
     devDependencies:
       '@azure/core-auth':
-        specifier: ^1.3.0
-        version: 1.7.2
+        specifier: workspace:~
+        version: link:../core-auth
       '@azure/dev-tool':
         specifier: workspace:~
         version: link:../../../common/tools/dev-tool
@@ -8501,8 +8495,8 @@ importers:
   sdk/core/core-util:
     dependencies:
       '@azure/abort-controller':
-        specifier: ^2.0.0
-        version: 2.1.2
+        specifier: workspace:~
+        version: link:../abort-controller
       tslib:
         specifier: 'catalog:'
         version: 2.6.3
@@ -8645,14 +8639,14 @@ importers:
   sdk/core/perf-tests/core-rest-pipeline:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: workspace:~
+        version: link:../../../test-utils/perf
       '@azure/core-auth':
-        specifier: ^1.3.0
-        version: 1.7.2
+        specifier: workspace:~
+        version: link:../../core-auth
       '@azure/core-rest-pipeline':
-        specifier: ^1.1.0
-        version: 1.16.3
+        specifier: workspace:~
+        version: link:../../core-rest-pipeline
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
