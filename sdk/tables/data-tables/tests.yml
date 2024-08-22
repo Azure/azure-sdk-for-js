@@ -7,4 +7,4 @@ extends:
       ServiceDirectory: tables
       MatrixFilters:
         - DependencyVersion=^$
-      SupportedClouds: 'Public,UsGov,China'
+      SupportedClouds: 'Public'
