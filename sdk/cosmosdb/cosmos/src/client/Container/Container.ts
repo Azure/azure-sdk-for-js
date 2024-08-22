@@ -381,19 +381,34 @@ export class Container {
       const id = getIdFromLink(this.url);
       path = path + "/operations/partitionkeydelete";
       if (this.clientContext.enableEncryption) {
+        if (!this.isEncryptionInitialized) {
+          await this.initializeEncryption();
+        }
+        this.encryptionProcessor.containerRid = this._rid;
+        options = options || {};
+        options.containerRid = this._rid;
         const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
         partitionKey =
           await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
       }
-      const response = await this.clientContext.delete<ContainerDefinition>({
-        path,
-        resourceType: ResourceType.container,
-        resourceId: id,
-        options,
-        partitionKey: partitionKey,
-        method: HTTPMethod.post,
-        diagnosticNode,
-      });
+      let response: Response<any>;
+      try {
+        response = await this.clientContext.delete<ContainerDefinition>({
+          path,
+          resourceType: ResourceType.container,
+          resourceId: id,
+          options,
+          partitionKey: partitionKey,
+          method: HTTPMethod.post,
+          diagnosticNode,
+        });
+      } catch (error) {
+        if (this.clientContext.enableEncryption) {
+          await this.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
+
       return new ContainerResponse(
         response.result,
         response.headers,

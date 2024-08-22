@@ -1970,6 +1970,27 @@ describe("Client Side Encryption", () => {
     verifyDiagnostics(replaceResponse.diagnostics, true, true, 12, 12);
   });
 
+  it("encryption delete all items in a partition key", async () => {
+    const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
+    const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer, "pk2")).resource);
+    const testDoc3 = new TestDoc((await testCreateItem(encryptionContainer, "pk1")).resource);
+    const testDoc4 = new TestDoc((await testCreateItem(encryptionContainer, "pk2")).resource);
+
+    await encryptionContainer.deleteAllItemsForPartitionKey("pk1");
+
+    const res1 = await encryptionContainer.item(testDoc1.id, "pk1").read();
+    assert(res1.statusCode === StatusCodes.NotFound);
+
+    const res2 = await encryptionContainer.item(testDoc2.id, "pk2").read();
+    assert(res2.statusCode === StatusCodes.Ok);
+
+    const res3 = await encryptionContainer.item(testDoc3.id, "pk1").read();
+    assert(res3.statusCode === StatusCodes.NotFound);
+
+    const res4 = await encryptionContainer.item(testDoc4.id, "pk2").read();
+    assert(res4.statusCode === StatusCodes.Ok);
+  });
+
   it("validate caching of protected dek", async () => {
     // no caching
     const testKeyResolver1 = new MockKeyVaultEncryptionKeyResolver();
