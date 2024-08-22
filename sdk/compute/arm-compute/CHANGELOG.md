@@ -1,15 +1,25 @@
 # Release History
-
-## 22.0.1 (Unreleased)
-
+    
+## 22.1.0 (2024-08-12)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SkuProfile
+  - Added Interface SkuProfileVMSize
+  - Added Type Alias AllocationStrategy
+  - Added Type Alias ZonalPlatformFaultDomainAlignMode
+  - Interface AvailabilitySet has a new optional parameter scheduledEventsPolicy
+  - Interface AvailabilitySetUpdate has a new optional parameter scheduledEventsPolicy
+  - Interface DiskRestorePoint has a new optional parameter logicalSectorSize
+  - Interface VirtualMachineScaleSet has a new optional parameter skuProfile
+  - Interface VirtualMachineScaleSet has a new optional parameter zonalPlatformFaultDomainAlignMode
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter skuProfile
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter zonalPlatformFaultDomainAlignMode
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter zones
+  - Added Enum KnownAllocationStrategy
+  - Added Enum KnownZonalPlatformFaultDomainAlignMode
+    
+    
 ## 22.0.0 (2024-07-16)
     
 ### Features Added
