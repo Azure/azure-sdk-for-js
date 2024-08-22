@@ -64,20 +64,20 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.1.1",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/dev-tool": "workspace:~",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "es6-promise": "^4.2.5",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -91,10 +91,10 @@
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
     "puppeteer": "^23.0.2",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "catalog:",
     "util": "^0.12.1"
   }
 }

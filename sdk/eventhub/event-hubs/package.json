@@ -111,7 +111,7 @@
     "is-buffer": "^2.0.5",
     "process": "^0.11.10",
     "rhea-promise": "^3.0.0",
-    "tslib": "^2.6.3"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
@@ -122,12 +122,12 @@
     "@azure/identity": "^4.4.1",
     "@azure/keyvault-secrets": "^4.8.0",
     "@azure/mock-hub": "workspace:~",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/debug": "^4.1.4",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "@types/chai-as-promised": "^7.1.8",
     "@types/ws": "^7.2.4",
     "chai": "^5.1.1",
@@ -137,14 +137,14 @@
     "cross-env": "^7.0.3",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "https-proxy-agent": "^7.0.0",
     "playwright": "^1.45.3",
     "rimraf": "^6.0.1",
-    "tshy": "^2.0.0",
+    "tshy": "catalog:",
     "tsx": "^4.16.2",
     "typescript": "~5.5.4",
-    "vitest": "^2.0.5",
+    "vitest": "catalog:",
     "ws": "^8.2.0"
   },
   "exports": {

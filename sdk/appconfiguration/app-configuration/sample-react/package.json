@@ -5,7 +5,7 @@
   "dependencies": {
     "@azure/app-configuration": "^1.2.0-beta.1",
     "@azure/identity": "^4.0.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "react": "^17.0.2",

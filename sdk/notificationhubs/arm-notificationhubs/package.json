@@ -14,7 +14,7 @@
     "@azure/core-client": "^1.7.0",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.14.0",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "keywords": [
     "node",
@@ -28,9 +28,9 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-notificationhubs.d.ts",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.5.3",
+    "typescript": "catalog:",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
@@ -43,7 +43,7 @@
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "ts-node": "^10.0.0"
   },
   "repository": {

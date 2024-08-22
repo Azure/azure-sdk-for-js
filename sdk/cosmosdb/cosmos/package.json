@@ -92,19 +92,19 @@
     "jsbi": "^4.3.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/identity": "^4.0.1",
     "@azure/logger": "^1.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "@sinonjs/fake-timers": "^11.0.0",
     "@types/chai": "~4.3.6",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^17.0.0",
@@ -113,16 +113,16 @@
     "chai": "~4.3.8",
     "cross-env": "~7.0.3",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "execa": "^5.0.0",
     "mocha": "^10.0.0",
     "nock": "^13.5.4",
     "requirejs": "^2.3.5",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.5.3"
+    "typescript": "catalog:"
   },
   "//sampleConfiguration": {
     "skip": [

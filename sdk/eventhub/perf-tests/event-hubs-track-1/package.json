@@ -19,10 +19,10 @@
     "@types/node": "^8.0.0",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "ts-node": "^8.3.0",
-    "tslib": "^2.0.0",
-    "typescript": "~5.5.3"
+    "tslib": "catalog:",
+    "typescript": "catalog:"
   },
   "private": true,
   "scripts": {

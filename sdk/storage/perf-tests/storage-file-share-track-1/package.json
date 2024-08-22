@@ -11,12 +11,12 @@
     "@azure/core-util": "^1.6.1",
     "@azure/storage-file": "^10.3.0",
     "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "dotenv": "^16.0.0",
     "rimraf": "3.0.2",
-    "tslib": "^2.0.0",
+    "tslib": "catalog:",
     "ts-node": "^8.3.0",
-    "typescript": "~5.5.3"
+    "typescript": "catalog:"
   },
   "private": true,
   "scripts": {

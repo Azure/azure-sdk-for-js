@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "http-server": "^0.12.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   }

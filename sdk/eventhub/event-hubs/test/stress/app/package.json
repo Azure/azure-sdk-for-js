@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "@types/minimist": "^1.2.1",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/uuid": "^8.3.0",
-    "typescript": "~5.5.3"
+    "typescript": "catalog:"
   }
 }

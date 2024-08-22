@@ -79,21 +79,21 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@microsoft/api-extractor": "^7.40.3",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
-    "eslint": "^8.56.0",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "eslint": "catalog:",
     "playwright": "^1.41.2",
-    "rimraf": "^5.0.5",
-    "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
-    "vitest": "^2.0.5"
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "//metadata": {
     "sampleConfiguration": {

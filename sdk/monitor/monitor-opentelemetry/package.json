@@ -67,20 +67,20 @@
     "@azure/functions": "^4.5.0",
     "@azure/functions-old": "npm:@azure/functions@3.5.1",
     "@azure-tools/test-utils": "^1.0.1",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/sinon": "^17.0.0",
     "nyc": "^17.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "mocha": "^10.0.0",
     "nock": "^13.5.4",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "sinon": "^17.0.0",
     "tsx": "^4.7.1",
-    "typescript": "~5.5.3"
+    "typescript": "catalog:"
   },
   "dependencies": {
     "@azure/core-client": "^1.0.0",
@@ -111,7 +111,7 @@
     "@opentelemetry/sdk-trace-node": "^1.25.1",
     "@opentelemetry/semantic-conventions": "^1.25.1",
     "@opentelemetry/winston-transport": "^0.5.0",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "sideEffects": false,
   "keywords": [

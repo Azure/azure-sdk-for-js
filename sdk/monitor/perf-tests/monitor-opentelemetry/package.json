@@ -15,15 +15,15 @@
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/api-logs": "^0.52.1",
     "@opentelemetry/sdk-logs": "^0.52.1",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.5.3"
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:"
   },
   "private": true,
   "scripts": {

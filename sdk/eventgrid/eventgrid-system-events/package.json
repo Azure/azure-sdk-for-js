@@ -65,7 +65,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/core-util": "^1.6.1",
     "buffer": "^6.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/identity": "^4.1.0",
@@ -74,18 +74,18 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/service-bus": "^7.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/sinon": "^17.0.0",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -98,10 +98,10 @@
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
     "prettier": "^2.5.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.5.3"
+    "typescript": "catalog:"
   }
 }

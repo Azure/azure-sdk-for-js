@@ -78,21 +78,21 @@
     "@azure/core-util": "^1.0.0",
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-tracing": "^1.0.1",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@microsoft/api-extractor": "^7.40.3",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
-    "eslint": "^8.55.0",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
+    "eslint": "catalog:",
     "playwright": "^1.41.2",
-    "rimraf": "^5.0.5",
-    "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
-    "vitest": "^2.0.5"
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

@@ -57,17 +57,17 @@
     "@azure-tools/test-recorder": "file:../recorder",
     "@azure/identity": "^4.4.1",
     "@azure/core-util": "^1.9.1",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/node": "^18.0.0",
-    "eslint": "^8.0.0",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.5.3",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
     "ts-node": "^10.0.0"
   }
 }

@@ -83,7 +83,7 @@
     "@azure/core-lro": "^2.6.0",
     "@azure/core-rest-pipeline": "^1.14.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
@@ -94,20 +94,20 @@
     "@azure/eslint-plugin-azure-sdk": "file:../../../common/tools/eslint-plugin-azure-sdk",
     "@azure-tools/vite-plugin-browser-test-map": "file:../../../common/tools/vite-plugin-browser-test-map",
     "@azure/identity": "^4.3.0",
-    "@microsoft/api-extractor": "^7.47.0",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "autorest": "latest",
     "cross-env": "7.0.3",
     "dotenv": "^16.4.5",
     "mkdirp": "^3.0.1",
     "playwright": "^1.41.2",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "source-map-support": "^0.5.9",
-    "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
-    "vitest": "^2.0.5"
+    "tshy": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

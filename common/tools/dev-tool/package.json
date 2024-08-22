@@ -67,7 +67,7 @@
     "strip-json-comments": "^3.1.1",
     "ts-morph": "^23.0.0",
     "ts-node": "^10.9.1",
-    "tslib": "^2.2.0",
+    "tslib": "^2.6.3",
     "typescript": "~5.5.3",
     "yaml": "^2.3.4"
   },
@@ -82,14 +82,14 @@
     "@types/minimist": "^1.2.5",
     "@types/node": "^18.0.0",
     "@types/semver": "^7.5.8",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/coverage-istanbul": "catalog:",
     "autorest": "^3.7.1",
     "builtin-modules": "^3.1.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "mkdirp": "^3.0.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "typescript-eslint": "~7.16.0",
-    "vitest": "^2.0.5"
+    "vitest": "catalog:"
   }
 }

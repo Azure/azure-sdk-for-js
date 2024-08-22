@@ -62,22 +62,22 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/node": "^18.0.0",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "playwright": "^1.45.3",
     "rimraf": "^6.0.1",
-    "tshy": "^2.0.0",
+    "tshy": "catalog:",
     "typescript": "~5.5.4",
-    "vitest": "^2.0.5"
+    "vitest": "catalog:"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "rhea": "^3.0.2",
-    "tslib": "^2.6.3"
+    "tslib": "catalog:"
   },
   "//sampleConfiguration": {
     "productName": "Internal Mock Hub",

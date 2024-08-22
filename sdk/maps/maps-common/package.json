@@ -72,11 +72,11 @@
     "@azure-tools/test-utils": "^1.0.1",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/dev-tool": "workspace:~",
-    "@microsoft/api-extractor": "^7.31.1",
-    "eslint": "^8.0.0",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.5.3",
+    "@microsoft/api-extractor": "catalog:",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
     "ts-node": "^10.0.0",
-    "@types/node": "^18.0.0"
+    "@types/node": "catalog:"
   }
 }

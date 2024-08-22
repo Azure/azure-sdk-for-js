@@ -52,23 +52,23 @@
     "@azure/core-rest-pipeline": "^1.16.3",
     "@azure/core-tracing": "^1.1.2",
     "@opentelemetry/api": "^1.9.0",
-    "tslib": "^2.6.3",
-    "vitest": "^2.0.5"
+    "tslib": "catalog:",
+    "vitest": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
-    "@microsoft/api-extractor": "^7.47.6",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "@vitest/expect": "^2.0.5",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "playwright": "^1.46.0",
-    "rimraf": "^5.0.5",
-    "tshy": "^2.0.0",
-    "typescript": "~5.5.3"
+    "rimraf": "catalog:",
+    "tshy": "catalog:",
+    "typescript": "catalog:"
   },
   "tshy": {
     "exports": {

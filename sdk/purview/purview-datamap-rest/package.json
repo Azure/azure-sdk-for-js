@@ -64,18 +64,18 @@
     "@azure-rest/core-client": "^1.2.0",
     "@azure/core-rest-pipeline": "^1.14.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "autorest": "latest",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.5.3",
+    "typescript": "catalog:",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure-tools/test-credential": "^1.0.0",

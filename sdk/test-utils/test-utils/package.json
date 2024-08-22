@@ -66,24 +66,24 @@
     "chai-as-promised": "^7.1.1",
     "chai-exclude": "^2.1.0",
     "mocha": "^10.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@microsoft/api-extractor": "^7.31.1",
+    "@microsoft/api-extractor": "catalog:",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.0.0",
+    "@types/node": "catalog:",
     "@types/sinon": "^17.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
+    "eslint": "catalog:",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "catalog:",
     "sinon": "^17.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "catalog:",
     "ts-node": "^10.0.0"
   }
 }

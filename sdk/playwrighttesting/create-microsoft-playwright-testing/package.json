@@ -58,16 +58,16 @@
   },
   "dependencies": {
     "prompts": "^2.4.2",
-    "tslib": "^2.6.0"
+    "tslib": "catalog:"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
     "@types/prompts": "^2.4.9",
-    "@azure/dev-tool": "^1.0.0",
-    "rimraf": "^5.0.5",
+    "@azure/dev-tool": "workspace:~",
+    "rimraf": "catalog:",
     "typescript": "^5.5.3",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "eslint": "^8.16.0",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "eslint": "catalog:",
     "sinon": "^17.0.0",
     "@types/sinon": "^17.0.0",
     "mocha": "^10.0.0",

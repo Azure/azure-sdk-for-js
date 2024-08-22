@@ -84,23 +84,23 @@
     "@azure-tools/test-utils": "^1.0.1",
     "@azure-rest/core-client": "^2.2.0",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
-    "@microsoft/api-extractor": "^7.40.3",
+    "@microsoft/api-extractor": "catalog:",
     "@types/express": "^4.17.21",
-    "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@types/node": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "dotenv": "^16.0.0",
-    "eslint": "^8.56.0",
+    "eslint": "catalog:",
     "express": "^4.19.2",
     "playwright": "^1.46.0",
     "rimraf": "^6.0.1",
-    "tshy": "^2.0.0",
+    "tshy": "catalog:",
     "tsx": "^4.17.0",
     "typescript": "~5.5.4",
-    "vitest": "^2.0.5"
+    "vitest": "catalog:"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "tslib": "catalog:"
   },
   "//metadata": {
     "sampleConfiguration": {
