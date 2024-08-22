@@ -29,8 +29,9 @@
     "dotenv": "latest",
     "rhea-promise": "^3.0.0",
     "@azure/core-amqp": "4.4.0-beta.1",
+    "@azure/keyvault-secrets": "^4.8.0",
+    "@azure/identity": "^4.4.1",
     "ws": "^8.2.0",
-    "@azure/identity": "^4.3.0",
     "https-proxy-agent": "^7.0.0"
   }
 }

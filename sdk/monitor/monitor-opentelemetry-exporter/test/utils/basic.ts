@@ -95,6 +95,7 @@ export class TraceBasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._processor.forceFlush();
   }
 
@@ -118,6 +119,79 @@ export class TraceBasicScenario implements Scenario {
       },
       children: [],
     },
+    {
+      ...COMMON_ENVELOPE_PARAMS,
+      name: "Microsoft.ApplicationInsights.Request",
+      data: {
+        baseType: "RequestData",
+        baseData: {
+          version: 2,
+          name: "TraceBasicScenario.Root",
+          responseCode: "0",
+          success: true,
+          properties: {
+            foo: "bar",
+          },
+        } as any,
+      },
+      children: [
+        {
+          name: "Microsoft.ApplicationInsights.RemoteDependency",
+          ...COMMON_ENVELOPE_PARAMS,
+          data: {
+            baseType: "RemoteDependencyData",
+            baseData: {
+              version: 2,
+              name: "TraceBasicScenario.Child.1",
+              success: true,
+              resultCode: "0",
+              properties: {
+                numbers: "123",
+              },
+            } as any,
+          },
+          children: [
+            {
+              name: "Microsoft.ApplicationInsights.Message",
+              ...COMMON_ENVELOPE_PARAMS,
+              data: {
+                baseType: "MessageData",
+                baseData: {
+                  version: 2,
+                  message: "TestEvent",
+                  properties: {
+                    SomeAttribute: "Test",
+                  },
+                } as any,
+              },
+              children: [],
+            },
+          ],
+        },
+        {
+          name: "Microsoft.ApplicationInsights.Exception",
+          ...COMMON_ENVELOPE_PARAMS,
+          data: {
+            baseType: "ExceptionData",
+            baseData: {
+              version: 2,
+              exceptions: [
+                {
+                  typeName: "TestExceptionCode",
+                  message: "TestExceptionMessage",
+                  stack: "TestExceptionStack",
+                  hasFullStack: true,
+                },
+              ],
+            } as any,
+          },
+          children: [],
+        },
+      ],
+    },
+  ];
+
+  disabledExpectation: Expectation[] = [
     {
       ...COMMON_ENVELOPE_PARAMS,
       name: "Microsoft.ApplicationInsights.Request",
@@ -406,6 +480,7 @@ export class LogBasicScenario implements Scenario {
     this._provider.addLogRecordProcessor(this._processor);
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async run(): Promise<void> {
     const logger = this._provider.getLogger("basic");
 
@@ -433,6 +508,7 @@ export class LogBasicScenario implements Scenario {
   }
 
   flush(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this._processor.forceFlush();
   }
 

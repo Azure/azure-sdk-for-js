@@ -12,6 +12,7 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants";
 import { administrationLogger as logger } from "../log";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
@@ -86,7 +87,7 @@ export async function executeAtomXmlOperation(
     }
   }
 
-  logger.verbose(`Executing ATOM based HTTP request: ${request.body}`);
+  logger.verbose(`Executing ATOM based HTTP request body: ${request.body}`);
 
   const reqPrepareOptions = {
     headers: operationOptions.requestOptions?.customHeaders,

@@ -54,8 +54,8 @@
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 350000 'dist-esm/**/*.spec.js'",
     "integration-test:node:no-timeout": "dev-tool run test:node-js-input -- --no-timeout 'dist-esm/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
@@ -99,7 +99,7 @@
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-client": "^1.5.0",
     "@azure/core-http-compat": "^2.0.1",
     "@azure/core-rest-pipeline": "^1.8.0",
@@ -137,7 +137,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "puppeteer": "^22.2.0",
+    "puppeteer": "^23.0.2",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",

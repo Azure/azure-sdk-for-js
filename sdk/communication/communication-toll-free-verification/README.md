@@ -68,7 +68,7 @@ The [`@azure/identity`][azure_identity] package provides a variety of credential
 const { DefaultAzureCredential } = require ("@azure/identity");
 const { TollFreeVerificationClient } = require("@azure-tools/communication-toll-free-verification");
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new TollFreeVerificationClient("<endpoint-from-resource>", credential);
 ```
 
@@ -88,7 +88,7 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new TollFreeVerificationClient(connectionString);
 
 // get a campaign brief
-var campaignBrief = await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
+const campaignBrief = await client.getCampaignBrief("63215741-b596-4eb4-a9c0-b2905ce22cb0", "US");
 
 console.log(campaignBrief);
 ```

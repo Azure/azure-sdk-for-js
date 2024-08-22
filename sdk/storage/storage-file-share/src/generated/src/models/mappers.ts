@@ -539,6 +539,27 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      paidBurstingEnabled: {
+        serializedName: "PaidBurstingEnabled",
+        xmlName: "PaidBurstingEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingMaxIops: {
+        serializedName: "PaidBurstingMaxIops",
+        xmlName: "PaidBurstingMaxIops",
+        type: {
+          name: "Number"
+        }
+      },
+      paidBurstingMaxBandwidthMibps: {
+        serializedName: "PaidBurstingMaxBandwidthMibps",
+        xmlName: "PaidBurstingMaxBandwidthMibps",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -556,6 +577,14 @@ export const SharePermission: coreClient.CompositeMapper = {
         xmlName: "permission",
         type: {
           name: "String"
+        }
+      },
+      format: {
+        serializedName: "format",
+        xmlName: "format",
+        type: {
+          name: "Enum",
+          allowedValues: ["Sddl", "Binary"]
         }
       }
     }
@@ -1557,6 +1586,27 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
         xmlName: "x-ms-enable-snapshot-virtual-directory-access",
         type: {
           name: "Boolean"
+        }
+      },
+      paidBurstingEnabled: {
+        serializedName: "x-ms-share-paid-bursting-enabled",
+        xmlName: "x-ms-share-paid-bursting-enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      paidBurstingMaxIops: {
+        serializedName: "x-ms-share-paid-bursting-max-iops",
+        xmlName: "x-ms-share-paid-bursting-max-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      paidBurstingMaxBandwidthMibps: {
+        serializedName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        xmlName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {

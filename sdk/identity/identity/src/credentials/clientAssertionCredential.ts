@@ -9,6 +9,7 @@ import {
 } from "../util/tenantIdUtils";
 
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
+import { CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
 
@@ -40,9 +41,21 @@ export class ClientAssertionCredential implements TokenCredential {
     getAssertion: () => Promise<string>,
     options: ClientAssertionCredentialOptions = {},
   ) {
-    if (!tenantId || !clientId || !getAssertion) {
-      throw new Error(
-        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters.",
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        "ClientAssertionCredential: tenantId is a required parameter.",
+      );
+    }
+
+    if (!clientId) {
+      throw new CredentialUnavailableError(
+        "ClientAssertionCredential: clientId is a required parameter.",
+      );
+    }
+
+    if (!getAssertion) {
+      throw new CredentialUnavailableError(
+        "ClientAssertionCredential: clientAssertion is a required parameter.",
       );
     }
     this.tenantId = tenantId;

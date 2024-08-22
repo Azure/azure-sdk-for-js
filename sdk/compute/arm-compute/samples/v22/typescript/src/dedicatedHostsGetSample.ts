@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about a dedicated host.
  *
  * @summary Retrieves information about a dedicated host.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
  */
 async function getADedicatedHost() {
   const subscriptionId =

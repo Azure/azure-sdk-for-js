@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen() {
   const subscriptionId =

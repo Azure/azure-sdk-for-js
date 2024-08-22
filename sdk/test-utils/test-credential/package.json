@@ -21,8 +21,8 @@
     "integration-test:node": "echo skipped",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
+    "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint src test",
     "pack": "npm pack 2>&1",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
@@ -55,7 +55,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.3.2",
     "@azure-tools/test-recorder": "^4.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.4.1",
     "@azure/core-util": "^1.9.1",
     "tslib": "^2.6.2"
   },

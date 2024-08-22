@@ -1,0 +1,188 @@
+{
+  "Families": [
+    {
+      "id": "AndersenFamily",
+      "lastName": "Andersen",
+      "parents": [
+        {
+          "firstName": "Thomas"
+        },
+        {
+          "firstName": "Mary Kay"
+        }
+      ],
+      "children": [
+        {
+          "firstName": "Henriette Thaulow",
+          "gender": "female",
+          "grade": 5,
+          "pets": [
+            {
+              "givenName": "Fluffy"
+            }
+          ]
+        }
+      ],
+      "address": {
+        "state": "CA",
+        "county": "Orange",
+        "city": "Los Angeles",
+        "zip" :  90210
+      },
+      "isRegistered": true
+    },
+    {
+      "id": "KinDocument",
+      "familyName": "Kin",
+      "parents": [
+        {
+          "givenName": "Tatsunari"
+        }
+      ],
+      "address": {
+        "state": "WA",
+        "county": "King",
+        "city": "Redmond",
+        "zip": 98052
+      }
+    },
+    {
+      "id": "MeyerAndFamily",
+      "lastName": "Meyer",
+      "parents": [
+        {
+          "firstName": "April",
+          "pets": [
+            {
+              "givenName": "Wheeler"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "firstName": "Chris",
+          "gender": "male"
+        }
+      ],
+      "address": {
+        "state": "WA",
+        "county": "King",
+        "city": "Kirkland",
+        "zip": 98033
+      }
+    },
+    {
+      "id": "TheAlexanders",
+      "familyName": "Alexander",
+      "parents": [
+        {
+          "givenName": "David"
+        }
+      ],
+      "children": [
+        {
+          "givenName": "Michael",
+          "gender": "male",
+          "grade": 6
+        }
+      ],
+      "address": {
+        "state": "WA",
+        "county": "King",
+        "city": "Kirkland",
+        "zip": 98033
+      }
+    },
+    {
+      "id": "TheSmiths",
+      "familyName": "Smith",
+      "parents": [
+        {
+          "givenName": "Tony"
+        },
+        {
+          "givenName": "Denise",
+          "pets": [
+            {
+              "givenName": "Chewy"
+            }
+          ]
+        }
+      ],
+      "children": [
+        {
+          "givenName": "Jeff",
+          "gender": "male",
+          "grade": 2
+        },
+        {
+          "givenName": "Ben",
+          "gender": "male",
+          "grade": 5
+        },
+        {
+          "givenName": "Samantha",
+          "gender": "female",
+          "grade": 9
+        }
+      ],
+      "address": {
+        "state": "NY",
+        "county": "Bronx",
+        "city": "The Bronx",
+        "zip": 10453
+      }
+    },
+    {
+      "id": "WakefieldFamily",
+      "parents": [
+        {
+          "familyName": "Wakefield",
+          "givenName": "Robin"
+        },
+        {
+          "familyName": "Miller",
+          "givenName": "Ben"
+        }
+      ],
+      "children": [
+        {
+          "familyName": "Merriam",
+          "givenName": "Jesse",
+          "gender": "female",
+          "grade": 1,
+          "pets": [
+            {
+              "givenName": "Goofy"
+            },
+            {
+              "givenName": "Shadow"
+            }
+          ]
+        },
+        {
+          "familyName": "Miller",
+          "givenName": "Lisa",
+          "gender": "female",
+          "grade": 8
+        }
+      ],
+      "address": {
+        "state": "FL",
+        "city": "Miami",
+        "zip": 33011
+      },
+      "isRegistered": false
+    },
+    {
+      "id": "AdamsFamily",
+      "address": {
+        "state": "FL",
+        "city": "Miami",
+        "zip": 33002
+      }
+    }
+  ]
+}
+

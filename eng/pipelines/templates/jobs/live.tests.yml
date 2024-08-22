@@ -185,6 +185,7 @@ jobs:
           displayName: "Start browser credential relay"
           condition: and(succeeded(), eq(variables['TestType'], 'browser'))
           env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             TEST_MODE: "live"
             ${{ insert }}: ${{ parameters.EnvVars }}
 
@@ -211,11 +212,6 @@ jobs:
       - template: ../steps/use-node-test-version.yml
 
       # ===== BEGIN LIVE TEST RUNS =====
-
-      - pwsh: |
-          eng/common/scripts/Import-AzModules.ps1
-          Update-AzConfig -DisplayBreakingChangeWarning $false
-        displayName: "Workaround https://github.com/Azure/azure-sdk-for-js/issues/30356"
 
       - ${{ if eq('true', parameters.UseFederatedAuth) }}:
         - task: AzurePowerShell@5
