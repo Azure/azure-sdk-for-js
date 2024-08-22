@@ -267,6 +267,8 @@ packages:
   - 'sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw'
   - 'sdk/peering/arm-peering'
   - 'sdk/playwrighttesting/arm-playwrighttesting'
+  - 'sdk/playwrighttesting/create-microsoft-playwright-testing'
+  - 'sdk/playwrighttesting/microsoft-playwright-testing'
   - 'sdk/policy/arm-policy'
   - 'sdk/policy/arm-policy-profile-2020-09-01-hybrid'
   - 'sdk/policyinsights/arm-policyinsights'
