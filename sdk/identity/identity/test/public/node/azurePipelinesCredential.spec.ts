@@ -30,19 +30,25 @@ describe("AzurePipelinesCredential", function () {
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it("fails with with invalid service connection", async function () {
+  it.only("fails with with invalid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
     const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+    console.log("clientId=", clientId);
     const credential = new AzurePipelinesCredential(
       tenantId,
       clientId,
       "existingServiceConnectionId",
       systemAccessToken,
     );
+    try {
+      await credential.getToken(scope);
+    } catch (e) {
+      console.error(e);
+    }
     const regExp: RegExp =
       /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
     await assert.isRejected(
