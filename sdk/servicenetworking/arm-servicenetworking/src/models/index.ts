@@ -335,7 +335,7 @@ export interface SecurityPolicyProperties {
    * Type of the Traffic Controller Security Policy
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly policyType: PolicyType;
+  readonly policyType?: PolicyType;
   /** Web Application Firewall Policy of the Traffic Controller Security Policy */
   wafPolicy?: WafPolicy;
   /**

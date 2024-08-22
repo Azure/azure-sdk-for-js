@@ -440,7 +440,7 @@ export interface SecurityPolicyListResult {
 
 // @public
 export interface SecurityPolicyProperties {
-    readonly policyType: PolicyType;
+    readonly policyType?: PolicyType;
     readonly provisioningState?: ProvisioningState;
     wafPolicy?: WafPolicy;
 }

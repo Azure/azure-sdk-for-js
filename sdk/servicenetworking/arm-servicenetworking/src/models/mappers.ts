@@ -752,7 +752,6 @@ export const SecurityPolicyProperties: coreClient.CompositeMapper = {
     modelProperties: {
       policyType: {
         serializedName: "policyType",
-        required: true,
         readOnly: true,
         type: {
           name: "String",
