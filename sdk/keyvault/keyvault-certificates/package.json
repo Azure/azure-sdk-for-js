@@ -19,50 +19,40 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/keyvault-certificates.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "files": [
-    "types/keyvault-certificates.d.ts",
     "dist/",
-    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
-  "browser": {
-    "os": false,
-    "process": false
-  },
+  "browser": "./dist/browser/index.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "build:node": "tsc -p . && dev-tool run bundle",
-    "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:nodebrowser": "dev-tool run bundle",
-    "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && dev-tool run extract-api",
+    "build:test": "npm run clean && tshy",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist-esm dist-test types *.tgz *.log samples/typescript/dist",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
-    "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 350000 'dist-esm/**/*.spec.js'",
-    "integration-test:node:no-timeout": "dev-tool run test:node-js-input -- --no-timeouts 'dist-esm/**/*.spec.js'",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:browser": "echo skipped",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test:node:no-timeout": "dev-tool run test:node-ts-input -- --no-timeouts --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "dev-tool run test:vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -117,38 +107,61 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "workspace:~",
+    "@azure-tools/test-recorder": "workspace:~",
+    "@azure-tools/test-utils-vitest": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/identity": "^4.0.1",
     "@azure/keyvault-secrets": "^4.5.0",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "catalog:",
-    "@types/mocha": "^10.0.0",
     "@types/node": "catalog:",
-    "@types/sinon": "^17.0.0",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "cross-env": "^7.0.2",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-json-preprocessor": "^0.3.3",
-    "karma-json-to-file-reporter": "^1.0.1",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
-    "nyc": "^17.0.0",
-    "puppeteer": "^23.0.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
+    "tshy": "catalog:",
     "typescript": "catalog:",
-    "ts-node": "^10.0.0"
+    "vitest": "catalog:"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

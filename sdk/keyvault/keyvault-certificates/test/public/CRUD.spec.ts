@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import os from "os";
-import { Context } from "mocha";
-import fs from "fs";
+import os from "node:os";
+import fs from "node:fs";
 import childProcess from "child_process";
-import { assert } from "@azure-tools/test-utils";
-
 import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 
-import { CertificateClient } from "../../src";
-import { assertThrowsAbortError } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { CertificateClient } from "../../src/index.js";
+import { assertThrowsAbortError } from "./utils/common.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import TestClient from "./utils/testClient.js";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+expect.extend({ toSupportTracing });
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -34,8 +33,8 @@ describe("Certificates client - create, read, update and delete", () => {
     subject: "cn=MyCert",
   };
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -55,23 +54,19 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // The tests follow
 
-  it("can create a certificate", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can create a certificate", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties,
     );
     const pendingCertificate = poller.getResult(); // Pending certificate
-    assert.equal(
-      pendingCertificate!.properties.name,
-      certificateName,
-      "Unexpected name in result from beginCreateCertificate().",
-    );
+    expect(pendingCertificate!.properties.name).toEqual(certificateName);
   });
 
-  it("can abort creating a certificate", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can abort creating a certificate", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const controller = new AbortController();
 
     await assertThrowsAbortError(async () => {
@@ -86,21 +81,13 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("cannot create a certificate with an empty name", async function () {
     const certificateName = "";
-    try {
-      await client.beginCreateCertificate(
-        certificateName,
-        basicCertificatePolicy,
-        testPollerProperties,
-      );
-      assert.fail("Expected an error");
-    } catch (e) {
-      // Ignore expected error
-    }
+    await expect(
+      client.beginCreateCertificate(certificateName, basicCertificatePolicy, testPollerProperties),
+    ).rejects.toThrowError();
   });
 
-  it("can update the tags of a certificate", async function (this: Context) {
-    this.retries(5);
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can update the tags of a certificate", { retry: 5 }, async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
     await client.beginCreateCertificate(
       certificateName,
@@ -114,15 +101,11 @@ describe("Certificates client - create, read, update and delete", () => {
     });
 
     const updated = await client.getCertificate(certificateName);
-    assert.equal(
-      updated!.properties.tags!.customTag!,
-      "value",
-      "Expect attribute 'tags' to be updated.",
-    );
+    expect(updated!.properties.tags!.customTag).toEqual("value");
   });
 
-  it("can disable a certificate", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can disable a certificate", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
       certificateName,
@@ -131,19 +114,19 @@ describe("Certificates client - create, read, update and delete", () => {
     );
 
     let result = await poller.pollUntilDone();
-    assert.equal(result.properties.enabled, true);
+    expect(result.properties.enabled).toEqual(true);
 
     result = await client.updateCertificateProperties(certificateName, "", {
       enabled: false,
     });
-    assert.equal(result.properties.enabled, false);
+    expect(result.properties.enabled).toEqual(false);
 
     result = await client.getCertificate(certificateName);
-    assert.equal(result.properties.enabled, false);
+    expect(result.properties.enabled).toEqual(false);
   });
 
-  it("can disable a certificate version", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can disable a certificate version", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
       certificateName,
@@ -154,85 +137,77 @@ describe("Certificates client - create, read, update and delete", () => {
     let result = await poller.pollUntilDone();
 
     const version = result.properties.version!;
-    assert.equal(result.properties.enabled, true);
+    expect(result.properties.enabled).toEqual(true);
 
     result = await client.updateCertificateProperties(certificateName, version, {
       enabled: false,
     });
-    assert.equal(result.properties.enabled, false);
+    expect(result.properties.enabled).toEqual(false);
 
     result = await client.getCertificateVersion(certificateName, version);
-    assert.equal(result.properties.enabled, false);
+    expect(result.properties.enabled).toEqual(false);
   });
 
-  it("can get a certificate", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can get a certificate", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties,
     );
     const result = await client.getCertificate(certificateName);
-    assert.equal(
-      result.properties.name,
-      certificateName,
-      "Unexpected certificate name in result from beginCreateCertificate().",
-    );
+    expect(result.properties.name).toEqual(certificateName);
   });
 
-  it("can get a certificate's secret in PKCS 12 format", async function (this: Context) {
-    // Skipping this test from the live browser test runs, because we use the file system.
-    // This test uses the file system and the certificate value has been sanitized in recordings, so skip in playback too
-    if (!isNode || isPlaybackMode()) {
-      this.skip();
-    }
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const createPoller = await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties,
-    );
+  // Skipping this test from the live browser test runs, because we use the file system.
+  // This test uses the file system and the certificate value has been sanitized in recordings, so skip in playback too
+  it.skipIf(!isNodeLike || isPlaybackMode())(
+    "can get a certificate's secret in PKCS 12 format",
+    async function (ctx) {
+      const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+      const createPoller = await client.beginCreateCertificate(
+        certificateName,
+        basicCertificatePolicy,
+        testPollerProperties,
+      );
 
-    await createPoller.pollUntilDone();
-    const keyVaultCertificate = await client.getCertificate(certificateName);
-    const base64CER = Buffer.from(keyVaultCertificate.cer!).toString("base64");
+      await createPoller.pollUntilDone();
+      const keyVaultCertificate = await client.getCertificate(certificateName);
+      const base64CER = Buffer.from(keyVaultCertificate.cer!).toString("base64");
 
-    const certificateSecret = await secretClient.getSecret(certificateName);
-    const base64PKCS12 = certificateSecret.value!;
-    fs.writeFileSync("pkcs12.p12", Buffer.from(base64PKCS12, "base64"));
+      const certificateSecret = await secretClient.getSecret(certificateName);
+      const base64PKCS12 = certificateSecret.value!;
+      fs.writeFileSync("pkcs12.p12", Buffer.from(base64PKCS12, "base64"));
 
-    // Obtaining only the public certificate.
-    // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
-    childProcess.execSync(
-      "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:",
-    );
+      // Obtaining only the public certificate.
+      // We send "-passin 'pass:'" because our self-signed certificate doesn't specify a password on its issuer.
+      childProcess.execSync(
+        "openssl pkcs12 -in pkcs12.p12 -out pkcs12.crt.pem -clcerts -nokeys -passin pass:",
+      );
 
-    // To generate a PEM private key out of a KeyVault Certificate
-    // created with the default (or "application/x-pkcs12") content type,
-    // use:
-    //
-    //     openssl pkcs12 -in file_name.p12 -out file_name.key.pem -nocerts -nodes
-    //
+      // To generate a PEM private key out of a KeyVault Certificate
+      // created with the default (or "application/x-pkcs12") content type,
+      // use:
+      //
+      //     openssl pkcs12 -in file_name.p12 -out file_name.key.pem -nocerts -nodes
+      //
 
-    const PEMPublicCertificate = fs.readFileSync("pkcs12.crt.pem");
+      const PEMPublicCertificate = fs.readFileSync("pkcs12.crt.pem");
 
-    // The PEM encoded public certificate should be the same as the Base64 encoded CER
-    assert.equal(
-      base64CER,
-      PEMPublicCertificate.toString()
-        .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
-        .split(os.EOL)
-        .join("")
-        .replace(/\n/g, ""),
-    );
-  });
+      // The PEM encoded public certificate should be the same as the Base64 encoded CER
+      expect(base64CER).toEqual(
+        PEMPublicCertificate.toString()
+          .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
+          .split(os.EOL)
+          .join("")
+          .replace(/\n/g, ""),
+      );
+    },
+  );
 
-  it("can get a certificate's secret in PEM format", async function (this: Context) {
-    // Skipping this test from the live browser test runs, because we use the file system.
-    if (!isNode) {
-      this.skip();
-    }
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  // Skipping this test from the live browser test runs, because we use the file system.
+  it.skipIf(!isNodeLike)("can get a certificate's secret in PEM format", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       {
@@ -257,11 +232,11 @@ describe("Certificates client - create, read, update and delete", () => {
       .join("");
 
     // The PEM encoded public certificate should be the same as the Base64 encoded CER
-    assert.equal(base64CER, base64PublicCertificate);
+    expect(base64CER).toEqual(base64PublicCertificate);
   });
 
-  it("can retrieve the latest version of a certificate value", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can retrieve the latest version of a certificate value", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
@@ -270,15 +245,11 @@ describe("Certificates client - create, read, update and delete", () => {
 
     const result = await client.getCertificate(certificateName);
 
-    assert.equal(
-      result.properties.name,
-      certificateName,
-      "Unexpected certificate name in result from beginCreateCertificate().",
-    );
+    expect(result.properties.name).toEqual(certificateName);
   });
 
-  it("can get a certificate (Non Existing)", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can get a certificate (Non Existing)", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     let error;
     try {
       await client.getCertificate(certificateName);
@@ -286,13 +257,11 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error.code, "CertificateNotFound");
-    assert.equal(error.statusCode, 404);
+    expect(error).toMatchObject({ code: "CertificateNotFound", statusCode: 404 });
   });
 
-  it("can delete a certificate", async function (this: Context) {
-    this.retries(5);
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can delete a certificate", { retry: 5 }, async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
@@ -301,16 +270,16 @@ describe("Certificates client - create, read, update and delete", () => {
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     const result = poller.getResult()!;
 
-    assert.equal(typeof result.recoveryId, "string");
-    assert.ok(result.deletedOn instanceof Date);
-    assert.ok(result.scheduledPurgeDate instanceof Date);
+    expect(typeof result.recoveryId).toEqual("string");
+    expect(result.deletedOn).toBeInstanceOf(Date);
+    expect(result.scheduledPurgeDate).toBeInstanceOf(Date);
 
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
     } catch (e: any) {
       if (e.statusCode === 404) {
-        assert.equal(e.code, "CertificateNotFound");
+        expect(e.code).toEqual("CertificateNotFound");
       } else {
         throw e;
       }
@@ -319,8 +288,8 @@ describe("Certificates client - create, read, update and delete", () => {
     await poller.pollUntilDone();
   });
 
-  it("can delete a certificate (Non Existing)", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can delete a certificate (Non Existing)", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     let error;
     try {
       await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -328,13 +297,12 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error.code, "CertificateNotFound");
-    assert.equal(error.statusCode, 404);
+    expect(error).toMatchObject({ code: "CertificateNotFound", statusCode: 404 });
   });
 
   describe("can get a deleted certificate", () => {
-    it("using beginDeleteCertificate's poller", async function (this: Context) {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    it("using beginDeleteCertificate's poller", async function (ctx) {
+      const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
       const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
@@ -347,15 +315,11 @@ describe("Certificates client - create, read, update and delete", () => {
         testPollerProperties,
       );
       const deletedCertificate = await deletePoller.pollUntilDone();
-      assert.equal(
-        deletedCertificate.name,
-        certificateName,
-        "Unexpected certificate name in result from pollUntilDone().",
-      );
+      expect(deletedCertificate.name).toEqual(certificateName);
     });
 
-    it("using getDeletedCertificate", async function (this: Context) {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    it("using getDeletedCertificate", async function (ctx) {
+      const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
       const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
@@ -370,15 +334,11 @@ describe("Certificates client - create, read, update and delete", () => {
       await deletePoller.pollUntilDone();
 
       const deletedCertificate = await client.getDeletedCertificate(certificateName);
-      assert.equal(
-        deletedCertificate.name,
-        certificateName,
-        "Unexpected certificate name in result from getDeletedCertificate().",
-      );
+      expect(deletedCertificate.name).toEqual(certificateName);
     });
 
-    it("can not get a certificate that never existed", async function (this: Context) {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    it("can not get a certificate that never existed", async function (ctx) {
+      const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
       let error;
       try {
         await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -386,14 +346,13 @@ describe("Certificates client - create, read, update and delete", () => {
       } catch (e: any) {
         error = e;
       }
-      assert.equal(error.code, "CertificateNotFound");
-      assert.equal(error.statusCode, 404);
+      expect(error).toMatchObject({ code: "CertificateNotFound", statusCode: 404 });
     });
   });
 
-  it("can create, read, and delete a certificate issuer", async function (this: Context) {
-    const issuerName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can create, read, and delete a certificate issuer", async function (ctx) {
+    const issuerName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
     // Create
     const createResponse = await client.createIssuer(issuerName, "Test", {
@@ -407,8 +366,8 @@ describe("Certificates client - create, read, update and delete", () => {
         },
       ],
     });
-    assert.equal(createResponse.administratorContacts![0].email, "admin@microsoft.com");
-    assert.equal(createResponse.accountId, "keyvaultuser");
+    expect(createResponse.administratorContacts![0].email).toEqual("admin@microsoft.com");
+    expect(createResponse.accountId).toEqual("keyvaultuser");
 
     // Creating a certificate with that issuer
     await client.beginCreateCertificate(
@@ -422,13 +381,13 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // Reading the issuer from the certificate
     const certificate = await client.getCertificate(certificateName);
-    assert.equal(certificate.policy!.issuerName, issuerName);
+    expect(certificate.policy!.issuerName).toEqual(issuerName);
 
     let getResponse: any;
 
     // Read
     getResponse = await client.getIssuer(issuerName);
-    assert.equal(getResponse.provider, "Test");
+    expect(getResponse.provider).toEqual("Test");
 
     // Update
     await client.updateIssuer(issuerName, {
@@ -443,8 +402,8 @@ describe("Certificates client - create, read, update and delete", () => {
       accountId: "keyvaultuser2",
     });
     getResponse = await client.getIssuer(issuerName);
-    assert.equal(getResponse.administratorContacts![0].email, "admin@microsoft.com");
-    assert.equal(getResponse.accountId, "keyvaultuser2");
+    expect(getResponse.administratorContacts![0].email).toEqual("admin@microsoft.com");
+    expect(getResponse.accountId).toEqual("keyvaultuser2");
 
     // Delete
     await client.deleteIssuer(issuerName);
@@ -455,11 +414,11 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error.message, "Issuer not found");
+    expect(error.message).toEqual("Issuer not found");
   });
 
-  it("can update a certificate's policy", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can update a certificate's policy", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
     await client.beginCreateCertificate(
       certificateName,
@@ -467,21 +426,18 @@ describe("Certificates client - create, read, update and delete", () => {
       testPollerProperties,
     );
     const result = await client.getCertificate(certificateName);
-    assert.equal(result.policy!.issuerName, "Self");
-    assert.equal(result.policy!.subject, "cn=MyCert");
+    expect(result.policy!.issuerName).toEqual("Self");
+    expect(result.policy!.subject).toEqual("cn=MyCert");
 
     await client.updateCertificatePolicy(certificateName, {
       issuerName: "Self",
       subject: "cn=MyOtherCert",
     });
     const updated = await client.getCertificate(certificateName);
-    assert.equal(updated.policy!.subject, "cn=MyOtherCert");
+    expect(updated.policy!.issuerName).toEqual("Self");
   });
 
-  it("can read, cancel and delete a certificate's operation", async function (this: Context) {
-    // Known flaky test due to the lag between the request and when the job gets picked up by the service.
-    this.retries(5);
-
+  it("can read, cancel and delete a certificate's operation", { retry: 5 }, async function () {
     const certificateName = recorder.variable(
       "crudcertoperation",
       `crudcertoperation-${Math.floor(Math.random() * 10000)}`,
@@ -497,13 +453,13 @@ describe("Certificates client - create, read, update and delete", () => {
     // Read
     const operationPoller = await client.getCertificateOperation(certificateName);
     certificateOperation = operationPoller.getOperationState().certificateOperation!;
-    assert.equal(certificateOperation.status, "inProgress");
-    assert.equal(certificateOperation.cancellationRequested, false);
+    expect(certificateOperation.status).toEqual("inProgress");
+    expect(certificateOperation.cancellationRequested).toEqual(false);
 
     // Cancel
     await operationPoller.cancelOperation();
     certificateOperation = operationPoller.getOperationState().certificateOperation!;
-    assert.equal(certificateOperation.cancellationRequested, true);
+    expect(certificateOperation.cancellationRequested).toEqual(true);
 
     // Delete
     await client.deleteCertificateOperation(certificateName);
@@ -515,7 +471,7 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
+    expect(error.message).toEqual(`Pending certificate not found: ${certificateName}`);
   });
 
   it("can set, read and delete a certificate's contacts", async function () {
@@ -535,14 +491,9 @@ describe("Certificates client - create, read, update and delete", () => {
     await client.setContacts(contacts);
 
     const getResponse = await client.getContacts();
-    assert.equal(
-      getResponse && getResponse[0] && getResponse[0].name ? getResponse[0].name : undefined,
-      "a",
-    );
-    assert.equal(
-      getResponse && getResponse[1] && getResponse[1].name ? getResponse[1].name : undefined,
-      "b",
-    );
+    expect(getResponse!.length).toEqual(2);
+    expect(getResponse![0]!.name).toEqual("a");
+    expect(getResponse![1]!.name).toEqual("b");
 
     await client.deleteContacts();
 
@@ -553,30 +504,23 @@ describe("Certificates client - create, read, update and delete", () => {
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error.code, "ContactsNotFound");
+    expect(error.code).toEqual("ContactsNotFound");
   });
 
-  it("supports tracing", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await assert.supportsTracing(
-      async (tracingOptions) => {
-        const poller = await client.beginCreateCertificate(
-          certificateName,
-          basicCertificatePolicy,
-          {
-            ...testPollerProperties,
-            ...tracingOptions,
-          },
-        );
-        await poller.pollUntilDone();
-        await client.getCertificate(certificateName, { ...tracingOptions });
-      },
-      [
-        "CreateCertificatePoller.createCertificate",
-        "CreateCertificatePoller.getPlainCertificateOperation",
-        "CreateCertificatePoller.getCertificate",
-        "CertificateClient.getCertificate",
-      ],
-    );
+  it("supports tracing", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+    await expect(async (tracingOptions: any) => {
+      const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+        ...testPollerProperties,
+        ...tracingOptions,
+      });
+      await poller.pollUntilDone();
+      await client.getCertificate(certificateName, { ...tracingOptions });
+    }).toSupportTracing([
+      "CreateCertificatePoller.createCertificate",
+      "CreateCertificatePoller.getPlainCertificateOperation",
+      "CreateCertificatePoller.getCertificate",
+      "CertificateClient.getCertificate",
+    ]);
   });
 });
