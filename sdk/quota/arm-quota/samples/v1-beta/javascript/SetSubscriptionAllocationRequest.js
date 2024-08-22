@@ -19,10 +19,9 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/SubscriptionQuotaAllocationRequests/PutSubscriptionQuotaAllocationRequest-Compute.json
  */
 async function subscriptionQuotaAllocationPutRequestForCompute() {
-  const subscriptionId =
-    process.env["QUOTA_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
-  const groupQuotaName = "groupquota1";
+  const subscriptionId ="65a85478-2333-4bbd-981b-1a818c944faf";
+  const managementGroupId = "testMgIdRoot";
+  const groupQuotaName = "sdk-test-group-quota";
   const resourceProviderName = "Microsoft.Compute";
   const resourceName = "standardav2family";
   const allocateQuotaRequest = {
@@ -32,14 +31,61 @@ async function subscriptionQuotaAllocationPutRequestForCompute() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
-  const result = await client.groupQuotaSubscriptionAllocationRequest.beginCreateOrUpdateAndWait(
+  const result = await client.groupQuotaSubscriptionAllocationRequest.beginCreateOrUpdate(
     managementGroupId,
     groupQuotaName,
     resourceProviderName,
     resourceName,
     allocateQuotaRequest,
   );
-  console.log(result);
+
+  const rawResponse = JSON.parse(result.toString());
+  const operationLocation = rawResponse.state.config.operationLocation;
+  const requestId = operationLocation.split('/').pop().split('?')[0];
+
+  const startTime = Date.now();
+  const runTime = 5 * 60 * 1000; // 5 minutes in milliseconds
+  const interval = 30 * 1000; // 30 seconds in milliseconds
+
+  while (Date.now() - startTime < runTime) {
+      // Your code to execute every 30 seconds
+      const status = await client.groupQuotaSubscriptionAllocationRequest.get(
+        managementGroupId,
+        groupQuotaName,
+        requestId,
+      );
+
+      //TODO change this since response body will change 
+      var provisioningState = status?.provisioningState;
+      console.log(provisioningState);
+      var finalState = "";
+      if( provisioningState != "Accepted" && provisioningState != "InProgress"){
+
+        if( provisioningState == "Escalated"){
+          finalState = provisioningState;
+          console.info("Request has been escalated. Contact your capacity manager for next steps");
+          break;
+        }else if( provisioningState == "Failed"){
+          finalState = provisioningState;
+          console.info("Failed with FaultCode:" + status?.properties?.faultCode)
+          break;
+        }else{
+          finalState = provisioningState;
+          console.info("Request was successful");
+          break;
+        }
+      }
+
+      // Wait for 30 seconds
+      const waitUntil = Date.now() + interval;
+      while (Date.now() < waitUntil) {
+          // Busy-wait loop
+      }
+  }
+
+  if(finalState != "Succeeded" && finalState != "Failed"){
+    console.info("Request has not reached a terminal state . Please poll this URI for your status:"+ operationLocation);
+  }
 }
 
 async function main() {

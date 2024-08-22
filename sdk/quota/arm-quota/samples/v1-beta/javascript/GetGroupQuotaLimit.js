@@ -21,10 +21,10 @@ The $filter=location eq {location} is required to location specific resources gr
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotaLimits/GetGroupQuotaLimits-Compute.json
  */
 async function groupQuotaLimitsGetRequestForCompute() {
-  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
-  const groupQuotaName = "groupquota1";
+  const managementGroupId = "testMgIdRoot";
+  const groupQuotaName = "sdk-test-group-quota";
   const resourceProviderName = "Microsoft.Compute";
-  const resourceName = "cores";
+  const resourceName = "standarddv4family";
   const filter = "location eq westus";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);

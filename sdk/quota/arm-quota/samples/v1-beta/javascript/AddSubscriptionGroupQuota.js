@@ -19,10 +19,9 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotasSubscriptions/PutGroupQuotasSubscription.json
  */
 async function groupQuotaSubscriptionsPutSubscriptions() {
-  const subscriptionId =
-    process.env["QUOTA_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
-  const groupQuotaName = "groupquota1";
+  const subscriptionId ="65a85478-2333-4bbd-981b-1a818c944faf";
+  const managementGroupId = "testMgIdRoot";
+  const groupQuotaName = "sdk-test-group-quota";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const result = await client.groupQuotaSubscriptions.beginCreateOrUpdateAndWait(
