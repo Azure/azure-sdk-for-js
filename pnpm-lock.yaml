@@ -16595,14 +16595,14 @@ importers:
         version: 2.6.3
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: ^1.0.0
-        version: 1.2.0
+        specifier: workspace:~
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: ^3.0.0
-        version: 3.5.2
-      '@azure-tools/test-utils':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: workspace:~
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:~
+        version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
         specifier: workspace:~
         version: link:../../../common/tools/dev-tool
@@ -16618,15 +16618,15 @@ importers:
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
-      '@types/mocha':
-        specifier: ^10.0.0
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: ^17.0.0
-        version: 17.0.3
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.0.5(vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5))
       cross-env:
         specifier: ^7.0.2
         version: 7.0.3
@@ -16636,63 +16636,21 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 8.57.0
-      karma:
-        specifier: ^6.2.0
-        version: 6.4.4(debug@4.3.6)
-      karma-chrome-launcher:
-        specifier: ^3.0.0
-        version: 3.2.0
-      karma-coverage:
-        specifier: ^2.0.0
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: ^0.1.1
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: ^1.1.0
-        version: 1.3.0
-      karma-json-preprocessor:
-        specifier: ^0.3.3
-        version: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter:
-        specifier: ^1.0.1
-        version: 1.0.1
-      karma-junit-reporter:
-        specifier: ^2.0.1
-        version: 2.0.1(karma@6.4.4(debug@4.3.6))
-      karma-mocha:
-        specifier: ^2.0.1
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: ^2.2.5
-        version: 2.2.5(karma@6.4.4(debug@4.3.6))
-      karma-sourcemap-loader:
-        specifier: ^0.3.8
-        version: 0.3.8
-      mocha:
-        specifier: ^10.0.0
-        version: 10.7.3
-      nyc:
-        specifier: ^17.0.0
-        version: 17.0.0
-      puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.5.4)
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
-      sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
-      source-map-support:
-        specifier: ^0.5.9
-        version: 0.5.21
-      ts-node:
-        specifier: ^10.0.0
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.5.4)
+      tshy:
+        specifier: 'catalog:'
+        version: 2.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.5.4
+      vitest:
+        specifier: 'catalog:'
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
   sdk/keyvault/keyvault-common:
     dependencies:
