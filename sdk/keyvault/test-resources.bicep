@@ -7,7 +7,6 @@ param provisionerApplicationOid string
 param location string = resourceGroup().location
 param enableHsm bool = false
 param keyVaultSku string = 'premium'
-param baseTime string = utcNow('u')
 param attestationImage string = 'keyvault-mock-attestation:latest'
 
 var attestationFarm = '${baseName}farm'
