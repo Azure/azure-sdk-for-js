@@ -95,7 +95,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await recoverPoller.poll(); // Making sure it has some data
 
     recoverPoller.stopPolling();
-    expect(recoverPoller.isStopped());
+    expect(recoverPoller.isStopped()).toBeTruthy();
     expect(!recoverPoller.getOperationState().isCompleted);
 
     const serialized = recoverPoller.toString();
