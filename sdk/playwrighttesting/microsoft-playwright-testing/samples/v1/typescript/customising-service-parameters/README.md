@@ -1,6 +1,6 @@
 ## Learn about different available service parameters and how to use them
 
-Follow the steps listed in this [README]<!--(https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md)--> to integrate your existing Playwright test suite with the Microsoft Playwright Testing service.
+Follow the steps listed in this [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md) to integrate your existing Playwright test suite with the Microsoft Playwright Testing service.
 
 This guide explains the different options available to you in the `playwright.service.config.ts` file and how to use them.
 

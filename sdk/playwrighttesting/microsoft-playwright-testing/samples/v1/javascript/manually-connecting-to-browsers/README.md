@@ -13,7 +13,7 @@ This guide will walk you through the steps to integrate your Playwright project,
 
 Make sure you have set up your Playwright Testing workspace by following these steps:
 
-- [Create a workspace]<!--(https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md#create-a-workspace)-->
+- [Create a workspace](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md#create-a-workspace)
 
 ### Install Microsoft Playwright Testing package
 
