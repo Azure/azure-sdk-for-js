@@ -90,7 +90,7 @@
     "@azure-tools/test-recorder": "workspace:~",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "vitest": "catalog:",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~"

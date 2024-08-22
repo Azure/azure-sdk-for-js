@@ -428,6 +428,7 @@ catalog:
   '@vitest/coverage-istanbul': ^2.0.5
   dotenv: ^16.4.5
   eslint: ^8.56.0
+  playwright: ^1.46.1
   rimraf: ^5.0.5
   tshy: ^2.0.0
   tslib: ^2.6.3

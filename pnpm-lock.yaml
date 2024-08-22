@@ -24,6 +24,9 @@ catalogs:
     eslint:
       specifier: ^8.56.0
       version: 8.57.0
+    playwright:
+      specifier: ^1.46.1
+      version: 1.46.1
     rimraf:
       specifier: ^5.0.5
       version: 5.0.10
@@ -742,7 +745,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -1146,7 +1149,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.42.1
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -3208,7 +3211,7 @@ importers:
         specifier: ~2.30.1
         version: 2.30.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       prettier:
         specifier: ^3.2.5
@@ -6828,7 +6831,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       prettier:
         specifier: ^3.2.5
@@ -7891,7 +7894,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -7976,7 +7979,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.43.1
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: ^5.0.7
@@ -8028,7 +8031,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8092,7 +8095,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8150,7 +8153,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8202,7 +8205,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8257,7 +8260,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8300,7 +8303,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8367,7 +8370,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8431,7 +8434,7 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
       playwright:
-        specifier: ^1.46.0
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: ^6.0.1
@@ -8480,7 +8483,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8529,7 +8532,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8578,7 +8581,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8624,7 +8627,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -8731,7 +8734,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -10281,7 +10284,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -11441,7 +11444,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       prettier:
         specifier: ^3.2.5
@@ -11908,7 +11911,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       prettier:
         specifier: ^3.2.5
@@ -12972,7 +12975,7 @@ importers:
         specifier: ^7.0.0
         version: 7.0.5
       playwright:
-        specifier: ^1.45.3
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: ^6.0.1
@@ -13078,7 +13081,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.45.3
+        specifier: 'catalog:'
         version: 1.46.1
       process:
         specifier: ^0.11.10
@@ -13139,7 +13142,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.45.3
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: ^6.0.1
@@ -13343,7 +13346,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -14416,7 +14419,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       prettier:
         specifier: ^3.2.5
@@ -14504,7 +14507,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -16543,7 +16546,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.46.0
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -16746,7 +16749,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.46.0
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -20215,7 +20218,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       prettier:
         specifier: ^3.2.5
@@ -22122,7 +22125,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.43.0
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -22274,7 +22277,7 @@ importers:
         specifier: ^4.47.2
         version: 4.56.0(zod@3.23.8)
       playwright:
-        specifier: ^1.45.3
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: ^3.0.2
@@ -31121,7 +31124,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.1
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -31434,7 +31437,7 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
       playwright:
-        specifier: ^1.41.2
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'
@@ -31635,7 +31638,7 @@ importers:
         specifier: 'catalog:'
         version: 8.57.0
       playwright:
-        specifier: ^1.46.0
+        specifier: 'catalog:'
         version: 1.46.1
       rimraf:
         specifier: 'catalog:'

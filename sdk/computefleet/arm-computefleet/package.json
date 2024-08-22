@@ -80,7 +80,7 @@
     "@azure/identity": "^4.2.1",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "vitest": "catalog:",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "workspace:~",

@@ -76,7 +76,7 @@
     "cross-env": "^7.0.3",
     "eslint": "catalog:",
     "express": "^4.19.2",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "tslib": "catalog:",

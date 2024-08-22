@@ -104,7 +104,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "cross-env": "^7.0.2",
     "eslint": "catalog:",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",

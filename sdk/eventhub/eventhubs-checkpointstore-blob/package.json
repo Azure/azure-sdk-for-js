@@ -98,7 +98,7 @@
     "debug": "^4.3.6",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "playwright": "^1.45.3",
+    "playwright": "catalog:",
     "process": "^0.11.10",
     "rimraf": "^6.0.1",
     "stream": "^0.0.3",

@@ -102,7 +102,7 @@
     "cross-env": "7.0.3",
     "dotenv": "catalog:",
     "mkdirp": "^3.0.1",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "source-map-support": "^0.5.9",
     "tshy": "catalog:",

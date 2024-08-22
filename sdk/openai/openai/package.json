@@ -122,7 +122,7 @@
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "openai": "^4.47.2",
-    "playwright": "^1.45.3",
+    "playwright": "catalog:",
     "rimraf": "^3.0.2",
     "tshy": "catalog:",
     "typescript": "~5.4.5",

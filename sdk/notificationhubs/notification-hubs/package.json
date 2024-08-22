@@ -71,7 +71,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "playwright": "^1.43.0",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",

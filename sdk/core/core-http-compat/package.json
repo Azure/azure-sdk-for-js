@@ -86,7 +86,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",

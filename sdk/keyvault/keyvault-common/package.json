@@ -70,7 +70,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "cross-env": "^7.0.2",
     "eslint": "catalog:",
-    "playwright": "^1.46.0",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "^3.0.2",
     "typescript": "catalog:",

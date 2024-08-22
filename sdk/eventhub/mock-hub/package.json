@@ -68,7 +68,7 @@
     "cross-env": "^7.0.3",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "playwright": "^1.45.3",
+    "playwright": "catalog:",
     "rimraf": "^6.0.1",
     "tshy": "catalog:",
     "typescript": "~5.5.4",

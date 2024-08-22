@@ -90,7 +90,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",

@@ -65,7 +65,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "@vitest/expect": "^2.0.5",
     "eslint": "catalog:",
-    "playwright": "^1.46.0",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:"

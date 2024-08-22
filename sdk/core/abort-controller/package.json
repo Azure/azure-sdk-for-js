@@ -89,7 +89,7 @@
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "eslint": "catalog:",
-    "playwright": "^1.41.2",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
     "typescript": "catalog:",

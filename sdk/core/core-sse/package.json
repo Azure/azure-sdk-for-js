@@ -92,7 +92,7 @@
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "express": "^4.19.2",
-    "playwright": "^1.46.0",
+    "playwright": "catalog:",
     "rimraf": "^6.0.1",
     "tshy": "catalog:",
     "tsx": "^4.17.0",
