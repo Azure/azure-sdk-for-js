@@ -77,10 +77,9 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - ${{ parameters.PreSteps }}
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
-
-        - ${{ parameters.PreSteps }}
-
         - template: /eng/common/TestResources/build-test-resource-config.yml
           parameters:
             SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
