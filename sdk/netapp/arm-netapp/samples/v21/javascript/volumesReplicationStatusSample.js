@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the status of the replication
  *
  * @summary Get the status of the replication
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Volumes_ReplicationStatus.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Volumes_ReplicationStatus.json
  */
 async function volumesReplicationStatus() {
   const subscriptionId =
