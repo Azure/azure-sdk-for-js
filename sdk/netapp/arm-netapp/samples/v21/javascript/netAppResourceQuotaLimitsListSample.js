@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the default and current limits for quotas
  *
  * @summary Get the default and current limits for quotas
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/QuotaLimits_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/QuotaLimits_List.json
  */
 async function quotaLimits() {
   const subscriptionId =

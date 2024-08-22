@@ -10,19 +10,13 @@ import {
   EventHubBufferedProducerClient,
   type EventHubBufferedProducerClientOptions,
   CheckpointStore,
-  parseEventHubConnectionString,
-  EventHubConnectionStringProperties,
   SubscriptionEventHandlers,
   EventPosition,
   earliestEventPosition,
 } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { EnvVarKeys } from "./constants.js";
-import * as MOCKS from "./constants.js";
 import type { NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { assert } from "./chai.js";
-import { createSasTokenProvider } from "@azure/core-amqp";
 import { ConnectionContext, createConnectionContext } from "../../src/connectionContext.js";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
 import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
@@ -33,76 +27,7 @@ import {
 } from "../../src/partitionReceiver.js";
 import { randomUUID } from "@azure/core-util";
 import { PartitionReceiverOptions } from "../../src/models/private.js";
-
-function getEnvVarValue(name: string): string | undefined {
-  try {
-    return assertEnvironmentVariable(name);
-  } catch {
-    return undefined;
-  }
-}
-
-export function isMock(): boolean {
-  return [undefined, "mock"].includes(getEnvVarValue(EnvVarKeys.TEST_MODE));
-}
-
-function getEventhubName(): string {
-  return isMock() ? MOCKS.EVENTHUB_NAME : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_NAME);
-}
-
-function getFullyQualifiedNamespace(): string {
-  return isMock() ? MOCKS.EVENTHUB_FQDN : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_FQDN);
-}
-
-export function getConsumerGroupName(): string {
-  return isMock()
-    ? MOCKS.EVENTHUB_CONSUMER_GROUP_NAME
-    : assertEnvironmentVariable(EnvVarKeys.EVENTHUB_CONSUMER_GROUP_NAME);
-}
-
-export function getConnectionStringWithKey(): string | undefined {
-  return isMock()
-    ? MOCKS.EVENTHUB_CONNECTION_STRING_WITH_KEY
-    : getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING);
-}
-
-export async function getSasTokenFromConnectionStringWithKey(
-  connectionString: string,
-): Promise<string> {
-  const parsed = parseEventHubConnectionString(connectionString);
-  const eventhubName = parsed.eventHubName ?? getEventhubName();
-  if (!eventhubName) {
-    throw new Error(
-      "Entity path is missing from the connection string and is not available in the environment.",
-    );
-  }
-  return (
-    await createSasTokenProvider(
-      parsed as Required<
-        | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
-        | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
-      >,
-    ).getToken(`${parsed.endpoint}${eventhubName}`)
-  ).token;
-}
-
-export async function getConnectionStringWithSasTokenFromConnectionStringWithKey(
-  connectionString: string,
-): Promise<string> {
-  const parsed = parseEventHubConnectionString(connectionString);
-  const token = await getSasTokenFromConnectionStringWithKey(connectionString);
-  return `Endpoint=${parsed.endpoint};SharedAccessSignature=${token}`;
-}
-
-export async function getConnectionStringWithSAS(): Promise<string | undefined> {
-  if (isMock()) {
-    return MOCKS.EVENTHUB_CONNECTION_STRING_WITH_SAS;
-  }
-  const connectionString = getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING);
-  return connectionString
-    ? getConnectionStringWithSasTokenFromConnectionStringWithKey(connectionString)
-    : undefined;
-}
+import { getConsumerGroupName, getEventhubName, getFullyQualifiedNamespace } from "./vars.js";
 
 let clientId = 0;
 
