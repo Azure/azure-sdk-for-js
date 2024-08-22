@@ -30,6 +30,7 @@ import { CommonClientOptions } from "@azure/core-client";
 import { isDigest, readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import crypto from "crypto";
 import { RetriableReadableStream } from "../utils/retriableReadableStream";
 

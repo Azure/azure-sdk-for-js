@@ -221,6 +221,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  *
  * @param text -
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function escape(text: string): string {
   return encodeURIComponent(text)
     .replace(/%2F/g, "/") // Don't escape for "/"
