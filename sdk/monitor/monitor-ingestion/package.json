@@ -107,7 +107,7 @@
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",

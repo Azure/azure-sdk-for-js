@@ -137,7 +137,7 @@
     "chai-exclude": "^2.0.2",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "https-proxy-agent": "^7.0.0",
     "karma": "^6.2.0",

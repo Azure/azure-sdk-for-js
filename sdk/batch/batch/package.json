@@ -34,7 +34,7 @@
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "^6.3.4",
     "karma-chrome-launcher": "^3.1.0",

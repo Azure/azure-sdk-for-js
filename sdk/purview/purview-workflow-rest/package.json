@@ -72,7 +72,7 @@
     "@microsoft/api-extractor": "catalog:",
     "autorest": "latest",
     "@types/node": "catalog:",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "catalog:",

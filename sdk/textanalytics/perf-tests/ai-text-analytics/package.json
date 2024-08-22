@@ -11,7 +11,7 @@
     "@azure/ai-text-analytics": "^5.0.0",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-perf": "^1.0.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

@@ -27,7 +27,7 @@
     "@types/react-dom": "^16.8.5",
     "@types/webpack": "^4.4.13",
     "@types/webpack-dev-middleware": "^2.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "ts-loader": "^8.0.0",
     "typescript": "catalog:",
     "webpack": "^4.0.0",

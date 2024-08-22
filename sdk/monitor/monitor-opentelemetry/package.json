@@ -73,7 +73,7 @@
     "@types/sinon": "^17.0.0",
     "nyc": "^17.0.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "mocha": "^10.0.0",
     "nock": "^13.5.4",

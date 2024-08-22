@@ -90,7 +90,7 @@
     "@types/node": "catalog:",
     "chai": "^4.3.6",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "^6.4.0",
     "karma-chrome-launcher": "^3.1.1",

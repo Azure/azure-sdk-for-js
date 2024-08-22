@@ -11,7 +11,7 @@
   "dependencies": {
     "@azure/monitor-opentelemetry": "^1.7.0",
     "@azure-tools/test-perf": "^1.0.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/api-logs": "^0.52.1",
     "@opentelemetry/sdk-logs": "^0.52.1",

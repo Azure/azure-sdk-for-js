@@ -74,7 +74,7 @@
     "autorest": "latest",
     "@types/node": "catalog:",
     "nyc": "^17.0.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.0",

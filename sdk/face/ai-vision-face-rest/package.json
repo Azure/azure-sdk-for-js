@@ -64,7 +64,7 @@
     "@azure/abort-controller": "^2.0.0"
   },
   "devDependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",

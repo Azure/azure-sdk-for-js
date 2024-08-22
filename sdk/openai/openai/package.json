@@ -119,7 +119,7 @@
     "@vitest/browser": "^2.0.4",
     "@vitest/coverage-istanbul": "^2.0.4",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "openai": "^4.47.2",
     "playwright": "^1.45.3",

@@ -136,7 +136,7 @@
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "debug": "^4.1.1",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "https-proxy-agent": "^7.0.0",
     "playwright": "^1.45.3",

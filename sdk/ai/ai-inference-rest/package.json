@@ -100,7 +100,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "autorest": "latest",
     "cross-env": "7.0.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "catalog:",
     "mkdirp": "^3.0.1",
     "playwright": "^1.41.2",
     "rimraf": "catalog:",

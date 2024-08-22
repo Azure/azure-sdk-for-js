@@ -65,7 +65,7 @@
     }
   },
   "dependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "@azure-rest/core-client": "^2.2.0",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",

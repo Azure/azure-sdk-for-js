@@ -113,7 +113,7 @@
     "sinon": "^17.0.0",
     "typescript": "catalog:",
     "util": "^0.12.1",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-utils": "^1.0.1",

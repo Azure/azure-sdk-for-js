@@ -103,7 +103,7 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "catalog:",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",

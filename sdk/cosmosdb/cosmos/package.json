@@ -112,7 +112,7 @@
     "@types/underscore": "^1.8.8",
     "chai": "~4.3.8",
     "cross-env": "~7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "execa": "^5.0.0",
     "mocha": "^10.0.0",

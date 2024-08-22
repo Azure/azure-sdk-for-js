@@ -69,7 +69,7 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "dotenv": "^16.4.5",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "playwright": "^1.43.0",
     "rimraf": "catalog:",

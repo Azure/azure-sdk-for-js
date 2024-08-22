@@ -115,7 +115,7 @@
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "playwright": "^1.46.0",
     "rimraf": "catalog:",

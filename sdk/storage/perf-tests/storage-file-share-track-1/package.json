@@ -12,7 +12,7 @@
     "@azure/storage-file": "^10.3.0",
     "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
     "@types/node": "catalog:",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "rimraf": "3.0.2",
     "tslib": "catalog:",
     "ts-node": "^8.3.0",

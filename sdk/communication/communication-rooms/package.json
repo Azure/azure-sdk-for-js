@@ -48,7 +48,7 @@
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "^6.2.0",
     "karma-env-preprocessor": "^0.1.1",

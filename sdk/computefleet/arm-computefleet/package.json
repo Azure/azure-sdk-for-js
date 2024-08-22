@@ -67,7 +67,7 @@
     "@azure/core-paging": "^1.5.0"
   },
   "devDependencies": {
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",

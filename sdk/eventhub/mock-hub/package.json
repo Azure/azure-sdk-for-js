@@ -66,7 +66,7 @@
     "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "playwright": "^1.45.3",
     "rimraf": "^6.0.1",

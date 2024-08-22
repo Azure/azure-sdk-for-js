@@ -93,7 +93,7 @@
     "chai-as-promised": "^8.0.0",
     "cross-env": "^7.0.3",
     "debug": "^4.1.1",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "eslint": "catalog:",
     "playwright": "^1.45.3",
     "process": "^0.11.10",
