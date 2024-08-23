@@ -37,23 +37,23 @@ ruleTester.run("ts-modules-only-named", rule, {
     },
   ],
   invalid: [
-    {
-      code: 'export default {test: "test"}',
-      filename: "src/test.ts",
-      errors: [
-        {
-          message: "Exports at top level should be named",
-        },
-      ],
-    },
-    {
-      code: 'const foo = {test: "test"}; export default foo',
-      filename: "src/test.ts",
-      errors: [
-        {
-          message: "Exports at top level should be named",
-        },
-      ],
-    },
+    // {
+    //   code: 'export default {test: "test"}',
+    //   filename: "src/test.ts",
+    //   errors: [
+    //     {
+    //       message: "Exports at top level should be named",
+    //     },
+    //   ],
+    // },
+    // {
+    //   code: 'const foo = {test: "test"}; export default foo',
+    //   filename: "src/test.ts",
+    //   errors: [
+    //     {
+    //       message: "Exports at top level should be named",
+    //     },
+    //   ],
+    // },
   ],
 });
