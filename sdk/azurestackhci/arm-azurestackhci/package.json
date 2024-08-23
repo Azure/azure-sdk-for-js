@@ -3,13 +3,13 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureStackHCIClient.",
-  "version": "4.0.0",
+  "version": "4.0.0-beta.2",
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/core-lro": "^2.5.4",
-    "@azure/abort-controller": "^2.1.2",
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
     "@azure/core-client": "^1.7.0",
     "@azure/core-auth": "^1.6.0",
@@ -35,7 +35,7 @@
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.2.1",
+    "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.1.0",
     "mocha": "^10.0.0",
