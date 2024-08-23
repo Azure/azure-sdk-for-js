@@ -49,7 +49,7 @@ export interface CosmosClientOptions {
    */
   consistencyLevel?: keyof typeof ConsistencyLevel;
   defaultHeaders?: CosmosHeaders;
-  /** An optional custom http(s) Agent to be used in NodeJS enironments
+  /** An optional custom http(s) Agent to be used in NodeJS environments
    * Use an agent such as https://github.com/TooTallNate/node-proxy-agent if you need to connect to Cosmos via a proxy
    */
   agent?: Agent;

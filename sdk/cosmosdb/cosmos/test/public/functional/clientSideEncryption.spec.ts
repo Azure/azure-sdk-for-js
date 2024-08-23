@@ -21,6 +21,10 @@ import {
   OperationInput,
   PatchOperation,
   PatchOperationType,
+  PartitionKeyDefinitionVersion,
+  ChangeFeedMode,
+  ChangeFeedPolicy,
+  ChangeFeedRetentionTimeSpan,
 } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
@@ -1053,6 +1057,120 @@ describe("Client Side Encryption", () => {
     await encryptionContainerWithNoPolicy.delete();
   });
 
+  it("encryption change feed", async () => {
+    const partitionKey = randomUUID();
+    const changeFeedOptionsForEntireContainer = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+      maxItemCount: 1,
+    };
+    const changeFeedOptionsForPartitionKey = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
+    };
+
+    const iteratorForPartitionKey = encryptionContainer.items.getChangeFeedIterator(
+      changeFeedOptionsForPartitionKey,
+    );
+    const iteratorForEntireContainer = encryptionContainer.items.getChangeFeedIterator(
+      changeFeedOptionsForEntireContainer,
+    );
+    const testDoc1 = new TestDoc(
+      (await testCreateItem(encryptionContainer, partitionKey)).resource,
+    );
+    const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
+
+    let response = await iteratorForEntireContainer.readNext();
+
+    verifyExpectedDocResponse(testDoc1, response.result[0]);
+    assert.equal(StatusCodes.Ok, response.statusCode);
+    response = await iteratorForEntireContainer.readNext();
+    verifyExpectedDocResponse(testDoc2, response.result[0]);
+
+    response = await iteratorForPartitionKey.readNext();
+    assert.equal(StatusCodes.Ok, response.statusCode);
+    assert.ok(response.result.length === 1);
+    verifyExpectedDocResponse(testDoc1, response.result[0]);
+  });
+
+  it("encryption change feed with allVersionsAndDeletes", async () => {
+    const newClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+    const newDatabase = newClient.database(database.id);
+    const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
+    const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
+    const containerDefinitionChangeFeed = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+      clientEncryptionPolicy: clientEncryptionPolicy,
+      changeFeedPolicy: changeFeedPolicy,
+    };
+
+    const encryptionContainerChangeFeed = (
+      await newDatabase.containers.createIfNotExists(containerDefinitionChangeFeed)
+    ).container;
+
+    const partitionKey = randomUUID();
+    // test encryption change feed with allVersionsAndDeletes for entire container
+    const changeFeedOptionsForEntireContainer = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+      maxItemCount: 1,
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+
+    const iteratorForEntireContainer = encryptionContainerChangeFeed.items.getChangeFeedIterator(
+      changeFeedOptionsForEntireContainer,
+    );
+    await iteratorForEntireContainer.readNext();
+    const testDoc1 = new TestDoc(
+      (await testCreateItem(encryptionContainerChangeFeed, partitionKey)).resource,
+    );
+    const response = await iteratorForEntireContainer.readNext();
+    assert.equal(StatusCodes.Ok, response.statusCode);
+    if ("current" in response.result[0]) {
+      verifyExpectedDocResponse(testDoc1, response.result[0].current);
+    } else {
+      assert.fail("current not found in response");
+    }
+    verifyDiagnostics(response.diagnostics, false, true, 12, 12);
+    // test encryption change feed with allVersionsAndDeletes for partition key
+    const changeFeedOptionsForPartitionKey = {
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(partitionKey),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+
+    const iteratorForPartitionKey = encryptionContainerChangeFeed.items.getChangeFeedIterator(
+      changeFeedOptionsForPartitionKey,
+    );
+    await iteratorForPartitionKey.readNext();
+    const testDoc2 = new TestDoc(
+      (await testCreateItem(encryptionContainerChangeFeed, partitionKey)).resource,
+    );
+    await testCreateItem(encryptionContainerChangeFeed);
+
+    await testDeleteItem(encryptionContainerChangeFeed, testDoc1);
+    const responseForPartitionKey = await iteratorForPartitionKey.readNext();
+    assert.equal(StatusCodes.Ok, responseForPartitionKey.statusCode);
+    assert.ok(responseForPartitionKey.count === 2);
+
+    if ("current" in responseForPartitionKey.result[0]) {
+      verifyExpectedDocResponse(testDoc2, responseForPartitionKey.result[0].current);
+    } else {
+      assert.fail("current not found in response");
+    }
+    if ("previous" in responseForPartitionKey.result[1]) {
+      verifyExpectedDocResponse(testDoc1, responseForPartitionKey.result[1].previous);
+    } else {
+      assert.fail("previous not found in response");
+    }
+  });
+
   it("encryption validate policy refresh post container delete with patch", async () => {
     // create a container with 1st client
     let paths = [
@@ -1822,39 +1940,6 @@ describe("Client Side Encryption", () => {
         ),
       );
     }
-  });
-
-  it("encryption change feed", async () => {
-    const partitionKey = randomUUID();
-    const changeFeedOptionsForEntireContainer = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
-      maxItemCount: 1,
-    };
-    const changeFeedOptionsForPartitionKey = {
-      changeFeedStartFrom: ChangeFeedStartFrom.Beginning(partitionKey),
-    };
-
-    const iteratorForPartitionKey = encryptionContainer.items.getChangeFeedIterator(
-      changeFeedOptionsForPartitionKey,
-    );
-    const iteratorForEntireContainer = encryptionContainer.items.getChangeFeedIterator(
-      changeFeedOptionsForEntireContainer,
-    );
-    const testDoc1 = new TestDoc(
-      (await testCreateItem(encryptionContainer, partitionKey)).resource,
-    );
-    const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
-
-    let response = await iteratorForEntireContainer.readNext();
-    verifyExpectedDocResponse(testDoc1, response.result[0]);
-    assert.equal(StatusCodes.Ok, response.statusCode);
-    response = await iteratorForEntireContainer.readNext();
-    verifyExpectedDocResponse(testDoc2, response.result[0]);
-
-    response = await iteratorForPartitionKey.readNext();
-    assert.equal(StatusCodes.Ok, response.statusCode);
-    assert.ok(response.result.length === 1);
-    verifyExpectedDocResponse(testDoc1, response.result[0]);
   });
 
   it("encryption decrypt query result multiple docs", async () => {

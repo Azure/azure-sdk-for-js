@@ -27,7 +27,7 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
     this.revokeAccessSet = false;
   }
   async unwrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
-    console.log(algorithm);
+    algorithm;
     if (encryptionKeyId === "revokedKek-metadata" && this.revokeAccessSet) {
       const errorResponse = new ErrorResponse("Forbidden");
       errorResponse.statusCode = StatusCodes.Forbidden;
@@ -42,7 +42,7 @@ export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver 
   }
 
   async wrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer> {
-    console.log(algorithm);
+    algorithm;
     const moveBy = this.keyInfo[encryptionKeyId];
     const encryptedKey = Buffer.alloc(wrappedKey.length);
     for (let i = 0; i < wrappedKey.length; i++) {
