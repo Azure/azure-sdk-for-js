@@ -1,5 +1,3 @@
-$ErrorActionPreference = 'Continue'
-
 function Log($Message) {
     Write-Host ('{0} - {1}' -f [DateTime]::Now.ToLongTimeString(), $Message)
 }
@@ -17,6 +15,7 @@ function LogVsoCommand([string]$message) {
 function Retry([scriptblock] $Action, [int] $Attempts = 5) {
     $attempt = 0
     $sleep = 5
+
     while ($attempt -lt $Attempts) {
         try {
             $attempt++
