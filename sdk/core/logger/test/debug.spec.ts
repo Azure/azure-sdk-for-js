@@ -6,7 +6,7 @@ import { describe, it, assert, expect, beforeEach, afterEach, vi, MockInstance }
 
 describe("debug", function () {
   let logger: Debugger;
-  let logStub: MockInstance<any[], void>;
+  let logStub: MockInstance<(...args: any[]) => void>;
 
   function expectedTestMessage(namespace: string, message: string): string {
     return `${namespace} ${message}`;

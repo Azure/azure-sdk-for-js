@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
-import { beforeEach, afterEach, it, describe } from "vitest";
+import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import { DeidentificationContent } from "../../src/models.js";
 import { DeidentificationResultOutput } from "../../src/outputModels.js";
-import { assert } from "@azure-tools/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 
 const fakeServiceEndpoint = "example.com";

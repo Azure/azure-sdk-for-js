@@ -66,7 +66,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import MessageClient, { MessagesServiceClient } from "@azure-rest/communication-messages";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client:MessagesServiceClient = MessageClient(endpoint, credential);
 ```
 

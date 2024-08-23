@@ -220,7 +220,7 @@
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
-/sdk/web-pubsub/ @vicancy
+/sdk/web-pubsub/ @vicancy @chenkennt @zackliu
 
 # PRLabel: %EngSys
 /sdk/template/ @ckairen @mikeharder @weshaggard @benbp
@@ -307,6 +307,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %Maps
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
+
+# PRLabel: %Microsoft Playwright Testing
+# ServiceLabel: %Microsoft Playwright Testing
+/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core

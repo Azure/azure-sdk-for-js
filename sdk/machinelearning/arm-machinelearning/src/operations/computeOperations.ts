@@ -12,7 +12,7 @@ import { ComputeOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
 import {
   SimplePollerLike,
   OperationState,
@@ -49,13 +49,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ComputeOperations operations. */
 export class ComputeOperationsImpl implements ComputeOperations {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class ComputeOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 

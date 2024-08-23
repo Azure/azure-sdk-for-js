@@ -19,7 +19,9 @@ describe("SasTokenCredential", () => {
 
   it("should return a token for one scope", async () => {
     const token = await sasTokenCredential.getToken("testScope");
-    assert.isDefined(token);
+    if (!token) {
+      assert.fail("Token is undefined");
+    }
     assert.isDefined(token?.token);
     assert.isDefined(token?.expiresOnTimestamp);
     assert.ok(token.expiresOnTimestamp > Date.now() / 1000);
@@ -28,7 +30,9 @@ describe("SasTokenCredential", () => {
 
   it("should return a token for multiple scopes", async () => {
     const token = await sasTokenCredential.getToken(["testScope1", "testScope2"]);
-    assert.isDefined(token);
+    if (!token) {
+      assert.fail("Token is undefined");
+    }
     assert.isDefined(token?.token);
     assert.isDefined(token?.expiresOnTimestamp);
     assert.ok(token.expiresOnTimestamp > Date.now() / 1000);

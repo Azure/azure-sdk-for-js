@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a snapshot.
  *
  * @summary Deletes a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/snapshotExamples/Snapshot_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Delete.json
  */
 async function deleteASnapshot() {
   const subscriptionId =

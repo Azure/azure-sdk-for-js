@@ -29,7 +29,7 @@ describe("systemErrorRetryPolicy", function () {
     };
 
     const policy = systemErrorRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValueOnce(systemError);
     next.mockResolvedValueOnce(successResponse);
 
@@ -57,7 +57,7 @@ describe("systemErrorRetryPolicy", function () {
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
 
     const policy = systemErrorRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(systemError);
 
     vi.useFakeTimers();

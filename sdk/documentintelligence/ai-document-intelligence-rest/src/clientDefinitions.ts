@@ -6,12 +6,17 @@ import {
   GetDocumentModelBuildOperationParameters,
   GetDocumentModelComposeOperationParameters,
   GetDocumentModelCopyToOperationParameters,
+  GetDocumentClassifierCopyToOperationParameters,
   GetDocumentClassifierBuildOperationParameters,
   GetOperationParameters,
   GetResourceInfoParameters,
   GetAnalyzeResultParameters,
+  GetAnalyzeResultPdfParameters,
+  GetAnalyzeResultFigureParameters,
   AnalyzeDocumentFromStreamParameters,
   AnalyzeDocumentParameters,
+  GetAnalyzeBatchResultParameters,
+  AnalyzeBatchDocumentsParameters,
   GetModelParameters,
   DeleteModelParameters,
   BuildModelParameters,
@@ -26,7 +31,9 @@ import {
   ClassifyDocumentFromStreamParameters,
   ClassifyDocumentParameters,
   GetClassifyResultParameters,
-} from "./parameters";
+  AuthorizeClassifierCopyParameters,
+  CopyClassifierToParameters,
+} from "./parameters.js";
 import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
@@ -36,6 +43,8 @@ import {
   GetDocumentModelComposeOperationDefaultResponse,
   GetDocumentModelCopyToOperation200Response,
   GetDocumentModelCopyToOperationDefaultResponse,
+  GetDocumentClassifierCopyToOperation200Response,
+  GetDocumentClassifierCopyToOperationDefaultResponse,
   GetDocumentClassifierBuildOperation200Response,
   GetDocumentClassifierBuildOperationDefaultResponse,
   GetOperation200Response,
@@ -44,10 +53,18 @@ import {
   GetResourceInfoDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
+  GetAnalyzeResultPdf200Response,
+  GetAnalyzeResultPdfDefaultResponse,
+  GetAnalyzeResultFigure200Response,
+  GetAnalyzeResultFigureDefaultResponse,
   AnalyzeDocumentFromStream202Response,
   AnalyzeDocumentFromStreamDefaultResponse,
   AnalyzeDocument202Response,
   AnalyzeDocumentDefaultResponse,
+  GetAnalyzeBatchResult200Response,
+  GetAnalyzeBatchResultDefaultResponse,
+  AnalyzeBatchDocuments202Response,
+  AnalyzeBatchDocumentsDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
   DeleteModel204Response,
@@ -76,7 +93,11 @@ import {
   ClassifyDocumentDefaultResponse,
   GetClassifyResult200Response,
   GetClassifyResultDefaultResponse,
-} from "./responses";
+  AuthorizeClassifierCopy200Response,
+  AuthorizeClassifierCopyDefaultResponse,
+  CopyClassifierTo202Response,
+  CopyClassifierToDefaultResponse,
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListOperations {
@@ -107,6 +128,13 @@ export interface GetDocumentModelBuildOperation {
   >;
   /** Gets operation info. */
   get(
+    options?: GetDocumentClassifierCopyToOperationParameters,
+  ): StreamableMethod<
+    | GetDocumentClassifierCopyToOperation200Response
+    | GetDocumentClassifierCopyToOperationDefaultResponse
+  >;
+  /** Gets operation info. */
+  get(
     options?: GetDocumentClassifierBuildOperationParameters,
   ): StreamableMethod<
     | GetDocumentClassifierBuildOperation200Response
@@ -132,6 +160,20 @@ export interface GetAnalyzeResult {
   ): StreamableMethod<GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse>;
 }
 
+export interface GetAnalyzeResultPdf {
+  /** Gets the generated searchable PDF output from document analysis. */
+  get(
+    options?: GetAnalyzeResultPdfParameters,
+  ): StreamableMethod<GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse>;
+}
+
+export interface GetAnalyzeResultFigure {
+  /** Gets the generated cropped image of specified figure from document analysis. */
+  get(
+    options?: GetAnalyzeResultFigureParameters,
+  ): StreamableMethod<GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse>;
+}
+
 export interface AnalyzeDocumentFromStream {
   /** Analyzes document with document model. */
   post(
@@ -143,6 +185,20 @@ export interface AnalyzeDocumentFromStream {
   post(
     options: AnalyzeDocumentParameters,
   ): StreamableMethod<AnalyzeDocument202Response | AnalyzeDocumentDefaultResponse>;
+}
+
+export interface GetAnalyzeBatchResult {
+  /** Gets the result of batch document analysis. */
+  get(
+    options?: GetAnalyzeBatchResultParameters,
+  ): StreamableMethod<GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse>;
+}
+
+export interface AnalyzeBatchDocuments {
+  /** Analyzes batch documents with document model. */
+  post(
+    options: AnalyzeBatchDocumentsParameters,
+  ): StreamableMethod<AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse>;
 }
 
 export interface GetModel {
@@ -239,6 +295,23 @@ export interface GetClassifyResult {
   ): StreamableMethod<GetClassifyResult200Response | GetClassifyResultDefaultResponse>;
 }
 
+export interface AuthorizeClassifierCopy {
+  /**
+   * Generates authorization to copy a document classifier to this location with
+   * specified classifierId and optional description.
+   */
+  post(
+    options: AuthorizeClassifierCopyParameters,
+  ): StreamableMethod<AuthorizeClassifierCopy200Response | AuthorizeClassifierCopyDefaultResponse>;
+}
+
+export interface CopyClassifierTo {
+  /** Copies document classifier to the target resource, region, and classifierId. */
+  post(
+    options: CopyClassifierToParameters,
+  ): StreamableMethod<CopyClassifierTo202Response | CopyClassifierToDefaultResponse>;
+}
+
 export interface Routes {
   /** Resource for '/operations' has methods for the following verbs: get */
   (path: "/operations"): ListOperations;
@@ -252,8 +325,29 @@ export interface Routes {
     modelId: string,
     resultId: string,
   ): GetAnalyzeResult;
+  /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}/pdf' has methods for the following verbs: get */
+  (
+    path: "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
+    modelId: string,
+    resultId: string,
+  ): GetAnalyzeResultPdf;
+  /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}/figures/\{figureId\}' has methods for the following verbs: get */
+  (
+    path: "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+    modelId: string,
+    resultId: string,
+    figureId: string,
+  ): GetAnalyzeResultFigure;
   /** Resource for '/documentModels/\{modelId\}:analyze' has methods for the following verbs: post */
   (path: "/documentModels/{modelId}:analyze", modelId: string): AnalyzeDocumentFromStream;
+  /** Resource for '/documentModels/\{modelId\}/analyzeBatchResults/\{resultId\}' has methods for the following verbs: get */
+  (
+    path: "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
+    modelId: string,
+    resultId: string,
+  ): GetAnalyzeBatchResult;
+  /** Resource for '/documentModels/\{modelId\}:analyzeBatch' has methods for the following verbs: post */
+  (path: "/documentModels/{modelId}:analyzeBatch", modelId: string): AnalyzeBatchDocuments;
   /** Resource for '/documentModels/\{modelId\}' has methods for the following verbs: get, delete */
   (path: "/documentModels/{modelId}", modelId: string): GetModel;
   /** Resource for '/documentModels:build' has methods for the following verbs: post */
@@ -283,6 +377,10 @@ export interface Routes {
     classifierId: string,
     resultId: string,
   ): GetClassifyResult;
+  /** Resource for '/documentClassifiers:authorizeCopy' has methods for the following verbs: post */
+  (path: "/documentClassifiers:authorizeCopy"): AuthorizeClassifierCopy;
+  /** Resource for '/documentClassifiers/\{classifierId\}:copyTo' has methods for the following verbs: post */
+  (path: "/documentClassifiers/{classifierId}:copyTo", classifierId: string): CopyClassifierTo;
 }
 
 export type DocumentIntelligenceClient = Client & {

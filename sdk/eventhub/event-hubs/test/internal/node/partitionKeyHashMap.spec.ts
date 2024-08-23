@@ -12,7 +12,7 @@ import { describe, it } from "vitest";
  */
 describe("hashPartitionKey", function () {
   it("Generated hashes match the ones the service would have generated", async function () {
-    (expectations as { Key: string; Hash: number }[]).map(({ Key, Hash }) =>
+    (expectations as unknown as { Key: string; Hash: number }[]).map(({ Key, Hash }) =>
       assert.equal(hashPartitionKey(Key), Hash),
     );
   });

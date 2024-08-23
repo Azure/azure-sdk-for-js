@@ -23,50 +23,39 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/keyvault-admin.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "files": [
-    "types/keyvault-admin.d.ts",
     "dist/",
-    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
-  "browser": {
-    "os": false,
-    "process": false
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "build:node": "tsc -p . && npm run bundle",
-    "build:browser": "tsc -p . && npm run bundle",
-    "build:nodebrowser": "npm run bundle",
-    "build:test": "tsc -p . && npm run bundle",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && dev-tool run extract-api",
-    "bundle": "dev-tool run bundle --browser-test=false",
+    "build:test": "npm run clean && tshy",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && rimraf --glob src/**/*.js && rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 180000 --exclude \"dist-esm/**/*.browser.spec.js\" \"dist-esm/**/*.spec.js\"",
-    "integration-test:node:no-timeout": "dev-tool run test:node-js-input -- --no-timeouts --full-trace  --exclude \"dist-esm/**/*.browser.spec.js\" \"dist-esm/**/*.spec.js\"",
+    "integration-test:node": "cross-env TEST_MODE=live dev-tool run test:vitest --no-test-proxy",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src --ext .ts",
+    "lint:fix": "eslint package.json src --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 180000 --exclude \"test/**/*.browser.spec.ts\" \"test/**/*.spec.ts\"",
+    "test:browser": "echo Skipped",
+    "test:node": "npm run unit-test:node",
+    "test": "npm run build:test && npm run unit-test",
+    "unit-test:browser": "echo Skipped",
+    "unit-test:node": "dev-tool run test:vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
@@ -106,36 +95,57 @@
     "@azure/core-client": "^1.0.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
+    "@azure/core-util": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/keyvault-common": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "@types/uuid": "^8.0.0",
-    "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/core-util": "^1.0.0",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/keyvault-keys": "^4.2.1",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.11",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "mocha": "^10.0.0",
-    "nyc": "^17.0.0",
+    "playwright": "^1.46.0",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "source-map-support": "^0.5.9",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
-    "ts-node": "^10.0.0"
+    "vitest": "^2.0.5"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

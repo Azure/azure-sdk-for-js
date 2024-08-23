@@ -18,8 +18,8 @@
     "integration-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test",
     "pack": "npm pack 2>&1",
     "test:browser": "echo \"Browser is not supported.\" && exit 0",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
@@ -60,15 +60,15 @@
     "@types/express-serve-static-core": "^4.17.19",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "express": "^4.16.3",
     "rimraf": "^5.0.5",
-    "tshy": "^1.17.0",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.5"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
@@ -91,12 +91,10 @@
     "./package.json": "./package.json",
     ".": {
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }

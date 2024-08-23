@@ -15,7 +15,7 @@ import {
   SubjectAlternativeNames,
   CertificateContact,
   CertificateOperationError,
-} from "./certificatesModels";
+} from "./certificatesModels.js";
 import {
   CertificateAttributes,
   CertificateBundle,
@@ -30,8 +30,8 @@ import {
   Contacts as CoreContacts,
   JsonWebKeyType as CertificateKeyType,
   ErrorModel,
-} from "./generated/models";
-import { parseKeyVaultCertificateIdentifier } from "./identifier";
+} from "./generated/models/index.js";
+import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
