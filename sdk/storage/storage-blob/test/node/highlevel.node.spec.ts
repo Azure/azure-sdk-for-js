@@ -240,7 +240,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
         abortSignal: aborter.signal,
@@ -263,7 +262,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
         abortSignal: aborter.signal,
