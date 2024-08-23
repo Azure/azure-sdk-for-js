@@ -195,6 +195,7 @@ export interface ApplicationDataCreateOrUpdateDefaultResponse extends HttpRespon
 /** Deletes a specified application data resource under a particular party. */
 export interface ApplicationDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface ApplicationDataDeleteDefaultHeaders {
@@ -268,6 +269,7 @@ export interface AttachmentsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified attachment resource under a particular party. */
 export interface AttachmentsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface AttachmentsDeleteDefaultHeaders {
@@ -444,6 +446,7 @@ export interface BoundariesGetDefaultResponse extends HttpResponse {
 /** Deletes a specified boundary resource under a particular party. */
 export interface BoundariesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface BoundariesDeleteDefaultHeaders {
@@ -534,6 +537,7 @@ export interface CropProductsCreateOrUpdateDefaultResponse extends HttpResponse 
 /** Deletes a specified crop Product resource. */
 export interface CropProductsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface CropProductsDeleteDefaultHeaders {
@@ -607,6 +611,7 @@ export interface CropsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes Crop for given crop id. */
 export interface CropsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface CropsDeleteDefaultHeaders {
@@ -680,6 +685,7 @@ export interface DeviceDataModelsGetDefaultResponse extends HttpResponse {
 /** Deletes a device data model entity. */
 export interface DeviceDataModelsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface DeviceDataModelsDeleteDefaultHeaders {
@@ -753,6 +759,7 @@ export interface DevicesGetDefaultResponse extends HttpResponse {
 /** Deletes a device entity. */
 export interface DevicesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface DevicesDeleteDefaultHeaders {
@@ -911,6 +918,7 @@ export interface FarmsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified farm resource under a particular party. */
 export interface FarmsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface FarmsDeleteDefaultHeaders {
@@ -1035,6 +1043,7 @@ export interface FieldsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified field resource under a particular party. */
 export interface FieldsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface FieldsDeleteDefaultHeaders {
@@ -1159,6 +1168,7 @@ export interface HarvestDataCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified harvest data resource under a particular party. */
 export interface HarvestDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface HarvestDataDeleteDefaultHeaders {
@@ -1267,6 +1277,7 @@ export interface InsightAttachmentsGetDefaultResponse extends HttpResponse {
 /** Deletes a specified insight resource. */
 export interface InsightAttachmentsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface InsightAttachmentsDeleteDefaultHeaders {
@@ -1392,6 +1403,7 @@ export interface InsightsGetDefaultResponse extends HttpResponse {
 /** Deletes a specified insight resource. */
 export interface InsightsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface InsightsDeleteDefaultHeaders {
@@ -1516,6 +1528,7 @@ export interface ManagementZonesCreateOrUpdateDefaultResponse extends HttpRespon
 /** Deletes a specified management zone resource under a particular party. */
 export interface ManagementZonesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface ManagementZonesDeleteDefaultHeaders {
@@ -1708,6 +1721,7 @@ export interface NutrientAnalysesCreateOrUpdateDefaultResponse extends HttpRespo
 /** Deletes a specified nutrient analysis resource under a particular party. */
 export interface NutrientAnalysesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface NutrientAnalysesDeleteDefaultHeaders {
@@ -1781,6 +1795,7 @@ export interface OAuthProvidersCreateOrUpdateDefaultResponse extends HttpRespons
 /** Deletes an specified oauthProvider resource. */
 export interface OAuthProvidersDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface OAuthProvidersDeleteDefaultHeaders {
@@ -1956,6 +1971,7 @@ export interface PartiesCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified party resource. */
 export interface PartiesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface PartiesDeleteDefaultHeaders {
@@ -2063,6 +2079,7 @@ export interface PlantingDataCreateOrUpdateDefaultResponse extends HttpResponse 
 /** Deletes a specified planting data resource under a particular party. */
 export interface PlantingDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface PlantingDataDeleteDefaultHeaders {
@@ -2187,6 +2204,7 @@ export interface PlantTissueAnalysesCreateOrUpdateDefaultResponse extends HttpRe
 /** Deletes a specified plant tissue analysis resource under a particular party. */
 export interface PlantTissueAnalysesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface PlantTissueAnalysesDeleteDefaultHeaders {
@@ -2311,6 +2329,7 @@ export interface PrescriptionMapsCreateOrUpdateDefaultResponse extends HttpRespo
 /** Deletes a specified prescription map resource under a particular party. */
 export interface PrescriptionMapsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface PrescriptionMapsDeleteDefaultHeaders {
@@ -2435,6 +2454,7 @@ export interface PrescriptionsCreateOrUpdateDefaultResponse extends HttpResponse
 /** Deletes a specified prescription resource under a particular party. */
 export interface PrescriptionsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface PrescriptionsDeleteDefaultHeaders {
@@ -2662,6 +2682,7 @@ export interface SeasonalFieldsCreateOrUpdateDefaultResponse extends HttpRespons
 /** Deletes a specified seasonal-field resource under a particular party. */
 export interface SeasonalFieldsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface SeasonalFieldsDeleteDefaultHeaders {
@@ -2786,6 +2807,7 @@ export interface SeasonsCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified season resource. */
 export interface SeasonsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface SeasonsDeleteDefaultHeaders {
@@ -2859,6 +2881,7 @@ export interface SensorDataModelsGetDefaultResponse extends HttpResponse {
 /** Deletes a sensor data model entity. */
 export interface SensorDataModelsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface SensorDataModelsDeleteDefaultHeaders {
@@ -2955,6 +2978,7 @@ export interface SensorMappingsGetDefaultResponse extends HttpResponse {
 /** Deletes a sensor mapping entity. */
 export interface SensorMappingsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface SensorMappingsDeleteDefaultHeaders {
@@ -3028,6 +3052,7 @@ export interface SensorPartnerIntegrationsGetDefaultResponse extends HttpRespons
 /** Deletes a partner integration model entity. */
 export interface SensorPartnerIntegrationsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface SensorPartnerIntegrationsDeleteDefaultHeaders {
@@ -3135,6 +3160,7 @@ export interface SensorsGetDefaultResponse extends HttpResponse {
 /** Deletes a sensor entity. */
 export interface SensorsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface SensorsDeleteDefaultHeaders {
@@ -3293,6 +3319,7 @@ export interface TillageDataCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified tillage data resource under a particular party. */
 export interface TillageDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface TillageDataDeleteDefaultHeaders {
@@ -3527,6 +3554,7 @@ export interface ZonesCreateOrUpdateDefaultResponse extends HttpResponse {
 /** Deletes a specified zone resource under a particular party. */
 export interface ZonesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
 export interface ZonesDeleteDefaultHeaders {

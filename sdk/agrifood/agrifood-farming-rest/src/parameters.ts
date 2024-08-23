@@ -2330,8 +2330,8 @@ export interface ScenesListQueryParamProperties {
   maxDarkPixelCoveragePercentage?: number;
   /** List of image names to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   imageNames?: string;
-  /** List of image resolutions in meters to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
-  imageResolutions?: string;
+  /** List of image resolutions in meters to be filtered. */
+  imageResolutions?: Array<number>;
   /** List of image formats to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   imageFormats?: string;
   /**
@@ -2536,8 +2536,8 @@ export interface SeasonsListQueryParamProperties {
   minEndDateTime?: Date | string;
   /** Maximum season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   maxEndDateTime?: Date | string;
-  /** Years of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
-  years?: string;
+  /** Years of the resource. */
+  years?: Array<number>;
   /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   ids?: string;
   /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */

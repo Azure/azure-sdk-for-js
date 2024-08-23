@@ -52,13 +52,14 @@ module.exports = function (config) {
     },
 
     envPreprocessor: [
+      "RECORDINGS_RELATIVE_PATH",
       "TEST_MODE",
-      "ENDPOINT",
+      "FARMBEATS_ENDPOINT",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
-      "RECORDINGS_RELATIVE_PATH",
+      "AZURE_LOG_LEVEL",
     ],
 
     // test results reporter to use

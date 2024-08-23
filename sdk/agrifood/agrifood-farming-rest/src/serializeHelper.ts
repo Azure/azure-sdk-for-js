@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function buildMultiCollection(items: string[], parameterName: string): string {
-  return items
+export function buildMultiCollection(queryParameters: string[], parameterName: string): string {
+  return queryParameters
     .map((item, index) => {
       if (index === 0) {
         return item;
