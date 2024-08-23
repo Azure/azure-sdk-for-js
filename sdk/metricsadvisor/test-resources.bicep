@@ -22,7 +22,7 @@ resource metricsAdvisorAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(metricsAdvisorAccount.id, 'MetricsAdvisorContributor')
   properties: {
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', metricsAdvisorAdminRoleId)
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', metricsAdvisorAdminRoleId)
     principalId: testApplicationOid
   }
 }
