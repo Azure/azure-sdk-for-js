@@ -9,21 +9,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/ai-form-recognizer": "^5.0.0",
-    "@azure/identity": "^4.0.1",
     "@azure-tools/test-perf": "^1.0.0",
-    "@azure/core-util": "^1.3.1",
+    "@azure/ai-form-recognizer": "^5.0.0",
+    "@azure/core-util": "workspace:~",
+    "@azure/identity": "workspace:~",
     "dotenv": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure/dev-tool": "workspace:~",
     "@types/node": "catalog:",
     "cross-env": "^7.0.2",
     "eslint": "catalog:",
     "rimraf": "catalog:",
-    "typescript": "catalog:",
     "ts-node": "^10.0.0",
-    "@azure/dev-tool": "workspace:~"
+    "typescript": "catalog:"
   },
   "scripts": {
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",

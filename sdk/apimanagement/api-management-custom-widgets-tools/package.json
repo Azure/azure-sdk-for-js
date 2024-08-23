@@ -63,8 +63,8 @@
     "vitest": "catalog:"
   },
   "dependencies": {
-    "@azure/identity": "^4.0.1",
     "@azure-rest/core-client": "^1.3.1",
+    "@azure/identity": "workspace:~",
     "@azure/storage-blob": "^12.17.0",
     "mime": "^4.0.1",
     "tslib": "catalog:"

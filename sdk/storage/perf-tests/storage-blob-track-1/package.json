@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@azure/core-util": "^1.6.1",
+    "@azure/core-util": "workspace:~",
     "@azure/storage-blob": "^10.5.0",
     "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
     "@types/node": "catalog:",

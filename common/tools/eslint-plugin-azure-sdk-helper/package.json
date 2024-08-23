@@ -19,15 +19,15 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@eslint/compat": "^1.0.1",
     "@eslint/js": "~9.2.0",
-    "@typescript-eslint/typescript-estree": "~7.16.0",
     "@types/eslint": "~8.56.10",
     "@types/estree": "~1.0.0",
+    "@typescript-eslint/typescript-estree": "~7.16.0",
     "@typescript-eslint/utils": "~7.16.0",
     "eslint-config-prettier": "^9.0.0",
     "glob": "^10.3.10",
-    "typescript-eslint": "~7.16.0",
+    "tslib": "catalog:",
     "typescript": "catalog:",
-    "tslib": "catalog:"
+    "typescript-eslint": "~7.16.0"
   },
   "scripts": {
     "audit": "echo skipped",

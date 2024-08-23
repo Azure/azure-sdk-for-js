@@ -12,7 +12,7 @@
   "dependencies": {
     "yargs": "15.1.0",
     "@types/yargs": "15.0.3",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "workspace:~",
     "@azure/keyvault-secrets": "^4.0.2"
   },
   "devDependencies": {

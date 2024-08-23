@@ -82,23 +82,23 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.23.0-beta.1",
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.4.0",
-    "@azure/core-http-compat": "^2.0.0",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-auth": "workspace:~",
+    "@azure/core-http-compat": "workspace:~",
     "@azure/core-lro": "^2.2.0",
-    "@azure/core-paging": "^1.1.1",
-    "@azure/core-rest-pipeline": "^1.10.1",
-    "@azure/core-tracing": "^1.0.0",
-    "@azure/logger": "^1.0.0",
+    "@azure/core-paging": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-tracing": "workspace:~",
+    "@azure/logger": "workspace:~",
+    "@azure/storage-blob": "^12.23.0-beta.1",
     "events": "^3.0.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-utils": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
@@ -125,11 +125,11 @@
     "nyc": "^17.0.0",
     "puppeteer": "^23.0.2",
     "rimraf": "catalog:",
+    "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "catalog:",
-    "util": "^0.12.1",
-    "sinon": "^17.0.0"
+    "util": "^0.12.1"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

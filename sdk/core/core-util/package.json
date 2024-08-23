@@ -77,9 +77,9 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",

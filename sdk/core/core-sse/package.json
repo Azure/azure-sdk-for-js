@@ -78,11 +78,11 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "devDependencies": {
+    "@azure-rest/core-client": "workspace:~",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/logger": "workspace:~",
-    "@azure-rest/core-client": "workspace:~",
-    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/express": "^4.17.21",
     "@types/node": "catalog:",

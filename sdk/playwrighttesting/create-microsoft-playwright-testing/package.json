@@ -61,19 +61,19 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-utils": "workspace:~",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^20.12.12",
     "@types/prompts": "^2.4.9",
-    "@azure/dev-tool": "workspace:~",
-    "rimraf": "catalog:",
-    "typescript": "^5.5.3",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "eslint": "catalog:",
-    "sinon": "^17.0.0",
     "@types/sinon": "^17.0.0",
-    "mocha": "^10.0.0",
-    "@types/mocha": "^10.0.0",
     "cross-env": "^7.0.2",
-    "@azure-tools/test-utils": "^1.0.1"
+    "eslint": "catalog:",
+    "mocha": "^10.0.0",
+    "rimraf": "catalog:",
+    "sinon": "^17.0.0",
+    "typescript": "^5.5.3"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {

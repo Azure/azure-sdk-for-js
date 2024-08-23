@@ -57,9 +57,9 @@
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/inquirer": "^9.0.7",
     "@types/mustache": "^4.2.1",
     "@types/node": "catalog:",
-    "@types/inquirer": "^9.0.7",
     "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
     "@vitest/coverage-istanbul": "catalog:",
@@ -75,8 +75,8 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "glob": "^10.3.12",
-    "mustache": "^4.2.0",
     "inquirer": "^9.2.17",
+    "mustache": "^4.2.0",
     "tslib": "catalog:",
     "yargs": "^17.2.2",
     "yargs-parser": "^21.1.1"

@@ -57,21 +57,21 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-auth": "^1.4.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/core-auth": "workspace:~",
+    "@azure/identity": "workspace:~",
     "@azure/msal-node": "^2.9.2",
     "@azure/msal-node-extensions": "^1.0.7",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-utils": "workspace:~",
     "@azure/abort-controller": "^1.1.0",
-    "@azure/core-client": "^1.7.0",
-    "@azure/core-util": "^1.6.0",
+    "@azure/core-client": "workspace:~",
+    "@azure/core-util": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/logger": "^1.0.4",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/logger": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/mocha": "^10.0.0",
     "@types/node": "catalog:",
@@ -80,9 +80,9 @@
     "eslint": "catalog:",
     "mocha": "^10.0.0",
     "puppeteer": "^23.0.2",
-    "rimraf": "^5.0.1",
-    "typescript": "catalog:",
-    "sinon": "^17.0.0"
+    "rimraf": "catalog:",
+    "sinon": "^17.0.0",
+    "typescript": "catalog:"
   },
   "//sampleConfiguration": {
     "productName": "Azure Identity Brokered Auth Plugin",

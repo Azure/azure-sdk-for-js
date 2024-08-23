@@ -3,13 +3,21 @@
   "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@9.8.0",
+  "engines": {
+    "pnpm": "^9.0.0"
+  },
   "scripts": {
     "build": "pnpm -r --workspace-concurrency=Infinity --aggregate-output --reporter=append-only build",
-    "clean": "pnpm -r run clean"
+    "clean": "pnpm -r run clean",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "format:dir": "prettier --write",
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.5",
     "tsx": "^4.17.0",
     "typescript": "~5.5.4",

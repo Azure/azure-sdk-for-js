@@ -8,22 +8,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/app-configuration": "1.5.0-beta.2",
-    "@azure/core-util": "^1.6.1",
-    "@azure/identity": "^4.0.1",
-    "@azure/template": "^1.0.11-beta.1 || ^1.0.12-beta.1",
     "@azure-tools/test-perf": "^1.0.0",
+    "@azure/app-configuration": "1.5.0-beta.2",
+    "@azure/core-util": "workspace:~",
+    "@azure/identity": "workspace:~",
+    "@azure/template": "^1.0.11-beta.1 || ^1.0.12-beta.1",
     "dotenv": "catalog:"
   },
   "devDependencies": {
+    "@azure/dev-tool": "workspace:~",
     "@types/node": "catalog:",
     "cross-env": "^7.0.2",
     "eslint": "catalog:",
     "rimraf": "catalog:",
-    "tslib": "catalog:",
     "ts-node": "^10.0.0",
-    "typescript": "catalog:",
-    "@azure/dev-tool": "workspace:~"
+    "tslib": "catalog:",
+    "typescript": "catalog:"
   },
   "private": true,
   "scripts": {

@@ -56,9 +56,9 @@
   "sideEffects": false,
   "dependencies": {
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-tracing": "^1.0.0",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-tracing": "workspace:~",
     "@opentelemetry/api": "^1.9.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.4",
@@ -83,7 +83,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "rimraf": "catalog:",
     "sinon": "^17.0.0",
-    "typescript": "catalog:",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "typescript": "catalog:"
   }
 }

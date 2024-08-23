@@ -75,7 +75,7 @@
     "vitest": "catalog:"
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
+    "@azure/abort-controller": "workspace:~",
     "rhea": "^3.0.2",
     "tslib": "catalog:"
   },

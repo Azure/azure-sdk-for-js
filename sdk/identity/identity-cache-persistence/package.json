@@ -59,25 +59,26 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-auth": "^1.5.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/core-auth": "workspace:~",
+    "@azure/identity": "workspace:~",
     "@azure/msal-node": "^2.9.2",
     "@azure/msal-node-extensions": "^1.0.8",
     "keytar": "^7.6.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/core-client": "^1.7.0",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-utils": "workspace:~",
+    "@azure/core-client": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/logger": "^1.0.4",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/logger": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/jws": "^3.2.2",
     "@types/mocha": "^10.0.0",
     "@types/node": "catalog:",
     "@types/qs": "^6.5.3",
+    "@types/sinon": "^17.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "catalog:",
     "eslint": "catalog:",
@@ -85,10 +86,9 @@
     "mocha": "^10.0.0",
     "puppeteer": "^23.0.2",
     "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "util": "^0.12.1",
     "sinon": "^17.0.0",
-    "@types/sinon": "^17.0.0",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "typescript": "catalog:",
+    "util": "^0.12.1"
   }
 }

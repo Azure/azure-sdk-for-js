@@ -69,19 +69,19 @@
     "selfLink": false
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/event-hubs": "^5.12.0",
+    "@azure/abort-controller": "workspace:~",
     "@azure/data-tables": "^13.2.2",
-    "@azure/logger": "^1.1.4",
+    "@azure/event-hubs": "^5.12.0",
+    "@azure/logger": "workspace:~",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-credential": "workspace:~",
     "@azure-tools/test-recorder": "workspace:~",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/identity": "^4.4.1",
+    "@azure/identity": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/chai-as-promised": "^7.1.8",

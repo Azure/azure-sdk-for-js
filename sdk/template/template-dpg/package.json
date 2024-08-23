@@ -79,11 +79,11 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure-tools/test-credential": "^1.0.4",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
+    "@azure-tools/test-utils": "workspace:~",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.3.1",
     "@types/mocha": "^10.0.0",
@@ -105,17 +105,17 @@
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
     "puppeteer": "^23.0.2",
-    "rimraf": "^5.0.0",
+    "rimraf": "catalog:",
     "ts-node": "^10.0.0",
     "typescript": "catalog:",
     "util": "^0.12.4"
   },
   "dependencies": {
     "@azure-rest/core-client": "^1.1.2",
-    "@azure/core-auth": "^1.4.1",
-    "@azure/core-rest-pipeline": "^1.8.1",
-    "@azure/core-util": "^1.1.0",
-    "@azure/logger": "^1.0.3",
+    "@azure/core-auth": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/logger": "workspace:~",
     "tslib": "catalog:"
   }
 }

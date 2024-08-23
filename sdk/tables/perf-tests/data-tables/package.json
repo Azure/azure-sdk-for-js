@@ -8,20 +8,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/core-util": "^1.6.1",
-    "@azure/data-tables": "^13.1.0",
     "@azure-tools/test-perf": "^1.0.0",
+    "@azure/core-util": "workspace:~",
+    "@azure/data-tables": "^13.1.0",
     "dotenv": "catalog:"
   },
   "devDependencies": {
+    "@azure/dev-tool": "workspace:~",
     "@types/node": "catalog:",
     "cross-env": "^7.0.2",
     "eslint": "catalog:",
     "rimraf": "catalog:",
-    "tslib": "catalog:",
     "ts-node": "^10.0.0",
-    "typescript": "catalog:",
-    "@azure/dev-tool": "workspace:~"
+    "tslib": "catalog:",
+    "typescript": "catalog:"
   },
   "private": true,
   "scripts": {

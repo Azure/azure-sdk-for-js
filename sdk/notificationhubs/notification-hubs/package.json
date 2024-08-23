@@ -62,9 +62,9 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
+    "@azure-tools/test-recorder": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure-tools/test-recorder": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
@@ -78,16 +78,16 @@
     "vitest": "catalog:"
   },
   "dependencies": {
-    "@azure/core-auth": "^1.7.2",
-    "@azure/abort-controller": "^2.1.2",
+    "@azure-rest/core-client": "workspace:~",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-auth": "workspace:~",
     "@azure/core-lro": "^2.7.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.15.2",
-    "@azure/core-tracing": "^1.1.2",
-    "@azure/core-util": "^1.9.0",
-    "@azure/core-xml": "^1.4.2",
-    "@azure/logger": "^1.1.2",
-    "@azure-rest/core-client": "^2.0.0",
+    "@azure/core-paging": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-tracing": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/core-xml": "workspace:~",
+    "@azure/logger": "workspace:~",
     "tslib": "catalog:"
   },
   "tshy": {

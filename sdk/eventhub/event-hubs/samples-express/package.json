@@ -31,8 +31,8 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/event-hubs": "^5.12.0",
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/identity": "^4.3.0",
+    "@azure/abort-controller": "workspace:~",
+    "@azure/identity": "workspace:~",
     "express": "^4.19.2",
     "uuid": "^8.3.1"
   },

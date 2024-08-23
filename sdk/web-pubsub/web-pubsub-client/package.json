@@ -66,16 +66,18 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
   "sideEffects": false,
   "dependencies": {
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/logger": "workspace:~",
+    "buffer": "^6.0.0",
     "tslib": "catalog:",
-    "@azure/logger": "^1.0.0",
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-util": "^1.1.1",
-    "ws": "^7.4.5",
-    "buffer": "^6.0.0"
+    "ws": "^7.4.5"
   },
   "devDependencies": {
+    "@azure-tools/test-utils": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/web-pubsub": "^1.1.0",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.5",
@@ -85,6 +87,7 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "catalog:",
     "@types/sinon": "^17.0.0",
+    "@types/ws": "^7.4.5",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "catalog:",
@@ -102,18 +105,15 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
+    "mock-socket": "^9.1.5",
     "nyc": "^17.0.0",
     "puppeteer": "^23.0.2",
     "rimraf": "catalog:",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
+    "ts-node": "^10.0.0",
     "typescript": "catalog:",
-    "@azure/web-pubsub": "^1.1.0",
-    "@azure-tools/test-utils": "^1.0.1",
-    "mock-socket": "^9.1.5",
-    "util": "^0.12.1",
-    "@types/ws": "^7.4.5",
-    "ts-node": "^10.0.0"
+    "util": "^0.12.1"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",

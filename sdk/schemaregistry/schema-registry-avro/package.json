@@ -72,21 +72,21 @@
     }
   },
   "dependencies": {
-    "@azure/logger": "^1.0.0",
+    "@azure/logger": "workspace:~",
     "@azure/schema-registry": "1.2.0",
     "avsc": "^5.5.1",
     "lru-cache": "^10.2.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-utils": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/event-hubs": "^5.8.0",
-    "@azure/identity": "^4.0.1",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure/core-rest-pipeline": "^1.12.1",
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/identity": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -115,8 +115,8 @@
     "process": "^0.11.10",
     "rimraf": "catalog:",
     "stream": "^0.0.3",
+    "ts-node": "^10.0.0",
     "typescript": "catalog:",
-    "uuid": "^8.3.0",
-    "ts-node": "^10.0.0"
+    "uuid": "^8.3.0"
   }
 }
