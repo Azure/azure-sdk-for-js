@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   const subscriptionId =
@@ -86,7 +86,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
  * @summary Creates or updates a disk encryption set
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
 async function createADiskEncryptionSet() {
   const subscriptionId =

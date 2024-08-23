@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get.json
  */
 async function getAVirtualMachine() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function getAVirtualMachine() {
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
   const subscriptionId =
@@ -63,7 +63,7 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
  */
 async function getAVirtualMachineWithDiskControllerTypeProperties() {
   const subscriptionId =
@@ -87,7 +87,7 @@ async function getAVirtualMachineWithDiskControllerTypeProperties() {
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary Retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
 async function getAVirtualMachineWithVMSizeProperties() {
   const subscriptionId =

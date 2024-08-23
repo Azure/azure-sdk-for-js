@@ -317,7 +317,7 @@ const datalakeServiceClient = new DataLakeServiceClient(
 
 async function main() {
   let i = 1;
-  let fileSystems = datalakeServiceClient.listFileSystems();
+  const fileSystems = datalakeServiceClient.listFileSystems();
   for await (const fileSystem of fileSystems) {
     console.log(`File system ${i++}: ${fileSystem.name}`);
   }
@@ -342,7 +342,7 @@ const datalakeServiceClient = new DataLakeServiceClient(
 
 async function main() {
   let i = 1;
-  let iter = datalakeServiceClient.listFileSystems();
+  const iter = datalakeServiceClient.listFileSystems();
   let fileSystemItem = await iter.next();
   while (!fileSystemItem.done) {
     console.log(`File System ${i++}: ${fileSystemItem.value.name}`);
@@ -462,7 +462,7 @@ async function main() {
   const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
 
   let i = 1;
-  let paths = fileSystemClient.listPaths();
+  const paths = fileSystemClient.listPaths();
   for await (const path of paths) {
     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
   }
@@ -522,7 +522,7 @@ main();
 const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
 
 const account = "<account>";
-const sas="<sas token>"
+const sas = "<sas token>";
 
 const datalakeServiceClient = new DataLakeServiceClient(
   `https://${account}.dfs.core.windows.net${sas}`
@@ -545,11 +545,11 @@ async function main() {
   );
 
   // [Browsers only] A helper method used to convert a browser Blob into string.
-  async function blobToString(blob: Blob): Promise<string> {
+  async function blobToString(blob) {
     const fileReader = new FileReader();
-    return new Promise<string>((resolve, reject) => {
-      fileReader.onloadend = (ev: any) => {
-        resolve(ev.target!.result);
+    return new Promise((resolve, reject) => {
+      fileReader.onloadend = (ev) => {
+        resolve(ev.target.result);
       };
       fileReader.onerror = reject;
       fileReader.readAsText(blob);

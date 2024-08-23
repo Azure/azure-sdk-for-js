@@ -108,9 +108,6 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
 
 const nCustomization = {
   name: "n-azsdk-customized",
-  plugins: {
-    n,
-  },
   rules: {
     "n/exports-style": ["error", "module.exports"],
     "n/no-missing-import": "off",
@@ -122,6 +119,19 @@ const nCustomization = {
     "n/no-unpublished-import": "off",
     "n/no-unpublished-require": "off",
   },
+};
+
+function turnoffN(): Record<string, SharedConfig.RuleEntry> {
+  const rules: Record<string, SharedConfig.RuleEntry> = {};
+  for (const rule of Object.keys(n.rules ?? {})) {
+    rules[`n/${rule}`] = "off";
+  }
+  return rules;
+}
+
+const nOffForBrowser = {
+  files: ["**/browser/**/*.{ts,cts,mts}", "**/*.browser.{ts,cts,mts}", "**/*-browser.{ts,cts,mts}"],
+  rules: turnoffN(),
 };
 
 const noOnlyTestsCustomization = {
@@ -178,7 +188,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   },
   {
     name: "@azure/azure-sdk/recommended-json",
-    files: ["*.json"],
+    files: ["*.json", "*/*/*.json"],
     ignores: ["**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
     languageOptions: {
       parser,
@@ -197,6 +207,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   },
   n.configs["flat/recommended"],
   nCustomization as unknown as FlatConfig.Config,
+  nOffForBrowser,
   noOnlyTestsCustomization as FlatConfig.Config,
   tsdocCustomization as FlatConfig.Config,
   importCustomization as FlatConfig.Config,

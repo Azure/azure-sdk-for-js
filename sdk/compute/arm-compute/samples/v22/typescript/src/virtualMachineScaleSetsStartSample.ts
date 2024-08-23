@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Starts one or more virtual machines in a VM scale set.
  *
  * @summary Starts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetStartMaximumSetGen() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function virtualMachineScaleSetStartMaximumSetGen() {
  * This sample demonstrates how to Starts one or more virtual machines in a VM scale set.
  *
  * @summary Starts one or more virtual machines in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Start_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetStartMinimumSetGen() {
   const subscriptionId =
