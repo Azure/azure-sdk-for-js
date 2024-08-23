@@ -102,8 +102,7 @@ export interface ApplicationDataListDefaultResponse extends HttpResponse {
 }
 
 /** Create cascade delete job for application data resource. */
-export interface ApplicationDataCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface ApplicationDataCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -113,16 +112,14 @@ export interface ApplicationDataCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create cascade delete job for application data resource. */
-export interface ApplicationDataCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface ApplicationDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ApplicationDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for application data resource. */
-export interface ApplicationDataGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface ApplicationDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -132,12 +129,10 @@ export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for application data resource. */
-export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & ApplicationDataGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of application data resources under a particular party. */
@@ -151,8 +146,7 @@ export interface ApplicationDataListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of application data resources under a particular party. */
-export interface ApplicationDataListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface ApplicationDataListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ApplicationDataListByPartyIdDefaultHeaders;
@@ -192,8 +186,7 @@ export interface ApplicationDataCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates an application data resource under a particular party. */
-export interface ApplicationDataCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ApplicationDataCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ApplicationDataCreateOrUpdateDefaultHeaders;
@@ -341,8 +334,7 @@ export interface BoundariesSearchDefaultResponse extends HttpResponse {
 }
 
 /** Create a cascade delete job for specified boundary. */
-export interface BoundariesCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface BoundariesCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -352,16 +344,14 @@ export interface BoundariesCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified boundary. */
-export interface BoundariesCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface BoundariesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & BoundariesCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for specified boundary. */
-export interface BoundariesGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface BoundariesGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -371,8 +361,7 @@ export interface BoundariesGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for specified boundary. */
-export interface BoundariesGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface BoundariesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & BoundariesGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -536,8 +525,7 @@ export interface CropProductsCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates a crop Product resource. */
-export interface CropProductsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface CropProductsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & CropProductsCreateOrUpdateDefaultHeaders;
@@ -650,15 +638,13 @@ export interface DeviceDataModelsListDefaultResponse extends HttpResponse {
 }
 
 /** Create a device data model entity. */
-export interface DeviceDataModelsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface DeviceDataModelsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: DeviceDataModelOutput;
 }
 
 /** Create a device data model entity. */
-export interface DeviceDataModelsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface DeviceDataModelsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: DeviceDataModelOutput;
 }
@@ -668,8 +654,7 @@ export interface DeviceDataModelsCreateOrUpdateDefaultHeaders {
 }
 
 /** Create a device data model entity. */
-export interface DeviceDataModelsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface DeviceDataModelsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & DeviceDataModelsCreateOrUpdateDefaultHeaders;
@@ -782,8 +767,7 @@ export interface DevicesDeleteDefaultResponse extends HttpResponse {
 }
 
 /** Create a farm operation data ingestion job. */
-export interface FarmOperationsCreateDataIngestionJob202Response
-  extends HttpResponse {
+export interface FarmOperationsCreateDataIngestionJob202Response extends HttpResponse {
   status: "202";
   body: FarmOperationDataIngestionJobOutput;
 }
@@ -793,16 +777,14 @@ export interface FarmOperationsCreateDataIngestionJobDefaultHeaders {
 }
 
 /** Create a farm operation data ingestion job. */
-export interface FarmOperationsCreateDataIngestionJobDefaultResponse
-  extends HttpResponse {
+export interface FarmOperationsCreateDataIngestionJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & FarmOperationsCreateDataIngestionJobDefaultHeaders;
 }
 
 /** Get a farm operation data ingestion job. */
-export interface FarmOperationsGetDataIngestionJobDetails200Response
-  extends HttpResponse {
+export interface FarmOperationsGetDataIngestionJobDetails200Response extends HttpResponse {
   status: "200";
   body: FarmOperationDataIngestionJobOutput;
 }
@@ -812,12 +794,10 @@ export interface FarmOperationsGetDataIngestionJobDetailsDefaultHeaders {
 }
 
 /** Get a farm operation data ingestion job. */
-export interface FarmOperationsGetDataIngestionJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface FarmOperationsGetDataIngestionJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    FarmOperationsGetDataIngestionJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & FarmOperationsGetDataIngestionJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of farm resources across all parties. */
@@ -848,16 +828,14 @@ export interface FarmsCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified farm. */
-export interface FarmsCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface FarmsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & FarmsCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified farm. */
-export interface FarmsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface FarmsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -867,8 +845,7 @@ export interface FarmsGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified farm. */
-export interface FarmsGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface FarmsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & FarmsGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -965,8 +942,7 @@ export interface FieldsListDefaultResponse extends HttpResponse {
 }
 
 /** Get a cascade delete job for specified field. */
-export interface FieldsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface FieldsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -976,8 +952,7 @@ export interface FieldsGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified field. */
-export interface FieldsGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface FieldsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & FieldsGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -994,8 +969,7 @@ export interface FieldsCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified field. */
-export interface FieldsCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface FieldsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & FieldsCreateCascadeDeleteJobDefaultHeaders;
@@ -1092,8 +1066,7 @@ export interface HarvestDataListDefaultResponse extends HttpResponse {
 }
 
 /** Create cascade delete job for harvest data resource. */
-export interface HarvestDataCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface HarvestDataCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -1103,16 +1076,14 @@ export interface HarvestDataCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create cascade delete job for harvest data resource. */
-export interface HarvestDataCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface HarvestDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & HarvestDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for harvest data resource. */
-export interface HarvestDataGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface HarvestDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -1122,8 +1093,7 @@ export interface HarvestDataGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for harvest data resource. */
-export interface HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface HarvestDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & HarvestDataGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -1203,8 +1173,7 @@ export interface HarvestDataDeleteDefaultResponse extends HttpResponse {
 }
 
 /** Create a ImageProcessing Rasterize job. */
-export interface ImageProcessingCreateRasterizeJob202Response
-  extends HttpResponse {
+export interface ImageProcessingCreateRasterizeJob202Response extends HttpResponse {
   status: "202";
   body: ImageProcessingRasterizeJobOutput;
 }
@@ -1214,16 +1183,14 @@ export interface ImageProcessingCreateRasterizeJobDefaultHeaders {
 }
 
 /** Create a ImageProcessing Rasterize job. */
-export interface ImageProcessingCreateRasterizeJobDefaultResponse
-  extends HttpResponse {
+export interface ImageProcessingCreateRasterizeJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ImageProcessingCreateRasterizeJobDefaultHeaders;
 }
 
 /** Get ImageProcessing Rasterize job's details. */
-export interface ImageProcessingGetRasterizeJob200Response
-  extends HttpResponse {
+export interface ImageProcessingGetRasterizeJob200Response extends HttpResponse {
   status: "200";
   body: ImageProcessingRasterizeJobOutput;
 }
@@ -1233,16 +1200,14 @@ export interface ImageProcessingGetRasterizeJobDefaultHeaders {
 }
 
 /** Get ImageProcessing Rasterize job's details. */
-export interface ImageProcessingGetRasterizeJobDefaultResponse
-  extends HttpResponse {
+export interface ImageProcessingGetRasterizeJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ImageProcessingGetRasterizeJobDefaultHeaders;
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightAttachmentsListByPartyIdModelIdAndResource200Response
-  extends HttpResponse {
+export interface InsightAttachmentsListByPartyIdModelIdAndResource200Response extends HttpResponse {
   status: "200";
   body: InsightAttachmentListResponseOutput;
 }
@@ -1256,20 +1221,17 @@ export interface InsightAttachmentsListByPartyIdModelIdAndResourceDefaultRespons
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders;
+  headers: RawHttpHeaders & InsightAttachmentsListByPartyIdModelIdAndResourceDefaultHeaders;
 }
 
 /** Creates or updates insight entity. */
-export interface InsightAttachmentsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface InsightAttachmentsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: InsightAttachmentOutput;
 }
 
 /** Creates or updates insight entity. */
-export interface InsightAttachmentsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface InsightAttachmentsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: InsightAttachmentOutput;
 }
@@ -1279,8 +1241,7 @@ export interface InsightAttachmentsCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates insight entity. */
-export interface InsightAttachmentsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface InsightAttachmentsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & InsightAttachmentsCreateOrUpdateDefaultHeaders;
@@ -1331,16 +1292,14 @@ export interface InsightAttachmentsDownloadDefaultHeaders {
 }
 
 /** Downloads and returns insight-attachment as response for the given input filePath. */
-export interface InsightAttachmentsDownloadDefaultResponse
-  extends HttpResponse {
+export interface InsightAttachmentsDownloadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & InsightAttachmentsDownloadDefaultHeaders;
 }
 
 /** Create a cascade delete job for insights specified partyId/modelId/resourceType/resourceId. */
-export interface InsightsCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface InsightsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -1350,16 +1309,14 @@ export interface InsightsCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for insights specified partyId/modelId/resourceType/resourceId. */
-export interface InsightsCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface InsightsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & InsightsCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified insight. */
-export interface InsightsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface InsightsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -1369,16 +1326,14 @@ export interface InsightsGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified insight. */
-export interface InsightsGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface InsightsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & InsightsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightsListByPartyIdModelIdAndResource200Response
-  extends HttpResponse {
+export interface InsightsListByPartyIdModelIdAndResource200Response extends HttpResponse {
   status: "200";
   body: InsightListResponseOutput;
 }
@@ -1388,12 +1343,10 @@ export interface InsightsListByPartyIdModelIdAndResourceDefaultHeaders {
 }
 
 /** Returns a paginated list of insight resources. */
-export interface InsightsListByPartyIdModelIdAndResourceDefaultResponse
-  extends HttpResponse {
+export interface InsightsListByPartyIdModelIdAndResourceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    InsightsListByPartyIdModelIdAndResourceDefaultHeaders;
+  headers: RawHttpHeaders & InsightsListByPartyIdModelIdAndResourceDefaultHeaders;
 }
 
 /** Creates or updates insight entity. */
@@ -1470,8 +1423,7 @@ export interface ManagementZonesListDefaultResponse extends HttpResponse {
 }
 
 /** Get a cascade delete job for specified job id. */
-export interface ManagementZonesGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface ManagementZonesGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -1481,17 +1433,14 @@ export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified job id. */
-export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & ManagementZonesGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified management zone. */
-export interface ManagementZonesCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface ManagementZonesCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -1501,8 +1450,7 @@ export interface ManagementZonesCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified management zone. */
-export interface ManagementZonesCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface ManagementZonesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ManagementZonesCreateCascadeDeleteJobDefaultHeaders;
@@ -1519,8 +1467,7 @@ export interface ManagementZonesListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of management zone resources under a particular party. */
-export interface ManagementZonesListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface ManagementZonesListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ManagementZonesListByPartyIdDefaultHeaders;
@@ -1560,8 +1507,7 @@ export interface ManagementZonesCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates a management zone resource. */
-export interface ManagementZonesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ManagementZonesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ManagementZonesCreateOrUpdateDefaultHeaders;
@@ -1584,8 +1530,7 @@ export interface ManagementZonesDeleteDefaultResponse extends HttpResponse {
 }
 
 /** Create a Biomass Model job. */
-export interface ModelInferenceCreateBiomassModelJob202Response
-  extends HttpResponse {
+export interface ModelInferenceCreateBiomassModelJob202Response extends HttpResponse {
   status: "202";
   body: BiomassModelJobOutput;
 }
@@ -1595,16 +1540,14 @@ export interface ModelInferenceCreateBiomassModelJobDefaultHeaders {
 }
 
 /** Create a Biomass Model job. */
-export interface ModelInferenceCreateBiomassModelJobDefaultResponse
-  extends HttpResponse {
+export interface ModelInferenceCreateBiomassModelJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ModelInferenceCreateBiomassModelJobDefaultHeaders;
 }
 
 /** Get Biomass Model job's details. */
-export interface ModelInferenceGetBiomassModelJob200Response
-  extends HttpResponse {
+export interface ModelInferenceGetBiomassModelJob200Response extends HttpResponse {
   status: "200";
   body: BiomassModelJobOutput;
 }
@@ -1614,16 +1557,14 @@ export interface ModelInferenceGetBiomassModelJobDefaultHeaders {
 }
 
 /** Get Biomass Model job's details. */
-export interface ModelInferenceGetBiomassModelJobDefaultResponse
-  extends HttpResponse {
+export interface ModelInferenceGetBiomassModelJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ModelInferenceGetBiomassModelJobDefaultHeaders;
 }
 
 /** Create a Sensor Placement Model job. */
-export interface ModelInferenceCreateSensorPlacementModelJob202Response
-  extends HttpResponse {
+export interface ModelInferenceCreateSensorPlacementModelJob202Response extends HttpResponse {
   status: "202";
   body: SensorPlacementModelJobOutput;
 }
@@ -1633,17 +1574,14 @@ export interface ModelInferenceCreateSensorPlacementModelJobDefaultHeaders {
 }
 
 /** Create a Sensor Placement Model job. */
-export interface ModelInferenceCreateSensorPlacementModelJobDefaultResponse
-  extends HttpResponse {
+export interface ModelInferenceCreateSensorPlacementModelJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ModelInferenceCreateSensorPlacementModelJobDefaultHeaders;
+  headers: RawHttpHeaders & ModelInferenceCreateSensorPlacementModelJobDefaultHeaders;
 }
 
 /** Get Sensor Placement Model job's details. */
-export interface ModelInferenceGetSensorPlacementModelJob200Response
-  extends HttpResponse {
+export interface ModelInferenceGetSensorPlacementModelJob200Response extends HttpResponse {
   status: "200";
   body: SensorPlacementModelJobOutput;
 }
@@ -1653,17 +1591,14 @@ export interface ModelInferenceGetSensorPlacementModelJobDefaultHeaders {
 }
 
 /** Get Sensor Placement Model job's details. */
-export interface ModelInferenceGetSensorPlacementModelJobDefaultResponse
-  extends HttpResponse {
+export interface ModelInferenceGetSensorPlacementModelJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ModelInferenceGetSensorPlacementModelJobDefaultHeaders;
+  headers: RawHttpHeaders & ModelInferenceGetSensorPlacementModelJobDefaultHeaders;
 }
 
 /** Create a SoilMoisture Model job. */
-export interface ModelInferenceCreateSoilMoistureModelJob202Response
-  extends HttpResponse {
+export interface ModelInferenceCreateSoilMoistureModelJob202Response extends HttpResponse {
   status: "202";
   body: SoilMoistureModelJobOutput;
 }
@@ -1673,17 +1608,14 @@ export interface ModelInferenceCreateSoilMoistureModelJobDefaultHeaders {
 }
 
 /** Create a SoilMoisture Model job. */
-export interface ModelInferenceCreateSoilMoistureModelJobDefaultResponse
-  extends HttpResponse {
+export interface ModelInferenceCreateSoilMoistureModelJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ModelInferenceCreateSoilMoistureModelJobDefaultHeaders;
+  headers: RawHttpHeaders & ModelInferenceCreateSoilMoistureModelJobDefaultHeaders;
 }
 
 /** Get SoilMoisture Model job's details. */
-export interface ModelInferenceGetSoilMoistureModelJob200Response
-  extends HttpResponse {
+export interface ModelInferenceGetSoilMoistureModelJob200Response extends HttpResponse {
   status: "200";
   body: SoilMoistureModelJobOutput;
 }
@@ -1693,8 +1625,7 @@ export interface ModelInferenceGetSoilMoistureModelJobDefaultHeaders {
 }
 
 /** Get SoilMoisture Model job's details. */
-export interface ModelInferenceGetSoilMoistureModelJobDefaultResponse
-  extends HttpResponse {
+export interface ModelInferenceGetSoilMoistureModelJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ModelInferenceGetSoilMoistureModelJobDefaultHeaders;
@@ -1728,8 +1659,7 @@ export interface NutrientAnalysesListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of nutrient analysis resources under a particular party. */
-export interface NutrientAnalysesListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface NutrientAnalysesListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & NutrientAnalysesListByPartyIdDefaultHeaders;
@@ -1753,15 +1683,13 @@ export interface NutrientAnalysesGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or updates a nutrient analysis resource. */
-export interface NutrientAnalysesCreateOrUpdate200Response
-  extends HttpResponse {
+export interface NutrientAnalysesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: NutrientAnalysisOutput;
 }
 
 /** Creates or updates a nutrient analysis resource. */
-export interface NutrientAnalysesCreateOrUpdate201Response
-  extends HttpResponse {
+export interface NutrientAnalysesCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: NutrientAnalysisOutput;
 }
@@ -1771,8 +1699,7 @@ export interface NutrientAnalysesCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates a nutrient analysis resource. */
-export interface NutrientAnalysesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface NutrientAnalysesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & NutrientAnalysesCreateOrUpdateDefaultHeaders;
@@ -1845,8 +1772,7 @@ export interface OAuthProvidersCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates an oauthProvider resource. */
-export interface OAuthProvidersCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface OAuthProvidersCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & OAuthProvidersCreateOrUpdateDefaultHeaders;
@@ -1869,8 +1795,7 @@ export interface OAuthProvidersDeleteDefaultResponse extends HttpResponse {
 }
 
 /** Get cascade delete job for oauthProvider resource. */
-export interface OAuthProvidersGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface OAuthProvidersGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: OAuthProviderCascadeDeleteJobOutput;
 }
@@ -1880,17 +1805,14 @@ export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for oauthProvider resource. */
-export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & OAuthProvidersGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create cascade delete job for oauthProvider resource. */
-export interface OAuthProvidersCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface OAuthProvidersCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: OAuthProviderCascadeDeleteJobOutput;
 }
@@ -1900,8 +1822,7 @@ export interface OAuthProvidersCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create cascade delete job for oauthProvider resource. */
-export interface OAuthProvidersCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface OAuthProvidersCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & OAuthProvidersCreateCascadeDeleteJobDefaultHeaders;
@@ -1925,8 +1846,7 @@ export interface OAuthTokensListDefaultResponse extends HttpResponse {
 }
 
 /** Returns Connection link needed in the OAuth flow. */
-export interface OAuthTokensGetOAuthConnectionLink200Response
-  extends HttpResponse {
+export interface OAuthTokensGetOAuthConnectionLink200Response extends HttpResponse {
   status: "200";
   body: string;
 }
@@ -1936,16 +1856,14 @@ export interface OAuthTokensGetOAuthConnectionLinkDefaultHeaders {
 }
 
 /** Returns Connection link needed in the OAuth flow. */
-export interface OAuthTokensGetOAuthConnectionLinkDefaultResponse
-  extends HttpResponse {
+export interface OAuthTokensGetOAuthConnectionLinkDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & OAuthTokensGetOAuthConnectionLinkDefaultHeaders;
 }
 
 /** Get remove job for OAuth token. */
-export interface OAuthTokensGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -1955,16 +1873,14 @@ export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get remove job for OAuth token. */
-export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & OAuthTokensGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create remove job for OAuth token. */
-export interface OAuthTokensCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -1974,8 +1890,7 @@ export interface OAuthTokensCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create remove job for OAuth token. */
-export interface OAuthTokensCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface OAuthTokensCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & OAuthTokensCreateCascadeDeleteJobDefaultHeaders;
@@ -2055,8 +1970,7 @@ export interface PartiesDeleteDefaultResponse extends HttpResponse {
 }
 
 /** Get a cascade delete job for specified party. */
-export interface PartiesGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface PartiesGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -2066,8 +1980,7 @@ export interface PartiesGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified party. */
-export interface PartiesGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface PartiesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PartiesGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -2084,8 +1997,7 @@ export interface PartiesCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified party. */
-export interface PartiesCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface PartiesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PartiesCreateCascadeDeleteJobDefaultHeaders;
@@ -2142,8 +2054,7 @@ export interface PlantingDataCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates an planting data resource under a particular party. */
-export interface PlantingDataCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface PlantingDataCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PlantingDataCreateOrUpdateDefaultHeaders;
@@ -2183,8 +2094,7 @@ export interface PlantingDataListDefaultResponse extends HttpResponse {
 }
 
 /** Create cascade delete job for planting data resource. */
-export interface PlantingDataCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface PlantingDataCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -2194,16 +2104,14 @@ export interface PlantingDataCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create cascade delete job for planting data resource. */
-export interface PlantingDataCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface PlantingDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PlantingDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for planting data resource. */
-export interface PlantingDataGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface PlantingDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -2213,17 +2121,14 @@ export interface PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for planting data resource. */
-export interface PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface PlantingDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & PlantingDataGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of plant tissue analysis resources under a particular party. */
-export interface PlantTissueAnalysesListByPartyId200Response
-  extends HttpResponse {
+export interface PlantTissueAnalysesListByPartyId200Response extends HttpResponse {
   status: "200";
   body: PlantTissueAnalysisListResponseOutput;
 }
@@ -2233,8 +2138,7 @@ export interface PlantTissueAnalysesListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of plant tissue analysis resources under a particular party. */
-export interface PlantTissueAnalysesListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface PlantTissueAnalysesListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PlantTissueAnalysesListByPartyIdDefaultHeaders;
@@ -2258,15 +2162,13 @@ export interface PlantTissueAnalysesGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or updates a plant tissue analysis resource. */
-export interface PlantTissueAnalysesCreateOrUpdate200Response
-  extends HttpResponse {
+export interface PlantTissueAnalysesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: PlantTissueAnalysisOutput;
 }
 
 /** Creates or updates a plant tissue analysis resource. */
-export interface PlantTissueAnalysesCreateOrUpdate201Response
-  extends HttpResponse {
+export interface PlantTissueAnalysesCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: PlantTissueAnalysisOutput;
 }
@@ -2276,8 +2178,7 @@ export interface PlantTissueAnalysesCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or updates a plant tissue analysis resource. */
-export interface PlantTissueAnalysesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface PlantTissueAnalysesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PlantTissueAnalysesCreateOrUpdateDefaultHeaders;
@@ -2317,8 +2218,7 @@ export interface PlantTissueAnalysesListDefaultResponse extends HttpResponse {
 }
 
 /** Create a cascade delete job for specified plant tissue analysis. */
-export interface PlantTissueAnalysesCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface PlantTissueAnalysesCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -2328,17 +2228,14 @@ export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified plant tissue analysis. */
-export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get a cascade delete job for specified plant tissue analysis. */
-export interface PlantTissueAnalysesGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface PlantTissueAnalysesGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -2348,12 +2245,10 @@ export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified plant tissue analysis. */
-export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Returns a paginated list of prescription map resources under a particular party. */
@@ -2367,8 +2262,7 @@ export interface PrescriptionMapsListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of prescription map resources under a particular party. */
-export interface PrescriptionMapsListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionMapsListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PrescriptionMapsListByPartyIdDefaultHeaders;
@@ -2392,15 +2286,13 @@ export interface PrescriptionMapsGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or Updates a prescription map resource under a particular party. */
-export interface PrescriptionMapsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface PrescriptionMapsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: PrescriptionMapOutput;
 }
 
 /** Creates or Updates a prescription map resource under a particular party. */
-export interface PrescriptionMapsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface PrescriptionMapsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: PrescriptionMapOutput;
 }
@@ -2410,8 +2302,7 @@ export interface PrescriptionMapsCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or Updates a prescription map resource under a particular party. */
-export interface PrescriptionMapsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionMapsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PrescriptionMapsCreateOrUpdateDefaultHeaders;
@@ -2451,8 +2342,7 @@ export interface PrescriptionMapsListDefaultResponse extends HttpResponse {
 }
 
 /** Get a cascade delete job for specified prescription map. */
-export interface PrescriptionMapsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface PrescriptionMapsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -2462,17 +2352,14 @@ export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified prescription map. */
-export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified prescription map. */
-export interface PrescriptionMapsCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface PrescriptionMapsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -2482,12 +2369,10 @@ export interface PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified prescription map. */
-export interface PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionMapsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionMapsCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Returns a paginated list of prescription resources under a particular party. */
@@ -2501,8 +2386,7 @@ export interface PrescriptionsListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of prescription resources under a particular party. */
-export interface PrescriptionsListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionsListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PrescriptionsListByPartyIdDefaultHeaders;
@@ -2542,8 +2426,7 @@ export interface PrescriptionsCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or Updates a prescription resource under a particular party. */
-export interface PrescriptionsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PrescriptionsCreateOrUpdateDefaultHeaders;
@@ -2583,8 +2466,7 @@ export interface PrescriptionsListDefaultResponse extends HttpResponse {
 }
 
 /** Get a cascade delete job for specified prescription. */
-export interface PrescriptionsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface PrescriptionsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -2594,17 +2476,14 @@ export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified prescription. */
-export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & PrescriptionsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified prescription. */
-export interface PrescriptionsCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface PrescriptionsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -2614,8 +2493,7 @@ export interface PrescriptionsCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified prescription. */
-export interface PrescriptionsCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface PrescriptionsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & PrescriptionsCreateCascadeDeleteJobDefaultHeaders;
@@ -2657,8 +2535,7 @@ export interface ScenesDownloadDefaultResponse extends HttpResponse {
 }
 
 /** Create a satellite data ingestion job. */
-export interface ScenesCreateSatelliteDataIngestionJob202Response
-  extends HttpResponse {
+export interface ScenesCreateSatelliteDataIngestionJob202Response extends HttpResponse {
   status: "202";
   body: SatelliteDataIngestionJobOutput;
 }
@@ -2668,16 +2545,14 @@ export interface ScenesCreateSatelliteDataIngestionJobDefaultHeaders {
 }
 
 /** Create a satellite data ingestion job. */
-export interface ScenesCreateSatelliteDataIngestionJobDefaultResponse
-  extends HttpResponse {
+export interface ScenesCreateSatelliteDataIngestionJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ScenesCreateSatelliteDataIngestionJobDefaultHeaders;
 }
 
 /** Get a satellite data ingestion job. */
-export interface ScenesGetSatelliteDataIngestionJobDetails200Response
-  extends HttpResponse {
+export interface ScenesGetSatelliteDataIngestionJobDetails200Response extends HttpResponse {
   status: "200";
   body: SatelliteDataIngestionJobOutput;
 }
@@ -2687,12 +2562,10 @@ export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders {
 }
 
 /** Get a satellite data ingestion job. */
-export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & ScenesGetSatelliteDataIngestionJobDetailsDefaultHeaders;
 }
 
 /** Search for STAC features by collection id, bbox, intersecting geometry, start and end datetime. */
@@ -2740,8 +2613,7 @@ export interface SeasonalFieldsListByPartyIdDefaultHeaders {
 }
 
 /** Returns a paginated list of seasonal field resources under a particular party. */
-export interface SeasonalFieldsListByPartyIdDefaultResponse
-  extends HttpResponse {
+export interface SeasonalFieldsListByPartyIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SeasonalFieldsListByPartyIdDefaultHeaders;
@@ -2781,8 +2653,7 @@ export interface SeasonalFieldsCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates or Updates a seasonal field resource under a particular party. */
-export interface SeasonalFieldsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface SeasonalFieldsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SeasonalFieldsCreateOrUpdateDefaultHeaders;
@@ -2822,8 +2693,7 @@ export interface SeasonalFieldsListDefaultResponse extends HttpResponse {
 }
 
 /** Get cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -2833,17 +2703,14 @@ export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders;
+  headers: RawHttpHeaders & SeasonalFieldsGetCascadeDeleteJobDetailsDefaultHeaders;
 }
 
 /** Create a cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface SeasonalFieldsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -2853,8 +2720,7 @@ export interface SeasonalFieldsCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified seasonal field. */
-export interface SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface SeasonalFieldsCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SeasonalFieldsCreateCascadeDeleteJobDefaultHeaders;
@@ -2951,15 +2817,13 @@ export interface SensorDataModelsListDefaultResponse extends HttpResponse {
 }
 
 /** Create a sensor data model entity. */
-export interface SensorDataModelsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface SensorDataModelsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: SensorDataModelOutput;
 }
 
 /** Create a sensor data model entity. */
-export interface SensorDataModelsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface SensorDataModelsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: SensorDataModelOutput;
 }
@@ -2969,8 +2833,7 @@ export interface SensorDataModelsCreateOrUpdateDefaultHeaders {
 }
 
 /** Create a sensor data model entity. */
-export interface SensorDataModelsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface SensorDataModelsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorDataModelsCreateOrUpdateDefaultHeaders;
@@ -3066,8 +2929,7 @@ export interface SensorMappingsCreateOrUpdateDefaultHeaders {
 }
 
 /** Create a sensor mapping entity. */
-export interface SensorMappingsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface SensorMappingsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorMappingsCreateOrUpdateDefaultHeaders;
@@ -3117,23 +2979,20 @@ export interface SensorPartnerIntegrationsListDefaultHeaders {
 }
 
 /** Gets partner integration models. */
-export interface SensorPartnerIntegrationsListDefaultResponse
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorPartnerIntegrationsListDefaultHeaders;
 }
 
 /** Create or update an integration with a sensor partner. */
-export interface SensorPartnerIntegrationsCreateOrUpdate200Response
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: SensorPartnerIntegrationModelOutput;
 }
 
 /** Create or update an integration with a sensor partner. */
-export interface SensorPartnerIntegrationsCreateOrUpdate201Response
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: SensorPartnerIntegrationModelOutput;
 }
@@ -3143,12 +3002,10 @@ export interface SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders {
 }
 
 /** Create or update an integration with a sensor partner. */
-export interface SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders;
+  headers: RawHttpHeaders & SensorPartnerIntegrationsCreateOrUpdateDefaultHeaders;
 }
 
 /** Gets a partner integration model entity. */
@@ -3162,16 +3019,14 @@ export interface SensorPartnerIntegrationsGetDefaultHeaders {
 }
 
 /** Gets a partner integration model entity. */
-export interface SensorPartnerIntegrationsGetDefaultResponse
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsGetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorPartnerIntegrationsGetDefaultHeaders;
 }
 
 /** Deletes a partner integration model entity. */
-export interface SensorPartnerIntegrationsDelete204Response
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsDelete204Response extends HttpResponse {
   status: "204";
 }
 
@@ -3180,16 +3035,14 @@ export interface SensorPartnerIntegrationsDeleteDefaultHeaders {
 }
 
 /** Deletes a partner integration model entity. */
-export interface SensorPartnerIntegrationsDeleteDefaultResponse
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorPartnerIntegrationsDeleteDefaultHeaders;
 }
 
 /** Checks consent for partner integration. */
-export interface SensorPartnerIntegrationsCheckConsent200Response
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsCheckConsent200Response extends HttpResponse {
   status: "200";
   body: SensorPartnerIntegrationCheckConsentResponseOutput;
 }
@@ -3199,16 +3052,14 @@ export interface SensorPartnerIntegrationsCheckConsentDefaultHeaders {
 }
 
 /** Checks consent for partner integration. */
-export interface SensorPartnerIntegrationsCheckConsentDefaultResponse
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsCheckConsentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorPartnerIntegrationsCheckConsentDefaultHeaders;
 }
 
 /** Generates partner integration consent link. */
-export interface SensorPartnerIntegrationsGenerateConsentLink200Response
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsGenerateConsentLink200Response extends HttpResponse {
   status: "200";
   body: SensorPartnerIntegrationGenerateConsentLinkResponseOutput;
 }
@@ -3218,12 +3069,10 @@ export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders {
 }
 
 /** Generates partner integration consent link. */
-export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
-  extends HttpResponse {
+export interface SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
-  headers: RawHttpHeaders &
-    SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders;
+  headers: RawHttpHeaders & SensorPartnerIntegrationsGenerateConsentLinkDefaultHeaders;
 }
 
 /** Returns a paginated list of sensor resources. */
@@ -3310,8 +3159,7 @@ export interface SensorsGetConnectionStringDefaultHeaders {
 }
 
 /** Gets a sensor connection string. */
-export interface SensorsGetConnectionStringDefaultResponse
-  extends HttpResponse {
+export interface SensorsGetConnectionStringDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorsGetConnectionStringDefaultHeaders;
@@ -3328,8 +3176,7 @@ export interface SensorsRenewConnectionStringDefaultHeaders {
 }
 
 /** Renews a sensor connection string. */
-export interface SensorsRenewConnectionStringDefaultResponse
-  extends HttpResponse {
+export interface SensorsRenewConnectionStringDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SensorsRenewConnectionStringDefaultHeaders;
@@ -3353,8 +3200,7 @@ export interface SolutionInferenceCancelDefaultResponse extends HttpResponse {
 }
 
 /** Creates a job trigger for a solution. */
-export interface SolutionInferenceCreateOrUpdate202Response
-  extends HttpResponse {
+export interface SolutionInferenceCreateOrUpdate202Response extends HttpResponse {
   status: "202";
   body: Record<string, any>;
 }
@@ -3364,8 +3210,7 @@ export interface SolutionInferenceCreateOrUpdateDefaultHeaders {
 }
 
 /** Creates a job trigger for a solution. */
-export interface SolutionInferenceCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface SolutionInferenceCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & SolutionInferenceCreateOrUpdateDefaultHeaders;
@@ -3479,8 +3324,7 @@ export interface TillageDataListDefaultResponse extends HttpResponse {
 }
 
 /** Create cascade delete job for tillage data resource. */
-export interface TillageDataCreateCascadeDeleteJob202Response
-  extends HttpResponse {
+export interface TillageDataCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
   body: CascadeDeleteJobOutput;
 }
@@ -3490,16 +3334,14 @@ export interface TillageDataCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create cascade delete job for tillage data resource. */
-export interface TillageDataCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface TillageDataCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & TillageDataCreateCascadeDeleteJobDefaultHeaders;
 }
 
 /** Get cascade delete job for tillage data resource. */
-export interface TillageDataGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface TillageDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -3509,8 +3351,7 @@ export interface TillageDataGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get cascade delete job for tillage data resource. */
-export interface TillageDataGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface TillageDataGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & TillageDataGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -3534,8 +3375,7 @@ export interface WeatherListDefaultResponse extends HttpResponse {
 }
 
 /** Get weather data delete job. */
-export interface WeatherGetDataDeleteJobDetails200Response
-  extends HttpResponse {
+export interface WeatherGetDataDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: WeatherDataDeleteJobOutput;
 }
@@ -3545,8 +3385,7 @@ export interface WeatherGetDataDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get weather data delete job. */
-export interface WeatherGetDataDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface WeatherGetDataDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & WeatherGetDataDeleteJobDetailsDefaultHeaders;
@@ -3563,16 +3402,14 @@ export interface WeatherCreateDataDeleteJobDefaultHeaders {
 }
 
 /** Create a weather data delete job. */
-export interface WeatherCreateDataDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface WeatherCreateDataDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & WeatherCreateDataDeleteJobDefaultHeaders;
 }
 
 /** Get weather ingestion job. */
-export interface WeatherGetDataIngestionJobDetails200Response
-  extends HttpResponse {
+export interface WeatherGetDataIngestionJobDetails200Response extends HttpResponse {
   status: "200";
   body: WeatherDataIngestionJobOutput;
 }
@@ -3582,8 +3419,7 @@ export interface WeatherGetDataIngestionJobDetailsDefaultHeaders {
 }
 
 /** Get weather ingestion job. */
-export interface WeatherGetDataIngestionJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface WeatherGetDataIngestionJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & WeatherGetDataIngestionJobDetailsDefaultHeaders;
@@ -3600,8 +3436,7 @@ export interface WeatherCreateDataIngestionJobDefaultHeaders {
 }
 
 /** Create a weather data ingestion job. */
-export interface WeatherCreateDataIngestionJobDefaultResponse
-  extends HttpResponse {
+export interface WeatherCreateDataIngestionJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & WeatherCreateDataIngestionJobDefaultHeaders;
@@ -3723,8 +3558,7 @@ export interface ZonesListDefaultResponse extends HttpResponse {
 }
 
 /** Get a cascade delete job for specified job id. */
-export interface ZonesGetCascadeDeleteJobDetails200Response
-  extends HttpResponse {
+export interface ZonesGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
   body: CascadeDeleteJobOutput;
 }
@@ -3734,8 +3568,7 @@ export interface ZonesGetCascadeDeleteJobDetailsDefaultHeaders {
 }
 
 /** Get a cascade delete job for specified job id. */
-export interface ZonesGetCascadeDeleteJobDetailsDefaultResponse
-  extends HttpResponse {
+export interface ZonesGetCascadeDeleteJobDetailsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ZonesGetCascadeDeleteJobDetailsDefaultHeaders;
@@ -3752,8 +3585,7 @@ export interface ZonesCreateCascadeDeleteJobDefaultHeaders {
 }
 
 /** Create a cascade delete job for specified zone. */
-export interface ZonesCreateCascadeDeleteJobDefaultResponse
-  extends HttpResponse {
+export interface ZonesCreateCascadeDeleteJobDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
   headers: RawHttpHeaders & ZonesCreateCascadeDeleteJobDefaultHeaders;

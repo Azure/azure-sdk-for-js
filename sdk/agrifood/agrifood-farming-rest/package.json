@@ -4,7 +4,14 @@
   "author": "Microsoft Corporation",
   "description": "An isomorphic REST client library for the Azure FarmBeats Service.",
   "version": "1.0.0-beta.3",
-  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -34,7 +41,10 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure FarmBeats rest",
-    "productSlugs": ["azure", "azure-farmbeats"],
+    "productSlugs": [
+      "azure",
+      "azure-farmbeats"
+    ],
     "requiredResources": {
       "Azure FarmBeats Service instance": "https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats"
     }

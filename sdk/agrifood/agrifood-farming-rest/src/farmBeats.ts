@@ -21,10 +21,7 @@ export interface FarmBeatsClientOptions extends ClientOptions {
 export default function createClient(
   $host: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2022-11-01-preview",
-    ...options
-  }: FarmBeatsClientOptions = {},
+  { apiVersion = "2022-11-01-preview", ...options }: FarmBeatsClientOptions = {},
 ): FarmBeatsClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${$host}`;
   const userAgentInfo = `azsdk-js-agrifood-farming-rest/1.0.0-beta.3`;
@@ -41,16 +38,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://farmbeats.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://farmbeats.azure.net/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as FarmBeatsClient;
+  const client = getClient(endpointUrl, credentials, options) as FarmBeatsClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

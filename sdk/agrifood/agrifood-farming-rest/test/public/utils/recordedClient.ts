@@ -18,6 +18,10 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030", // .operation-location is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 /**
