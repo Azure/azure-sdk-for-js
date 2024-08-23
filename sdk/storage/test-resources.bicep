@@ -300,7 +300,6 @@ output DFS_ACCOUNT_KEY string = listKeys(datalakeAccount.id, storageApiVersion).
 output DFS_ACCOUNT_SAS string = '?${listAccountSas(datalakeAccountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
 output DFS_STORAGE_CONNECTION_STRING string = 'DefaultEndpointsProtocol=https;AccountName=${datalakeAccountName};AccountKey=${listKeys(datalakeAccount.id, storageApiVersion).keys[0].value};EndpointSuffix=${storageEndpointSuffix}'
 
-output SOFT_DELETE_ACCOUNT_NAME string = accountName
 output DFS_SOFT_DELETE_ACCOUNT_NAME string = datalakeSoftDeleteAccountName
 output DFS_SOFT_DELETE_ACCOUNT_KEY string = listKeys(datalakeSoftDeleteAccount.id, storageApiVersion).keys[0].value
 output DFS_SOFT_DELETE_ACCOUNT_SAS string = '?${listAccountSas(datalakeSoftDeleteAccountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
@@ -309,6 +308,11 @@ output FULL_ACCOUNT_NAME string = fullAccountName
 output FULL_ACCOUNT_KEY string = listKeys(fullStorageAccount.id, storageApiVersion).keys[0].value
 output FULL_ACCOUNT_SAS string = '?${listAccountSas(fullAccountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
 output FULL_STORAGE_CONNECTION_STRING string = 'DefaultEndpointsProtocol=https;AccountName=${fullAccountName};AccountKey=${listKeys(fullStorageAccount.id, storageApiVersion).keys[0].value};EndpointSuffix=${storageEndpointSuffix}'
+
+output SOFT_DELETE_ACCOUNT_NAME string = fullAccountName
+output SOFT_DELETE_ACCOUNT_KEY string = listKeys(storageAccount.id, storageApiVersion).keys[0].value
+output SOFT_DELETE_ACCOUNT_SAS string = '?${listAccountSas(fullAccountNameTidy, storageApiVersion, accountSasProperties).accountSasToken}'
+output SOFT_DELETE_STORAGE_CONNECTION_STRING string = 'DefaultEndpointsProtocol=https;AccountName=${fullAccountName};AccountKey=${listKeys(storageAccount.id, storageApiVersion).keys[0].value};EndpointSuffix=${storageEndpointSuffix}'
 
 output PREMIUM_FILE_ACCOUNT_NAME string = premiumFileAccountName
 output PREMIUM_FILE_ACCOUNT_KEY string = listKeys(premiumFileAccount.id, storageApiVersion).keys[0].value
