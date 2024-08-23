@@ -130,7 +130,12 @@ export interface CascadeDeleteJobOutput {
    * Status of the job.
    * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
    */
-  readonly status?: "Waiting" | "Running" | "Succeeded" | "Failed" | "Cancelled";
+  readonly status?:
+    | "Waiting"
+    | "Running"
+    | "Succeeded"
+    | "Failed"
+    | "Cancelled";
   /** Duration of the job in seconds. */
   readonly durationInSeconds?: number;
   /** Status message to capture more details of the job. */
@@ -860,7 +865,12 @@ export interface InsightAttachmentOutput {
   /** ModelID for this InsightAttachment. */
   readonly modelId?: string;
   /** Associated Resource type for this attachment. */
-  readonly resourceType?: "Party" | "Farm" | "Field" | "SeasonalField" | "Boundary";
+  readonly resourceType?:
+    | "Party"
+    | "Farm"
+    | "Field"
+    | "SeasonalField"
+    | "Boundary";
   /** Associated Resource id for this attachment. */
   readonly resourceId?: string;
   /** Original File Name for this attachment. */
@@ -906,7 +916,12 @@ export interface InsightOutput {
   /** Id of the associated model. */
   readonly modelId?: string;
   /** Resource type associated with the record. */
-  readonly resourceType?: "Party" | "Farm" | "Field" | "SeasonalField" | "Boundary";
+  readonly resourceType?:
+    | "Party"
+    | "Farm"
+    | "Field"
+    | "SeasonalField"
+    | "Boundary";
   /** Id of the associated resource. */
   readonly resourceId?: string;
   /** Version of the associated model. */
@@ -2758,4 +2773,7 @@ export interface PolygonOutput extends GeoJsonObjectOutputParent {
 }
 
 /** GeoJSON (For more details: https://geojson.org/). Note: Coordinates are expected in [Longitude, Latitude] format. */
-export type GeoJsonObjectOutput = MultiPolygonOutput | PointOutput | PolygonOutput;
+export type GeoJsonObjectOutput =
+  | MultiPolygonOutput
+  | PointOutput
+  | PolygonOutput;

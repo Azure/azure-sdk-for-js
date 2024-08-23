@@ -428,11 +428,14 @@ import {
 
 const responseMap: Record<string, string[]> = {
   "GET /application-data": ["200"],
-  "PUT /application-data/cascade-delete/{jobId}": ["202"],
   "GET /application-data/cascade-delete/{jobId}": ["200"],
+  "PUT /application-data/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/application-data": ["200"],
   "GET /parties/{partyId}/application-data/{applicationDataId}": ["200"],
-  "PATCH /parties/{partyId}/application-data/{applicationDataId}": ["200", "201"],
+  "PATCH /parties/{partyId}/application-data/{applicationDataId}": [
+    "200",
+    "201",
+  ],
   "DELETE /parties/{partyId}/application-data/{applicationDataId}": ["204"],
   "GET /parties/{partyId}/attachments": ["200"],
   "GET /parties/{partyId}/attachments/{attachmentId}": ["200"],
@@ -441,8 +444,8 @@ const responseMap: Record<string, string[]> = {
   "GET /parties/{partyId}/attachments/{attachmentId}/file": ["200"],
   "GET /boundaries": ["200"],
   "POST /boundaries": ["200"],
-  "PUT /boundaries/cascade-delete/{jobId}": ["202"],
   "GET /boundaries/cascade-delete/{jobId}": ["200"],
+  "PUT /boundaries/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/boundaries": ["200"],
   "POST /parties/{partyId}/boundaries": ["200"],
   "PATCH /parties/{partyId}/boundaries/{boundaryId}": ["200", "201"],
@@ -458,18 +461,21 @@ const responseMap: Record<string, string[]> = {
   "PATCH /crops/{cropId}": ["200", "201"],
   "DELETE /crops/{cropId}": ["204"],
   "GET /sensor-partners/{sensorPartnerId}/device-data-models": ["200"],
-  "PATCH /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}": ["200", "201"],
-  "GET /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}": ["200"],
-  "DELETE /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}": ["204"],
+  "PATCH /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}":
+    ["200", "201"],
+  "GET /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}":
+    ["200"],
+  "DELETE /sensor-partners/{sensorPartnerId}/device-data-models/{deviceDataModelId}":
+    ["204"],
   "GET /sensor-partners/{sensorPartnerId}/devices": ["200"],
   "PATCH /sensor-partners/{sensorPartnerId}/devices/{deviceId}": ["200", "201"],
   "GET /sensor-partners/{sensorPartnerId}/devices/{deviceId}": ["200"],
   "DELETE /sensor-partners/{sensorPartnerId}/devices/{deviceId}": ["204"],
-  "PUT /farm-operations/ingest-data/{jobId}": ["202"],
   "GET /farm-operations/ingest-data/{jobId}": ["200"],
+  "PUT /farm-operations/ingest-data/{jobId}": ["202"],
   "GET /farms": ["200"],
-  "PUT /farms/cascade-delete/{jobId}": ["202"],
   "GET /farms/cascade-delete/{jobId}": ["200"],
+  "PUT /farms/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/farms": ["200"],
   "GET /parties/{partyId}/farms/{farmId}": ["200"],
   "PATCH /parties/{partyId}/farms/{farmId}": ["200", "201"],
@@ -482,14 +488,14 @@ const responseMap: Record<string, string[]> = {
   "PATCH /parties/{partyId}/fields/{fieldId}": ["200", "201"],
   "DELETE /parties/{partyId}/fields/{fieldId}": ["204"],
   "GET /harvest-data": ["200"],
-  "PUT /harvest-data/cascade-delete/{jobId}": ["202"],
   "GET /harvest-data/cascade-delete/{jobId}": ["200"],
+  "PUT /harvest-data/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/harvest-data": ["200"],
   "GET /parties/{partyId}/harvest-data/{harvestDataId}": ["200"],
   "PATCH /parties/{partyId}/harvest-data/{harvestDataId}": ["200", "201"],
   "DELETE /parties/{partyId}/harvest-data/{harvestDataId}": ["204"],
-  "PUT /image-processing/rasterize/{jobId}": ["202"],
   "GET /image-processing/rasterize/{jobId}": ["200"],
+  "PUT /image-processing/rasterize/{jobId}": ["202"],
   "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments":
     ["200"],
   "PATCH /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}":
@@ -500,8 +506,8 @@ const responseMap: Record<string, string[]> = {
     ["204"],
   "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insight-attachments/{insightAttachmentId}/file":
     ["200"],
-  "PUT /insights/cascade-delete/{jobId}": ["202"],
   "GET /insights/cascade-delete/{jobId}": ["200"],
+  "PUT /insights/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights":
     ["200"],
   "PATCH /parties/{partyId}/models/{modelId}/resource-types/{resourceType}/resources/{resourceId}/insights/{insightId}":
@@ -515,18 +521,32 @@ const responseMap: Record<string, string[]> = {
   "PUT /management-zones/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/management-zones": ["200"],
   "GET /parties/{partyId}/management-zones/{managementZoneId}": ["200"],
-  "PATCH /parties/{partyId}/management-zones/{managementZoneId}": ["200", "201"],
+  "PATCH /parties/{partyId}/management-zones/{managementZoneId}": [
+    "200",
+    "201",
+  ],
   "DELETE /parties/{partyId}/management-zones/{managementZoneId}": ["204"],
-  "PUT /model-inference/models/microsoft-biomass/infer-data/{jobId}": ["202"],
   "GET /model-inference/models/microsoft-biomass/infer-data/{jobId}": ["200"],
-  "PUT /model-inference/models/microsoft-sensor-placement/infer-data/{jobId}": ["202"],
-  "GET /model-inference/models/microsoft-sensor-placement/infer-data/{jobId}": ["200"],
-  "PUT /model-inference/models/microsoft-soil-moisture/infer-data/{jobId}": ["202"],
-  "GET /model-inference/models/microsoft-soil-moisture/infer-data/{jobId}": ["200"],
+  "PUT /model-inference/models/microsoft-biomass/infer-data/{jobId}": ["202"],
+  "GET /model-inference/models/microsoft-sensor-placement/infer-data/{jobId}": [
+    "200",
+  ],
+  "PUT /model-inference/models/microsoft-sensor-placement/infer-data/{jobId}": [
+    "202",
+  ],
+  "GET /model-inference/models/microsoft-soil-moisture/infer-data/{jobId}": [
+    "200",
+  ],
+  "PUT /model-inference/models/microsoft-soil-moisture/infer-data/{jobId}": [
+    "202",
+  ],
   "GET /nutrient-analyses": ["200"],
   "GET /parties/{partyId}/nutrient-analyses": ["200"],
   "GET /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": ["200"],
-  "PATCH /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": ["200", "201"],
+  "PATCH /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": [
+    "200",
+    "201",
+  ],
   "DELETE /parties/{partyId}/nutrient-analyses/{nutrientAnalysisId}": ["204"],
   "GET /oauth/providers": ["200"],
   "GET /oauth/providers/{oauthProviderId}": ["200"],
@@ -549,18 +569,28 @@ const responseMap: Record<string, string[]> = {
   "PATCH /parties/{partyId}/planting-data/{plantingDataId}": ["200", "201"],
   "DELETE /parties/{partyId}/planting-data/{plantingDataId}": ["204"],
   "GET /planting-data": ["200"],
-  "PUT /planting-data/cascade-delete/{jobId}": ["202"],
   "GET /planting-data/cascade-delete/{jobId}": ["200"],
+  "PUT /planting-data/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/plant-tissue-analyses": ["200"],
-  "GET /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": ["200"],
-  "PATCH /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": ["200", "201"],
-  "DELETE /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": ["204"],
+  "GET /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
+    "200",
+  ],
+  "PATCH /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
+    "200",
+    "201",
+  ],
+  "DELETE /parties/{partyId}/plant-tissue-analyses/{plantTissueAnalysisId}": [
+    "204",
+  ],
   "GET /plant-tissue-analyses": ["200"],
-  "PUT /plant-tissue-analyses/cascade-delete/{jobId}": ["202"],
   "GET /plant-tissue-analyses/cascade-delete/{jobId}": ["200"],
+  "PUT /plant-tissue-analyses/cascade-delete/{jobId}": ["202"],
   "GET /parties/{partyId}/prescription-maps": ["200"],
   "GET /parties/{partyId}/prescription-maps/{prescriptionMapId}": ["200"],
-  "PATCH /parties/{partyId}/prescription-maps/{prescriptionMapId}": ["200", "201"],
+  "PATCH /parties/{partyId}/prescription-maps/{prescriptionMapId}": [
+    "200",
+    "201",
+  ],
   "DELETE /parties/{partyId}/prescription-maps/{prescriptionMapId}": ["204"],
   "GET /prescription-maps": ["200"],
   "GET /prescription-maps/cascade-delete/{jobId}": ["200"],
@@ -574,8 +604,8 @@ const responseMap: Record<string, string[]> = {
   "PUT /prescriptions/cascade-delete/{jobId}": ["202"],
   "GET /scenes": ["200"],
   "GET /scenes/downloadFiles": ["200"],
-  "PUT /scenes/satellite/ingest-data/{jobId}": ["202"],
   "GET /scenes/satellite/ingest-data/{jobId}": ["200"],
+  "PUT /scenes/satellite/ingest-data/{jobId}": ["202"],
   "POST /scenes/stac-collections/{collectionId}:search": ["200"],
   "GET /scenes/stac-collections/{collectionId}/features/{featureId}": ["200"],
   "GET /parties/{partyId}/seasonal-fields": ["200"],
@@ -590,39 +620,51 @@ const responseMap: Record<string, string[]> = {
   "PATCH /seasons/{seasonId}": ["200", "201"],
   "DELETE /seasons/{seasonId}": ["204"],
   "GET /sensor-partners/{sensorPartnerId}/sensor-data-models": ["200"],
-  "PATCH /sensor-partners/{sensorPartnerId}/sensor-data-models/{sensorDataModelId}": ["200", "201"],
-  "GET /sensor-partners/{sensorPartnerId}/sensor-data-models/{sensorDataModelId}": ["200"],
-  "DELETE /sensor-partners/{sensorPartnerId}/sensor-data-models/{sensorDataModelId}": ["204"],
+  "PATCH /sensor-partners/{sensorPartnerId}/sensor-data-models/{sensorDataModelId}":
+    ["200", "201"],
+  "GET /sensor-partners/{sensorPartnerId}/sensor-data-models/{sensorDataModelId}":
+    ["200"],
+  "DELETE /sensor-partners/{sensorPartnerId}/sensor-data-models/{sensorDataModelId}":
+    ["204"],
   "GET /sensor-events": ["200"],
   "GET /sensor-mappings": ["200"],
   "PATCH /sensor-mappings/{sensorMappingId}": ["200", "201"],
   "GET /sensor-mappings/{sensorMappingId}": ["200"],
   "DELETE /sensor-mappings/{sensorMappingId}": ["204"],
   "GET /sensor-partners/{sensorPartnerId}/integrations": ["200"],
-  "PATCH /sensor-partners/{sensorPartnerId}/integrations/{integrationId}": ["200", "201"],
-  "GET /sensor-partners/{sensorPartnerId}/integrations/{integrationId}": ["200"],
-  "DELETE /sensor-partners/{sensorPartnerId}/integrations/{integrationId}": ["204"],
-  "POST /sensor-partners/{sensorPartnerId}/integrations/{integrationId}/:check-consent": ["200"],
-  "POST /sensor-partners/{sensorPartnerId}/integrations/{integrationId}/:generate-consent-link": [
+  "PATCH /sensor-partners/{sensorPartnerId}/integrations/{integrationId}": [
+    "200",
+    "201",
+  ],
+  "GET /sensor-partners/{sensorPartnerId}/integrations/{integrationId}": [
     "200",
   ],
+  "DELETE /sensor-partners/{sensorPartnerId}/integrations/{integrationId}": [
+    "204",
+  ],
+  "POST /sensor-partners/{sensorPartnerId}/integrations/{integrationId}/:check-consent":
+    ["200"],
+  "POST /sensor-partners/{sensorPartnerId}/integrations/{integrationId}/:generate-consent-link":
+    ["200"],
   "GET /sensor-partners/{sensorPartnerId}/sensors": ["200"],
   "PATCH /sensor-partners/{sensorPartnerId}/sensors/{sensorId}": ["200", "201"],
   "GET /sensor-partners/{sensorPartnerId}/sensors/{sensorId}": ["200"],
   "DELETE /sensor-partners/{sensorPartnerId}/sensors/{sensorId}": ["204"],
-  "GET /sensor-partners/{sensorPartnerId}/sensors/{sensorId}/connection-strings": ["200"],
-  "POST /sensor-partners/{sensorPartnerId}/sensors/{sensorId}/connection-strings/:renew": ["200"],
+  "GET /sensor-partners/{sensorPartnerId}/sensors/{sensorId}/connection-strings":
+    ["200"],
+  "POST /sensor-partners/{sensorPartnerId}/sensors/{sensorId}/connection-strings/:renew":
+    ["200"],
   "POST /solutions/{solutionId}:cancel": ["200"],
-  "POST /solutions/{solutionId}:create": ["202"],
   "GET /solutions/{solutionId}:create": ["202"],
+  "POST /solutions/{solutionId}:create": ["202"],
   "POST /solutions/{solutionId}:fetch": ["200"],
   "GET /parties/{partyId}/tillage-data": ["200"],
   "GET /parties/{partyId}/tillage-data/{tillageDataId}": ["200"],
   "PATCH /parties/{partyId}/tillage-data/{tillageDataId}": ["200", "201"],
   "DELETE /parties/{partyId}/tillage-data/{tillageDataId}": ["204"],
   "GET /tillage-data": ["200"],
-  "PUT /tillage-data/cascade-delete/{jobId}": ["202"],
   "GET /tillage-data/cascade-delete/{jobId}": ["200"],
+  "PUT /tillage-data/cascade-delete/{jobId}": ["202"],
   "GET /weather": ["200"],
   "GET /weather/delete-data/{jobId}": ["200"],
   "PUT /weather/delete-data/{jobId}": ["202"],
@@ -652,7 +694,9 @@ export function isUnexpected(
     | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: ApplicationDataListByPartyId200Response | ApplicationDataListByPartyIdDefaultResponse,
+  response:
+    | ApplicationDataListByPartyId200Response
+    | ApplicationDataListByPartyIdDefaultResponse,
 ): response is ApplicationDataListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: ApplicationDataGet200Response | ApplicationDataGetDefaultResponse,
@@ -664,10 +708,14 @@ export function isUnexpected(
     | ApplicationDataCreateOrUpdateDefaultResponse,
 ): response is ApplicationDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ApplicationDataDelete204Response | ApplicationDataDeleteDefaultResponse,
+  response:
+    | ApplicationDataDelete204Response
+    | ApplicationDataDeleteDefaultResponse,
 ): response is ApplicationDataDeleteDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsListByPartyId200Response | AttachmentsListByPartyIdDefaultResponse,
+  response:
+    | AttachmentsListByPartyId200Response
+    | AttachmentsListByPartyIdDefaultResponse,
 ): response is AttachmentsListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: AttachmentsGet200Response | AttachmentsGetDefaultResponse,
@@ -701,10 +749,14 @@ export function isUnexpected(
     | BoundariesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is BoundariesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: BoundariesListByPartyId200Response | BoundariesListByPartyIdDefaultResponse,
+  response:
+    | BoundariesListByPartyId200Response
+    | BoundariesListByPartyIdDefaultResponse,
 ): response is BoundariesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: BoundariesSearchByPartyId200Response | BoundariesSearchByPartyIdDefaultResponse,
+  response:
+    | BoundariesSearchByPartyId200Response
+    | BoundariesSearchByPartyIdDefaultResponse,
 ): response is BoundariesSearchByPartyIdDefaultResponse;
 export function isUnexpected(
   response:
@@ -719,7 +771,9 @@ export function isUnexpected(
   response: BoundariesDelete204Response | BoundariesDeleteDefaultResponse,
 ): response is BoundariesDeleteDefaultResponse;
 export function isUnexpected(
-  response: BoundariesGetOverlap200Response | BoundariesGetOverlapDefaultResponse,
+  response:
+    | BoundariesGetOverlap200Response
+    | BoundariesGetOverlapDefaultResponse,
 ): response is BoundariesGetOverlapDefaultResponse;
 export function isUnexpected(
   response: CropProductsList200Response | CropProductsListDefaultResponse,
@@ -752,7 +806,9 @@ export function isUnexpected(
   response: CropsDelete204Response | CropsDeleteDefaultResponse,
 ): response is CropsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DeviceDataModelsList200Response | DeviceDataModelsListDefaultResponse,
+  response:
+    | DeviceDataModelsList200Response
+    | DeviceDataModelsListDefaultResponse,
 ): response is DeviceDataModelsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -764,7 +820,9 @@ export function isUnexpected(
   response: DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse,
 ): response is DeviceDataModelsGetDefaultResponse;
 export function isUnexpected(
-  response: DeviceDataModelsDelete204Response | DeviceDataModelsDeleteDefaultResponse,
+  response:
+    | DeviceDataModelsDelete204Response
+    | DeviceDataModelsDeleteDefaultResponse,
 ): response is DeviceDataModelsDeleteDefaultResponse;
 export function isUnexpected(
   response: DevicesList200Response | DevicesListDefaultResponse,
@@ -795,7 +853,9 @@ export function isUnexpected(
   response: FarmsList200Response | FarmsListDefaultResponse,
 ): response is FarmsListDefaultResponse;
 export function isUnexpected(
-  response: FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobDefaultResponse,
+  response:
+    | FarmsCreateCascadeDeleteJob202Response
+    | FarmsCreateCascadeDeleteJobDefaultResponse,
 ): response is FarmsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
@@ -826,7 +886,9 @@ export function isUnexpected(
     | FieldsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is FieldsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobDefaultResponse,
+  response:
+    | FieldsCreateCascadeDeleteJob202Response
+    | FieldsCreateCascadeDeleteJobDefaultResponse,
 ): response is FieldsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response: FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse,
@@ -857,7 +919,9 @@ export function isUnexpected(
     | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is HarvestDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataListByPartyId200Response | HarvestDataListByPartyIdDefaultResponse,
+  response:
+    | HarvestDataListByPartyId200Response
+    | HarvestDataListByPartyIdDefaultResponse,
 ): response is HarvestDataListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: HarvestDataGet200Response | HarvestDataGetDefaultResponse,
@@ -893,13 +957,19 @@ export function isUnexpected(
     | InsightAttachmentsCreateOrUpdateDefaultResponse,
 ): response is InsightAttachmentsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: InsightAttachmentsGet200Response | InsightAttachmentsGetDefaultResponse,
+  response:
+    | InsightAttachmentsGet200Response
+    | InsightAttachmentsGetDefaultResponse,
 ): response is InsightAttachmentsGetDefaultResponse;
 export function isUnexpected(
-  response: InsightAttachmentsDelete204Response | InsightAttachmentsDeleteDefaultResponse,
+  response:
+    | InsightAttachmentsDelete204Response
+    | InsightAttachmentsDeleteDefaultResponse,
 ): response is InsightAttachmentsDeleteDefaultResponse;
 export function isUnexpected(
-  response: InsightAttachmentsDownload200Response | InsightAttachmentsDownloadDefaultResponse,
+  response:
+    | InsightAttachmentsDownload200Response
+    | InsightAttachmentsDownloadDefaultResponse,
 ): response is InsightAttachmentsDownloadDefaultResponse;
 export function isUnexpected(
   response:
@@ -942,7 +1012,9 @@ export function isUnexpected(
     | ManagementZonesCreateCascadeDeleteJobDefaultResponse,
 ): response is ManagementZonesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesListByPartyId200Response | ManagementZonesListByPartyIdDefaultResponse,
+  response:
+    | ManagementZonesListByPartyId200Response
+    | ManagementZonesListByPartyIdDefaultResponse,
 ): response is ManagementZonesListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: ManagementZonesGet200Response | ManagementZonesGetDefaultResponse,
@@ -954,7 +1026,9 @@ export function isUnexpected(
     | ManagementZonesCreateOrUpdateDefaultResponse,
 ): response is ManagementZonesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesDelete204Response | ManagementZonesDeleteDefaultResponse,
+  response:
+    | ManagementZonesDelete204Response
+    | ManagementZonesDeleteDefaultResponse,
 ): response is ManagementZonesDeleteDefaultResponse;
 export function isUnexpected(
   response:
@@ -987,10 +1061,14 @@ export function isUnexpected(
     | ModelInferenceGetSoilMoistureModelJobDefaultResponse,
 ): response is ModelInferenceGetSoilMoistureModelJobDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesList200Response | NutrientAnalysesListDefaultResponse,
+  response:
+    | NutrientAnalysesList200Response
+    | NutrientAnalysesListDefaultResponse,
 ): response is NutrientAnalysesListDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesListByPartyId200Response | NutrientAnalysesListByPartyIdDefaultResponse,
+  response:
+    | NutrientAnalysesListByPartyId200Response
+    | NutrientAnalysesListByPartyIdDefaultResponse,
 ): response is NutrientAnalysesListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse,
@@ -1002,7 +1080,9 @@ export function isUnexpected(
     | NutrientAnalysesCreateOrUpdateDefaultResponse,
 ): response is NutrientAnalysesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesDelete204Response | NutrientAnalysesDeleteDefaultResponse,
+  response:
+    | NutrientAnalysesDelete204Response
+    | NutrientAnalysesDeleteDefaultResponse,
 ): response is NutrientAnalysesDeleteDefaultResponse;
 export function isUnexpected(
   response: OAuthProvidersList200Response | OAuthProvidersListDefaultResponse,
@@ -1017,7 +1097,9 @@ export function isUnexpected(
     | OAuthProvidersCreateOrUpdateDefaultResponse,
 ): response is OAuthProvidersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: OAuthProvidersDelete204Response | OAuthProvidersDeleteDefaultResponse,
+  response:
+    | OAuthProvidersDelete204Response
+    | OAuthProvidersDeleteDefaultResponse,
 ): response is OAuthProvidersDeleteDefaultResponse;
 export function isUnexpected(
   response:
@@ -1068,10 +1150,14 @@ export function isUnexpected(
     | PartiesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PartiesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: PartiesCreateCascadeDeleteJob202Response | PartiesCreateCascadeDeleteJobDefaultResponse,
+  response:
+    | PartiesCreateCascadeDeleteJob202Response
+    | PartiesCreateCascadeDeleteJobDefaultResponse,
 ): response is PartiesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataListByPartyId200Response | PlantingDataListByPartyIdDefaultResponse,
+  response:
+    | PlantingDataListByPartyId200Response
+    | PlantingDataListByPartyIdDefaultResponse,
 ): response is PlantingDataListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: PlantingDataGet200Response | PlantingDataGetDefaultResponse,
@@ -1104,7 +1190,9 @@ export function isUnexpected(
     | PlantTissueAnalysesListByPartyIdDefaultResponse,
 ): response is PlantTissueAnalysesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetDefaultResponse,
+  response:
+    | PlantTissueAnalysesGet200Response
+    | PlantTissueAnalysesGetDefaultResponse,
 ): response is PlantTissueAnalysesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -1113,10 +1201,14 @@ export function isUnexpected(
     | PlantTissueAnalysesCreateOrUpdateDefaultResponse,
 ): response is PlantTissueAnalysesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeleteDefaultResponse,
+  response:
+    | PlantTissueAnalysesDelete204Response
+    | PlantTissueAnalysesDeleteDefaultResponse,
 ): response is PlantTissueAnalysesDeleteDefaultResponse;
 export function isUnexpected(
-  response: PlantTissueAnalysesList200Response | PlantTissueAnalysesListDefaultResponse,
+  response:
+    | PlantTissueAnalysesList200Response
+    | PlantTissueAnalysesListDefaultResponse,
 ): response is PlantTissueAnalysesListDefaultResponse;
 export function isUnexpected(
   response:
@@ -1129,7 +1221,9 @@ export function isUnexpected(
     | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsListByPartyId200Response | PrescriptionMapsListByPartyIdDefaultResponse,
+  response:
+    | PrescriptionMapsListByPartyId200Response
+    | PrescriptionMapsListByPartyIdDefaultResponse,
 ): response is PrescriptionMapsListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse,
@@ -1141,10 +1235,14 @@ export function isUnexpected(
     | PrescriptionMapsCreateOrUpdateDefaultResponse,
 ): response is PrescriptionMapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsDelete204Response | PrescriptionMapsDeleteDefaultResponse,
+  response:
+    | PrescriptionMapsDelete204Response
+    | PrescriptionMapsDeleteDefaultResponse,
 ): response is PrescriptionMapsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsList200Response | PrescriptionMapsListDefaultResponse,
+  response:
+    | PrescriptionMapsList200Response
+    | PrescriptionMapsListDefaultResponse,
 ): response is PrescriptionMapsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -1157,7 +1255,9 @@ export function isUnexpected(
     | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse,
 ): response is PrescriptionMapsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsListByPartyId200Response | PrescriptionsListByPartyIdDefaultResponse,
+  response:
+    | PrescriptionsListByPartyId200Response
+    | PrescriptionsListByPartyIdDefaultResponse,
 ): response is PrescriptionsListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: PrescriptionsGet200Response | PrescriptionsGetDefaultResponse,
@@ -1201,13 +1301,19 @@ export function isUnexpected(
     | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse,
 ): response is ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: ScenesSearchFeatures200Response | ScenesSearchFeaturesDefaultResponse,
+  response:
+    | ScenesSearchFeatures200Response
+    | ScenesSearchFeaturesDefaultResponse,
 ): response is ScenesSearchFeaturesDefaultResponse;
 export function isUnexpected(
-  response: ScenesGetStacFeature200Response | ScenesGetStacFeatureDefaultResponse,
+  response:
+    | ScenesGetStacFeature200Response
+    | ScenesGetStacFeatureDefaultResponse,
 ): response is ScenesGetStacFeatureDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsListByPartyId200Response | SeasonalFieldsListByPartyIdDefaultResponse,
+  response:
+    | SeasonalFieldsListByPartyId200Response
+    | SeasonalFieldsListByPartyIdDefaultResponse,
 ): response is SeasonalFieldsListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse,
@@ -1219,7 +1325,9 @@ export function isUnexpected(
     | SeasonalFieldsCreateOrUpdateDefaultResponse,
 ): response is SeasonalFieldsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsDelete204Response | SeasonalFieldsDeleteDefaultResponse,
+  response:
+    | SeasonalFieldsDelete204Response
+    | SeasonalFieldsDeleteDefaultResponse,
 ): response is SeasonalFieldsDeleteDefaultResponse;
 export function isUnexpected(
   response: SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse,
@@ -1250,7 +1358,9 @@ export function isUnexpected(
   response: SeasonsDelete204Response | SeasonsDeleteDefaultResponse,
 ): response is SeasonsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorDataModelsList200Response | SensorDataModelsListDefaultResponse,
+  response:
+    | SensorDataModelsList200Response
+    | SensorDataModelsListDefaultResponse,
 ): response is SensorDataModelsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -1262,7 +1372,9 @@ export function isUnexpected(
   response: SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse,
 ): response is SensorDataModelsGetDefaultResponse;
 export function isUnexpected(
-  response: SensorDataModelsDelete204Response | SensorDataModelsDeleteDefaultResponse,
+  response:
+    | SensorDataModelsDelete204Response
+    | SensorDataModelsDeleteDefaultResponse,
 ): response is SensorDataModelsDeleteDefaultResponse;
 export function isUnexpected(
   response: SensorEventsList200Response | SensorEventsListDefaultResponse,
@@ -1280,10 +1392,14 @@ export function isUnexpected(
   response: SensorMappingsGet200Response | SensorMappingsGetDefaultResponse,
 ): response is SensorMappingsGetDefaultResponse;
 export function isUnexpected(
-  response: SensorMappingsDelete204Response | SensorMappingsDeleteDefaultResponse,
+  response:
+    | SensorMappingsDelete204Response
+    | SensorMappingsDeleteDefaultResponse,
 ): response is SensorMappingsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListDefaultResponse,
+  response:
+    | SensorPartnerIntegrationsList200Response
+    | SensorPartnerIntegrationsListDefaultResponse,
 ): response is SensorPartnerIntegrationsListDefaultResponse;
 export function isUnexpected(
   response:
@@ -1292,7 +1408,9 @@ export function isUnexpected(
     | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse,
 ): response is SensorPartnerIntegrationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetDefaultResponse,
+  response:
+    | SensorPartnerIntegrationsGet200Response
+    | SensorPartnerIntegrationsGetDefaultResponse,
 ): response is SensorPartnerIntegrationsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -1325,13 +1443,19 @@ export function isUnexpected(
   response: SensorsDelete204Response | SensorsDeleteDefaultResponse,
 ): response is SensorsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorsGetConnectionString200Response | SensorsGetConnectionStringDefaultResponse,
+  response:
+    | SensorsGetConnectionString200Response
+    | SensorsGetConnectionStringDefaultResponse,
 ): response is SensorsGetConnectionStringDefaultResponse;
 export function isUnexpected(
-  response: SensorsRenewConnectionString200Response | SensorsRenewConnectionStringDefaultResponse,
+  response:
+    | SensorsRenewConnectionString200Response
+    | SensorsRenewConnectionStringDefaultResponse,
 ): response is SensorsRenewConnectionStringDefaultResponse;
 export function isUnexpected(
-  response: SolutionInferenceCancel200Response | SolutionInferenceCancelDefaultResponse,
+  response:
+    | SolutionInferenceCancel200Response
+    | SolutionInferenceCancelDefaultResponse,
 ): response is SolutionInferenceCancelDefaultResponse;
 export function isUnexpected(
   response:
@@ -1339,10 +1463,14 @@ export function isUnexpected(
     | SolutionInferenceCreateOrUpdateDefaultResponse,
 ): response is SolutionInferenceCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SolutionInferenceFetch200Response | SolutionInferenceFetchDefaultResponse,
+  response:
+    | SolutionInferenceFetch200Response
+    | SolutionInferenceFetchDefaultResponse,
 ): response is SolutionInferenceFetchDefaultResponse;
 export function isUnexpected(
-  response: TillageDataListByPartyId200Response | TillageDataListByPartyIdDefaultResponse,
+  response:
+    | TillageDataListByPartyId200Response
+    | TillageDataListByPartyIdDefaultResponse,
 ): response is TillageDataListByPartyIdDefaultResponse;
 export function isUnexpected(
   response: TillageDataGet200Response | TillageDataGetDefaultResponse,
@@ -1378,7 +1506,9 @@ export function isUnexpected(
     | WeatherGetDataDeleteJobDetailsDefaultResponse,
 ): response is WeatherGetDataDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobDefaultResponse,
+  response:
+    | WeatherCreateDataDeleteJob202Response
+    | WeatherCreateDataDeleteJobDefaultResponse,
 ): response is WeatherCreateDataDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
@@ -1386,7 +1516,9 @@ export function isUnexpected(
     | WeatherGetDataIngestionJobDetailsDefaultResponse,
 ): response is WeatherGetDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobDefaultResponse,
+  response:
+    | WeatherCreateDataIngestionJob202Response
+    | WeatherCreateDataIngestionJobDefaultResponse,
 ): response is WeatherCreateDataIngestionJobDefaultResponse;
 export function isUnexpected(
   response: WeatherDataGet200Response | WeatherDataGetDefaultResponse,
@@ -1415,7 +1547,9 @@ export function isUnexpected(
     | ZonesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is ZonesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobDefaultResponse,
+  response:
+    | ZonesCreateCascadeDeleteJob202Response
+    | ZonesCreateCascadeDeleteJobDefaultResponse,
 ): response is ZonesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
@@ -2071,17 +2205,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

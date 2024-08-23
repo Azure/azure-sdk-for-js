@@ -106,7 +106,8 @@ export interface ApplicationDataListQueryParam {
   queryParameters?: ApplicationDataListQueryParamProperties;
 }
 
-export type ApplicationDataListParameters = ApplicationDataListQueryParam & RequestParameters;
+export type ApplicationDataListParameters = ApplicationDataListQueryParam &
+  RequestParameters;
 
 export interface ApplicationDataCreateCascadeDeleteJobQueryParamProperties {
   /** Id of the party. */
@@ -121,7 +122,8 @@ export interface ApplicationDataCreateCascadeDeleteJobQueryParam {
 
 export type ApplicationDataCreateCascadeDeleteJobParameters =
   ApplicationDataCreateCascadeDeleteJobQueryParam & RequestParameters;
-export type ApplicationDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type ApplicationDataGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface ApplicationDataListByPartyIdQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */
@@ -184,8 +186,8 @@ export interface ApplicationDataListByPartyIdQueryParam {
   queryParameters?: ApplicationDataListByPartyIdQueryParamProperties;
 }
 
-export type ApplicationDataListByPartyIdParameters = ApplicationDataListByPartyIdQueryParam &
-  RequestParameters;
+export type ApplicationDataListByPartyIdParameters =
+  ApplicationDataListByPartyIdQueryParam & RequestParameters;
 export type ApplicationDataGetParameters = RequestParameters;
 /** Application data resource payload to create or update. */
 export type ApplicationDataResourceMergeAndPatch = Partial<ApplicationData>;
@@ -200,9 +202,10 @@ export interface ApplicationDataCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type ApplicationDataCreateOrUpdateParameters = ApplicationDataCreateOrUpdateMediaTypesParam &
-  ApplicationDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ApplicationDataCreateOrUpdateParameters =
+  ApplicationDataCreateOrUpdateMediaTypesParam &
+    ApplicationDataCreateOrUpdateBodyParam &
+    RequestParameters;
 export type ApplicationDataDeleteParameters = RequestParameters;
 
 export interface AttachmentsListByPartyIdQueryParamProperties {
@@ -245,8 +248,8 @@ export interface AttachmentsListByPartyIdQueryParam {
   queryParameters?: AttachmentsListByPartyIdQueryParamProperties;
 }
 
-export type AttachmentsListByPartyIdParameters = AttachmentsListByPartyIdQueryParam &
-  RequestParameters;
+export type AttachmentsListByPartyIdParameters =
+  AttachmentsListByPartyIdQueryParam & RequestParameters;
 export type AttachmentsGetParameters = RequestParameters;
 
 export interface AttachmentsCreateOrUpdateBodyParam {
@@ -259,7 +262,11 @@ export interface AttachmentsCreateOrUpdateFormBody {
    *
    * Value may contain any sequence of octets
    */
-  file?: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  file?:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
   /** Associated Resource id for this attachment. */
   resourceId?: string;
   /** Associated Resource type for this attachment. */
@@ -291,9 +298,10 @@ export interface AttachmentsCreateOrUpdateMediaTypesParam {
   contentType?: "multipart/form-data";
 }
 
-export type AttachmentsCreateOrUpdateParameters = AttachmentsCreateOrUpdateMediaTypesParam &
-  AttachmentsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type AttachmentsCreateOrUpdateParameters =
+  AttachmentsCreateOrUpdateMediaTypesParam &
+    AttachmentsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type AttachmentsDeleteParameters = RequestParameters;
 export type AttachmentsDownloadParameters = RequestParameters;
 
@@ -340,7 +348,8 @@ export interface BoundariesListQueryParam {
   queryParameters?: BoundariesListQueryParamProperties;
 }
 
-export type BoundariesListParameters = BoundariesListQueryParam & RequestParameters;
+export type BoundariesListParameters = BoundariesListQueryParam &
+  RequestParameters;
 
 export interface BoundariesSearchBodyParam {
   /** Query filters. */
@@ -414,8 +423,8 @@ export interface BoundariesListByPartyIdQueryParam {
   queryParameters?: BoundariesListByPartyIdQueryParamProperties;
 }
 
-export type BoundariesListByPartyIdParameters = BoundariesListByPartyIdQueryParam &
-  RequestParameters;
+export type BoundariesListByPartyIdParameters =
+  BoundariesListByPartyIdQueryParam & RequestParameters;
 
 export interface BoundariesSearchByPartyIdBodyParam {
   /** Query filters. */
@@ -427,9 +436,10 @@ export interface BoundariesSearchByPartyIdMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type BoundariesSearchByPartyIdParameters = BoundariesSearchByPartyIdMediaTypesParam &
-  BoundariesSearchByPartyIdBodyParam &
-  RequestParameters;
+export type BoundariesSearchByPartyIdParameters =
+  BoundariesSearchByPartyIdMediaTypesParam &
+    BoundariesSearchByPartyIdBodyParam &
+    RequestParameters;
 /** Boundary resource payload to create or update. */
 export type BoundaryResourceMergeAndPatch = Partial<Boundary>;
 
@@ -443,9 +453,10 @@ export interface BoundariesCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type BoundariesCreateOrUpdateParameters = BoundariesCreateOrUpdateMediaTypesParam &
-  BoundariesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type BoundariesCreateOrUpdateParameters =
+  BoundariesCreateOrUpdateMediaTypesParam &
+    BoundariesCreateOrUpdateBodyParam &
+    RequestParameters;
 export type BoundariesGetParameters = RequestParameters;
 export type BoundariesDeleteParameters = RequestParameters;
 
@@ -460,7 +471,8 @@ export interface BoundariesGetOverlapQueryParam {
   queryParameters: BoundariesGetOverlapQueryParamProperties;
 }
 
-export type BoundariesGetOverlapParameters = BoundariesGetOverlapQueryParam & RequestParameters;
+export type BoundariesGetOverlapParameters = BoundariesGetOverlapQueryParam &
+  RequestParameters;
 
 export interface CropProductsListQueryParamProperties {
   /** CropIds of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -503,7 +515,8 @@ export interface CropProductsListQueryParam {
   queryParameters?: CropProductsListQueryParamProperties;
 }
 
-export type CropProductsListParameters = CropProductsListQueryParam & RequestParameters;
+export type CropProductsListParameters = CropProductsListQueryParam &
+  RequestParameters;
 export type CropProductsGetParameters = RequestParameters;
 /** Crop Product resource payload to create or update. */
 export type CropProductResourceMergeAndPatch = Partial<CropProduct>;
@@ -518,9 +531,10 @@ export interface CropProductsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type CropProductsCreateOrUpdateParameters = CropProductsCreateOrUpdateMediaTypesParam &
-  CropProductsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type CropProductsCreateOrUpdateParameters =
+  CropProductsCreateOrUpdateMediaTypesParam &
+    CropProductsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type CropProductsDeleteParameters = RequestParameters;
 
 export interface CropsListQueryParamProperties {
@@ -613,7 +627,8 @@ export interface DeviceDataModelsListQueryParam {
   queryParameters?: DeviceDataModelsListQueryParamProperties;
 }
 
-export type DeviceDataModelsListParameters = DeviceDataModelsListQueryParam & RequestParameters;
+export type DeviceDataModelsListParameters = DeviceDataModelsListQueryParam &
+  RequestParameters;
 /** Device data model object details. */
 export type DeviceDataModelResourceMergeAndPatch = Partial<DeviceDataModel>;
 
@@ -685,9 +700,10 @@ export interface DevicesCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type DevicesCreateOrUpdateParameters = DevicesCreateOrUpdateMediaTypesParam &
-  DevicesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type DevicesCreateOrUpdateParameters =
+  DevicesCreateOrUpdateMediaTypesParam &
+    DevicesCreateOrUpdateBodyParam &
+    RequestParameters;
 export type DevicesGetParameters = RequestParameters;
 export type DevicesDeleteParameters = RequestParameters;
 
@@ -705,7 +721,8 @@ export type FarmOperationsCreateDataIngestionJobParameters =
   FarmOperationsCreateDataIngestionJobMediaTypesParam &
     FarmOperationsCreateDataIngestionJobBodyParam &
     RequestParameters;
-export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
+export type FarmOperationsGetDataIngestionJobDetailsParameters =
+  RequestParameters;
 
 export interface FarmsListQueryParamProperties {
   /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -753,8 +770,8 @@ export interface FarmsCreateCascadeDeleteJobQueryParam {
   queryParameters: FarmsCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type FarmsCreateCascadeDeleteJobParameters = FarmsCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type FarmsCreateCascadeDeleteJobParameters =
+  FarmsCreateCascadeDeleteJobQueryParam & RequestParameters;
 export type FarmsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface FarmsListByPartyIdQueryParamProperties {
@@ -790,7 +807,8 @@ export interface FarmsListByPartyIdQueryParam {
   queryParameters?: FarmsListByPartyIdQueryParamProperties;
 }
 
-export type FarmsListByPartyIdParameters = FarmsListByPartyIdQueryParam & RequestParameters;
+export type FarmsListByPartyIdParameters = FarmsListByPartyIdQueryParam &
+  RequestParameters;
 export type FarmsGetParameters = RequestParameters;
 /** Farm resource payload to create or update. */
 export type FarmResourceMergeAndPatch = Partial<Farm>;
@@ -859,8 +877,8 @@ export interface FieldsCreateCascadeDeleteJobQueryParam {
   queryParameters: FieldsCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type FieldsCreateCascadeDeleteJobParameters = FieldsCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type FieldsCreateCascadeDeleteJobParameters =
+  FieldsCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 export interface FieldsListByPartyIdQueryParamProperties {
   /** Farm Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -897,7 +915,8 @@ export interface FieldsListByPartyIdQueryParam {
   queryParameters?: FieldsListByPartyIdQueryParamProperties;
 }
 
-export type FieldsListByPartyIdParameters = FieldsListByPartyIdQueryParam & RequestParameters;
+export type FieldsListByPartyIdParameters = FieldsListByPartyIdQueryParam &
+  RequestParameters;
 export type FieldsGetParameters = RequestParameters;
 /** Field resource payload to create or update. */
 export type FieldResourceMergeAndPatch = Partial<Field>;
@@ -912,9 +931,10 @@ export interface FieldsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type FieldsCreateOrUpdateParameters = FieldsCreateOrUpdateMediaTypesParam &
-  FieldsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type FieldsCreateOrUpdateParameters =
+  FieldsCreateOrUpdateMediaTypesParam &
+    FieldsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type FieldsDeleteParameters = RequestParameters;
 
 export interface HarvestDataListQueryParamProperties {
@@ -994,7 +1014,8 @@ export interface HarvestDataListQueryParam {
   queryParameters?: HarvestDataListQueryParamProperties;
 }
 
-export type HarvestDataListParameters = HarvestDataListQueryParam & RequestParameters;
+export type HarvestDataListParameters = HarvestDataListQueryParam &
+  RequestParameters;
 
 export interface HarvestDataCreateCascadeDeleteJobQueryParamProperties {
   /** Id of the party. */
@@ -1088,8 +1109,8 @@ export interface HarvestDataListByPartyIdQueryParam {
   queryParameters?: HarvestDataListByPartyIdQueryParamProperties;
 }
 
-export type HarvestDataListByPartyIdParameters = HarvestDataListByPartyIdQueryParam &
-  RequestParameters;
+export type HarvestDataListByPartyIdParameters =
+  HarvestDataListByPartyIdQueryParam & RequestParameters;
 export type HarvestDataGetParameters = RequestParameters;
 /** Harvest data resource payload to create or update. */
 export type HarvestDataResourceMergeAndPatch = Partial<HarvestData>;
@@ -1104,9 +1125,10 @@ export interface HarvestDataCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type HarvestDataCreateOrUpdateParameters = HarvestDataCreateOrUpdateMediaTypesParam &
-  HarvestDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type HarvestDataCreateOrUpdateParameters =
+  HarvestDataCreateOrUpdateMediaTypesParam &
+    HarvestDataCreateOrUpdateBodyParam &
+    RequestParameters;
 export type HarvestDataDeleteParameters = RequestParameters;
 
 export interface ImageProcessingCreateRasterizeJobBodyParam {
@@ -1161,7 +1183,8 @@ export interface InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam {
 }
 
 export type InsightAttachmentsListByPartyIdModelIdAndResourceParameters =
-  InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam & RequestParameters;
+  InsightAttachmentsListByPartyIdModelIdAndResourceQueryParam &
+    RequestParameters;
 
 export interface InsightAttachmentsCreateOrUpdateBodyParam {
   body: InsightAttachmentsCreateOrUpdateFormBody;
@@ -1173,7 +1196,11 @@ export interface InsightAttachmentsCreateOrUpdateFormBody {
    *
    * Value may contain any sequence of octets
    */
-  file?: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  file?:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
   /** InsightID for this InsightAttachment. */
   insightId: string;
   /** Original File Name for this attachment. */
@@ -1228,8 +1255,8 @@ export interface InsightsCreateCascadeDeleteJobQueryParam {
   queryParameters: InsightsCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type InsightsCreateCascadeDeleteJobParameters = InsightsCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type InsightsCreateCascadeDeleteJobParameters =
+  InsightsCreateCascadeDeleteJobQueryParam & RequestParameters;
 export type InsightsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
 export interface InsightsListByPartyIdModelIdAndResourceQueryParamProperties {
@@ -1294,9 +1321,10 @@ export interface InsightsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type InsightsCreateOrUpdateParameters = InsightsCreateOrUpdateMediaTypesParam &
-  InsightsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type InsightsCreateOrUpdateParameters =
+  InsightsCreateOrUpdateMediaTypesParam &
+    InsightsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type InsightsGetParameters = RequestParameters;
 export type InsightsDeleteParameters = RequestParameters;
 
@@ -1343,8 +1371,10 @@ export interface ManagementZonesListQueryParam {
   queryParameters?: ManagementZonesListQueryParamProperties;
 }
 
-export type ManagementZonesListParameters = ManagementZonesListQueryParam & RequestParameters;
-export type ManagementZonesGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type ManagementZonesListParameters = ManagementZonesListQueryParam &
+  RequestParameters;
+export type ManagementZonesGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface ManagementZonesCreateCascadeDeleteJobQueryParamProperties {
   /** ID of the associated party. */
@@ -1403,8 +1433,8 @@ export interface ManagementZonesListByPartyIdQueryParam {
   queryParameters?: ManagementZonesListByPartyIdQueryParamProperties;
 }
 
-export type ManagementZonesListByPartyIdParameters = ManagementZonesListByPartyIdQueryParam &
-  RequestParameters;
+export type ManagementZonesListByPartyIdParameters =
+  ManagementZonesListByPartyIdQueryParam & RequestParameters;
 export type ManagementZonesGetParameters = RequestParameters;
 /** ManagementZone resource payload to create or update. */
 export type ManagementZoneResourceMergeAndPatch = Partial<ManagementZone>;
@@ -1419,9 +1449,10 @@ export interface ManagementZonesCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type ManagementZonesCreateOrUpdateParameters = ManagementZonesCreateOrUpdateMediaTypesParam &
-  ManagementZonesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ManagementZonesCreateOrUpdateParameters =
+  ManagementZonesCreateOrUpdateMediaTypesParam &
+    ManagementZonesCreateOrUpdateBodyParam &
+    RequestParameters;
 export type ManagementZonesDeleteParameters = RequestParameters;
 
 export interface ModelInferenceCreateBiomassModelJobBodyParam {
@@ -1454,7 +1485,8 @@ export type ModelInferenceCreateSensorPlacementModelJobParameters =
   ModelInferenceCreateSensorPlacementModelJobMediaTypesParam &
     ModelInferenceCreateSensorPlacementModelJobBodyParam &
     RequestParameters;
-export type ModelInferenceGetSensorPlacementModelJobParameters = RequestParameters;
+export type ModelInferenceGetSensorPlacementModelJobParameters =
+  RequestParameters;
 
 export interface ModelInferenceCreateSoilMoistureModelJobBodyParam {
   /** Job parameters supplied by user. */
@@ -1514,7 +1546,8 @@ export interface NutrientAnalysesListQueryParam {
   queryParameters?: NutrientAnalysesListQueryParamProperties;
 }
 
-export type NutrientAnalysesListParameters = NutrientAnalysesListQueryParam & RequestParameters;
+export type NutrientAnalysesListParameters = NutrientAnalysesListQueryParam &
+  RequestParameters;
 
 export interface NutrientAnalysesListByPartyIdQueryParamProperties {
   /**
@@ -1558,8 +1591,8 @@ export interface NutrientAnalysesListByPartyIdQueryParam {
   queryParameters?: NutrientAnalysesListByPartyIdQueryParamProperties;
 }
 
-export type NutrientAnalysesListByPartyIdParameters = NutrientAnalysesListByPartyIdQueryParam &
-  RequestParameters;
+export type NutrientAnalysesListByPartyIdParameters =
+  NutrientAnalysesListByPartyIdQueryParam & RequestParameters;
 export type NutrientAnalysesGetParameters = RequestParameters;
 /** NutrientAnalysis resource payload to create or update. */
 export type NutrientAnalysisResourceMergeAndPatch = Partial<NutrientAnalysis>;
@@ -1613,7 +1646,8 @@ export interface OAuthProvidersListQueryParam {
   queryParameters?: OAuthProvidersListQueryParamProperties;
 }
 
-export type OAuthProvidersListParameters = OAuthProvidersListQueryParam & RequestParameters;
+export type OAuthProvidersListParameters = OAuthProvidersListQueryParam &
+  RequestParameters;
 export type OAuthProvidersGetParameters = RequestParameters;
 /** OauthProvider resource payload to create or update. */
 export type OAuthProviderResourceMergeAndPatch = Partial<OAuthProvider>;
@@ -1628,11 +1662,13 @@ export interface OAuthProvidersCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type OAuthProvidersCreateOrUpdateParameters = OAuthProvidersCreateOrUpdateMediaTypesParam &
-  OAuthProvidersCreateOrUpdateBodyParam &
-  RequestParameters;
+export type OAuthProvidersCreateOrUpdateParameters =
+  OAuthProvidersCreateOrUpdateMediaTypesParam &
+    OAuthProvidersCreateOrUpdateBodyParam &
+    RequestParameters;
 export type OAuthProvidersDeleteParameters = RequestParameters;
-export type OAuthProvidersGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type OAuthProvidersGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface OAuthProvidersCreateCascadeDeleteJobQueryParamProperties {
   /** Id of the application data. */
@@ -1674,7 +1710,8 @@ export interface OAuthTokensListQueryParam {
   queryParameters?: OAuthTokensListQueryParamProperties;
 }
 
-export type OAuthTokensListParameters = OAuthTokensListQueryParam & RequestParameters;
+export type OAuthTokensListParameters = OAuthTokensListQueryParam &
+  RequestParameters;
 
 export interface OAuthTokensGetOAuthConnectionLinkBodyParam {
   /** OAuth Connect Request. */
@@ -1754,9 +1791,10 @@ export interface PartiesCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type PartiesCreateOrUpdateParameters = PartiesCreateOrUpdateMediaTypesParam &
-  PartiesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type PartiesCreateOrUpdateParameters =
+  PartiesCreateOrUpdateMediaTypesParam &
+    PartiesCreateOrUpdateBodyParam &
+    RequestParameters;
 export type PartiesDeleteParameters = RequestParameters;
 export type PartiesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 
@@ -1769,8 +1807,8 @@ export interface PartiesCreateCascadeDeleteJobQueryParam {
   queryParameters: PartiesCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type PartiesCreateCascadeDeleteJobParameters = PartiesCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type PartiesCreateCascadeDeleteJobParameters =
+  PartiesCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 export interface PlantingDataListByPartyIdQueryParamProperties {
   /** Minimum AvgPlantingRate value(inclusive). */
@@ -1837,8 +1875,8 @@ export interface PlantingDataListByPartyIdQueryParam {
   queryParameters?: PlantingDataListByPartyIdQueryParamProperties;
 }
 
-export type PlantingDataListByPartyIdParameters = PlantingDataListByPartyIdQueryParam &
-  RequestParameters;
+export type PlantingDataListByPartyIdParameters =
+  PlantingDataListByPartyIdQueryParam & RequestParameters;
 export type PlantingDataGetParameters = RequestParameters;
 /** Planting data resource payload to create or update. */
 export type PlantingDataResourceMergeAndPatch = Partial<PlantingData>;
@@ -1853,9 +1891,10 @@ export interface PlantingDataCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type PlantingDataCreateOrUpdateParameters = PlantingDataCreateOrUpdateMediaTypesParam &
-  PlantingDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type PlantingDataCreateOrUpdateParameters =
+  PlantingDataCreateOrUpdateMediaTypesParam &
+    PlantingDataCreateOrUpdateBodyParam &
+    RequestParameters;
 export type PlantingDataDeleteParameters = RequestParameters;
 
 export interface PlantingDataListQueryParamProperties {
@@ -1923,7 +1962,8 @@ export interface PlantingDataListQueryParam {
   queryParameters?: PlantingDataListQueryParamProperties;
 }
 
-export type PlantingDataListParameters = PlantingDataListQueryParam & RequestParameters;
+export type PlantingDataListParameters = PlantingDataListQueryParam &
+  RequestParameters;
 
 export interface PlantingDataCreateCascadeDeleteJobQueryParamProperties {
   /** Id of the party. */
@@ -1938,7 +1978,8 @@ export interface PlantingDataCreateCascadeDeleteJobQueryParam {
 
 export type PlantingDataCreateCascadeDeleteJobParameters =
   PlantingDataCreateCascadeDeleteJobQueryParam & RequestParameters;
-export type PlantingDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type PlantingDataGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface PlantTissueAnalysesListByPartyIdQueryParamProperties {
   /** Season ids of the plant tissue analyses. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -1985,7 +2026,8 @@ export type PlantTissueAnalysesListByPartyIdParameters =
   PlantTissueAnalysesListByPartyIdQueryParam & RequestParameters;
 export type PlantTissueAnalysesGetParameters = RequestParameters;
 /** PlantTissueAnalysis resource payload to create or update. */
-export type PlantTissueAnalysisResourceMergeAndPatch = Partial<PlantTissueAnalysis>;
+export type PlantTissueAnalysisResourceMergeAndPatch =
+  Partial<PlantTissueAnalysis>;
 
 export interface PlantTissueAnalysesCreateOrUpdateBodyParam {
   /** PlantTissueAnalysis resource payload to create or update. */
@@ -2044,8 +2086,8 @@ export interface PlantTissueAnalysesListQueryParam {
   queryParameters?: PlantTissueAnalysesListQueryParamProperties;
 }
 
-export type PlantTissueAnalysesListParameters = PlantTissueAnalysesListQueryParam &
-  RequestParameters;
+export type PlantTissueAnalysesListParameters =
+  PlantTissueAnalysesListQueryParam & RequestParameters;
 
 export interface PlantTissueAnalysesCreateCascadeDeleteJobQueryParamProperties {
   /** ID of the associated party. */
@@ -2060,7 +2102,8 @@ export interface PlantTissueAnalysesCreateCascadeDeleteJobQueryParam {
 
 export type PlantTissueAnalysesCreateCascadeDeleteJobParameters =
   PlantTissueAnalysesCreateCascadeDeleteJobQueryParam & RequestParameters;
-export type PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type PlantTissueAnalysesGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface PrescriptionMapsListByPartyIdQueryParamProperties {
   /** Types of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -2105,8 +2148,8 @@ export interface PrescriptionMapsListByPartyIdQueryParam {
   queryParameters?: PrescriptionMapsListByPartyIdQueryParamProperties;
 }
 
-export type PrescriptionMapsListByPartyIdParameters = PrescriptionMapsListByPartyIdQueryParam &
-  RequestParameters;
+export type PrescriptionMapsListByPartyIdParameters =
+  PrescriptionMapsListByPartyIdQueryParam & RequestParameters;
 export type PrescriptionMapsGetParameters = RequestParameters;
 /** PrescriptionMap resource payload to create or update. */
 export type PrescriptionMapResourceMergeAndPatch = Partial<PrescriptionMap>;
@@ -2170,8 +2213,10 @@ export interface PrescriptionMapsListQueryParam {
   queryParameters?: PrescriptionMapsListQueryParamProperties;
 }
 
-export type PrescriptionMapsListParameters = PrescriptionMapsListQueryParam & RequestParameters;
-export type PrescriptionMapsGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type PrescriptionMapsListParameters = PrescriptionMapsListQueryParam &
+  RequestParameters;
+export type PrescriptionMapsGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface PrescriptionMapsCreateCascadeDeleteJobQueryParamProperties {
   /** ID of the associated party. */
@@ -2230,8 +2275,8 @@ export interface PrescriptionsListByPartyIdQueryParam {
   queryParameters?: PrescriptionsListByPartyIdQueryParamProperties;
 }
 
-export type PrescriptionsListByPartyIdParameters = PrescriptionsListByPartyIdQueryParam &
-  RequestParameters;
+export type PrescriptionsListByPartyIdParameters =
+  PrescriptionsListByPartyIdQueryParam & RequestParameters;
 export type PrescriptionsGetParameters = RequestParameters;
 /** Prescription resource payload to create or update. */
 export type PrescriptionResourceMergeAndPatch = Partial<Prescription>;
@@ -2246,9 +2291,10 @@ export interface PrescriptionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type PrescriptionsCreateOrUpdateParameters = PrescriptionsCreateOrUpdateMediaTypesParam &
-  PrescriptionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type PrescriptionsCreateOrUpdateParameters =
+  PrescriptionsCreateOrUpdateMediaTypesParam &
+    PrescriptionsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type PrescriptionsDeleteParameters = RequestParameters;
 
 export interface PrescriptionsListQueryParamProperties {
@@ -2294,8 +2340,10 @@ export interface PrescriptionsListQueryParam {
   queryParameters?: PrescriptionsListQueryParamProperties;
 }
 
-export type PrescriptionsListParameters = PrescriptionsListQueryParam & RequestParameters;
-export type PrescriptionsGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type PrescriptionsListParameters = PrescriptionsListQueryParam &
+  RequestParameters;
+export type PrescriptionsGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface PrescriptionsCreateCascadeDeleteJobQueryParamProperties {
   /** ID of the associated party. */
@@ -2330,8 +2378,8 @@ export interface ScenesListQueryParamProperties {
   maxDarkPixelCoveragePercentage?: number;
   /** List of image names to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   imageNames?: string;
-  /** List of image resolutions in meters to be filtered. */
-  imageResolutions?: Array<number>;
+  /** List of image resolutions in meters to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  imageResolutions?: string;
   /** List of image formats to be filtered. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   imageFormats?: string;
   /**
@@ -2358,7 +2406,8 @@ export interface ScenesDownloadQueryParam {
   queryParameters: ScenesDownloadQueryParamProperties;
 }
 
-export type ScenesDownloadParameters = ScenesDownloadQueryParam & RequestParameters;
+export type ScenesDownloadParameters = ScenesDownloadQueryParam &
+  RequestParameters;
 
 export interface ScenesCreateSatelliteDataIngestionJobBodyParam {
   /** Job parameters supplied by user. */
@@ -2374,7 +2423,8 @@ export type ScenesCreateSatelliteDataIngestionJobParameters =
   ScenesCreateSatelliteDataIngestionJobMediaTypesParam &
     ScenesCreateSatelliteDataIngestionJobBodyParam &
     RequestParameters;
-export type ScenesGetSatelliteDataIngestionJobDetailsParameters = RequestParameters;
+export type ScenesGetSatelliteDataIngestionJobDetailsParameters =
+  RequestParameters;
 
 export interface ScenesSearchFeaturesBodyParam {
   /** Query filters. */
@@ -2446,8 +2496,8 @@ export interface SeasonalFieldsListByPartyIdQueryParam {
   queryParameters?: SeasonalFieldsListByPartyIdQueryParamProperties;
 }
 
-export type SeasonalFieldsListByPartyIdParameters = SeasonalFieldsListByPartyIdQueryParam &
-  RequestParameters;
+export type SeasonalFieldsListByPartyIdParameters =
+  SeasonalFieldsListByPartyIdQueryParam & RequestParameters;
 export type SeasonalFieldsGetParameters = RequestParameters;
 /** Seasonal field resource payload to create or update. */
 export type SeasonalFieldResourceMergeAndPatch = Partial<SeasonalField>;
@@ -2462,9 +2512,10 @@ export interface SeasonalFieldsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type SeasonalFieldsCreateOrUpdateParameters = SeasonalFieldsCreateOrUpdateMediaTypesParam &
-  SeasonalFieldsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SeasonalFieldsCreateOrUpdateParameters =
+  SeasonalFieldsCreateOrUpdateMediaTypesParam &
+    SeasonalFieldsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type SeasonalFieldsDeleteParameters = RequestParameters;
 
 export interface SeasonalFieldsListQueryParamProperties {
@@ -2510,8 +2561,10 @@ export interface SeasonalFieldsListQueryParam {
   queryParameters?: SeasonalFieldsListQueryParamProperties;
 }
 
-export type SeasonalFieldsListParameters = SeasonalFieldsListQueryParam & RequestParameters;
-export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
+export type SeasonalFieldsListParameters = SeasonalFieldsListQueryParam &
+  RequestParameters;
+export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters =
+  RequestParameters;
 
 export interface SeasonalFieldsCreateCascadeDeleteJobQueryParamProperties {
   /** ID of the associated party. */
@@ -2536,8 +2589,8 @@ export interface SeasonsListQueryParamProperties {
   minEndDateTime?: Date | string;
   /** Maximum season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
   maxEndDateTime?: Date | string;
-  /** Years of the resource. */
-  years?: Array<number>;
+  /** Years of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  years?: string;
   /** Ids of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
   ids?: string;
   /** Names of the resource. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -2585,9 +2638,10 @@ export interface SeasonsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type SeasonsCreateOrUpdateParameters = SeasonsCreateOrUpdateMediaTypesParam &
-  SeasonsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SeasonsCreateOrUpdateParameters =
+  SeasonsCreateOrUpdateMediaTypesParam &
+    SeasonsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type SeasonsDeleteParameters = RequestParameters;
 
 export interface SensorDataModelsListQueryParamProperties {
@@ -2623,7 +2677,8 @@ export interface SensorDataModelsListQueryParam {
   queryParameters?: SensorDataModelsListQueryParamProperties;
 }
 
-export type SensorDataModelsListParameters = SensorDataModelsListQueryParam & RequestParameters;
+export type SensorDataModelsListParameters = SensorDataModelsListQueryParam &
+  RequestParameters;
 /** Sensor data model object details. */
 export type SensorDataModelResourceMergeAndPatch = Partial<SensorDataModel>;
 
@@ -2667,7 +2722,8 @@ export interface SensorEventsListQueryParam {
   queryParameters: SensorEventsListQueryParamProperties;
 }
 
-export type SensorEventsListParameters = SensorEventsListQueryParam & RequestParameters;
+export type SensorEventsListParameters = SensorEventsListQueryParam &
+  RequestParameters;
 
 export interface SensorMappingsListQueryParamProperties {
   /** Id of the sensors. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -2710,7 +2766,8 @@ export interface SensorMappingsListQueryParam {
   queryParameters?: SensorMappingsListQueryParamProperties;
 }
 
-export type SensorMappingsListParameters = SensorMappingsListQueryParam & RequestParameters;
+export type SensorMappingsListParameters = SensorMappingsListQueryParam &
+  RequestParameters;
 /** Sensor mapping object details. */
 export type SensorMappingResourceMergeAndPatch = Partial<SensorMapping>;
 
@@ -2724,9 +2781,10 @@ export interface SensorMappingsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type SensorMappingsCreateOrUpdateParameters = SensorMappingsCreateOrUpdateMediaTypesParam &
-  SensorMappingsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SensorMappingsCreateOrUpdateParameters =
+  SensorMappingsCreateOrUpdateMediaTypesParam &
+    SensorMappingsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type SensorMappingsGetParameters = RequestParameters;
 export type SensorMappingsDeleteParameters = RequestParameters;
 
@@ -2767,8 +2825,8 @@ export interface SensorPartnerIntegrationsListQueryParam {
   queryParameters?: SensorPartnerIntegrationsListQueryParamProperties;
 }
 
-export type SensorPartnerIntegrationsListParameters = SensorPartnerIntegrationsListQueryParam &
-  RequestParameters;
+export type SensorPartnerIntegrationsListParameters =
+  SensorPartnerIntegrationsListQueryParam & RequestParameters;
 /** Partner integration model. */
 export type SensorPartnerIntegrationModelResourceMergeAndPatch =
   Partial<SensorPartnerIntegrationModel>;
@@ -2801,7 +2859,8 @@ export interface SensorPartnerIntegrationsCheckConsentQueryParam {
 
 export type SensorPartnerIntegrationsCheckConsentParameters =
   SensorPartnerIntegrationsCheckConsentQueryParam & RequestParameters;
-export type SensorPartnerIntegrationsGenerateConsentLinkParameters = RequestParameters;
+export type SensorPartnerIntegrationsGenerateConsentLinkParameters =
+  RequestParameters;
 
 export interface SensorsListQueryParamProperties {
   /** Id's of the sensor data models. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -2856,9 +2915,10 @@ export interface SensorsCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type SensorsCreateOrUpdateParameters = SensorsCreateOrUpdateMediaTypesParam &
-  SensorsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type SensorsCreateOrUpdateParameters =
+  SensorsCreateOrUpdateMediaTypesParam &
+    SensorsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type SensorsGetParameters = RequestParameters;
 export type SensorsDeleteParameters = RequestParameters;
 export type SensorsGetConnectionStringParameters = RequestParameters;
@@ -2873,9 +2933,10 @@ export interface SensorsRenewConnectionStringMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SensorsRenewConnectionStringParameters = SensorsRenewConnectionStringMediaTypesParam &
-  SensorsRenewConnectionStringBodyParam &
-  RequestParameters;
+export type SensorsRenewConnectionStringParameters =
+  SensorsRenewConnectionStringMediaTypesParam &
+    SensorsRenewConnectionStringBodyParam &
+    RequestParameters;
 
 export interface SolutionInferenceCancelBodyParam {
   /** solutionInferenceRequest containing input needed for job request processing. */
@@ -2887,9 +2948,10 @@ export interface SolutionInferenceCancelMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SolutionInferenceCancelParameters = SolutionInferenceCancelMediaTypesParam &
-  SolutionInferenceCancelBodyParam &
-  RequestParameters;
+export type SolutionInferenceCancelParameters =
+  SolutionInferenceCancelMediaTypesParam &
+    SolutionInferenceCancelBodyParam &
+    RequestParameters;
 
 export interface SolutionInferenceCreateOrUpdateBodyParam {
   /** solutionInferenceRequest containing input needed for job request processing. */
@@ -2916,9 +2978,10 @@ export interface SolutionInferenceFetchMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SolutionInferenceFetchParameters = SolutionInferenceFetchMediaTypesParam &
-  SolutionInferenceFetchBodyParam &
-  RequestParameters;
+export type SolutionInferenceFetchParameters =
+  SolutionInferenceFetchMediaTypesParam &
+    SolutionInferenceFetchBodyParam &
+    RequestParameters;
 
 export interface TillageDataListByPartyIdQueryParamProperties {
   /** Minimum measured tillage depth (inclusive). */
@@ -2981,8 +3044,8 @@ export interface TillageDataListByPartyIdQueryParam {
   queryParameters?: TillageDataListByPartyIdQueryParamProperties;
 }
 
-export type TillageDataListByPartyIdParameters = TillageDataListByPartyIdQueryParam &
-  RequestParameters;
+export type TillageDataListByPartyIdParameters =
+  TillageDataListByPartyIdQueryParam & RequestParameters;
 export type TillageDataGetParameters = RequestParameters;
 /** Tillage data resource payload to create or update. */
 export type TillageDataResourceMergeAndPatch = Partial<TillageData>;
@@ -2997,9 +3060,10 @@ export interface TillageDataCreateOrUpdateMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type TillageDataCreateOrUpdateParameters = TillageDataCreateOrUpdateMediaTypesParam &
-  TillageDataCreateOrUpdateBodyParam &
-  RequestParameters;
+export type TillageDataCreateOrUpdateParameters =
+  TillageDataCreateOrUpdateMediaTypesParam &
+    TillageDataCreateOrUpdateBodyParam &
+    RequestParameters;
 export type TillageDataDeleteParameters = RequestParameters;
 
 export interface TillageDataListQueryParamProperties {
@@ -3063,7 +3127,8 @@ export interface TillageDataListQueryParam {
   queryParameters?: TillageDataListQueryParamProperties;
 }
 
-export type TillageDataListParameters = TillageDataListQueryParam & RequestParameters;
+export type TillageDataListParameters = TillageDataListQueryParam &
+  RequestParameters;
 
 export interface TillageDataCreateCascadeDeleteJobQueryParamProperties {
   /** Id of the party. */
@@ -3121,9 +3186,10 @@ export interface WeatherCreateDataDeleteJobMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WeatherCreateDataDeleteJobParameters = WeatherCreateDataDeleteJobMediaTypesParam &
-  WeatherCreateDataDeleteJobBodyParam &
-  RequestParameters;
+export type WeatherCreateDataDeleteJobParameters =
+  WeatherCreateDataDeleteJobMediaTypesParam &
+    WeatherCreateDataDeleteJobBodyParam &
+    RequestParameters;
 export type WeatherGetDataIngestionJobDetailsParameters = RequestParameters;
 
 export interface WeatherCreateDataIngestionJobBodyParam {
@@ -3136,9 +3202,10 @@ export interface WeatherCreateDataIngestionJobMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type WeatherCreateDataIngestionJobParameters = WeatherCreateDataIngestionJobMediaTypesParam &
-  WeatherCreateDataIngestionJobBodyParam &
-  RequestParameters;
+export type WeatherCreateDataIngestionJobParameters =
+  WeatherCreateDataIngestionJobMediaTypesParam &
+    WeatherCreateDataIngestionJobBodyParam &
+    RequestParameters;
 
 export interface WeatherDataGetBodyParam {
   /** Weather data provider request. */
@@ -3193,7 +3260,8 @@ export interface ZonesListByPartyIdQueryParam {
   queryParameters?: ZonesListByPartyIdQueryParamProperties;
 }
 
-export type ZonesListByPartyIdParameters = ZonesListByPartyIdQueryParam & RequestParameters;
+export type ZonesListByPartyIdParameters = ZonesListByPartyIdQueryParam &
+  RequestParameters;
 export type ZonesGetParameters = RequestParameters;
 /** Zone resource payload to create or update. */
 export type ZoneResourceMergeAndPatch = Partial<Zone>;
@@ -3266,5 +3334,5 @@ export interface ZonesCreateCascadeDeleteJobQueryParam {
   queryParameters: ZonesCreateCascadeDeleteJobQueryParamProperties;
 }
 
-export type ZonesCreateCascadeDeleteJobParameters = ZonesCreateCascadeDeleteJobQueryParam &
-  RequestParameters;
+export type ZonesCreateCascadeDeleteJobParameters =
+  ZonesCreateCascadeDeleteJobQueryParam & RequestParameters;
