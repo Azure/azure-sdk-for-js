@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Context as AzureFnV3Context } from "@azure/functions-old";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { InvocationContext as AzureFnV4Context } from "@azure/functions";
 import { context, propagation, Context as OpenTelemetryContext } from "@opentelemetry/api";
 import { Logger } from "../shared/logging";

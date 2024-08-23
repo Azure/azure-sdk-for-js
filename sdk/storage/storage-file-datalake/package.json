@@ -146,7 +146,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "es6-promise": "^4.2.5",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "execa": "^6.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",

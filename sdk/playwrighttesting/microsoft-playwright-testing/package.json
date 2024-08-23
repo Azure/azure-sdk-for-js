@@ -82,7 +82,7 @@
     "typescript": "^5.5.3",
     "@microsoft/api-extractor": "^7.43.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "eslint": "^8.16.0",
+    "eslint": "^9.9.0",
     "sinon": "^17.0.0",
     "@types/sinon": "^17.0.0",
     "mocha": "^10.0.0",

@@ -70,7 +70,7 @@
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.9.0",
     "playwright": "^1.43.0",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",

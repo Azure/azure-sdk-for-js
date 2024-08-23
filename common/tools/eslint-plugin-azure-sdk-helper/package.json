@@ -7,8 +7,7 @@
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "~8.2.0",
     "@typescript-eslint/parser": "~8.2.0",
-    "eslint": "^8.0.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint": "^9.9.0",
     "eslint-plugin-n": "^17.10.1",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-promise": "^6.0.0",
@@ -20,7 +19,7 @@
     "@eslint/compat": "^1.0.1",
     "@eslint/js": "~9.2.0",
     "@typescript-eslint/typescript-estree": "~8.2.0",
-    "@types/eslint": "~8.56.10",
+    "@types/eslint": "^9.6.0",
     "@types/estree": "~1.0.0",
     "@typescript-eslint/utils": "~8.2.0",
     "eslint-config-prettier": "^9.0.0",

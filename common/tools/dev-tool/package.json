@@ -86,7 +86,7 @@
     "autorest": "^3.7.1",
     "builtin-modules": "^3.1.0",
     "cross-env": "^7.0.3",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
     "typescript-eslint": "~8.2.0",
