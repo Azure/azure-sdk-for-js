@@ -1,5 +1,5 @@
 param baseName string = resourceGroup().name
-param location string = 'centralus'
+param location string = resourceGroup().location
 param testApplicationOid string
 param blobStorageAccount string = 'azuresdktrainingdata'
 param trainingDataContainer string = 'trainingdata-v3'
@@ -46,13 +46,13 @@ resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-04-
 // Assign Role to the Test Application
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(frRoleId, baseName)
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', frRoleId)
+    principalId: testApplicationOid
+  }
   dependsOn: [
     cognitiveServicesAccount
   ]
-  properties: {
-    principalId: testApplicationOid
-    roleDefinitionId: frRoleId
-  }
 }
 
 // Outputs
