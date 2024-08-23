@@ -53,7 +53,7 @@
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js' 'dist-esm/test/**/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --format unix",
+    "lint": "eslint package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run integration-test:node",
