@@ -53,6 +53,6 @@ output COMMUNICATION_CONNECTION_STRING string = listKeys(communicationService.id
 output COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING string = listKeys(communicationService.id, apiVersion).primaryConnectionString
 output RESOURCE_GROUP_NAME string = resourceGroup().name
 output COMMUNICATION_CONNECTION_STRING_EMAIL string = listKeys(communicationService.id, apiVersion).primaryConnectionString
-output SENDER_ADDRESS string = '${format('DoNotReply@{0}', reference(emailService::AzureManagedDomain.id).mailFromSenderDomain)}'
+output SENDER_ADDRESS string = format('DoNotReply@{0}', emailService::AzureManagedDomain.properties.mailFromSenderDomain)
 output RECIPIENT_ADDRESS string = 'acseaastesting@gmail.com'
 output SECOND_RECIPIENT_ADDRESS string = 'acseaastesting@gmail.com'
