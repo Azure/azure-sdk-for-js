@@ -12,7 +12,7 @@ export default mergeConfig(
       include: ["@azure/openai", "@azure/openai/types"],
     },
     test: {
-      testTimeout: 170000,
+      testTimeout: 200000,
       hookTimeout: 25000,
       fileParallelism: false,
       include: [

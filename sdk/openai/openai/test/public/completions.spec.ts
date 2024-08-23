@@ -226,7 +226,7 @@ describe("Completions", function () {
                 });
               },
               (result) => assertChatCompletions(result, { functions: true }),
-              functionCallModelsToSkip,
+              { modelsListToSkip: functionCallModelsToSkip },
             );
           });
 

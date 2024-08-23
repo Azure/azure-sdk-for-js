@@ -52,7 +52,7 @@ export async function withDeployments<T>(
   deploymentsInfo: DeploymentInfo[] = [],
   run: (model: string) => Promise<T>,
   validate: (result: T) => void,
-  modelsListToSkip?: ModelInfo[],
+  options: { modelsListToSkip?: ModelInfo[]; modelsListToRun?: ModelInfo[] } = {},
 ): Promise<DeploymentInfo[]> {
   const errors = [];
   const succeeded = [];
@@ -63,7 +63,14 @@ export async function withDeployments<T>(
       logger.info(
         `[${++i}/${deploymentsInfo.length}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
       );
+      const { modelsListToSkip, modelsListToRun } = options;
       if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+        logger.info(
+          `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
+        );
+        continue;
+      }
+      if (modelsListToRun && !isModelInList(deployment.model, modelsListToRun)) {
         logger.info(
           `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
         );
