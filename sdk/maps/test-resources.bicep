@@ -2,7 +2,7 @@ param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param testApplicationOid string
 
-var roleDefinitionId = '8f5e0ce6-4f7b-4dcf-bddf-e6f48634a204'
+var mapsDataContributerRoleId = '8f5e0ce6-4f7b-4dcf-bddf-e6f48634a204'
 var mapsAccountName = guid(resourceGroup().id, deployment().name, baseName)
 
 // Microsoft.Maps/accounts resource
@@ -34,7 +34,7 @@ resource mapsAccount 'Microsoft.Maps/accounts@2024-01-01-preview' = {
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(resourceGroup().id)
   properties: {
-    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionId)
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', mapsDataContributerRoleId)
     principalId: testApplicationOid
   }
 }
