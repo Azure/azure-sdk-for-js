@@ -1,7 +1,8 @@
 # Release History
     
 ## 4.0.0-beta.2 (2024-08-14)
-    
+Compared with version 3.0.0
+
 ### Features Added
 
   - Added operation group DeploymentSettings
