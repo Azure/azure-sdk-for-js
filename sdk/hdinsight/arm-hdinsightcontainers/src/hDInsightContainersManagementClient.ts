@@ -17,24 +17,30 @@ import * as coreAuth from "@azure/core-auth";
 import {
   ClusterPoolsImpl,
   ClusterPoolAvailableUpgradesImpl,
+  ClusterPoolUpgradeHistoriesImpl,
   ClustersImpl,
   ClusterAvailableUpgradesImpl,
+  ClusterUpgradeHistoriesImpl,
   ClusterJobsImpl,
   LocationsImpl,
   OperationsImpl,
   AvailableClusterPoolVersionsImpl,
   AvailableClusterVersionsImpl,
+  ClusterLibrariesImpl,
 } from "./operations";
 import {
   ClusterPools,
   ClusterPoolAvailableUpgrades,
+  ClusterPoolUpgradeHistories,
   Clusters,
   ClusterAvailableUpgrades,
+  ClusterUpgradeHistories,
   ClusterJobs,
   Locations,
   Operations,
   AvailableClusterPoolVersions,
   AvailableClusterVersions,
+  ClusterLibraries,
 } from "./operationsInterfaces";
 import { HDInsightContainersManagementClientOptionalParams } from "./models";
 
@@ -124,13 +130,17 @@ export class HDInsightContainersManagementClient extends coreClient.ServiceClien
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-01-preview";
+    this.apiVersion = options.apiVersion || "2024-05-01-preview";
     this.clusterPools = new ClusterPoolsImpl(this);
     this.clusterPoolAvailableUpgrades = new ClusterPoolAvailableUpgradesImpl(
       this,
     );
+    this.clusterPoolUpgradeHistories = new ClusterPoolUpgradeHistoriesImpl(
+      this,
+    );
     this.clusters = new ClustersImpl(this);
     this.clusterAvailableUpgrades = new ClusterAvailableUpgradesImpl(this);
+    this.clusterUpgradeHistories = new ClusterUpgradeHistoriesImpl(this);
     this.clusterJobs = new ClusterJobsImpl(this);
     this.locations = new LocationsImpl(this);
     this.operations = new OperationsImpl(this);
@@ -138,6 +148,7 @@ export class HDInsightContainersManagementClient extends coreClient.ServiceClien
       this,
     );
     this.availableClusterVersions = new AvailableClusterVersionsImpl(this);
+    this.clusterLibraries = new ClusterLibrariesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -171,11 +182,14 @@ export class HDInsightContainersManagementClient extends coreClient.ServiceClien
 
   clusterPools: ClusterPools;
   clusterPoolAvailableUpgrades: ClusterPoolAvailableUpgrades;
+  clusterPoolUpgradeHistories: ClusterPoolUpgradeHistories;
   clusters: Clusters;
   clusterAvailableUpgrades: ClusterAvailableUpgrades;
+  clusterUpgradeHistories: ClusterUpgradeHistories;
   clusterJobs: ClusterJobs;
   locations: Locations;
   operations: Operations;
   availableClusterPoolVersions: AvailableClusterPoolVersions;
   availableClusterVersions: AvailableClusterVersions;
+  clusterLibraries: ClusterLibraries;
 }

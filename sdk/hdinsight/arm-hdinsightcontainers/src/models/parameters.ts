@@ -16,11 +16,13 @@ import {
   TagsObject as TagsObjectMapper,
   ClusterPoolUpgrade as ClusterPoolUpgradeMapper,
   ClusterUpgrade as ClusterUpgradeMapper,
+  ClusterUpgradeRollback as ClusterUpgradeRollbackMapper,
   ClusterResizeData as ClusterResizeDataMapper,
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
   ClusterJob as ClusterJobMapper,
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
+  ClusterLibraryManagementOperation as ClusterLibraryManagementOperationMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -76,7 +78,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-01-preview",
+    defaultValue: "2024-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -151,6 +153,11 @@ export const clusterName: OperationURLParameter = {
   },
 };
 
+export const clusterRollbackUpgradeRequest: OperationParameter = {
+  parameterPath: "clusterRollbackUpgradeRequest",
+  mapper: ClusterUpgradeRollbackMapper,
+};
+
 export const clusterResizeRequest: OperationParameter = {
   parameterPath: "clusterResizeRequest",
   mapper: ClusterResizeDataMapper,
@@ -198,4 +205,20 @@ export const location: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const category: OperationQueryParameter = {
+  parameterPath: "category",
+  mapper: {
+    serializedName: "$category",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const operation: OperationParameter = {
+  parameterPath: "operation",
+  mapper: ClusterLibraryManagementOperationMapper,
 };
