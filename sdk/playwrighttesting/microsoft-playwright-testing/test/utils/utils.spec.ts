@@ -4,6 +4,7 @@
 import {
   API_VERSION,
   InternalEnvironmentVariables,
+  MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";
@@ -27,7 +28,8 @@ describe("Service Utils", () => {
   let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
-    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.47.0";
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] =
+      MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION;
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error");
     sandbox.stub(console, "log");
@@ -386,7 +388,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if installed version is equal to minimum supported version", () => {
-    sandbox.stub(utils, "getPlaywrightVersion").returns("1.47.0");
+    sandbox.stub(utils, "getPlaywrightVersion").returns(MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION);
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });

@@ -5,6 +5,7 @@ import type { JwtPayload, VersionInfo } from "../common/types";
 import {
   API_VERSION,
   InternalEnvironmentVariables,
+  MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
 } from "../common/constants";
 import { ServiceErrorMessageConstants } from "../common/messages";
@@ -135,7 +136,7 @@ export const getVersionInfo = (version: string): VersionInfo => {
 };
 
 export const validatePlaywrightVersion = (): void => {
-  const minimumSupportedVersion = "1.47.0";
+  const minimumSupportedVersion = MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION;
   const installedVersion = getPlaywrightVersion();
 
   const minimumSupportedVersionInfo = getVersionInfo(minimumSupportedVersion);

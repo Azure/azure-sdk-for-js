@@ -55,8 +55,8 @@ const getServiceConfig = (
   config: PlaywrightConfigInput,
   options?: PlaywrightServiceAdditionalOptions,
 ): PlaywrightConfig => {
-  validateServiceUrl();
   validatePlaywrightVersion();
+  validateServiceUrl();
   if (options?.credential) {
     playwrightServiceEntra.entraIdAccessToken = options.credential;
   }
