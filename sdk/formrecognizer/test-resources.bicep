@@ -39,6 +39,7 @@ resource cognitiveServicesAccount 'Microsoft.CognitiveServices/accounts@2024-04-
   kind: 'FormRecognizer'
   properties: {
     customSubDomainName: baseName
+    publicNetworkAccess: 'Enabled'
   }
 }
 
