@@ -17,6 +17,7 @@ import {
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
+  validatePlaywrightVersion,
   validateServiceUrl,
 } from "../utils/utils";
 
@@ -55,6 +56,7 @@ const getServiceConfig = (
   options?: PlaywrightServiceAdditionalOptions,
 ): PlaywrightConfig => {
   validateServiceUrl();
+  validatePlaywrightVersion();
   if (options?.credential) {
     playwrightServiceEntra.entraIdAccessToken = options.credential;
   }
