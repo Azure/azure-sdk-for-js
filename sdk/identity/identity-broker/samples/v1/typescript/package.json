@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm run clean && tsc && cp index.html ./dist",
     "clean": "rimraf --glob dist",
-    "lint": "eslint -c .eslintrc --ext .ts ./src",
+    "lint": "eslint src",
     "start": "electron ./dist/index.js"
   },
   "repository": {
