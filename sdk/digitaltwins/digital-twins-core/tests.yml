@@ -1,3 +1,9 @@
+parameters:
+- name: Location
+  displayName: Location
+  type: string
+  default: westus2
+
 trigger: none
 
 extends:
