@@ -13,6 +13,9 @@ resource cognitiveAccount 'Microsoft.CognitiveServices/accounts@2024-04-01-previ
     name: 'S'
   }
   kind: 'TextAnalytics'
+  properties: {
+    customSubDomainName: cognitiveAccountName
+  }
 }
 
 resource cognitiveRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
