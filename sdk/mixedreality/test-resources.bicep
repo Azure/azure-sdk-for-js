@@ -15,7 +15,7 @@ resource remoteRenderingAccount 'Microsoft.MixedReality/remoteRenderingAccounts@
 resource remoteRenderingAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(remoteRenderingAccount.id, testApplicationOid, remoteRenderingClientRoleId)
   properties: {
-    roleDefinitionId: remoteRenderingClientRoleId
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', remoteRenderingClientRoleId)
     principalId: testApplicationOid
   }
 }
