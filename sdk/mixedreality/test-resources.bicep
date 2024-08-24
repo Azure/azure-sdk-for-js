@@ -4,18 +4,18 @@ param testApplicationOid string
 
 
 var apiVersion = '2021-03-01-preview'
-var asaAccountName = '${baseName}-asa-account'
-var remoteRenderingClientRoleId = 'd39065c4-c120-43c9-ab0a-63eed9795f0a'
+var rrAccountName = '${baseName}-arr-account'
+var remoteRenderingAdminRoleId = '3df8b902-2a6f-47c7-8cc5-360e9b272a7e'
 
 resource remoteRenderingAccount 'Microsoft.MixedReality/remoteRenderingAccounts@2021-03-01-preview' = {
-  name: asaAccountName
+  name: rrAccountName
   location: location
 }
 
 resource remoteRenderingAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(remoteRenderingAccount.id, testApplicationOid, remoteRenderingClientRoleId)
+  name: guid(remoteRenderingAccount.id, testApplicationOid, remoteRenderingAdminRoleId)
   properties: {
-    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', remoteRenderingClientRoleId)
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', remoteRenderingAdminRoleId)
     principalId: testApplicationOid
   }
 }
