@@ -1,6 +1,7 @@
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param baseTime string = utcNow('u')
+param testApplicationOid string
 
 var arrApiVersion = '2021-03-01-preview'
 var arrAccountName = '${baseName}-arr-account'
@@ -14,6 +15,8 @@ var sasProperties = {
   signedResource: 'c'
   canonicalizedResource: '/blob/${storageAccountName}/${blobContainerName}'
 }
+var remoteRenderingAdminRoleId = '3df8b902-2a6f-47c7-8cc5-360e9b272a7e'
+var storageBlobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 
 resource remoteRenderingAccount 'Microsoft.MixedReality/remoteRenderingAccounts@2021-03-01-preview' = {
   name: arrAccountName
@@ -21,7 +24,17 @@ resource remoteRenderingAccount 'Microsoft.MixedReality/remoteRenderingAccounts@
   identity: {
     type: 'SystemAssigned'
   }
-  properties: {}
+  properties: {
+    storageAccountName: storageAccountName
+  }
+}
+
+resource remoteRenderingAdminRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(remoteRenderingAccount.id, testApplicationOid, remoteRenderingAdminRoleId)
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', remoteRenderingAdminRoleId)
+    principalId: testApplicationOid
+  }
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
@@ -50,6 +63,16 @@ resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/container
   dependsOn: [
     storageAccount
   ]
+}
+
+// Role assignment to grant Storage Blob Data Contributor role to the Remote Rendering Account Managed Identity
+resource storageBlobDataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccount.id, remoteRenderingAccount.id, storageBlobDataContributorRoleId)
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributorRoleId)
+    principalId: remoteRenderingAccount.identity.principalId
+    principalType: 'ServicePrincipal'
+  }
 }
 
 output REMOTERENDERING_ARR_ACCOUNT_ID string = remoteRenderingAccount.properties.accountId
