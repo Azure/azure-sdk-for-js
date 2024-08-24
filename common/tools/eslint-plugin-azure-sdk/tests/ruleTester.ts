@@ -18,14 +18,13 @@ export interface CreateRuleTesterOptions {
 }
 
 export function createRuleTester(options: CreateRuleTesterOptions = {}) {
-  console.dir({s:options.settings});
   const project = options.testTsConfig ? "./tsconfig-alt.json" : "./tsconfig.json";
   const ruleTester = new RuleTester({
     languageOptions: {
       parserOptions: {
         projectServices: {
-          allowDefaultProject: ['*.ts*'],
-          defaultProject: 'tsconfig.json',
+          allowDefaultProject: ["*.ts*"],
+          defaultProject: "tsconfig.json",
         },
         tsconfigRootDir: path.join(__dirname, "./fixture"),
         project,
