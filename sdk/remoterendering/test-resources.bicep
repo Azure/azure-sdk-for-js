@@ -98,7 +98,7 @@ resource storageAccountNoAccess 'Microsoft.Storage/storageAccounts@2023-05-01' =
 }
 
 resource blobContainerNoAccess 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
-  name: '${storageAccountName}/default/${blobContainerNoAccessName}'
+  name: '${storageAccountNoAccessName}/default/${blobContainerNoAccessName}'
   dependsOn: [
     storageAccountNoAccess
   ]
