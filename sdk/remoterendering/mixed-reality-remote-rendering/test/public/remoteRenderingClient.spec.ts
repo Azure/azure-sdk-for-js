@@ -187,7 +187,7 @@ describe("RemoteRendering functional tests", () => {
       "https://" +
       assertEnvironmentVariable("STORAGE_ACCOUNT_NO_ACCESS_NAME") +
       ".blob.core.windows.net/" +
-      assertEnvironmentVariable("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+      assertEnvironmentVariable("BLOB_CONTAINER_NO_ACCESS_NAME");
 
     // Do not provide SAS tokens
     const inputSettings: AssetConversionInputSettings = {

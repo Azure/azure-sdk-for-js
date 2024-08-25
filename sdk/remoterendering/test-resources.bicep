@@ -9,7 +9,7 @@ var storageApiVersion = '2023-05-01'
 var storageAccountName = baseName
 var storageAccountNoAccessName = '${baseName}-noaccess'
 var blobContainerName = 'test'
-var blobContainerResourceName = '${storageAccountName}/default/${blobContainerName}'
+var blobContainerNoAccessName = 'test2'
 var sasProperties = {
   signedPermission: 'rwl'
   signedExpiry: dateTimeAdd(baseTime, 'P1D')
@@ -60,7 +60,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
 }
 
 resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
-  name: blobContainerResourceName
+  name: '${storageAccountName}/default/${blobContainerName}'
   dependsOn: [
     storageAccount
   ]
@@ -98,7 +98,7 @@ resource storageAccountNoAccess 'Microsoft.Storage/storageAccounts@2023-05-01' =
 }
 
 resource blobContainerNoAccess 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
-  name: blobContainerResourceName
+  name: '${storageAccountName}/default/${blobContainerNoAccessName}'
   dependsOn: [
     storageAccountNoAccess
   ]
@@ -109,7 +109,8 @@ output REMOTERENDERING_ARR_ACCOUNT_DOMAIN string = remoteRenderingAccount.proper
 output REMOTERENDERING_ARR_ACCOUNT_KEY string = listKeys(resourceId('Microsoft.MixedReality/remoteRenderingAccounts', arrAccountName), arrApiVersion).primaryKey
 output REMOTERENDERING_ARR_STORAGE_ACCOUNT_KEY string = listKeys(resourceId('Microsoft.Storage/storageAccounts', storageAccountName), storageApiVersion).keys[0].value
 output REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME string = storageAccount.name
-output REMOTERENDERING_ARR_BLOB_CONTAINER_NAME string = blobContainer.name
+output REMOTERENDERING_ARR_BLOB_CONTAINER_NAME string = blobContainerName
 output STORAGE_ACCOUNT_NO_ACCESS_NAME string = storageAccountNoAccess.name
+output BLOB_CONTAINER_NO_ACCESS_NAME string = blobContainerNoAccessName
 output REMOTERENDERING_ARR_SAS_TOKEN string = listServiceSas(storageAccountName, storageApiVersion, sasProperties).serviceSasToken
 output REMOTERENDERING_ARR_SERVICE_ENDPOINT string = 'https://remoterendering.${location}.mixedreality.azure.com'
