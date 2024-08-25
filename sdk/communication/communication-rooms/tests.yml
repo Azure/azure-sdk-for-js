@@ -5,7 +5,6 @@ extends:
     parameters:
       PackageName: "@azure/communication-rooms"
       ServiceDirectory: communication
-      UseFederatedAuth: true
       MatrixFilters:
         - DependencyVersion=^$
       CloudConfig:
