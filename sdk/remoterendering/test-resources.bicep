@@ -1,3 +1,4 @@
+@minLength(5)
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param baseTime string = utcNow('u')
@@ -74,6 +75,7 @@ resource storageBlobDataContributorRoleAssignment 'Microsoft.Authorization/roleA
     principalId: remoteRenderingAccount.identity.principalId
     principalType: 'ServicePrincipal'
   }
+  scope: storageAccount
 }
 
 resource storageAccountNoAccess 'Microsoft.Storage/storageAccounts@2023-05-01' = {
