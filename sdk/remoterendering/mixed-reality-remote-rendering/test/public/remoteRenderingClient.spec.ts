@@ -185,7 +185,7 @@ describe("RemoteRendering functional tests", () => {
   it("throws correct exception on no access", async () => {
     const storageContainerUrl =
       "https://" +
-      assertEnvironmentVariable("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      assertEnvironmentVariable("STORAGE_ACCOUNT_NO_ACCESS_NAME") +
       ".blob.core.windows.net/" +
       assertEnvironmentVariable("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
 

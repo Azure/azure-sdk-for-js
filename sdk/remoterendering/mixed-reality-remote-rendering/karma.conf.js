@@ -48,6 +48,7 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
+      "STORAGE_ACCOUNT_NO_ACCESS_NAME",
       "REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME",
       "REMOTERENDERING_ARR_BLOB_CONTAINER_NAME",
       "REMOTERENDERING_ARR_ACCOUNT_KEY",
