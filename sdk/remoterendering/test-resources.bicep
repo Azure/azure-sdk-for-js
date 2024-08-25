@@ -7,9 +7,9 @@ var arrApiVersion = '2021-03-01-preview'
 var arrAccountName = '${baseName}-arr-account'
 var storageApiVersion = '2023-05-01'
 var storageAccountName = baseName
-var storageAccountNoAccessName = '${baseName}-noaccess'
+var storageAccountNoAccessName = '${baseName}na'
 var blobContainerName = 'test'
-var blobContainerNoAccessName = 'test2'
+var blobContainerNoAccessName = 'noaccess'
 var sasProperties = {
   signedPermission: 'rwl'
   signedExpiry: dateTimeAdd(baseTime, 'P1D')
