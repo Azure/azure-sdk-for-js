@@ -1,0 +1,47 @@
+trigger: none
+
+pr:
+  paths:
+    include:
+      - eng/pipelines/bicep-warnings.yml
+
+stages:
+  - stage: LintBicepFiles
+    displayName: Lint Bicep Files
+
+    pool:
+      vmImage: ubuntu-22.04
+
+    jobs:
+      - job: LintBicep
+        timeoutInMinutes: 20
+        steps:
+          - task: AzureCLI@2
+            displayName: 'Install Bicep CLI and Lint Bicep Files'
+            inputs:
+              azureSubscription: 'opensource-api-connection'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az bicep install
+                find . -name '*.bicep' -exec az bicep lint --file {} \; > lint-warnings.txt 2>&1
+
+          - script: |
+              DATE=$(date +'%Y-%m-%d')
+              sed '/^$/N;/^\n$/D;' lint-warnings.txt > lint-warnings-${DATE}.txt
+            displayName: 'Rename Lint Warnings File with Date'
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: 'lint-warnings-$(date +%Y-%m-%d).txt'
+              artifactName: 'bicep-lint-warnings-$(date +%Y-%m-%d)'
+
+          - task: AzureFileCopy@6
+            displayName: 'Upload Bicep Lint Warnings'
+            inputs:
+              sourcePath: 'lint-warnings-$(date +%Y-%m-%d).txt'
+              azureSubscription: 'Azure SDK Artifacts'
+              destination: AzureBlob
+              storage: azuresdkartifacts
+              containerName: 'bicep-lint-warnings'
+              blobPrefix: 'warnings/$(date +%Y-%m-%d)'
