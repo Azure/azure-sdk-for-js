@@ -56,7 +56,7 @@ async function subscriptionQuotaAllocationPutRequestForCompute() {
       );
 
       //TODO change this since response body will change 
-      var provisioningState = status?.provisioningState;
+      var provisioningState = status?.properties?.provisioningState;
       console.log(provisioningState);
       var finalState = "";
       if( provisioningState != "Accepted" && provisioningState != "InProgress"){
