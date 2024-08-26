@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:~",
-    "@azure/communication-common": "^2.2.0",
+    "@azure/communication-common": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
     "@azure/core-paging": "workspace:~",

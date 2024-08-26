@@ -9,7 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
-    "@azure/service-bus": "^7.0.0",
+    "@azure/service-bus": "workspace:~",
     "dotenv": "catalog:",
     "uuid": "^8.3.0"
   },

@@ -95,7 +95,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "workspace:~",
-    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-common": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
     "@azure/core-lro": "catalog:core-lroV2",

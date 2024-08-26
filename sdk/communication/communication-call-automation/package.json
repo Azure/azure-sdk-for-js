@@ -75,7 +75,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:~",
-    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-common": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
     "@azure/core-paging": "workspace:~",
@@ -89,11 +89,11 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure/communication-identity": "^1.2.0",
-    "@azure/communication-phone-numbers": "^1.2.0",
+    "@azure/communication-identity": "workspace:~",
+    "@azure/communication-phone-numbers": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/service-bus": "^7.8.1",
+    "@azure/service-bus": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",

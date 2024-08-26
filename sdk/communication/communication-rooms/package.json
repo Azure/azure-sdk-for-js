@@ -8,7 +8,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/communication-common": "^2.3.1",
+    "@azure/communication-common": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
     "@azure/core-paging": "workspace:~",
@@ -16,7 +16,7 @@
     "@azure/core-tracing": "workspace:~",
     "@azure/core-util": "workspace:~",
     "@azure/logger": "workspace:~",
-    "tslib": "^1.9.3"
+    "tslib": "catalog:"
   },
   "keywords": [
     "node",
@@ -36,7 +36,7 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure-tools/test-utils": "~1.0.0",
+    "@azure-tools/test-utils": "workspace:~",
     "@azure/communication-identity": "^1.1.0-beta.2",
     "@azure/core-auth": "workspace:~",
     "@azure/dev-tool": "workspace:~",

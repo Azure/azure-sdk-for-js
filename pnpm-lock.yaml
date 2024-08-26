@@ -3185,8 +3185,8 @@ importers:
         specifier: workspace:~
         version: link:../../test-utils/recorder
       '@azure-tools/test-utils':
-        specifier: ~1.0.0
-        version: 1.0.1
+        specifier: workspace:~
+        version: link:../../test-utils/test-utils
       '@azure-tools/vite-plugin-browser-test-map':
         specifier: workspace:~
         version: link:../../../common/tools/vite-plugin-browser-test-map
@@ -3209,11 +3209,11 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@vitest/browser':
-        specifier: ~1.6.0
-        version: 1.6.0(playwright@1.46.1)(vitest@1.6.0)
+        specifier: 'catalog:'
+        version: 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
       '@vitest/coverage-istanbul':
-        specifier: ^1.3.1
-        version: 1.6.0(vitest@1.6.0(@types/node@18.19.45)(@vitest/browser@1.6.0))
+        specifier: 'catalog:'
+        version: 2.0.5(vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5))
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
@@ -3242,11 +3242,11 @@ importers:
         specifier: 'catalog:'
         version: 2.0.1
       typescript:
-        specifier: ~5.3.3
-        version: 5.3.3
+        specifier: 'catalog:'
+        version: 5.5.4
       vitest:
-        specifier: ~1.6.0
-        version: 1.6.0(@types/node@18.19.45)(@vitest/browser@1.6.0)
+        specifier: 'catalog:'
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
   sdk/billing/arm-billing:
     dependencies:
@@ -4448,8 +4448,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -4575,8 +4575,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.3.1
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -4612,11 +4612,11 @@ importers:
         specifier: catalog:test-recorderV3
         version: 3.5.2
       '@azure/communication-identity':
-        specifier: ^1.2.0
-        version: 1.3.1
+        specifier: workspace:~
+        version: link:../communication-identity
       '@azure/communication-phone-numbers':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: workspace:~
+        version: link:../communication-phone-numbers
       '@azure/dev-tool':
         specifier: workspace:~
         version: link:../../../common/tools/dev-tool
@@ -4624,8 +4624,8 @@ importers:
         specifier: workspace:~
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/service-bus':
-        specifier: ^7.8.1
-        version: 7.9.5
+        specifier: workspace:~
+        version: link:../../servicebus/service-bus
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -4714,8 +4714,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.3.1
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/communication-signaling':
         specifier: 1.0.0-beta.28
         version: 1.0.0-beta.28
@@ -4754,8 +4754,8 @@ importers:
         specifier: catalog:test-recorderV3
         version: 3.5.2
       '@azure/communication-identity':
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: workspace:~
+        version: link:../communication-identity
       '@azure/core-util':
         specifier: workspace:~
         version: link:../../core/core-util
@@ -4974,8 +4974,8 @@ importers:
   sdk/communication/communication-email:
     dependencies:
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5089,8 +5089,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.3.1
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5228,8 +5228,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5367,8 +5367,8 @@ importers:
         specifier: ^1.1.4
         version: 1.4.0
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5488,8 +5488,8 @@ importers:
         specifier: ^1.1.6
         version: 1.4.0
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5609,8 +5609,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5742,8 +5742,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5875,8 +5875,8 @@ importers:
   sdk/communication/communication-rooms:
     dependencies:
       '@azure/communication-common':
-        specifier: ^2.3.1
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -5899,8 +5899,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/logger
       tslib:
-        specifier: ^1.9.3
-        version: 1.14.1
+        specifier: 'catalog:'
+        version: 2.6.3
     devDependencies:
       '@azure-tools/test-credential':
         specifier: catalog:test-credentialV1
@@ -5909,8 +5909,8 @@ importers:
         specifier: catalog:test-recorderV3
         version: 3.5.2
       '@azure-tools/test-utils':
-        specifier: ~1.0.0
-        version: 1.0.1
+        specifier: workspace:~
+        version: link:../../test-utils/test-utils
       '@azure/communication-identity':
         specifier: ^1.1.0-beta.2
         version: 1.3.1
@@ -5981,8 +5981,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -6117,8 +6117,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -6247,8 +6247,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -6383,8 +6383,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/abort-controller
       '@azure/communication-common':
-        specifier: ^2.2.0
-        version: 2.3.1
+        specifier: workspace:~
+        version: link:../communication-common
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -12328,8 +12328,8 @@ importers:
         specifier: workspace:~
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/service-bus':
-        specifier: ^7.0.0
-        version: 7.9.5
+        specifier: workspace:~
+        version: link:../../servicebus/service-bus
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -12464,8 +12464,8 @@ importers:
         specifier: workspace:~
         version: link:../../identity/identity
       '@azure/service-bus':
-        specifier: ^7.0.0
-        version: 7.9.5
+        specifier: workspace:~
+        version: link:../../servicebus/service-bus
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -12591,8 +12591,8 @@ importers:
         specifier: workspace:~
         version: link:../../identity/identity
       '@azure/service-bus':
-        specifier: ^7.0.0
-        version: 7.9.5
+        specifier: workspace:~
+        version: link:../../servicebus/service-bus
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -27103,8 +27103,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       '@azure/service-bus':
-        specifier: ^7.0.0
-        version: 7.9.5
+        specifier: workspace:~
+        version: link:../../service-bus
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
@@ -33336,10 +33336,6 @@ packages:
     resolution: {integrity: sha512-S54UTeEM3SbUNGFeGcGQEw64KLUu8CmZi2/2hRu3sy6Rx2i4Y8aL+ITlGC7bOm2v5rKELD5PoXAVYDJxVCJN1w==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/communication-phone-numbers@1.2.0':
-    resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
-    engines: {node: '>=14.0.0'}
-
   '@azure/communication-signaling@1.0.0-beta.28':
     resolution: {integrity: sha512-D1ujjaIiXPhePvjKlG+iYazYxLwPHSxD8WOJluCwptElcj1PslF70nmXDJw3udCLTYDbDgV+SrGpAHnJsyuh3Q==}
     engines: {node: '>=8.0.0'}
@@ -33531,10 +33527,6 @@ packages:
   '@azure/search-documents@12.0.0-beta.4':
     resolution: {integrity: sha512-t4fExKXnbBBCQCStJLt+QoIyb0NGvyqfPO5p9ZlwU89HTyky+2A9vxc/DMPtl4DAM6YrZPUT2ky0uqXFHpADIQ==}
     engines: {node: '>=16.0.0'}
-
-  '@azure/service-bus@7.9.5':
-    resolution: {integrity: sha512-R5Af+4jtZZII2snLomaddMyElFtTCBRZp2qERPlP8PuISLU87eFYFM7xWzxjNd0yeiyQUBkamx/ZhOC8eWhCHA==}
-    engines: {node: '>=18.0.0'}
 
   '@azure/storage-blob@12.24.0':
     resolution: {integrity: sha512-l8cmWM4C7RoNCBOImoFMxhTXe1Lr+8uQ/IgnhRNMpfoA9bAFWoLG4XrWm6O5rKXortreVQuD+fc1hbzWklOZbw==}
@@ -34021,10 +34013,6 @@ packages:
   '@istanbuljs/schema@0.1.3':
     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
     engines: {node: '>=8'}
-
-  '@jest/schemas@29.6.3':
-    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   '@jridgewell/gen-mapping@0.3.5':
     resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
@@ -34513,9 +34501,6 @@ packages:
   '@rushstack/ts-command-line@4.22.6':
     resolution: {integrity: sha512-QSRqHT/IfoC5nk9zn6+fgyqOPXHME0BfchII9EUPR19pocsNp/xSbeBCbD3PIR2Lg+Q5qk7OFqk1VhWPMdKHJg==}
 
-  '@sinclair/typebox@0.27.8':
-    resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
-
   '@sinonjs/commons@2.0.0':
     resolution: {integrity: sha512-uLa0j859mMrg2slwQYdO/AkrOfmH+X6LTVmNTS9CqexuE2IvVORIkSpJLqePAbEnKJ77aMmCwr1NUZ57120Xcg==}
 
@@ -34873,21 +34858,6 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@vitest/browser@1.6.0':
-    resolution: {integrity: sha512-3Wpp9h1hf++rRVPvoXevkdHybLhJVn7MwIMKMIh08tVaoDMmT6fnNhbP222Z48V9PptpYeA5zvH9Ct/ZcaAzmQ==}
-    peerDependencies:
-      playwright: '*'
-      safaridriver: '*'
-      vitest: 1.6.0
-      webdriverio: '*'
-    peerDependenciesMeta:
-      playwright:
-        optional: true
-      safaridriver:
-        optional: true
-      webdriverio:
-        optional: true
-
   '@vitest/browser@2.0.5':
     resolution: {integrity: sha512-VbOYtu/6R3d7ASZREcrJmRY/sQuRFO9wMVsEDqfYbWiJRh2fDNi8CL1Csn7Ux31pOcPmmM5QvzFCMpiojvVh8g==}
     peerDependencies:
@@ -34903,18 +34873,10 @@ packages:
       webdriverio:
         optional: true
 
-  '@vitest/coverage-istanbul@1.6.0':
-    resolution: {integrity: sha512-h/BwpXehkkS0qsNCS00QxiupAqVkNi0WT19BR0dQvlge5oHghoSVLx63fABYFoKxVb7Ue7+k6V2KokmQ1zdMpg==}
-    peerDependencies:
-      vitest: 1.6.0
-
   '@vitest/coverage-istanbul@2.0.5':
     resolution: {integrity: sha512-BvjWKtp7fiMAeYUD0mO5cuADzn1gmjTm54jm5qUEnh/O08riczun8rI4EtQlg3bWoRo2lT3FO8DmjPDX9ZthPw==}
     peerDependencies:
       vitest: 2.0.5
-
-  '@vitest/expect@1.6.0':
-    resolution: {integrity: sha512-ixEvFVQjycy/oNgHjqsL6AZCDduC+tflRluaHIzKIsdbzkLn2U/iBnVeJwB6HsIjQBdfMR8Z0tRxKUsvFJEeWQ==}
 
   '@vitest/expect@2.0.5':
     resolution: {integrity: sha512-yHZtwuP7JZivj65Gxoi8upUN2OzHTi3zVfjwdpu2WrvCZPLwsJ2Ey5ILIPccoW23dd/zQBlJ4/dhi7DWNyXCpA==}
@@ -34922,26 +34884,14 @@ packages:
   '@vitest/pretty-format@2.0.5':
     resolution: {integrity: sha512-h8k+1oWHfwTkyTkb9egzwNMfJAEx4veaPSnMeKbVSjp4euqGSbQlm5+6VHwTr7u4FJslVVsUG5nopCaAYdOmSQ==}
 
-  '@vitest/runner@1.6.0':
-    resolution: {integrity: sha512-P4xgwPjwesuBiHisAVz/LSSZtDjOTPYZVmNAnpHHSR6ONrf8eCJOFRvUwdHn30F5M1fxhqtl7QZQUk2dprIXAg==}
-
   '@vitest/runner@2.0.5':
     resolution: {integrity: sha512-TfRfZa6Bkk9ky4tW0z20WKXFEwwvWhRY+84CnSEtq4+3ZvDlJyY32oNTJtM7AW9ihW90tX/1Q78cb6FjoAs+ig==}
-
-  '@vitest/snapshot@1.6.0':
-    resolution: {integrity: sha512-+Hx43f8Chus+DCmygqqfetcAZrDJwvTj0ymqjQq4CvmpKFSTVteEOBzCusu1x2tt4OJcvBflyHUE0DZSLgEMtQ==}
 
   '@vitest/snapshot@2.0.5':
     resolution: {integrity: sha512-SgCPUeDFLaM0mIUHfaArq8fD2WbaXG/zVXjRupthYfYGzc8ztbFbu6dUNOblBG7XLMR1kEhS/DNnfCZ2IhdDew==}
 
-  '@vitest/spy@1.6.0':
-    resolution: {integrity: sha512-leUTap6B/cqi/bQkXUu6bQV5TZPx7pmMBKBQiI0rJA8c3pB56ZsaTbREnF7CJfmvAS4V2cXIBAh/3rVwrrCYgw==}
-
   '@vitest/spy@2.0.5':
     resolution: {integrity: sha512-c/jdthAhvJdpfVuaexSrnawxZz6pywlTPe84LUB2m/4t3rl2fTo9NFGBG4oWgaD+FTgDDV8hJ/nibT7IfH3JfA==}
-
-  '@vitest/utils@1.6.0':
-    resolution: {integrity: sha512-21cPiuGMoMZwiOHa2i4LXkMkMkCGzA+MVFV70jRwHo95dL4x/ts5GZhML1QWuy7yfp3WzK3lRvZi3JnXTYqrBw==}
 
   '@vitest/utils@2.0.5':
     resolution: {integrity: sha512-d8HKbqIcya+GR67mkZbrzhS5kKhtp8dQLcmRZLGTscGVg7yImT82cIrhtn2L8+VujWcy6KZweApgNmPsTAO/UQ==}
@@ -35439,9 +35389,6 @@ packages:
     engines: {node: ^14.13.0 || >=16.0.0}
     hasBin: true
 
-  confbox@0.1.7:
-    resolution: {integrity: sha512-uJcB/FKZtBMCJpK8MQji6bJHgu1tixKPxRLeGkNzBoOZzpnZUJm0jm2/sBDWcuBx1dYgxV4JU+g5hmNxCyAmdA==}
-
   connect@3.7.0:
     resolution: {integrity: sha512-ZqRXc+tZukToSNmh5C2iWMSoV3X1YUcPbqEM4DkEG5tNQXrQUZCNVGGv3IuicnkMtPfGf3Xtp8WCXs295iQ1pQ==}
     engines: {node: '>= 0.10.0'}
@@ -35689,10 +35636,6 @@ packages:
 
   di@0.0.1:
     resolution: {integrity: sha512-uJaamHkagcZtHPqCIHZxnFrXlunQXgBOsZSUOWwFw31QJCAbyTBoHMW75YOTur5ZNx8pIeAKgf6GWIgaqqiLhA==}
-
-  diff-sequences@29.6.3:
-    resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
@@ -36696,9 +36639,6 @@ packages:
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
-  js-tokens@9.0.0:
-    resolution: {integrity: sha512-WriZw1luRMlmV3LGJaR6QOJjWwgLUTf89OwT2lUOyjX2dJGBwgmIkbcz+7WFZjrZM635JOIR517++e/67CP9dQ==}
-
   js-yaml@3.14.1:
     resolution: {integrity: sha512-okMH7OXXJ7YrN9Ok3/SXrnu4iX9yOk+25nqX4imS2npuvTYDmo/QEZoqwZkYaIDk3jVvBOTOIEgEhaLOynBS9g==}
     hasBin: true
@@ -36881,10 +36821,6 @@ packages:
 
   linkify-it@5.0.0:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
-
-  local-pkg@0.5.0:
-    resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==}
-    engines: {node: '>=14'}
 
   locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
@@ -37142,9 +37078,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  mlly@1.7.1:
-    resolution: {integrity: sha512-rrVRZRELyQzrIUAVMHxP97kv+G786pHmOKzuFII8zDYahFBS7qnHh2AlYSl1GAHhaMPCz6/oHjVMcfFYgFYHgA==}
-
   mocha@10.7.3:
     resolution: {integrity: sha512-uQWxAu44wwiACGqjbPYmjo7Lg8sFrS3dQe7PP2FQI+woptP4vZXSMcfMyFL/e1yFEeEpV4RtyTpZROOKmxis+A==}
     engines: {node: '>= 14.0.0'}
@@ -37358,10 +37291,6 @@ packages:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
     engines: {node: '>=10'}
 
-  p-limit@5.0.0:
-    resolution: {integrity: sha512-/Eaoq+QyLSiXQ4lyYV23f14mZRQcXnxfHrN0vCai+ak9G0pp9iEQukIIZq5NccEvwRB8PUnZT0KsOoDCINS1qQ==}
-    engines: {node: '>=18'}
-
   p-locate@4.1.0:
     resolution: {integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==}
     engines: {node: '>=8'}
@@ -37502,9 +37431,6 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  pkg-types@1.1.3:
-    resolution: {integrity: sha512-+JrgthZG6m3ckicaOB74TwQ+tBWsFl3qVQg7mN8ulwSOElJ7gBhKzj2VkCPnZ4NlF6kEquYU+RIYNVAvzd54UA==}
-
   playwright-core@1.46.1:
     resolution: {integrity: sha512-h9LqIQaAv+CYvWzsZ+h3RsrqCStkBHlgo6/TJlFst3cOTlLghBQlJwPOZKQJTKNaD3QIB7aAVQ+gfWbN3NXB7A==}
     engines: {node: '>=18'}
@@ -37569,10 +37495,6 @@ packages:
   pretty-format@27.5.1:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
-
-  pretty-format@29.7.0:
-    resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
   priorityqueuejs@2.0.0:
     resolution: {integrity: sha512-19BMarhgpq3x4ccvVi8k2QpJZcymo/iFUcrhPd4V96kYGovOdTsWwy7fxChYi4QY+m2EnGBWSX9Buakz+tWNQQ==}
@@ -37694,9 +37616,6 @@ packages:
 
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
-
-  react-is@18.3.1:
-    resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
   readable-stream@1.0.34:
     resolution: {integrity: sha512-ok1qVCJuRkNmvebYikljxJA/UEsKwLl2nI1OmaqAu4/UE+h0wKCHok4XkL/gvi39OacXvw59RJUOFUkDib2rHg==}
@@ -38156,9 +38075,6 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
-  strip-literal@2.1.0:
-    resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
-
   strnum@1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
 
@@ -38232,20 +38148,12 @@ packages:
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
 
-  tinypool@0.8.4:
-    resolution: {integrity: sha512-i11VH5gS6IFeLY3gMBQ00/MmLncVP7JLXOw1vlgkytLmJK7QnEr7NXf0LBdxfmNPAeyetukOk0bOYrJrFGjYJQ==}
-    engines: {node: '>=14.0.0'}
-
   tinypool@1.0.1:
     resolution: {integrity: sha512-URZYihUbRPcGv95En+sz6MfghfIc2OJ1sv/RmhWZLouPY0/8Vo80viwPvg3dlaS9fuq7fQMEfgRRK7BBZThBEA==}
     engines: {node: ^18.0.0 || >=20.0.0}
 
   tinyrainbow@1.2.0:
     resolution: {integrity: sha512-weEDEq7Z5eTHPDh4xjX789+fHfF+P8boiFB+0vbWzpbnbsEr/GRaohi/uMKxg8RZMXnl1ItAi/IUHWMsjDV7kQ==}
-    engines: {node: '>=14.0.0'}
-
-  tinyspy@2.2.1:
-    resolution: {integrity: sha512-KYad6Vy5VDWV4GH3fjpseMQ/XU2BhIYP7Vzd0LG44qRWm/Yt2WCOTicFdvmgo6gWaqooMQCawTtILVQJupKu7A==}
     engines: {node: '>=14.0.0'}
 
   tinyspy@3.0.0:
@@ -38473,9 +38381,6 @@ packages:
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
-  ufo@1.5.4:
-    resolution: {integrity: sha512-UsUk3byDzKd04EyoZ7U4DOlxQaD14JUKQl6/P7wiX4FNvUfm3XL246n9W5AmqwW5RSFJ27NAuM0iLscAOYUiGQ==}
-
   uglify-js@3.19.2:
     resolution: {integrity: sha512-S8KA6DDI47nQXJSi2ctQ629YzwOVs+bQML6DAtvy0wgNdpi+0ySpQK0g2pxBq2xfF2z3YCscu7NNA8nXT9PlIQ==}
     engines: {node: '>=0.8.0'}
@@ -38574,11 +38479,6 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  vite-node@1.6.0:
-    resolution: {integrity: sha512-de6HJgzC+TFzOu0NTC4RAIsyf/DY/ibWDYQUcuEA84EMHhcefTUGkjFHKKEJhQN4A+6I0u++kr3l36ZF2d7XRw==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-
   vite-node@2.0.5:
     resolution: {integrity: sha512-LdsW4pxj0Ot69FAoXZ1yTnA9bjGohr2yNBU7QKRxpz8ITSkhuDl6h3zS/tvgz4qrNjeRnvrWeXQ8ZF7Um4W00Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -38613,31 +38513,6 @@ packages:
       sugarss:
         optional: true
       terser:
-        optional: true
-
-  vitest@1.6.0:
-    resolution: {integrity: sha512-H5r/dN06swuFnzNFhq/dnz37bPXnq8xB2xB5JOVk8K09rUtoeNN+LHWkoQ0A/i3hvbUKKcCei9KpbxqHMLhLLA==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@edge-runtime/vm': '*'
-      '@types/node': ^18.0.0 || >=20.0.0
-      '@vitest/browser': 1.6.0
-      '@vitest/ui': 1.6.0
-      happy-dom: '*'
-      jsdom: '*'
-    peerDependenciesMeta:
-      '@edge-runtime/vm':
-        optional: true
-      '@types/node':
-        optional: true
-      '@vitest/browser':
-        optional: true
-      '@vitest/ui':
-        optional: true
-      happy-dom:
-        optional: true
-      jsdom:
         optional: true
 
   vitest@2.0.5:
@@ -38858,10 +38733,6 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-  yocto-queue@1.1.1:
-    resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
-    engines: {node: '>=12.20'}
 
   yoctocolors-cjs@2.1.2:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
@@ -39195,23 +39066,6 @@ snapshots:
       '@azure/logger': 1.1.4
       events: 3.3.0
       tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/communication-phone-numbers@1.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/communication-common': 2.3.1
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
-      '@azure/logger': 1.1.4
-      events: 3.3.0
-      tslib: 2.6.3
-      uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
 
@@ -39711,29 +39565,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/service-bus@7.9.5':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-amqp': 4.3.2
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.2
-      '@azure/core-xml': 1.4.3
-      '@azure/logger': 1.1.4
-      '@types/is-buffer': 2.0.2
-      buffer: 6.0.3
-      is-buffer: 2.0.5
-      jssha: 3.3.1
-      long: 5.2.3
-      process: 0.11.10
-      rhea-promise: 3.0.3
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/storage-blob@12.24.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -40219,10 +40050,6 @@ snapshots:
       resolve-from: 5.0.0
 
   '@istanbuljs/schema@0.1.3': {}
-
-  '@jest/schemas@29.6.3':
-    dependencies:
-      '@sinclair/typebox': 0.27.8
 
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
@@ -40886,8 +40713,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@sinclair/typebox@0.27.8': {}
-
   '@sinonjs/commons@2.0.0':
     dependencies:
       type-detect: 4.0.8
@@ -41304,15 +41129,6 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitest/browser@1.6.0(playwright@1.46.1)(vitest@1.6.0)':
-    dependencies:
-      '@vitest/utils': 1.6.0
-      magic-string: 0.30.11
-      sirv: 2.0.4
-      vitest: 1.6.0(@types/node@18.19.45)(@vitest/browser@1.6.0)
-    optionalDependencies:
-      playwright: 1.46.1
-
   '@vitest/browser@2.0.5(playwright@1.46.1)(typescript@5.4.5)(vitest@2.0.5)':
     dependencies:
       '@testing-library/dom': 10.4.0
@@ -41347,21 +41163,6 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@vitest/coverage-istanbul@1.6.0(vitest@1.6.0(@types/node@18.19.45)(@vitest/browser@1.6.0))':
-    dependencies:
-      debug: 4.3.6(supports-color@8.1.1)
-      istanbul-lib-coverage: 3.2.2
-      istanbul-lib-instrument: 6.0.3
-      istanbul-lib-report: 3.0.1
-      istanbul-lib-source-maps: 5.0.6
-      istanbul-reports: 3.1.7
-      magicast: 0.3.4
-      picocolors: 1.0.1
-      test-exclude: 6.0.0
-      vitest: 1.6.0(@types/node@18.19.45)(@vitest/browser@1.6.0)
-    transitivePeerDependencies:
-      - supports-color
-
   '@vitest/coverage-istanbul@2.0.5(vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5))':
     dependencies:
       '@istanbuljs/schema': 0.1.3
@@ -41394,12 +41195,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/expect@1.6.0':
-    dependencies:
-      '@vitest/spy': 1.6.0
-      '@vitest/utils': 1.6.0
-      chai: 4.3.10
-
   '@vitest/expect@2.0.5':
     dependencies:
       '@vitest/spy': 2.0.5
@@ -41411,22 +41206,10 @@ snapshots:
     dependencies:
       tinyrainbow: 1.2.0
 
-  '@vitest/runner@1.6.0':
-    dependencies:
-      '@vitest/utils': 1.6.0
-      p-limit: 5.0.0
-      pathe: 1.1.2
-
   '@vitest/runner@2.0.5':
     dependencies:
       '@vitest/utils': 2.0.5
       pathe: 1.1.2
-
-  '@vitest/snapshot@1.6.0':
-    dependencies:
-      magic-string: 0.30.11
-      pathe: 1.1.2
-      pretty-format: 29.7.0
 
   '@vitest/snapshot@2.0.5':
     dependencies:
@@ -41434,20 +41217,9 @@ snapshots:
       magic-string: 0.30.11
       pathe: 1.1.2
 
-  '@vitest/spy@1.6.0':
-    dependencies:
-      tinyspy: 2.2.1
-
   '@vitest/spy@2.0.5':
     dependencies:
       tinyspy: 3.0.0
-
-  '@vitest/utils@1.6.0':
-    dependencies:
-      diff-sequences: 29.6.3
-      estree-walker: 3.0.3
-      loupe: 2.3.7
-      pretty-format: 29.7.0
 
   '@vitest/utils@2.0.5':
     dependencies:
@@ -42005,8 +41777,6 @@ snapshots:
       tree-kill: 1.2.2
       yargs: 17.7.2
 
-  confbox@0.1.7: {}
-
   connect@3.7.0:
     dependencies:
       debug: 2.6.9
@@ -42232,8 +42002,6 @@ snapshots:
   devtools-protocol@0.0.901419: {}
 
   di@0.0.1: {}
-
-  diff-sequences@29.6.3: {}
 
   diff@4.0.2: {}
 
@@ -43447,8 +43215,6 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-tokens@9.0.0: {}
-
   js-yaml@3.14.1:
     dependencies:
       argparse: 1.0.10
@@ -43697,11 +43463,6 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
-  local-pkg@0.5.0:
-    dependencies:
-      mlly: 1.7.1
-      pkg-types: 1.1.3
-
   locate-path@5.0.0:
     dependencies:
       p-locate: 4.1.0
@@ -43930,13 +43691,6 @@ snapshots:
   mkdirp@2.1.6: {}
 
   mkdirp@3.0.1: {}
-
-  mlly@1.7.1:
-    dependencies:
-      acorn: 8.12.1
-      pathe: 1.1.2
-      pkg-types: 1.1.3
-      ufo: 1.5.4
 
   mocha@10.7.3:
     dependencies:
@@ -44232,10 +43986,6 @@ snapshots:
     dependencies:
       yocto-queue: 0.1.0
 
-  p-limit@5.0.0:
-    dependencies:
-      yocto-queue: 1.1.1
-
   p-locate@4.1.0:
     dependencies:
       p-limit: 2.3.0
@@ -44367,12 +44117,6 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  pkg-types@1.1.3:
-    dependencies:
-      confbox: 0.1.7
-      mlly: 1.7.1
-      pathe: 1.1.2
-
   playwright-core@1.46.1: {}
 
   playwright@1.46.1:
@@ -44429,12 +44173,6 @@ snapshots:
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 17.0.2
-
-  pretty-format@29.7.0:
-    dependencies:
-      '@jest/schemas': 29.6.3
-      ansi-styles: 5.2.0
-      react-is: 18.3.1
 
   priorityqueuejs@2.0.0: {}
 
@@ -44602,8 +44340,6 @@ snapshots:
       strip-json-comments: 2.0.1
 
   react-is@17.0.2: {}
-
-  react-is@18.3.1: {}
 
   readable-stream@1.0.34:
     dependencies:
@@ -45143,10 +44879,6 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  strip-literal@2.1.0:
-    dependencies:
-      js-tokens: 9.0.0
-
   strnum@1.0.5: {}
 
   supports-color@5.5.0:
@@ -45246,13 +44978,9 @@ snapshots:
 
   tinybench@2.9.0: {}
 
-  tinypool@0.8.4: {}
-
   tinypool@1.0.1: {}
 
   tinyrainbow@1.2.0: {}
-
-  tinyspy@2.2.1: {}
 
   tinyspy@3.0.0: {}
 
@@ -45553,8 +45281,6 @@ snapshots:
 
   uc.micro@2.1.0: {}
 
-  ufo@1.5.4: {}
-
   uglify-js@3.19.2: {}
 
   unbox-primitive@1.0.2:
@@ -45639,24 +45365,6 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite-node@1.6.0(@types/node@18.19.45):
-    dependencies:
-      cac: 6.7.14
-      debug: 4.3.6(supports-color@8.1.1)
-      pathe: 1.1.2
-      picocolors: 1.0.1
-      vite: 5.4.2(@types/node@18.19.45)
-    transitivePeerDependencies:
-      - '@types/node'
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-
   vite-node@2.0.5(@types/node@18.19.45):
     dependencies:
       cac: 6.7.14
@@ -45710,41 +45418,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.4.2
       fsevents: 2.3.3
-
-  vitest@1.6.0(@types/node@18.19.45)(@vitest/browser@1.6.0):
-    dependencies:
-      '@vitest/expect': 1.6.0
-      '@vitest/runner': 1.6.0
-      '@vitest/snapshot': 1.6.0
-      '@vitest/spy': 1.6.0
-      '@vitest/utils': 1.6.0
-      acorn-walk: 8.3.3
-      chai: 4.5.0
-      debug: 4.3.6(supports-color@8.1.1)
-      execa: 8.0.1
-      local-pkg: 0.5.0
-      magic-string: 0.30.11
-      pathe: 1.1.2
-      picocolors: 1.0.1
-      std-env: 3.7.0
-      strip-literal: 2.1.0
-      tinybench: 2.9.0
-      tinypool: 0.8.4
-      vite: 5.4.2(@types/node@18.19.45)
-      vite-node: 1.6.0(@types/node@18.19.45)
-      why-is-node-running: 2.3.0
-    optionalDependencies:
-      '@types/node': 18.19.45
-      '@vitest/browser': 1.6.0(playwright@1.46.1)(vitest@1.6.0)
-    transitivePeerDependencies:
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
 
   vitest@2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5):
     dependencies:
@@ -45992,8 +45665,6 @@ snapshots:
   yn@3.1.1: {}
 
   yocto-queue@0.1.0: {}
-
-  yocto-queue@1.1.1: {}
 
   yoctocolors-cjs@2.1.2: {}
 

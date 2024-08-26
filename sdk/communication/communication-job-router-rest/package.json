@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/communication-job-router.d.ts",
+  "types": "./types/communication-job-router-rest.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -62,7 +62,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "^1.1.4",
-    "@azure/communication-common": "^2.2.0",
+    "@azure/communication-common": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-paging": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",

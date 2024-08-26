@@ -47,7 +47,7 @@
     "email"
   ],
   "dependencies": {
-    "@azure/communication-common": "^2.2.0",
+    "@azure/communication-common": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
     "@azure/core-lro": "catalog:core-lroV2",
