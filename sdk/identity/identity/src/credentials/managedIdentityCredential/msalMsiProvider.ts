@@ -216,6 +216,7 @@ export class MsalMsiProvider {
         return {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
+          refreshAfterTimestamp: token.refreshOn?.getTime(),
         };
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));
