@@ -201,4 +201,10 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   nOffForBrowser,
   noOnlyTestsCustomization as FlatConfig.Config,
   tsdocCustomization as FlatConfig.Config,
+  {
+    files: ["samples-dev/**/*.ts", "*/*/samples-dev/**/*.ts"],
+    rules: {
+      "tsdoc/syntax": "off",
+    },
+  },
 ];
