@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "@eslint/compat": "^1.0.1",
-    "@eslint/js": "~9.2.0",
+    "@eslint/js": "^9.9.0",
     "@typescript-eslint/typescript-estree": "~8.2.0",
     "@types/eslint": "^9.6.0",
     "@types/estree": "~1.0.0",
