@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import eslint from "@eslint/js";
 import typescriptEslint from "typescript-eslint";

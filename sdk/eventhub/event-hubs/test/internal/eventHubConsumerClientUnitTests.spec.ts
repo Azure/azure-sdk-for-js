@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CheckpointStore, SubscriptionEventHandlers } from "../../src/index.js";
 import { EventHubConsumerClient, isCheckpointStore } from "../../src/eventHubConsumerClient.js";

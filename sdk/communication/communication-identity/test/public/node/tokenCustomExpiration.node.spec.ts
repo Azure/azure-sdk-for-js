@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";

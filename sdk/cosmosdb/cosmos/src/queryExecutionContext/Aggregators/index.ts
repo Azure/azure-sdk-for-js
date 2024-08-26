@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { AverageAggregator } from "./AverageAggregator";
 import { CountAggregator } from "./CountAggregator";
 import { MaxAggregator } from "./MaxAggregator";

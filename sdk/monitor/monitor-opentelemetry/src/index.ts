@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ProxyTracerProvider, metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";

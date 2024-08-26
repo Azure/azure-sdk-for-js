@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { ApplicationInsightsSampler } from "./sampling";
 export { AzureMonitorBaseExporter } from "./export/base";

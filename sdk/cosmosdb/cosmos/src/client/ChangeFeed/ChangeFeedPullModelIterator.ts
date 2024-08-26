@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Resource } from "../Resource";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 /**

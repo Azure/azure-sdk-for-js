@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Readable } from "node:stream";
 import type { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";

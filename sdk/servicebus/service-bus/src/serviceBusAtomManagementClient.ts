@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
 import {

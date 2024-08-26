@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { shaHMAC, shaHash } from "../../src/credential/cryptoUtils";
 import { assert } from "chai";

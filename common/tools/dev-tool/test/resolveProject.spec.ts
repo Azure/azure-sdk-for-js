@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { describe, it, assert, expect } from "vitest";
 import path from "node:path";

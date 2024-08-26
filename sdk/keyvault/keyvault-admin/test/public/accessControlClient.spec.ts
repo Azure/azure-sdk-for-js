@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertEnvironmentVariable, env, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, toSupportTracing } from "@azure-tools/test-utils-vitest";

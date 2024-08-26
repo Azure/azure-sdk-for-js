@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureLogger, AzureLogLevel, createClientLogger, Debugger } from "@azure/logger";
 import { isObjectWithProperties } from "@azure/core-util";
