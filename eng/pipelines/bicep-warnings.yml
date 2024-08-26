@@ -1,6 +1,9 @@
 trigger: none
 
 pr:
+  branches:
+    include:
+      - main
   paths:
     include:
       - eng/pipelines/bicep-warnings.yml
@@ -10,21 +13,16 @@ stages:
     displayName: Lint Bicep Files
 
     pool:
-      vmImage: ubuntu-22.04
+      vmImage: azsdk-pool-mms-ubuntu-2204-1espt
 
     jobs:
       - job: LintBicep
         timeoutInMinutes: 20
         steps:
-          - task: AzureCLI@2
+          - script: |
+              az bicep install
+              find . -name '*.bicep' -exec az bicep lint --file {} \; > lint-warnings.txt 2>&1
             displayName: 'Install Bicep CLI and Lint Bicep Files'
-            inputs:
-              azureSubscription: 'opensource-api-connection'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                az bicep install
-                find . -name '*.bicep' -exec az bicep lint --file {} \; > lint-warnings.txt 2>&1
 
           - script: |
               DATE=$(date +'%Y-%m-%d')
