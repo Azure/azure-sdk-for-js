@@ -51,14 +51,13 @@ steps:
   - ${{if and(in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
     - task: AzureCLI@2
       inputs:
-        azureSubscription: azure-sdk-tests
+        azureSubscription: 'Azure SDK Artifacts'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          #az account set --name "Azure SDK Engineering System"
           az account show
           expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
-          sasToken=$(az storage container generate-sas --account-name azuresdkartifactstest --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
+          sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
           echo "##vso[task.setvariable variable=rushBuildCacheCred;]$sasToken"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
