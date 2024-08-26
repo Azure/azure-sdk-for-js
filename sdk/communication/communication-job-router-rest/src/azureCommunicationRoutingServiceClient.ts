@@ -9,7 +9,7 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import createClient from "../generated/azureCommunicationRoutingServiceClient"
+import createClient from "../generated/azureCommunicationRoutingServiceClient";
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
