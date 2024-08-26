@@ -34,8 +34,8 @@
   "module": "dist-esm/src/index.js",
   "types": "types/communication-rooms.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-utils": "~1.0.0",
     "@azure/communication-identity": "^1.1.0-beta.2",
     "@azure/core-auth": "workspace:~",

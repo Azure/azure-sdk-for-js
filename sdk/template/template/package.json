@@ -82,7 +82,7 @@
   "dependencies": {
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
-    "@azure/core-lro": "^2.7.0",
+    "@azure/core-lro": "catalog:core-lroV2",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",
     "@azure/logger": "workspace:~",

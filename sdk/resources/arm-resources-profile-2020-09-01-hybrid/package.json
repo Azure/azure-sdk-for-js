@@ -8,10 +8,10 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "catalog:abort-controllerV1",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
-    "@azure/core-lro": "^2.2.0",
+    "@azure/core-lro": "catalog:core-lroV2",
     "@azure/core-paging": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",
     "tslib": "catalog:"
@@ -28,8 +28,8 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-resources-profile-2020-09-01-hybrid.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/dev-tool": "workspace:~",
     "@azure/identity": "workspace:~",
     "@microsoft/api-extractor": "catalog:",

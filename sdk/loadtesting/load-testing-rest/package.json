@@ -73,7 +73,7 @@
     "@azure-rest/core-client": "^1.0.0",
     "@azure/abort-controller": "workspace:~",
     "@azure/core-auth": "workspace:~",
-    "@azure/core-lro": "^2.4.1",
+    "@azure/core-lro": "catalog:core-lroV2",
     "@azure/core-paging": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-util": "workspace:~",
@@ -81,8 +81,8 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.4",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/identity": "workspace:~",

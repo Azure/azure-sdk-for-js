@@ -55,7 +55,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/test-utils/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/abort-controller": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",

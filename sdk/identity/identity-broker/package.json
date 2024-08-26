@@ -64,9 +64,9 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-utils": "workspace:~",
-    "@azure/abort-controller": "^1.1.0",
+    "@azure/abort-controller": "catalog:abort-controllerV1",
     "@azure/core-client": "workspace:~",
     "@azure/core-util": "workspace:~",
     "@azure/dev-tool": "workspace:~",

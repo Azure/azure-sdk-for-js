@@ -67,7 +67,7 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-utils": "workspace:~",
     "@azure/core-client": "workspace:~",
     "@azure/dev-tool": "workspace:~",

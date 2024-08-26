@@ -64,7 +64,7 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "workspace:~",
     "@azure/core-util": "workspace:~",
     "@azure/dev-tool": "workspace:~",

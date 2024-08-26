@@ -70,8 +70,8 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/core-util": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",

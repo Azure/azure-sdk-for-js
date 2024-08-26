@@ -11,7 +11,7 @@
     "@azure/abort-controller": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
-    "@azure/core-lro": "^2.2.0",
+    "@azure/core-lro": "catalog:core-lroV2",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",
     "tslib": "catalog:"
@@ -29,8 +29,8 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/ai-language-conversations.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-utils": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",

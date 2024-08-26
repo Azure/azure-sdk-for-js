@@ -434,3 +434,13 @@ catalog:
   tslib: ^2.6.3
   typescript: ~5.5.3
   vitest: ^2.0.5
+
+catalogs:
+  abort-controllerV1:
+    '@azure/abort-controller': ^1.0.0
+  core-lroV2:
+    '@azure/core-lro': ^2.2.0
+  test-credentialV1:
+    '@azure-tools/test-credential': ^1.0.0
+  test-recorderV3:
+    '@azure-tools/test-recorder': ^3.0.0

@@ -26,8 +26,8 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-workspaces.d.ts",
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/dev-tool": "workspace:~",
     "@azure/identity": "workspace:~",
     "@microsoft/api-extractor": "catalog:",

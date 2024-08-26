@@ -50,14 +50,14 @@
     "@azure/communication-common": "^2.2.0",
     "@azure/core-auth": "workspace:~",
     "@azure/core-client": "workspace:~",
-    "@azure/core-lro": "^2.5.0",
+    "@azure/core-lro": "catalog:core-lroV2",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-util": "workspace:~",
     "@azure/logger": "workspace:~",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-utils": "workspace:~",
     "@azure/dev-tool": "workspace:~",
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
