@@ -6,6 +6,7 @@ pr:
       - main
   paths:
     include:
+      - '**/*.bicep'
       - eng/pipelines/bicep-warnings.yml
 
 stages:
