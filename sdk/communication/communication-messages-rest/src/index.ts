@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import MessagesServiceClient from "./messagesServiceClient";
-export * from "./generated/src/messagesServiceClient";
-export * from "./generated/src/parameters";
-export * from "./generated/src/responses";
-export * from "./generated/src/clientDefinitions";
-export * from "./generated/src/isUnexpected";
-export * from "./generated/src/models";
-export * from "./generated/src/outputModels";
-export * from "./generated/src/paginateHelper";
+export * from "../generated/messagesServiceClient";
+export * from "../generated/parameters";
+export * from "../generated/responses";
+export * from "../generated/clientDefinitions";
+export * from "../generated/isUnexpected";
+export * from "../generated/models";
+export * from "../generated/outputModels";
+export * from "../generated/paginateHelper";
 export default MessagesServiceClient;

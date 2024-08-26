@@ -12,7 +12,7 @@ import {
   MessageTemplateValue,
   MessageTemplateBindings,
   PagedMessageTemplateItemOutput,
-} from "../../src/generated/src";
+} from "../../generated";
 
 describe("Notification Messages Test", () => {
   let recorder: Recorder;

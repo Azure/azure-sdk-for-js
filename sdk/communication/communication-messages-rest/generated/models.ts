@@ -7,7 +7,7 @@ export interface NotificationContentParent {
   channelRegistrationId: string;
   /** The native external platform user identifiers of the recipient. */
   to: string[];
-  kind: string;
+  kind: CommunicationMessageKind;
 }
 
 /** A request to send a text notification. */
@@ -52,7 +52,7 @@ export interface MessageTemplate {
 export interface MessageTemplateValueParent {
   /** Template binding reference name */
   name: string;
-  kind: string;
+  kind: MessageTemplateValueKind;
 }
 
 /** The message template's text value information. */
@@ -125,7 +125,7 @@ export interface MessageTemplateQuickAction extends MessageTemplateValueParent {
 
 /** The binding object to link values to the template specific locations */
 export interface MessageTemplateBindingsParent {
-  kind: string;
+  kind: MessageTemplateBindingsKind;
 }
 
 /** The template bindings for WhatsApp */
@@ -156,7 +156,7 @@ export interface WhatsAppMessageTemplateBindingsButton {
    *
    * Possible values: "quickReply", "url"
    */
-  subType: string;
+  subType: WhatsAppMessageButtonSubType;
   /** The name of the referenced item in the template values. */
   refValue: string;
 }
@@ -180,3 +180,11 @@ export type MessageTemplateValue =
 export type MessageTemplateBindings =
   | MessageTemplateBindingsParent
   | WhatsAppMessageTemplateBindings;
+/** Alias for CommunicationMessageKind */
+export type CommunicationMessageKind = string;
+/** Alias for MessageTemplateValueKind */
+export type MessageTemplateValueKind = string;
+/** Alias for MessageTemplateBindingsKind */
+export type MessageTemplateBindingsKind = string;
+/** Alias for WhatsAppMessageButtonSubType */
+export type WhatsAppMessageButtonSubType = string;
