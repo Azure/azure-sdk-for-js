@@ -77,7 +77,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "mkdirp": "^3.0.1",
+    "mkdirp": "catalog:",
     "playwright": "catalog:",
     "prettier": "^3.2.5",
     "rimraf": "catalog:",

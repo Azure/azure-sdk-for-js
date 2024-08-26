@@ -101,7 +101,7 @@
     "autorest": "latest",
     "cross-env": "7.0.3",
     "dotenv": "catalog:",
-    "mkdirp": "^3.0.1",
+    "mkdirp": "catalog:",
     "playwright": "catalog:",
     "rimraf": "catalog:",
     "source-map-support": "^0.5.9",
