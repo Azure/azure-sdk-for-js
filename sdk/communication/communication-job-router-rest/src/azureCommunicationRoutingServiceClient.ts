@@ -56,7 +56,7 @@ export default function createCustomizedClient(
 
   // Rest of the function remains the same, using connectionStringOrUrl or endpoint as needed
   const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-  const client = createClient(url);
+  const client = createClient(url, options);
   const authPolicy = createCommunicationAuthPolicy(credential);
   client.pipeline.addPolicy(authPolicy);
 
