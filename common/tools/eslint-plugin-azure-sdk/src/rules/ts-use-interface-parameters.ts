@@ -237,7 +237,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "encourage usage of interfaces over classes as function parameters",
-      recommended: "recommended",
     },
     messages: {
       FunctionParameterIsClass:

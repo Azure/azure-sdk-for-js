@@ -45,7 +45,7 @@ try {
       );
     });
   }
-} catch (err: any) {
+} catch {
   exclude = [];
 }
 
@@ -56,7 +56,6 @@ export default createRule({
     docs: {
       description:
         "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing",
-      recommended: "recommended",
     },
     messages: {
       InternalShouldBeMarked:

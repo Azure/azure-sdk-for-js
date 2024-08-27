@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for providing an object ID to `ManagedIdentityCredential`. [#30771](https://github.com/Azure/azure-sdk-for-js/pull/30771)
+
 ### Breaking Changes
 
 ### Bugs Fixed

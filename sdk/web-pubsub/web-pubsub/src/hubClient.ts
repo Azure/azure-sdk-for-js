@@ -93,7 +93,6 @@ export interface HubSendTextToAllOptions extends HubSendToAllOptions {
 /**
  * Types which can be serialized and sent as JSON.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type JSONTypes = string | number | boolean | object;
 
 /**

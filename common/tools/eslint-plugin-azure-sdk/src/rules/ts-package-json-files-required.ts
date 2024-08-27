@@ -64,7 +64,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "requires package.json's files value to contain paths to the package contents",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

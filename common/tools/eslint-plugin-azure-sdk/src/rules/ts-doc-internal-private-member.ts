@@ -21,7 +21,6 @@ export default createRule({
     docs: {
       description:
         "requires TSDoc comments to not include an '@internal' tag if the object is private",
-      recommended: "recommended",
     },
     messages: {
       PrivateMembersNotInternal: "private class members should not include an @internal tag",

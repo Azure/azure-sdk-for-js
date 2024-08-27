@@ -114,7 +114,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
  * @internal
  * Helper type to get the names of all the functions on an object.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal

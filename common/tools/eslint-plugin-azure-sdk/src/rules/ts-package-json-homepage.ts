@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "force package.json's homepage value to be a URL pointing to your library's readme inside the git repo",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List a cluster available upgrade.
  *
  * @summary List a cluster available upgrade.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ListClusterAvailableUpgrades.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterAvailableUpgrades.json
  */
 async function getClusterAvailableUpgrade() {
   const subscriptionId =

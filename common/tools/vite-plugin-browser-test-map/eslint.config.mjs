@@ -2,6 +2,7 @@ import eslintJs from "@eslint/js";
 import tsEsLint from "typescript-eslint";
 
 export default tsEsLint.config(
+  { ignores: ["*.config.{js,cjs,mjs}"] },
   {
     languageOptions: {
       parserOptions: {
@@ -12,5 +13,5 @@ export default tsEsLint.config(
   },
   eslintJs.configs.recommended,
   ...tsEsLint.configs.recommended,
-  tsEsLint.configs.eslintRecommended
+  tsEsLint.configs.eslintRecommended,
 );

@@ -185,9 +185,9 @@ describe("RemoteRendering functional tests", () => {
   it("throws correct exception on no access", async () => {
     const storageContainerUrl =
       "https://" +
-      assertEnvironmentVariable("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      assertEnvironmentVariable("STORAGE_ACCOUNT_NO_ACCESS_NAME") +
       ".blob.core.windows.net/" +
-      assertEnvironmentVariable("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+      assertEnvironmentVariable("BLOB_CONTAINER_NO_ACCESS_NAME");
 
     // Do not provide SAS tokens
     const inputSettings: AssetConversionInputSettings = {
@@ -273,7 +273,7 @@ describe("RemoteRendering functional tests", () => {
   it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
-      size: "Standard",
+      size: "Tiny",
     };
 
     const sessionId: string = recorder.variable(
