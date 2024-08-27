@@ -37,6 +37,8 @@ extends:
     settings:
       skipBuildTagsForGitHubPullRequests: true
     sdl:
+      # Turn off the build warnings caused by disabling some sdl checks
+      createAdoIssuesForJustificationsForDisablement: false
       codeql:
         compiled:
           enabled: false
