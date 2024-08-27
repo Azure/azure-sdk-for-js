@@ -320,6 +320,32 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
+  it("uploadStream with CPK should success", async function () {
+    if (isNodeLike && !isLiveMode()) {
+      this.skip();
+    }
+    const rs = fs.createReadStream(tempFileLarge);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const downloadResponse = await blockBlobClient.download(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const downloadFilePath = path.join(
+      tempFolderPath,
+      recorder.variable("downloadFile", getUniqueName("downloadFile")),
+    );
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
+
+    const downloadedBuffer = fs.readFileSync(downloadFilePath);
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    assert.ok(uploadedBuffer.equals(downloadedBuffer));
+
+    fs.unlinkSync(downloadFilePath);
+  }).timeout(timeoutForLargeFileUploadingTest);
+
   it("uploadStream should success for tiny buffers", async function () {
     if (!isLiveMode()) {
       this.skip();
