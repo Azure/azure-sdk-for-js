@@ -19,9 +19,11 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/SubscriptionQuotaAllocationRequests/PutSubscriptionQuotaAllocationRequest-Compute.json
  */
 async function subscriptionQuotaAllocationPutRequestForCompute() {
-  const subscriptionId ="65a85478-2333-4bbd-981b-1a818c944faf";
-  const managementGroupId = "testMgIdRoot";
-  const groupQuotaName = "sdk-test-group-quota";
+  
+  // REPLACE THESE VALUES
+  const subscriptionId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
+  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
+  const groupQuotaName = "groupquota1";
   const resourceProviderName = "Microsoft.Compute";
   const resourceName = "standardav2family";
   const allocateQuotaRequest = {
@@ -29,6 +31,7 @@ async function subscriptionQuotaAllocationPutRequestForCompute() {
       requestedResource: { properties: { limit: 10, region: "westus" } },
     },
   };
+  
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const result = await client.groupQuotaSubscriptionAllocationRequest.beginCreateOrUpdate(

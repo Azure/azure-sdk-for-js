@@ -19,11 +19,14 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotas/PutGroupQuotas.json
  */
 async function groupQuotasPutRequestForCompute() {
-  const managementGroupId = "testMgIdRoot";
-  const groupQuotaName = "groupquota2";
-  const groupQuotaRequest = {
+  
+  // REPLACE THESE VALUES
+  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
+  const groupQuotaName = "groupquota1";
+
+  const groupQuotaPutRequestBody = {
     "properties": {
-      "displayName": "gq-tejas-enforcement",
+      "displayName": "gq-display-name",
       "additionalAttributes": {
         "groupId": {
           "groupingIdType": "BillingId",
@@ -33,7 +36,7 @@ async function groupQuotasPutRequestForCompute() {
     }
   };
   const options = {
-    groupQuotaRequest,
+    groupQuotaPutRequestBody,
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);

@@ -19,10 +19,13 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotaLimitsRequests/GroupQuotaLimitsRequests_List.json
  */
 async function groupQuotaLimitsRequestList() {
+  
+  // REPLACE THESE VALUES
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const resourceProviderName = "Microsoft.Compute";
   const filter = "location eq westus";
+  
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const resArray = new Array();

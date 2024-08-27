@@ -19,8 +19,11 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotas/GetGroupQuotas.json
  */
 async function groupQuotasGetRequestForCompute() {
-  const managementGroupId = "testMgIdRoot";
-  const groupQuotaName = "sdk-test-group-quota";
+
+  // REPLACE THESE VALUES
+  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
+  const groupQuotaName = "groupquota1";
+
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.groupQuotas.get(managementGroupId, groupQuotaName);

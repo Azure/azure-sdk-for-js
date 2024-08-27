@@ -19,11 +19,13 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/SubscriptionQuotaAllocation/SubscriptionQuotaAllocation_List-Compute.json
  */
 async function subscriptionQuotaAllocationListForCompute() {
-  const subscriptionId =
-    process.env["QUOTA_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+
+   // REPLACE THESE VALUES
+  const subscriptionId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
-  const filter = "provider eq Microsoft.Compute & location eq westus";
+  const filter = "location eq westus";
+
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const resArray = new Array();

@@ -19,11 +19,14 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/SubscriptionQuotaAllocation/SubscriptionQuotaAllocation_Get-Compute.json
  */
 async function subscriptionQuotaAllocationGetRequestForCompute() {
-  const subscriptionId ="65a85478-2333-4bbd-981b-1a818c944faf";
-  const managementGroupId = "testMgIdRoot";
-  const groupQuotaName = "sdk-test-group-quota";
+  
+  // REPLACE THESE VALUES
+  const subscriptionId ="E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
+  const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
+  const groupQuotaName = "groupquota1";
   const resourceName = "standarddv4family";
   const filter = "location eq westus";
+
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
   const result = await client.groupQuotaSubscriptionAllocation.get(

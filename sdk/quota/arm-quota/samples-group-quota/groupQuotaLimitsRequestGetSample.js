@@ -19,9 +19,11 @@ require("dotenv").config();
  * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotaLimitsRequests/GroupQuotaLimitsRequests_Get.json
  */
 async function groupQuotaLimitsRequestsGet() {
+  // REPLACE THESE VALUES
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const requestId = "requestId";
+  
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
   const result = await client.groupQuotaLimitsRequest.get(
