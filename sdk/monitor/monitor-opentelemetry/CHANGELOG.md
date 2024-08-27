@@ -1,5 +1,11 @@
 # Release History
 
+## 1.7.1 (Unreleased)
+
+### Other Changes
+
+- Update the relative path used in the OTel instrumentation patcher to work with webpack.
+
 ## 1.7.0 (2024-08-14)
 
 ### Features Added
