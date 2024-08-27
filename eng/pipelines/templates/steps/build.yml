@@ -58,7 +58,7 @@ steps:
           az account show
           expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
           sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
-          echo "##vso[task.setvariable variable=rushBuildCacheCred;]$sasToken"
+          echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
