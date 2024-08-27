@@ -61,7 +61,7 @@ export interface CosmosClientOptions {
   diagnosticLevel?: CosmosDbDiagnosticLevel;
   enableEncryption?: boolean;
   keyEncryptionKeyResolver?: EncryptionKeyResolver;
-  encryptionKeyTimeToLiveInHours?: number;
+  encryptionKeyTimeToLive?: number;
   encryptionKeyResolverName?: string;
   /** @internal */
   plugins?: PluginConfig[];

@@ -807,7 +807,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     encryptionKeyResolverName?: string;
     // (undocumented)
-    encryptionKeyTimeToLiveInHours?: number;
+    encryptionKeyTimeToLive?: number;
     endpoint: string;
     httpClient?: HttpClient;
     key?: string;

@@ -46,6 +46,7 @@ import {
 } from "../common/encryptionTestHelpers";
 import { removeAllDatabases } from "../common/TestHelpers";
 import { assert } from "chai";
+import { EncryptionTimeToLive } from "../../../src/encryption/EncryptionTimeToLive";
 
 let encryptionClient: CosmosClient;
 let metadata1: EncryptionKeyWrapMetadata;
@@ -81,7 +82,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: testKeyEncryptionKeyResolver,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
     });
     database = (await encryptionClient.databases.createIfNotExists({ id: randomUUID() })).database;
     const revokedKekMetadata = new EncryptionKeyWrapMetadata(
@@ -246,6 +247,35 @@ describe("Client Side Encryption", () => {
     await testdatabase.delete();
   });
 
+  it("validate encryption time to live", async () => {
+    const testKeyResolver = new MockKeyVaultEncryptionKeyResolver();
+    // client with ttl of 1 min
+    const newClient = new CosmosClient({
+      endpoint: endpoint,
+      key: masterKey,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: testKeyResolver,
+      encryptionKeyResolverName: testKeyVault,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
+    });
+    const newDatabase = newClient.database(database.id);
+    const newContainer = newDatabase.container(encryptionContainer.id);
+    for (let i = 0; i < 2; i++) {
+      await testCreateItem(newContainer);
+    }
+    // expecting just one unwrap, since the key should be cached for 1 min
+    assert.ok(testKeyResolver.unwrapKeyCallsCount["tempmetadata1"] === 1);
+    // wait for 2 min to ensure that cache is cleared
+    await new Promise((resolve) => setTimeout(resolve, EncryptionTimeToLive.FromMinutes(1)));
+
+    for (let i = 0; i < 2; i++) {
+      await testCreateItem(newContainer);
+    }
+    // again the unwrap key should be called once, since the cache has cleared
+    assert.equal(testKeyResolver.unwrapKeyCallsCount["tempmetadata1"], 2);
+    newClient.dispose();
+  });
+
   it("encryption bulk operation", async () => {
     const docToCreate = TestDoc.create();
 
@@ -353,7 +383,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
     });
     let metadata = new EncryptionKeyWrapMetadata(
       EncryptionKeyResolverName.AzureKeyVault,
@@ -434,7 +464,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: testkeyEncryptionKeyResolver,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
     });
     const testdatabase = client.database(database.id);
     const testcontainer = testdatabase.container(encryptionContainer.id);
@@ -1706,7 +1736,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 1,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(30),
     });
     let keyWrapMetadata = new EncryptionKeyWrapMetadata(
       testKeyVault,
@@ -1755,7 +1785,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
     });
     const otherDatabase = otherClient.database(mainDatabase.id);
     const otherEncryptionContainer = otherDatabase.container(encryptionContainerToDelete.id);
@@ -1848,7 +1878,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 1,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.FromHours(1),
     });
     const otherDatabase2 = otherClient2.database(mainDatabase.id);
     const otherEncryptionContainer3 = otherDatabase2.container(otherEncryptionContainer2.id);
@@ -1975,7 +2005,7 @@ describe("Client Side Encryption", () => {
       key: masterKey,
       enableEncryption: true,
       keyEncryptionKeyResolver: keyEncryptionKeyResolver,
-      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
       encryptionKeyResolverName: testKeyVault,
     });
     const testdatabase = encryptionTestClient.database(database.id);
@@ -2085,7 +2115,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: testKeyResolver1,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLiveInHours: 0,
+      encryptionKeyTimeToLive: EncryptionTimeToLive.NoTtl(),
     });
     let newDatabase = newClient.database(database.id);
     let newContainer = newDatabase.container(encryptionContainer.id);
@@ -2113,8 +2143,8 @@ describe("Client Side Encryption", () => {
     assert.ok(unwrapCount === 1);
     newClient.dispose();
   });
-  after(async () => {
-    await removeAllDatabases();
-    encryptionClient.dispose();
-  });
+});
+after(async () => {
+  await removeAllDatabases();
+  encryptionClient.dispose();
 });
