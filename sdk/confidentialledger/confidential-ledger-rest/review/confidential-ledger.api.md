@@ -33,6 +33,11 @@ export type ConfidentialLedgerClient = Client & {
 };
 
 // @public
+export interface ConfidentialLedgerClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ConfidentialLedgerEnclavesOutput {
     currentNodeId: string;
     enclaveQuotes: Record<string, EnclaveQuoteOutput>;
