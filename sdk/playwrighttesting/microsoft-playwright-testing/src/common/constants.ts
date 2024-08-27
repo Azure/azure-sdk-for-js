@@ -38,6 +38,10 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
 };
 
+export const InternalServiceEnvironmentVariable = {
+  PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED: "_PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED",
+};
+
 export const DefaultConnectOptionsConstants = {
   DEFAULT_TIMEOUT: 0,
   DEFAULT_SLOW_MO: 0,
@@ -98,3 +102,36 @@ export class Constants {
 export const BackoffConstants = {
   MAX_RETRIES: 10,
 };
+
+export const TestResultErrorConstants = [
+  {
+    key: "Unauthorized_Scalable",
+    message:
+      "Could not authenticate with the service. Please refer to https://aka.ms/mpt/authentication for more information.",
+    pattern: /(?=.*browserType\.connect)(?=.*401 Unauthorized)/i,
+  },
+  {
+    key: "NoPermissionOnWorkspace_Scalable",
+    message:
+      "You currently do not have permission to access the workspace ({workspaceId}). Please contact the workspace owner for access.",
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*CheckAccess API call with non successful response)/i,
+  },
+  {
+    key: "InvalidWorkspace_Scalable",
+    message: "The workspace ({workspaceId}) does not exist. Please provide a valid workspace url.",
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*InvalidAccountOrSubscriptionState)/i,
+  },
+  {
+    key: "QuotaLimitError_Scalable",
+    message:
+      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded.",
+    pattern: /Test timeout of .* exceeded|TimeoutError: browserType\.launch/i,
+  },
+  {
+    key: "BrowserConnectionError_Scalable",
+    message: "The service is currently unavailable. Please try again after some time.",
+    pattern: /browserType.connect: Target page, context or browser has been closed/i,
+  },
+];

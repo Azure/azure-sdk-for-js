@@ -10,4 +10,6 @@ export const ServiceErrorMessageConstants = {
   INVALID_GLOBAL_FUNCTION: "file must export a single function",
   DUPLICATE_REPORTER:
     "Another reporter with the same name already exists. Please resolve the duplicate and try again.",
+  POSSIBLE_ERRORS_DETECTED_IN_SCALABLE_RUN:
+    "We detected possible errors in your test run using cloud hosted browsers. Please refer to https://aka.ms/mpt/troubleshooting for more information.",
 };
