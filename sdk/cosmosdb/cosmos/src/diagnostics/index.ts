@@ -11,9 +11,9 @@ export * from "./DiagnosticFormatter";
 export const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
 
 const diagnosticLevelFromEnv =
-  (typeof process !== "undefined" &&
-    process.env &&
-    process.env[Constants.CosmosDbDiagnosticLevelEnvVarName]) ||
+  (typeof globalThis.process !== "undefined" &&
+    globalThis.process.env &&
+    globalThis.process.env[Constants.CosmosDbDiagnosticLevelEnvVarName]) ||
   undefined;
 
 const acceptableDiagnosticLevelValues = Object.values(CosmosDbDiagnosticLevel).map((x) =>

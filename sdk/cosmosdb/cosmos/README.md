@@ -34,7 +34,7 @@ Or you can create an account in the [Azure Portal](https://portal.azure.com/#cre
 
 #### NodeJS
 
-This package is distributed via [npm][npm] which comes preinstalled with [NodeJS](https://nodejs.org/en/). You should be using Node v10 or above.
+This package is distributed via [npm][npm] which comes preinstalled with [NodeJS](https://nodejs.org/en/) using an LTS version.
 
 #### CORS
 
