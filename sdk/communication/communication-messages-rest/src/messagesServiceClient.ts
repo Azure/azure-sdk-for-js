@@ -9,15 +9,14 @@ import {
 } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import { parseClientArguments, createCommunicationAuthPolicy } from "@azure/communication-common";
-import { MessagesServiceClient } from "./generated/src/clientDefinitions";
-import GeneratedAzureCommunicationMessageServiceClient from "./generated/src/messagesServiceClient";
-
+import { MessagesServiceClient } from "../generated/clientDefinitions";
+import createClient from "../generated/messagesServiceClient";
 /**
  * Initialize a new instance of `MessagesServiceClient`
  * @param connectionString - The connectionString or url of your Communication Services resource.
  * @param options - the parameter for all optional parameters
  */
-export default function createClient(
+export default function createCustomizedClient(
   connectionString: string,
   options?: ClientOptions,
 ): MessagesServiceClient;
@@ -28,7 +27,7 @@ export default function createClient(
  * @param credential - The key or token credential.
  * @param options - the parameter for all optional parameters
  */
-export default function createClient(
+export default function createCustomizedClient(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
   options?: ClientOptions,
@@ -40,7 +39,7 @@ export default function createClient(
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
-export default function createClient(
+export default function createCustomizedClient(
   endpointOrConnectionString: string,
   credentialOrOptions?: ClientOptions | (TokenCredential | KeyCredential),
   options?: ClientOptions,
@@ -54,9 +53,7 @@ export default function createClient(
   }
 
   const { url, credential } = parseClientArguments(endpointOrConnectionString, credentialOrOptions);
-  const baseUrl = options.baseUrl ?? `${url}`;
-
-  const client = GeneratedAzureCommunicationMessageServiceClient(baseUrl, credential, options);
+  const client = createClient(url, credential, options);
   const authPolicy = createCommunicationAuthPolicy(credential);
   client.pipeline.addPolicy(authPolicy);
 

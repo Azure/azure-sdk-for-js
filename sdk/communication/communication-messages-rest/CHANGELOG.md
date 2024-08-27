@@ -1,12 +1,10 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.1.0-beta.1 (2024-08-27)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- refresh @azure-rest/communication-messages sdk
 
 ### Other Changes
 
