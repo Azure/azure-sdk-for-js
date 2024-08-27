@@ -1,5 +1,17 @@
 # Release History
 
+## 2.0.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- The API endpoint for `GetMapStaticImage` has been updated. The `format` parameter has been removed from the path, changing the usage from `(path: "/map/static/{format}", format: "png")` to `(path: "/map/static")`.
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
