@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
 import { DeidService, DeidUpdate } from "../../models/models.js";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";

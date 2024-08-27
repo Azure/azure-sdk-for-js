@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationParameter, OperationSpec } from "./interfaces.js";
 import { MapperTypeNames } from "./serializer.js";

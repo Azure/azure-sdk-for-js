@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
 import { logErrorStackTrace, logger } from "./logger.js";

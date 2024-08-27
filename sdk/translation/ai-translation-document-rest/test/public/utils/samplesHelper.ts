@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ContainerClient, ContainerSASPermissions, BlobServiceClient } from "@azure/storage-blob";
 import { TestDocument, createTestDocument } from "../utils/TestDocument";

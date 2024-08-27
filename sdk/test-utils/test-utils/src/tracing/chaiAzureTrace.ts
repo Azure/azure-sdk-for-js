@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";

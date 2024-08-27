@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { KeyVaultAccessControlClient, SDK_VERSION } from "../../src/index.js";
 import { TokenCredential } from "@azure/core-auth";

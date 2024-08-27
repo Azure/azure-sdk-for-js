@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ReceiveMode, Receiver, Sender } from "@azure/service-bus";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";

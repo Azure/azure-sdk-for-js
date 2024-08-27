@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
 import { lro } from "../../src/lro/util/poller";

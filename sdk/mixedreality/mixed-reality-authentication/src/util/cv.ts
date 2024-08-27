@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This function is a minimal implementation borrowed from the implementation at
 // https://github.com/microsoft/CorrelationVector-JavaScript/blob/6da3f9e6150581756aba54b98dcd1e7329ef36bd/cV.js.

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { BatchingReceiver } from "../../../src/core/batchingReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";

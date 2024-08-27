@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // An embedding of Fancy Stay's English description
 export const fancyStayEnVector = [
