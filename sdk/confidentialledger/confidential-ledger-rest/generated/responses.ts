@@ -15,7 +15,7 @@ import {
   TransactionReceiptOutput,
   TransactionStatusOutput,
   LedgerEntryOutput,
-  LedgerUserOutput
+  LedgerUserOutput,
 } from "./outputModels";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
