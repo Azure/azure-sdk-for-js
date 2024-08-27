@@ -50,3 +50,4 @@ stages:
               storage: azuresdkartifacts
               containerName: 'azure-sdk-for-js'
               blobPrefix: 'bicep-lint-warnings/$(DATE)'
+              AdditionalArgumentsForBlobCopy: '--overwrite=true'
