@@ -10,11 +10,15 @@ pr:
       - eng/pipelines/bicep-warnings.yml
 
 stages:
+  variables:
+  - template: /eng/pipelines/templates/variables/image.yml
+
   - stage: LintBicepFiles
     displayName: Lint Bicep Files
 
     pool:
-      vmImage: azsdk-pool-mms-ubuntu-2204-1espt
+      name: $(LINUXPOOL)
+      vmImage: $(LINUXVMIMAGE) 
 
     jobs:
       - job: LintBicep
@@ -28,6 +32,7 @@ stages:
           - script: |
               DATE=$(date +'%Y-%m-%d')
               sed '/^$/N;/^\n$/D;' lint-warnings.txt > lint-warnings-${DATE}.txt
+              cat lint-warnings-${DATE}.txt
             displayName: 'Rename Lint Warnings File with Date'
 
           - task: PublishPipelineArtifact@1
@@ -42,5 +47,5 @@ stages:
               azureSubscription: 'Azure SDK Artifacts'
               destination: AzureBlob
               storage: azuresdkartifacts
-              containerName: 'bicep-lint-warnings'
-              blobPrefix: 'warnings/$(date +%Y-%m-%d)'
+              containerName: 'azure-sdk-for-js'
+              blobPrefix: 'bicep-warnings/$(date +%Y-%m-%d)'
