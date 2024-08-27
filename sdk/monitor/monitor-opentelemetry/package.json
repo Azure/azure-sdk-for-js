@@ -5,8 +5,8 @@
   "version": "1.7.0",
   "description": "Azure Monitor OpenTelemetry (Node.js)",
   "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "types/monitor-opentelemetry.d.ts",
+  "module": "dist-esm/monitor-opentelemetry/src/index.js",
+  "types": "types/monitor-opentelemetry/src/types.d.ts",
   "scripts": {
     "build:samples": "echo Obsolete.",
     "build:browser": "echo skipped",
