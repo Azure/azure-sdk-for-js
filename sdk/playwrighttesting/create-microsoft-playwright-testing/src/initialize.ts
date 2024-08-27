@@ -61,19 +61,12 @@ export class PlaywrightServiceInitialize {
   };
 
   private displayAdditionalInformation = (): void => {
-    const runCommand = this._packageManager.runCommand(
-      "playwright",
-      `test -c ${this.getServiceConfigFileName()}`,
-    );
     const runCommandParallelWorkers = this._packageManager.runCommand(
       "playwright",
       `test -c ${this.getServiceConfigFileName()} --workers=20`,
     );
 
     console.log(`\n\nTo run playwrights tests using Playwright Service\n`);
-    console.log(`\t${runCommand}\n`);
-
-    console.log(`\nTo run playwrights tests using Playwright Service with high parallelism\n`);
     console.log(`\t${runCommandParallelWorkers}\n`);
 
     console.log("\nPlaywright Service Portal - https://playwright.microsoft.com/");
@@ -120,8 +113,12 @@ const config = require('${customerConfigFileName}');
       `
 /* Learn more about service configuration at https://aka.ms/mpt/config */
 export default defineConfig(config, getServiceConfig(config), {
-	/* Service reporter is added by default. This will override any reporter options specified in the base playwright config */
-	reporter: [['@azure/microsoft-playwright-testing/reporter']]
+  /* 
+  Playwright Testing service reporter is added by default.
+  This will override any reporter options specified in the base playwright config.
+  If you are using more reporters, please update your configuration accordingly.
+  */
+	reporter: [["list"], ['@azure/microsoft-playwright-testing/reporter']]
 });
 `;
 
