@@ -71,7 +71,7 @@ describe("create path query helper", () => {
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        path: [path],
+        path: path,
       },
       // Need to skip the url encoding to make the path works.
       skipUrlEncoding: true,

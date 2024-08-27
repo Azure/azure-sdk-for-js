@@ -288,8 +288,8 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    * the coordinates of the pushpins (in double) and optional labels for each pin. (Be sure to properly URL-encode values of this
    * parameter since it will contain reserved characters such as pipes and punctuation.)
    *
-   * The Azure Maps account S0 SKU only supports a single instance of the pins parameter. Other SKUs
-   * allow multiple instances of the pins parameter to specify multiple pin styles.
+   * The Azure Maps account S0 SKU only supports a single instance of the pins parameter and the number of locations is limited to 5 per pin. Other SKUs
+   * allow up to 25 instances of the pins parameter to specify multiple pin styles, and the number of locations is limited to 50 per pin.
    *
    * To render a pushpin at latitude 45°N and longitude 122°W using the default built-in pushpin style, add the
    * querystring parameter
@@ -414,7 +414,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    * * X and Y coordinates can be anywhere within pin image or a margin around it.
    * The margin size is the minimum of the pin width and height.
    */
-  pins?: Array<string>;
+  pins?: string;
   /**
    * Path style and locations (in double). Use this parameter to optionally add lines, polygons or circles to the image.
    * The path style describes the appearance of the line and fill. (Be sure to properly URL-encode values of this
@@ -473,7 +473,7 @@ export interface RenderGetMapStaticImageQueryParamProperties {
    * lw   | Line width     |int32        | (0, 50]
    * ra        | Circle radius (meters) |   float  | Greater than 0
    */
-  path?: Array<string>;
+  path?: string;
 }
 
 export interface RenderGetMapStaticImageQueryParam {

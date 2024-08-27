@@ -110,8 +110,8 @@ async function main() {
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
         zoom: 10,
-        path: [path],
-        pins: [pins],
+        path: path,
+        pins: pins,
       },
       // Need to skip the url encoding to make the path & pins works.
       skipUrlEncoding: true,

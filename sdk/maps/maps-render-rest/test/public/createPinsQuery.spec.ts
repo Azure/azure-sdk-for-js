@@ -78,7 +78,7 @@ describe("create pins query helper", () => {
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: [createPinsQuery([defaultPinSet, coloredPinSet, noImagePinSet])],
+        pins: createPinsQuery([defaultPinSet, coloredPinSet, noImagePinSet]),
       },
       skipUrlEncoding: true,
     });
@@ -113,7 +113,7 @@ describe("create pins query helper", () => {
       queryParameters: {
         zoom: 10,
         bbox: [13.228, 52.4559, 13.5794, 52.629],
-        pins: [pinsQuery],
+        pins: pinsQuery,
       },
       skipUrlEncoding: true,
     });

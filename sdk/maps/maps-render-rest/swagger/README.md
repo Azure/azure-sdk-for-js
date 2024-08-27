@@ -82,11 +82,11 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.paths["/map/static/{format}"].get.parameters[12]
+    where: $.paths["/map/static"].get.parameters[11]
     transform: >
       $.type = "string";
   - from: swagger-document
-    where: $.paths["/map/static/{format}"].get.parameters[13]
+    where: $.paths["/map/static"].get.parameters[12]
     transform: >
       $.type = "string";
 ```
