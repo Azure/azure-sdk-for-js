@@ -139,8 +139,7 @@ export interface GetSchemaPropertiesByContentDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetSchemaPropertiesByContentDefaultResponse
-  extends HttpResponse {
+export interface GetSchemaPropertiesByContentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetSchemaPropertiesByContentDefaultHeaders;

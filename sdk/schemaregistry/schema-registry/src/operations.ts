@@ -47,7 +47,7 @@ export async function getSchemaProperties(
   const response = await context
     .path("/$schemaGroups/{groupName}/schemas/{schemaName}:get-id", groupName, schemaName)
     .post({
-      contentType: buildContentType(format) as any,
+      contentType: buildContentType(format),
       body: schemaContent,
       ...options,
     });

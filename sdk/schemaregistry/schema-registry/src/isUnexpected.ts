@@ -20,8 +20,7 @@ const responseMap: Record<string, string[]> = {
   "GET /$schemaGroups": ["200"],
   "GET /$schemaGroups/{groupName}/schemas/{schemaName}/versions": ["200"],
   "GET /$schemaGroups/$schemas/{id}": ["200"],
-  "GET /$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}":
-    ["200"],
+  "GET /$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}": ["200"],
   "POST /$schemaGroups/{groupName}/schemas/{schemaName}:get-id": ["204"],
   "PUT /$schemaGroups/{groupName}/schemas/{schemaName}": ["204"],
 };
@@ -39,9 +38,7 @@ export function isUnexpected(
   response: GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse,
 ): response is GetSchemaByVersionDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetSchemaPropertiesByContent204Response
-    | GetSchemaPropertiesByContentDefaultResponse,
+  response: GetSchemaPropertiesByContent204Response | GetSchemaPropertiesByContentDefaultResponse,
 ): response is GetSchemaPropertiesByContentDefaultResponse;
 export function isUnexpected(
   response: RegisterSchema204Response | RegisterSchemaDefaultResponse,
@@ -99,24 +96,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

@@ -55,7 +55,7 @@ export async function convertSchemaIdResponse(
 export function buildContentType(format: string): SchemaContentTypeValues {
   return format.toLowerCase() === customFormat.toLowerCase()
     ? customContentType
-    : `application/json; serialization=${format}` as any;
+    : (`application/json; serialization=${format}` as any);
 }
 
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
@@ -78,6 +78,6 @@ function mapContentTypeToFormat(contentType: string): string {
   if (schemaFormat) {
     return schemaFormat;
   } else {
-    throw new Error(`Unrecognized response's content-type: ${contentType}`);
+    return contentType;
   }
 }
