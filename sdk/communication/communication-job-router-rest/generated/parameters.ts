@@ -13,9 +13,11 @@ import {
   CancelJobOptions,
   CompleteJobOptions,
   CloseJobOptions,
+  RouterJobStatusSelector,
   UnassignJobOptions,
   DeclineJobOfferOptions,
   RouterWorker,
+  RouterWorkerStateSelector,
 } from "./models";
 
 export interface UpsertClassificationPolicyHeaders {
@@ -250,12 +252,8 @@ export type CloseParameters = CloseBodyParam & RequestParameters;
 export interface ListJobsQueryParamProperties {
   /** Number of objects to return per page. */
   maxpagesize?: number;
-  /**
-   * If specified, filter jobs by status.
-   *
-   * Possible values: "all", "pendingClassification", "queued", "assigned", "completed", "closed", "cancelled", "classificationFailed", "created", "pendingSchedule", "scheduled", "scheduleFailed", "waitingForActivation", "active"
-   */
-  status?: string;
+  /** If specified, filter jobs by status. */
+  status?: RouterJobStatusSelector;
   /** If specified, filter jobs by queue. */
   queueId?: string;
   /** If specified, filter jobs by channel. */
@@ -325,12 +323,8 @@ export type DeleteWorkerParameters = RequestParameters;
 export interface ListWorkersQueryParamProperties {
   /** Number of objects to return per page. */
   maxpagesize?: number;
-  /**
-   * If specified, select workers by worker state.
-   *
-   * Possible values: "active", "draining", "inactive", "all"
-   */
-  state?: string;
+  /** If specified, select workers by worker state. */
+  state?: RouterWorkerStateSelector;
   /** If specified, select workers who have a channel configuration with this channel. */
   channelId?: string;
   /** If specified, select workers who are assigned to this queue. */
