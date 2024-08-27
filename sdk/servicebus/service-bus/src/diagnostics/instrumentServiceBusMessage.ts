@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TracingContext, TracingSpanLink, TracingSpanOptions } from "@azure/core-tracing";
 import { ConnectionContext } from "../connectionContext";

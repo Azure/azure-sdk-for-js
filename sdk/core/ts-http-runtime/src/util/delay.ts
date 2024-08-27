@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { AbortOptions } from "./aborterUtils.js";
 import { createAbortablePromise } from "./createAbortablePromise.js";

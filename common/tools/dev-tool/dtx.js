@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This command is an alias for `dev-tool run vendored`

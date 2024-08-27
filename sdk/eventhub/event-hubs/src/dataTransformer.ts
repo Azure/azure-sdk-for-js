@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { logErrorStackTrace, logger } from "./logger.js";
 import { Buffer } from "buffer";

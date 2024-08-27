@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Returns all parameters per item*/
 export function buildMultiCollection(items: string[], parameterName: string): string {

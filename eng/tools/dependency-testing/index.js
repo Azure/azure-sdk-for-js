@@ -64,12 +64,15 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
  */
 async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
   if (packageJsonContents.scripts["integration-test:node"]) {
+    const timeoutPattern = /--(test-)?timeout\s+(\d+)/;
     let replaceWithTimeout =
-      packageJsonContents.scripts["integration-test:node"].match(/--timeout [0-9]+/);
+      packageJsonContents.scripts["integration-test:node"].match(timeoutPattern);
     if (replaceWithTimeout !== null) {
+      const timeoutArgument = `${replaceWithTimeout[1] || ""}timeout`;
+      const packageTimeout = replaceWithTimeout[2];
       testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
         "integration-test:node"
-      ].replace(/--timeout [0-9]+/g, replaceWithTimeout);
+      ].replace(timeoutPattern, `--${timeoutArgument} ${packageTimeout}`);
     }
   }
 }
@@ -102,13 +105,15 @@ async function insertPackageJson(
     testPackageJson.name =
       packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
   }
-  await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.type = packageJsonContents.type;
   if (packageJsonContents.scripts["integration-test:node"].includes("vitest")) {
-    testPackageJson.scripts["integration-test:node"] = "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts";
-    testPackageJson.scripts["integration-test:browser"] = "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
+    testPackageJson.scripts["integration-test:node"] =
+      "dev-tool run test:vitest -- -c vitest.dependency-test.config.ts --test-timeout 180000";
+    testPackageJson.scripts["integration-test:browser"] =
+      "dev-tool run build-test && dev-tool run test:vitest --browser  -- -c vitest.dependency-test.browser.config.ts";
     testPackageJson.scripts["build"] = "echo skipped.";
   }
+  await usePackageTestTimeout(testPackageJson, packageJsonContents);
 
   testPackageJson.devDependencies = {};
   depList = {};

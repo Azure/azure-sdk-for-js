@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { ComputedProperty } from "../../../src/documents/ComputedProperty";
 import { IndexingPolicy } from "../../../src/documents/IndexingPolicy";

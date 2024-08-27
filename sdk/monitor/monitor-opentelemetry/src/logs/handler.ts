@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Instrumentation } from "@opentelemetry/instrumentation";

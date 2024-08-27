@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { FirewallRulesOperations } from "./firewallRules/index.js";
 export { MongoClustersOperations } from "./mongoClusters/index.js";

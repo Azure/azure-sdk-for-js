@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { mkdirp, readFile, rm, stat, Stats, writeFile } from "fs-extra";
 import { userInfo } from "node:os";

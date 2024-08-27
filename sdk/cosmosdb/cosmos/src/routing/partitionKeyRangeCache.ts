@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { MetadataLookUpType } from "../CosmosDiagnostics";
 import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { ClientContext } from "../ClientContext";

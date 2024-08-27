@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The result of listing the applications available in an Account. */
 export interface BatchApplicationListResultOutput {

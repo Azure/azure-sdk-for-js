@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { Installation } from "../models/installation.js";

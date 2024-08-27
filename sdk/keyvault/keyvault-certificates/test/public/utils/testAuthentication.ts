@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CertificateClient } from "../../../src/index.js";
 import { uniqueString } from "./recorderUtils.js";

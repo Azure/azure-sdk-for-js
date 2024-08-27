@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { InternalServiceEnvironmentVariable, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";

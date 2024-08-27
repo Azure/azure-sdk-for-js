@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DeleteSecretPollOperation, DeleteSecretPollOperationState } from "./operation";
 import { DeletedSecret } from "../../secretsModels";

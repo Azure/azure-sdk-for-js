@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Debugger } from "../logger/logger.js";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
