@@ -18,8 +18,8 @@ stages:
 
     pool:
       # AzureFileCopy requires Windows
-      name: azsdk-pool-mms-win-2022-general
-      vmImage: MMS2022
+      name: $(WINDOWSPOOL)
+      vmImage: $(WINDOWSVMIMAGE)
 
     jobs:
       - job: LintBicep
