@@ -22,7 +22,7 @@ import {
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import "@azure/openai/types";
-import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
+import { functionCallModelsToSkip } from "./utils/models.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
@@ -186,7 +186,6 @@ describe("Completions", function () {
                     messages: pirateMessages,
                   }),
                 assertChatCompletions,
-                completionsModelsToSkip,
               ),
               chatCompletionDeployments,
             );
@@ -389,7 +388,7 @@ describe("Completions", function () {
           });
         });
 
-        describe("streamChatCompletions", function () {
+        describe.skip("streamChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(

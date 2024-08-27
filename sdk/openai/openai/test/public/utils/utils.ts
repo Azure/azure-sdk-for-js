@@ -65,7 +65,7 @@ export async function withDeployments<T>(
       logger.info(
         `[${++i}/${deploymentsInfo.length}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
       );
-      if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+      if (modelsListToSkip && !isModelInList(deployment.model, modelsListToSkip)) {
         logger.info(
           `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
         );

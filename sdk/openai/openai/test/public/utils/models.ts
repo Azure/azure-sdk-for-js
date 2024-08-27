@@ -12,9 +12,7 @@ export const visionModelsToSkip = [
   { name: "gpt-4o-mini", version: "2024-07-18" },
 ];
 
-export const ttsModelsToSkip = [
-  { name: "whisper", version: "001" },
-];
+export const ttsModelsToSkip = [{ name: "whisper", version: "001" }];
 
 export const whisperModelsToSkip = [
   { name: "gpt-4", version: "0613" },
