@@ -1,12 +1,12 @@
 {
-  "buildCacheEnabled": false,
+  "buildCacheEnabled": true,
   // Follow instructions at
   //   https://rushjs.io/pages/maintainer/build_cache/#user-authentication
   // to authenticate.
   "cacheProvider": "azure-blob-storage",
   "azureBlobStorageConfiguration": {
-    "storageAccountName": "azsdkjsrush",
-    "storageContainerName": "rush-build-cache",
+    "storageAccountName": "azuresdkartifacts",
+    "storageContainerName": "azure-sdk-for-js-rush-cache",
     "isCacheWriteAllowed": false
   }
 }

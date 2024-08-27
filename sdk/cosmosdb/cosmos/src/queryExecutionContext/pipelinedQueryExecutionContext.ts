@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ClientContext } from "../ClientContext";
 import { Response, FeedOptions } from "../request";
 import { ErrorResponse, PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";

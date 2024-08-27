@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Context as AzureFnV3Context } from "@azure/functions-old";
 import { InvocationContext as AzureFnV4Context } from "@azure/functions";

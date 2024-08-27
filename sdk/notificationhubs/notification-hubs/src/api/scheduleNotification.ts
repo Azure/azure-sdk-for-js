@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
 import { NonNullableRecord } from "../utils/utils.js";

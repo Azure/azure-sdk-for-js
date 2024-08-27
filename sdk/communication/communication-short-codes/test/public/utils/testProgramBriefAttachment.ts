@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ProgramBriefAttachment, ShortCodesClient } from "../../../src";
 import { v4 as uuid } from "uuid";

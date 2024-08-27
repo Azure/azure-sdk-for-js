@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from "../../src";
 import { authenticate } from "../utils/testAuthentication";

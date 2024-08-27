@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { coreLogger } from "./logger";

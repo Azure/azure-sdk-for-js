@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as coreClient from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";

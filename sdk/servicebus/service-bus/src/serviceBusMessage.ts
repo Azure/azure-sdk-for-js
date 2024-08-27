@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 // eslint-disable-next-line @typescript-eslint/no-redeclare

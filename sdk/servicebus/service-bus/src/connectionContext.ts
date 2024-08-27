@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { connectionLogger as logger } from "./log";
 import { packageJsonInfo } from "./util/constants";

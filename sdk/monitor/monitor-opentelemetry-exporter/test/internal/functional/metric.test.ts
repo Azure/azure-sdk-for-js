@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertCount, assertMetricExpectation } from "../../utils/assert";
 import { MetricBasicScenario } from "../../utils/basic";

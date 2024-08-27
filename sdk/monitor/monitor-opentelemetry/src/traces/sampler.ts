@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * TODO: Remove this sampler in favor of the implementation in the AzMon Exporter once we support M2M approach for standard metrics.
  * This sampler specifically marks spans as sampled out and records them instead of dropping the span altogether.

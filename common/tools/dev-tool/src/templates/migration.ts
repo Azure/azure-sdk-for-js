@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Information used to instantiate the migration code template.
@@ -20,7 +20,7 @@ export default ({
   description,
   url,
 }: MigrationTemplate) => `// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { createMigration, MigrationContext } from "${id
   .split("/")
   .map(() => "..")

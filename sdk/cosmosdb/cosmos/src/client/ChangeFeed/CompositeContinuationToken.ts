@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ChangeFeedRange } from "./ChangeFeedRange";
 /**
  * Continuation token for change feed of entire container, or a specific Epk Range.

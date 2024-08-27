@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export { Permission } from "./Permission";
 export { Permissions } from "./Permissions";
 export { PermissionDefinition } from "./PermissionDefinition";
