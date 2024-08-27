@@ -9,10 +9,10 @@ pr:
       - '**/*.bicep'
       - eng/pipelines/bicep-warnings.yml
 
-stages:
-  variables:
+variables:
   - template: /eng/pipelines/templates/variables/image.yml
 
+stages:
   - stage: LintBicepFiles
     displayName: Lint Bicep Files
 
