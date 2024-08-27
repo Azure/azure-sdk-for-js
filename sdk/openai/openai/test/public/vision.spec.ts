@@ -75,7 +75,7 @@ describe("OpenAI", function () {
                 }
               }
             },
-            { modelsListToSkip: visionModelsToSkip },
+            visionModelsToSkip,
           );
         });
       });

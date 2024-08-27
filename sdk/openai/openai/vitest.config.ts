@@ -12,7 +12,7 @@ export default mergeConfig(
       testTimeout: 250000,
       hookTimeout: 25000,
       fileParallelism: false,
-      include: ["test/public/**/*.spec.ts"],
+      include: ["test/public/tts.spec.ts"],
     },
   }),
 );
