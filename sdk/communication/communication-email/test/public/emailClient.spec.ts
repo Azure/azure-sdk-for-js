@@ -115,4 +115,36 @@ describe(`EmailClient [Playback/Live]`, function () {
 
     assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
   }).timeout(120000);
+
+  it("successfully sends an email with an inline attachment", async function () {
+    const emailMessage: EmailMessage = {
+      senderAddress: env.SENDER_ADDRESS ?? "",
+      recipients: {
+        to: [
+          {
+            address: env.RECIPIENT_ADDRESS ?? "",
+            displayName: "someRecipient",
+          },
+        ],
+      },
+      content: {
+        subject: "someSubject",
+        plainText: "somePlainTextBody",
+        html: "<html><h1>someHtmlBody<img src=\"cid:inline_image\" /></html>",
+      },
+      attachments: [
+        {
+          name: "myinlineimage.jpg",
+          contentType: "image/jpeg",
+          contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
+          contentId: "inline_image"
+        },
+      ],
+    };
+
+    const poller = await client.beginSend(emailMessage);
+    const response = await poller.pollUntilDone();
+
+    assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
+  }).timeout(120000);
 });

@@ -1,12 +1,13 @@
-# Azure Communication Services - Email client library samples for JavaScript (Beta)
+# Azure Communication Services - Email client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Email in some common scenarios.
 
-| **File Name**                                                 | **Description**                           |
-| ------------------------------------------------------------- | ----------------------------------------- |
-| [sendEmailMultipleRecipients.js][sendemailmultiplerecipients] | Sends an email with multiple recipients   |
-| [sendEmailSingleRecipient.js][sendemailsinglerecipient]       | Sends an email with a single recipient    |
-| [sendEmailWithAttachments.js][sendemailwithattachments]       | Sends an email with a txt file attachment |
+| **File Name**                                                       | **Description**                                |
+| ------------------------------------------------------------------- | ---------------------------------------------- |
+| [sendEmailMultipleRecipients.js][sendemailmultiplerecipients]       | Sends an email with multiple recipients        |
+| [sendEmailSingleRecipient.js][sendemailsinglerecipient]             | Sends an email with a single recipient         |
+| [sendEmailWithAttachments.js][sendemailwithattachments]             | Sends an email with a txt file attachment      |
+| [sendEmailWithInlineAttachments.js][sendemailwithinlineattachments] | Sends an email with an inline image attachment |
 
 ## Prerequisites
 
@@ -49,9 +50,10 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendemailmultiplerecipients]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailMultipleRecipients.js
-[sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailSingleRecipient.js
-[sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailWithAttachments.js
+[sendemailmultiplerecipients]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1/javascript/sendEmailMultipleRecipients.js
+[sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1/javascript/sendEmailSingleRecipient.js
+[sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1/javascript/sendEmailWithAttachments.js
+[sendemailwithinlineattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1/javascript/sendEmailWithInlineAttachments.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-email
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
