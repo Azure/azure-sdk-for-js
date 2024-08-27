@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import {
   ErrorResponse,

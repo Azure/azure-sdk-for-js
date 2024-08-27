@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error)",
-      recommended: "recommended",
     },
     messages: {
       ThrownLiteral: "statement is throwing a literal",

@@ -79,15 +79,6 @@ const testRule = (ruleName: string, rules: any): void => {
             assert.isString(description, "description is not a string");
           });
         });
-        describe("recommended", (): void => {
-          it("recommended should be a member of docs", (): void => {
-            assert.property(docs, "recommended", "recommended is not a member of docs");
-          });
-          const recommended = docs.recommended;
-          it("recommended should be 'recommended'", (): void => {
-            assert.strictEqual(recommended, "recommended");
-          });
-        });
         describe("url", (): void => {
           it("url should be a member of docs", (): void => {
             assert.property(docs, "url", "url is not a member of docs");

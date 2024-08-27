@@ -19,7 +19,6 @@ export default createRule({
     docs: {
       description:
         "force package.json's bugs.url value to be 'https://github.com/Azure/azure-sdk-for-js/issues'",
-      recommended: "recommended",
     },
     messages: { ...VerifierMessages },
     schema: [],

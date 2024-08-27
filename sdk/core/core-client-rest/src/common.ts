@@ -207,7 +207,7 @@ export interface Client {
    * }
    * ```
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types

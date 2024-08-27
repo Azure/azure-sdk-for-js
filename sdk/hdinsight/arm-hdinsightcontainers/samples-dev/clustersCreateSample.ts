@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a cluster.
  *
  * @summary Creates a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/CreateAutoscaleCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateAutoscaleCluster.json
  */
 async function hdInsightClusterPut() {
   const subscriptionId =
@@ -80,18 +80,24 @@ async function hdInsightClusterPut() {
           },
         },
         clusterVersion: "1.0.6",
-        identityProfile: {
-          msiClientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
-          msiObjectId: "40491351-c240-4042-91e0-f644a1d2b441",
-          msiResourceId:
-            "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+        managedIdentityProfile: {
+          identityList: [
+            {
+              type: "cluster",
+              clientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
+              objectId: "40491351-c240-4042-91e0-f644a1d2b441",
+              resourceId:
+                "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+            },
+          ],
         },
         ossVersion: "0.410.0",
-        sshProfile: { count: 2 },
+        sshProfile: { count: 2, vmSize: "Standard_E8as_v5" },
         trinoProfile: {},
       },
       clusterType: "Trino",
       computeProfile: {
+        availabilityZones: ["1", "2", "3"],
         nodes: [
           { type: "Head", count: 2, vmSize: "Standard_E8as_v5" },
           { type: "Worker", count: 3, vmSize: "Standard_E8as_v5" },
@@ -117,7 +123,7 @@ async function hdInsightClusterPut() {
  * This sample demonstrates how to Creates a cluster.
  *
  * @summary Creates a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/CreateRangerCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateRangerCluster.json
  */
 async function hdInsightRangerClusterPut() {
   const subscriptionId =
@@ -133,11 +139,16 @@ async function hdInsightRangerClusterPut() {
       clusterProfile: {
         authorizationProfile: { userIds: ["testuser1", "testuser2"] },
         clusterVersion: "0.0.1",
-        identityProfile: {
-          msiClientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
-          msiObjectId: "40491351-c240-4042-91e0-f644a1d2b441",
-          msiResourceId:
-            "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+        managedIdentityProfile: {
+          identityList: [
+            {
+              type: "cluster",
+              clientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
+              objectId: "40491351-c240-4042-91e0-f644a1d2b441",
+              resourceId:
+                "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+            },
+          ],
         },
         ossVersion: "2.2.3",
         rangerProfile: {
@@ -168,6 +179,7 @@ async function hdInsightRangerClusterPut() {
       },
       clusterType: "ranger",
       computeProfile: {
+        availabilityZones: ["1", "2", "3"],
         nodes: [{ type: "head", count: 2, vmSize: "Standard_D3_v2" }],
       },
     },
@@ -190,7 +202,7 @@ async function hdInsightRangerClusterPut() {
  * This sample demonstrates how to Creates a cluster.
  *
  * @summary Creates a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/CreateSparkCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateSparkCluster.json
  */
 async function hdInsightSparkClusterPut() {
   const subscriptionId =
@@ -206,11 +218,16 @@ async function hdInsightSparkClusterPut() {
       clusterProfile: {
         authorizationProfile: { userIds: ["testuser1", "testuser2"] },
         clusterVersion: "0.0.1",
-        identityProfile: {
-          msiClientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
-          msiObjectId: "40491351-c240-4042-91e0-f644a1d2b441",
-          msiResourceId:
-            "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+        managedIdentityProfile: {
+          identityList: [
+            {
+              type: "cluster",
+              clientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
+              objectId: "40491351-c240-4042-91e0-f644a1d2b441",
+              resourceId:
+                "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+            },
+          ],
         },
         ossVersion: "2.2.3",
         serviceConfigsProfiles: [
@@ -255,10 +272,11 @@ async function hdInsightSparkClusterPut() {
           },
         ],
         sparkProfile: {},
-        sshProfile: { count: 2 },
+        sshProfile: { count: 2, vmSize: "Standard_D3_v2" },
       },
       clusterType: "spark",
       computeProfile: {
+        availabilityZones: ["1", "2", "3"],
         nodes: [{ type: "worker", count: 4, vmSize: "Standard_D3_v2" }],
       },
     },
@@ -281,7 +299,7 @@ async function hdInsightSparkClusterPut() {
  * This sample demonstrates how to Creates a cluster.
  *
  * @summary Creates a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/CreateSparkClusterWithInternalIngress.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateSparkClusterWithInternalIngress.json
  */
 async function hdInsightSparkClusterPutWithInternalIngress() {
   const subscriptionId =
@@ -298,11 +316,16 @@ async function hdInsightSparkClusterPutWithInternalIngress() {
         authorizationProfile: { userIds: ["testuser1", "testuser2"] },
         clusterAccessProfile: { enableInternalIngress: true },
         clusterVersion: "0.0.1",
-        identityProfile: {
-          msiClientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
-          msiObjectId: "40491351-c240-4042-91e0-f644a1d2b441",
-          msiResourceId:
-            "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+        managedIdentityProfile: {
+          identityList: [
+            {
+              type: "cluster",
+              clientId: "de91f1d8-767f-460a-ac11-3cf103f74b34",
+              objectId: "40491351-c240-4042-91e0-f644a1d2b441",
+              resourceId:
+                "/subscriptions/subid/resourceGroups/hiloResourcegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-msi",
+            },
+          ],
         },
         ossVersion: "2.2.3",
         serviceConfigsProfiles: [
@@ -347,10 +370,11 @@ async function hdInsightSparkClusterPutWithInternalIngress() {
           },
         ],
         sparkProfile: {},
-        sshProfile: { count: 2 },
+        sshProfile: { count: 2, vmSize: "Standard_D3_v2" },
       },
       clusterType: "spark",
       computeProfile: {
+        availabilityZones: ["1", "2", "3"],
         nodes: [{ type: "worker", count: 4, vmSize: "Standard_D3_v2" }],
       },
     },

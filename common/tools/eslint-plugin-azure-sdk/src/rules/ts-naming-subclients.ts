@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "require client methods returning a subclient to have names prefixed suffixed with 'get' and suffixed with 'client'",
-      recommended: "recommended",
     },
     messages: {
       BadSubclientMethodName:

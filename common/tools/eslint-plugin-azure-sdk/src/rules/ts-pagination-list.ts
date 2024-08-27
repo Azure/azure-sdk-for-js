@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "require client list methods to return a PagedAsyncIterableIterator",
-      recommended: "recommended",
     },
     messages: {
       NoReturnType: "list method does not have a return type",

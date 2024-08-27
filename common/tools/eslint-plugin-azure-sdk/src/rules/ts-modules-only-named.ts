@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force there to be only named exports at the top level",
-      recommended: "recommended",
     },
     messages: {
       NoDefaultExports: "Exports at top level should be named",

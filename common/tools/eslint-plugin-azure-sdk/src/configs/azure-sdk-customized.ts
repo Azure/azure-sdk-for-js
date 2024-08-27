@@ -6,7 +6,6 @@ import { fixupPluginRules } from "@eslint/compat";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
-import { rules as importRules } from "eslint-plugin-import";
 
 const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
@@ -40,9 +39,11 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-inferrable-types": "off",
   // We use empty extends and empty interface for shimming and renaming extensively
   "@typescript-eslint/no-empty-interface": "off",
+  "@typescript-eslint/no-empty-object-type": "off",
   "@typescript-eslint/no-namespace": "error",
   "@typescript-eslint/no-non-null-assertion": "off",
   "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+  "@typescript-eslint/no-unused-expressions": "off",
   "@typescript-eslint/no-useless-constructor": "error",
   "@typescript-eslint/no-var-requires": "off",
   "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }],
@@ -108,9 +109,6 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
 
 const nCustomization = {
   name: "n-azsdk-customized",
-  plugins: {
-    n,
-  },
   rules: {
     "n/exports-style": ["error", "module.exports"],
     "n/no-missing-import": "off",
@@ -122,12 +120,25 @@ const nCustomization = {
     "n/no-unpublished-import": "off",
     "n/no-unpublished-require": "off",
   },
+};
+
+function turnoffN(): Record<string, SharedConfig.RuleEntry> {
+  const rules: Record<string, SharedConfig.RuleEntry> = {};
+  for (const rule of Object.keys(n.rules ?? {})) {
+    rules[`n/${rule}`] = "off";
+  }
+  return rules;
 }
+
+const nOffForBrowser = {
+  files: ["**/browser/**/*.{ts,cts,mts}", "**/*.browser.{ts,cts,mts}", "**/*-browser.{ts,cts,mts}"],
+  rules: turnoffN(),
+};
 
 const noOnlyTestsCustomization = {
   name: "no-only-tests-azsdk-customized",
   plugins: {
-    "no-only-tests": fixupPluginRules(noOnlyTests),
+    "no-only-tests": noOnlyTests,
   },
   files: ["**/test/**/*.ts"],
   rules: {
@@ -142,16 +153,6 @@ const tsdocCustomization = {
   },
   rules: {
     "tsdoc/syntax": "error",
-  },
-};
-
-const importCustomization = {
-  name: "import-azsdk-customized",
-  plugins: {
-    import: fixupPluginRules({ rules: importRules }),
-  },
-  rules: {
-    "import/no-extraneous-dependencies": "error",
   },
 };
 
@@ -178,7 +179,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   },
   {
     name: "@azure/azure-sdk/recommended-json",
-    files: ["*.json"],
+    files: ["*.json", "*/*/*.json"],
     ignores: ["**/*.md/*.json", "**/src/**/*.json", "**/test/**/*.json"],
     languageOptions: {
       parser,
@@ -197,7 +198,13 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   },
   n.configs["flat/recommended"],
   nCustomization as unknown as FlatConfig.Config,
+  nOffForBrowser,
   noOnlyTestsCustomization as FlatConfig.Config,
   tsdocCustomization as FlatConfig.Config,
-  importCustomization as FlatConfig.Config,
+  {
+    files: ["samples-dev/**/*.ts", "*/*/samples-dev/**/*.ts"],
+    rules: {
+      "tsdoc/syntax": "off",
+    },
+  },
 ];

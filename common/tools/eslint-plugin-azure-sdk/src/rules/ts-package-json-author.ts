@@ -18,7 +18,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's author value to be 'Microsoft Corporation'",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

@@ -434,7 +434,7 @@ const searchClient = new SearchClient(
 );
 
 async function main() {
-  const queryVector = [...];
+  const queryVector = [/*...*/];
   const searchResults = await searchClient.search("*", {
     vectorSearchOptions: {
       queries: [

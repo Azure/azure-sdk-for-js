@@ -85,7 +85,7 @@ const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDoma
 Use the `ClientSecretCredential` object to perform client secret authentication.
 
 ```typescript Snippet:CreateAClientWithAAD
-let credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
+const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
   authorityHost: "https://login.microsoftonline.com/" + tenantId
 });
 
@@ -121,7 +121,7 @@ Use the `DefaultAzureCredential` object with `includeInteractiveCredentials: tru
 flow:
 
 ```typescript Snippet:CreateAClientWithAzureCredential
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 
 return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
   authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
@@ -310,14 +310,14 @@ This example shows how to query the current properties and then extend the lease
 
 ```typescript Snippet:UpdateSession
 /// When the lease is within 2 minutes of expiring, extend it by 15 minutes.
-let currentSession = await client.getSession(sessionId);
-if (currentSession.status == "Ready") {
+const currentSession = await client.getSession(sessionId);
+if (currentSession.status === "Ready") {
   if (
     currentSession.maxLeaseTimeInMinutes -
       (Date.now() - currentSession.properties.createdOn.valueOf()) / 60000 <
     2
   ) {
-    let newLeaseTime = currentSession.maxLeaseTimeInMinutes + 15;
+    const newLeaseTime = currentSession.maxLeaseTimeInMinutes + 15;
 
     await client.updateSession(sessionId, { maxLeaseTimeInMinutes: newLeaseTime });
   }

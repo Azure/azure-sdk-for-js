@@ -8,8 +8,8 @@ import {
   RestoreCertificateBackupPollOperationState,
   makeRestoreCertificateBackupPollOperation,
   TestCertificateClientInterface,
-} from "./operation";
-import { KeyVaultCertificate } from "../../../../../src/";
+} from "./operation.js";
+import { KeyVaultCertificate } from "../../../../../src/index.js";
 
 export interface RestoreCertificateBackupPollerOptions {
   client: TestCertificateClientInterface;
