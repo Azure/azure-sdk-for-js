@@ -8,7 +8,7 @@
 import * as childProcess from "child_process";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";

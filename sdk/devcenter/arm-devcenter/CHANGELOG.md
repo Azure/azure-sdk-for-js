@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2024-04-22)
     
-**Features**
+### Features Added
 
   - Added operation group CheckScopedNameAvailability
   - Added operation group EnvironmentDefinitions
@@ -194,7 +194,7 @@
     
 ## 1.1.0-beta.1 (2023-10-17)
     
-**Features**
+### Features Added
 
   - Added operation group CatalogDevBoxDefinitions
   - Added operation group CustomizationTasks

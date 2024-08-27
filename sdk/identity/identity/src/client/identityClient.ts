@@ -11,7 +11,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
@@ -21,6 +21,7 @@ import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
   parseExpirationTimestamp,
+  parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -122,6 +123,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         accessToken: {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
+          refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
         },
         refreshToken: parsedBody.refresh_token,
       };
@@ -221,7 +223,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     controller.signal.onabort = (...params) => {
       this.abortControllers.set(correlationId, undefined);
       if (existingOnAbort) {
-        existingOnAbort(...params);
+        existingOnAbort.apply(controller.signal, params);
       }
     };
     return controller.signal;

@@ -29,7 +29,7 @@ export class QuickpulseSender {
     endpointUrl: string;
     instrumentationKey: string;
     credential?: TokenCredential;
-    aadAudience?: string;
+    credentialScopes?: string | string[];
   }) {
     // Build endpoint using provided configuration or default values
     this.endpointUrl = options.endpointUrl;
@@ -42,8 +42,8 @@ export class QuickpulseSender {
     if (options.credential) {
       this.quickpulseClientOptions.credential = options.credential;
       // Add credentialScopes
-      if (options.aadAudience) {
-        this.quickpulseClientOptions.credentialScopes = [options.aadAudience];
+      if (options.credentialScopes) {
+        this.quickpulseClientOptions.credentialScopes = options.credentialScopes;
       } else {
         // Default
         this.quickpulseClientOptions.credentialScopes = [applicationInsightsResource];
@@ -63,7 +63,7 @@ export class QuickpulseSender {
     optionalParams: IsSubscribedOptionalParams,
   ): Promise<IsSubscribedResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.isSubscribed(
+      const response = await this.quickpulseClient.isSubscribed(
         this.endpointUrl,
         this.instrumentationKey,
         optionalParams,
@@ -82,7 +82,7 @@ export class QuickpulseSender {
    */
   async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.publish(
+      const response = await this.quickpulseClient.publish(
         this.endpointUrl,
         this.instrumentationKey,
         optionalParams,
@@ -95,7 +95,7 @@ export class QuickpulseSender {
     return;
   }
 
-  handlePermanentRedirect(location: string | undefined) {
+  handlePermanentRedirect(location: string | undefined): void {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {

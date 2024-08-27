@@ -34,7 +34,7 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "./internal/modelConverters";
-import { SDK_VERSION, KnownMonitorAudience } from "./constants";
+import { SDK_VERSION, KnownMonitorMetricsQueryAudience } from "./constants";
 
 /**
  * Options for the MetricsQueryClient.
@@ -46,7 +46,7 @@ export interface MetricsQueryClientOptions extends CommonClientOptions {
   /**
    * The Audience to use for authentication with Microsoft Entra ID. The
    * audience is not considered when using a shared key.
-   * {@link KnownMonitorAudience} can be used interchangeably with audience
+   * {@link KnownMonitorMetricsQueryAudience} can be used interchangeably with audience
    */
   audience?: string;
 }
@@ -67,7 +67,7 @@ export class MetricsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     const scope: string = options?.audience
       ? `${options.audience}/.default`
-      : `${KnownMonitorAudience.AzurePublicCloud}/.default`;
+      : `${KnownMonitorMetricsQueryAudience.AzurePublicCloud}/.default`;
 
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =

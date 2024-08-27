@@ -199,7 +199,7 @@ export interface Client {
   pipeline: Pipeline;
   /**
    * This method will be used to send request that would check the path to provide
-   * strong types. When used by the codegen this type gets overriden wit the generated
+   * strong types. When used by the codegen this type gets overriden with the generated
    * types. For example:
    * ```typescript
    * export type MyClient = Client & {
@@ -207,7 +207,7 @@ export interface Client {
    * }
    * ```
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types

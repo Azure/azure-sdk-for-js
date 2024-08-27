@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
-import { CertificateClient } from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/common";
-import TestClient from "./utils/testClient";
+import { CertificateClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import TestClient from "./utils/testClient.js";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -23,8 +20,8 @@ describe("Certificates client - restore certificates and recover backups", () =>
     subject: "cn=MyCert",
   };
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -37,8 +34,8 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   // The tests follow
 
-  it("can recover a deleted certificate", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can recover a deleted certificate", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
@@ -47,25 +44,17 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await createPoller.pollUntilDone();
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     const getDeletedResult = await deletePoller.pollUntilDone();
-    assert.equal(
-      getDeletedResult.properties.name,
-      certificateName,
-      "Unexpected certificate name in result from getCertificate().",
-    );
+    expect(getDeletedResult.properties.name).toEqual(certificateName);
     const recoverPoller = await client.beginRecoverDeletedCertificate(
       certificateName,
       testPollerProperties,
     );
     const getResult = await recoverPoller.pollUntilDone();
-    assert.equal(
-      getResult.properties.name,
-      certificateName,
-      "Unexpected certificate name in result from getCertificate().",
-    );
+    expect(getResult.properties.name).toEqual(certificateName);
   });
 
-  it("can recover a deleted certificate (non existing)", async function (this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+  it("can recover a deleted certificate (non existing)", async function (ctx) {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     let error;
     try {
       await client.beginRecoverDeletedCertificate(certificateName, testPollerProperties);
@@ -73,15 +62,15 @@ describe("Certificates client - restore certificates and recover backups", () =>
     } catch (e: any) {
       error = e;
     }
-    assert.equal(error.code, "CertificateNotFound");
-    assert.equal(error.statusCode, 404);
+    expect(error.code).toEqual("CertificateNotFound");
+    expect(error.statusCode).toEqual(404);
   });
 
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a certificate", async function (this: Context) {
-      const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    it("can restore a certificate", async function (ctx) {
+      const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
@@ -108,7 +97,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
       );
       const restoredCertificate = await restorePoller.pollUntilDone();
 
-      assert.equal(restoredCertificate.name, certificateName);
+      expect(restoredCertificate.name).toEqual(certificateName);
     });
   }
 
@@ -121,10 +110,6 @@ describe("Certificates client - restore certificates and recover backups", () =>
     } catch (e: any) {
       error = e;
     }
-    assert.equal(
-      error.message,
-      "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreCertificate()",
-    );
+    expect(error.message).toEqual("Backup blob contains invalid or corrupt version.");
   });
 });

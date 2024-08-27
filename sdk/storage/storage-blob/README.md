@@ -289,7 +289,7 @@ const blobServiceClient = new BlobServiceClient(
 
 async function main() {
   let i = 1;
-  let containers = blobServiceClient.listContainers();
+  const containers = blobServiceClient.listContainers();
   for await (const container of containers) {
     console.log(`Container ${i++}: ${container.name}`);
   }
@@ -314,7 +314,7 @@ const blobServiceClient = new BlobServiceClient(
 
 async function main() {
   let i = 1;
-  let iter = blobServiceClient.listContainers();
+  const iter = blobServiceClient.listContainers();
   let containerItem = await iter.next();
   while (!containerItem.done) {
     console.log(`Container ${i++}: ${containerItem.value.name}`);
@@ -406,7 +406,7 @@ async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   let i = 1;
-  let blobs = containerClient.listBlobsFlat();
+  const blobs = containerClient.listBlobsFlat();
   for await (const blob of blobs) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }

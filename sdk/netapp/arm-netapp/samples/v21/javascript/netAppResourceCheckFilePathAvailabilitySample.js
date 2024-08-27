@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check if a file path is available.
  *
  * @summary Check if a file path is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/CheckFilePathAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/CheckFilePathAvailability.json
  */
 async function checkFilePathAvailability() {
   const subscriptionId =

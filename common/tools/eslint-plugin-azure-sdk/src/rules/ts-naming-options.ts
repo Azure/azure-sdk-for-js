@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "require client method option parameter type names to be suffixed with Options and prefixed with the method name",
-      recommended: "recommended",
     },
     messages: {
       UnprefixedParameter: "options parameter type is not prefixed with the {{prefixKind}} name",

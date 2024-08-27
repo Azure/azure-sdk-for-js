@@ -56,7 +56,7 @@ For a more in-depth look on how to authenticate using managed identity, refer to
 
 ### Running the New-TestResources and Remove-TestResources Scripts
 
-You may want to run the `New-TestResources.ps1` or `Remove-TestResources.ps1` scripts to test resource deployments in the SDK Live Test pipelines locally. You will need to add the additional `-TestResourceDirectories` parameter when running these scripts. If you are using the shared `test-resources.json` you can point to `communication/test-resources/`. If you are using a custom `test-resources.json`, you can point to `communication/<package-name>/test-resources.json`.
+You may want to run the `New-TestResources.ps1` or `Remove-TestResources.ps1` scripts to test resource deployments in the SDK Live Test pipelines locally. You will need to add the additional `-TestResourceDirectories` parameter when running these scripts. If you are using the shared `test-resources.bicep` you can point to `communication/test-resources/`. If you are using a custom `test-resources.bicep`, you can point to `communication/<package-name>/test-resources.bicep`.
 
 ## Submitting a Pull Request
 

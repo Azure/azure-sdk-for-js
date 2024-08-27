@@ -100,7 +100,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "require async client methods to accept an AbortSignalLike parameter",
-      recommended: "recommended",
     },
     messages: {
       MethodShouldAcceptAbortSignal:

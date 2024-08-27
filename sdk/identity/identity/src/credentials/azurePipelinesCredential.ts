@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
-import { credentialLogger } from "../util/logging";
-import { checkTenantId } from "../util/tenantIdUtils";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+
 import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
+import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { IdentityClient } from "../client/identityClient";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
+import { checkTenantId } from "../util/tenantIdUtils";
+import { credentialLogger } from "../util/logging";
 
 const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
@@ -38,11 +39,27 @@ export class AzurePipelinesCredential implements TokenCredential {
     systemAccessToken: string,
     options?: AzurePipelinesCredentialOptions,
   ) {
-    if (!clientId || !tenantId || !serviceConnectionId || !systemAccessToken) {
+    if (!clientId) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId, and systemAccessToken are required parameters.`,
+        `${credentialName}: is unavailable. clientId is a required parameter.`,
       );
     }
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. tenantId is a required parameter.`,
+      );
+    }
+    if (!serviceConnectionId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. serviceConnectionId is a required parameter.`,
+      );
+    }
+    if (!systemAccessToken) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. systemAccessToken is a required parameter.`,
+      );
+    }
+
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(

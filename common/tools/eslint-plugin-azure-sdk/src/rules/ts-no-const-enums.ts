@@ -13,7 +13,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "forbid usage of TypeScript's const enums",
-      recommended: "recommended",
     },
     messages: {
       noConstEnum: "const enums should not be used",
