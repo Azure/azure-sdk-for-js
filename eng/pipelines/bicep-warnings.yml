@@ -25,12 +25,12 @@ stages:
       - job: LintBicep
         timeoutInMinutes: 20
         steps:
-          - script: |
+          - bash: |
               az bicep install
               find . -name '*.bicep' -exec az bicep lint --file {} \; 2>&1 | tee lint-warnings.txt
             displayName: 'Install Bicep CLI and Lint Bicep Files'
 
-          - script: |
+          - bash: |
               DATE=$(date +'%Y-%m-%d')
               echo "##vso[task.setvariable variable=DATE]$DATE"
               sed '/^$/N;/^\n$/D;' lint-warnings.txt > lint-warnings-${DATE}.txt
