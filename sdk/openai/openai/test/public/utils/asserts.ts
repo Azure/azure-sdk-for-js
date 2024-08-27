@@ -22,6 +22,9 @@ import {
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
+  Batch,
+  BatchError,
+  BatchRequestCounts,
   ChatCompletionChunk,
   ChatCompletionMessage,
   ChatCompletionTokenLogprob,
@@ -495,6 +498,48 @@ export function assertAssistantEquality(
   assert.isNotNull(response.tools[0]);
   const tools = assistant.tools || [];
   assert.equal(response.tools[0].type, tools[0].type);
+}
+
+export function assertBatch(batch: Batch): void {
+  assert.isString(batch.id);
+  assert.equal(batch.completion_window, "24h");
+  assert.isNumber(batch.created_at);
+  assert.isString(batch.endpoint);
+  assert.isString(batch.input_file_id);
+  assert.equal(batch.object, "batch");
+  assert.isString(batch.status);
+  ifDefined(batch.cancelled_at, assert.isNumber);
+  ifDefined(batch.cancelling_at, assert.isNumber);
+  ifDefined(batch.completed_at, assert.isNumber);
+  ifDefined(batch.error_file_id, assert.isString);
+  ifDefined(batch.errors, assertBatchErrors);
+  ifDefined(batch.expired_at, assert.isNumber);
+  ifDefined(batch.expires_at, assert.isNumber);
+  ifDefined(batch.failed_at, assert.isNumber);
+  ifDefined(batch.finalizing_at, assert.isNumber);
+  ifDefined(batch.expired_at, assert.isNumber);
+  ifDefined(batch.in_progress_at, assert.isNumber);
+  ifDefined(batch.metadata, assert.isNotNull);
+  ifDefined(batch.output_file_id, assert.isString);
+  ifDefined(batch.request_counts, assertbatchRequestCounts);
+}
+
+function assertbatchRequestCounts(requestCounts: BatchRequestCounts): void {
+  assert.isNumber(requestCounts.completed);
+  assert.isNumber(requestCounts.failed);
+  assert.isNumber(requestCounts.total);
+}
+
+function assertBatchErrors(errors: Batch.Errors): void {
+  ifDefined(errors.object, (object) => assert.equal(object, "list"));
+  ifDefined(errors.data, (error) => assertNonEmptyArray(error, assertBatchErrorData));
+}
+
+function assertBatchErrorData(error: BatchError): void {
+  ifDefined(error.code, assert.isString);
+  ifDefined(error.message, assert.isString);
+  ifDefined(error.param, assert.isString);
+  ifDefined(error.line, assert.isNumber);
 }
 
 interface CompletionTestOptions {

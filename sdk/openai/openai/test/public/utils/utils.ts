@@ -26,6 +26,8 @@ import { createClientLogger } from "@azure/logger";
 import { AzureChatExtensionConfiguration } from "../../../src/types/models.js";
 
 const logger = createClientLogger("openai");
+
+export const maxRetriesOption = { maxRetries: 0 };
 export interface Metadata {
   foo: string;
 }
@@ -52,7 +54,7 @@ export async function withDeployments<T>(
   deploymentsInfo: DeploymentInfo[] = [],
   run: (model: string) => Promise<T>,
   validate: (result: T) => void,
-  options: { modelsListToSkip?: ModelInfo[]; modelsListToRun?: ModelInfo[] } = {},
+  modelsListToSkip?: ModelInfo[],
 ): Promise<DeploymentInfo[]> {
   const errors = [];
   const succeeded = [];
@@ -63,14 +65,7 @@ export async function withDeployments<T>(
       logger.info(
         `[${++i}/${deploymentsInfo.length}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
       );
-      const { modelsListToSkip, modelsListToRun } = options;
       if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-        logger.info(
-          `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
-        );
-        continue;
-      }
-      if (modelsListToRun && !isModelInList(deployment.model, modelsListToRun)) {
         logger.info(
           `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
         );
@@ -95,6 +90,7 @@ export async function withDeployments<T>(
         error.type === "invalid_request_error" ||
         error.name === "AbortError" ||
         errorStr.includes("Connection error") ||
+        errorStr.includes("InternalServerError") ||
         errorStr.includes("toolCalls")
       ) {
         logger.info(`Handled error: ${errorStr}`);

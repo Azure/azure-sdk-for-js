@@ -11,13 +11,12 @@ import {
   APIVersion,
   DeploymentInfo,
   getDeployments,
+  maxRetriesOption,
   withDeployments,
 } from "../utils/utils.js";
 import { assertAudioResult } from "../utils/asserts.js";
 import { AudioResultFormat } from "../utils/audioTypes.js";
-import { whisperModels } from "../utils/models.js";
-
-const timeoutOption = { timeout: 2000 };
+import { whisperModelsToSkip } from "../utils/models.js";
 
 describe("OpenAI", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -37,10 +36,10 @@ describe("OpenAI", function () {
             (deployment) => {
               const file = createReadStream(`./assets/audio/countdown.mp3`);
               client = createClient(apiVersion, "vision", { deployment });
-              return client.audio.transcriptions.create({ model: "", file }, timeoutOption);
+              return client.audio.transcriptions.create({ model: "", file }, maxRetriesOption);
             },
             (audio) => assertAudioResult("json", audio),
-            { modelsListToRun: whisperModels },
+            whisperModelsToSkip,
           );
         });
       });
@@ -52,10 +51,10 @@ describe("OpenAI", function () {
             (deployment) => {
               const file = createReadStream(`./assets/audio/countdown.mp3`);
               client = createClient(apiVersion, "vision", { deployment });
-              return client.audio.translations.create({ model: "", file }, timeoutOption);
+              return client.audio.translations.create({ model: "", file }, maxRetriesOption);
             },
             (audio) => assertAudioResult("json", audio),
-            { modelsListToRun: whisperModels },
+            whisperModelsToSkip,
           );
         });
       });
@@ -79,11 +78,11 @@ describe("OpenAI", function () {
                       file,
                       response_format: format,
                     },
-                    timeoutOption,
+                    maxRetriesOption,
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                { modelsListToRun: whisperModels },
+                whisperModelsToSkip,
               );
             });
           });
@@ -101,11 +100,11 @@ describe("OpenAI", function () {
                       file,
                       response_format: format,
                     },
-                    timeoutOption,
+                    maxRetriesOption,
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                { modelsListToRun: whisperModels },
+                whisperModelsToSkip,
               );
             });
           });

@@ -6,6 +6,7 @@ import { describe, beforeEach, it, assert, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
 import { APIVersion, DeploymentInfo, getDeployments, withDeployments } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
+
 describe("OpenAI", function () {
   let deployments: DeploymentInfo[] = [];
 
