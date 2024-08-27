@@ -44,7 +44,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-azure-storage-datalake/12.23.0-beta.1`;
+    const packageDetails = `azsdk-js-azure-storage-datalake/12.24.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -63,7 +63,7 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2024-08-04";
+    this.version = options.version || "2024-11-04";
     this.resource = options.resource || "filesystem";
     this.service = new ServiceImpl(this);
     this.fileSystemOperations = new FileSystemOperationsImpl(this);

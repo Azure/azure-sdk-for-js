@@ -254,7 +254,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     counter.intervalRequestExecutionTime += duration;
   }
 
-  public countFailure(duration: number, statusCode: number) {
+  public countFailure(duration: number, statusCode: number): void {
     if (!this.isInitialized) {
       return;
     }
@@ -341,7 +341,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private getShortHost(originalHost: string): string {
     let shortHost = originalHost;
     try {
-      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^\/.-]+)/);
+      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^/.-]+)/);
       const res = hostRegex.exec(originalHost);
       if (res !== null && res.length > 1) {
         shortHost = res[1];

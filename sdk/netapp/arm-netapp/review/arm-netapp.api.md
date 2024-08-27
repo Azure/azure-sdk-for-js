@@ -710,7 +710,7 @@ export type KeySource = string;
 export interface KeyVaultProperties {
     keyName: string;
     readonly keyVaultId?: string;
-    keyVaultResourceId: string;
+    keyVaultResourceId?: string;
     keyVaultUri: string;
     readonly status?: KeyVaultStatus;
 }
@@ -1418,6 +1418,7 @@ export interface Replication {
     endpointType?: EndpointType;
     remoteVolumeRegion?: string;
     remoteVolumeResourceId: string;
+    readonly replicationId?: string;
     replicationSchedule?: ReplicationSchedule;
 }
 
@@ -2063,6 +2064,7 @@ export interface VolumePatch {
     isDefaultQuotaEnabled?: boolean;
     location?: string;
     readonly name?: string;
+    protocolTypes?: string[];
     serviceLevel?: ServiceLevel;
     smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbNonBrowsable?: SmbNonBrowsable;

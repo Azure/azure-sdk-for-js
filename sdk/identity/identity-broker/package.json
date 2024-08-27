@@ -77,9 +77,9 @@
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "mocha": "^10.0.0",
-    "puppeteer": "^22.2.0",
+    "puppeteer": "^23.0.2",
     "rimraf": "^5.0.1",
     "typescript": "~5.5.3",
     "sinon": "^17.0.0"

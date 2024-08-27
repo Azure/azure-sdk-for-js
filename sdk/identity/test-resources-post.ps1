@@ -39,7 +39,7 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
+  az login --service-principal -u $env:ARM_CLIENT_ID --tenant $env:ARM_TENANT_ID --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
   az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 }
 
@@ -67,7 +67,7 @@ Write-Host "Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
 $image = "$loginServer/identity-aks-test-image"
-docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
+docker build --no-cache --build-arg REGISTRY="mcr.microsoft.com/mirror/docker/library/" -t $image "$workingFolder/AzureKubernetes"
 docker push $image
 Write-Host "Deployed image to ACR"
 

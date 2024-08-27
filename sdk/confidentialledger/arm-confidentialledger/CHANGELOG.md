@@ -12,7 +12,7 @@
 
 ## 1.3.0-beta.2 (2024-04-16)
     
-**Features**
+### Features Added
 
   - Added operation group ManagedCCFOperations
   - Added operation Ledger.beginBackup
@@ -69,7 +69,7 @@
 
 ## 1.3.0-beta.1 (2023-04-19)
     
-**Features**
+### Features Added
 
   - Added operation group ManagedCCFOperations
   - Added Interface CertificateTags
@@ -102,7 +102,7 @@
     
 ## 1.2.0 (2023-01-12)
     
-**Features**
+### Features Added
 
   - Interface LedgerListByResourceGroupNextOptionalParams no longer has parameter filter
   - Interface LedgerListBySubscriptionNextOptionalParams no longer has parameter filter
@@ -110,7 +110,7 @@
     
 ## 1.1.0 (2022-07-05)
     
-**Features**
+### Features Added
 
   - Added Interface ConfidentialLedger
     

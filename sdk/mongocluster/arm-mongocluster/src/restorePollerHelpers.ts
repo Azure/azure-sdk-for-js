@@ -22,10 +22,7 @@ import {
   _privateEndpointConnectionsCreateDeserialize,
   _privateEndpointConnectionsDeleteDeserialize,
 } from "./api/privateEndpointConnections/index.js";
-import {
-  PathUncheckedResponse,
-  OperationOptions,
-} from "@azure-rest/core-client";
+import { PathUncheckedResponse, OperationOptions } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 export interface RestorePollerOptions<
@@ -50,9 +47,7 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: MongoClusterManagementClient,
   serializedState: string,
-  sourceOperation: (
-    ...args: any[]
-  ) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -66,8 +61,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     | ResourceLocationConfig
     | undefined;
   const deserializeHelper =
-    options?.processResponseBody ??
-    getDeserializationHelper(initialRequestUrl, requestMethod);
+    options?.processResponseBody ?? getDeserializationHelper(initialRequestUrl, requestMethod);
   if (!deserializeHelper) {
     throw new Error(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
@@ -129,24 +123,17 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

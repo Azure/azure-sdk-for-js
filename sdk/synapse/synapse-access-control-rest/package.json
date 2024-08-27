@@ -50,7 +50,7 @@
     "@types/mocha": "^10.0.0",
     "chai": "^4.2.0",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",

@@ -17,7 +17,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's license value to be 'MIT'",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

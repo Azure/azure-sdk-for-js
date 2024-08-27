@@ -30,8 +30,8 @@ const logger = credentialLogger("ManagedIdentityCredential");
 
 // As part of the migration of Managed Identity to MSAL, this legacy provider captures the existing behavior
 // ported over from the ManagedIdentityCredential verbatim. This is to ensure that the existing behavior
-// is maintained while the new implementation is being tested and validated. Part of the migration (tracked in #25253)
-// should include deleting this provider once it is no longer needed.
+// is maintained while the new implementation is being tested and validated.
+// https://github.com/Azure/azure-sdk-for-js/issues/30189  tracks deleting this provider once it is no longer needed.
 
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
@@ -135,7 +135,7 @@ export class LegacyMsiProvider {
       appServiceMsi2019,
       appServiceMsi2017,
       cloudShellMsi,
-      tokenExchangeMsi(),
+      tokenExchangeMsi,
       imdsMsi,
     ];
 
@@ -356,6 +356,7 @@ export class LegacyMsiProvider {
     return {
       token: result.accessToken,
       expiresOnTimestamp: result.expiresOn.getTime(),
+      refreshAfterTimestamp: result.refreshOn?.getTime(),
     };
   }
 
@@ -413,9 +414,13 @@ export class LegacyMsiProvider {
           const expiresInSeconds = resultToken?.expiresOnTimestamp
             ? Math.floor((resultToken.expiresOnTimestamp - Date.now()) / 1000)
             : 0;
+          const refreshInSeconds = resultToken?.refreshAfterTimestamp
+            ? Math.floor((resultToken.refreshAfterTimestamp - Date.now()) / 1000)
+            : 0;
           return {
             accessToken: resultToken?.token,
             expiresInSeconds,
+            refreshInSeconds,
           };
         } else {
           logger.info(

@@ -18,7 +18,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's keywords value to contain at least 'Azure' and 'cloud'",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

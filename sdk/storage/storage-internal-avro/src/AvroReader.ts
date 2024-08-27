@@ -162,7 +162,7 @@ export class AvroReader {
           this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream, {
             abortSignal: options.abortSignal,
           });
-        } catch (err: any) {
+        } catch {
           // We hit the end of the stream.
           this._itemsRemainingInBlock = 0;
         }

@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AzureBackupJobResource,
   CrossRegionRestoreJobsRequest,
-  FetchCrossRegionRestoreJobsListOptionalParams
+  FetchCrossRegionRestoreJobsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,6 +27,6 @@ export interface FetchCrossRegionRestoreJobs {
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreJobsRequest,
-    options?: FetchCrossRegionRestoreJobsListOptionalParams
+    options?: FetchCrossRegionRestoreJobsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupJobResource>;
 }

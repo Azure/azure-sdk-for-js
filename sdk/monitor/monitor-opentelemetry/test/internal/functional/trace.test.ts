@@ -38,6 +38,7 @@ describe("Trace Exporter Scenarios", () => {
             assertTraceExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
             done();
+            return;
           });
         })
         .catch((e) => {

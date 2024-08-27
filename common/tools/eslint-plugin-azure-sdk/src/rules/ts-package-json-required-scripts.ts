@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "force package.json's scripts value to at least contain build, test, and prepack",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

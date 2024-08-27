@@ -33,7 +33,6 @@ export interface MsalAccountInfo {
   localAccountId: string;
   name?: string;
   // Leaving idTokenClaims as object since that's how MSAL has this assigned.
-  /* eslint-disable-next-line @typescript-eslint/ban-types */
   idTokenClaims?: object;
 }
 
@@ -46,6 +45,7 @@ export interface MsalResult {
   account: MsalAccountInfo | null;
   accessToken: string;
   expiresOn: Date | null;
+  refreshOn?: Date | null;
 }
 
 /**

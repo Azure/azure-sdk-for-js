@@ -7,11 +7,6 @@
 /**
  * @internal
  */
-import { URL } from "url";
-
-/**
- * @internal
- */
 export const parseURL = (rawUrl: string): URL => {
   return new URL(rawUrl);
 };

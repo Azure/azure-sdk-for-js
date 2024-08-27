@@ -1,18 +1,51 @@
 # Release History
-
-## 2.1.0-beta.2 (Unreleased)
-
+    
+## 2.1.0 (2024-07-15)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ManagedEnvironmentUsages
+  - Added operation group Usages
+  - Added operation Jobs.getDetector
+  - Added operation Jobs.listDetectors
+  - Added operation Jobs.proxyGet
+  - Added Interface BlobStorageTokenStore
+  - Added Interface EncryptionSettings
+  - Added Interface GetCustomDomainVerificationIdOptionalParams
+  - Added Interface IngressPortMapping
+  - Added Interface JobsGetDetectorOptionalParams
+  - Added Interface JobsListDetectorsNextOptionalParams
+  - Added Interface JobsListDetectorsOptionalParams
+  - Added Interface JobsProxyGetOptionalParams
+  - Added Interface ListUsagesResult
+  - Added Interface ManagedEnvironmentPropertiesPeerTrafficConfiguration
+  - Added Interface ManagedEnvironmentPropertiesPeerTrafficConfigurationEncryption
+  - Added Interface ManagedEnvironmentUsagesListNextOptionalParams
+  - Added Interface ManagedEnvironmentUsagesListOptionalParams
+  - Added Interface TokenStore
+  - Added Interface Usage
+  - Added Interface UsageName
+  - Added Interface UsagesListNextOptionalParams
+  - Added Interface UsagesListOptionalParams
+  - Added Type Alias GetCustomDomainVerificationIdResponse
+  - Added Type Alias JobsGetDetectorResponse
+  - Added Type Alias JobsListDetectorsNextResponse
+  - Added Type Alias JobsListDetectorsResponse
+  - Added Type Alias JobsProxyGetResponse
+  - Added Type Alias ManagedEnvironmentUsagesListNextResponse
+  - Added Type Alias ManagedEnvironmentUsagesListResponse
+  - Added Type Alias UsagesListNextResponse
+  - Added Type Alias UsagesListResponse
+  - Interface AuthConfig has a new optional parameter encryptionSettings
+  - Interface AvailableWorkloadProfileProperties has a new optional parameter gpus
+  - Interface Ingress has a new optional parameter additionalPortMappings
+  - Interface Login has a new optional parameter tokenStore
+  - Interface ManagedEnvironment has a new optional parameter peerTrafficConfiguration
+    
+    
 ## 2.1.0-beta.1 (2024-03-18)
     
-**Features**
+### Features Added
 
   - Added operation group AppResiliencyOperations
   - Added operation group BuildAuthToken
@@ -236,7 +269,7 @@
     
 ## 2.0.0 (2023-08-08)
 
-**Features**
+### Features Added
 
 - Added operation group AvailableWorkloadProfiles
 - Added operation group BillingMeters
@@ -548,7 +581,7 @@
 - Added function getContinuationToken
 - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams no longer has parameter filter
 
-**Breaking Changes**
+### Breaking Changes
 
 - Interface VnetConfiguration no longer has parameter runtimeSubnetId
 - Type of parameter customDomainVerificationFailureInfo of interface CustomHostnameAnalysisResult is changed from DefaultErrorResponse to CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
@@ -556,19 +589,19 @@
 
 ## 1.1.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - revert credential scopes
 
 ## 1.1.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - fix better user experience of credential scopes in government cloud
 
 ## 1.1.0 (2022-08-02)
 
-**Features**
+### Features Added
 
 - Added Interface AuthConfig
 - Added Interface Certificate
@@ -585,4 +618,4 @@
 
 ## 1.0.0 (2022-05-20)
 
-The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+The package of @azure/arm-appcontainers is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

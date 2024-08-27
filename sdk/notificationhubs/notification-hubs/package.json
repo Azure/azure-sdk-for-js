@@ -4,6 +4,8 @@
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
   "type": "module",
   "//metadata": {
     "constantPaths": [
@@ -27,8 +29,8 @@
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser -- -c vitest.browser.int.config.ts",
     "integration-test:node": "dev-tool run test:vitest -- -c vitest.int.config.ts",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && tshy && npm run integration-test:node",
@@ -65,15 +67,15 @@
     "@azure-tools/test-recorder": "^4.0.0",
     "@microsoft/api-extractor": "^7.43.7",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.4.5",
-    "eslint": "^8.57.0",
+    "eslint": "^9.9.0",
     "playwright": "^1.43.0",
     "rimraf": "^5.0.5",
-    "tshy": "^1.17.0",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.5"
   },
   "dependencies": {
     "@azure/core-auth": "^1.7.2",
@@ -109,66 +111,54 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     },
     "./api": {
       "browser": {
-        "source": "./src/api/index.ts",
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
       "react-native": {
-        "source": "./src/api/index.ts",
         "types": "./dist/react-native/api/index.d.ts",
         "default": "./dist/react-native/api/index.js"
       },
       "import": {
-        "source": "./src/api/index.ts",
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
       },
       "require": {
-        "source": "./src/api/index.ts",
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
       }
     },
     "./models": {
       "browser": {
-        "source": "./src/models/index.ts",
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
       },
       "react-native": {
-        "source": "./src/models/index.ts",
         "types": "./dist/react-native/models/index.d.ts",
         "default": "./dist/react-native/models/index.js"
       },
       "import": {
-        "source": "./src/models/index.ts",
         "types": "./dist/esm/models/index.d.ts",
         "default": "./dist/esm/models/index.js"
       },
       "require": {
-        "source": "./src/models/index.ts",
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
       }

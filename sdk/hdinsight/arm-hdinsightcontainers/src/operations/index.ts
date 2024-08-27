@@ -8,10 +8,13 @@
 
 export * from "./clusterPools";
 export * from "./clusterPoolAvailableUpgrades";
+export * from "./clusterPoolUpgradeHistories";
 export * from "./clusters";
 export * from "./clusterAvailableUpgrades";
+export * from "./clusterUpgradeHistories";
 export * from "./clusterJobs";
 export * from "./locations";
 export * from "./operations";
 export * from "./availableClusterPoolVersions";
 export * from "./availableClusterVersions";
+export * from "./clusterLibraries";

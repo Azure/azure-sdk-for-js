@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export enum EnvironmentVariableNamesForDalle {
-  AZURE_API_KEY_DALLE = "AZURE_API_KEY_DALLE",
-  ENDPOINT_DALLE = "ENDPOINT_DALLE",
-  ACCOUNT_NAME_DALLE = "ACCOUNT_NAME_DALLE",
+export enum EnvironmentVariableNamesForVision {
+  ENDPOINT_VISION = "AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT",
+  ACCOUNT_NAME_VISION = "ACCOUNT_NAME_VISION",
 }
 
-export enum EnvironmentVariableNamesForWhisper {
-  AZURE_API_KEY_WHISPER = "AZURE_API_KEY_WHISPER",
-  ENDPOINT_WHISPER = "ENDPOINT_WHISPER",
-  ACCOUNT_NAME_WHISPER = "ACCOUNT_NAME_WHISPER",
+export enum EnvironmentVariableNamesForAudio {
+  ENDPOINT_AUDIO = "AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT",
+  ACCOUNT_NAME_AUDIO = "ACCOUNT_NAME_AUDIO",
 }
 
 export enum EnvironmentVariableNamesForCompletions {
-  AZURE_API_KEY_COMPLETIONS = "AZURE_API_KEY_COMPLETIONS",
-  ENDPOINT_COMPLETIONS = "ENDPOINT_COMPLETIONS",
+  ENDPOINT_COMPLETIONS = "AZURE_OPENAI_ENDPOINT",
   ACCOUNT_NAME_COMPLETIONS = "ACCOUNT_NAME_COMPLETIONS",
 }
 
 export enum EnvironmentVariableNamesForAzureSearch {
-  ENDPOINT_SEARCH = "ENDPOINT_SEARCH",
-  AZURE_API_KEY_SEARCH = "AZURE_API_KEY_SEARCH",
-  AZURE_SEARCH_INDEX = "AZURE_SEARCH_INDEX",
+  AZURE_SEARCH_ENDPOINT = "AZURE_OPENAI_SEARCH_ENDPOINT",
+  AZURE_SEARCH_INDEX = "AZURE_OPENAI_SEARCH_INDEX",
 }
 
 export enum EnvironmentVariableNamesAzureCommon {
@@ -30,15 +26,10 @@ export enum EnvironmentVariableNamesAzureCommon {
   SUBSCRIPTION_ID = "SUBSCRIPTION_ID",
 }
 
-export enum EnvironmentVariableNamesOpenAI {
-  OPENAI_API_KEY = "OPENAI_API_KEY",
-}
-
 export const EnvironmentVariableNames = {
   ...EnvironmentVariableNamesAzureCommon,
   ...EnvironmentVariableNamesForAzureSearch,
   ...EnvironmentVariableNamesForCompletions,
-  ...EnvironmentVariableNamesForWhisper,
-  ...EnvironmentVariableNamesForDalle,
-  ...EnvironmentVariableNamesOpenAI,
+  ...EnvironmentVariableNamesForAudio,
+  ...EnvironmentVariableNamesForVision,
 };

@@ -11,7 +11,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
@@ -21,6 +21,7 @@ import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
   parseExpirationTimestamp,
+  parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -67,6 +68,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
   private allowLoggingAccountIdentifiers?: boolean;
   private abortControllers: Map<string, AbortController[] | undefined>;
+  private allowInsecureConnection: boolean = false;
   // used for WorkloadIdentity
   private tokenCredentialOptions: TokenCredentialOptions;
 
@@ -98,6 +100,11 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     this.allowLoggingAccountIdentifiers = options?.loggingOptions?.allowLoggingAccountIdentifiers;
     // used for WorkloadIdentity
     this.tokenCredentialOptions = { ...options };
+
+    // used for ManagedIdentity
+    if (options?.allowInsecureConnection) {
+      this.allowInsecureConnection = options.allowInsecureConnection;
+    }
   }
 
   async sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null> {
@@ -116,6 +123,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         accessToken: {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
+          refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
         },
         refreshToken: parsedBody.refresh_token,
       };
@@ -215,7 +223,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     controller.signal.onabort = (...params) => {
       this.abortControllers.set(correlationId, undefined);
       if (existingOnAbort) {
-        existingOnAbort(...params);
+        existingOnAbort.apply(controller.signal, params);
       }
     };
     return controller.signal;
@@ -255,6 +263,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       url,
       method: "GET",
       body: options?.body,
+      allowInsecureConnection: this.allowInsecureConnection,
       headers: createHttpHeaders(options?.headers),
       abortSignal: this.generateAbortSignal(noCorrelationId),
     });
@@ -279,6 +288,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       method: "POST",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
+      allowInsecureConnection: this.allowInsecureConnection,
       // MSAL doesn't send the correlation ID on the get requests.
       abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
     });

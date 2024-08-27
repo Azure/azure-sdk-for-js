@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "force tsconfig.json's 'include' value to at least contain 'src/**/*.ts', 'test/**/*.ts', and 'samples-dev/**/*.ts'",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

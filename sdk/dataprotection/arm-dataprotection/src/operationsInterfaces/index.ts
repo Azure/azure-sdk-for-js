@@ -20,6 +20,7 @@ export * from "./recoveryPoints";
 export * from "./fetchSecondaryRecoveryPoints";
 export * from "./fetchCrossRegionRestoreJob";
 export * from "./fetchCrossRegionRestoreJobs";
+export * from "./backupInstancesExtensionRouting";
 export * from "./jobs";
 export * from "./restorableTimeRanges";
 export * from "./exportJobs";

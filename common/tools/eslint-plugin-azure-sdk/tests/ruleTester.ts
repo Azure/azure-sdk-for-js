@@ -20,11 +20,16 @@ export interface CreateRuleTesterOptions {
 export function createRuleTester(options: CreateRuleTesterOptions = {}) {
   const project = options.testTsConfig ? "./tsconfig-alt.json" : "./tsconfig.json";
   const ruleTester = new RuleTester({
-    parser: require.resolve("@typescript-eslint/parser"),
-    parserOptions: {
-      tsconfigRootDir: path.join(__dirname, "./fixture"),
-      project,
-      extraFileExtensions: [".json"],
+    languageOptions: {
+      parserOptions: {
+        projectServices: {
+          allowDefaultProject: ["*.ts*"],
+          defaultProject: "tsconfig.json",
+        },
+        tsconfigRootDir: path.join(__dirname, "./fixture"),
+        project,
+        extraFileExtensions: [".json"],
+      },
     },
     settings: options.settings ?? {},
   });
