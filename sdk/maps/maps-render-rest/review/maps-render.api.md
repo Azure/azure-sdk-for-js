@@ -459,8 +459,8 @@ export interface RenderGetMapStaticImageQueryParamProperties {
     center?: Array<number>;
     height?: number;
     language?: string;
-    path?: Array<string>;
-    pins?: Array<string>;
+    path?: string;
+    pins?: string;
     tilesetId?: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
     trafficLayer?: "microsoft.traffic.relative.main" | "none";
     view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
