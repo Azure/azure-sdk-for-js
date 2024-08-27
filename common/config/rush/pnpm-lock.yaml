@@ -20715,7 +20715,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-0l9usz9/Q5FamlW4fBEN036jwxJl+zf+sCVRe/qkwkUUdzh/NQMMACT58LpisjFXBZtxTSP3bB4yiyRWmrcf/A==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-nU8mxxzxOJkacyp1yLwCVijVnXIliMwqrcaDyf4k2kWJe867OAUrFgoN/b8E4kKO6nUUjMjVd4k8bbiFBAluxA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20873,7 +20873,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-tWmorIiO3E5Cg/xpr9FEhVs/xadYlAKifOfXL5M9IS0W5RkDoQz5cG/j5wGdcesngZLORNeQnP2JzpD4IJSV1w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-oxV22dFOSjOwjy/JcuLGQ9vMSCADbwGTFPxixi4Yev3dZ62WdJK/5JPjnmcY0I9mT70h1AA8ywx0ji2YxO802w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -23695,10 +23695,11 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-HpW8PfqyB5oO61GE3g5ONaGsEimhfVYFzfe37STBJ/E+JXR2it6pIN5cBKmlbI6H9lSmNzj26jbbYSTzp3VbGg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-kaYUj6TSbXhrF0JJBeuFYrrf9QdZ/JQeWnWrLVJm9hxiczEHVnDfA4l4xwZBNOK7e2nKGqcweD73a37cWQDxPg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-credential': 1.2.0
       '@azure/core-amqp': 4.3.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.7(@types/node@18.19.46)
@@ -24608,7 +24609,7 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-FNjq7LG7H9fdv14ZyWuYrLmtKW5S2lDb3bo+CTFOAW42HiqFWP5sXlMnlfJ9bvS8zt3N172dnZ+ukpVeuaPCxQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-r2a0dEaadQ17iwZCDs+EOziWJLc/xOZLWpYWgW6bYH5Yi60jzvylsURCDYdJmW70Nb7QXbyKjS5Z8jAWEgZajA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
