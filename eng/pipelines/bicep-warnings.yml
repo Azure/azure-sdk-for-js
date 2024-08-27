@@ -17,8 +17,9 @@ stages:
     displayName: Lint Bicep Files
 
     pool:
-      name: $(LINUXPOOL)
-      vmImage: $(LINUXVMIMAGE) 
+      # AzureFileCopy requires Windows
+      name: azsdk-pool-mms-win-2022-general
+      vmImage: MMS2022
 
     jobs:
       - job: LintBicep
