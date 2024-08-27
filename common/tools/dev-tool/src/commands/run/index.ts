@@ -15,6 +15,7 @@ export default subCommand(commandInfo, {
   "extract-api": () => import("./extract-api"),
   bundle: () => import("./bundle"),
   "build-test": () => import("./build-test"),
+  typecheck: () => import("./typecheck"),
   "start-browser-relay": () => import("./startBrowserRelay"),
 
   // "vendored" is a special command that passes through execution to dev-tool's own commands
