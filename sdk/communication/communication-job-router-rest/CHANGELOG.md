@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0-beta.2 (2024-08-27)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh communication-job-router-rest sdk
 
 ## 1.1.0-beta.1 (2024-04-12)
 
