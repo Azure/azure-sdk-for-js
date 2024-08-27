@@ -3,7 +3,7 @@
 
 import { ClientOptions } from "@azure-rest/core-client";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { AzureCommunicationRoutingServiceClient } from "./clientDefinitions";
+import { AzureCommunicationRoutingServiceClient } from "../generated/clientDefinitions";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
