@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- refresh communication-job-router-rest sdk
+- refresh @azure-rest/communication-job-router sdk
 
 ## 1.1.0-beta.1 (2024-04-12)
 
