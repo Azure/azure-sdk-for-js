@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel.js";
 import { MockInstrumenter } from "./mockInstrumenter.js";

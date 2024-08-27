@@ -86,7 +86,7 @@
     "autorest": "latest",
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",

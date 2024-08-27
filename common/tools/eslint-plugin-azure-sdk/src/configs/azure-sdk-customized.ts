@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 import { fixupPluginRules } from "@eslint/compat";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
-import { rules as importRules } from "eslint-plugin-import";
 
 const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-invalid-this": "off",
@@ -40,9 +39,11 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-inferrable-types": "off",
   // We use empty extends and empty interface for shimming and renaming extensively
   "@typescript-eslint/no-empty-interface": "off",
+  "@typescript-eslint/no-empty-object-type": "off",
   "@typescript-eslint/no-namespace": "error",
   "@typescript-eslint/no-non-null-assertion": "off",
   "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+  "@typescript-eslint/no-unused-expressions": "off",
   "@typescript-eslint/no-useless-constructor": "error",
   "@typescript-eslint/no-var-requires": "off",
   "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }],
@@ -155,16 +156,6 @@ const tsdocCustomization = {
   },
 };
 
-const importCustomization = {
-  name: "import-azsdk-customized",
-  plugins: {
-    import: fixupPluginRules({ rules: importRules }),
-  },
-  rules: {
-    "import/no-extraneous-dependencies": "error",
-  },
-};
-
 const rules: Record<string, SharedConfig.RuleEntry> = {
   ...tsEslintCustomization,
   ...azsdkDefault,
@@ -210,5 +201,10 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
   nOffForBrowser,
   noOnlyTestsCustomization as FlatConfig.Config,
   tsdocCustomization as FlatConfig.Config,
-  importCustomization as FlatConfig.Config,
+  {
+    files: ["samples-dev/**/*.ts", "*/*/samples-dev/**/*.ts"],
+    rules: {
+      "tsdoc/syntax": "off",
+    },
+  },
 ];

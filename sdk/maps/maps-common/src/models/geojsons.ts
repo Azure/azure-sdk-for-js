@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Definitions based on [RFC 7946](https://datatracker.ietf.org/doc/html/rfc7946)
 

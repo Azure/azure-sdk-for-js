@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force usage of built-in promises over external ones.
@@ -20,7 +20,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force usage of built-in promises over external ones",
-      recommended: "recommended",
     },
     messages: {
       NoExternalPromise:

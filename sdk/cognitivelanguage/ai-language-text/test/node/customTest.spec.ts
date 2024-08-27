@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertEnvironmentVariable, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AnalyzeBatchActionNames, AzureKeyCredential, TextAnalysisClient } from "../../src";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationOptions, OperationRequest } from "@azure/core-client";
 import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";

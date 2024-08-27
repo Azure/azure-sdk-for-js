@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { SecretClient } from "@azure/keyvault-secrets";
 import { createTestCredential } from "@azure-tools/test-credential";

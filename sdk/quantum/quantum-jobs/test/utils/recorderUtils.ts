@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions, SanitizerOptions, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];

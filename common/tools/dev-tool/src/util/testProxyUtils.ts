@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ChildProcess, exec, spawn, SpawnOptions } from "node:child_process";
 import { createPrinter } from "./printer";

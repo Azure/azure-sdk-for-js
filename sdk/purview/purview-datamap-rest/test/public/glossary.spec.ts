@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecorder } from "./utils/recordedClient";
 import { assert } from "chai";

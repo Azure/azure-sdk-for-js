@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
@@ -216,6 +216,7 @@ export class MsalMsiProvider {
         return {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
+          refreshAfterTimestamp: token.refreshOn?.getTime(),
         };
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));

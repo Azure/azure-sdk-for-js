@@ -804,11 +804,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
-      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/vite-plugin-browser-test-map",
       "projectFolder": "common/tools/vite-plugin-browser-test-map",
       "versionPolicyName": "utility"

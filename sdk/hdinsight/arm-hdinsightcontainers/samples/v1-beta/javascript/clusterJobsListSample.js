@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get jobs of HDInsight on AKS cluster.
  *
  * @summary Get jobs of HDInsight on AKS cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ListClusterJobs.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterJobs.json
  */
 async function listClusterJobs() {
   const subscriptionId =

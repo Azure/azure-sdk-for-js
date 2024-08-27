@@ -105,6 +105,36 @@ export const ClusterPoolProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      publicIpTag: {
+        serializedName: "publicIpTag",
+        type: {
+          name: "Composite",
+          className: "IpTag",
+        },
+      },
+    },
+  },
+};
+
+export const IpTag: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IpTag",
+    modelProperties: {
+      ipTagType: {
+        serializedName: "ipTagType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tag: {
+        serializedName: "tag",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -129,6 +159,17 @@ export const ClusterPoolComputeProfile: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+      availabilityZones: {
+        serializedName: "availabilityZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -575,6 +616,70 @@ export const ClusterPoolAvailableUpgradeProperties: coreClient.CompositeMapper =
     },
   };
 
+export const ClusterPoolUpgradeHistoryListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterPoolUpgradeHistoryListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClusterPoolUpgradeHistory",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterPoolUpgradeHistoryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterPoolUpgradeHistoryProperties",
+    uberParent: "ClusterPoolUpgradeHistoryProperties",
+    polymorphicDiscriminator: {
+      serializedName: "upgradeType",
+      clientName: "upgradeType",
+    },
+    modelProperties: {
+      upgradeType: {
+        serializedName: "upgradeType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      utcTime: {
+        serializedName: "utcTime",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      upgradeResult: {
+        serializedName: "upgradeResult",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ClusterListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -675,6 +780,17 @@ export const ComputeProfile: coreClient.CompositeMapper = {
           },
         },
       },
+      availabilityZones: {
+        serializedName: "availabilityZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -706,7 +822,7 @@ export const NodeProfile: coreClient.CompositeMapper = {
       },
       count: {
         constraints: {
-          InclusiveMinimum: 1,
+          InclusiveMinimum: 0,
         },
         serializedName: "count",
         required: true,
@@ -765,6 +881,13 @@ export const ClusterProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IdentityProfile",
+        },
+      },
+      managedIdentityProfile: {
+        serializedName: "managedIdentityProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityProfile",
         },
       },
       authorizationProfile: {
@@ -920,6 +1043,75 @@ export const ClusterComponentsItem: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "version",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedIdentityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityProfile",
+    modelProperties: {
+      identityList: {
+        serializedName: "identityList",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedIdentitySpec",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ManagedIdentitySpec: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentitySpec",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      clientId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[{(]?[0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}[)}]?$",
+          ),
+        },
+        serializedName: "clientId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      objectId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[{(]?[0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}[)}]?$",
+          ),
+        },
+        serializedName: "objectId",
+        required: true,
         type: {
           name: "String",
         },
@@ -1310,6 +1502,15 @@ export const SshProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      vmSize: {
+        constraints: {
+          Pattern: new RegExp("^[a-zA-Z0-9_\\-]{0,256}$"),
+        },
+        serializedName: "vmSize",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -1598,13 +1799,6 @@ export const KafkaProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DiskStorageProfile",
-        },
-      },
-      clusterIdentity: {
-        serializedName: "clusterIdentity",
-        type: {
-          name: "Composite",
-          className: "IdentityProfile",
         },
       },
       connectivityEndpoints: {
@@ -2616,6 +2810,102 @@ export const ClusterAvailableUpgradeProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const ClusterUpgradeHistoryListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeHistoryListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClusterUpgradeHistory",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterUpgradeHistoryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeHistoryProperties",
+    uberParent: "ClusterUpgradeHistoryProperties",
+    polymorphicDiscriminator: {
+      serializedName: "upgradeType",
+      clientName: "upgradeType",
+    },
+    modelProperties: {
+      upgradeType: {
+        serializedName: "upgradeType",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      utcTime: {
+        serializedName: "utcTime",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      upgradeResult: {
+        serializedName: "upgradeResult",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterUpgradeRollback: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeRollback",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClusterUpgradeRollbackProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterUpgradeRollbackProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeRollbackProperties",
+    modelProperties: {
+      upgradeHistory: {
+        serializedName: "upgradeHistory",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ClusterResizeProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2747,6 +3037,20 @@ export const UpdatableClusterProfile: coreClient.CompositeMapper = {
               className: "ScriptActionProfile",
             },
           },
+        },
+      },
+      secretsProfile: {
+        serializedName: "secretsProfile",
+        type: {
+          name: "Composite",
+          className: "SecretsProfile",
+        },
+      },
+      trinoProfile: {
+        serializedName: "trinoProfile",
+        type: {
+          name: "Composite",
+          className: "TrinoProfile",
         },
       },
     },
@@ -3383,6 +3687,113 @@ export const ClusterVersionProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const ClusterLibraryList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterLibraryList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClusterLibrary",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterLibraryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterLibraryProperties",
+    uberParent: "ClusterLibraryProperties",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type",
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      remarks: {
+        serializedName: "remarks",
+        type: {
+          name: "String",
+        },
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterLibraryManagementOperationProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ClusterLibraryManagementOperationProperties",
+      modelProperties: {
+        action: {
+          serializedName: "action",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        libraries: {
+          serializedName: "libraries",
+          required: true,
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "ClusterLibrary",
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
 export const ClusterPoolResourcePropertiesClusterPoolProfile: coreClient.CompositeMapper =
   {
     type: {
@@ -3587,6 +3998,66 @@ export const ClusterPoolAvailableUpgradeNodeOsUpgradeProperties: coreClient.Comp
     },
   };
 
+export const ClusterPoolNodeOsUpgradeHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "NodeOsUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterPoolNodeOsUpgradeHistoryProperties",
+      uberParent: "ClusterPoolUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterPoolUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterPoolUpgradeHistoryProperties.type.modelProperties,
+        newNodeOs: {
+          serializedName: "newNodeOs",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ClusterPoolAksPatchUpgradeHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "AKSPatchUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterPoolAksPatchUpgradeHistoryProperties",
+      uberParent: "ClusterPoolUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterPoolUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterPoolUpgradeHistoryProperties.type.modelProperties,
+        upgradeClusterPool: {
+          serializedName: "upgradeClusterPool",
+          type: {
+            name: "Boolean",
+          },
+        },
+        upgradeAllClusterNodes: {
+          serializedName: "upgradeAllClusterNodes",
+          type: {
+            name: "Boolean",
+          },
+        },
+        originalVersion: {
+          serializedName: "originalVersion",
+          type: {
+            name: "String",
+          },
+        },
+        newVersion: {
+          serializedName: "newVersion",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ConnectivityProfileWeb: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3612,14 +4083,16 @@ export const ClusterAKSPatchVersionUpgradeProperties: coreClient.CompositeMapper
     },
   };
 
-export const ClusterHotfixUpgradeProperties: coreClient.CompositeMapper = {
-  serializedName: "HotfixUpgrade",
+export const ClusterInPlaceUpgradeProperties: coreClient.CompositeMapper = {
+  serializedName: "ClusterInPlaceUpgradeProperties",
   type: {
     name: "Composite",
-    className: "ClusterHotfixUpgradeProperties",
+    className: "ClusterInPlaceUpgradeProperties",
     uberParent: "ClusterUpgradeProperties",
-    polymorphicDiscriminator:
-      ClusterUpgradeProperties.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: {
+      serializedName: "upgradeType",
+      clientName: "upgradeType",
+    },
     modelProperties: {
       ...ClusterUpgradeProperties.type.modelProperties,
       targetOssVersion: {
@@ -3683,15 +4156,17 @@ export const ClusterAvailableUpgradeAksPatchUpgradeProperties: coreClient.Compos
     },
   };
 
-export const ClusterAvailableUpgradeHotfixUpgradeProperties: coreClient.CompositeMapper =
+export const ClusterAvailableInPlaceUpgradeProperties: coreClient.CompositeMapper =
   {
-    serializedName: "HotfixUpgrade",
+    serializedName: "ClusterAvailableInPlaceUpgradeProperties",
     type: {
       name: "Composite",
-      className: "ClusterAvailableUpgradeHotfixUpgradeProperties",
+      className: "ClusterAvailableInPlaceUpgradeProperties",
       uberParent: "ClusterAvailableUpgradeProperties",
-      polymorphicDiscriminator:
-        ClusterAvailableUpgradeProperties.type.polymorphicDiscriminator,
+      polymorphicDiscriminator: {
+        serializedName: "upgradeType",
+        clientName: "upgradeType",
+      },
       modelProperties: {
         ...ClusterAvailableUpgradeProperties.type.modelProperties,
         description: {
@@ -3758,6 +4233,118 @@ export const ClusterAvailableUpgradeHotfixUpgradeProperties: coreClient.Composit
           serializedName: "createdTime",
           type: {
             name: "DateTime",
+          },
+        },
+      },
+    },
+  };
+
+export const ClusterInPlaceUpgradeHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "ClusterInPlaceUpgradeHistoryProperties",
+    type: {
+      name: "Composite",
+      className: "ClusterInPlaceUpgradeHistoryProperties",
+      uberParent: "ClusterUpgradeHistoryProperties",
+      polymorphicDiscriminator: {
+        serializedName: "upgradeType",
+        clientName: "upgradeType",
+      },
+      modelProperties: {
+        ...ClusterUpgradeHistoryProperties.type.modelProperties,
+        sourceClusterVersion: {
+          constraints: {
+            Pattern: new RegExp(
+              "^(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})$",
+            ),
+          },
+          serializedName: "sourceClusterVersion",
+          type: {
+            name: "String",
+          },
+        },
+        sourceOssVersion: {
+          constraints: {
+            Pattern: new RegExp(
+              "^(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})$",
+            ),
+          },
+          serializedName: "sourceOssVersion",
+          type: {
+            name: "String",
+          },
+        },
+        sourceBuildNumber: {
+          serializedName: "sourceBuildNumber",
+          type: {
+            name: "String",
+          },
+        },
+        targetClusterVersion: {
+          constraints: {
+            Pattern: new RegExp(
+              "^(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})$",
+            ),
+          },
+          serializedName: "targetClusterVersion",
+          type: {
+            name: "String",
+          },
+        },
+        targetOssVersion: {
+          constraints: {
+            Pattern: new RegExp(
+              "^(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})\\.(0|[1-9][0-9]{0,18})$",
+            ),
+          },
+          serializedName: "targetOssVersion",
+          type: {
+            name: "String",
+          },
+        },
+        targetBuildNumber: {
+          serializedName: "targetBuildNumber",
+          type: {
+            name: "String",
+          },
+        },
+        componentName: {
+          serializedName: "componentName",
+          type: {
+            name: "String",
+          },
+        },
+        severity: {
+          serializedName: "severity",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ClusterAksPatchUpgradeHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "AKSPatchUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterAksPatchUpgradeHistoryProperties",
+      uberParent: "ClusterUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterUpgradeHistoryProperties.type.modelProperties,
+        originalVersion: {
+          serializedName: "originalVersion",
+          type: {
+            name: "String",
+          },
+        },
+        newVersion: {
+          serializedName: "newVersion",
+          type: {
+            name: "String",
           },
         },
       },
@@ -3898,6 +4485,67 @@ export const ClusterInstanceViewPropertiesStatus: coreClient.CompositeMapper = {
   },
 };
 
+export const PyPiLibraryProperties: coreClient.CompositeMapper = {
+  serializedName: "pypi",
+  type: {
+    name: "Composite",
+    className: "PyPiLibraryProperties",
+    uberParent: "ClusterLibraryProperties",
+    polymorphicDiscriminator:
+      ClusterLibraryProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClusterLibraryProperties.type.modelProperties,
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MavenLibraryProperties: coreClient.CompositeMapper = {
+  serializedName: "maven",
+  type: {
+    name: "Composite",
+    className: "MavenLibraryProperties",
+    uberParent: "ClusterLibraryProperties",
+    polymorphicDiscriminator:
+      ClusterLibraryProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClusterLibraryProperties.type.modelProperties,
+      groupId: {
+        serializedName: "groupId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const ClusterPool: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3966,6 +4614,23 @@ export const ClusterPoolAvailableUpgrade: coreClient.CompositeMapper = {
   },
 };
 
+export const ClusterPoolUpgradeHistory: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterPoolUpgradeHistory",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClusterPoolUpgradeHistoryProperties",
+        },
+      },
+    },
+  },
+};
+
 export const ClusterAvailableUpgrade: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3977,6 +4642,23 @@ export const ClusterAvailableUpgrade: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ClusterAvailableUpgradeProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterUpgradeHistory: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterUpgradeHistory",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClusterUpgradeHistoryProperties",
         },
       },
     },
@@ -4033,6 +4715,159 @@ export const ClusterVersion: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const ClusterLibrary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterLibrary",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClusterLibraryProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterLibraryManagementOperation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterLibraryManagementOperation",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClusterLibraryManagementOperationProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ClusterHotfixUpgradeProperties: coreClient.CompositeMapper = {
+  serializedName: "HotfixUpgrade",
+  type: {
+    name: "Composite",
+    className: "ClusterHotfixUpgradeProperties",
+    uberParent: "ClusterInPlaceUpgradeProperties",
+    polymorphicDiscriminator:
+      ClusterInPlaceUpgradeProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ClusterInPlaceUpgradeProperties.type.modelProperties,
+    },
+  },
+};
+
+export const ClusterPatchVersionUpgradeProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "PatchVersionUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterPatchVersionUpgradeProperties",
+      uberParent: "ClusterInPlaceUpgradeProperties",
+      polymorphicDiscriminator:
+        ClusterInPlaceUpgradeProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterInPlaceUpgradeProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const ClusterAvailableUpgradeHotfixUpgradeProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "HotfixUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterAvailableUpgradeHotfixUpgradeProperties",
+      uberParent: "ClusterAvailableInPlaceUpgradeProperties",
+      polymorphicDiscriminator:
+        ClusterAvailableInPlaceUpgradeProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterAvailableInPlaceUpgradeProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const ClusterAvailableUpgradePatchVersionUpgradeProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "PatchVersionUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterAvailableUpgradePatchVersionUpgradeProperties",
+      uberParent: "ClusterAvailableInPlaceUpgradeProperties",
+      polymorphicDiscriminator:
+        ClusterAvailableInPlaceUpgradeProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterAvailableInPlaceUpgradeProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const ClusterHotfixUpgradeHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "HotfixUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterHotfixUpgradeHistoryProperties",
+      uberParent: "ClusterInPlaceUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterInPlaceUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterInPlaceUpgradeHistoryProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const ClusterHotfixUpgradeRollbackHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "HotfixUpgradeRollback",
+    type: {
+      name: "Composite",
+      className: "ClusterHotfixUpgradeRollbackHistoryProperties",
+      uberParent: "ClusterInPlaceUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterInPlaceUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterInPlaceUpgradeHistoryProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const ClusterPatchVersionUpgradeHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "PatchVersionUpgrade",
+    type: {
+      name: "Composite",
+      className: "ClusterPatchVersionUpgradeHistoryProperties",
+      uberParent: "ClusterInPlaceUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterInPlaceUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterInPlaceUpgradeHistoryProperties.type.modelProperties,
+      },
+    },
+  };
+
+export const ClusterPatchVersionUpgradeRollbackHistoryProperties: coreClient.CompositeMapper =
+  {
+    serializedName: "PatchVersionUpgradeRollback",
+    type: {
+      name: "Composite",
+      className: "ClusterPatchVersionUpgradeRollbackHistoryProperties",
+      uberParent: "ClusterInPlaceUpgradeHistoryProperties",
+      polymorphicDiscriminator:
+        ClusterInPlaceUpgradeHistoryProperties.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...ClusterInPlaceUpgradeHistoryProperties.type.modelProperties,
+      },
+    },
+  };
 
 export const ClusterPoolsUpdateTagsHeaders: coreClient.CompositeMapper = {
   type: {
@@ -4094,6 +4929,22 @@ export const ClustersUpgradeHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const ClustersUpgradeManualRollbackHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ClustersUpgradeManualRollbackHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ClustersResizeHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4154,12 +5005,31 @@ export const ClusterJobsRunJobHeaders: coreClient.CompositeMapper = {
   },
 };
 
+export const ClusterLibrariesManageLibrariesHeaders: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ClusterLibrariesManageLibrariesHeaders",
+      modelProperties: {
+        location: {
+          serializedName: "location",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export let discriminators = {
   ClusterPoolUpgradeProperties: ClusterPoolUpgradeProperties,
   ClusterPoolAvailableUpgradeProperties: ClusterPoolAvailableUpgradeProperties,
+  ClusterPoolUpgradeHistoryProperties: ClusterPoolUpgradeHistoryProperties,
   ClusterUpgradeProperties: ClusterUpgradeProperties,
   ClusterAvailableUpgradeProperties: ClusterAvailableUpgradeProperties,
+  ClusterUpgradeHistoryProperties: ClusterUpgradeHistoryProperties,
   ClusterJobProperties: ClusterJobProperties,
+  ClusterLibraryProperties: ClusterLibraryProperties,
   "ClusterPoolUpgradeProperties.AKSPatchUpgrade":
     ClusterPoolAKSPatchVersionUpgradeProperties,
   "ClusterPoolUpgradeProperties.NodeOsUpgrade":
@@ -4168,12 +5038,39 @@ export let discriminators = {
     ClusterPoolAvailableUpgradeAksPatchUpgradeProperties,
   "ClusterPoolAvailableUpgradeProperties.NodeOsUpgrade":
     ClusterPoolAvailableUpgradeNodeOsUpgradeProperties,
+  "ClusterPoolUpgradeHistoryProperties.NodeOsUpgrade":
+    ClusterPoolNodeOsUpgradeHistoryProperties,
+  "ClusterPoolUpgradeHistoryProperties.AKSPatchUpgrade":
+    ClusterPoolAksPatchUpgradeHistoryProperties,
   "ClusterUpgradeProperties.AKSPatchUpgrade":
     ClusterAKSPatchVersionUpgradeProperties,
-  "ClusterUpgradeProperties.HotfixUpgrade": ClusterHotfixUpgradeProperties,
+  "ClusterUpgradeProperties.ClusterInPlaceUpgradeProperties":
+    ClusterInPlaceUpgradeProperties,
   "ClusterAvailableUpgradeProperties.AKSPatchUpgrade":
     ClusterAvailableUpgradeAksPatchUpgradeProperties,
-  "ClusterAvailableUpgradeProperties.HotfixUpgrade":
-    ClusterAvailableUpgradeHotfixUpgradeProperties,
+  "ClusterAvailableUpgradeProperties.ClusterAvailableInPlaceUpgradeProperties":
+    ClusterAvailableInPlaceUpgradeProperties,
+  "ClusterUpgradeHistoryProperties.ClusterInPlaceUpgradeHistoryProperties":
+    ClusterInPlaceUpgradeHistoryProperties,
+  "ClusterUpgradeHistoryProperties.AKSPatchUpgrade":
+    ClusterAksPatchUpgradeHistoryProperties,
   "ClusterJobProperties.FlinkJob": FlinkJobProperties,
+  "ClusterLibraryProperties.pypi": PyPiLibraryProperties,
+  "ClusterLibraryProperties.maven": MavenLibraryProperties,
+  "ClusterInPlaceUpgradeProperties.HotfixUpgrade":
+    ClusterHotfixUpgradeProperties,
+  "ClusterInPlaceUpgradeProperties.PatchVersionUpgrade":
+    ClusterPatchVersionUpgradeProperties,
+  "ClusterAvailableInPlaceUpgradeProperties.HotfixUpgrade":
+    ClusterAvailableUpgradeHotfixUpgradeProperties,
+  "ClusterAvailableInPlaceUpgradeProperties.PatchVersionUpgrade":
+    ClusterAvailableUpgradePatchVersionUpgradeProperties,
+  "ClusterInPlaceUpgradeHistoryProperties.HotfixUpgrade":
+    ClusterHotfixUpgradeHistoryProperties,
+  "ClusterInPlaceUpgradeHistoryProperties.HotfixUpgradeRollback":
+    ClusterHotfixUpgradeRollbackHistoryProperties,
+  "ClusterInPlaceUpgradeHistoryProperties.PatchVersionUpgrade":
+    ClusterPatchVersionUpgradeHistoryProperties,
+  "ClusterInPlaceUpgradeHistoryProperties.PatchVersionUpgradeRollback":
+    ClusterPatchVersionUpgradeRollbackHistoryProperties,
 };

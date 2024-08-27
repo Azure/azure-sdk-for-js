@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
@@ -51,6 +51,7 @@ export class TraceBasicScenario implements Scenario {
     ).getDelegate() as NodeTracerProvider;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const tracer = opentelemetry.trace.getTracer("basic");
     const root = tracer.startSpan(`${this.constructor.name}.Root`, {
@@ -207,6 +208,7 @@ export class MetricBasicScenario implements Scenario {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const meter = opentelemetry.metrics.getMeter("basic");
     const counter = meter.createCounter("testCounter");
@@ -391,7 +393,7 @@ export class LogBasicScenario implements Scenario {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const logger = logs.getLogger("basic");
 

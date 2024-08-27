@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { ChunkFactory } from "./ChunkFactory";
