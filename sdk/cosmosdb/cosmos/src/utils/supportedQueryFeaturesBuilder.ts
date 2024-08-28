@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { QueryFeature } from "../common";
-import { disableListAndSetAggregate } from "./aggregateUtils";
+import { disableListAndSetAggregate } from "./envUtils";
 
 export function supportedQueryFeaturesBuilder(disableNonStreamingOrderByQuery?: boolean): string {
-  if (disableNonStreamingOrderByQuery && disableListAndSetAggregate()) {
+  if (disableNonStreamingOrderByQuery && disableListAndSetAggregate) {
     return Object.keys(QueryFeature)
       .filter(
         (k) => k !== QueryFeature.NonStreamingOrderBy && k !== QueryFeature.ListAndSetAggregate,
@@ -15,7 +15,7 @@ export function supportedQueryFeaturesBuilder(disableNonStreamingOrderByQuery?: 
     return Object.keys(QueryFeature)
       .filter((k) => k !== QueryFeature.NonStreamingOrderBy)
       .join(", ");
-  } else if (disableListAndSetAggregate()) {
+  } else if (disableListAndSetAggregate) {
     return Object.keys(QueryFeature)
       .filter((k) => k !== QueryFeature.ListAndSetAggregate)
       .join(", ");

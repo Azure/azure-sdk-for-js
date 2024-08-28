@@ -4,17 +4,12 @@
 import { Constants } from "../common";
 import { isNonEmptyString } from "../utils/strings";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
+import { diagnosticLevelFromEnv } from "../utils/envUtils";
 
 export * from "./DiagnosticWriter";
 export * from "./DiagnosticFormatter";
 
 export const DefaultDiagnosticLevelValue = CosmosDbDiagnosticLevel.info;
-
-const diagnosticLevelFromEnv =
-  (typeof globalThis.process !== "undefined" &&
-    globalThis.process.env &&
-    globalThis.process.env[Constants.CosmosDbDiagnosticLevelEnvVarName]) ||
-  undefined;
 
 const acceptableDiagnosticLevelValues = Object.values(CosmosDbDiagnosticLevel).map((x) =>
   x.toString(),
