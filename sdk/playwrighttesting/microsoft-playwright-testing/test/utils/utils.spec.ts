@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { API_VERSION, ServiceEnvironmentVariable } from "../../src/common/constants";
+import {
+  API_VERSION,
+  InternalEnvironmentVariables,
+  MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
+  ServiceEnvironmentVariable,
+} from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";
 import {
   getAccessToken,
@@ -17,11 +22,14 @@ import {
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";
 import { expect } from "@azure-tools/test-utils";
+import * as packageManager from "../../src/utils/packageManager";
 
 describe("Service Utils", () => {
   let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] =
+      MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION;
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error");
     sandbox.stub(console, "log");
@@ -297,5 +305,113 @@ describe("Service Utils", () => {
       );
       delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     });
+  });
+
+  it("should return version info with major only", () => {
+    const version = "1";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(0);
+    expect(versionInfo.patch).to.equal(0);
+  });
+
+  it("should return version info with major, minor only", () => {
+    const version = "1.47";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(47);
+    expect(versionInfo.patch).to.equal(0);
+  });
+
+  it("should return version info with major, minor and patch", () => {
+    const version = "1.47.1";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(47);
+    expect(versionInfo.patch).to.equal(1);
+  });
+
+  it("should remove extra characters from version", () => {
+    const version = "1.47.1-beta";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(47);
+    expect(versionInfo.patch).to.equal(1);
+  });
+
+  it("should return version info with empty version", () => {
+    const version = "";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(0);
+    expect(versionInfo.minor).to.equal(0);
+    expect(versionInfo.patch).to.equal(0);
+  });
+
+  it("should exit with error message if installed version is less than minimum supported version", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("1.46.0");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).to.throw();
+    expect(exitStub.calledWith(1)).to.be.true;
+  });
+
+  it("should be no-op if installed version is greater than minimum supported version (patch change)", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("1.47.1");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should be no-op if installed version is greater than minimum supported version (minor change)", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("1.48.0");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should be no-op if installed version is greater than minimum supported version (major change)", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("2.0.0");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should be no-op if installed version is equal to minimum supported version", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns(MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION);
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should return playwright version from env variable", () => {
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.2.0";
+    expect(utils.getPlaywrightVersion()).to.equal("1.2.0");
+  });
+
+  it("should fetch playwright version and set it in env variable", () => {
+    const mockVersion = "1.2.3";
+    delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
+    sandbox.stub(packageManager, "getPackageManager").returns({
+      runCommand: sinon.stub().returns("echo"),
+      getVersionFromStdout: sinon.stub().returns(mockVersion),
+    });
+
+    const version = utils.getPlaywrightVersion();
+    expect(version).to.equal(mockVersion);
+    expect(process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]).to.equal(mockVersion);
   });
 });
