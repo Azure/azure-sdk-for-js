@@ -132,9 +132,6 @@ function SetSubscriptionConfiguration([object]$subscriptionConfiguration)
 
 function UpdateSubscriptionConfiguration([object]$subscriptionConfigurationBase, [object]$subscriptionConfiguration, [array]$allowedValues)
 {
-    Write-Host "BEBRODER 1 ==================================="
-    Write-Host "sub config type: $($subscriptionConfiguration.GetType())"
-    Write-Host "sub config: $subscriptionConfiguration"
     foreach ($pair in $subscriptionConfiguration.GetEnumerator()) {
         if ($pair.Value -is [Hashtable]) {
             if (!$subscriptionConfigurationBase.ContainsKey($pair.Name)) {
@@ -153,16 +150,7 @@ function UpdateSubscriptionConfiguration([object]$subscriptionConfigurationBase,
             if (ShouldMarkValueAsSecret "AZURE_" $pair.Name $pair.Value $allowedValues) {
                 Write-Host "##vso[task.setvariable variable=_$($pair.Name);issecret=true;]$($pair.Value)"
             }
-            Write-Host "BEBRODER 2 ==================================="
-            Write-Host "pair type: $($pair.GetType())"
-            Write-Host "pair json: $($pair | ConvertTo-Json)"
-            Write-Host "pair value type: $($pair.Value.GetType())"
-            Write-Host "pair name type: $($pair.Name.GetType())"
-            Write-Host "pair: $($pair.Name)"
-            Write-Host "base type: $($subscriptionConfigurationBase.GetType())"
-            Write-Host "base keys: $($subscriptionConfigurationBase.Keys)"
             $subscriptionConfigurationBase[$pair.Name] = $pair.Value
-            Write-Host "BEBRODER ==================================="
         }
     }
 
