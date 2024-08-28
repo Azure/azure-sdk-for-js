@@ -1591,5 +1591,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /eng/emitter-package-lock.json @qiaozha @MaryGao
 /eng/emitter-package.json @qiaozha @MaryGao
 
-/sdk/**/*.bicep @deyaaeldeen
-/sdk/**/test-resources.json @deyaaeldeen
+# Make sure to not check in anymore test-resources.json files
+# and review bicep scripts for any exposed secrets
+/sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
