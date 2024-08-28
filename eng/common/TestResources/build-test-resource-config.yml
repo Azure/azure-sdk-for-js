@@ -49,5 +49,12 @@ steps:
         ${{ convertToJson(parameters.SubscriptionConfigurationFilePaths) }}
       '@.Trim()
 
+      Write-Host "BEBRODER"
+      Write-Host $additionalSubConfigsJson.Substring(0,10)
+
+      if ($baseSubConfigJson -like '$(*' -or $additionalSubConfigsJson -like '$(*') {
+        throw 'A subscription config secret was not downloaded. The pipeline may be missing a variable group.'
+      }
+
       BuildAndSetSubscriptionConfig $baseSubConfigJson $additionalSubConfigsJson $subConfigFilesJson
     displayName: Merge subscription configurations

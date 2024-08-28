@@ -216,7 +216,7 @@ function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$addi
   }
 
   if ($additionalSubConfigsJson) {
-    [array]$subConfigs = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
+    $subConfigs = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
 
     foreach ($subConfig in $subConfigs) {
       Write-Host "Merging sub config from list"
