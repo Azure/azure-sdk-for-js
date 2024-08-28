@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list existing private connections
  * x-ms-original-file: 2024-07-01/MongoClusters_PrivateEndpointConnectionList.json
  */
-async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource(): void {
+async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);

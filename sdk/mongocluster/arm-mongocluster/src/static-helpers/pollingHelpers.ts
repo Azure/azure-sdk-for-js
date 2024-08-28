@@ -1,5 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   PollerLike,
@@ -10,9 +13,12 @@ import {
   OperationResponse,
 } from "@azure/core-lro";
 
-import { Client, PathUncheckedResponse, createRestError } from "@azure-rest/core-client";
+import {
+  Client,
+  PathUncheckedResponse,
+  createRestError,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { isUnexpected } from "../rest/index.js";
 
 export interface GetLongRunningPollerOptions<TResponse> {
   /** Delay to wait until next poll, in milliseconds. */
@@ -39,24 +45,32 @@ export interface GetLongRunningPollerOptions<TResponse> {
    */
   getInitialResponse?: () => PromiseLike<TResponse>;
 }
-export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TResult = void>(
+export function getLongRunningPoller<
+  TResponse extends PathUncheckedResponse,
+  TResult = void,
+>(
   client: Client,
   processResponseBody: (result: TResponse) => Promise<TResult>,
+  expectedStatuses: string[],
   options: GetLongRunningPollerOptions<TResponse>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const { restoreFrom, getInitialResponse } = options;
   if (!restoreFrom && !getInitialResponse) {
-    throw new Error("Either restoreFrom or getInitialResponse must be specified");
+    throw new Error(
+      "Either restoreFrom or getInitialResponse must be specified",
+    );
   }
   let initialResponse: TResponse | undefined = undefined;
   const pollAbortController = new AbortController();
   const poller: RunningOperation<TResponse> = {
     sendInitialRequest: async () => {
       if (!getInitialResponse) {
-        throw new Error("getInitialResponse is required when initializing a new poller");
+        throw new Error(
+          "getInitialResponse is required when initializing a new poller",
+        );
       }
       initialResponse = await getInitialResponse();
-      return getLroResponse(initialResponse);
+      return getLroResponse(initialResponse, expectedStatuses);
     },
     sendPollRequest: async (
       path: string,
@@ -88,12 +102,8 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
         options.abortSignal?.removeEventListener("abort", abortListener);
         pollOptions?.abortSignal?.removeEventListener("abort", abortListener);
       }
-      if (options.initialRequestUrl || initialResponse) {
-        response.headers["x-ms-original-url"] =
-          options.initialRequestUrl ?? initialResponse!.request.url;
-      }
 
-      return getLroResponse(response as TResponse);
+      return getLroResponse(response as TResponse, expectedStatuses);
     },
   };
   return createHttpPoller(poller, {
@@ -113,10 +123,12 @@ export function getLongRunningPoller<TResponse extends PathUncheckedResponse, TR
  */
 function getLroResponse<TResponse extends PathUncheckedResponse>(
   response: TResponse,
+  expectedStatuses: string[],
 ): OperationResponse<TResponse> {
-  if (isUnexpected(response as PathUncheckedResponse)) {
+  if (!expectedStatuses.includes(response.status)) {
     throw createRestError(response);
   }
+
   return {
     flatResponse: response,
     rawResponse: {

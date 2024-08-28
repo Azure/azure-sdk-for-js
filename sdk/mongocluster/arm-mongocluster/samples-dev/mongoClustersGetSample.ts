@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets information about a mongo cluster.
  * x-ms-original-file: 2024-07-01/MongoClusters_Get.json
  */
-async function getsAMongoClusterResource(): void {
+async function getsAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);

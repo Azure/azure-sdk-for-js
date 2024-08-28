@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary deletes a mongo cluster firewall rule.
  * x-ms-original-file: 2024-07-01/MongoClusters_FirewallRuleDelete.json
  */
-async function deletesAFirewallRuleOnAMongoClusterResource(): void {
+async function deletesAFirewallRuleOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);

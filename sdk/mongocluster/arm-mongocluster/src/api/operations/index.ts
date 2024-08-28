@@ -1,40 +1,39 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { Operation, _OperationListResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
-import {
-  isUnexpected,
-  DocumentDBContext as Client,
-  OperationsList200Response,
-  OperationsListDefaultResponse,
-} from "../../rest/index.js";
+import { DocumentDBContext as Client } from "../index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
 export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
-): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse> {
+): StreamableMethod {
   return context
     .path("/providers/Microsoft.DocumentDB/operations")
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _operationsListDeserialize(
-  result: OperationsList200Response | OperationsListDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         name: p["name"],
         isDataAction: p["isDataAction"],
@@ -63,6 +62,7 @@ export function operationsList(
     context,
     () => _operationsListSend(context, options),
     _operationsListDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

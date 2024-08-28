@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getMongoClustersOperations,
   MongoClustersOperations,
@@ -16,11 +19,18 @@ import {
   getPrivateEndpointConnectionsOperations,
   PrivateEndpointConnectionsOperations,
 } from "./classic/privateEndpointConnections/index.js";
-import { getPrivateLinksOperations, PrivateLinksOperations } from "./classic/privateLinks/index.js";
+import {
+  getPrivateLinksOperations,
+  PrivateLinksOperations,
+} from "./classic/privateLinks/index.js";
+import {
+  getReplicasOperations,
+  ReplicasOperations,
+} from "./classic/replicas/index.js";
 import {
   createMongoClusterManagement,
-  MongoClusterManagementClientOptionalParams,
   DocumentDBContext,
+  MongoClusterManagementClientOptionalParams,
 } from "./api/index.js";
 
 export { MongoClusterManagementClientOptionalParams } from "./api/mongoClusterManagementContext.js";
@@ -40,20 +50,26 @@ export class MongoClusterManagementClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : "azsdk-js-client";
-
     this._client = createMongoClusterManagement(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.mongoClusters = getMongoClustersOperations(this._client, subscriptionId);
-    this.firewallRules = getFirewallRulesOperations(this._client, subscriptionId);
+    this.mongoClusters = getMongoClustersOperations(
+      this._client,
+      subscriptionId,
+    );
+    this.firewallRules = getFirewallRulesOperations(
+      this._client,
+      subscriptionId,
+    );
     this.privateEndpointConnections = getPrivateEndpointConnectionsOperations(
       this._client,
       subscriptionId,
     );
     this.privateLinks = getPrivateLinksOperations(this._client, subscriptionId);
+    this.replicas = getReplicasOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */
@@ -66,4 +82,6 @@ export class MongoClusterManagementClient {
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for PrivateLinks */
   public readonly privateLinks: PrivateLinksOperations;
+  /** The operation groups for Replicas */
+  public readonly replicas: ReplicasOperations;
 }

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list private links on the given resource
  * x-ms-original-file: 2024-07-01/MongoClusters_PrivateLinkResourceList.json
  */
-async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource(): void {
+async function listsThePrivateLinkResourcesAvailableOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);

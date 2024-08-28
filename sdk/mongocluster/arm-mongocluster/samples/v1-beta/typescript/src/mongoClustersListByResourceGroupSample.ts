@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list all the mongo clusters in a given resource group.
  * x-ms-original-file: 2024-07-01/MongoClusters_ListByResourceGroup.json
  */
-async function listsTheMongoClusterResourcesInAResourceGroup(): void {
+async function listsTheMongoClusterResourcesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);

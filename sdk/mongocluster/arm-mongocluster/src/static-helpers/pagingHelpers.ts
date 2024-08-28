@@ -1,16 +1,102 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
-  BuildPagedAsyncIteratorOptions,
-  ContinuablePage,
-  PageSettings,
-  PagedAsyncIterableIterator,
-  PagedResult,
-} from "../models/pagingTypes.js";
-import { isUnexpected } from "../rest/index.js";
+  Client,
+  createRestError,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
+
+/**
+ * Options for the byPage method
+ */
+export interface PageSettings {
+  /**
+   * A reference to a specific page to start iterating from.
+   */
+  continuationToken?: string;
+}
+
+/**
+ * An interface that describes a page of results.
+ */
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+  /**
+   * The token that keeps track of where to continue the iterator
+   */
+  continuationToken?: string;
+};
+
+/**
+ * An interface that allows async iterable iteration both to completion and by page.
+ */
+export interface PagedAsyncIterableIterator<
+  TElement,
+  TPage = TElement[],
+  TPageSettings extends PageSettings = PageSettings,
+> {
+  /**
+   * The next method, part of the iteration protocol
+   */
+  next(): Promise<IteratorResult<TElement>>;
+  /**
+   * The connection to the async iterator, part of the iteration protocol
+   */
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<
+    TElement,
+    TPage,
+    TPageSettings
+  >;
+  /**
+   * Return an AsyncIterableIterator that works a page at a time
+   */
+  byPage: (
+    settings?: TPageSettings,
+  ) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+}
+
+/**
+ * An interface that describes how to communicate with the service.
+ */
+export interface PagedResult<
+  TElement,
+  TPage = TElement[],
+  TPageSettings extends PageSettings = PageSettings,
+> {
+  /**
+   * Link to the first page of results.
+   */
+  firstPageLink?: string;
+  /**
+   * A method that returns a page of results.
+   */
+  getPage: (
+    pageLink?: string,
+  ) => Promise<{ page: TPage; nextPageLink?: string } | undefined>;
+  /**
+   * a function to implement the `byPage` method on the paged async iterator.
+   */
+  byPage?: (
+    settings?: TPageSettings,
+  ) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+
+  /**
+   * A function to extract elements from a page.
+   */
+  toElements?: (page: TPage) => TElement[];
+}
+
+/**
+ * Options for the paging helper
+ */
+export interface BuildPagedAsyncIteratorOptions {
+  itemName?: string;
+  nextLinkName?: string;
+}
 
 /**
  * Helper to paginate results in a generic way and return a PagedAsyncIterableIterator
@@ -24,6 +110,7 @@ export function buildPagedAsyncIterator<
   client: Client,
   getInitialResponse: () => PromiseLike<TResponse>,
   processResponseBody: (result: TResponse) => PromiseLike<unknown>,
+  expectedStatuses: string[],
   options: BuildPagedAsyncIteratorOptions = {},
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
   const itemName = options.itemName ?? "value";
@@ -34,7 +121,7 @@ export function buildPagedAsyncIterator<
         pageLink === undefined
           ? await getInitialResponse()
           : await client.pathUnchecked(pageLink).get();
-      checkPagingRequest(result);
+      checkPagingRequest(result, expectedStatuses);
       const results = await processResponseBody(result as TResponse);
       const nextLink = getNextLink(results, nextLinkName);
       const values = getElements<TElement>(results, itemName) as TPage;
@@ -68,7 +155,9 @@ function getPagedAsyncIterator<
 >(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
 ): PagedAsyncIterableIterator<TElement, TPage, TPageSettings> {
-  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(pagedResult);
+  const iter = getItemAsyncIterator<TElement, TPage, TPageSettings>(
+    pagedResult,
+  );
   return {
     next() {
       return iter.next();
@@ -87,7 +176,11 @@ function getPagedAsyncIterator<
   };
 }
 
-async function* getItemAsyncIterator<TElement, TPage, TPageSettings extends PageSettings>(
+async function* getItemAsyncIterator<
+  TElement,
+  TPage,
+  TPageSettings extends PageSettings,
+>(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
@@ -96,14 +189,20 @@ async function* getItemAsyncIterator<TElement, TPage, TPageSettings extends Page
   }
 }
 
-async function* getPageAsyncIterator<TElement, TPage, TPageSettings extends PageSettings>(
+async function* getPageAsyncIterator<
+  TElement,
+  TPage,
+  TPageSettings extends PageSettings,
+>(
   pagedResult: PagedResult<TElement, TPage, TPageSettings>,
   options: {
     pageLink?: string;
   } = {},
 ): AsyncIterableIterator<ContinuablePage<TElement, TPage>> {
   const { pageLink } = options;
-  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink);
+  let response = await pagedResult.getPage(
+    pageLink ?? pagedResult.firstPageLink,
+  );
   if (!response) {
     return;
   }
@@ -131,7 +230,11 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
 
   const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
-  if (typeof nextLink !== "string" && typeof nextLink !== "undefined" && nextLink !== null) {
+  if (
+    typeof nextLink !== "string" &&
+    typeof nextLink !== "undefined" &&
+    nextLink !== null
+  ) {
     throw new RestError(
       `Body Property ${nextLinkName} should be a string or undefined or null but got ${typeof nextLink}`,
     );
@@ -161,8 +264,11 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
 /**
  * Checks if a request failed
  */
-function checkPagingRequest(response: PathUncheckedResponse): void {
-  if (isUnexpected(response)) {
+function checkPagingRequest(
+  response: PathUncheckedResponse,
+  expectedStatuses: string[],
+): void {
+  if (!expectedStatuses.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,
       response,
