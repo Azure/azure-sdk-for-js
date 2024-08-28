@@ -1,14 +1,10 @@
 # Release History
 
-## 1.16.4 (Unreleased)
+## 1.17.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- The token cycler of `BearerTokenCredentialPolicy` now checks the `refreshAfterTimestamp` attribute in the `AccessToken` when determining if a token request should be made in the `shouldRefresh` method. #30402
 
 ## 1.16.3 (2024-08-01)
 

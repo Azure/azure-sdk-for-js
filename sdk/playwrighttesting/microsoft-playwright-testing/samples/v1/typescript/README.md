@@ -4,7 +4,7 @@ languages:
 - typescript
 products:
 - azure
-- microsoft-playwright-testing
+- playwright-testing
 name: azure/microsoft-playwright-testing samples for typescript
 description: Samples for the @azure/microsoft-playwright-testing client library
 ---

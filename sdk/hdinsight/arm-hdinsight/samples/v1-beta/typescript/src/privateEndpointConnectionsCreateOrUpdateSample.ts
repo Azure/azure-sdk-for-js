@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  HDInsightManagementClient
+  HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Approve or reject a private endpoint connection manually.
  *
  * @summary Approve or reject a private endpoint connection manually.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/ApprovePrivateEndpointConnection.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/ApprovePrivateEndpointConnection.json
  */
 async function approveAPrivateEndpointConnectionManually() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -33,17 +33,18 @@ async function approveAPrivateEndpointConnectionManually() {
     privateLinkServiceConnectionState: {
       description: "update it from pending to approved.",
       actionsRequired: "None",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    privateEndpointConnectionName,
-    parameters
-  );
+  const result =
+    await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      clusterName,
+      privateEndpointConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 
