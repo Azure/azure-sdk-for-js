@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EventHubProducerClient, MessagingError } from "../../src/index.js";
 import { should } from "../utils/chai.js";

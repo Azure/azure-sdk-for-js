@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { DeidServicesOperations } from "./deidServices/index.js";
 export { OperationsOperations } from "./operations/index.js";

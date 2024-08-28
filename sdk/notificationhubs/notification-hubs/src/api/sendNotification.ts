@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";

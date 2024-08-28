@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MetricsQueryTest } from "./metricQuery.spec";
 import { LogQueryBatchTest } from "./logQueryBatch.spec";

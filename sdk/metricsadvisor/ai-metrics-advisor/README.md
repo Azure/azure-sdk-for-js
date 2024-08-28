@@ -325,7 +325,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description",
   };
-  return await adminClient.createDetectionConfig(anomalyConfig);
+  return adminClient.createDetectionConfig(anomalyConfig);
 }
 ```
 
@@ -366,7 +366,7 @@ async function createWebhookHook(adminClient) {
     },
   };
 
-  return await adminClient.createHook(hook);
+  return adminClient.createHook(hook);
 }
 ```
 
@@ -418,7 +418,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description",
   };
-  return await adminClient.createAlertConfig(anomalyAlertConfig);
+  return adminClient.createAlertConfig(anomalyAlertConfig);
 }
 ```
 
@@ -455,7 +455,7 @@ async function main() {
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
-  let alerts = [];
+  const alerts = [];
   const iterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
   for await (const alert of iterator) {
     alerts.push(alert);

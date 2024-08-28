@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List a cluster pool available upgrade.
  *
  * @summary List a cluster pool available upgrade.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/ListClusterPoolAvailableUpgrades.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterPoolAvailableUpgrades.json
  */
 async function getClusterPoolAvailableUpgrade() {
   const subscriptionId =

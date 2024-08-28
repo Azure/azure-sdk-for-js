@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a specified persisted script action of the cluster.
  *
  * @summary Deletes a specified persisted script action of the cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DeleteScriptAction.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DeleteScriptAction.json
  */
 async function deleteAScriptActionOnHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function deleteAScriptActionOnHdInsightCluster() {
   const result = await client.scriptActions.delete(
     resourceGroupName,
     clusterName,
-    scriptName
+    scriptName,
   );
   console.log(result);
 }

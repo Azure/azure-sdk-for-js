@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { EventData, EventHubProducerClient } from "../../src/index.js";
 import type { EventDataInternal } from "../../src/eventData.js";
 import type { EventDataBatchImpl } from "../../src/eventDataBatch.js";
 import { should, expect } from "../utils/chai.js";
 import { describe, it, afterEach, beforeEach } from "vitest";
-import { createProducer, isMock } from "../utils/clients.js";
+import { createProducer } from "../utils/clients.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
+import { isMock } from "../utils/vars.js";
 
 describe.skipIf(isMock())("EventHubProducerClient internal idempotent publishing", function () {
   let producerClient: EventHubProducerClient;

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type * as http from "http";
 import type * as https from "https";
@@ -145,7 +145,7 @@ function getUrlFromProxySettings(settings: ProxySettings): URL {
   let parsedProxyUrl: URL;
   try {
     parsedProxyUrl = new URL(settings.host);
-  } catch (_error) {
+  } catch {
     throw new Error(
       `Expecting a valid host string in proxy settings, but found "${settings.host}".`,
     );

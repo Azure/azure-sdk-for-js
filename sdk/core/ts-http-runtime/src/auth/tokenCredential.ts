@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 import { TracingContext } from "../tracing/interfaces.js";

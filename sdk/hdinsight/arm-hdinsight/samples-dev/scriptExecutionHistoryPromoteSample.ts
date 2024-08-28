@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Promotes the specified ad-hoc script execution to a persisted script.
  *
  * @summary Promotes the specified ad-hoc script execution to a persisted script.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/PromoteLinuxHadoopScriptAction.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/PromoteLinuxHadoopScriptAction.json
  */
 async function promoteAScriptActionOnHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function promoteAScriptActionOnHdInsightCluster() {
   const result = await client.scriptExecutionHistory.promote(
     resourceGroupName,
     clusterName,
-    scriptExecutionId
+    scriptExecutionId,
   );
   console.log(result);
 }

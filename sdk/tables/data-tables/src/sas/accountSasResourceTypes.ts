@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Creates an {@link accountSasResourceTypesFromString} from the specified resource types string. This method will throw an

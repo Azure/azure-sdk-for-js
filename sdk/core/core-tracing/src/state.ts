@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Instrumenter } from "./interfaces.js";
 // @ts-expect-error The recommended approach to sharing module state between ESM and CJS.

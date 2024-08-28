@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TraceFlags } from "@opentelemetry/api";
 import { LogRecord, BatchLogRecordProcessor, LogRecordExporter } from "@opentelemetry/sdk-logs";

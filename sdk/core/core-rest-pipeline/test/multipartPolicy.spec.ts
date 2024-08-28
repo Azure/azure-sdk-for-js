@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { BlobServiceClient, BlockBlobUploadResponse } from "@azure/storage-blob";
 import { buildBlobConfigPath, buildBlobDataPath } from "../paths.js";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTracingClient } from "@azure/core-tracing";
 
@@ -10,5 +10,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Messaging.EventGrid",
   packageName: "@azure/event-grid",
-  packageVersion: "5.5.2",
+  packageVersion: "5.6.0",
 });

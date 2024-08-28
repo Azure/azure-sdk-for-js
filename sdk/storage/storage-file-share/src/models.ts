@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";

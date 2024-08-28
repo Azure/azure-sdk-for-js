@@ -14,7 +14,7 @@ import { HDInsightManagementClient } from "../hDInsightManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -22,7 +22,7 @@ import {
   VirtualMachinesListHostsResponse,
   VirtualMachinesRestartHostsOptionalParams,
   VirtualMachinesGetAsyncOperationStatusOptionalParams,
-  VirtualMachinesGetAsyncOperationStatusResponse
+  VirtualMachinesGetAsyncOperationStatusResponse,
 } from "../models";
 
 /** Class containing VirtualMachines operations. */
@@ -46,11 +46,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
   listHosts(
     resourceGroupName: string,
     clusterName: string,
-    options?: VirtualMachinesListHostsOptionalParams
+    options?: VirtualMachinesListHostsOptionalParams,
   ): Promise<VirtualMachinesListHostsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listHostsOperationSpec
+      listHostsOperationSpec,
     );
   }
 
@@ -65,25 +65,24 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     hosts: string[],
-    options?: VirtualMachinesRestartHostsOptionalParams
+    options?: VirtualMachinesRestartHostsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -92,8 +91,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -101,20 +100,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, hosts, options },
-      spec: restartHostsOperationSpec
+      spec: restartHostsOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -131,13 +130,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     hosts: string[],
-    options?: VirtualMachinesRestartHostsOptionalParams
+    options?: VirtualMachinesRestartHostsOptionalParams,
   ): Promise<void> {
     const poller = await this.beginRestartHosts(
       resourceGroupName,
       clusterName,
       hosts,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -153,11 +152,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     operationId: string,
-    options?: VirtualMachinesGetAsyncOperationStatusOptionalParams
+    options?: VirtualMachinesGetAsyncOperationStatusOptionalParams,
   ): Promise<VirtualMachinesGetAsyncOperationStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, operationId, options },
-      getAsyncOperationStatusOperationSpec
+      getAsyncOperationStatusOperationSpec,
     );
   }
 }
@@ -165,68 +164,20 @@ export class VirtualMachinesImpl implements VirtualMachines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listHostsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/listHosts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/listHosts",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: {
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "HostInfo" } }
-        }
-      }
+          element: { type: { name: "Composite", className: "HostInfo" } },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const restartHostsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.hosts,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts/azureasyncoperations/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AsyncOperationResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -234,8 +185,53 @@ const getAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.operationId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const restartHostsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.hosts,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/restartHosts/azureasyncoperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.operationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

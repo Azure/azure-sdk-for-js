@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CertificateContentType } from "./certificatesModels";
+import { CertificateContentType } from "./certificatesModels.js";
 import { isNode } from "@azure/core-util";
 
 /**

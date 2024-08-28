@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RetryOptions, WebSocketOptions } from "@azure/core-amqp";
 import { OperationOptions } from "../util/operationOptions.js";

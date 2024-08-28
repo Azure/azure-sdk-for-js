@@ -89,6 +89,9 @@ export interface CatalogOptions {
 }
 
 // @public
+export type Category = string;
+
+// @public
 export interface Cluster extends TrackedResource {
     properties?: ClusterResourceProperties;
 }
@@ -100,9 +103,35 @@ export interface ClusterAccessProfile {
 }
 
 // @public
+export interface ClusterAksPatchUpgradeHistoryProperties extends ClusterUpgradeHistoryProperties {
+    newVersion?: string;
+    originalVersion?: string;
+    upgradeType: "AKSPatchUpgrade";
+}
+
+// @public
 export interface ClusterAKSPatchVersionUpgradeProperties extends ClusterUpgradeProperties {
     upgradeType: "AKSPatchUpgrade";
 }
+
+// @public
+export interface ClusterAvailableInPlaceUpgradeProperties extends ClusterAvailableUpgradeProperties {
+    componentName?: string;
+    createdTime?: Date;
+    description?: string;
+    extendedProperties?: string;
+    severity?: Severity;
+    sourceBuildNumber?: string;
+    sourceClusterVersion?: string;
+    sourceOssVersion?: string;
+    targetBuildNumber?: string;
+    targetClusterVersion?: string;
+    targetOssVersion?: string;
+    upgradeType: "ClusterAvailableInPlaceUpgradeProperties" | "HotfixUpgrade" | "PatchVersionUpgrade";
+}
+
+// @public (undocumented)
+export type ClusterAvailableInPlaceUpgradePropertiesUnion = ClusterAvailableInPlaceUpgradeProperties | ClusterAvailableUpgradeHotfixUpgradeProperties | ClusterAvailableUpgradePatchVersionUpgradeProperties;
 
 // @public
 export interface ClusterAvailableUpgrade extends ProxyResource {
@@ -118,18 +147,7 @@ export interface ClusterAvailableUpgradeAksPatchUpgradeProperties extends Cluste
 }
 
 // @public
-export interface ClusterAvailableUpgradeHotfixUpgradeProperties extends ClusterAvailableUpgradeProperties {
-    componentName?: string;
-    createdTime?: Date;
-    description?: string;
-    extendedProperties?: string;
-    severity?: Severity;
-    sourceBuildNumber?: string;
-    sourceClusterVersion?: string;
-    sourceOssVersion?: string;
-    targetBuildNumber?: string;
-    targetClusterVersion?: string;
-    targetOssVersion?: string;
+export interface ClusterAvailableUpgradeHotfixUpgradeProperties extends ClusterAvailableInPlaceUpgradeProperties {
     upgradeType: "HotfixUpgrade";
 }
 
@@ -140,12 +158,17 @@ export interface ClusterAvailableUpgradeList {
 }
 
 // @public
+export interface ClusterAvailableUpgradePatchVersionUpgradeProperties extends ClusterAvailableInPlaceUpgradeProperties {
+    upgradeType: "PatchVersionUpgrade";
+}
+
+// @public
 export interface ClusterAvailableUpgradeProperties {
-    upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+    upgradeType: "AKSPatchUpgrade" | "ClusterAvailableInPlaceUpgradeProperties" | "HotfixUpgrade" | "PatchVersionUpgrade";
 }
 
 // @public (undocumented)
-export type ClusterAvailableUpgradePropertiesUnion = ClusterAvailableUpgradeProperties | ClusterAvailableUpgradeAksPatchUpgradeProperties | ClusterAvailableUpgradeHotfixUpgradeProperties;
+export type ClusterAvailableUpgradePropertiesUnion = ClusterAvailableUpgradeProperties | ClusterAvailableUpgradeAksPatchUpgradeProperties | ClusterAvailableInPlaceUpgradePropertiesUnion;
 
 // @public
 export interface ClusterAvailableUpgrades {
@@ -189,13 +212,47 @@ export interface ClusterConfigFile {
 }
 
 // @public
-export interface ClusterHotfixUpgradeProperties extends ClusterUpgradeProperties {
+export interface ClusterHotfixUpgradeHistoryProperties extends ClusterInPlaceUpgradeHistoryProperties {
+    upgradeType: "HotfixUpgrade";
+}
+
+// @public
+export interface ClusterHotfixUpgradeProperties extends ClusterInPlaceUpgradeProperties {
+    upgradeType: "HotfixUpgrade";
+}
+
+// @public
+export interface ClusterHotfixUpgradeRollbackHistoryProperties extends ClusterInPlaceUpgradeHistoryProperties {
+    upgradeType: "HotfixUpgradeRollback";
+}
+
+// @public
+export interface ClusterInPlaceUpgradeHistoryProperties extends ClusterUpgradeHistoryProperties {
+    componentName?: string;
+    severity?: ClusterUpgradeHistorySeverityType;
+    sourceBuildNumber?: string;
+    sourceClusterVersion?: string;
+    sourceOssVersion?: string;
+    targetBuildNumber?: string;
+    targetClusterVersion?: string;
+    targetOssVersion?: string;
+    upgradeType: "ClusterInPlaceUpgradeHistoryProperties" | "HotfixUpgrade" | "HotfixUpgradeRollback" | "PatchVersionUpgrade" | "PatchVersionUpgradeRollback";
+}
+
+// @public (undocumented)
+export type ClusterInPlaceUpgradeHistoryPropertiesUnion = ClusterInPlaceUpgradeHistoryProperties | ClusterHotfixUpgradeHistoryProperties | ClusterHotfixUpgradeRollbackHistoryProperties | ClusterPatchVersionUpgradeHistoryProperties | ClusterPatchVersionUpgradeRollbackHistoryProperties;
+
+// @public
+export interface ClusterInPlaceUpgradeProperties extends ClusterUpgradeProperties {
     componentName?: string;
     targetBuildNumber?: string;
     targetClusterVersion?: string;
     targetOssVersion?: string;
-    upgradeType: "HotfixUpgrade";
+    upgradeType: "ClusterInPlaceUpgradeProperties" | "HotfixUpgrade" | "PatchVersionUpgrade";
 }
+
+// @public (undocumented)
+export type ClusterInPlaceUpgradePropertiesUnion = ClusterInPlaceUpgradeProperties | ClusterHotfixUpgradeProperties | ClusterPatchVersionUpgradeProperties;
 
 // @public
 export interface ClusterInstanceViewProperties {
@@ -286,6 +343,75 @@ export interface ClusterJobsRunJobOptionalParams extends coreClient.OperationOpt
 export type ClusterJobsRunJobResponse = ClusterJob;
 
 // @public
+export interface ClusterLibraries {
+    beginManageLibraries(resourceGroupName: string, clusterPoolName: string, clusterName: string, operation: ClusterLibraryManagementOperation, options?: ClusterLibrariesManageLibrariesOptionalParams): Promise<SimplePollerLike<OperationState<ClusterLibrariesManageLibrariesResponse>, ClusterLibrariesManageLibrariesResponse>>;
+    beginManageLibrariesAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, operation: ClusterLibraryManagementOperation, options?: ClusterLibrariesManageLibrariesOptionalParams): Promise<ClusterLibrariesManageLibrariesResponse>;
+    list(resourceGroupName: string, clusterPoolName: string, clusterName: string, category: Category, options?: ClusterLibrariesListOptionalParams): PagedAsyncIterableIterator<ClusterLibrary>;
+}
+
+// @public
+export interface ClusterLibrariesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterLibrariesListNextResponse = ClusterLibraryList;
+
+// @public
+export interface ClusterLibrariesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterLibrariesListResponse = ClusterLibraryList;
+
+// @public
+export interface ClusterLibrariesManageLibrariesHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClusterLibrariesManageLibrariesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClusterLibrariesManageLibrariesResponse = ClusterLibrariesManageLibrariesHeaders;
+
+// @public
+export interface ClusterLibrary extends ProxyResource {
+    properties: ClusterLibraryPropertiesUnion;
+}
+
+// @public
+export interface ClusterLibraryList {
+    readonly nextLink?: string;
+    value: ClusterLibrary[];
+}
+
+// @public
+export interface ClusterLibraryManagementOperation extends ProxyResource {
+    properties: ClusterLibraryManagementOperationProperties;
+}
+
+// @public
+export interface ClusterLibraryManagementOperationProperties {
+    action: LibraryManagementAction;
+    libraries: ClusterLibrary[];
+}
+
+// @public
+export interface ClusterLibraryProperties {
+    readonly message?: string;
+    remarks?: string;
+    readonly status?: Status;
+    readonly timestamp?: Date;
+    type: "pypi" | "maven";
+}
+
+// @public (undocumented)
+export type ClusterLibraryPropertiesUnion = ClusterLibraryProperties | PyPiLibraryProperties | MavenLibraryProperties;
+
+// @public
 export interface ClusterListResult {
     readonly nextLink?: string;
     value?: Cluster[];
@@ -318,8 +444,32 @@ export interface ClusterPatchProperties {
 }
 
 // @public
+export interface ClusterPatchVersionUpgradeHistoryProperties extends ClusterInPlaceUpgradeHistoryProperties {
+    upgradeType: "PatchVersionUpgrade";
+}
+
+// @public
+export interface ClusterPatchVersionUpgradeProperties extends ClusterInPlaceUpgradeProperties {
+    upgradeType: "PatchVersionUpgrade";
+}
+
+// @public
+export interface ClusterPatchVersionUpgradeRollbackHistoryProperties extends ClusterInPlaceUpgradeHistoryProperties {
+    upgradeType: "PatchVersionUpgradeRollback";
+}
+
+// @public
 export interface ClusterPool extends TrackedResource {
     properties?: ClusterPoolResourceProperties;
+}
+
+// @public
+export interface ClusterPoolAksPatchUpgradeHistoryProperties extends ClusterPoolUpgradeHistoryProperties {
+    newVersion?: string;
+    originalVersion?: string;
+    upgradeAllClusterNodes?: boolean;
+    upgradeClusterPool?: boolean;
+    upgradeType: "AKSPatchUpgrade";
 }
 
 // @public
@@ -387,6 +537,7 @@ export type ClusterPoolAvailableUpgradeType = string;
 
 // @public
 export interface ClusterPoolComputeProfile {
+    availabilityZones?: string[];
     readonly count?: number;
     vmSize: string;
 }
@@ -417,8 +568,15 @@ export interface ClusterPoolNodeOsImageUpdateProperties extends ClusterPoolUpgra
 }
 
 // @public
+export interface ClusterPoolNodeOsUpgradeHistoryProperties extends ClusterPoolUpgradeHistoryProperties {
+    newNodeOs?: string;
+    upgradeType: "NodeOsUpgrade";
+}
+
+// @public
 export interface ClusterPoolProfile {
     clusterPoolVersion: string;
+    publicIpTag?: IpTag;
 }
 
 // @public
@@ -561,6 +719,52 @@ export interface ClusterPoolUpgrade {
 }
 
 // @public
+export interface ClusterPoolUpgradeHistories {
+    list(resourceGroupName: string, clusterPoolName: string, options?: ClusterPoolUpgradeHistoriesListOptionalParams): PagedAsyncIterableIterator<ClusterPoolUpgradeHistory>;
+}
+
+// @public
+export interface ClusterPoolUpgradeHistoriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterPoolUpgradeHistoriesListNextResponse = ClusterPoolUpgradeHistoryListResult;
+
+// @public
+export interface ClusterPoolUpgradeHistoriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterPoolUpgradeHistoriesListResponse = ClusterPoolUpgradeHistoryListResult;
+
+// @public
+export interface ClusterPoolUpgradeHistory extends ProxyResource {
+    properties: ClusterPoolUpgradeHistoryPropertiesUnion;
+}
+
+// @public
+export interface ClusterPoolUpgradeHistoryListResult {
+    readonly nextLink?: string;
+    value: ClusterPoolUpgradeHistory[];
+}
+
+// @public
+export interface ClusterPoolUpgradeHistoryProperties {
+    upgradeResult: ClusterPoolUpgradeHistoryUpgradeResultType;
+    upgradeType: "NodeOsUpgrade" | "AKSPatchUpgrade";
+    utcTime: string;
+}
+
+// @public (undocumented)
+export type ClusterPoolUpgradeHistoryPropertiesUnion = ClusterPoolUpgradeHistoryProperties | ClusterPoolNodeOsUpgradeHistoryProperties | ClusterPoolAksPatchUpgradeHistoryProperties;
+
+// @public
+export type ClusterPoolUpgradeHistoryType = string;
+
+// @public
+export type ClusterPoolUpgradeHistoryUpgradeResultType = string;
+
+// @public
 export interface ClusterPoolUpgradeProperties {
     upgradeType: "AKSPatchUpgrade" | "NodeOsUpgrade";
 }
@@ -604,6 +808,7 @@ export interface ClusterProfile {
         [propertyName: string]: any;
     };
     logAnalyticsProfile?: ClusterLogAnalyticsProfile;
+    managedIdentityProfile?: ManagedIdentityProfile;
     ossVersion: string;
     prometheusProfile?: ClusterPrometheusProfile;
     rangerPluginProfile?: ClusterRangerPluginProfile;
@@ -661,6 +866,8 @@ export interface Clusters {
     beginUpdateAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterPatchRequest: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     beginUpgrade(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterUpgradeRequest: ClusterUpgrade, options?: ClustersUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpgradeResponse>, ClustersUpgradeResponse>>;
     beginUpgradeAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterUpgradeRequest: ClusterUpgrade, options?: ClustersUpgradeOptionalParams): Promise<ClustersUpgradeResponse>;
+    beginUpgradeManualRollback(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterRollbackUpgradeRequest: ClusterUpgradeRollback, options?: ClustersUpgradeManualRollbackOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpgradeManualRollbackResponse>, ClustersUpgradeManualRollbackResponse>>;
+    beginUpgradeManualRollbackAndWait(resourceGroupName: string, clusterPoolName: string, clusterName: string, clusterRollbackUpgradeRequest: ClusterUpgradeRollback, options?: ClustersUpgradeManualRollbackOptionalParams): Promise<ClustersUpgradeManualRollbackResponse>;
     get(resourceGroupName: string, clusterPoolName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     getInstanceView(resourceGroupName: string, clusterPoolName: string, clusterName: string, options?: ClustersGetInstanceViewOptionalParams): Promise<ClustersGetInstanceViewResponse>;
     listByClusterPoolName(resourceGroupName: string, clusterPoolName: string, options?: ClustersListByClusterPoolNameOptionalParams): PagedAsyncIterableIterator<Cluster>;
@@ -792,6 +999,20 @@ export interface ClustersUpgradeHeaders {
 }
 
 // @public
+export interface ClustersUpgradeManualRollbackHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClustersUpgradeManualRollbackOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersUpgradeManualRollbackResponse = Cluster;
+
+// @public
 export interface ClustersUpgradeOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -806,12 +1027,71 @@ export interface ClusterUpgrade {
 }
 
 // @public
-export interface ClusterUpgradeProperties {
-    upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+export interface ClusterUpgradeHistories {
+    list(resourceGroupName: string, clusterPoolName: string, clusterName: string, options?: ClusterUpgradeHistoriesListOptionalParams): PagedAsyncIterableIterator<ClusterUpgradeHistory>;
+}
+
+// @public
+export interface ClusterUpgradeHistoriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterUpgradeHistoriesListNextResponse = ClusterUpgradeHistoryListResult;
+
+// @public
+export interface ClusterUpgradeHistoriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClusterUpgradeHistoriesListResponse = ClusterUpgradeHistoryListResult;
+
+// @public
+export interface ClusterUpgradeHistory extends ProxyResource {
+    properties: ClusterUpgradeHistoryPropertiesUnion;
+}
+
+// @public
+export interface ClusterUpgradeHistoryListResult {
+    readonly nextLink?: string;
+    value: ClusterUpgradeHistory[];
+}
+
+// @public
+export interface ClusterUpgradeHistoryProperties {
+    upgradeResult: ClusterUpgradeHistoryUpgradeResultType;
+    upgradeType: "ClusterInPlaceUpgradeHistoryProperties" | "HotfixUpgrade" | "HotfixUpgradeRollback" | "PatchVersionUpgrade" | "PatchVersionUpgradeRollback" | "AKSPatchUpgrade";
+    utcTime: string;
 }
 
 // @public (undocumented)
-export type ClusterUpgradePropertiesUnion = ClusterUpgradeProperties | ClusterAKSPatchVersionUpgradeProperties | ClusterHotfixUpgradeProperties;
+export type ClusterUpgradeHistoryPropertiesUnion = ClusterUpgradeHistoryProperties | ClusterInPlaceUpgradeHistoryPropertiesUnion | ClusterAksPatchUpgradeHistoryProperties;
+
+// @public
+export type ClusterUpgradeHistorySeverityType = string;
+
+// @public
+export type ClusterUpgradeHistoryType = string;
+
+// @public
+export type ClusterUpgradeHistoryUpgradeResultType = string;
+
+// @public
+export interface ClusterUpgradeProperties {
+    upgradeType: "AKSPatchUpgrade" | "ClusterInPlaceUpgradeProperties" | "HotfixUpgrade" | "PatchVersionUpgrade";
+}
+
+// @public (undocumented)
+export type ClusterUpgradePropertiesUnion = ClusterUpgradeProperties | ClusterAKSPatchVersionUpgradeProperties | ClusterInPlaceUpgradePropertiesUnion;
+
+// @public
+export interface ClusterUpgradeRollback {
+    properties: ClusterUpgradeRollbackProperties;
+}
+
+// @public
+export interface ClusterUpgradeRollbackProperties {
+    upgradeHistory: string;
+}
 
 // @public
 export type ClusterUpgradeType = string;
@@ -848,6 +1128,7 @@ export interface ComparisonRule {
 
 // @public
 export interface ComputeProfile {
+    availabilityZones?: string[];
     nodes: NodeProfile[];
 }
 
@@ -995,11 +1276,17 @@ export class HDInsightContainersManagementClient extends coreClient.ServiceClien
     // (undocumented)
     clusterJobs: ClusterJobs;
     // (undocumented)
+    clusterLibraries: ClusterLibraries;
+    // (undocumented)
     clusterPoolAvailableUpgrades: ClusterPoolAvailableUpgrades;
     // (undocumented)
     clusterPools: ClusterPools;
     // (undocumented)
+    clusterPoolUpgradeHistories: ClusterPoolUpgradeHistories;
+    // (undocumented)
     clusters: Clusters;
+    // (undocumented)
+    clusterUpgradeHistories: ClusterUpgradeHistories;
     // (undocumented)
     locations: Locations;
     // (undocumented)
@@ -1033,6 +1320,12 @@ export interface IdentityProfile {
 }
 
 // @public
+export interface IpTag {
+    ipTagType: string;
+    tag: string;
+}
+
+// @public
 export type JobType = string;
 
 // @public
@@ -1043,7 +1336,6 @@ export interface KafkaConnectivityEndpoints {
 
 // @public
 export interface KafkaProfile {
-    readonly clusterIdentity?: IdentityProfile;
     readonly connectivityEndpoints?: KafkaConnectivityEndpoints;
     diskStorage: DiskStorageProfile;
     enableKRaft?: boolean;
@@ -1081,9 +1373,16 @@ export enum KnownAutoscaleType {
 }
 
 // @public
+export enum KnownCategory {
+    Custom = "custom",
+    Predefined = "predefined"
+}
+
+// @public
 export enum KnownClusterAvailableUpgradeType {
     AKSPatchUpgrade = "AKSPatchUpgrade",
-    HotfixUpgrade = "HotfixUpgrade"
+    HotfixUpgrade = "HotfixUpgrade",
+    PatchVersionUpgrade = "PatchVersionUpgrade"
 }
 
 // @public
@@ -1093,15 +1392,51 @@ export enum KnownClusterPoolAvailableUpgradeType {
 }
 
 // @public
+export enum KnownClusterPoolUpgradeHistoryType {
+    AKSPatchUpgrade = "AKSPatchUpgrade",
+    NodeOsUpgrade = "NodeOsUpgrade"
+}
+
+// @public
+export enum KnownClusterPoolUpgradeHistoryUpgradeResultType {
+    Failed = "Failed",
+    Succeed = "Succeed"
+}
+
+// @public
 export enum KnownClusterPoolUpgradeType {
     AKSPatchUpgrade = "AKSPatchUpgrade",
     NodeOsUpgrade = "NodeOsUpgrade"
 }
 
 // @public
+export enum KnownClusterUpgradeHistorySeverityType {
+    Critical = "critical",
+    High = "high",
+    Low = "low",
+    Medium = "medium"
+}
+
+// @public
+export enum KnownClusterUpgradeHistoryType {
+    AKSPatchUpgrade = "AKSPatchUpgrade",
+    HotfixUpgrade = "HotfixUpgrade",
+    HotfixUpgradeRollback = "HotfixUpgradeRollback",
+    PatchVersionUpgrade = "PatchVersionUpgrade",
+    PatchVersionUpgradeRollback = "PatchVersionUpgradeRollback"
+}
+
+// @public
+export enum KnownClusterUpgradeHistoryUpgradeResultType {
+    Failed = "Failed",
+    Succeed = "Succeed"
+}
+
+// @public
 export enum KnownClusterUpgradeType {
     AKSPatchUpgrade = "AKSPatchUpgrade",
-    HotfixUpgrade = "HotfixUpgrade"
+    HotfixUpgrade = "HotfixUpgrade",
+    PatchVersionUpgrade = "PatchVersionUpgrade"
 }
 
 // @public
@@ -1173,6 +1508,19 @@ export enum KnownKeyVaultObjectType {
 }
 
 // @public
+export enum KnownLibraryManagementAction {
+    Install = "Install",
+    Uninstall = "Uninstall"
+}
+
+// @public
+export enum KnownManagedIdentityType {
+    Cluster = "cluster",
+    Internal = "internal",
+    User = "user"
+}
+
+// @public
 export enum KnownMetastoreDbConnectionAuthenticationMode {
     IdentityAuth = "IdentityAuth",
     SqlAuth = "SqlAuth"
@@ -1231,11 +1579,29 @@ export enum KnownSeverity {
 }
 
 // @public
+export enum KnownStatus {
+    Installed = "INSTALLED",
+    InstallFailed = "INSTALL_FAILED",
+    Installing = "INSTALLING",
+    UninstallFailed = "UNINSTALL_FAILED",
+    Uninstalling = "UNINSTALLING"
+}
+
+// @public
+export enum KnownType {
+    Maven = "maven",
+    Pypi = "pypi"
+}
+
+// @public
 export enum KnownUpgradeMode {
     LastStateUpdate = "LAST_STATE_UPDATE",
     StatelessUpdate = "STATELESS_UPDATE",
     Update = "UPDATE"
 }
+
+// @public
+export type LibraryManagementAction = string;
 
 // @public
 export interface LoadBasedConfig {
@@ -1257,6 +1623,30 @@ export interface LocationsCheckNameAvailabilityOptionalParams extends coreClient
 
 // @public
 export type LocationsCheckNameAvailabilityResponse = NameAvailabilityResult;
+
+// @public
+export interface ManagedIdentityProfile {
+    identityList: ManagedIdentitySpec[];
+}
+
+// @public
+export interface ManagedIdentitySpec {
+    clientId: string;
+    objectId: string;
+    resourceId: string;
+    type: ManagedIdentityType;
+}
+
+// @public
+export type ManagedIdentityType = string;
+
+// @public
+export interface MavenLibraryProperties extends ClusterLibraryProperties {
+    groupId: string;
+    name: string;
+    type: "maven";
+    version?: string;
+}
 
 // @public
 export type MetastoreDbConnectionAuthenticationMode = string;
@@ -1334,6 +1724,13 @@ export type ProvisioningStatus = string;
 
 // @public
 export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface PyPiLibraryProperties extends ClusterLibraryProperties {
+    name: string;
+    type: "pypi";
+    version?: string;
 }
 
 // @public
@@ -1522,7 +1919,11 @@ export interface SshConnectivityEndpoint {
 export interface SshProfile {
     count: number;
     readonly podPrefix?: string;
+    vmSize?: string;
 }
+
+// @public
+export type Status = string;
 
 // @public
 export interface SystemData {
@@ -1602,6 +2003,9 @@ export interface TrinoWorker {
 }
 
 // @public
+export type Type = string;
+
+// @public
 export interface UpdatableClusterProfile {
     authorizationProfile?: AuthorizationProfile;
     autoscaleProfile?: AutoscaleProfile;
@@ -1610,8 +2014,10 @@ export interface UpdatableClusterProfile {
     rangerPluginProfile?: ClusterRangerPluginProfile;
     rangerProfile?: RangerProfile;
     scriptActionProfiles?: ScriptActionProfile[];
+    secretsProfile?: SecretsProfile;
     serviceConfigsProfiles?: ClusterServiceConfigsProfile[];
     sshProfile?: SshProfile;
+    trinoProfile?: TrinoProfile;
 }
 
 // @public

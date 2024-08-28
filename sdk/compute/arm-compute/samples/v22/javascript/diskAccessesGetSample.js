@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about a disk access resource.
  *
  * @summary Gets information about a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
  */
 async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -32,7 +32,7 @@ async function getInformationAboutADiskAccessResourceWithPrivateEndpoints() {
  * This sample demonstrates how to Gets information about a disk access resource.
  *
  * @summary Gets information about a disk access resource.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Get.json
  */
 async function getInformationAboutADiskAccessResource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

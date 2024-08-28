@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a directory.

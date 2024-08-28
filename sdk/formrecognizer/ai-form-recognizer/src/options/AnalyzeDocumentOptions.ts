@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationOptions } from "@azure/core-client";
 import {
@@ -18,7 +18,6 @@ import { PollerOptions } from "./PollerOptions";
  */
 export type FormRecognizerFeature =
   | (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature]
-  // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {});
 
 /**

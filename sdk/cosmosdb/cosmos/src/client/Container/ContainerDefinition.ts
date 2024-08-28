@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
