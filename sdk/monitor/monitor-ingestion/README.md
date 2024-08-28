@@ -162,7 +162,7 @@ You can verify that your data has been uploaded correctly by using the [@azure/m
 
 ```js
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to run query against a Log Analytics workspace to verify if the logs were uploaded

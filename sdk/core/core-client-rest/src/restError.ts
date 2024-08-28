@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PipelineResponse, RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { PathUncheckedResponse } from "./common.js";

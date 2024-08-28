@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as coreAuth from "@azure/core-auth";
 import * as coreTracing from "../src/index.js";

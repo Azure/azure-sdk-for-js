@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,

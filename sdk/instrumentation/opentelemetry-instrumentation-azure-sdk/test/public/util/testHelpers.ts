@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OpenTelemetrySpanWrapper } from "../../../src/spanWrapper";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MsalPersistenceOptions, msalPersistencePlatforms } from "./platforms";
 import { IPersistence as Persistence, PersistenceCachePlugin } from "@azure/msal-node-extensions";

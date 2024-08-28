@@ -35,7 +35,7 @@ function _interopNamespaceDefault(e) {
 var fs__namespace = /*#__PURE__*/_interopNamespaceDefault(fs$1);
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Unique identifier under which is specified which port to use for injecting locally hosted custom widget to a running DevPortal instance.
  */
@@ -65,7 +65,7 @@ const displayNameToName = (displayName) => encodeURIComponent(("cw-" + displayNa
 const widgetFolderName = (name) => `azure-api-management-widget-${name}`;
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const fieldIdToName = {
     displayName: "Widget display name",
     technology: "Technology",
@@ -841,7 +841,7 @@ const mainFilename = __dirname$1.substring(0, __dirname$1.lastIndexOf('node_modu
 });
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const extractConfigFromArgs = (argv, validateConfig, red) => {
     const configPartial = {};
     let missing = false;
@@ -882,13 +882,13 @@ const buildGetConfig = (gray, red) => {
 };
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const sourceDir = node_path.dirname(node_url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href))));
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 async function getTemplates(template) {
     const sharedFiles = await getFiles(node_path.join(sourceDir, "..", "templates", "_shared", "**", "**", "*.*"));
     const templateFiles = await getFiles(node_path.join(sourceDir, "..", "templates", template, "**", "**", "*.*"));
@@ -903,7 +903,7 @@ async function getFiles(path) {
 }
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const templateSuffix = ".mustache";
 /**
  * Generates a scaffold project of Custom widget for API Managements' Dev Portal.

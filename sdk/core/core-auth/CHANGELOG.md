@@ -1,14 +1,10 @@
 # Release History
 
-## 1.7.3 (Unreleased)
+## 1.8.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- `AccessToken` now has an optional `refreshAfterTimestamp` attribute that can be used to specify when the token should be refreshed. #30402
 
 ## 1.7.2 (2024-04-09)
 

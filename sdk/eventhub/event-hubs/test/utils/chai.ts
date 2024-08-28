@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { chaiAzure } from "@azure-tools/test-utils-vitest";
 import { chai, should as shouldFn, assert, expect } from "vitest";

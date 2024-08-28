@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export enum CI_PROVIDERS {
   GITHUB_ACTIONS = "GitHub Actions",

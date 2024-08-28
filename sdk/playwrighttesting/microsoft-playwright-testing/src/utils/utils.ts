@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { JwtPayload } from "../common/types";
 import { API_VERSION, ServiceEnvironmentVariable } from "../common/constants";

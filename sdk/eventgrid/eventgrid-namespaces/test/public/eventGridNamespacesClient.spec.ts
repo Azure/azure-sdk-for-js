@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Suite, Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import { Recorder, env } from "@azure-tools/test-recorder";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Represents Priority Level associated with each Azure Cosmos DB client requests.<br>
  * The Low priority requests are always throttled before any High priority requests.

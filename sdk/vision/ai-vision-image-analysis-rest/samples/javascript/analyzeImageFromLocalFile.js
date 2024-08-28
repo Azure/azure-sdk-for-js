@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const fs = require('fs');
 const { ImageAnalysisClient } = require('@azure-rest/ai-vision-image-analysis');

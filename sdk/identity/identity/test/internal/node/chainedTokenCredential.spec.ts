@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, ChainedTokenCredential, TokenCredential } from "../../../src";
 import Sinon from "sinon";

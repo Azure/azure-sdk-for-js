@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the cluster name is available or not.
  *
  * @summary Check the cluster name is available or not.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Locations_CheckClusterNameAvailability.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_CheckClusterNameAvailability.json
  */
 async function getTheSubscriptionUsagesForSpecificLocation() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { UserDelegationKey } from "./models";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export const functionCallModelsToSkip = [
   { name: "gpt-35-turbo", version: "0301" },

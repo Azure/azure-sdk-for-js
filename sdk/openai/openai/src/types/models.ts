@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * A specific representation of configurable options for Azure Search when using it as an Azure OpenAI chat

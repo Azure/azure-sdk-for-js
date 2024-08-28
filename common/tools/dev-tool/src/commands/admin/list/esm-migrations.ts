@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
 import { readFile, writeFile } from "node:fs/promises";

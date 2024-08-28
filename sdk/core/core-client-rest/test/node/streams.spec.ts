@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, afterEach, vi } from "vitest";
 import { ClientRequest, type IncomingHttpHeaders, IncomingMessage } from "node:http";

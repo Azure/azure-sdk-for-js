@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createReadStream } from "fs";
 import { matrix } from "@azure-tools/test-utils-vitest";
