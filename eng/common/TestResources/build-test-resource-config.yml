@@ -50,6 +50,11 @@ steps:
       '@.Trim()
 
       $obj = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
+      Write-Host $obj
+      Write-Host $obj.GetType()
+      foreach ($o in $obj) {
+        Write-Host $o
+      }
       if ($baseSubConfigJson -like '$(*' -or ($obj | ForEach-Object ${ $_ -like '$(*' })) {
         throw 'A subscription config secret was not downloaded. The pipeline is likely missing a variable group.'
       }
