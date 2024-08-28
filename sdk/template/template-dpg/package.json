@@ -3,45 +3,82 @@
   "version": "1.0.0-beta.1",
   "description": "Widget Service",
   "sdk-type": "client",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js"
-  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
   "type": "module",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "types": "./types/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
     },
     "./api": {
-      "types": "./types/src/api/index.d.ts",
-      "import": "./dist-esm/src/api/index.js"
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
     },
     "./rest": {
-      "types": "./types/src/rest/index.d.ts",
-      "import": "./dist-esm/src/rest/index.js"
+      "browser": {
+        "types": "./dist/browser/rest/index.d.ts",
+        "default": "./dist/browser/rest/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/rest/index.d.ts",
+        "default": "./dist/react-native/rest/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/rest/index.d.ts",
+        "default": "./dist/esm/rest/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/rest/index.d.ts",
+        "default": "./dist/commonjs/rest/index.js"
+      }
     }
   },
   "//metadata": {},
-  "types": "types/latest/template-dpg.d.ts",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "echo Obsolete",
-    "build:test:browser": "tsc -p . && dev-tool run bundle",
-    "build:test:node": "tsc -p . && dev-tool run bundle",
+    "build:node": "tshy",
+    "build:samples": "echo Skipped.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "build:output": "node scripts/renameOutput.mjs",
-    "build": "tsc -p . && dev-tool run bundle && dev-tool run extract-api && npm run build:output",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "customize": "dev-tool customization apply -s sources/generated/src -c sources/customizations/src && npm run format",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "tsc -p . && dev-tool run bundle && dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:browser": "echo Skipped.",
+    "integration-test:node": "echo Skipped.",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "lint": "eslint README.md package.json api-extractor.json src test",
@@ -49,15 +86,12 @@
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "tsc -p . && dev-tool run bundle && dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types",
-    "types/src",
     "README.md",
     "LICENSE"
   ],
@@ -79,43 +113,47 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.4",
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.3.1",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "chai": "^4.3.6",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "karma": "^6.4.0",
-    "karma-chrome-launcher": "^3.1.1",
-    "karma-coverage": "^2.2.0",
-    "karma-edge-launcher": "^0.4.2",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^2.1.2",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
-    "nyc": "^17.0.0",
-    "puppeteer": "^23.0.2",
+    "playwright": "^1.46.1",
     "rimraf": "^5.0.0",
-    "ts-node": "^10.0.0",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
-    "util": "^0.12.4"
+    "vitest": "^2.0.5"
   },
   "dependencies": {
-    "@azure-rest/core-client": "^1.1.2",
-    "@azure/core-auth": "^1.4.1",
-    "@azure/core-rest-pipeline": "^1.8.1",
-    "@azure/core-util": "^1.1.0",
+    "@azure-rest/core-client": "^2.2.0",
+    "@azure/core-auth": "^1.7.2",
+    "@azure/core-rest-pipeline": "^1.16.3",
+    "@azure/core-util": "^1.9.2",
     "@azure/logger": "^1.0.3",
-    "tslib": "^2.4.0"
-  }
+    "tslib": "^2.7.0"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./rest": "./src/rest/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "browser": "./dist/browser/index.js"
 }
