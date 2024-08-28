@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 const should = chai.should();
 const assert: typeof chai.assert = chai.assert;
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
   OperationOptions,
   ServiceBusAdministrationClient,
   ServiceBusClient,
   ServiceBusMessage,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
 import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
-import { getEnvVarValue } from "../public/utils/envVarUtils";
+} from "../public/utils/testutils2.js";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
+import { getEnvVarValue } from "../public/utils/envVarUtils.js";
 import { delay } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert } from "vitest";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -528,7 +526,7 @@ describe("Premium namespaces - Sending", () => {
 
   before(function (this: Mocha.Context) {
     if (!premiumNamespace) {
-      this.skip();
+      ctx.task.skip();
     }
     atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
   });

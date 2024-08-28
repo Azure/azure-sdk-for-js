@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageSender } from "../../../src/core/messageSender";
-import { assertThrows } from "../../public/utils/testUtils";
-import { createConnectionContextForTests } from "./unittestUtils";
-import { assert } from "chai";
+import { MessageSender } from "../../../src/core/messageSender.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
+import { createConnectionContextForTests } from "./unittestUtils.js";
+import { describe, it, assert } from "vitest";
 
 describe("MessageSender unit tests", () => {
   it("getMaxMessageSize should retry (exhaust retries)", async () => {

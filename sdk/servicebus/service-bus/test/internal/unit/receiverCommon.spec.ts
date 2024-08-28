@@ -7,24 +7,25 @@ import {
   settleMessage,
   settleMessageOperation,
   wrapProcessErrorHandler,
-} from "../../../src/receivers/receiverCommon";
-import chai from "chai";
-import { ServiceBusReceiver } from "../../../src/receivers/receiver";
-import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log";
-import { ProcessErrorArgs } from "../../../src/models";
-import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
+} from "../../../src/receivers/receiverCommon.js";
+import { ServiceBusReceiver } from "../../../src/receivers/receiver.js";
+import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log.js";
+import { ProcessErrorArgs } from "../../../src/models.js";
+import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError.js";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
 import {
   DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../../src/serviceBusMessage";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { DispositionStatusOptions } from "../../../src/core/managementClient";
+} from "../../../src/serviceBusMessage.js";
+import { ConnectionContext } from "../../../src/connectionContext.js";
+import { DispositionStatusOptions } from "../../../src/core/managementClient.js";
 import { Delivery } from "rhea-promise";
-import { MessageAlreadySettled } from "../../../src/util/errors";
-import { assertThrows } from "../../public/utils/testUtils";
+import { MessageAlreadySettled } from "../../../src/util/errors.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
 import { AbortError } from "@azure/abort-controller";
+import { describe, it, assert } from "vitest";
+
 const assert: typeof chai.assert = chai.assert;
 
 describe("shared receiver code", () => {

@@ -19,24 +19,13 @@
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/util/crypto.js": "./dist-esm/src/util/crypto.browser.js",
-    "./dist-esm/src/util/parseUrl.js": "./dist-esm/src/util/parseUrl.browser.js",
-    "buffer": "buffer",
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
-  },
-  "react-native": {
-    "./dist/index.js": "dist-esm/src/index.js",
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.native.js"
-  },
+  "browser": "./dist/browser/index.js",
   "types": "./types/latest/service-bus.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/service-bus.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -46,7 +35,7 @@
     "build:browser": "npm run bundle",
     "build:node": "npm run bundle",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "build": "npm run clean && npm run bundle && npm run extract-api",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log coverage coverage-browser .nyc_output",
     "build:samples": "echo Obsolete.",
@@ -63,8 +52,8 @@
     "test:browser": "npm run clean && npm run bundle && npm run integration-test:browser",
     "test:node": "npm run clean && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy -- --timeout 1200000 --full-trace \"test/internal/unit/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -118,49 +107,49 @@
     "rhea-promise": "^3.0.0"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.1.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.2.1",
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-recorder": "^4.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.1.6",
-    "@types/chai-as-promised": "^7.1.0",
     "@types/debug": "^4.1.4",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chai-exclude": "^2.0.2",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
+    "events": "^3.0.0",
     "https-proxy-agent": "^7.0.0",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
     "moment": "^2.24.0",
-    "nyc": "^17.0.0",
+    "playwright": "^1.46.1",
     "promise": "^8.0.3",
-    "puppeteer": "^23.0.2",
     "rimraf": "^5.0.5",
-    "ts-node": "^10.0.0",
+    "tshy": "^3.0.2",
     "typescript": "~5.5.3",
     "uuid": "^8.3.0",
-    "ws": "^8.0.0",
-    "sinon": "^17.0.0",
-    "@types/sinon": "^17.0.0",
-    "events": "^3.0.0"
+    "vitest": "^2.0.5",
+    "ws": "^8.0.0"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
   }
 }

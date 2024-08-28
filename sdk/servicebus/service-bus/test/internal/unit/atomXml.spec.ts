@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
@@ -11,26 +8,27 @@ import {
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject,
-} from "../../../src/util/atomXmlHelper";
-import * as Constants from "../../../src/util/constants";
-import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
+} from "../../../src/util/atomXmlHelper.js";
+import * as Constants from "../../../src/util/constants.js";
+import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient.js";
 import {
   buildQueueOptions,
   QueueResourceSerializer,
-} from "../../../src/serializers/queueResourceSerializer";
+} from "../../../src/serializers/queueResourceSerializer.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   buildTopicOptions,
   TopicResourceSerializer,
-} from "../../../src/serializers/topicResourceSerializer";
+} from "../../../src/serializers/topicResourceSerializer.js";
 import {
   buildSubscriptionOptions,
   SubscriptionResourceSerializer,
-} from "../../../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
-import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
-import { TestConstants } from "../../public/fakeTestSecrets";
+} from "../../../src/serializers/subscriptionResourceSerializer.js";
+import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer.js";
+import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
+import { TestConstants } from "../../public/fakeTestSecrets.js";
 import { FullOperationResponse } from "@azure/core-client";
+import { describe, it, assert } from "vitest";
 
 const queueProperties = [
   Constants.LOCK_DURATION,

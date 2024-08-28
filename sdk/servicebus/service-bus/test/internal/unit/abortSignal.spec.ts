@@ -1,30 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
-import { MessageSender } from "../../../src/core/messageSender";
-import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs";
+import { MessageSender } from "../../../src/core/messageSender.js";
+import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
 import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal,
-} from "../../public/utils/abortSignalTestUtils";
+} from "../../public/utils/abortSignalTestUtils.js";
 import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
-} from "./unittestUtils";
+} from "./unittestUtils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
-import { MessageSession } from "../../../src/session/messageSession";
-import { ProcessErrorArgs } from "../../../src";
-import { ReceiveMode } from "../../../src/models";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
+import { MessageSession } from "../../../src/session/messageSession.js";
+import { ProcessErrorArgs } from "../../../src/index.js";
+import { ReceiveMode } from "../../../src/models.js";
+import { describe, it, assert } from "vitest";
 
 const abortMsgRegex = new RegExp(StandardAbortMessage);
 

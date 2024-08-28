@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 import Long from "long";
 const should = chai.should();
 const expect = chai.expect;
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceiver } from "../../src";
+import { ServiceBusMessage, delay } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import { ServiceBusReceiver } from "../../src/index.js";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -18,9 +15,10 @@ import {
   getRandomTestClientTypeWithSessions,
   EntityName,
   getRandomTestClientType,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
+} from "./utils/testutils2.js";
+import { ServiceBusSender } from "../../src/index.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
+import { describe, it, assert } from "vitest";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();

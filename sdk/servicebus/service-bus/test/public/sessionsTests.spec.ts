@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai, { assert } from "chai";
 import Long from "long";
 const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
   ServiceBusReceivedMessage,
@@ -12,20 +9,20 @@ import {
   ProcessErrorArgs,
   isServiceBusError,
   ServiceBusError,
-} from "../../src";
+} from "../../src/index.js";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusSessionReceiver } from "../../src";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils.js";
+import { ServiceBusSender } from "../../src/index.js";
+import { ServiceBusSessionReceiver } from "../../src/index.js";
 import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-} from "./utils/testutils2";
-import sinon from "sinon";
-import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+} from "./utils/testutils2.js";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 let unexpectedError: Error | undefined;
 

@@ -4,19 +4,17 @@
 import {
   checkAndRegisterWithAbortSignal,
   waitForTimeoutOrAbortOrResolve,
-} from "../../../src/util/utils";
+} from "../../../src/util/utils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY,
-} from "../../../src/diagnostics/instrumentServiceBusMessage";
-import { ServiceBusReceivedMessage } from "../../../src";
-import Sinon from "sinon";
-import { tracingClient } from "../../../src/diagnostics/tracing";
+} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+import { ServiceBusReceivedMessage } from "../../../src/index.js";
+import { tracingClient } from "../../../src/diagnostics/tracing.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

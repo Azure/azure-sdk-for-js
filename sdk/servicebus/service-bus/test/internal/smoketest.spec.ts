@@ -8,15 +8,15 @@ import {
   delay,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { getEntityNameFromConnectionString } from "../../src/constructorHelpers";
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import { getEntityNameFromConnectionString } from "../../src/constructorHelpers.js";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-} from "../public/utils/testutils2";
+} from "../public/utils/testutils2.js";
+import { describe, it, assert } from "vitest";
+
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 

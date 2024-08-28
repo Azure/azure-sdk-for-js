@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { ServiceBusMessage } from "../../../src";
-import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender";
-import { createConnectionContextForTests } from "./unittestUtils";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import { ConnectionContext } from "../../../src/connectionContext.js";
+import { ServiceBusMessage } from "../../../src/index.js";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender.js";
+import { createConnectionContextForTests } from "./unittestUtils.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   errorInvalidMessageTypeSingle,
   PartitionKeySessionIdMismatchError,
-} from "../../../src/util/errors";
+} from "../../../src/util/errors.js";
+import { describe, it, assert } from "vitest";
 
 const assert: typeof chai.assert = chai.assert;
 

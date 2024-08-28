@@ -2,13 +2,18 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ES2020",
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "ES2018.AsyncIterable"],
+    "module": "NodeNext",
+    "lib": [
+      "dom",
+      "ES2018.AsyncIterable"
+    ],
     "paths": {
-      "@azure/service-bus": ["./src/index"]
-    }
+      "@azure/service-bus": [
+        "./src/index"
+      ]
+    },
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
   "exclude": [
     "node_modules",
@@ -18,5 +23,11 @@
     "test/perf/track-1",
     "test/stress*"
   ],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "./samples-dev/**/*.ts",
+    "./test/**/*.ts"
+  ]
 }

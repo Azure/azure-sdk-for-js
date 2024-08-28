@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
 import { isObjectWithProperties } from "@azure/core-util";
 import Long from "long";
@@ -15,12 +13,12 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
-} from "../../src";
-import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
-import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
-import { getEnvVars } from "../public/utils/envVarUtils";
+} from "../../src/index.js";
+import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage.js";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors.js";
+import { getEnvVars } from "../public/utils/envVarUtils.js";
 import { isNode } from "@azure/core-util";
-import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import {
   createServiceBusClientForTests,
   EntityName,
@@ -29,8 +27,9 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
   getFullyQualifiedNamespace,
-} from "../public/utils/testutils2";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+} from "../public/utils/testutils2.js";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { describe, it, assert } from "vitest";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

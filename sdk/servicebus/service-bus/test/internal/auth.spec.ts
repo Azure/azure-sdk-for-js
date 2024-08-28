@@ -3,15 +3,16 @@
 
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import chai from "chai";
-import { ServiceBusClient, ServiceBusReceiver, parseServiceBusConnectionString } from "../../src";
-import { getEnvVars } from "../public/utils/envVarUtils";
-import { TestClientType } from "../public/utils/testUtils";
+import { ServiceBusClient, ServiceBusReceiver, parseServiceBusConnectionString } from "../../src/index.js";
+import { getEnvVars } from "../public/utils/envVarUtils.js";
+import { TestClientType } from "../public/utils/testUtils.js";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
   ServiceBusTestHelpers,
-} from "../public/utils/testutils2";
+} from "../public/utils/testutils2.js";
+import { describe, it, assert } from "vitest";
+
 const assert: typeof chai.assert = chai.assert;
 
 type UnpackReturnType<T extends (...args: any) => any> =

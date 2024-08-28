@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 const should = chai.should();
 
-import { createServiceBusClientForTests } from "./utils/testutils2";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceivedMessage, ServiceBusReceiver } from "../../src";
+import { createServiceBusClientForTests } from "./utils/testutils2.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import { ServiceBusReceivedMessage, ServiceBusReceiver } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;

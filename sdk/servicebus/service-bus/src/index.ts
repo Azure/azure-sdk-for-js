@@ -15,8 +15,8 @@ export {
 export { TokenCredential } from "@azure/core-auth";
 export { OperationOptions } from "@azure/core-client";
 export { Delivery, WebSocketImpl } from "rhea-promise";
-export { ServiceBusClientOptions } from "./constructorHelpers";
-export { CorrelationRuleFilter } from "./core/managementClient";
+export { ServiceBusClientOptions } from "./constructorHelpers.js";
+export { CorrelationRuleFilter } from "./core/managementClient.js";
 export {
   DeleteMessagesOptions,
   PurgeMessagesOptions,
@@ -30,48 +30,48 @@ export {
   ServiceBusSessionReceiverOptions,
   ServiceBusSenderOptions,
   SubscribeOptions,
-} from "./models";
-export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs";
-export { ServiceBusReceiver } from "./receivers/receiver";
-export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
-export { ServiceBusSender } from "./sender";
-export { ServiceBusRuleManager } from "./serviceBusRuleManager";
-export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
+} from "./models.js";
+export { OperationOptionsBase, TryAddOptions } from "./modelsToBeSharedWithEventHubs.js";
+export { ServiceBusReceiver } from "./receivers/receiver.js";
+export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver.js";
+export { ServiceBusSender } from "./sender.js";
+export { ServiceBusRuleManager } from "./serviceBusRuleManager.js";
+export { NamespaceProperties } from "./serializers/namespaceResourceSerializer.js";
 export {
   CreateQueueOptions,
   QueueProperties,
   QueueRuntimeProperties,
-} from "./serializers/queueResourceSerializer";
-export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
+} from "./serializers/queueResourceSerializer.js";
+export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer.js";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionRuntimeProperties,
-} from "./serializers/subscriptionResourceSerializer";
+} from "./serializers/subscriptionResourceSerializer.js";
 export {
   CreateTopicOptions,
   TopicProperties,
   TopicRuntimeProperties,
-} from "./serializers/topicResourceSerializer";
+} from "./serializers/topicResourceSerializer.js";
 export {
   EntitiesResponse,
   ServiceBusAdministrationClient,
   WithResponse,
   ServiceBusAdministrationClientOptions,
-} from "./serviceBusAtomManagementClient";
-export { ServiceBusClient } from "./serviceBusClient";
-export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
+} from "./serviceBusAtomManagementClient.js";
+export { ServiceBusClient } from "./serviceBusClient.js";
+export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError.js";
 export {
   DeadLetterOptions,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
-} from "./serviceBusMessage";
-export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
+} from "./serviceBusMessage.js";
+export { ServiceBusMessageBatch } from "./serviceBusMessageBatch.js";
 export {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties,
-} from "./util/connectionStringUtils";
-export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils";
+} from "./util/connectionStringUtils.js";
+export { AuthorizationRule, EntityAvailabilityStatus, EntityStatus } from "./util/utils.js";
 export {
   HttpResponse,
   HttpHeader,
@@ -79,4 +79,4 @@ export {
   HttpHeadersLike,
   TransferProgressEvent,
   WebResourceLike,
-} from "./util/compat";
+} from "./util/compat/index.js";

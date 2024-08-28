@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { ServiceBusAdministrationClient } from "../../src";
+import { ServiceBusAdministrationClient } from "../../src/index.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
-import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
-import { getFullyQualifiedNamespace } from "../public/utils/testutils2";
+import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper.js";
+import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer.js";
+import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert } from "vitest";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);

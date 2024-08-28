@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 const expect = chai.expect;
 import {
   ServiceBusReceivedMessage,
@@ -10,10 +7,10 @@ import {
   ProcessErrorArgs,
   ServiceBusReceiver,
   ServiceBusSender,
-} from "../../src";
-import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors";
-import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils";
-import { DispositionType, ServiceBusMessageImpl } from "../../src/serviceBusMessage";
+} from "../../src/index.js";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors.js";
+import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils.js";
+import { DispositionType, ServiceBusMessageImpl } from "../../src/serviceBusMessage.js";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -21,11 +18,11 @@ import {
   drainReceiveAndDeleteReceiver,
   testPeekMsgsLength,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { getDeliveryProperty } from "./utils/misc";
-import { verifyMessageCount } from "../public/utils/managementUtils";
-import sinon from "sinon";
+} from "../public/utils/testutils2.js";
+import { getDeliveryProperty } from "./utils/misc.js";
+import { verifyMessageCount } from "../public/utils/managementUtils.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

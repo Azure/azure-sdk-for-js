@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { addTestStreamingReceiver } from "./unittestUtils";
-import { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import sinon from "sinon";
+import { addTestStreamingReceiver } from "./unittestUtils.js";
+import { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src/index.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import { assertThrows } from "../../public/utils/testUtils";
+import { assertThrows } from "../../public/utils/testUtils.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
 import {
   CorrelationRuleFilter,
   ServiceBusReceivedMessage,
@@ -11,11 +7,12 @@ import {
   ServiceBusMessage,
   SqlRuleFilter,
   ServiceBusAdministrationClient,
-} from "../../src";
-import { DEFAULT_RULE_NAME } from "../../src/util/constants";
-import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils";
-import { getFullyQualifiedNamespace } from "../public/utils/testutils2";
+} from "../../src/index.js";
+import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
+import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
+import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert } from "vitest";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);

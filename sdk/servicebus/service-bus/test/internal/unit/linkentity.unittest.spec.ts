@@ -2,19 +2,18 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
-import sinon from "sinon";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { BatchingReceiver } from "../../../src/core/batchingReceiver";
-import { LinkEntity } from "../../../src/core/linkEntity";
-import { ManagementClient } from "../../../src/core/managementClient";
-import { MessageSender } from "../../../src/core/messageSender";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import { receiverLogger } from "../../../src/log";
-import { MessageSession } from "../../../src/session/messageSession";
-import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
+import { ConnectionContext } from "../../../src/connectionContext.js";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
+import { LinkEntity } from "../../../src/core/linkEntity.js";
+import { ManagementClient } from "../../../src/core/managementClient.js";
+import { MessageSender } from "../../../src/core/messageSender.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import { receiverLogger } from "../../../src/log.js";
+import { MessageSession } from "../../../src/session/messageSession.js";
+import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 

@@ -3,7 +3,7 @@
 
 import { createTracingClient, TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
 import { ConnectionConfig } from "@azure/core-amqp";
-import { packageJsonInfo } from "../util/constants";
+import { packageJsonInfo } from "../util/constants.js";
 
 /**
  * The names of the operations that can be instrumented.

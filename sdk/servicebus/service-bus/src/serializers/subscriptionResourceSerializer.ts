@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { CorrelationRuleFilter } from "..";
+import { CorrelationRuleFilter } from "../index.js";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper";
-import * as Constants from "../util/constants";
+} from "../util/atomXmlHelper.js";
+import * as Constants from "../util/constants.js";
 import {
   EntityStatus,
   EntityAvailabilityStatus,
@@ -18,13 +18,13 @@ import {
   getString,
   getStringOrUndefined,
   getDate,
-} from "../util/utils";
+} from "../util/utils.js";
 import {
   buildInternalRuleResource,
   InternalRuleOptions,
   SqlRuleAction,
   SqlRuleFilter,
-} from "./ruleResourceSerializer";
+} from "./ruleResourceSerializer.js";
 
 /**
  * @internal

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 const should = chai.should();
 const expect = chai.expect;
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import {
   ServiceBusReceivedMessage,
@@ -12,11 +9,11 @@ import {
   ServiceBusReceiver,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src";
+} from "../../src/index.js";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils.js";
 
-import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors";
+import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors.js";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -24,9 +21,10 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { DispositionType } from "../../src/serviceBusMessage";
+} from "../public/utils/testutils2.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
 import Long from "long";
+import { describe, it, assert } from "vitest";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

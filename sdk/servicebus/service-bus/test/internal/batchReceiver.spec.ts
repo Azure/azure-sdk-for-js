@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 import Long from "long";
-import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
-import { InvalidOperationForPeekedMessage } from "../../src/util/errors";
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src/index.js";
+import { InvalidOperationForPeekedMessage } from "../../src/util/errors.js";
+import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -16,16 +13,17 @@ import {
   EntityName,
   getRandomTestClientType,
   getRandomTestClientTypeWithSessions,
-} from "../public/utils/testutils2";
+} from "../public/utils/testutils2.js";
 import { Receiver, ReceiverEvents } from "rhea-promise";
 import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
-} from "../../src/receivers/sessionReceiver";
-import { LinkEntity } from "../../src/core/linkEntity";
+} from "../../src/receivers/sessionReceiver.js";
+import { LinkEntity } from "../../src/core/linkEntity.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { testLogger } from "./utils/misc";
+import { BatchingReceiver } from "../../src/core/batchingReceiver.js";
+import { testLogger } from "./utils/misc.js";
+import { describe, it, assert } from "vitest";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

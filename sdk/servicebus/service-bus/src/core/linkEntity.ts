@@ -10,7 +10,7 @@ import {
   isSasTokenProvider,
 } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
-import { ConnectionContext } from "../connectionContext";
+import { ConnectionContext } from "../connectionContext.js";
 import {
   AwaitableSender,
   AwaitableSenderOptions,
@@ -19,10 +19,10 @@ import {
   ReceiverOptions,
   SenderOptions,
 } from "rhea-promise";
-import { getUniqueName } from "../util/utils";
+import { getUniqueName } from "../util/utils.js";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusLogger } from "../log";
-import { ServiceBusError } from "../serviceBusError";
+import { ServiceBusLogger } from "../log.js";
+import { ServiceBusError } from "../serviceBusError.js";
 
 /**
  * @internal

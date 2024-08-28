@@ -8,15 +8,14 @@ import {
   ServiceBusSender,
   SqlRuleAction,
   SqlRuleFilter,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { recreateSubscription } from "./utils/managementUtils";
+} from "../public/utils/testutils2.js";
+import { recreateSubscription } from "./utils/managementUtils.js";
+import { describe, it, assert } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

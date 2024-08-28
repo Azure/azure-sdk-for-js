@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 const assert: typeof chai.assert = chai.assert;
-import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
+import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src/index.js";
+import { assert } from "vitest";
 
 export class TestMessage {
   static sessionId: string = "my-session";

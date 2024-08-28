@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { ServiceBusSender, ServiceBusReceiver } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2.js";
+import { describe, it, assert } from "vitest";
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { ServiceBusSender, ServiceBusReceiver } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 chai.should();
 chai.use(chaiAsPromised);
 

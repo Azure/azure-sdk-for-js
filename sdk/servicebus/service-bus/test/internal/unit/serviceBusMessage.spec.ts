@@ -5,7 +5,7 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   toRheaMessage,
-} from "../../../src/serviceBusMessage";
+} from "../../../src/serviceBusMessage.js";
 import {
   Delivery,
   uuid_to_string,
@@ -13,11 +13,12 @@ import {
   DeliveryAnnotations,
   Message as RheaMessage,
 } from "rhea-promise";
-import chai from "chai";
 import { ConnectionConfig, Constants } from "@azure/core-amqp";
-import { defaultDataTransformer } from "../../../src/dataTransformer";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { ConnectionContext } from "../../../src/connectionContext";
+import { defaultDataTransformer } from "../../../src/dataTransformer.js";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import { ConnectionContext } from "../../../src/connectionContext.js";
+import { describe, it, assert } from "vitest";
+
 const assert: typeof chai.assert = chai.assert;
 
 const fakeDelivery = {} as Delivery;

@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import * as sinon from "sinon";
 import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { createServiceBusLogger } from "../../../src/log";
+import { createServiceBusLogger } from "../../../src/log.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 

@@ -4,28 +4,26 @@
 import { isNode } from "@azure/core-util";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { parseServiceBusConnectionString } from "../../src";
-import { CreateQueueOptions } from "../../src";
-import { RuleProperties } from "../../src";
-import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src";
-import { CreateTopicOptions } from "../../src";
-import { ServiceBusAdministrationClient, WithResponse } from "../../src";
-import { EntityStatus, EntityAvailabilityStatus } from "../../src";
-import { EnvVarNames, getEnvVars, getEnvVarValue } from "./utils/envVarUtils";
-import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
-import { EntityNames, TestClientType } from "./utils/testUtils";
-import { TestConstants } from "./fakeTestSecrets";
+import { parseServiceBusConnectionString } from "../../src/index.js";
+import { CreateQueueOptions } from "../../src/index.js";
+import { RuleProperties } from "../../src/index.js";
+import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src/index.js";
+import { CreateTopicOptions } from "../../src/index.js";
+import { ServiceBusAdministrationClient, WithResponse } from "../../src/index.js";
+import { EntityStatus, EntityAvailabilityStatus } from "../../src/index.js";
+import { EnvVarNames, getEnvVars, getEnvVarValue } from "./utils/envVarUtils.js";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils.js";
+import { EntityNames, TestClientType } from "./utils/testUtils.js";
+import { TestConstants } from "./fakeTestSecrets.js";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import {
   createServiceBusClientForTests,
   getFullyQualifiedNamespace,
   ServiceBusClientForTests,
-} from "./utils/testutils2";
+} from "./utils/testutils2.js";
 import { versionsToTest } from "@azure-tools/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert } from "vitest";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -2981,7 +2979,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
       before(function (this: Mocha.Context) {
         if (!premiumNamespace) {
-          this.skip();
+          ctx.task.skip();
         }
         atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
       });

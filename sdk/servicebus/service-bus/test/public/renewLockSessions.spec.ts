@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusSessionReceiver } from "../../src";
-import { ServiceBusReceivedMessage } from "../../src";
+} from "./utils/testutils2.js";
+import { ServiceBusSender } from "../../src/index.js";
+import { ServiceBusSessionReceiver } from "../../src/index.js";
+import { ServiceBusReceivedMessage } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;

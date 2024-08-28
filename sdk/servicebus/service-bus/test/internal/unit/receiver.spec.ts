@@ -1,28 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
-import { BatchingReceiver } from "../../../src/core/batchingReceiver";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import {
   addTestStreamingReceiver,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
-} from "./unittestUtils";
-import { InternalMessageHandlers } from "../../../src/models";
-import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
+} from "./unittestUtils.js";
+import { InternalMessageHandlers } from "../../../src/models.js";
+import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
-import { MessageSession } from "../../../src/session/messageSession";
-import sinon from "sinon";
-import { assertThrows } from "../../public/utils/testUtils";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver.js";
+import { MessageSession } from "../../../src/session/messageSession.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
 import { Constants } from "@azure/core-amqp";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Receiver unit tests", () => {
   it("Receiver should set target in created receiver options", () => {

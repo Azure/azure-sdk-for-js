@@ -3,20 +3,18 @@
 import {
   MockInstrumenter,
   MockTracingSpan,
-  assert,
   createMockTracingContext,
 } from "@azure-tools/test-utils";
 import {
   TRACEPARENT_PROPERTY,
   instrumentMessage,
   toProcessingSpanOptions,
-} from "../../../src/diagnostics/instrumentServiceBusMessage";
-import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing";
-
-import Sinon from "sinon";
+} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.js";
 import { TracingContext } from "@azure/core-tracing";
 import Long from "long";
-import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
+import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {
@@ -70,7 +68,7 @@ describe("tracing", () => {
       const { span: nonRecordingSpan } = instrumenter.startSpan("test");
       (nonRecordingSpan as MockTracingSpan).setIsRecording(false);
       // Setup our tracingClient to ensure we reach the happy path.
-      Sinon.stub(tracingClient, "startSpan").returns({
+      vi.spyOn(tracingClient, "startSpan").returns({
         span: nonRecordingSpan,
         updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
       });
@@ -92,11 +90,11 @@ describe("tracing", () => {
         (recordingSpan as MockTracingSpan).setIsRecording(true);
 
         // Setup our tracingClient to ensure we reach the happy path.
-        Sinon.stub(tracingClient, "startSpan").returns({
+        vi.spyOn(tracingClient, "startSpan").returns({
           span: recordingSpan,
           updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
         });
-        Sinon.stub(tracingClient, "createRequestHeaders").returns({
+        vi.spyOn(tracingClient, "createRequestHeaders").returns({
           traceparent: "fake-traceparent-header",
         });
 
@@ -152,7 +150,7 @@ describe("tracing", () => {
           },
         };
         const fakeContext = {} as TracingContext;
-        Sinon.stub(tracingClient, "parseTraceparentHeader").returns(fakeContext);
+        vi.spyOn(tracingClient, "parseTraceparentHeader").returns(fakeContext);
 
         const processingSpanOptions = toProcessingSpanOptions(
           [requiredMessageProperties],

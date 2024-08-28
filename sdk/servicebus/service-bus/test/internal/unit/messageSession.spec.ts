@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { MessageSession } from "../../../src/session/messageSession";
+import { MessageSession } from "../../../src/session/messageSession.js";
 import {
   addCloseablesCleanup,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
   defer,
-} from "./unittestUtils";
-import sinon, { SinonSpy } from "sinon";
-import { EventEmitter } from "events";
+} from "./unittestUtils.js";
+import { EventEmitter } from "node:events";
 import {
   ReceiverEvents,
   EventContext,
@@ -19,12 +15,13 @@ import {
   SessionEvents,
   Receiver as RheaPromiseReceiver,
 } from "rhea-promise";
-import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
-import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
-import { ProcessErrorArgs, ServiceBusError } from "../../../src";
-import { ReceiveMode } from "../../../src/models";
+import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver.js";
+import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
+import { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
+import { ReceiveMode } from "../../../src/models.js";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

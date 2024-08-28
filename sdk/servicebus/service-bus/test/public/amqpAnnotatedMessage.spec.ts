@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
+import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public/utils/testutils2.js";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { v4 as generateUuid } from "uuid";
-import { TestClientType } from "./utils/testUtils";
+import { TestClientType } from "./utils/testUtils.js";
+import { describe, it, assert } from "vitest";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

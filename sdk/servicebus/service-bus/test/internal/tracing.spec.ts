@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceBusSender, ServiceBusMessage } from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
+import { ServiceBusSender, ServiceBusMessage } from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
 import {
   ServiceBusClientForTests,
   EntityName,
   createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { assert } from "@azure-tools/test-utils";
+} from "../public/utils/testutils2.js";
+import { describe, it, assert } from "vitest";
 
 describe(`Tracing for send`, function (): void {
   let sbClient: ServiceBusClientForTests;

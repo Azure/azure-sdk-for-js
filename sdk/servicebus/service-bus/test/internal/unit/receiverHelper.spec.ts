@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents, delay } from "rhea-promise";
-import { ReceiverHelper } from "../../../src/core/receiverHelper";
-import { assertThrows } from "../../public/utils/testUtils";
-import { createRheaReceiverForTests } from "./unittestUtils";
+import { ReceiverHelper } from "../../../src/core/receiverHelper.js";
+import { assertThrows } from "../../public/utils/testUtils.js";
+import { createRheaReceiverForTests } from "./unittestUtils.js";
+import { describe, it, assert } from "vitest";
+
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContext } from "../../../src/connectionContext";
+import { ConnectionContext } from "../../../src/connectionContext.js";
 import {
   AwaitableSender,
   Receiver as RheaPromiseReceiver,
@@ -10,12 +10,12 @@ import {
 } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
-import { EventEmitter } from "events";
-import { getUniqueName } from "../../../src/util/utils";
+import { EventEmitter } from "node:events";
+import { getUniqueName } from "../../../src/util/utils.js";
 import { Link } from "rhea-promise/typings/lib/link";
-import { ReceiveOptions } from "../../../src/core/messageReceiver";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import { ReceiveMode } from "../../../src/models";
+import { ReceiveOptions } from "../../../src/core/messageReceiver.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import { ReceiveMode } from "../../../src/models.js";
 
 export interface CreateConnectionContextForTestsOptions {
   host?: string;

@@ -6,8 +6,8 @@ import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper";
-import * as Constants from "../util/constants";
+} from "../util/atomXmlHelper.js";
+import * as Constants from "../util/constants.js";
 import {
   AuthorizationRule,
   getAuthorizationRulesOrUndefined,
@@ -21,7 +21,7 @@ import {
   getDate,
   EntityStatus,
   EntityAvailabilityStatus,
-} from "../util/utils";
+} from "../util/utils.js";
 
 /**
  * @internal

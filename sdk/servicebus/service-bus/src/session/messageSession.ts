@@ -16,27 +16,27 @@ import {
   ReceiverEvents,
   ReceiverOptions,
 } from "rhea-promise";
-import { ConnectionContext } from "../connectionContext";
-import { LinkEntity } from "../core/linkEntity";
-import { DispositionStatusOptions } from "../core/managementClient";
-import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
-import { receiverLogger as logger } from "../log";
-import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { throwErrorIfConnectionClosed } from "../util/errors";
-import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
-import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared";
+import { ConnectionContext } from "../connectionContext.js";
+import { LinkEntity } from "../core/linkEntity.js";
+import { DispositionStatusOptions } from "../core/managementClient.js";
+import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver.js";
+import { receiverLogger as logger } from "../log.js";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils.js";
+import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver.js";
+import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared.js";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { ReceiverHelper } from "../core/receiverHelper";
+import { ReceiverHelper } from "../core/receiverHelper.js";
 import {
   ServiceBusSessionReceiverOptions,
   ProcessErrorArgs,
   ReceiveMode,
   SubscribeOptions,
-} from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
+} from "../models.js";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
+import { abandonMessage, completeMessage } from "../receivers/receiverCommon.js";
 import { delay, isDefined } from "@azure/core-util";
 
 /**

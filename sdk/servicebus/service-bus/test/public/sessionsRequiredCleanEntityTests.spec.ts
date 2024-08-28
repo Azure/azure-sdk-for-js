@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+} from "./utils/testutils2.js";
+import { ServiceBusSender } from "../../src/index.js";
+import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import { describe, it, assert } from "vitest";
+
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic

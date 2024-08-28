@@ -8,8 +8,7 @@ import {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
   toRheaMessage,
-} from "../../../src/serviceBusMessage";
-import * as chai from "chai";
+} from "../../../src/serviceBusMessage.js";
 import { Delivery, Message } from "rhea-promise";
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 import {
@@ -17,11 +16,13 @@ import {
   defaultDataTransformer,
   isRheaAmqpSection,
   valueSectionTypeCode,
-} from "../../../src/dataTransformer";
+} from "../../../src/dataTransformer.js";
 import {
   errorInvalidMessageTypeSingle,
   errorInvalidMessageTypeSingleOrArray,
-} from "../../../src/util/errors";
+} from "../../../src/util/errors.js";
+import { describe, it, assert } from "vitest";
+
 const assert: typeof chai.assert = chai.assert;
 
 describe("AMQP message encoding", () => {

@@ -2,14 +2,12 @@
 // Licensed under the MIT License.
 
 import { MessagingError } from "@azure/core-amqp";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
-import * as sinon from "sinon";
-import { LockRenewer } from "../../../src/core/autoLockRenewer";
-import { ManagementClient, SendManagementRequestOptions } from "../../../src/core/managementClient";
-import { getPromiseResolverForTest } from "./unittestUtils";
+import { LockRenewer } from "../../../src/core/autoLockRenewer.js";
+import { ManagementClient, SendManagementRequestOptions } from "../../../src/core/managementClient.js";
+import { getPromiseResolverForTest } from "./unittestUtils.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("autoLockRenewer unit tests", () => {
   let clock: ReturnType<typeof sinon.useFakeTimers>;

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ManagementClient } from "../../src/core/managementClient";
-import { createConnectionContextForTests } from "./unit/unittestUtils";
+import { ManagementClient } from "../../src/core/managementClient.js";
+import { createConnectionContextForTests } from "./unit/unittestUtils.js";
 import { delay } from "rhea-promise";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
+import { describe, it, assert } from "vitest";
+
 chai.use(chaiAsPromised);
 
 describe("ManagementClient unit tests", () => {

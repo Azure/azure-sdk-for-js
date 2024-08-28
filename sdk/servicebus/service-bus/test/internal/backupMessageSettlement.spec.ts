@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage, ServiceBusSender } from "../../src";
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { delay, ServiceBusMessage, ServiceBusSender } from "../../src/index.js";
+import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -13,13 +10,14 @@ import {
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
+} from "../public/utils/testutils2.js";
 import {
   DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../src/serviceBusMessage";
-import { testLogger } from "./utils/misc";
+} from "../../src/serviceBusMessage.js";
+import { testLogger } from "./utils/misc.js";
+import { describe, it, assert } from "vitest";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

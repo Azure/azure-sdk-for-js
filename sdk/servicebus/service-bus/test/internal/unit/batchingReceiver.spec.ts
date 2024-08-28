@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
-
-import * as sinon from "sinon";
-import { EventEmitter } from "events";
+import { EventEmitter } from "node:events";
 
 import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,
   BatchingReceiverLite,
-} from "../../../src/core/batchingReceiver";
-import { defer, createConnectionContextForTests } from "./unittestUtils";
-import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
-import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+} from "../../../src/core/batchingReceiver.js";
+import { defer, createConnectionContextForTests } from "./unittestUtils.js";
+import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils.js";
+import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
 import {
   Receiver as RheaPromiseReceiver,
   ReceiverEvents,
@@ -24,11 +19,12 @@ import {
   EventContext,
   Message as RheaMessage,
 } from "rhea-promise";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
-import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs";
-import { ReceiveMode } from "../../../src/models";
+import { ConnectionContext } from "../../../src/connectionContext.js";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
+import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
+import { ReceiveMode } from "../../../src/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];

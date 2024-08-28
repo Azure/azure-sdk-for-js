@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContext } from "../connectionContext";
-import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
+import { ConnectionContext } from "../connectionContext.js";
+import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "../index.js";
 import {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
-} from "../models";
-import { MessageSession } from "../session/messageSession";
+} from "../models.js";
+import { MessageSession } from "../session/messageSession.js";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
@@ -20,8 +20,8 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
-} from "../util/errors";
-import { OnError, OnMessage } from "../core/messageReceiver";
+} from "../util/errors.js";
+import { OnError, OnMessage } from "../core/messageReceiver.js";
 import {
   abandonMessage,
   assertValidMessageHandlers,
@@ -30,14 +30,14 @@ import {
   deferMessage,
   getMessageIterator,
   wrapProcessErrorHandler,
-} from "./receiverCommon";
+} from "./receiverCommon.js";
 import {
   defaultMaxTimeAfterFirstMessageForBatchingMs,
   MaxDeleteMessageCount,
   ServiceBusReceiver,
-} from "./receiver";
+} from "./receiver.js";
 import Long from "long";
-import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
 import {
   Constants,
   RetryConfig,
@@ -46,12 +46,12 @@ import {
   retry,
   ErrorNameConditionMapper,
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { AmqpError } from "rhea-promise";
-import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
-import { tracingClient } from "../diagnostics/tracing";
-import { receiverLogger as logger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
+import { tracingClient } from "../diagnostics/tracing.js";
+import { receiverLogger as logger } from "../log.js";
+import { translateServiceBusError } from "../serviceBusError.js";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.

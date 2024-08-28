@@ -9,20 +9,20 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusClientOptions,
   ServiceBusSender,
-} from "../../../src";
+} from "../../../src/index.js";
 
-import { TestClientType, TestMessage } from "./testUtils";
-import { EnvVarNames, getEnvVars } from "./envVarUtils";
+import { TestClientType, TestMessage } from "./testUtils.js";
+import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
 import {
   recreateQueue,
   recreateSubscription,
   recreateTopic,
   verifyMessageCount,
-} from "./managementUtils";
-import chai from "chai";
-import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src";
-import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../../src";
+} from "./managementUtils.js";
+import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
+import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "vitest";
 
 const env = getEnvVars();
 const should = chai.should();
