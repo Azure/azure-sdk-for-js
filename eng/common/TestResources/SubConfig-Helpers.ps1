@@ -132,6 +132,9 @@ function SetSubscriptionConfiguration([object]$subscriptionConfiguration)
 
 function UpdateSubscriptionConfiguration([object]$subscriptionConfigurationBase, [object]$subscriptionConfiguration, [array]$allowedValues)
 {
+    Write-Host "BEBRODER 1 ==================================="
+    Write-Host "sub config type: $($subscriptionConfiguration.GetType())"
+    Write-Host "sub config: $subscriptionConfiguration"
     foreach ($pair in $subscriptionConfiguration.GetEnumerator()) {
         if ($pair.Value -is [Hashtable]) {
             if (!$subscriptionConfigurationBase.ContainsKey($pair.Name)) {
@@ -150,7 +153,7 @@ function UpdateSubscriptionConfiguration([object]$subscriptionConfigurationBase,
             if (ShouldMarkValueAsSecret "AZURE_" $pair.Name $pair.Value $allowedValues) {
                 Write-Host "##vso[task.setvariable variable=_$($pair.Name);issecret=true;]$($pair.Value)"
             }
-            Write-Host "BEBRODER ==================================="
+            Write-Host "BEBRODER 2 ==================================="
             Write-Host "pair type: $($pair.GetType())"
             Write-Host "pair json: $($pair | ConvertTo-Json)"
             Write-Host "pair value type: $($pair.Value.GetType())"
@@ -213,7 +216,7 @@ function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$addi
   }
 
   if ($additionalSubConfigsJson) {
-    $subConfigs = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
+    [array]$subConfigs = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
 
     foreach ($subConfig in $subConfigs) {
       Write-Host "Merging sub config from list"
