@@ -483,7 +483,6 @@ Currently the features below are **not supported**. For alternatives options, ch
 * Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens.       Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
 * Change Feed: Processor
 * Change Feed: Read multiple partitions key values
-* Change Feed pull model all versions and delete mode [#27058](https://github.com/Azure/azure-sdk-for-js/issues/27058)
 * Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
 * Cross-partition ORDER BY for mixed types
 
