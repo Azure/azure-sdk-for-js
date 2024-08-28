@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureFleetClient } from "@azure/arm-computefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureFleetClient } = require("@azure/arm-computefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list VirtualMachineScaleSet resources by Fleet
@@ -15,10 +15,7 @@ async function fleetsListVirtualMachineScaleSets() {
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fleets.listVirtualMachineScaleSets(
-    "rgazurefleet",
-    "myFleet",
-  )) {
+  for await (let item of client.fleets.listVirtualMachineScaleSets("rgazurefleet", "myFleet")) {
     resArray.push(item);
   }
 

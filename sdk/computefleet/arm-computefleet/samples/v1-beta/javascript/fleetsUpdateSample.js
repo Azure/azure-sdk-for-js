@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureFleetClient } from "@azure/arm-computefleet";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AzureFleetClient } = require("@azure/arm-computefleet");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a Fleet
@@ -61,18 +61,14 @@ async function fleetsUpdate() {
                 },
               },
               winRM: {
-                listeners: [
-                  { protocol: "Http", certificateUrl: "phwesineizrl" },
-                ],
+                listeners: [{ protocol: "Http", certificateUrl: "phwesineizrl" }],
               },
               enableVMAgentPlatformUpdates: true,
             },
             linuxConfiguration: {
               disablePasswordAuthentication: true,
               ssh: {
-                publicKeys: [
-                  { path: "kmqz", keyData: "kivgsubusvpprwqaqpjcmhsv" },
-                ],
+                publicKeys: [{ path: "kmqz", keyData: "kivgsubusvpprwqaqpjcmhsv" }],
               },
               provisionVMAgent: true,
               patchSettings: {

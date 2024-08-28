@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets an Azure Extended Zone for a subscription
  * x-ms-original-file: 2024-04-01-preview/ExtendedZones_Get.json
  */
-async function getExtendedZone(): void {
+async function getExtendedZone() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a1ffc958-d2c7-493e-9f1e-125a0477f536";
   const client = new EdgeZonesClient(credential, subscriptionId);

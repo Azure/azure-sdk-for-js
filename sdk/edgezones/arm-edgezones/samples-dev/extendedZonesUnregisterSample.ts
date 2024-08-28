@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary unregisters a subscription for an Extended Zone
  * x-ms-original-file: 2024-04-01-preview/ExtendedZones_Unregister.json
  */
-async function unregisterExtendedZone(): void {
+async function unregisterExtendedZone() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a1ffc958-d2c7-493e-9f1e-125a0477f536";
   const client = new EdgeZonesClient(credential, subscriptionId);
