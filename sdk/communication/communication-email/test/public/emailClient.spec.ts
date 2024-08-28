@@ -130,14 +130,14 @@ describe(`EmailClient [Playback/Live]`, function () {
       content: {
         subject: "someSubject",
         plainText: "somePlainTextBody",
-        html: "<html><h1>someHtmlBody<img src=\"cid:inline_image\" /></html>",
+        html: '<html><h1>someHtmlBody<img src="cid:inline_image" /></html>',
       },
       attachments: [
         {
           name: "myinlineimage.jpg",
           contentType: "image/jpeg",
           contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
-          contentId: "inline_image"
+          contentId: "inline_image",
         },
       ],
     };

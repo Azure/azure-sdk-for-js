@@ -25,7 +25,7 @@ const sendEmailWithAttachments = async (): Promise<void> => {
     content: {
       subject: "This is the subject",
       plainText: "This is the body",
-      html: "<html><h1>This is the body<img src=\"cid:inline_image\" /></h1></html>",
+      html: '<html><h1>This is the body<img src="cid:inline_image" /></h1></html>',
     },
     recipients: {
       to: [{ address: recipientAddress, displayName: "Customer Name" }],
@@ -35,7 +35,7 @@ const sendEmailWithAttachments = async (): Promise<void> => {
         name: "myinlineimage.jpg",
         contentType: "image/jpeg",
         contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
-        contentId: "inline_image"
+        contentId: "inline_image",
       },
     ],
   };
