@@ -388,7 +388,7 @@ describe("Completions", function () {
           });
         });
 
-        describe.skip("streamChatCompletions", function () {
+        describe("streamChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(
