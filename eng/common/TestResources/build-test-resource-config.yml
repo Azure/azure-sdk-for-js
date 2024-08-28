@@ -49,14 +49,9 @@ steps:
         ${{ convertToJson(parameters.SubscriptionConfigurationFilePaths) }}
       '@.Trim()
 
-      $obj = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
-      Write-Host $obj
-      Write-Host $obj.GetType()
-      foreach ($o in $obj) {
-        Write-Host $o
-      }
-      $obj | % { $_.Substring(0,5) }
-      if ($baseSubConfigJson -like '$(*' -or ($obj | ForEach-Object ${ $_ -like '$(*' })) {
+      $obj = @($additionalSubConfigsJson | ConvertFrom-Json -AsHashtable)
+      if ($baseSubConfigJson -like '$(*' `
+          -or @($obj | Where-Object ${ $_ -like '$(*' }.Count)) {
         throw 'A subscription config secret was not downloaded. The pipeline is likely missing a variable group.'
       }
 
