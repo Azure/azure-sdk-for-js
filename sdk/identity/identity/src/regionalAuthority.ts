@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Helps specify a regional authority, or "AutoDiscoverRegion" to auto-detect the region.

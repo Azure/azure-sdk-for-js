@@ -1,14 +1,16 @@
 # Release History
 
-## 5.5.2 (Unreleased)
+## 5.6.0 (2024-08-21)
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- A new property `accessTier` is added to the `StorageBlobCreatedEventData` interface.
+- Two new properties `accessTier` & `previousTier` are added to the `StorageBlobTierChangedEventData` interface.
 
 ### Bugs Fixed
 
-### Other Changes
+- The properties `api`, `blobType`, `clientRequestId`, `contentLength`, `contentOffset`, `contentType`, `eTag`, `identity`, `requestId`, `sequencer`, `storageDiagnostics` & `url` in `StorageBlobCreatedEventData` have been made optional.
+- The properties `api`, `blobType`, `clientRequestId`, `contentLength`, `contentType`,`identity`, `requestId`, `sequencer`, `storageDiagnostics` & `url` in `StorageBlobTierChangedEventData` have been made optional.
 
 ## 5.5.1 (2024-07-16)
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
 export const windows365ArticlePart1 = `

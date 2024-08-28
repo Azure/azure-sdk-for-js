@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Span, AttributeValue, SpanStatusCode } from "@opentelemetry/api";
 import { SpanStatus, TracingSpan } from "@azure/core-tracing";

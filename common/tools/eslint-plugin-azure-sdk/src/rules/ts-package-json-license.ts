@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force package.json's license value to be set to "MIT".
@@ -17,7 +17,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's license value to be 'MIT'",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

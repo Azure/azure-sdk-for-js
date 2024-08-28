@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { APIM_EDITOR_DATA_KEY } from "../../src/index.js";
 import { getEditorValuesPure, getValuesPure, getWidgetDataPure } from "../../src/utils.js";

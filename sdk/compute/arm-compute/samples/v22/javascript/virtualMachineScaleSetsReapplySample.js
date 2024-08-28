@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
  * @summary Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMaximumSetGen() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function virtualMachineScaleSetsReapplyMaximumSetGen() {
  * This sample demonstrates how to Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
  * @summary Reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMinimumSetGen() {
   const subscriptionId =

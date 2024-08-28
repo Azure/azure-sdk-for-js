@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force main to point to a CommonJS or UMD module.
@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's main value to point to a CommonJS or UMD module",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
@@ -8,6 +8,7 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "@azure/storage-blob";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,

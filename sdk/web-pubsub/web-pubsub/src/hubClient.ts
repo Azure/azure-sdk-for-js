@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
@@ -93,7 +93,6 @@ export interface HubSendTextToAllOptions extends HubSendToAllOptions {
 /**
  * Types which can be serialized and sent as JSON.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type JSONTypes = string | number | boolean | object;
 
 /**

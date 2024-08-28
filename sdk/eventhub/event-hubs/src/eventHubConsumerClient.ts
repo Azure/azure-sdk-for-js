@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor.js";
 import { ConnectionContext, createConnectionContext } from "./connectionContext.js";

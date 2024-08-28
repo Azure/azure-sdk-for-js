@@ -804,11 +804,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
-      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/vite-plugin-browser-test-map",
       "projectFolder": "common/tools/vite-plugin-browser-test-map",
       "versionPolicyName": "utility"
@@ -2231,6 +2226,16 @@
     {
       "packageName": "@azure-rest/ai-inference",
       "projectFolder": "sdk/ai/ai-inference-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/create-microsoft-playwright-testing",
+      "projectFolder": "sdk/playwrighttesting/create-microsoft-playwright-testing",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/microsoft-playwright-testing",
+      "projectFolder": "sdk/playwrighttesting/microsoft-playwright-testing",
       "versionPolicyName": "client"
     },
     {

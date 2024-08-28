@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import { NotificationHubsClientContext, createClientContext } from "../../../src/api/index.js";

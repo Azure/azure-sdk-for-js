@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all volumes within the capacity pool
  *
  * @summary List all volumes within the capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Volumes_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Volumes_List.json
  */
 async function volumesList() {
   const subscriptionId =

@@ -16,17 +16,43 @@ export type ClusterPoolAvailableUpgradePropertiesUnion =
   | ClusterPoolAvailableUpgradeProperties
   | ClusterPoolAvailableUpgradeAksPatchUpgradeProperties
   | ClusterPoolAvailableUpgradeNodeOsUpgradeProperties;
+export type ClusterPoolUpgradeHistoryPropertiesUnion =
+  | ClusterPoolUpgradeHistoryProperties
+  | ClusterPoolNodeOsUpgradeHistoryProperties
+  | ClusterPoolAksPatchUpgradeHistoryProperties;
 export type ClusterUpgradePropertiesUnion =
   | ClusterUpgradeProperties
   | ClusterAKSPatchVersionUpgradeProperties
-  | ClusterHotfixUpgradeProperties;
+  | ClusterInPlaceUpgradePropertiesUnion;
 export type ClusterAvailableUpgradePropertiesUnion =
   | ClusterAvailableUpgradeProperties
   | ClusterAvailableUpgradeAksPatchUpgradeProperties
-  | ClusterAvailableUpgradeHotfixUpgradeProperties;
+  | ClusterAvailableInPlaceUpgradePropertiesUnion;
+export type ClusterUpgradeHistoryPropertiesUnion =
+  | ClusterUpgradeHistoryProperties
+  | ClusterInPlaceUpgradeHistoryPropertiesUnion
+  | ClusterAksPatchUpgradeHistoryProperties;
 export type ClusterJobPropertiesUnion =
   | ClusterJobProperties
   | FlinkJobProperties;
+export type ClusterLibraryPropertiesUnion =
+  | ClusterLibraryProperties
+  | PyPiLibraryProperties
+  | MavenLibraryProperties;
+export type ClusterInPlaceUpgradePropertiesUnion =
+  | ClusterInPlaceUpgradeProperties
+  | ClusterHotfixUpgradeProperties
+  | ClusterPatchVersionUpgradeProperties;
+export type ClusterAvailableInPlaceUpgradePropertiesUnion =
+  | ClusterAvailableInPlaceUpgradeProperties
+  | ClusterAvailableUpgradeHotfixUpgradeProperties
+  | ClusterAvailableUpgradePatchVersionUpgradeProperties;
+export type ClusterInPlaceUpgradeHistoryPropertiesUnion =
+  | ClusterInPlaceUpgradeHistoryProperties
+  | ClusterHotfixUpgradeHistoryProperties
+  | ClusterHotfixUpgradeRollbackHistoryProperties
+  | ClusterPatchVersionUpgradeHistoryProperties
+  | ClusterPatchVersionUpgradeRollbackHistoryProperties;
 
 /** Cluster pool resource properties. */
 export interface ClusterPoolResourceProperties {
@@ -71,6 +97,16 @@ export interface ClusterPoolResourceProperties {
 export interface ClusterPoolProfile {
   /** Cluster pool version is a 2-part version. */
   clusterPoolVersion: string;
+  /** Gets or sets the IP tag for the public IPs created along with the HDInsightOnAks ClusterPools and Clusters. */
+  publicIpTag?: IpTag;
+}
+
+/** Contains the IpTag associated with the public IP address */
+export interface IpTag {
+  /** Gets or sets the ipTag type: Example FirstPartyUsage. */
+  ipTagType: string;
+  /** Gets or sets value of the IpTag associated with the public IP. Example HDInsight, SQL, Storage etc */
+  tag: string;
 }
 
 /** Cluster pool compute profile. */
@@ -82,6 +118,8 @@ export interface ClusterPoolComputeProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly count?: number;
+  /** The list of Availability zones to use for AKS VMSS nodes. */
+  availabilityZones?: string[];
 }
 
 /** Properties of the cluster pool underlying AKS cluster. */
@@ -115,7 +153,7 @@ export interface ClusterPoolNetworkProfile {
   outboundType?: OutboundType;
   /** ClusterPool is based on AKS cluster. AKS cluster exposes the API server to public internet by default. If you set this property to true, a private AKS cluster will be created, and it will use private apiserver, which is not exposed to public internet. */
   enablePrivateApiServer?: boolean;
-  /** IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with private AKS clusters. So you cannot set enablePrivateApiServer to true and apiServerAuthorizedIpRanges at the same time. */
+  /** IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with private AKS clusters. So you cannot set enablePrivateApiServer to true and apiServerAuthorizedIpRanges at the same time. Currently, this property is not supported and please don't use it. */
   apiServerAuthorizedIpRanges?: string[];
 }
 
@@ -259,6 +297,27 @@ export interface ClusterPoolAvailableUpgradeProperties {
   upgradeType: "AKSPatchUpgrade" | "NodeOsUpgrade";
 }
 
+/** Represents a list of cluster pool upgrade history. */
+export interface ClusterPoolUpgradeHistoryListResult {
+  /** The list of cluster pool upgrade history. */
+  value: ClusterPoolUpgradeHistory[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of cluster pool upgrade history. */
+export interface ClusterPoolUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "NodeOsUpgrade" | "AKSPatchUpgrade";
+  /** Time when created this upgrade history. */
+  utcTime: string;
+  /** Result of this upgrade. */
+  upgradeResult: ClusterPoolUpgradeHistoryUpgradeResultType;
+}
+
 /** The list cluster operation response. */
 export interface ClusterListResult {
   /** The list of clusters. */
@@ -299,6 +358,8 @@ export interface ClusterResourceProperties {
 export interface ComputeProfile {
   /** The nodes definitions. */
   nodes: NodeProfile[];
+  /** The list of Availability zones to use for AKS VMSS nodes. */
+  availabilityZones?: string[];
 }
 
 /** The node profile. */
@@ -322,8 +383,10 @@ export interface ClusterProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly components?: ClusterComponentsItem[];
-  /** This property is required by Trino, Spark and Flink cluster but is optional for Kafka cluster. */
+  /** This is deprecated. Please use managed identity profile instead. */
   identityProfile?: IdentityProfile;
+  /** This property is required by Trino, Spark and Flink cluster but is optional for Kafka cluster. */
+  managedIdentityProfile?: ManagedIdentityProfile;
   /** Authorization profile with details of AAD user Ids and group Ids authorized for data plane access. */
   authorizationProfile: AuthorizationProfile;
   /** The cluster secret profile. */
@@ -368,6 +431,24 @@ export interface ClusterProfile {
 export interface ClusterComponentsItem {
   name?: string;
   version?: string;
+}
+
+/** The details of managed identity. */
+export interface ManagedIdentityProfile {
+  /** The list of managed identity. */
+  identityList: ManagedIdentitySpec[];
+}
+
+/** The details of a managed identity. */
+export interface ManagedIdentitySpec {
+  /** The type of managed identity. */
+  type: ManagedIdentityType;
+  /** ResourceId of the managed identity. */
+  resourceId: string;
+  /** ClientId of the managed identity. */
+  clientId: string;
+  /** ObjectId of the managed identity. */
+  objectId: string;
 }
 
 /** Authorization profile with details of AAD user Ids and group Ids authorized for data plane access. */
@@ -499,6 +580,8 @@ export interface SshProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly podPrefix?: string;
+  /** The virtual machine SKU. */
+  vmSize?: string;
 }
 
 /** This is the Autoscale profile for the cluster. This will allow customer to create cluster enabled with Autoscale. */
@@ -587,11 +670,6 @@ export interface KafkaProfile {
   remoteStorageUri?: string;
   /** Kafka disk storage profile. */
   diskStorage: DiskStorageProfile;
-  /**
-   * Identity of the internal service components inside the Kafka cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clusterIdentity?: IdentityProfile;
   /**
    * Kafka bootstrap server and brokers related connectivity endpoints.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -894,7 +972,11 @@ export interface ClusterUpgrade {
 /** Properties of upgrading cluster. */
 export interface ClusterUpgradeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+  upgradeType:
+    | "AKSPatchUpgrade"
+    | "ClusterInPlaceUpgradeProperties"
+    | "HotfixUpgrade"
+    | "PatchVersionUpgrade";
 }
 
 /** Collection of cluster available upgrade. */
@@ -908,7 +990,50 @@ export interface ClusterAvailableUpgradeList {
 /** Cluster available upgrade properties. */
 export interface ClusterAvailableUpgradeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  upgradeType: "AKSPatchUpgrade" | "HotfixUpgrade";
+  upgradeType:
+    | "AKSPatchUpgrade"
+    | "ClusterAvailableInPlaceUpgradeProperties"
+    | "HotfixUpgrade"
+    | "PatchVersionUpgrade";
+}
+
+/** Represents a list of cluster upgrade history. */
+export interface ClusterUpgradeHistoryListResult {
+  /** The list of cluster upgrade history. */
+  value: ClusterUpgradeHistory[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of cluster upgrade history. */
+export interface ClusterUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType:
+    | "ClusterInPlaceUpgradeHistoryProperties"
+    | "HotfixUpgrade"
+    | "HotfixUpgradeRollback"
+    | "PatchVersionUpgrade"
+    | "PatchVersionUpgradeRollback"
+    | "AKSPatchUpgrade";
+  /** Time when created this upgrade history. */
+  utcTime: string;
+  /** Result of this upgrade. */
+  upgradeResult: ClusterUpgradeHistoryUpgradeResultType;
+}
+
+/** Cluster Upgrade. */
+export interface ClusterUpgradeRollback {
+  /** Properties for manual rollback of cluster's upgrade. */
+  properties: ClusterUpgradeRollbackProperties;
+}
+
+/** Properties for manual rollback of cluster's upgrade. */
+export interface ClusterUpgradeRollbackProperties {
+  /** A specific upgrade history to rollback */
+  upgradeHistory: string;
 }
 
 /** The properties for resizing a cluster. */
@@ -951,6 +1076,10 @@ export interface UpdatableClusterProfile {
   rangerProfile?: RangerProfile;
   /** The script action profile list. */
   scriptActionProfiles?: ScriptActionProfile[];
+  /** The cluster secret profile. */
+  secretsProfile?: SecretsProfile;
+  /** Trino Cluster profile. */
+  trinoProfile?: TrinoProfile;
 }
 
 /** Properties of cluster job. */
@@ -1192,6 +1321,48 @@ export interface ClusterVersionProperties {
   readonly components?: ClusterComponentsItem[];
 }
 
+/** Collection of libraries in the cluster. */
+export interface ClusterLibraryList {
+  /** Collection of libraries in the cluster. */
+  value: ClusterLibrary[];
+  /**
+   * The url of next result page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of a library in the cluster. */
+export interface ClusterLibraryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "pypi" | "maven";
+  /** Remark of the latest library management operation. */
+  remarks?: string;
+  /**
+   * Timestamp of the latest library management operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timestamp?: Date;
+  /**
+   * Status of the library.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: Status;
+  /**
+   * Error message of the library operation when a failure occurs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Properties of a library management operation. */
+export interface ClusterLibraryManagementOperationProperties {
+  /** The library management action. */
+  action: LibraryManagementAction;
+  /** The libraries to be installed/updated/uninstalled. */
+  libraries: ClusterLibrary[];
+}
+
 /** CLuster pool profile. */
 export interface ClusterPoolResourcePropertiesClusterPoolProfile
   extends ClusterPoolProfile {}
@@ -1269,6 +1440,30 @@ export interface ClusterPoolAvailableUpgradeNodeOsUpgradeProperties
   latestVersion?: string;
 }
 
+/** Cluster pool node os upgrade history properties. */
+export interface ClusterPoolNodeOsUpgradeHistoryProperties
+  extends ClusterPoolUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "NodeOsUpgrade";
+  /** New Node Os version. */
+  newNodeOs?: string;
+}
+
+/** Cluster pool aks upgrade history properties. */
+export interface ClusterPoolAksPatchUpgradeHistoryProperties
+  extends ClusterPoolUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade";
+  /** Whether upgrade cluster pool. */
+  upgradeClusterPool?: boolean;
+  /** Whether upgrade all cluster nodes. */
+  upgradeAllClusterNodes?: boolean;
+  /** Version before update. */
+  originalVersion?: string;
+  /** Version going to update. */
+  newVersion?: string;
+}
+
 /** Web connectivity endpoint details. */
 export interface ConnectivityProfileWeb extends WebConnectivityEndpoint {}
 
@@ -1279,11 +1474,14 @@ export interface ClusterAKSPatchVersionUpgradeProperties
   upgradeType: "AKSPatchUpgrade";
 }
 
-/** Properties of upgrading cluster's hotfix. */
-export interface ClusterHotfixUpgradeProperties
+/** Properties of in-place upgrading cluster. */
+export interface ClusterInPlaceUpgradeProperties
   extends ClusterUpgradeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  upgradeType: "HotfixUpgrade";
+  upgradeType:
+    | "ClusterInPlaceUpgradeProperties"
+    | "HotfixUpgrade"
+    | "PatchVersionUpgrade";
   /** Target OSS version of component to be upgraded. */
   targetOssVersion?: string;
   /** Target cluster version of component to be upgraded. */
@@ -1307,11 +1505,14 @@ export interface ClusterAvailableUpgradeAksPatchUpgradeProperties
   latestVersion?: string;
 }
 
-/** Cluster available hotfix version upgrade. */
-export interface ClusterAvailableUpgradeHotfixUpgradeProperties
+/** Cluster available in-place upgrade. */
+export interface ClusterAvailableInPlaceUpgradeProperties
   extends ClusterAvailableUpgradeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  upgradeType: "HotfixUpgrade";
+  upgradeType:
+    | "ClusterAvailableInPlaceUpgradeProperties"
+    | "HotfixUpgrade"
+    | "PatchVersionUpgrade";
   /** Hotfix version upgrade description. */
   description?: string;
   /** Source OSS version of current cluster component. */
@@ -1334,6 +1535,45 @@ export interface ClusterAvailableUpgradeHotfixUpgradeProperties
   extendedProperties?: string;
   /** Created time of current available upgrade version */
   createdTime?: Date;
+}
+
+/** Cluster in-place upgrade history properties. */
+export interface ClusterInPlaceUpgradeHistoryProperties
+  extends ClusterUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType:
+    | "ClusterInPlaceUpgradeHistoryProperties"
+    | "HotfixUpgrade"
+    | "HotfixUpgradeRollback"
+    | "PatchVersionUpgrade"
+    | "PatchVersionUpgradeRollback";
+  /** Version with three part. */
+  sourceClusterVersion?: string;
+  /** Version with three part. */
+  sourceOssVersion?: string;
+  /** Source build number. */
+  sourceBuildNumber?: string;
+  /** Version with three part. */
+  targetClusterVersion?: string;
+  /** Version with three part. */
+  targetOssVersion?: string;
+  /** Target build number. */
+  targetBuildNumber?: string;
+  /** Component name to upgrade. */
+  componentName?: string;
+  /** Severity of this upgrade. */
+  severity?: ClusterUpgradeHistorySeverityType;
+}
+
+/** Cluster aks patch upgrade history properties. */
+export interface ClusterAksPatchUpgradeHistoryProperties
+  extends ClusterUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "AKSPatchUpgrade";
+  /** Version before update. */
+  originalVersion?: string;
+  /** Version going to update. */
+  newVersion?: string;
 }
 
 /** Properties of flink job. */
@@ -1397,6 +1637,28 @@ export interface ClusterInstanceViewResultProperties
 export interface ClusterInstanceViewPropertiesStatus
   extends ClusterInstanceViewStatus {}
 
+/** Properties of a PyPi library in the cluster. */
+export interface PyPiLibraryProperties extends ClusterLibraryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "pypi";
+  /** Name of the PyPi package. */
+  name: string;
+  /** Version of the PyPi package. */
+  version?: string;
+}
+
+/** Properties of a Maven library in the cluster. */
+export interface MavenLibraryProperties extends ClusterLibraryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "maven";
+  /** GroupId of the Maven package. */
+  groupId: string;
+  /** ArtifactId of the Maven package. */
+  name: string;
+  /** Version of the Maven package. */
+  version?: string;
+}
+
 /** Cluster pool. */
 export interface ClusterPool extends TrackedResource {
   /** Gets or sets the properties. Define cluster pool specific properties. */
@@ -1421,10 +1683,22 @@ export interface ClusterPoolAvailableUpgrade extends ProxyResource {
   properties?: ClusterPoolAvailableUpgradePropertiesUnion;
 }
 
+/** Cluster pool upgrade history. */
+export interface ClusterPoolUpgradeHistory extends ProxyResource {
+  /** Properties of cluster pool upgrade history. */
+  properties: ClusterPoolUpgradeHistoryPropertiesUnion;
+}
+
 /** Cluster available upgrade. */
 export interface ClusterAvailableUpgrade extends ProxyResource {
   /** Gets or sets the properties. Define cluster upgrade specific properties. */
   properties?: ClusterAvailableUpgradePropertiesUnion;
+}
+
+/** Cluster upgrade history. */
+export interface ClusterUpgradeHistory extends ProxyResource {
+  /** Properties of cluster upgrade history. */
+  properties: ClusterUpgradeHistoryPropertiesUnion;
 }
 
 /** Cluster job. */
@@ -1443,6 +1717,74 @@ export interface ClusterPoolVersion extends ProxyResource {
 export interface ClusterVersion extends ProxyResource {
   /** Cluster version properties. */
   properties?: ClusterVersionProperties;
+}
+
+/** Libraries in the cluster. */
+export interface ClusterLibrary extends ProxyResource {
+  /** Properties of a library in the cluster. */
+  properties: ClusterLibraryPropertiesUnion;
+}
+
+/** Library management operation. */
+export interface ClusterLibraryManagementOperation extends ProxyResource {
+  /** Properties of a library management operation. */
+  properties: ClusterLibraryManagementOperationProperties;
+}
+
+/** Properties of upgrading cluster's hotfix. */
+export interface ClusterHotfixUpgradeProperties
+  extends ClusterInPlaceUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "HotfixUpgrade";
+}
+
+/** Properties of upgrading cluster's patch version. */
+export interface ClusterPatchVersionUpgradeProperties
+  extends ClusterInPlaceUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "PatchVersionUpgrade";
+}
+
+/** Cluster available hotfix version upgrade. */
+export interface ClusterAvailableUpgradeHotfixUpgradeProperties
+  extends ClusterAvailableInPlaceUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "HotfixUpgrade";
+}
+
+/** Cluster available patch version upgrade. */
+export interface ClusterAvailableUpgradePatchVersionUpgradeProperties
+  extends ClusterAvailableInPlaceUpgradeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "PatchVersionUpgrade";
+}
+
+/** Cluster hotfix upgrade history properties. */
+export interface ClusterHotfixUpgradeHistoryProperties
+  extends ClusterInPlaceUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "HotfixUpgrade";
+}
+
+/** Cluster hotfix upgrade rollback history properties. */
+export interface ClusterHotfixUpgradeRollbackHistoryProperties
+  extends ClusterInPlaceUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "HotfixUpgradeRollback";
+}
+
+/** Cluster patch version upgrade history properties. */
+export interface ClusterPatchVersionUpgradeHistoryProperties
+  extends ClusterInPlaceUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "PatchVersionUpgrade";
+}
+
+/** Cluster patch version upgrade rollback history properties. */
+export interface ClusterPatchVersionUpgradeRollbackHistoryProperties
+  extends ClusterInPlaceUpgradeHistoryProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  upgradeType: "PatchVersionUpgradeRollback";
 }
 
 /** Defines headers for ClusterPools_updateTags operation. */
@@ -1467,6 +1809,12 @@ export interface ClustersUpgradeHeaders {
   location?: string;
 }
 
+/** Defines headers for Clusters_upgradeManualRollback operation. */
+export interface ClustersUpgradeManualRollbackHeaders {
+  /** URL to get the status of the rollback operation. */
+  location?: string;
+}
+
 /** Defines headers for Clusters_resize operation. */
 export interface ClustersResizeHeaders {
   /** URL to get the status of the resize operation. */
@@ -1486,6 +1834,12 @@ export interface ClustersDeleteHeaders {
 /** Defines headers for ClusterJobs_runJob operation. */
 export interface ClusterJobsRunJobHeaders {
   /** URL to get the status of the resize operation. */
+  location?: string;
+}
+
+/** Defines headers for ClusterLibraries_manageLibraries operation. */
+export interface ClusterLibrariesManageLibrariesHeaders {
+  /** URL to get the status of the library management operation. */
   location?: string;
 }
 
@@ -1590,6 +1944,63 @@ export enum KnownClusterPoolAvailableUpgradeType {
  * **NodeOsUpgrade**
  */
 export type ClusterPoolAvailableUpgradeType = string;
+
+/** Known values of {@link ClusterPoolUpgradeHistoryType} that the service accepts. */
+export enum KnownClusterPoolUpgradeHistoryType {
+  /** AKSPatchUpgrade */
+  AKSPatchUpgrade = "AKSPatchUpgrade",
+  /** NodeOsUpgrade */
+  NodeOsUpgrade = "NodeOsUpgrade",
+}
+
+/**
+ * Defines values for ClusterPoolUpgradeHistoryType. \
+ * {@link KnownClusterPoolUpgradeHistoryType} can be used interchangeably with ClusterPoolUpgradeHistoryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKSPatchUpgrade** \
+ * **NodeOsUpgrade**
+ */
+export type ClusterPoolUpgradeHistoryType = string;
+
+/** Known values of {@link ClusterPoolUpgradeHistoryUpgradeResultType} that the service accepts. */
+export enum KnownClusterPoolUpgradeHistoryUpgradeResultType {
+  /** Succeed */
+  Succeed = "Succeed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ClusterPoolUpgradeHistoryUpgradeResultType. \
+ * {@link KnownClusterPoolUpgradeHistoryUpgradeResultType} can be used interchangeably with ClusterPoolUpgradeHistoryUpgradeResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeed** \
+ * **Failed**
+ */
+export type ClusterPoolUpgradeHistoryUpgradeResultType = string;
+
+/** Known values of {@link ManagedIdentityType} that the service accepts. */
+export enum KnownManagedIdentityType {
+  /** Cluster */
+  Cluster = "cluster",
+  /** User */
+  User = "user",
+  /** Internal */
+  Internal = "internal",
+}
+
+/**
+ * Defines values for ManagedIdentityType. \
+ * {@link KnownManagedIdentityType} can be used interchangeably with ManagedIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **cluster** \
+ * **user** \
+ * **internal**
+ */
+export type ManagedIdentityType = string;
 
 /** Known values of {@link KeyVaultObjectType} that the service accepts. */
 export enum KnownKeyVaultObjectType {
@@ -1852,6 +2263,8 @@ export enum KnownClusterUpgradeType {
   AKSPatchUpgrade = "AKSPatchUpgrade",
   /** HotfixUpgrade */
   HotfixUpgrade = "HotfixUpgrade",
+  /** PatchVersionUpgrade */
+  PatchVersionUpgrade = "PatchVersionUpgrade",
 }
 
 /**
@@ -1860,7 +2273,8 @@ export enum KnownClusterUpgradeType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AKSPatchUpgrade** \
- * **HotfixUpgrade**
+ * **HotfixUpgrade** \
+ * **PatchVersionUpgrade**
  */
 export type ClusterUpgradeType = string;
 
@@ -1870,6 +2284,8 @@ export enum KnownClusterAvailableUpgradeType {
   AKSPatchUpgrade = "AKSPatchUpgrade",
   /** HotfixUpgrade */
   HotfixUpgrade = "HotfixUpgrade",
+  /** PatchVersionUpgrade */
+  PatchVersionUpgrade = "PatchVersionUpgrade",
 }
 
 /**
@@ -1878,9 +2294,55 @@ export enum KnownClusterAvailableUpgradeType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AKSPatchUpgrade** \
- * **HotfixUpgrade**
+ * **HotfixUpgrade** \
+ * **PatchVersionUpgrade**
  */
 export type ClusterAvailableUpgradeType = string;
+
+/** Known values of {@link ClusterUpgradeHistoryType} that the service accepts. */
+export enum KnownClusterUpgradeHistoryType {
+  /** AKSPatchUpgrade */
+  AKSPatchUpgrade = "AKSPatchUpgrade",
+  /** HotfixUpgrade */
+  HotfixUpgrade = "HotfixUpgrade",
+  /** HotfixUpgradeRollback */
+  HotfixUpgradeRollback = "HotfixUpgradeRollback",
+  /** PatchVersionUpgrade */
+  PatchVersionUpgrade = "PatchVersionUpgrade",
+  /** PatchVersionUpgradeRollback */
+  PatchVersionUpgradeRollback = "PatchVersionUpgradeRollback",
+}
+
+/**
+ * Defines values for ClusterUpgradeHistoryType. \
+ * {@link KnownClusterUpgradeHistoryType} can be used interchangeably with ClusterUpgradeHistoryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKSPatchUpgrade** \
+ * **HotfixUpgrade** \
+ * **HotfixUpgradeRollback** \
+ * **PatchVersionUpgrade** \
+ * **PatchVersionUpgradeRollback**
+ */
+export type ClusterUpgradeHistoryType = string;
+
+/** Known values of {@link ClusterUpgradeHistoryUpgradeResultType} that the service accepts. */
+export enum KnownClusterUpgradeHistoryUpgradeResultType {
+  /** Succeed */
+  Succeed = "Succeed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ClusterUpgradeHistoryUpgradeResultType. \
+ * {@link KnownClusterUpgradeHistoryUpgradeResultType} can be used interchangeably with ClusterUpgradeHistoryUpgradeResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeed** \
+ * **Failed**
+ */
+export type ClusterUpgradeHistoryUpgradeResultType = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
@@ -1932,6 +2394,87 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Known values of {@link Category} that the service accepts. */
+export enum KnownCategory {
+  /** Custom */
+  Custom = "custom",
+  /** Predefined */
+  Predefined = "predefined",
+}
+
+/**
+ * Defines values for Category. \
+ * {@link KnownCategory} can be used interchangeably with Category,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **custom** \
+ * **predefined**
+ */
+export type Category = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Pypi */
+  Pypi = "pypi",
+  /** Maven */
+  Maven = "maven",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pypi** \
+ * **maven**
+ */
+export type Type = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** Installing */
+  Installing = "INSTALLING",
+  /** Installed */
+  Installed = "INSTALLED",
+  /** InstallFailed */
+  InstallFailed = "INSTALL_FAILED",
+  /** Uninstalling */
+  Uninstalling = "UNINSTALLING",
+  /** UninstallFailed */
+  UninstallFailed = "UNINSTALL_FAILED",
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **INSTALLING** \
+ * **INSTALLED** \
+ * **INSTALL_FAILED** \
+ * **UNINSTALLING** \
+ * **UNINSTALL_FAILED**
+ */
+export type Status = string;
+
+/** Known values of {@link LibraryManagementAction} that the service accepts. */
+export enum KnownLibraryManagementAction {
+  /** Install */
+  Install = "Install",
+  /** Uninstall */
+  Uninstall = "Uninstall",
+}
+
+/**
+ * Defines values for LibraryManagementAction. \
+ * {@link KnownLibraryManagementAction} can be used interchangeably with LibraryManagementAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Install** \
+ * **Uninstall**
+ */
+export type LibraryManagementAction = string;
 
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
@@ -2038,6 +2581,30 @@ export enum KnownSeverity {
  */
 export type Severity = string;
 
+/** Known values of {@link ClusterUpgradeHistorySeverityType} that the service accepts. */
+export enum KnownClusterUpgradeHistorySeverityType {
+  /** Low */
+  Low = "low",
+  /** Medium */
+  Medium = "medium",
+  /** High */
+  High = "high",
+  /** Critical */
+  Critical = "critical",
+}
+
+/**
+ * Defines values for ClusterUpgradeHistorySeverityType. \
+ * {@link KnownClusterUpgradeHistorySeverityType} can be used interchangeably with ClusterUpgradeHistorySeverityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **low** \
+ * **medium** \
+ * **high** \
+ * **critical**
+ */
+export type ClusterUpgradeHistorySeverityType = string;
+
 /** Optional parameters. */
 export interface ClusterPoolsGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -2135,6 +2702,22 @@ export type ClusterPoolAvailableUpgradesListNextResponse =
   ClusterPoolAvailableUpgradeList;
 
 /** Optional parameters. */
+export interface ClusterPoolUpgradeHistoriesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClusterPoolUpgradeHistoriesListResponse =
+  ClusterPoolUpgradeHistoryListResult;
+
+/** Optional parameters. */
+export interface ClusterPoolUpgradeHistoriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ClusterPoolUpgradeHistoriesListNextResponse =
+  ClusterPoolUpgradeHistoryListResult;
+
+/** Optional parameters. */
 export interface ClustersListByClusterPoolNameOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2152,6 +2735,18 @@ export interface ClustersUpgradeOptionalParams
 
 /** Contains response data for the upgrade operation. */
 export type ClustersUpgradeResponse = Cluster;
+
+/** Optional parameters. */
+export interface ClustersUpgradeManualRollbackOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgradeManualRollback operation. */
+export type ClustersUpgradeManualRollbackResponse = Cluster;
 
 /** Optional parameters. */
 export interface ClustersResizeOptionalParams
@@ -2263,6 +2858,22 @@ export type ClusterAvailableUpgradesListNextResponse =
   ClusterAvailableUpgradeList;
 
 /** Optional parameters. */
+export interface ClusterUpgradeHistoriesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClusterUpgradeHistoriesListResponse =
+  ClusterUpgradeHistoryListResult;
+
+/** Optional parameters. */
+export interface ClusterUpgradeHistoriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ClusterUpgradeHistoriesListNextResponse =
+  ClusterUpgradeHistoryListResult;
+
+/** Optional parameters. */
 export interface ClusterJobsRunJobOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -2343,6 +2954,33 @@ export interface AvailableClusterVersionsListByLocationNextOptionalParams
 /** Contains response data for the listByLocationNext operation. */
 export type AvailableClusterVersionsListByLocationNextResponse =
   ClusterVersionsListResult;
+
+/** Optional parameters. */
+export interface ClusterLibrariesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ClusterLibrariesListResponse = ClusterLibraryList;
+
+/** Optional parameters. */
+export interface ClusterLibrariesManageLibrariesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the manageLibraries operation. */
+export type ClusterLibrariesManageLibrariesResponse =
+  ClusterLibrariesManageLibrariesHeaders;
+
+/** Optional parameters. */
+export interface ClusterLibrariesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ClusterLibrariesListNextResponse = ClusterLibraryList;
 
 /** Optional parameters. */
 export interface HDInsightContainersManagementClientOptionalParams

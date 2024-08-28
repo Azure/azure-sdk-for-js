@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, isPlaybackMode, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";

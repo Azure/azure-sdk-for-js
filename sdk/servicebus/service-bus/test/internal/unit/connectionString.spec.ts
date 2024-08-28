@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { parseServiceBusConnectionString } from "../../../src/util/connectionStringUtils";
 import chai from "chai";

@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { createRecorder } from "./utils/recorderUtils";
-import { Context } from "mocha";
-import DocumentIntelligence, {
+import { createRecorder } from "./utils/recorderUtils.js";
+import DocumentIntelligence from "../../src/documentIntelligence.js";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { getRandomNumber, containerSasUrl } from "./utils/utils.js";
+import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import {
   DocumentClassifierBuildOperationDetailsOutput,
-  DocumentIntelligenceClient,
   getLongRunningPoller,
   isUnexpected,
-} from "../../src";
-import assert from "assert";
-import { getRandomNumber } from "./utils/utils";
-import { containerSasUrl } from "./utils/utils";
+} from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),

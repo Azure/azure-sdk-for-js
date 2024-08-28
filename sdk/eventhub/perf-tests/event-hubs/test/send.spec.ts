@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getEnvVar, PerfOptionDictionary, BatchPerfTest } from "@azure-tools/test-perf";
 import { EventHubProducerClient, EventData } from "@azure/event-hubs";
