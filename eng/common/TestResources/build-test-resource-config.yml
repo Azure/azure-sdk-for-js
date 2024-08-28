@@ -59,7 +59,7 @@ steps:
       $obj | % { $_ -like '$(*' }
       Write-Host "-----"
       if ($baseSubConfigJson -like '$(*' `
-          -or @($obj | Where-Object ${ $_ -like '$(*' })?.Count) {
+          -or @($obj | Where-Object { $_ -like '$(*' }).Count) {
         throw 'A subscription config secret was not downloaded. The pipeline is likely missing a variable group.'
       }
 
