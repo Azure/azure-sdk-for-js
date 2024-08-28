@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the HDInsight clusters hosts
  *
  * @summary Lists the HDInsight clusters hosts
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetClusterVirtualMachines.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetClusterVirtualMachines.json
  */
 async function getAllHostsInTheCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";

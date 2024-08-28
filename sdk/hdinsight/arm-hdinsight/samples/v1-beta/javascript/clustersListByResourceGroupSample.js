@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the HDInsight clusters in a resource group.
  *
  * @summary Lists the HDInsight clusters in a resource group.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetLinuxHadoopAllClustersInResourceGroup.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetLinuxHadoopAllClustersInResourceGroup.json
  */
 async function getAllHadoopOnLinuxClustersInAResourceGroup() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
