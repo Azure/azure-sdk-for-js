@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger.js";
+import { logger } from "./logger";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { DocumentTranslationClient } from "./clientDefinitions.js";
+import { DocumentTranslationClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
 export interface DocumentTranslationClientOptions extends ClientOptions {
