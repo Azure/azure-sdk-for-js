@@ -55,6 +55,7 @@ steps:
       foreach ($o in $obj) {
         Write-Host $o
       }
+      $obj | % { $_.Substring(0,5) }
       if ($baseSubConfigJson -like '$(*' -or ($obj | ForEach-Object ${ $_ -like '$(*' })) {
         throw 'A subscription config secret was not downloaded. The pipeline is likely missing a variable group.'
       }
