@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * Library for integrating Microsoft Playwright Testing with existing playwright projects.

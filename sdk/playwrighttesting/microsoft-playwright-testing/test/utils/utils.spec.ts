@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { API_VERSION, ServiceEnvironmentVariable } from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";

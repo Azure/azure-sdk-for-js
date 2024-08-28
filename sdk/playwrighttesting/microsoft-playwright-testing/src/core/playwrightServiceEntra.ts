@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { EntraIdAccessTokenConstants } from "../common/constants";
 import { coreLogger } from "../common/logger";

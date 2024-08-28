@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { init } from "./bin/init";
 

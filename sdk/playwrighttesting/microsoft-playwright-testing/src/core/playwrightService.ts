@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { BlockBlobClient } from "@azure/storage-blob";
 import { reporterLogger } from "../common/logger";

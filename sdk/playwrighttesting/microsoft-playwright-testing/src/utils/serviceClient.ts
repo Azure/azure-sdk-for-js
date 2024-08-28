@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import type { FullResult } from "@playwright/test/reporter";
 import { Constants } from "../common/constants";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 export class MultiMap<K, V> {
   private _map: Map<K, V[]>;

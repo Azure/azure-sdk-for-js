@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import type { Location, TestStep } from "@playwright/test/reporter";
 import { ServiceAuth, ServiceOS } from "./constants";

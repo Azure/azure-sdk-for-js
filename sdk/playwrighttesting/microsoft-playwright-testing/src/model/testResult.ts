@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import type { TestStatus } from "@playwright/test";
 import { RawTestStep } from "../common/types";
