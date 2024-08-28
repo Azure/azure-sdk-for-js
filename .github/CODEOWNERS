@@ -1591,5 +1591,5 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /eng/emitter-package-lock.json @qiaozha @MaryGao
 /eng/emitter-package.json @qiaozha @MaryGao
 
-/sdk/**/*.bicep @deyaaeldeen @jeremymeng
-/sdk/**/test-resources.json @deyaaeldeen @jeremymeng
+/sdk/**/*.bicep @deyaaeldeen
+/sdk/**/test-resources.json @deyaaeldeen
