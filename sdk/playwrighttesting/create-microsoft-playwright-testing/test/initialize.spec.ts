@@ -137,15 +137,13 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
-    const npmRunCommand = `npx playwright test -c ${playwrightServiceInitialize["getServiceConfigFileName"]()}`;
     const npmRunCommandParallelWorkers = `npx playwright test -c ${playwrightServiceInitialize["getServiceConfigFileName"]()} --workers=20`;
 
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(6);
-    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
-    expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
+    expect(consoleLogStub.callCount).to.equal(4);
+    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
   });
 
   it("should provide additional information (yarn)", () => {
@@ -155,15 +153,13 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
-    const npmRunCommand = `yarn playwright test -c ${playwrightServiceInitialize["getServiceConfigFileName"]()}`;
     const npmRunCommandParallelWorkers = `yarn playwright test -c ${playwrightServiceInitialize["getServiceConfigFileName"]()} --workers=20`;
 
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(6);
-    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
-    expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
+    expect(consoleLogStub.callCount).to.equal(4);
+    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
   });
 
   it("should provide additional information (pnpm)", () => {
@@ -173,14 +169,12 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
-    const npmRunCommand = `pnpm playwright test -c ${playwrightServiceInitialize["getServiceConfigFileName"]()}`;
     const npmRunCommandParallelWorkers = `pnpm playwright test -c ${playwrightServiceInitialize["getServiceConfigFileName"]()} --workers=20`;
 
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(6);
-    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommand}\n`);
-    expect(consoleLogStub.getCall(3).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
+    expect(consoleLogStub.callCount).to.equal(4);
+    expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
   });
 });

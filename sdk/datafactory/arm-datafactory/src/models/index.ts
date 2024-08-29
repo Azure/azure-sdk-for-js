@@ -1403,6 +1403,8 @@ export interface LinkedService {
     | "ServiceNowV2";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+  /** Version of the linked service. */
+  version?: string;
   /** The integration runtime reference. */
   connectVia?: IntegrationRuntimeReference;
   /** Linked service description. */
@@ -3056,6 +3058,20 @@ export interface SsisVariable {
   sensitiveValue?: string;
 }
 
+/** Azure Storage linked service properties. */
+export interface AzureStorageLinkedServiceTypeProperties {
+  /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString?: any;
+  /** The Azure key vault secret reference of accountKey in connection string. */
+  accountKey?: AzureKeyVaultSecretReference;
+  /** SAS URI of the Azure Storage resource. It is mutually exclusive with connectionString property. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  sasUri?: any;
+  /** The Azure key vault secret reference of sasToken in sas uri. */
+  sasToken?: AzureKeyVaultSecretReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
 /** Sql Server family connector common linked service properties. */
 export interface SqlServerBaseLinkedServiceTypeProperties {
   /** The name or network address of the instance of SQL Server to which to connect, used by recommended version. Type: string (or Expression with resultType string). */
@@ -3853,6 +3869,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -3863,6 +3881,16 @@ export interface ExecuteDataFlowActivityTypeProperties {
   runConcurrently?: any;
   /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
   sourceStagingConcurrency?: any;
+}
+
+/** Continuation settings for execute data flow activity. */
+export interface ContinuationSettingsReference {
+  /** Continuation TTL in minutes. */
+  continuationTtlInMinutes?: any;
+  /** Idle condition. */
+  idleCondition?: any;
+  /** Customized checkpoint key. */
+  customizedCheckpointKey?: any;
 }
 
 /** Compute properties for data flow activity. */
@@ -4456,6 +4484,10 @@ export interface AzureTableStorageLinkedService extends LinkedService {
   sasToken?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
+  /** Table service endpoint of the Azure Table Storage resource. It is mutually exclusive with connectionString, sasUri property. */
+  serviceEndpoint?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Azure SQL Data Warehouse linked service. */
@@ -4580,6 +4612,8 @@ export interface SqlServerLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon RDS for SQL Server linked service. */
@@ -4852,8 +4886,10 @@ export interface DynamicsLinkedService extends LinkedService {
   serviceUri?: any;
   /** The organization name of the Dynamics instance. The property is required for on-prem and required for online when there are more than one Dynamics instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
-  /** The authentication type to connect to Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
+  /** The authentication type to connect to Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario, 'Active Directory' for Dynamics on-premises with IFD. Type: string (or Expression with resultType string). */
   authenticationType: any;
+  /** The Active Directory domain that will verify user credentials. Type: string (or Expression with resultType string). */
+  domain?: any;
   /** User name to access the Dynamics instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Dynamics instance. */
@@ -4884,8 +4920,10 @@ export interface DynamicsCrmLinkedService extends LinkedService {
   serviceUri?: any;
   /** The organization name of the Dynamics CRM instance. The property is required for on-prem and required for online when there are more than one Dynamics CRM instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
-  /** The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
+  /** The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario, 'Active Directory' for Dynamics on-premises with IFD. Type: string (or Expression with resultType string). */
   authenticationType: any;
+  /** The Active Directory domain that will verify user credentials. Type: string (or Expression with resultType string). */
+  domain?: any;
   /** User name to access the Dynamics CRM instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Dynamics CRM instance. */
@@ -4916,8 +4954,10 @@ export interface CommonDataServiceForAppsLinkedService extends LinkedService {
   serviceUri?: any;
   /** The organization name of the Common Data Service for Apps instance. The property is required for on-prem and required for online when there are more than one Common Data Service for Apps instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
-  /** The authentication type to connect to Common Data Service for Apps server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
+  /** The authentication type to connect to Common Data Service for Apps server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for Server-To-Server authentication in online scenario, 'Active Directory' for Dynamics on-premises with IFD. Type: string (or Expression with resultType string). */
   authenticationType: any;
+  /** The Active Directory domain that will verify user credentials. Type: string (or Expression with resultType string). */
+  domain?: any;
   /** User name to access the Common Data Service for Apps instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Common Data Service for Apps instance. */
@@ -4992,6 +5032,10 @@ export interface AzureFileStorageLinkedService extends LinkedService {
   snapshot?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
+  /** File service endpoint of the Azure File Storage resource. It is mutually exclusive with connectionString, sasUri property. */
+  serviceEndpoint?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Linked service for Amazon S3 Compatible. */
@@ -5700,6 +5744,12 @@ export interface RestServiceLinkedService extends LinkedService {
   resource?: any;
   /** The scope of the access required. It describes what kind of access will be requested. Type: string (or Expression with resultType string). */
   scope?: any;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** Specify the base64 encoded certificate of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCert?: SecretBaseUnion;
+  /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
 }
 
 /** Linked service for TeamDesk. */
@@ -6617,6 +6667,14 @@ export interface VerticaLinkedService extends LinkedService {
   type: "Vertica";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  uid?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
   /** The Azure key vault secret reference of password in connection string. */
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
@@ -6664,7 +6722,7 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   /** The allowed idle time for the on-demand HDInsight cluster. Specifies how long the on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string). */
   timeToLive: any;
   /** Version of the HDInsight cluster.  Type: string (or Expression with resultType string). */
-  version: any;
+  versionTypePropertiesVersion: any;
   /** Azure Storage linked service to be used by the on-demand cluster for storing and processing data. */
   linkedServiceName: LinkedServiceReference;
   /** The customer’s subscription to host the cluster. Type: string (or Expression with resultType string). */
@@ -7038,7 +7096,13 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
   /** The application (client) ID of your application registered in Azure Active Directory. Make sure to grant SharePoint site permission to this application. Type: string (or Expression with resultType string). */
   servicePrincipalId: any;
   /** The client secret of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
-  servicePrincipalKey: SecretBaseUnion;
+  servicePrincipalKey?: SecretBaseUnion;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** Specify the base64 encoded certificate of your application registered in Azure Active Directory. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCert?: SecretBaseUnion;
+  /** Specify the password of your certificate if your certificate has a password and you are using AadServicePrincipal authentication. Type: string (or Expression with resultType string). */
+  servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
@@ -8294,6 +8358,8 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -8720,6 +8786,15 @@ export interface LinkedIntegrationRuntimeRbacAuthorization
   credential?: CredentialReference;
 }
 
+/** Azure Table Storage linked service properties. */
+export interface AzureTableStorageLinkedServiceTypeProperties
+  extends AzureStorageLinkedServiceTypeProperties {
+  /** Table service endpoint of the Azure Table Storage resource. It is mutually exclusive with connectionString, sasUri property. */
+  serviceEndpoint?: any;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+}
+
 /** Azure SQL Data Warehouse linked service properties. */
 export interface AzureSqlDWLinkedServiceTypeProperties
   extends SqlServerBaseLinkedServiceTypeProperties {
@@ -8764,6 +8839,8 @@ export interface SqlServerLinkedServiceTypeProperties
   encryptedCredential?: string;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 }
 
 /** Amazon Rds for SQL Server linked service properties. */
@@ -10476,6 +10553,8 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
 }
 
 /** Azure Databricks Delta Lake export command settings. */
@@ -10506,6 +10585,8 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
+  /** The name of the snowflake storage integration to use for the copy operation. Type: string (or Expression with resultType string). */
+  storageIntegration?: any;
 }
 
 /** A copy activity tabular translator. */
@@ -11138,6 +11219,8 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   staging?: DataFlowStagingInfo;
   /** The integration runtime reference. */
   integrationRuntime?: IntegrationRuntimeReference;
+  /** Continuation settings for execute data flow activity. */
+  continuationSettings?: ContinuationSettingsReference;
   /** Compute properties for data flow activity. */
   compute?: ExecuteDataFlowActivityTypePropertiesCompute;
   /** Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string) */
@@ -12858,6 +12941,8 @@ export enum KnownSqlServerAuthenticationType {
   SQL = "SQL",
   /** Windows */
   Windows = "Windows",
+  /** UserAssignedManagedIdentity */
+  UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
 }
 
 /**
@@ -12866,7 +12951,8 @@ export enum KnownSqlServerAuthenticationType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **SQL** \
- * **Windows**
+ * **Windows** \
+ * **UserAssignedManagedIdentity**
  */
 export type SqlServerAuthenticationType = string;
 
@@ -14351,6 +14437,8 @@ export enum KnownDynamicsAuthenticationType {
   Ifd = "Ifd",
   /** AADServicePrincipal */
   AADServicePrincipal = "AADServicePrincipal",
+  /** ActiveDirectory */
+  ActiveDirectory = "Active Directory",
 }
 
 /**
@@ -14360,7 +14448,8 @@ export enum KnownDynamicsAuthenticationType {
  * ### Known values supported by the service
  * **Office365** \
  * **Ifd** \
- * **AADServicePrincipal**
+ * **AADServicePrincipal** \
+ * **Active Directory**
  */
 export type DynamicsAuthenticationType = string;
 

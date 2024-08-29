@@ -135,3 +135,9 @@ export const TestResultErrorConstants = [
     pattern: /browserType.connect: Target page, context or browser has been closed/i,
   },
 ];
+
+export const InternalEnvironmentVariables = {
+  MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
+};
+
+export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";

@@ -17,7 +17,7 @@
         "Pool": "env:MACPOOL"
       }
     },
-    "NodeTestVersion": ["18.x", "20.x", "22.4.x"],
+    "NodeTestVersion": ["18.x", "20.x", "22.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },

@@ -292,6 +292,17 @@ export type IBackOffOptions = {
 
 export type JitterType = "full" | "none";
 
+export type VersionInfo = {
+  major: number;
+  minor: number;
+  patch: number;
+};
+
+export type PackageManager = {
+  runCommand: (command: string, args: string) => string;
+  getVersionFromStdout: (stdout: string) => string;
+};
+
 // Playwright OSS Types
 
 export interface FullConfig {

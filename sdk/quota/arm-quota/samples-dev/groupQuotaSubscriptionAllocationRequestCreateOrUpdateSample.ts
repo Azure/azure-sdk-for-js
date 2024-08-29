@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  QuotaAllocationRequestStatus,
-  AzureQuotaExtensionAPI,
-} from "@azure/arm-quota";
+import { QuotaAllocationRequestStatus, AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -25,8 +22,7 @@ dotenv.config();
  */
 async function subscriptionQuotaAllocationPutRequestForCompute() {
   const subscriptionId =
-    process.env["QUOTA_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["QUOTA_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const resourceProviderName = "Microsoft.Compute";
@@ -38,14 +34,13 @@ async function subscriptionQuotaAllocationPutRequestForCompute() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
-  const result =
-    await client.groupQuotaSubscriptionAllocationRequest.beginCreateOrUpdateAndWait(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      resourceName,
-      allocateQuotaRequest,
-    );
+  const result = await client.groupQuotaSubscriptionAllocationRequest.beginCreateOrUpdateAndWait(
+    managementGroupId,
+    groupQuotaName,
+    resourceProviderName,
+    resourceName,
+    allocateQuotaRequest,
+  );
   console.log(result);
 }
 
