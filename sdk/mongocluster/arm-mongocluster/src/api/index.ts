@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export {
   createMongoClusterManagement,
-  DocumentDBContext,
   MongoClusterManagementClientOptionalParams,
+  DocumentDBContext,
 } from "./mongoClusterManagementContext.js";
 export {
   firewallRulesGet,
@@ -21,7 +21,6 @@ export {
   mongoClustersList,
   mongoClustersListConnectionStrings,
   mongoClustersCheckNameAvailability,
-  mongoClustersPromote,
 } from "./mongoClusters/index.js";
 export { operationsList } from "./operations/index.js";
 export {
@@ -31,4 +30,3 @@ export {
   privateEndpointConnectionsDelete,
 } from "./privateEndpointConnections/index.js";
 export { privateLinksListByMongoCluster } from "./privateLinks/index.js";
-export { replicasListByParent } from "./replicas/index.js";

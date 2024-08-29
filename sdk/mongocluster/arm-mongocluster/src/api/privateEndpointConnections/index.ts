@@ -1,24 +1,37 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import { getLongRunningPoller } from "../pollingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   privateEndpointConnectionPropertiesSerializer,
   PrivateEndpointConnectionResource,
   _PrivateEndpointConnectionResourceListResult,
 } from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
+import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { buildPagedAsyncIterator } from "../pagingHelpers.js";
+import {
+  isUnexpected,
+  DocumentDBContext as Client,
+  PrivateEndpointConnectionsCreate200Response,
+  PrivateEndpointConnectionsCreate201Response,
+  PrivateEndpointConnectionsCreate202Response,
+  PrivateEndpointConnectionsCreateDefaultResponse,
+  PrivateEndpointConnectionsCreateLogicalResponse,
+  PrivateEndpointConnectionsDelete202Response,
+  PrivateEndpointConnectionsDelete204Response,
+  PrivateEndpointConnectionsDeleteDefaultResponse,
+  PrivateEndpointConnectionsDeleteLogicalResponse,
+  PrivateEndpointConnectionsGet200Response,
+  PrivateEndpointConnectionsGetDefaultResponse,
+  PrivateEndpointConnectionsListByMongoCluster200Response,
+  PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
+} from "../../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
-  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsListByMongoClusterOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
@@ -34,7 +47,10 @@ export function _privateEndpointConnectionsListByMongoClusterSend(
   options: PrivateEndpointConnectionsListByMongoClusterOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod {
+): StreamableMethod<
+  | PrivateEndpointConnectionsListByMongoCluster200Response
+  | PrivateEndpointConnectionsListByMongoClusterDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections",
@@ -46,15 +62,16 @@ export function _privateEndpointConnectionsListByMongoClusterSend(
 }
 
 export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
-  result: PathUncheckedResponse,
+  result:
+    | PrivateEndpointConnectionsListByMongoCluster200Response
+    | PrivateEndpointConnectionsListByMongoClusterDefaultResponse,
 ): Promise<_PrivateEndpointConnectionResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
+  if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p: any) => {
+    value: result.body["value"].map((p) => {
       return {
         id: p["id"],
         name: p["name"],
@@ -83,16 +100,9 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
                 ? undefined
                 : { id: p.properties?.privateEndpoint?.["id"] },
               privateLinkServiceConnectionState: {
-                status:
-                  p.properties?.privateLinkServiceConnectionState["status"],
-                description:
-                  p.properties?.privateLinkServiceConnectionState[
-                    "description"
-                  ],
-                actionsRequired:
-                  p.properties?.privateLinkServiceConnectionState[
-                    "actionsRequired"
-                  ],
+                status: p.properties?.privateLinkServiceConnectionState["status"],
+                description: p.properties?.privateLinkServiceConnectionState["description"],
+                actionsRequired: p.properties?.privateLinkServiceConnectionState["actionsRequired"],
               },
               provisioningState: p.properties?.["provisioningState"],
             },
@@ -123,7 +133,6 @@ export function privateEndpointConnectionsListByMongoCluster(
         options,
       ),
     _privateEndpointConnectionsListByMongoClusterDeserialize,
-    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
@@ -135,7 +144,9 @@ export function _privateEndpointConnectionsGetSend(
   mongoClusterName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
+): StreamableMethod<
+  PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -148,10 +159,9 @@ export function _privateEndpointConnectionsGetSend(
 }
 
 export async function _privateEndpointConnectionsGetDeserialize(
-  result: PathUncheckedResponse,
+  result: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
 ): Promise<PrivateEndpointConnectionResource> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
+  if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
@@ -183,18 +193,10 @@ export async function _privateEndpointConnectionsGetDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
-            description:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "description"
-              ],
+            status: result.body.properties?.privateLinkServiceConnectionState["status"],
+            description: result.body.properties?.privateLinkServiceConnectionState["description"],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "actionsRequired"
-              ],
+              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
           },
           provisioningState: result.body.properties?.["provisioningState"],
         },
@@ -231,7 +233,13 @@ export function _privateEndpointConnectionsCreateSend(
   options: PrivateEndpointConnectionsCreateOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod {
+): StreamableMethod<
+  | PrivateEndpointConnectionsCreate200Response
+  | PrivateEndpointConnectionsCreate201Response
+  | PrivateEndpointConnectionsCreate202Response
+  | PrivateEndpointConnectionsCreateDefaultResponse
+  | PrivateEndpointConnectionsCreateLogicalResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -251,55 +259,52 @@ export function _privateEndpointConnectionsCreateSend(
 }
 
 export async function _privateEndpointConnectionsCreateDeserialize(
-  result: PathUncheckedResponse,
+  result:
+    | PrivateEndpointConnectionsCreate200Response
+    | PrivateEndpointConnectionsCreate201Response
+    | PrivateEndpointConnectionsCreate202Response
+    | PrivateEndpointConnectionsCreateDefaultResponse
+    | PrivateEndpointConnectionsCreateLogicalResponse,
 ): Promise<PrivateEndpointConnectionResource> {
-  const expectedStatuses = ["200", "201", "202"];
-  if (!expectedStatuses.includes(result.status)) {
+  if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
+  const res = result as unknown as PrivateEndpointConnectionsCreateLogicalResponse;
   return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
+    id: res.body["id"],
+    name: res.body["name"],
+    type: res.body["type"],
+    systemData: !res.body.systemData
       ? undefined
       : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
+          createdBy: res.body.systemData?.["createdBy"],
+          createdByType: res.body.systemData?.["createdByType"],
           createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
+            res.body.systemData?.["createdAt"] !== undefined
+              ? new Date(res.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
+            res.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(res.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !result.body.properties
+    properties: !res.body.properties
       ? undefined
       : {
-          groupIds: result.body.properties?.["groupIds"],
-          privateEndpoint: !result.body.properties?.privateEndpoint
+          groupIds: res.body.properties?.["groupIds"],
+          privateEndpoint: !res.body.properties?.privateEndpoint
             ? undefined
-            : { id: result.body.properties?.privateEndpoint?.["id"] },
+            : { id: res.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
-            description:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "description"
-              ],
+            status: res.body.properties?.privateLinkServiceConnectionState["status"],
+            description: res.body.properties?.privateLinkServiceConnectionState["description"],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "actionsRequired"
-              ],
+              res.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
           },
-          provisioningState: result.body.properties?.["provisioningState"],
+          provisioningState: res.body.properties?.["provisioningState"],
         },
   };
 }
@@ -319,25 +324,20 @@ export function privateEndpointConnectionsCreate(
   OperationState<PrivateEndpointConnectionResource>,
   PrivateEndpointConnectionResource
 > {
-  return getLongRunningPoller(
-    context,
-    _privateEndpointConnectionsCreateDeserialize,
-    ["200", "201", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _privateEndpointConnectionsCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          mongoClusterName,
-          privateEndpointConnectionName,
-          resource,
-          options,
-        ),
-    },
-  ) as PollerLike<
+  return getLongRunningPoller(context, _privateEndpointConnectionsCreateDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _privateEndpointConnectionsCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        privateEndpointConnectionName,
+        resource,
+        options,
+      ),
+  }) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
     PrivateEndpointConnectionResource
   >;
@@ -352,7 +352,12 @@ export function _privateEndpointConnectionsDeleteSend(
   options: PrivateEndpointConnectionsDeleteOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod {
+): StreamableMethod<
+  | PrivateEndpointConnectionsDelete202Response
+  | PrivateEndpointConnectionsDelete204Response
+  | PrivateEndpointConnectionsDeleteDefaultResponse
+  | PrivateEndpointConnectionsDeleteLogicalResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
@@ -365,10 +370,13 @@ export function _privateEndpointConnectionsDeleteSend(
 }
 
 export async function _privateEndpointConnectionsDeleteDeserialize(
-  result: PathUncheckedResponse,
+  result:
+    | PrivateEndpointConnectionsDelete202Response
+    | PrivateEndpointConnectionsDelete204Response
+    | PrivateEndpointConnectionsDeleteDefaultResponse
+    | PrivateEndpointConnectionsDeleteLogicalResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "204", "200"];
-  if (!expectedStatuses.includes(result.status)) {
+  if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
@@ -386,22 +394,17 @@ export function privateEndpointConnectionsDelete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _privateEndpointConnectionsDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _privateEndpointConnectionsDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          mongoClusterName,
-          privateEndpointConnectionName,
-          options,
-        ),
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _privateEndpointConnectionsDeleteDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _privateEndpointConnectionsDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        privateEndpointConnectionName,
+        options,
+      ),
+  }) as PollerLike<OperationState<void>, void>;
 }

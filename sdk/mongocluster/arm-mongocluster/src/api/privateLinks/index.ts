@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
-  PrivateLinkResource,
-  _PrivateLinkResourceListResult,
-} from "../../models/models.js";
-import { DocumentDBContext as Client } from "../index.js";
+  isUnexpected,
+  DocumentDBContext as Client,
+  PrivateLinksListByMongoCluster200Response,
+  PrivateLinksListByMongoClusterDefaultResponse,
+} from "../../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
-  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
 import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
 
 export function _privateLinksListByMongoClusterSend(
@@ -26,7 +25,9 @@ export function _privateLinksListByMongoClusterSend(
   options: PrivateLinksListByMongoClusterOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod {
+): StreamableMethod<
+  PrivateLinksListByMongoCluster200Response | PrivateLinksListByMongoClusterDefaultResponse
+> {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateLinkResources",
@@ -38,15 +39,14 @@ export function _privateLinksListByMongoClusterSend(
 }
 
 export async function _privateLinksListByMongoClusterDeserialize(
-  result: PathUncheckedResponse,
+  result: PrivateLinksListByMongoCluster200Response | PrivateLinksListByMongoClusterDefaultResponse,
 ): Promise<_PrivateLinkResourceListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
+  if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p: any) => {
+    value: result.body["value"].map((p) => {
       return {
         id: p["id"],
         name: p["name"],
@@ -101,7 +101,6 @@ export function privateLinksListByMongoCluster(
         options,
       ),
     _privateLinksListByMongoClusterDeserialize,
-    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

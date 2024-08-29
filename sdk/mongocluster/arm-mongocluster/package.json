@@ -88,14 +88,6 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/arm-network": "^33.2.0"
   },
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview"
-  },
   "scripts": {
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
@@ -109,9 +101,9 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:samples": "dev-tool run typecheck --paths samples-dev/*.ts && dev-tool samples publish -f",
+    "build:samples": "echo skipped",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "execute:samples": "dev-tool samples run samples-dev",
+    "execute:samples": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "generate:client": "echo skipped",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateEndpointConnectionResource } from "../../models/models.js";
@@ -9,7 +9,7 @@ import {
   privateEndpointConnectionsCreate,
   privateEndpointConnectionsDelete,
 } from "../../api/privateEndpointConnections/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionsListByMongoClusterOptionalParams,
@@ -53,10 +53,7 @@ export interface PrivateEndpointConnectionsOperations {
   ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getPrivateEndpointConnections(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getPrivateEndpointConnections(context: DocumentDBContext, subscriptionId: string) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,
