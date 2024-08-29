@@ -98,3 +98,9 @@ export class Constants {
 export const BackoffConstants = {
   MAX_RETRIES: 10,
 };
+
+export const InternalEnvironmentVariables = {
+  MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
+};
+
+export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";
