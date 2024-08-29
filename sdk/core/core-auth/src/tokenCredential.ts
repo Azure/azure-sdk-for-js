@@ -79,6 +79,9 @@ export interface AccessToken {
    * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
    */
   refreshAfterTimestamp?: number;
+
+  /** Type of token - Bearer or Pop */
+  tokenType: string;
 }
 
 /**
