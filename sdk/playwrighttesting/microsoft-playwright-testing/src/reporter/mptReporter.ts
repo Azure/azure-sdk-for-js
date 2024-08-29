@@ -64,6 +64,7 @@ class MPTReporter implements Reporter {
     numTotalAttachments: 0,
     sizeTotalAttachments: 0,
   };
+  private numWorkers: number = -1;
   private testRunUrl: string = "";
 
   constructor(config: Partial<MPTReporterConfig>) {
@@ -103,6 +104,7 @@ class MPTReporter implements Reporter {
    * @param result - Result of the test run.
    */
   onTestEnd(test: TestCase, result: TestResult): void {
+    this.numWorkers = Math.max(this.numWorkers, result.parallelIndex + 1);
     // Process test result
     this._onTestEnd(test, result);
     // Upload the test results batch
@@ -156,6 +158,7 @@ class MPTReporter implements Reporter {
       return values;
     });
     try {
+      this.shard.testRunConfig.workers = this.numWorkers;
       await this.serviceClient.patchTestRunShardEnd(
         result,
         this.shard,
