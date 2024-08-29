@@ -432,9 +432,7 @@ describe("test bulk operations", async function () {
       };
       const defaultBulkTestDataSet: BulkTestDataSet = {
         dbName: "bulkTestDB",
-        bulkOperationOptions: {
-          continueOnError: false,
-        },
+        bulkOperationOptions: {},
         containerRequest: {
           id: "patchContainer",
           partitionKey: {
