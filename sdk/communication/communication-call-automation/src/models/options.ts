@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";

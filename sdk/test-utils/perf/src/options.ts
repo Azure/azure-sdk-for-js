@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { isDefined } from "@azure/core-util";

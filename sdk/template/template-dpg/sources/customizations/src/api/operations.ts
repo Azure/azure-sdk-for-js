@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * The customizations in this file will be applied on top of the generated file with the same

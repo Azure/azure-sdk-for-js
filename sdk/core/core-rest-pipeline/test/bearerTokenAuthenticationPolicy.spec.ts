@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 import type {
@@ -118,7 +118,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -149,7 +149,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -184,7 +184,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + defaultRefreshWindow + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, { getTokenDelay });
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -312,6 +312,51 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.equal(error?.message, "Failed to refresh access token.");
   });
 
+  it("correctly refreshes the accessToken when refreshAfterTimestamp", async () => {
+    const refreshAfterWindow = 5000 * 2;
+    const expireOnWindow = refreshAfterWindow * 100;
+
+    const tokenRefreshAfter = Date.now() + refreshAfterWindow;
+    let tokenExpiration = Date.now() + expireOnWindow;
+
+    const credential = new MockRefreshAzureCredential(tokenExpiration, {
+      refreshAfterTimestamp: tokenRefreshAfter,
+    });
+
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<SendRequest>();
+    next.mockResolvedValue(successResponse);
+
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    // The token is cached and remains cached for a bit.
+    await policy.sendRequest(request, next);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 1);
+
+    // The token will refresh after 5000 milliseconds.
+    vi.advanceTimersByTime(refreshAfterWindow + 100);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 2);
+
+    // The new token will last for a few seconds with no refreshAfter.
+    tokenExpiration = Date.now() + 5000;
+    credential.expiresOnTimestamp = tokenExpiration;
+    credential.options = {
+      refreshAfterTimestamp: undefined,
+    };
+
+    // Now we wait until it expires:
+    vi.advanceTimersByTime(tokenExpiration + 1000);
+    await policy.sendRequest(request, next);
+    assert.strictEqual(credential.authCount, 3);
+  });
+
   function createBearerTokenPolicy(
     scopes: string | string[],
     credential: TokenCredential,
@@ -329,7 +374,10 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   constructor(
     public expiresOnTimestamp: number,
-    public getTokenDelay?: number,
+    public options?: {
+      getTokenDelay?: number;
+      refreshAfterTimestamp?: number;
+    },
   ) {}
 
   public async getToken(): Promise<AccessToken> {
@@ -340,10 +388,14 @@ class MockRefreshAzureCredential implements TokenCredential {
     }
 
     // Allowing getToken to take a while
-    if (this.getTokenDelay && vi.isFakeTimers()) {
-      vi.advanceTimersByTime(this.getTokenDelay);
+    if (this.options?.getTokenDelay && vi.isFakeTimers()) {
+      vi.advanceTimersByTime(this.options?.getTokenDelay);
     }
 
-    return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };
+    return {
+      token: "mock-token",
+      expiresOnTimestamp: this.expiresOnTimestamp,
+      refreshAfterTimestamp: this.options?.refreshAfterTimestamp,
+    };
   }
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force the inclusion of type declarations in the package.
@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force api-extractor.json to configure types in a consistent way",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

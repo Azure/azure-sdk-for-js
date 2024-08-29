@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import eslint from "@eslint/js";
 import typescriptEslint from "typescript-eslint";
@@ -15,7 +15,7 @@ import azureSdkCustomized from "./azure-sdk-customized";
 // to keep compat with old .eslintrc style usage
 import rootConfig from "./azure-sdk-base";
 
-function recommended(plugin: FlatConfig.Plugin) {
+function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
   return typescriptEslint.config(
     {
       ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
@@ -29,7 +29,9 @@ function recommended(plugin: FlatConfig.Plugin) {
       },
     },
     eslint.configs.recommended,
-    ...typescriptEslint.configs.recommended,
+    ...(options.typeChecked
+      ? typescriptEslint.configs.recommendedTypeChecked
+      : typescriptEslint.configs.recommended),
     typescriptEslint.configs.eslintRecommended,
     eslintConfigPrettier,
     {
@@ -50,7 +52,8 @@ function recommended(plugin: FlatConfig.Plugin) {
 }
 
 export default (plugin: FlatConfig.Plugin) => ({
-  recommended: recommended(plugin),
+  recommended: recommended(plugin, { typeChecked: false }),
+  recommendedTypeChecked: recommended(plugin, { typeChecked: true }),
   "recommended-legacy": {
     plugins: ["@azure/azure-sdk"],
     env: {

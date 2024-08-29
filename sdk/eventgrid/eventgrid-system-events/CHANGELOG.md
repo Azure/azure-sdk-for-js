@@ -1,14 +1,11 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.3 (2024-08-20)
 
 ### Other Changes
+
+- A new field `accessTier` is added to the `StorageBlobCreatedEventData` object.
+- Two new fields `accessTier` & `previousTier` are added to the StorageBlobTierChangedEventData object.
 
 ## 1.0.0-beta.2 (2024-07-16)
 

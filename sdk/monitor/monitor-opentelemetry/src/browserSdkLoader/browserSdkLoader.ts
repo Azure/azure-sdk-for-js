@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-underscore-dangle*/
 
@@ -105,7 +105,7 @@ export class BrowserSdkLoader {
           // eslint-disable-next-line @typescript-eslint/unbound-method
           const originalResponseWrite = response.write;
           const isGetRequest = request.method === "GET";
-          // eslint-disable-next-line @typescript-eslint/ban-types
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
           response.write = function wrap(a: Buffer | string, b?: Function | string) {
             // only patch GET request
             try {
@@ -146,7 +146,7 @@ export class BrowserSdkLoader {
           // eslint-disable-next-line @typescript-eslint/unbound-method
           const originalResponseEnd = response.end;
 
-          // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-redundant-type-constituents
           (response.end as any) = function wrap(a?: Buffer | string | any, b?: Function) {
             if (isGetRequest) {
               try {
@@ -197,7 +197,7 @@ export class BrowserSdkLoader {
           const isGetHttpsRequest = req.method === "GET";
           const originalHttpsResponseWrite = res.write;
           const originalHttpsResponseEnd = res.end;
-          // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-redundant-type-constituents
           res.write = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
@@ -224,7 +224,7 @@ export class BrowserSdkLoader {
             return originalHttpsResponseWrite.apply(res, arguments);
           };
 
-          // eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type, @typescript-eslint/no-redundant-type-constituents
           res.end = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {

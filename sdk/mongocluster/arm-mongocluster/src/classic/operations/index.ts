@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { Operation } from "../../models/models.js";

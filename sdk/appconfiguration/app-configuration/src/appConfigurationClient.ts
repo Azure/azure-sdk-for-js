@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />

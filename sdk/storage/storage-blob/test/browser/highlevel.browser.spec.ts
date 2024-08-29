@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
@@ -123,7 +123,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter.signal,

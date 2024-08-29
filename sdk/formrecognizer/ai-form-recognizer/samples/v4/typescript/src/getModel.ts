@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample shows how to get the full information about a custom model by its model ID, including information about

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ConnectionContext, createConnectionContext } from "./connectionContext.js";
 import {

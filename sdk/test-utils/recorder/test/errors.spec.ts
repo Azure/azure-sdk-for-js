@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RecorderError, RecordingStateManager } from "../src/utils/utils.js";
 import { Recorder } from "../src/recorder.js";

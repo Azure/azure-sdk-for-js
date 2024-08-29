@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   Recorder,
@@ -20,7 +20,6 @@ import {
   // AzureCliCredential,
   InteractiveBrowserCredential,
 } from "@azure/identity";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { isNode } from "@azure-tools/test-utils";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";

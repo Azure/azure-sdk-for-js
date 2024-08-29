@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msalBrowser from "@azure/msal-browser";
 
@@ -217,6 +217,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
     return {
       token: result.accessToken,
       expiresOnTimestamp: result.expiresOn.getTime(),
+      refreshAfterTimestamp: result.refreshOn?.getTime(),
     };
   }
 }

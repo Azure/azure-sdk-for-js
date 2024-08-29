@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
@@ -38,6 +38,12 @@ interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
    * without having to first determine the client Id of the created identity.
    */
   resourceId?: string;
+
+  /**
+   * Allows specifying the object ID of the underlying service principal used to authenticate a user-assigned managed identity.
+   * This is an alternative to providing a client ID and is not required for system-assigned managed identities.
+   */
+  objectId?: string;
 }
 
 export class MsalMsiProvider {
@@ -45,6 +51,7 @@ export class MsalMsiProvider {
   private identityClient: IdentityClient;
   private clientId?: string;
   private resourceId?: string;
+  private objectId?: string;
   private msiRetryConfig: MSIConfiguration["retryConfig"] = {
     maxRetries: 5,
     startDelayInMs: 800,
@@ -65,11 +72,15 @@ export class MsalMsiProvider {
       _options = clientIdOrOptions ?? {};
     }
     this.resourceId = _options?.resourceId;
+    this.objectId = _options?.objectId;
 
     // For JavaScript users.
-    if (this.clientId && this.resourceId) {
+    const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
+    if (providedIds.length > 1) {
       throw new Error(
-        `ManagedIdentityCredential - Client Id and Resource Id can't be provided at the same time.`,
+        `ManagedIdentityCredential - only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
+          { clientId: this.clientId, resourceId: this.resourceId, objectId: this.objectId },
+        )}`,
       );
     }
 
@@ -89,6 +100,7 @@ export class MsalMsiProvider {
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
         userAssignedResourceId: this.resourceId,
+        userAssignedObjectId: this.objectId,
       },
       system: {
         // todo: proxyUrl?
@@ -204,6 +216,7 @@ export class MsalMsiProvider {
         return {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
+          refreshAfterTimestamp: token.refreshOn?.getTime(),
         };
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));

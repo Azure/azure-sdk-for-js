@@ -34,7 +34,7 @@ export async function main() {
   const storageContainerPipeline = createCustomPipeline(credential);
   const storageClient = new BlobServiceClient(storageEndpoint, storageContainerPipeline);
   const containerClient = storageClient.getContainerClient("checkpointstore");
-  
+
   if (!containerClient.exists()) {
     await containerClient.create();
   }

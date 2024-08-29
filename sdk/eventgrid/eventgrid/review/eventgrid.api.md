@@ -2506,19 +2506,23 @@ export interface StorageAsyncOperationInitiatedEventData {
 }
 
 // @public
+export type StorageBlobAccessTier = string;
+
+// @public
 export interface StorageBlobCreatedEventData {
-    api: string;
-    blobType: string;
-    clientRequestId: string;
-    contentLength: number;
-    contentOffset: number;
-    contentType: string;
-    eTag: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    storageDiagnostics: any;
-    url: string;
+    accessTier: StorageBlobAccessTier;
+    api?: string;
+    blobType?: string;
+    clientRequestId?: string;
+    contentLength?: number;
+    contentOffset?: number;
+    contentType?: string;
+    eTag?: string;
+    identity?: string;
+    requestId?: string;
+    sequencer?: string;
+    storageDiagnostics?: any;
+    url?: string;
 }
 
 // @public
@@ -2559,16 +2563,18 @@ export interface StorageBlobRenamedEventData {
 
 // @public
 export interface StorageBlobTierChangedEventData {
-    api: string;
-    blobType: string;
-    clientRequestId: string;
-    contentLength: number;
-    contentType: string;
-    identity: string;
-    requestId: string;
-    sequencer: string;
-    storageDiagnostics: any;
-    url: string;
+    accessTier: StorageBlobAccessTier;
+    api?: string;
+    blobType?: string;
+    clientRequestId?: string;
+    contentLength?: number;
+    contentType?: string;
+    identity?: string;
+    previousTier: StorageBlobAccessTier;
+    requestId?: string;
+    sequencer?: string;
+    storageDiagnostics?: any;
+    url?: string;
 }
 
 // @public

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getBSU, getTokenBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";

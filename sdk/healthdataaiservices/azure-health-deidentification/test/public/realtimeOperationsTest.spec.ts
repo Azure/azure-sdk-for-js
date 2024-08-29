@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AppConfigurationClient } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Parameters for creating an Azure Batch Pool. */
 export interface BatchPoolCreateContent {
