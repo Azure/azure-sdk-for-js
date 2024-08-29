@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-client";
@@ -9,18 +9,18 @@ import {
   GetCertificateOptions,
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy,
-} from "../../certificatesModels";
+} from "../../certificatesModels.js";
 import {
   cleanState,
   KeyVaultCertificatePollOperation,
   KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
+} from "../keyVaultCertificatePoller.js";
+import { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
-} from "../../transformations";
-import { tracingClient } from "../../tracing";
+} from "../../transformations.js";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.

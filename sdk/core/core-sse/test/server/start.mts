@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import express from "express";
 import { port, waitBetweenEventsInMS } from "./config.mts";

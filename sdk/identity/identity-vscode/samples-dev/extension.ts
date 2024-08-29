@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * In this sample, we use the plugin API to provide an implementation of

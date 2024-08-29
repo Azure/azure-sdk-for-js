@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Paged } from "@azure/core-paging";
 
@@ -12,7 +12,7 @@ export interface OperationDetailsOutputParent {
    *
    * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
    */
-  status: string;
+  status: OperationStatusOutput;
   /** Operation progress (0-100). */
   percentCompleted?: number;
   /** Date and time (UTC) when the operation was created. */
@@ -27,7 +27,7 @@ export interface OperationDetailsOutputParent {
   tags?: Record<string, string>;
   /** Encountered error. */
   error?: ErrorModelOutput;
-  kind: string;
+  kind: OperationKindOutput;
 }
 
 /** The error object. */
@@ -69,33 +69,43 @@ export interface DocumentModelDetailsOutput {
   /** Document model description. */
   description?: string;
   /** Date and time (UTC) when the document model was created. */
-  createdDateTime: string;
+  readonly createdDateTime: string;
   /** Date and time (UTC) when the document model will expire. */
-  expirationDateTime?: string;
+  readonly expirationDateTime?: string;
   /** API version used to create this document model. */
-  apiVersion?: string;
+  readonly apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
   tags?: Record<string, string>;
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural"
+   * Possible values: "template", "neural", "generative"
    */
-  buildMode?: string;
+  readonly buildMode?: DocumentBuildModeOutput;
   /**
    * Azure Blob Storage location containing the training data.  Either
    * azureBlobSource or azureBlobFileListSource must be specified.
    */
-  azureBlobSource?: AzureBlobContentSourceOutput;
+  readonly azureBlobSource?: AzureBlobContentSourceOutput;
   /**
    * Azure Blob Storage file list specifying the training data.  Either
    * azureBlobSource or azureBlobFileListSource must be specified.
    */
-  azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
+  readonly azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
+  /** For composed models, the custom classifier to split and classify the input file. */
+  classifierId?: string;
+  /**
+   * For composed models, the file splitting behavior.
+   *
+   * Possible values: "auto", "none", "perPage"
+   */
+  split?: SplitModeOutput;
   /** Supported document types. */
-  docTypes?: Record<string, DocumentTypeDetailsOutput>;
+  readonly docTypes?: Record<string, DocumentTypeDetailsOutput>;
   /** List of warnings encountered while building the model. */
-  warnings?: Array<WarningOutput>;
+  readonly warnings?: Array<WarningOutput>;
+  /** Number of V100-equivalent GPU hours consumed for model training. */
+  readonly trainingHours?: number;
 }
 
 /** Azure Blob Storage content. */
@@ -121,13 +131,23 @@ export interface DocumentTypeDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural"
+   * Possible values: "template", "neural", "generative"
    */
-  buildMode?: string;
+  buildMode?: DocumentBuildModeOutput;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
-  fieldSchema: Record<string, DocumentFieldSchemaOutput>;
+  fieldSchema?: Record<string, DocumentFieldSchemaOutput>;
   /** Estimated confidence for each field. */
   fieldConfidence?: Record<string, number>;
+  /** Document model to use for analyzing documents with specified type. */
+  modelId?: string;
+  /** Only perform analysis if docType confidence is above threshold. */
+  confidenceThreshold?: number;
+  /** List of optional analysis features. */
+  features?: DocumentAnalysisFeatureOutput[];
+  /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
+  queryFields?: string[];
+  /** Maximum number of documents of specified type to analyze.  Default=all. */
+  maxDocumentsToAnalyze?: number;
 }
 
 /** Description of the field semantic schema using a JSON Schema style syntax. */
@@ -137,7 +157,7 @@ export interface DocumentFieldSchemaOutput {
    *
    * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
    */
-  type: string;
+  type: DocumentFieldTypeOutput;
   /** Field description. */
   description?: string;
   /** Example field content. */
@@ -175,12 +195,12 @@ export interface DocumentModelCopyToOperationDetailsOutput extends OperationDeta
 }
 
 /** Get Operation response object. */
-export interface DocumentClassifierBuildOperationDetailsOutput
+export interface DocumentClassifierCopyToOperationDetailsOutput
   extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentClassifierDetailsOutput;
   /** Type of operation. */
-  kind: "documentClassifierBuild";
+  kind: "documentClassifierCopyTo";
 }
 
 /** Document classifier info. */
@@ -210,7 +230,7 @@ export interface ClassifierDocumentTypeDetailsOutput {
    *
    * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
    */
-  sourceKind?: string;
+  sourceKind?: ContentSourceKindOutput;
   /**
    * Azure Blob Storage location containing the training data for a classifier
    * document type.  Either azureBlobSource or azureBlobFileListSource must be
@@ -225,21 +245,25 @@ export interface ClassifierDocumentTypeDetailsOutput {
   azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
 }
 
+/** Get Operation response object. */
+export interface DocumentClassifierBuildOperationDetailsOutput
+  extends OperationDetailsOutputParent {
+  /** Operation result upon success. */
+  result?: DocumentClassifierDetailsOutput;
+  /** Type of operation. */
+  kind: "documentClassifierBuild";
+}
+
 /** Error response object. */
 export interface ErrorResponseOutput {
   /** Error info. */
   error: ErrorModelOutput;
 }
 
-/** Provides the 'x-ms-client-request-id' header to enable request correlation in requests and responses. */
-export interface ClientRequestIdHeaderOutput {}
-
 /** General information regarding the current resource. */
 export interface ResourceDetailsOutput {
   /** Details regarding custom document models. */
   customDocumentModels: CustomDocumentModelsDetailsOutput;
-  /** Quota used, limit, and next reset date/time. */
-  customNeuralDocumentModelBuilds: QuotaDetailsOutput;
 }
 
 /** Details regarding custom document models. */
@@ -250,16 +274,6 @@ export interface CustomDocumentModelsDetailsOutput {
   limit: number;
 }
 
-/** Quota used, limit, and next reset date/time. */
-export interface QuotaDetailsOutput {
-  /** Amount of the resource quota used. */
-  used: number;
-  /** Resource quota limit. */
-  quota: number;
-  /** Date/time when the resource quota usage will be reset. */
-  quotaResetDateTime: string;
-}
-
 /** Status and result of the analyze operation. */
 export interface AnalyzeResultOperationOutput {
   /**
@@ -267,7 +281,7 @@ export interface AnalyzeResultOperationOutput {
    *
    * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
    */
-  status: string;
+  status: OperationStatusOutput;
   /** Date and time (UTC) when the analyze operation was submitted. */
   createdDateTime: string;
   /** Date and time (UTC) when the status was last updated. */
@@ -289,13 +303,13 @@ export interface AnalyzeResultOutput {
    *
    * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
-  stringIndexType: string;
+  stringIndexType: StringIndexTypeOutput;
   /**
    * Format of the analyze result top-level content.
    *
    * Possible values: "text", "markdown"
    */
-  contentFormat?: string;
+  contentFormat?: ContentFormatOutput;
   /**
    * Concatenate string representation of all textual and visual elements in reading
    * order.
@@ -309,8 +323,6 @@ export interface AnalyzeResultOutput {
   tables?: Array<DocumentTableOutput>;
   /** Extracted figures. */
   figures?: Array<DocumentFigureOutput>;
-  /** Extracted lists. */
-  lists?: Array<DocumentListOutput>;
   /** Extracted sections. */
   sections?: Array<DocumentSectionOutput>;
   /** Extracted key-value pairs. */
@@ -321,6 +333,8 @@ export interface AnalyzeResultOutput {
   languages?: Array<DocumentLanguageOutput>;
   /** Extracted documents. */
   documents?: Array<DocumentOutput>;
+  /** List of warnings encountered. */
+  warnings?: Array<WarningOutput>;
 }
 
 /** Content and layout elements extracted from a page from the input. */
@@ -342,7 +356,7 @@ export interface DocumentPageOutput {
    *
    * Possible values: "pixel", "inch"
    */
-  unit?: string;
+  unit?: LengthUnitOutput;
   /** Location of the page in the reading order concatenated content. */
   spans: Array<DocumentSpanOutput>;
   /** Extracted words from the page. */
@@ -402,7 +416,7 @@ export interface DocumentSelectionMarkOutput {
    *
    * Possible values: "selected", "unselected"
    */
-  state: string;
+  state: DocumentSelectionMarkStateOutput;
   /**
    * Bounding polygon of the selection mark, with coordinates specified relative
    * to the top-left of the page. The numbers represent the x, y values of the
@@ -441,7 +455,7 @@ export interface DocumentBarcodeOutput {
    *
    * Possible values: "QRCode", "PDF417", "UPCA", "UPCE", "Code39", "Code128", "EAN8", "EAN13", "DataBar", "Code93", "Codabar", "DataBarExpanded", "ITF", "MicroQRCode", "Aztec", "DataMatrix", "MaxiCode"
    */
-  kind: string;
+  kind: DocumentBarcodeKindOutput;
   /** Barcode value. */
   value: string;
   /**
@@ -464,7 +478,7 @@ export interface DocumentFormulaOutput {
    *
    * Possible values: "inline", "display"
    */
-  kind: string;
+  kind: DocumentFormulaKindOutput;
   /** LaTex expression describing the formula. */
   value: string;
   /**
@@ -490,7 +504,7 @@ export interface DocumentParagraphOutput {
    *
    * Possible values: "pageHeader", "pageFooter", "pageNumber", "title", "sectionHeading", "footnote", "formulaBlock"
    */
-  role?: string;
+  role?: ParagraphRoleOutput;
   /** Concatenated content of the paragraph in reading order. */
   content: string;
   /** Bounding regions covering the paragraph. */
@@ -537,7 +551,7 @@ export interface DocumentTableCellOutput {
    *
    * Possible values: "content", "rowHeader", "columnHeader", "stubHead", "description"
    */
-  kind?: string;
+  kind?: DocumentTableCellKindOutput;
   /** Row index of the cell. */
   rowIndex: number;
   /** Column index of the cell. */
@@ -592,28 +606,8 @@ export interface DocumentFigureOutput {
   caption?: DocumentCaptionOutput;
   /** List of footnotes associated with the figure. */
   footnotes?: Array<DocumentFootnoteOutput>;
-}
-
-/** An object representing a list in the document. */
-export interface DocumentListOutput {
-  /** Location of the list in the reading order concatenated content. */
-  spans: Array<DocumentSpanOutput>;
-  /** Items in the list. */
-  items: Array<DocumentListItemOutput>;
-}
-
-/** An object representing a list item in the document. */
-export interface DocumentListItemOutput {
-  /** Level of the list item (1-indexed). */
-  level: number;
-  /** Content of the list item. */
-  content: string;
-  /** Bounding regions covering the list item. */
-  boundingRegions?: Array<BoundingRegionOutput>;
-  /** Location of the list item in the reading order concatenated content. */
-  spans: Array<DocumentSpanOutput>;
-  /** Child elements of the list item. */
-  elements?: string[];
+  /** Figure ID. */
+  id?: string;
 }
 
 /** An object representing a section in the document. */
@@ -661,13 +655,13 @@ export interface DocumentStyleOutput {
    *
    * Possible values: "normal", "italic"
    */
-  fontStyle?: string;
+  fontStyle?: FontStyleOutput;
   /**
    * Font weight.
    *
    * Possible values: "normal", "bold"
    */
-  fontWeight?: string;
+  fontWeight?: FontWeightOutput;
   /** Foreground color in #rrggbb hexadecimal format. */
   color?: string;
   /** Background color in #rrggbb hexadecimal format.. */
@@ -715,7 +709,7 @@ export interface DocumentFieldOutput {
    *
    * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
    */
-  type: string;
+  type: DocumentFieldTypeOutput;
   /** String value. */
   valueString?: string;
   /** Date value in YYYY-MM-DD format (ISO 8601). */
@@ -733,13 +727,13 @@ export interface DocumentFieldOutput {
    *
    * Possible values: "selected", "unselected"
    */
-  valueSelectionMark?: string;
+  valueSelectionMark?: DocumentSelectionMarkStateOutput;
   /**
    * Presence of signature.
    *
    * Possible values: "signed", "unsigned"
    */
-  valueSignature?: string;
+  valueSignature?: DocumentSignatureTypeOutput;
   /** 3-letter country code value (ISO 3166-1 alpha-3). */
   valueCountryRegion?: string;
   /** Array of field values. */
@@ -809,6 +803,54 @@ export interface AddressValueOutput {
   level?: string;
 }
 
+/** Status and result of the analyze batch operation. */
+export interface AnalyzeBatchResultOperationOutput {
+  /**
+   * Operation status.  notStarted, running, completed, or failed
+   *
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   */
+  status: OperationStatusOutput;
+  /** Date and time (UTC) when the operation was submitted. */
+  createdDateTime: string;
+  /** Date and time (UTC) when the status was last updated. */
+  lastUpdatedDateTime: string;
+  /** Operation progress (0-100). */
+  percentCompleted?: number;
+  /** Encountered error during batch document analysis. */
+  error?: ErrorModelOutput;
+  /** Batch document analysis result. */
+  result?: AnalyzeBatchResultOutput;
+}
+
+/** Batch document analysis result. */
+export interface AnalyzeBatchResultOutput {
+  /** Number of documents that completed with status succeeded. */
+  succeededCount: number;
+  /** Number of documents that completed with status failed. */
+  failedCount: number;
+  /** Number of documents that completed with status skipped. */
+  skippedCount: number;
+  /** Operation detail for each document in the batch. */
+  details: Array<AnalyzeBatchOperationDetailOutput>;
+}
+
+/** Operation detail for a document in a batch analysis. */
+export interface AnalyzeBatchOperationDetailOutput {
+  /**
+   * Analyze status.  succeeded, failed, or skipped
+   *
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   */
+  status: OperationStatusOutput;
+  /** URL of the source document. */
+  sourceUrl: string;
+  /** URL of the analyze result JSON. */
+  resultUrl?: string;
+  /** Encountered error. */
+  error?: ErrorModelOutput;
+}
+
 /**
  * Authorization to copy a document model to the specified target resource and
  * modelId.
@@ -831,15 +873,74 @@ export interface CopyAuthorizationOutput {
   expirationDateTime: string;
 }
 
+/**
+ * Authorization to copy a document classifier to the specified target resource and
+ * classifierId.
+ */
+export interface ClassifierCopyAuthorizationOutput {
+  /** ID of the target Azure resource where the document classifier should be copied to. */
+  targetResourceId: string;
+  /**
+   * Location of the target Azure resource where the document classifier should be copied
+   * to.
+   */
+  targetResourceRegion: string;
+  /** Identifier of the target document classifier. */
+  targetClassifierId: string;
+  /** URL of the copied document classifier in the target account. */
+  targetClassifierLocation: string;
+  /** Token used to authorize the request. */
+  accessToken: string;
+  /** Date/time when the access token expires. */
+  expirationDateTime: string;
+}
+
 /** Operation info. */
 export type OperationDetailsOutput =
   | OperationDetailsOutputParent
   | DocumentModelBuildOperationDetailsOutput
   | DocumentModelComposeOperationDetailsOutput
   | DocumentModelCopyToOperationDetailsOutput
+  | DocumentClassifierCopyToOperationDetailsOutput
   | DocumentClassifierBuildOperationDetailsOutput;
 /** Paged collection of OperationDetails items */
 export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
+/** Alias for OperationStatusOutput */
+export type OperationStatusOutput = string;
+/** Alias for OperationKindOutput */
+export type OperationKindOutput = string;
+/** Alias for DocumentBuildModeOutput */
+export type DocumentBuildModeOutput = string;
+/** Alias for SplitModeOutput */
+export type SplitModeOutput = string;
+/** Alias for DocumentFieldTypeOutput */
+export type DocumentFieldTypeOutput = string;
+/** Alias for DocumentAnalysisFeatureOutput */
+export type DocumentAnalysisFeatureOutput = string;
+/** Alias for ContentSourceKindOutput */
+export type ContentSourceKindOutput = string;
+/** Alias for StringIndexTypeOutput */
+export type StringIndexTypeOutput = string;
+/** Alias for ContentFormatOutput */
+export type ContentFormatOutput = string;
+/** Alias for LengthUnitOutput */
+export type LengthUnitOutput = string;
+/** Alias for DocumentSelectionMarkStateOutput */
+export type DocumentSelectionMarkStateOutput = string;
+/** Alias for DocumentBarcodeKindOutput */
+export type DocumentBarcodeKindOutput = string;
+/** Alias for DocumentFormulaKindOutput */
+export type DocumentFormulaKindOutput = string;
+/** Alias for ParagraphRoleOutput */
+export type ParagraphRoleOutput = string;
+/** Alias for DocumentTableCellKindOutput */
+export type DocumentTableCellKindOutput = string;
+/** Alias for FontStyleOutput */
+export type FontStyleOutput = string;
+/** Alias for FontWeightOutput */
+export type FontWeightOutput = string;
+/** Alias for DocumentSignatureTypeOutput */
+export type DocumentSignatureTypeOutput = string;
 /** Paged collection of DocumentModelDetails items */
 export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
 /** Paged collection of DocumentClassifierDetails items */

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy.js";
 import { RetryOptions } from "@azure/core-amqp";

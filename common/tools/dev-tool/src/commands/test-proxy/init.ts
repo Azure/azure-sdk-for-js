@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { cwd } from "node:process";
 import { leafCommand, makeCommandInfo } from "../../framework/command";

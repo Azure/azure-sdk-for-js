@@ -48,12 +48,28 @@ steps:
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       Artifacts: ${{ parameters.Artifacts }}
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'Azure SDK Artifacts'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az account show
+          expiry=`date -u -d "45 minutes" '+%Y-%m-%dT%H:%MZ'`
+          sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
+          echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
       node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
+    env:
+      ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
+        RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
+        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
+
   - script: |
       node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build samples"

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   ProcessErrorArgs,
@@ -83,7 +83,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   }
 
   async cleanup() {
-    this.subscriber && (await this.subscriber.close());
+    await this.subscriber?.close();
     await this.receiver.close();
   }
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PipelineRetryOptions } from "../interfaces.js";
 import { PipelinePolicy } from "../pipeline.js";

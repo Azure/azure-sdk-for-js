@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { TestClient, tracingClientAttributes } from "../../public/util/testClient";

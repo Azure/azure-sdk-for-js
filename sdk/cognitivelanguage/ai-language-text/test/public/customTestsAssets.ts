@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Source: https://github.com/Azure-Samples/cognitive-services-sample-data-files/tree/master/language-service
 import {

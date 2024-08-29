@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential, TextAnalysisClient } from "../../src";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";

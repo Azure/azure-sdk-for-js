@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Pipeline } from "@azure/core-rest-pipeline";

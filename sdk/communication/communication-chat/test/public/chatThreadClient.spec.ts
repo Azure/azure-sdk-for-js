@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 import { Recorder } from "@azure-tools/test-recorder";

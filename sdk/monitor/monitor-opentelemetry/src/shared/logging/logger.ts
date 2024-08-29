@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureLogLevel, AzureLogger, createClientLogger, setLogLevel } from "@azure/logger";
 import { diag, DiagLogger, DiagLogLevel } from "@opentelemetry/api";

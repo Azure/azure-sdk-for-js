@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the async operation status of execution operation.
  *
  * @summary Gets the async operation status of execution operation.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetScriptExecutionAsyncOperationStatus.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetScriptExecutionAsyncOperationStatus.json
  */
 async function getsTheAsyncExecutionOperationStatus() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getsTheAsyncExecutionOperationStatus() {
   const result = await client.scriptActions.getExecutionAsyncOperationStatus(
     resourceGroupName,
     clusterName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isNodeLike, stringToUint8Array } from "@azure/core-util";
 import { createHttpHeaders } from "../httpHeaders.js";

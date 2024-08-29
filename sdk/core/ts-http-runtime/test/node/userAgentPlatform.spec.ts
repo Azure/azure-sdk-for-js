@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { setPlatformSpecificData } from "../../src/util/userAgentPlatform.js";

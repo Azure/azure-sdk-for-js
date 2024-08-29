@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterDiskEncryptionParameters,
-  HDInsightManagementClient
+  HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Rotate disk encryption key of the specified HDInsight cluster.
  *
  * @summary Rotate disk encryption key of the specified HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/RotateLinuxHadoopClusterDiskEncryptionKey.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/RotateLinuxHadoopClusterDiskEncryptionKey.json
  */
 async function rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,14 +30,14 @@ async function rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster() {
   const parameters: ClusterDiskEncryptionParameters = {
     keyName: "newkeyname",
     keyVersion: "newkeyversion",
-    vaultUri: "https://newkeyvault.vault.azure.net/"
+    vaultUri: "https://newkeyvault.vault.azure.net/",
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginRotateDiskEncryptionKeyAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

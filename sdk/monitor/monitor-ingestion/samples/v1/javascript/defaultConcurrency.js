@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates uploading a large number of logs where the logs are split into multiple batches
@@ -38,7 +38,7 @@ async function main() {
       if (aggregateErrors.length > 0) {
         console.log(
           "Some logs have failed to complete ingestion. Number of error batches=",
-          aggregateErrors.length
+          aggregateErrors.length,
         );
         for (const errors of aggregateErrors) {
           console.log(`Error - ${JSON.stringify(errors.cause)}`);

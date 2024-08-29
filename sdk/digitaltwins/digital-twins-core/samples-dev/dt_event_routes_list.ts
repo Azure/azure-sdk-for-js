@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
 
 /**
  * @summary Simple example of how to list all eventRoutes using the paginated API

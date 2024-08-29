@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ClientContext } from "../ClientContext";
 import { Constants } from "../common/constants";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";

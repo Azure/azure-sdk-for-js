@@ -21,7 +21,7 @@ export interface Address {
 }
 
 // @public
-export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther";
+export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther" | "optInDescription";
 
 // @public (undocumented)
 export interface BusinessInformation {

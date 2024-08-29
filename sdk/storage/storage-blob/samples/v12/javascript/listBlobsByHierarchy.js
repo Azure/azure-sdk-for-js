@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary list blobs by hierarchy, using separators in the blob names, using options for paging, resuming paging, etc.
