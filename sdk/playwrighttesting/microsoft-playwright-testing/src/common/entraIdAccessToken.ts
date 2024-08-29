@@ -26,7 +26,6 @@ class EntraIdAccessToken {
       }
       if (accessToken.token === this.token) {
         // azure identity library can fetch the same token again from cache. 10 mins before expiry, it allows token refresh
-        process.stdout.write("\nCached access token is returned, will be retried again.");
         coreLogger.info("Cached access token is returned, will be retried again.");
         return false;
       }
