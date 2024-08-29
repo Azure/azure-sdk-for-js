@@ -85,7 +85,7 @@ export class Constants {
     "Test run with id {runId} already exists. Please provide a unique run id.";
   public static readonly FORBIDDEN_403_ERROR_MESSAGE =
     "Reporting is not enabled for your workspace {workspaceId}. Please enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
-  // API Endpoints
+    // API Endpoints
   public static readonly testRunsEndpoint: string = "workspaces/{workspaceId}/test-runs";
   public static readonly testRunsShardEndpoint: string =
     "workspaces/{workspaceId}/test-runs/{testRunId}/shards/{shardId}";
@@ -93,6 +93,29 @@ export class Constants {
     "workspaces/{workspaceId}/test-runs/{testRunId}/resulturi";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
+    public static readonly ERROR_MESSAGE:{
+    400:{
+      getTestRun:"Bad Request",
+      patchTestRunShardStart:"Bad Request",
+      patchTestRunShardEnd:"Bad Request",
+      postTestResults:"Bad Request",
+      getStorageUri:"Bad Request",
+    },
+    401:{
+      getTestRun:"Invalid authentication to run test.",
+      patchTestRunShardStart:"Invalid authentication",
+      patchTestRunShardEnd:"Invalid authentication",
+      postTestResults:"Invalid authentication to publish test result.",
+      getStorageUri:"Invalid authentication",
+    },
+    403:{
+      getTestRun:"You do not have required permissions to run test.",
+      patchTestRunShardStart:"You do not have required permissions.",
+      patchTestRunShardEnd:"You do not have required permissions.",
+      postTestResults:"You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
+      getStorageUri:"You do not have required permissions",
+    }
+    }
 }
 
 export const BackoffConstants = {
