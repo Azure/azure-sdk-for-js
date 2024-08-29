@@ -4,7 +4,7 @@ param testApplicationOid string
 param blobStorageAccount string = 'azuresdktrainingdata'
 param trainingDataContainer string = 'trainingdata-v3'
 param selectionMarkTrainingDataContainer string = 'selectionmark-v3'
-param blobResourceId string = resourceId('2cd617ea-1866-46b1-90e3-fffb087ebf9b', 'TrainingData', 'Microsoft.Storage/storageAccounts', blobStorageAccount)
+param blobResourceId string = resourceId('TrainingData', 'Microsoft.Storage/storageAccounts', blobStorageAccount)
 param trainingDataSasProperties object = {
   canonicalizedResource: '/blob/${blobStorageAccount}/${trainingDataContainer}'
   signedExpiry: dateTimeAdd(utcNow('u'), 'PT2H')
