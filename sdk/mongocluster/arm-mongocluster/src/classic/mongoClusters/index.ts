@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import {
@@ -8,6 +8,7 @@ import {
   ListConnectionStringsResult,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
+  PromoteReplicaRequest,
 } from "../../models/models.js";
 import {
   mongoClustersGet,
@@ -18,8 +19,9 @@ import {
   mongoClustersList,
   mongoClustersListConnectionStrings,
   mongoClustersCheckNameAvailability,
+  mongoClustersPromote,
 } from "../../api/mongoClusters/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   MongoClustersGetOptionalParams,
@@ -30,6 +32,7 @@ import {
   MongoClustersListOptionalParams,
   MongoClustersListConnectionStringsOptionalParams,
   MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersPromoteOptionalParams,
 } from "../../models/options.js";
 
 /** Interface representing a MongoClusters operations. */
@@ -79,6 +82,13 @@ export interface MongoClustersOperations {
     body: CheckNameAvailabilityRequest,
     options?: MongoClustersCheckNameAvailabilityOptionalParams,
   ) => Promise<CheckNameAvailabilityResponse>;
+  /** Promotes a replica mongo cluster to a primary role. */
+  promote: (
+    resourceGroupName: string,
+    mongoClusterName: string,
+    body: PromoteReplicaRequest,
+    options?: MongoClustersPromoteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
 }
 
 export function getMongoClusters(context: DocumentDBContext, subscriptionId: string) {
@@ -144,6 +154,20 @@ export function getMongoClusters(context: DocumentDBContext, subscriptionId: str
       body: CheckNameAvailabilityRequest,
       options?: MongoClustersCheckNameAvailabilityOptionalParams,
     ) => mongoClustersCheckNameAvailability(context, subscriptionId, location, body, options),
+    promote: (
+      resourceGroupName: string,
+      mongoClusterName: string,
+      body: PromoteReplicaRequest,
+      options?: MongoClustersPromoteOptionalParams,
+    ) =>
+      mongoClustersPromote(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        body,
+        options,
+      ),
   };
 }
 

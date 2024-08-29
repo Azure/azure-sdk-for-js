@@ -63,18 +63,15 @@ describe("MongoCluster test", () => {
       {
         location,
         properties: {
-          administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "SecureString;",
-          nodeGroupSpecs: [
-            {
-              diskSizeGB: 128,
-              enableHa: true,
-              kind: "Shard",
-              nodeCount: 1,
-              sku: "M30",
-            },
-          ],
+          administrator: {
+            userName: "mongoAdmin",
+            password: "SecureString;",
+          },
           serverVersion: "5.0",
+          storage: { sizeGb: 128 },
+          compute: { tier: "M30" },
+          sharding: { shardCount: 1 },
+          highAvailability: { targetMode: "Disabled" },
         },
       },
       testPollingOptions,
@@ -135,7 +132,7 @@ describe("MongoCluster test", () => {
 
   it("firewallRules delete test", async function () {
     const resArray = new Array();
-    const res = await client.firewallRules.delete(resourceGroup, resourcename, fireWallName);
+    await client.firewallRules.delete(resourceGroup, resourcename, fireWallName);
     for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
     }
@@ -144,7 +141,7 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters delete test", async function () {
     const resArray = new Array();
-    const res = await client.mongoClusters.delete(resourceGroup, resourcename);
+    await client.mongoClusters.delete(resourceGroup, resourcename);
     for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

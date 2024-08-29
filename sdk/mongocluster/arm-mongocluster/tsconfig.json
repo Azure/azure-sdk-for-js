@@ -3,7 +3,17 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure/arm-mongocluster": ["./src/index"]
+    }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "test/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

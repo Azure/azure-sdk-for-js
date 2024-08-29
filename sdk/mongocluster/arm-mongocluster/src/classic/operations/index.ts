@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { Operation } from "../../models/models.js";
 import { operationsList } from "../../api/operations/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
 /** Interface representing a Operations operations. */

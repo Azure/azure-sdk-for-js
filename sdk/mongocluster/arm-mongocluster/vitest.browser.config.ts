@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";

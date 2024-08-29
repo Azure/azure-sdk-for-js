@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateLinkResource } from "../../models/models.js";
 import { privateLinksListByMongoCluster } from "../../api/privateLinks/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PrivateLinksListByMongoClusterOptionalParams } from "../../models/options.js";
 
 /** Interface representing a PrivateLinks operations. */

@@ -65,18 +65,15 @@ describe("MongoCluster test", () => {
       {
         location,
         properties: {
-          administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "SecureString;",
-          nodeGroupSpecs: [
-            {
-              diskSizeGB: 128,
-              enableHa: true,
-              kind: "Shard",
-              nodeCount: 1,
-              sku: "M30",
-            },
-          ],
+          administrator: {
+            userName: "mongoAdmin",
+            password: "SecureString;",
+          },
           serverVersion: "5.0",
+          storage: { sizeGb: 128 },
+          compute: { tier: "M30" },
+          sharding: { shardCount: 1 },
+          highAvailability: { targetMode: "Disabled" },
         },
       },
       testPollingOptions,
@@ -96,7 +93,7 @@ describe("MongoCluster test", () => {
     );
     assert.equal(res.name, virtualNetworkName);
 
-    const result = await networkClient.subnets.beginCreateOrUpdateAndWait(
+    await networkClient.subnets.beginCreateOrUpdateAndWait(
       resourceGroup,
       virtualNetworkName,
       "testsubnet",
@@ -217,10 +214,7 @@ describe("MongoCluster test", () => {
 
   it("virtual network delete test", async function () {
     const resArray = new Array();
-    const res = await networkClient.virtualNetworks.beginDeleteAndWait(
-      resourceGroup,
-      virtualNetworkName,
-    );
+    await networkClient.virtualNetworks.beginDeleteAndWait(resourceGroup, virtualNetworkName);
     for await (let item of networkClient.virtualNetworks.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -229,7 +223,7 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters for private endpoint delete test", async function () {
     const resArray = new Array();
-    const res = await client.mongoClusters.delete(resourceGroup, resourcename);
+    await client.mongoClusters.delete(resourceGroup, resourcename);
     for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

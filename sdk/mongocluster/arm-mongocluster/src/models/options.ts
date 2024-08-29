@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { OperationOptions } from "@azure-rest/core-client";
 
@@ -40,6 +40,12 @@ export interface MongoClustersListConnectionStringsOptionalParams extends Operat
 export interface MongoClustersCheckNameAvailabilityOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface MongoClustersPromoteOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
 export interface FirewallRulesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -78,3 +84,6 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams extends Operatio
 
 /** Optional parameters. */
 export interface PrivateLinksListByMongoClusterOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface ReplicasListByParentOptionalParams extends OperationOptions {}
