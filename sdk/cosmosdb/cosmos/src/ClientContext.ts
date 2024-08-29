@@ -841,11 +841,7 @@ export class ClientContext {
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
-      if (bulkOptions.continueOnError !== undefined) {
-        request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError;
-      } else {
-        request.headers[HttpHeaders.BatchContinueOnError] = true;
-      }
+      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError ?? true;
       this.applySessionToken(request);
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
