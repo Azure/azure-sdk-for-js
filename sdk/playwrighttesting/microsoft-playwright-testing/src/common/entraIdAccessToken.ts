@@ -21,10 +21,9 @@ class EntraIdAccessToken {
     try {
       coreLogger.info("Fetching entra id access token");
       const accessToken = await this._credential!.getToken(EntraIdAccessTokenConstants.SCOPE);
-      if (!accessToken){
-        process.stdout.write("\nEntra id access token is null.");
+      if (!accessToken) {
         throw new Error("Entra id access token is null");
-      } 
+      }
       if (accessToken.token === this.token) {
         // azure identity library can fetch the same token again from cache. 10 mins before expiry, it allows token refresh
         process.stdout.write("\nCached access token is returned, will be retried again.");
@@ -41,7 +40,6 @@ class EntraIdAccessToken {
       );
       return true;
     } catch (err) {
-      process.stdout.write("\nFailed to fetch entraID access token");
       coreLogger.error(err);
       return false;
     }
