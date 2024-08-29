@@ -937,7 +937,7 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it.skip("424 errors for operations after an error when continueOnError is set to false", async function () {
+      it("424 errors for operations after an error when continueOnError is set to false", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("424 errors"),

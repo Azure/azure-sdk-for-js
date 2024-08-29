@@ -841,7 +841,9 @@ export class ClientContext {
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
-      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError || true;
+      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError
+        ? bulkOptions.continueOnError
+        : true;
 
       this.applySessionToken(request);
 
