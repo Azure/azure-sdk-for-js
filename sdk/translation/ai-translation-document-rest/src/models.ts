@@ -6,24 +6,14 @@
 
 export interface DocumentTranslateContentDocumentPartDescriptor {
   name: "document";
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
 }
 
 export interface DocumentTranslateContentGlossaryPartDescriptor {
   name: "glossary";
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
 }

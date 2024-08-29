@@ -23,10 +23,7 @@ import {
 /**
  * A simple poller that can be used to poll a long running operation.
  */
-export interface SimplePollerLike<
-  TState extends OperationState<TResult>,
-  TResult,
-> {
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
   /**
    * Returns true if the poller has finished polling.
    */
@@ -50,9 +47,7 @@ export interface SimplePollerLike<
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
-  pollUntilDone(pollOptions?: {
-    abortSignal?: AbortSignalLike;
-  }): Promise<TResult>;
+  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
   /**
    * Invokes the provided callback after each polling is completed,
    * sending the current state of the poller's operation.
@@ -99,14 +94,10 @@ export interface SimplePollerLike<
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export async function getLongRunningPoller<
-  TResult extends
-    | StartTranslationLogicalResponse
-    | StartTranslationDefaultResponse,
+  TResult extends StartTranslationLogicalResponse | StartTranslationDefaultResponse,
 >(
   client: Client,
-  initialResponse:
-    | StartTranslation202Response
-    | StartTranslationDefaultResponse,
+  initialResponse: StartTranslation202Response | StartTranslationDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(
@@ -122,10 +113,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       // response we were provided.
       return getLroResponse(initialResponse);
     },
-    sendPollRequest: async (
-      path: string,
-      pollOptions?: { abortSignal?: AbortSignalLike },
-    ) => {
+    sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
       // This is the callback that is going to be called to poll the service
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
@@ -151,8 +139,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
         inputAbortSignal?.removeEventListener("abort", abortListener);
       }
       const lroResponse = getLroResponse(response as TResult);
-      lroResponse.rawResponse.headers["x-ms-original-url"] =
-        initialResponse.request.url;
+      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
       return lroResponse;
     },
   };
@@ -208,9 +195,7 @@ function getLroResponse<TResult extends HttpResponse>(
   response: TResult,
 ): OperationResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(
-      `Status code of the response is not a number. Value: ${response.status}`,
-    );
+    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
   }
 
   return {
