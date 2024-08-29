@@ -4,7 +4,7 @@
 
 ### Features Added
 
-Add the `operation-location` support in resourceLocationConfig option for POST and PATCH LRO.
+Add the `operation-location` support in resourceLocationConfig option.
 
 ### Breaking Changes
 
