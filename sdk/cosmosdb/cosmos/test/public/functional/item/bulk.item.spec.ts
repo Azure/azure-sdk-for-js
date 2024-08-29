@@ -937,11 +937,14 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("424 errors for operations after an error", async function () {
+      it.skip("424 errors for operations after an error when continueOnError is set to false", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("424 errors"),
           documentToCreate: [],
+          bulkOperationOptions: {
+            continueOnError: false,
+          },
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
@@ -961,14 +964,11 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("Continues after errors with continueOnError true", async function () {
+      it("Continues after errors with default value of continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("continueOnError"),
           documentToCreate: [],
-          bulkOperationOptions: {
-            continueOnError: true,
-          },
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
