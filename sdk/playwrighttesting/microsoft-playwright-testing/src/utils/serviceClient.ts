@@ -60,24 +60,14 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
-    }  else if (response.status === 400) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[400].getTestRun}`,
-      );
-    }  else if (response.status === 401) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[401].getTestRun}`,
-      );
-    } else if (response.status === 403) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[403].getTestRun}`,
-      );
-    } 
+    } else {
+      this.handleErrorResponse(response, 'getTestRun');
+    }
     throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
-    
+
   }
 
-  async patchTestRunShardStart():  Promise<Shard> {
+  async patchTestRunShardStart(): Promise<Shard> {
     const patchTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
@@ -88,23 +78,13 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as Shard;
-    }else if (response.status === 400) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[400].patchTestRunShardStart}`,
-      );
-    }  else if (response.status === 401) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[401].patchTestRunShardStart}`,
-      );
-    } else if (response.status === 403) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[403].patchTestRunShardStart}`,
-      );
-    }  
-      throw new Error(
-        `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
-      );
-    
+    } else {
+      this.handleErrorResponse(response, 'patchTestRunShardStart');
+    }
+    throw new Error(
+      `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
+    );
+
   }
 
   async patchTestRunShardEnd(
@@ -129,23 +109,13 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
-    } else if (response.status === 400) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[400].patchTestRunShardEnd}`,
-      );
-    }  else if (response.status === 401) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[401].patchTestRunShardEnd}`,
-      );
-    } else if (response.status === 403) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[403].patchTestRunShardEnd}`,
-      );
-    } 
-      throw new Error(
-        `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
-      );
-   
+    } else {
+      this.handleErrorResponse(response, 'patchTestRunShardEnd');
+    }
+    throw new Error(
+      `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
+    );
+
   }
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -162,23 +132,13 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return;
-    }else if (response.status === 400) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[400].postTestResults}`,
-      );
-    }  else if (response.status === 401) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[401].postTestResults}`,
-      );
-    } else if (response.status === 403) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[403].postTestResults}`,
-      );
-    }   else {
-      throw new Error(
-        `Received status ${response.status} from service from POST TestResults call.`,
-      );
+    } else {
+      this.handleErrorResponse(response, 'postTestResults');
     }
+    throw new Error(
+      `Received status ${response.status} from service from POST TestResults call.`,
+    );
+
   }
 
   async getStorageUri(): Promise<StorageUri> {
@@ -191,23 +151,21 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as StorageUri;
-    }else if (response.status === 400) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[400].getStorageUri}`,
-      );
-    }  else if (response.status === 401) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[401].getStorageUri}`,
-      );
-    } else if (response.status === 403) {
-      process.stdout.write(
-        `\n${Constants.ERROR_MESSAGE[403].getStorageUri}`,
-      );
-    }  
-      throw new Error(`Received status ${response.status} from service from GET StorageUri call.`);
+    } else {
+      this.handleErrorResponse(response, 'getStorageUri');
+    }
+    throw new Error(`Received status ${response.status} from service from GET StorageUri call.`);
   }
 
   private getServiceEndpoint(): string {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
+  }
+
+  private handleErrorResponse(response: PipelineResponse, action: string) {
+    if (response.status === 400 || response.status === 401 || response.status === 403) {
+      process.stdout.write(`\n${Constants.ERROR_MESSAGE[response.status].action}`);
+    } else {
+      throw new Error(`Received status ${response.status} from service during ${action} call.`);
+    }
   }
 }
