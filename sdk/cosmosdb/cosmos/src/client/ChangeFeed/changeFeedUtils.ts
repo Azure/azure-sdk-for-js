@@ -12,8 +12,8 @@ import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { QueryRange } from "../../routing";
 import { FeedRangeInternal } from "./FeedRange";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { ChangeFeedMode } from ".";
 import { EncryptionProcessor } from "../../encryption";
+import { ChangeFeedMode } from "./ChangeFeedMode";
 
 /**
  * @hidden
