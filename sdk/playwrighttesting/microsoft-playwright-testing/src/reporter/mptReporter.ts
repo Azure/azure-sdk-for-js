@@ -72,14 +72,14 @@ class MPTReporter implements Reporter {
     sizeTotalAttachments: 0,
   };
   private testRunUrl: string = "";
-  private enableMPTReporting: boolean = true;
+  private enableResultPublish: boolean = true;
 
   constructor(config: Partial<MPTReporterConfig>) {
     if (config?.enableGitHubSummary !== undefined) {
       this.enableGitHubSummary = config.enableGitHubSummary;
     }
-    if (config?.enableMPTReporting !== undefined) {
-      this.enableMPTReporting = config.enableMPTReporting;
+    if (config?.enableResultPublish !== undefined) {
+      this.enableResultPublish = config.enableResultPublish;
     }
   }
   private _addError(errorMessage: string): void {
@@ -101,7 +101,7 @@ class MPTReporter implements Reporter {
    * @param suite - The root suite that contains all projects, files and test cases.
    */
   onBegin(config: FullConfig, suite: Suite): void {
-    if (!this.enableMPTReporting) return;
+    if (!this.enableResultPublish) return;
     this.initializeMPTReporter();
     this.reporterUtils = new ReporterUtils(this.envVariables, config, suite);
     if (this.isTokenValid && this.isRegionValid) {
@@ -120,7 +120,7 @@ class MPTReporter implements Reporter {
    */
   onTestEnd(test: TestCase, result: TestResult): void {
     this.processTestResult(result);
-    if (!this.enableMPTReporting) return;
+    if (!this.enableResultPublish) return;
     // Process test result
     this._onTestEnd(test, result);
     // Upload the test results batch
@@ -155,7 +155,7 @@ class MPTReporter implements Reporter {
    * - `'interrupted'` - Interrupted by the user.
    */
   async onEnd(result: FullResult): Promise<void> {
-    if (this.enableMPTReporting) {
+    if (this.enableResultPublish) {
       await this._onEnd(result);
       if (!this.isTestRunStartSuccess) {
         this._addError(`\nUnable to initialize test run report.`);

@@ -264,11 +264,11 @@ export interface MPTReporterConfig {
   /**
    * @public
    *
-   * Enable MPT reporting for the test run. This will upload the test result and artifacts to the MPT Portal.
+   * Enable result publishing for the test run. This will upload the test result and artifacts to the MPT Portal.
    *
    * @defaultValue `true`
    */
-  enableMPTReporting?: boolean;
+  enableResultPublish?: boolean;
 }
 export type DedupedStep = { step: TestStep; count: number; duration: number };
 
