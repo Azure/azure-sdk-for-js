@@ -164,8 +164,6 @@ export class ServiceClient {
   private handleErrorResponse(response: PipelineResponse, action: string) {
     if (response.status === 400 || response.status === 401 || response.status === 403) {
       process.stdout.write(`\n${Constants.ERROR_MESSAGE[response.status].action}`);
-    } else {
-      throw new Error(`Received status ${response.status} from service during ${action} call.`);
-    }
+    } 
   }
 }
