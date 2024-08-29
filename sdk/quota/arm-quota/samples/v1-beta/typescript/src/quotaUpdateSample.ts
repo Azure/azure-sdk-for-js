@@ -8,10 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CurrentQuotaLimitBase,
-  AzureQuotaExtensionAPI,
-} from "@azure/arm-quota";
+import { CurrentQuotaLimitBase, AzureQuotaExtensionAPI } from "@azure/arm-quota";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -39,11 +36,7 @@ async function quotasRequestPatchForCompute() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.quota.beginUpdateAndWait(
-    resourceName,
-    scope,
-    createQuotaRequest,
-  );
+  const result = await client.quota.beginUpdateAndWait(resourceName, scope, createQuotaRequest);
   console.log(result);
 }
 
@@ -70,11 +63,7 @@ async function quotasRequestPatchForNetwork() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.quota.beginUpdateAndWait(
-    resourceName,
-    scope,
-    createQuotaRequest,
-  );
+  const result = await client.quota.beginUpdateAndWait(resourceName, scope, createQuotaRequest);
   console.log(result);
 }
 
