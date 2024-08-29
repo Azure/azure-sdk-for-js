@@ -1,5 +1,10 @@
 # Release History
 
+## 4.1.1 (2024-08-30)
+
+### Bugs Fixed
+- Fixed a issue caused by accessing `process` without checking its existence in the global scope, it was leading to crashes in non-Node environments.
+
 ## 4.1.0 (2024-08-07)
 
 ### Features Added
