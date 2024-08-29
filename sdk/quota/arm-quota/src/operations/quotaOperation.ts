@@ -92,9 +92,7 @@ export class QuotaOperationImpl implements QuotaOperation {
    * List all the operations supported by the Microsoft.Quota resource provider.
    * @param options The options parameters.
    */
-  private _list(
-    options?: QuotaOperationListOptionalParams,
-  ): Promise<QuotaOperationListResponse> {
+  private _list(options?: QuotaOperationListOptionalParams): Promise<QuotaOperationListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +105,7 @@ export class QuotaOperationImpl implements QuotaOperation {
     nextLink: string,
     options?: QuotaOperationListNextOptionalParams,
   ): Promise<QuotaOperationListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
