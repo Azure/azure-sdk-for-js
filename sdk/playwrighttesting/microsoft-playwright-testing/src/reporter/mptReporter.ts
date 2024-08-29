@@ -64,7 +64,7 @@ class MPTReporter implements Reporter {
   private testResultBatch: Set<MPTTestResult> = new Set<MPTTestResult>();
   private errorMessages: string[] = [];
   private informationalMessages: string[] = [];
-  private processedTestResultErrorMessageKeys: string[] = [];
+  private processedErrorMessageKeys: string[] = [];
   private sasUri!: StorageUri;
   private uploadMetadata: UploadMetadata = {
     numTestResults: 0,
@@ -378,11 +378,9 @@ class MPTReporter implements Reporter {
   }
 
   private displayAdditionalInformation(): void {
-    if (this.processedTestResultErrorMessageKeys.length > 0) {
-      console.info(`\n${ServiceErrorMessageConstants.POSSIBLE_ERRORS_DETECTED_IN_SCALABLE_RUN}`);
-    }
+    if (this.informationalMessages.length > 0) console.info(); // Add a new line before displaying the messages
     this.informationalMessages.forEach((message, index) => {
-      console.info(`\n${index + 1}. ${message}`);
+      console.info(`${index + 1}. ${message}`);
     });
   }
 
@@ -395,20 +393,15 @@ class MPTReporter implements Reporter {
     ) {
       result.errors.forEach((error) => {
         TestResultErrorConstants.forEach((testResultErrorParseObj) => {
-          if (this.processedTestResultErrorMessageKeys.includes(testResultErrorParseObj.key)) {
+          if (this.processedErrorMessageKeys.includes(testResultErrorParseObj.key)) {
             return;
           }
           const errorMessage = error.message;
           if (!errorMessage) return;
           const match = errorMessage.match(testResultErrorParseObj.pattern);
           if (match) {
-            this.processedTestResultErrorMessageKeys.push(testResultErrorParseObj.key);
-            this._addInformationalMessage(
-              testResultErrorParseObj.message.replace(
-                "{workspaceId}",
-                this.envVariables?.accountId ?? "",
-              ),
-            );
+            this.processedErrorMessageKeys.push(testResultErrorParseObj.key);
+            this._addInformationalMessage(testResultErrorParseObj.message);
           }
         });
       });
