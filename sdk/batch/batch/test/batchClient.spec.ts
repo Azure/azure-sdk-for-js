@@ -24,8 +24,8 @@ import {
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
 
-// const _SUFFIX = Math.random().toString(16).substr(2, 4);
-const _SUFFIX = "abcd";
+const _SUFFIX = Math.random().toString(16).substr(2, 4);
+// const _SUFFIX = "3333";
 
 const ENDPOINT_POOL = getPoolName("endpoint");
 const BASIC_POOL = getPoolName("basic");
@@ -766,13 +766,11 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 202);
     });
 
-    // TODO
     it("should reimage a compute node successfully", async function () {
       const res = await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
       expect(res._response.status).to.equal(202);
     });
 
-    // TODO
     it("should deallocate and then start a compute node successfully", async function () {
       let result;
       while (true) {
