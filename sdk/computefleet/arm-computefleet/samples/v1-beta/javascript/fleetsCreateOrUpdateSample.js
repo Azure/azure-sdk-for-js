@@ -59,7 +59,12 @@ async function fleetsCreateOrUpdate() {
                 },
               },
               winRM: {
-                listeners: [{ protocol: "Http", certificateUrl: "phwesineizrl" }],
+                listeners: [
+                  {
+                    protocol: "Https",
+                    certificateUrl: "https://myVaultName.vault.azure.net/secrets/myCertName",
+                  },
+                ],
               },
               enableVMAgentPlatformUpdates: true,
             },
@@ -86,7 +91,7 @@ async function fleetsCreateOrUpdate() {
                 },
                 vaultCertificates: [
                   {
-                    certificateUrl: "tyldwkzafmnkvpo",
+                    certificateUrl: "https://myVaultName.vault.azure.net/secrets/myCertName",
                     certificateStore: "nlxrwavpzhueffxsshlun",
                   },
                 ],
@@ -113,7 +118,9 @@ async function fleetsCreateOrUpdate() {
               diffDiskSettings: { option: "Local", placement: "CacheDisk" },
               diskSizeGB: 14,
               osType: "Windows",
-              image: { uri: "thqceubivdrjs" },
+              image: {
+                uri: "https://myStorageAccountName.blob.core.windows.net/myContainerName/myVhdName.vhd",
+              },
               vhdContainers: ["tkzcwddtinkfpnfklatw"],
               managedDisk: {
                 storageAccountType: "Standard_LRS",
@@ -249,7 +256,10 @@ async function fleetsCreateOrUpdate() {
             },
           },
           diagnosticsProfile: {
-            bootDiagnostics: { enabled: true, storageUri: "rzamfwghybpx" },
+            bootDiagnostics: {
+              enabled: true,
+              storageUri: "http://myStorageAccountName.blob.core.windows.net",
+            },
           },
           extensionProfile: {
             extensions: [
@@ -267,7 +277,7 @@ async function fleetsCreateOrUpdate() {
                   provisionAfterExtensions: ["nftzosroolbcwmpupujzqwqe"],
                   suppressFailures: true,
                   protectedSettingsFromKeyVault: {
-                    secretUrl: "vyhzfkqsqanacgzjthpjoe",
+                    secretUrl: "https://myvaultName.vault.azure.net/secrets/secret/mySecretName",
                     sourceVault: {
                       id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
                     },
