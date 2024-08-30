@@ -8,12 +8,5 @@
       "@azure/arm-mongocluster": ["./src/index"]
     }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "test/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "samples-dev/**/*.ts"]
 }
