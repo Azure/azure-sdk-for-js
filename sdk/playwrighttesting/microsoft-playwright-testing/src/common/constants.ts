@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { ApiErrorMessages } from "./types";
 
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
@@ -46,11 +47,6 @@ export const DefaultConnectOptionsConstants = {
 };
 
 export const API_VERSION = "2023-10-01-preview";
-type ErrorMessages = {
-  [status: number]: {
-    [key: string]: string;
-  };
-};
 
 // Do not put an ending slash for the urls,
 // for example use https://www.microsoft.com/en-in and not https://www.microsoft.com/en-in/
@@ -98,31 +94,46 @@ export class Constants {
     "workspaces/{workspaceId}/test-runs/{testRunId}/resulturi";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
-  public static readonly ERROR_MESSAGE: ErrorMessages = {
-    400: {
-      getTestRun: "Bad Request",
-      patchTestRunShardStart: "Bad Request",
-      patchTestRunShardEnd: "Bad Request",
-      postTestResults: "Bad Request",
-      getStorageUri: "Bad Request",
-    },
-    401: {
-      getTestRun: "Invalid authentication to run test.",
-      patchTestRunShardStart: "Invalid authentication",
-      patchTestRunShardEnd: "Invalid authentication",
-      postTestResults: "Invalid authentication to publish test result.",
-      getStorageUri: "Invalid authentication",
-    },
-    403: {
-      getTestRun: "You do not have required permissions to run test.",
-      patchTestRunShardStart: "You do not have required permissions.",
-      patchTestRunShardEnd: "You do not have required permissions.",
-      postTestResults: "You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
-      getStorageUri: "You do not have required permissions",
-    }
-  }
-}
+  public static readonly getTestRun: string = "getTestRun";
+  public static readonly patchTestRunShardStart: string = "patchTestRunShardStart";
+  public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
+  public static readonly postTestResults: string = "postTestResults";
+  public static readonly getStorageUri: string = "getStorageUri";
 
+  public static readonly ERROR_MESSAGE: ApiErrorMessages = {
+    getTestRun: {
+      400: "Bad Request",
+      401: "Invalid authentication to run test.",
+      403: "You do not have required permissions to run test.",
+      500: "Unexpected server-side issue occurred."
+    },
+    patchTestRunShardStart: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions.",
+      500: "Unexpected server-side issue occurred."
+    },
+    patchTestRunShardEnd: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions.",
+      500: "Unexpected server-side issue occurred."
+    },
+    postTestResults: {
+      400: "Bad Request",
+      401: "Invalid authentication to publish test result.",
+      403: "You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
+      500: "Unexpected server-side issue occurred."
+    },
+    getStorageUri: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions",
+      500: "Unexpected server-side issue occurred."
+    }
+  };
+
+}
 export const BackoffConstants = {
   MAX_RETRIES: 10,
 };

@@ -233,7 +233,13 @@ export type ErrorDetails = {
   message: string;
   location?: Location;
 };
-
+export type ApiErrorMessage = {
+  [key: string]: {
+  [key: number]: string
+  }
+  }
+export type ErrorAction = keyof ApiErrorMessage; 
+export type StatusCode = 400 | 401 | 403 | 500;
 /**
  * @public
  *
