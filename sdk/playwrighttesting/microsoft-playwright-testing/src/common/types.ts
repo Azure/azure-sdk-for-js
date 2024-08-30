@@ -235,9 +235,9 @@ export type ErrorDetails = {
 };
 export type ApiErrorMessage = {
   [key: string]: {
-  [key: number]: string
-  }
-  }
+    [key: number]: string;
+  };
+};
 /**
  * @public
  *

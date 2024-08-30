@@ -46,7 +46,6 @@ export class ServiceClient {
       );
     }
     throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
-
   }
 
   async getTestRun(): Promise<TestRun> {
@@ -63,7 +62,6 @@ export class ServiceClient {
     this.handleErrorResponse(response, Constants.getTestRun);
 
     throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
-
   }
 
   async patchTestRunShardStart(): Promise<Shard> {
@@ -83,7 +81,6 @@ export class ServiceClient {
     throw new Error(
       `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
     );
-
   }
 
   async patchTestRunShardEnd(
@@ -114,7 +111,6 @@ export class ServiceClient {
     throw new Error(
       `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
     );
-
   }
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -134,10 +130,7 @@ export class ServiceClient {
     }
     this.handleErrorResponse(response, Constants.postTestResults);
 
-    throw new Error(
-      `Received status ${response.status} from service from POST TestResults call.`,
-    );
-
+    throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
   async getStorageUri(): Promise<StorageUri> {
@@ -162,7 +155,7 @@ export class ServiceClient {
 
   private handleErrorResponse(response: PipelineResponse, action: string) {
     const statusCode = response.status;
-    const errorMessage =  Constants.ERROR_MESSAGE[action]?.[statusCode]?? "Unknown error occured.";
+    const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
     process.stdout.write(`\n${errorMessage}`);
   }
 }
