@@ -33,7 +33,7 @@ const sanitizerOptions: SanitizerOptions = {
     },
     {
       regex: true,
-      target: `https://[^/]+/emails:send\\?api-version=.*`,
+      target: `https://[^/]+/emails:send\\?api`,
       value: "https://someEndpoint/emails:send?api-version=2024-07-01-preview",
     },
   ],

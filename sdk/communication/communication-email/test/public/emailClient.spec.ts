@@ -130,7 +130,7 @@ describe(`EmailClient [Playback/Live]`, function () {
       content: {
         subject: "someSubject",
         plainText: "somePlainTextBody",
-        html: '<html><h1>someHtmlBody<img src="cid:inline_image" /></html>',
+        html: '<html>This is the body<br /><img src="cid:inline_image" /></html>',
       },
       attachments: [
         {
