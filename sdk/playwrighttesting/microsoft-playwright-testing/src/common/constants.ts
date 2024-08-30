@@ -112,7 +112,7 @@ export class Constants {
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
       429: "You have exceeded the rate limit for the test run service API. Please wait and try again later",
       504: "The request to the test run service timed out. Please try again later",
-      503: "",
+      503: "The test run service is currently unavailable. Please check the service status and try again.",
 
     },
     patchTestRunShardStart: {
