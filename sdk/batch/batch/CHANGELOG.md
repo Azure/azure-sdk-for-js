@@ -1,5 +1,34 @@
 # Release History
 
+## 12.0.0 (2024-09-07)
+
+### Breaking Changes
+
+- Removed `client.computeNode.getRemoteDesktop()` method, use `client.computeNode.getRemoteLoginSettings()` instead.
+
+- Removed `cloudServiceConfiguration` from type `PoolAddParameter` and related types.
+
+- Removed `applicationLicenses` from type `PoolAddParameter` and related types.
+
+### Features
+
+- Force delete/terminate job/jobSchedule.
+  - add `force` of type Boolean to type `JobScheduleDeleteMethodOptions`, `JobScheduleTerminateOptions`, `JobDeleteMethodOptions`, and `JobTerminateOptions`.
+
+- Compute node start/deallocate support.
+  - Added `client.computedNode.start()` and `client.computedNode.deallocate()` method as well as `ComputeNodeStartOptionalParams` and `ComputeNodeDeallocateOptionalParams` types.
+
+- Container task data mount isolation.
+  - Added `containerHostBatchBindMounts` of type `ContainerHostBatchBindMountEntry[]` to `TaskContainerSettings`.
+
+- Added `displayName`, `vmSize`, `taskSlotsPerNode`, `taskSchedulingPolicy`, `enableInterNodeCommunication`, `virtualMachineConfiguration`, `networkConfiguration`, `userAccounts`, `mountConfiguration`, `upgradePolicy`, and `resourceTags` to type `PoolPatchParameter`.
+
+- Confidential VM support.
+  - Added 'confidentialVM' value to type `SecurityTypes`.
+  - Added `securityProfile` of type `VMDiskSecurityProfile` to type `ManagedDisk`.
+
+- Added `sharedGalleryImageId` and `communityGalleryImageId` of type string to type `ImageReference`.
+
 ## 11.1.0 (2024-04-03)
 
 ### Features
