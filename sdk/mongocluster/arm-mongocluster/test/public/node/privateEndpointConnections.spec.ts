@@ -186,11 +186,7 @@ describe("MongoCluster test", () => {
       connectionName = String(item.name);
     }
     const resArray = new Array();
-    const res = await client.privateEndpointConnections.delete(
-      resourceGroup,
-      resourcename,
-      connectionName,
-    );
+    await client.privateEndpointConnections.delete(resourceGroup, resourcename, connectionName);
     for await (let item of client.privateEndpointConnections.listByMongoCluster(
       resourceGroup,
       resourcename,
@@ -202,10 +198,7 @@ describe("MongoCluster test", () => {
 
   it("private endpoint delete test", async function () {
     const resArray = new Array();
-    const res = await networkClient.privateEndpoints.beginDeleteAndWait(
-      resourceGroup,
-      privateEndpointName,
-    );
+    await networkClient.privateEndpoints.beginDeleteAndWait(resourceGroup, privateEndpointName);
     for await (let item of networkClient.privateEndpoints.list(resourceGroup)) {
       resArray.push(item);
     }
