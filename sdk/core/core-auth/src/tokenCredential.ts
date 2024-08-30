@@ -59,6 +59,32 @@ export interface GetTokenOptions {
    * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
    */
   tenantId?: string;
+
+  /**
+   * Options for Proof of Possession token requests
+   */
+  proofOfPossessionOptions?: {
+    /**
+     * Indicates whether to enable Proof of Possession (PoP) for the requested token.
+     */
+    isEnabled?: boolean;
+    /**
+     * The nonce value required for PoP token requests. 
+     * This is typically retrieved from the WWW-Authenticate header of a 401 challenge response.
+     * This is used in combination with {@link resourceRequestUri} and {@link resourceRequestMethod} to generate the PoP token.
+     */
+    nonce?: string
+    /**
+     * The HTTP method of the request.
+     * This is used in combination with {@link resourceRequestUri} and {@link nonce} to generate the PoP token.
+     */
+    resourceRequestMethod?: HttpMethods;
+    /**
+     * The URI of the request. 
+     * This is used in combination with {@link resourceRequestMethod} and {@link nonce} to generate the PoP token.
+     */
+    resourceRequestUri?: string;
+  }
 }
 
 /**
@@ -80,9 +106,22 @@ export interface AccessToken {
    */
   refreshAfterTimestamp?: number;
 
-  /** Type of token - Bearer or Pop */
+  /** Type of token - Bearer or PoP */
   tokenType: string;
 }
+
+/**
+ * Supported HTTP methods to use when making requests.
+ */
+export type HttpMethods =
+  | "GET"
+  | "PUT"
+  | "POST"
+  | "DELETE"
+  | "PATCH"
+  | "HEAD"
+  | "OPTIONS"
+  | "TRACE";
 
 /**
  * Tests an object to determine whether it implements TokenCredential.
