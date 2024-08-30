@@ -105,31 +105,47 @@ export class Constants {
       400: "Bad Request",
       401: "Invalid authentication to run test.",
       403: "You do not have required permissions to run test.",
-      500: "Unexpected server-side issue occurred."
+      500: "The test run service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the test run service API. Please wait and try again later",
+      504: "The request to the test run service timed out. Please try again later",
+      503: "",
+
     },
     patchTestRunShardStart: {
       400: "Bad Request",
       401: "Invalid authentication",
       403: "You do not have required permissions.",
-      500: "Unexpected server-side issue occurred."
+      500: "The test run shard start service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the est run shard start service API. Please wait and try again later",
+      504: "The request to the test run shard start service timed out. Please try again later",
+      503: "The test run shard start service is currently unavailable. Please check the service status and try again.",
     },
     patchTestRunShardEnd: {
       400: "Bad Request",
       401: "Invalid authentication",
       403: "You do not have required permissions.",
-      500: "Unexpected server-side issue occurred."
+      500: "The test run shard end service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the test run shard end service API. Please wait and try again later",
+      504: "The request to the test run shard end service timed out. Please try again later",
+      503: "The test run shard end service is currently unavailable. Please check the service status and try again.",
     },
     postTestResults: {
       400: "Bad Request",
       401: "Invalid authentication to publish test result.",
       403: "You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
-      500: "Unexpected server-side issue occurred."
+      500: "The publish test results service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the publish test results service API. Please wait and try again later",
+      504: "The request to the publish test results service timed out. Please try again later",
+      503: "The publish test results service is currently unavailable. Please check the service status and try again.",
     },
     getStorageUri: {
       400: "Bad Request",
       401: "Invalid authentication",
       403: "You do not have required permissions",
-      500: "Unexpected server-side issue occurred."
+      500: "The get storage uri service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the get storage uri service API. Please wait and try again later",
+      504: "The request to the get storage uri service timed out. Please try again later",
+      503: "The get storage uri service is currently unavailable. Please check the service status and try again.",
     }
   };
 
