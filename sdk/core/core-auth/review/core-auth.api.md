@@ -11,6 +11,7 @@ export interface AccessToken {
     expiresOnTimestamp: number;
     refreshAfterTimestamp?: number;
     token: string;
+    tokenType: string;
 }
 
 // @public
@@ -40,6 +41,12 @@ export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     claims?: string;
     enableCae?: boolean;
+    proofOfPossessionOptions?: {
+        isEnabled?: boolean;
+        nonce?: string;
+        resourceRequestMethod?: HttpMethods;
+        resourceRequestUri?: string;
+    };
     requestOptions?: {
         timeout?: number;
     };
@@ -88,6 +95,10 @@ export interface TracingContext {
     getValue(key: symbol): unknown;
     setValue(key: symbol, value: unknown): TracingContext;
 }
+
+// Warnings were encountered during analysis:
+//
+// src/tokenCredential.ts:81:5 - (ae-forgotten-export) The symbol "HttpMethods" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
