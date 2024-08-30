@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error).

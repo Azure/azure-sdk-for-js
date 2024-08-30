@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { Location, TestStep } from "@playwright/test/reporter";
 import { ServiceAuth, ServiceOS } from "./constants";
@@ -266,6 +266,15 @@ export interface MPTReporterConfig {
    * @defaultValue `true`
    */
   enableGitHubSummary?: boolean;
+
+  /**
+   * @public
+   *
+   * Enable result publishing for the test run. This will upload the test result and artifacts to the MPT Portal.
+   *
+   * @defaultValue `true`
+   */
+  enableResultPublish?: boolean;
 }
 export type DedupedStep = { step: TestStep; count: number; duration: number };
 
@@ -288,6 +297,17 @@ export type IBackOffOptions = {
 };
 
 export type JitterType = "full" | "none";
+
+export type VersionInfo = {
+  major: number;
+  minor: number;
+  patch: number;
+};
+
+export type PackageManager = {
+  runCommand: (command: string, args: string) => string;
+  getVersionFromStdout: (stdout: string) => string;
+};
 
 // Playwright OSS Types
 

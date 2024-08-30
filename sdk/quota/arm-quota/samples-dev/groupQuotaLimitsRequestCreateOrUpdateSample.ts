@@ -29,13 +29,12 @@ async function groupQuotaLimitsRequestsCreateOrUpdate() {
   const resourceName = "standardav2family";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result =
-    await client.groupQuotaLimitsRequest.beginCreateOrUpdateAndWait(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      resourceName,
-    );
+  const result = await client.groupQuotaLimitsRequest.beginCreateOrUpdateAndWait(
+    managementGroupId,
+    groupQuotaName,
+    resourceProviderName,
+    resourceName,
+  );
   console.log(result);
 }
 

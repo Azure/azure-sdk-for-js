@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type {
   FullResult,
@@ -10,7 +10,11 @@ import type {
   Suite,
 } from "@playwright/test/reporter";
 import { reporterLogger } from "../common/logger";
-import { Constants } from "../common/constants";
+import {
+  Constants,
+  InternalServiceEnvironmentVariable,
+  TestResultErrorConstants,
+} from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
 import { MultiMap } from "../common/multimap";
 import { EntraTokenDetails } from "../model/entraTokenDetails";
@@ -24,6 +28,7 @@ import ReporterUtils from "../utils/reporterUtils";
 import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
 import { MPTReporterConfig } from "../common/types";
+import { ServiceErrorMessageConstants } from "../common/messages";
 
 /**
  * @public
@@ -58,6 +63,8 @@ class MPTReporter implements Reporter {
   private _testEndPromises: Promise<void>[] = [];
   private testResultBatch: Set<MPTTestResult> = new Set<MPTTestResult>();
   private errorMessages: string[] = [];
+  private informationalMessages: string[] = [];
+  private processedErrorMessageKeys: string[] = [];
   private sasUri!: StorageUri;
   private uploadMetadata: UploadMetadata = {
     numTestResults: 0,
@@ -65,16 +72,24 @@ class MPTReporter implements Reporter {
     sizeTotalAttachments: 0,
   };
   private testRunUrl: string = "";
+  private enableResultPublish: boolean = true;
 
   constructor(config: Partial<MPTReporterConfig>) {
     if (config?.enableGitHubSummary !== undefined) {
       this.enableGitHubSummary = config.enableGitHubSummary;
+    }
+    if (config?.enableResultPublish !== undefined) {
+      this.enableResultPublish = config.enableResultPublish;
     }
   }
   private _addError(errorMessage: string): void {
     if (this.errorMessages.length < Constants.ERROR_MESSAGES_MAX_LENGTH) {
       this.errorMessages.push(this.reporterUtils.redactAccessToken(errorMessage));
     }
+  }
+
+  private _addInformationalMessage(message: string): void {
+    this.informationalMessages.push(message);
   }
 
   /**
@@ -86,6 +101,7 @@ class MPTReporter implements Reporter {
    * @param suite - The root suite that contains all projects, files and test cases.
    */
   onBegin(config: FullConfig, suite: Suite): void {
+    if (!this.enableResultPublish) return;
     this.initializeMPTReporter();
     this.reporterUtils = new ReporterUtils(this.envVariables, config, suite);
     if (this.isTokenValid && this.isRegionValid) {
@@ -103,6 +119,8 @@ class MPTReporter implements Reporter {
    * @param result - Result of the test run.
    */
   onTestEnd(test: TestCase, result: TestResult): void {
+    this.processTestResult(result);
+    if (!this.enableResultPublish) return;
     // Process test result
     this._onTestEnd(test, result);
     // Upload the test results batch
@@ -137,43 +155,46 @@ class MPTReporter implements Reporter {
    * - `'interrupted'` - Interrupted by the user.
    */
   async onEnd(result: FullResult): Promise<void> {
-    await this._onEnd(result);
-    if (!this.isTestRunStartSuccess) {
-      this._addError(`\nUnable to initialize test run report.`);
-      return;
-    }
-    let count: number = 0;
-    process.stdout.write("\nUploading test results.");
-    await Promise.allSettled(this._testEndPromises).then((values) => {
-      values.forEach((value) => {
-        if (value.status === "fulfilled") {
-          count++;
-          this.reporterUtils.progressBar(count, this._testEndPromises.length);
+    if (this.enableResultPublish) {
+      await this._onEnd(result);
+      if (!this.isTestRunStartSuccess) {
+        this._addError(`\nUnable to initialize test run report.`);
+      } else {
+        let count: number = 0;
+        process.stdout.write("\nUploading test results.");
+        await Promise.allSettled(this._testEndPromises).then((values) => {
+          values.forEach((value) => {
+            if (value.status === "fulfilled") {
+              count++;
+              this.reporterUtils.progressBar(count, this._testEndPromises.length);
+            }
+            return value.status;
+          });
+          reporterLogger.info(`\nTest result processing completed.`);
+          return values;
+        });
+        try {
+          await this.serviceClient.patchTestRunShardEnd(
+            result,
+            this.shard,
+            this.errorMessages,
+            this.uploadMetadata,
+          );
+          reporterLogger.info(`\nTest run successfully uploaded.`);
+
+          if (this.enableGitHubSummary) {
+            this.reporterUtils.generateMarkdownSummary(this.testRunUrl);
+          }
+
+          process.stdout.write(`\nTest report: ${this.testRunUrl}\n`);
+        } catch (err: any) {
+          this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
+          reporterLogger.error(`\nError in completing test run: ${err.message}`);
+          process.stdout.write(`\nUnable to complete test results upload.`);
         }
-        return value.status;
-      });
-      reporterLogger.info(`\nTest result processing completed.`);
-      return values;
-    });
-    try {
-      await this.serviceClient.patchTestRunShardEnd(
-        result,
-        this.shard,
-        this.errorMessages,
-        this.uploadMetadata,
-      );
-      reporterLogger.info(`\nTest run successfully uploaded.`);
-
-      if (this.enableGitHubSummary) {
-        this.reporterUtils.generateMarkdownSummary(this.testRunUrl);
       }
-
-      process.stdout.write(`\nTest report: ${this.testRunUrl}`);
-    } catch (err: any) {
-      this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
-      reporterLogger.error(`\nError in completing test run: ${err.message}`);
-      process.stdout.write(`\nUnable to complete test results upload.`);
     }
+    this.displayAdditionalInformation();
   }
 
   private async _onBegin(): Promise<boolean> {
@@ -185,7 +206,7 @@ class MPTReporter implements Reporter {
         `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
       );
       process.stdout.write(
-        `\nInitializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}`,
+        `\nInitializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
       );
       const shardResponse = await this.serviceClient.patchTestRunShardStart();
       this.shard = shardResponse;
@@ -316,9 +337,7 @@ class MPTReporter implements Reporter {
     }
     reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
-      process.stdout.write(
-        `\nAccess Token not found. Please provide the Access Token in the environment variable.`,
-      );
+      process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR}`);
       this.isTokenValid = false;
     } else if (ReporterUtils.hasAudienceClaim(this.envVariables.accessToken)) {
       const result = ReporterUtils.populateValuesFromServiceUrl();
@@ -343,7 +362,8 @@ class MPTReporter implements Reporter {
     this.storageClient = new StorageClient();
     if (
       this.envVariables.region !== null &&
-      !Constants.SupportedRegions.includes(this.envVariables.region!)
+      !Constants.SupportedRegions.includes(this.envVariables.region!) &&
+      this.isTokenValid
     ) {
       process.stdout.write(
         `\nUnsupported region's workspace used to generate the input Access Token; the supported regions are ${Constants.SupportedRegions.join(
@@ -354,6 +374,37 @@ class MPTReporter implements Reporter {
     }
     if (this.envVariables.runId === undefined || this.envVariables.runId === "") {
       this.envVariables.runId = ReporterUtils.getRunId(this.ciInfo);
+    }
+  }
+
+  private displayAdditionalInformation(): void {
+    if (this.informationalMessages.length > 0) console.info(); // Add a new line before displaying the messages
+    this.informationalMessages.forEach((message, index) => {
+      console.info(`${index + 1}. ${message}`);
+    });
+  }
+
+  private processTestResult(result: TestResult): void {
+    if (
+      process.env[
+        InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
+      ] &&
+      result.status !== "passed"
+    ) {
+      result.errors.forEach((error) => {
+        TestResultErrorConstants.forEach((testResultErrorParseObj) => {
+          if (this.processedErrorMessageKeys.includes(testResultErrorParseObj.key)) {
+            return;
+          }
+          const errorMessage = error.message;
+          if (!errorMessage) return;
+          const match = errorMessage.match(testResultErrorParseObj.pattern);
+          if (match) {
+            this.processedErrorMessageKeys.push(testResultErrorParseObj.key);
+            this._addInformationalMessage(testResultErrorParseObj.message);
+          }
+        });
+      });
     }
   }
 

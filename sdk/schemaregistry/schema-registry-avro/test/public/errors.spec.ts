@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, use as chaiUse } from "chai";
 import { AvroSerializer } from "../../src";

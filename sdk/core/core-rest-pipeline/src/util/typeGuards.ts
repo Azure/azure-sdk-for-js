@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export function isNodeReadableStream(x: unknown): x is NodeJS.ReadableStream {
   return Boolean(x && typeof (x as NodeJS.ReadableStream)["pipe"] === "function");

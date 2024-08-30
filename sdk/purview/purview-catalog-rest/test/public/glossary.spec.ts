@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { getLongRunningPoller, PurviewCatalogClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CONNREFUSED, TIMEOUT, resolve as dnsResolve } from "node:dns";
 import { logger } from "../log.js";

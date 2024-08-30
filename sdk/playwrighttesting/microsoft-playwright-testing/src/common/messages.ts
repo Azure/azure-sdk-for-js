@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export const ServiceErrorMessageConstants = {
   NO_AUTH_ERROR:
@@ -10,4 +10,6 @@ export const ServiceErrorMessageConstants = {
   INVALID_GLOBAL_FUNCTION: "file must export a single function",
   DUPLICATE_REPORTER:
     "Another reporter with the same name already exists. Please resolve the duplicate and try again.",
+  INVALID_PLAYWRIGHT_VERSION_ERROR:
+    "The Playwright version you are using is not supported. Please upgrade to Playwright 1.47 or above.",
 };

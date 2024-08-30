@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export interface StartTranslationDetails {
   /** The input list of documents or folders containing documents */

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified application on the HDInsight cluster.
  *
  * @summary Deletes the specified application on the HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DeleteApplication.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DeleteApplication.json
  */
 async function deleteApplicationFromHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function deleteApplicationFromHdInsightCluster() {
   const result = await client.applications.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    applicationName
+    applicationName,
   );
   console.log(result);
 }
