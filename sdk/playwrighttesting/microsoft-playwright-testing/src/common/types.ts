@@ -238,8 +238,6 @@ export type ApiErrorMessage = {
   [key: number]: string
   }
   }
-export type ErrorAction = keyof ApiErrorMessage; 
-export type StatusCode = 400 | 401 | 403 | 500 | 429 | 503 | 504;
 /**
  * @public
  *

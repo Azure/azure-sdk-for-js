@@ -12,7 +12,6 @@ import { TestRun } from "../model/testRun";
 import { CIInfo } from "./cIInfoProvider";
 import ReporterUtils from "./reporterUtils";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { StatusCode, ErrorAction } from "../common/types";
 
 export class ServiceClient {
   private httpService: HttpService;
@@ -161,8 +160,8 @@ export class ServiceClient {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
   }
 
-  private handleErrorResponse(response: PipelineResponse, action: ErrorAction) {
-    const statusCode: StatusCode = response.statusCode;
+  private handleErrorResponse(response: PipelineResponse, action: string) {
+    const statusCode = response.status;
     const errorMessage =  Constants.ERROR_MESSAGE[action]?.[statusCode]?? "Unknown error occured.";
     process.stdout.write(`\n${errorMessage}`);
   }
