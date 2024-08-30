@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   DeviceUpdateListUpdatesParameters,
@@ -55,110 +55,110 @@ import {
 } from "./parameters";
 import {
   DeviceUpdateListUpdates200Response,
-  DeviceUpdateListUpdatesdefaultResponse,
+  DeviceUpdateListUpdatesDefaultResponse,
   DeviceUpdateImportUpdate200Response,
   DeviceUpdateImportUpdate202Response,
-  DeviceUpdateImportUpdatedefaultResponse,
+  DeviceUpdateImportUpdateDefaultResponse,
   DeviceUpdateGetUpdate200Response,
   DeviceUpdateGetUpdate304Response,
-  DeviceUpdateGetUpdatedefaultResponse,
+  DeviceUpdateGetUpdateDefaultResponse,
   DeviceUpdateDeleteUpdate202Response,
-  DeviceUpdateDeleteUpdatedefaultResponse,
+  DeviceUpdateDeleteUpdateDefaultResponse,
   DeviceUpdateListProviders200Response,
-  DeviceUpdateListProvidersdefaultResponse,
+  DeviceUpdateListProvidersDefaultResponse,
   DeviceUpdateListNames200Response,
-  DeviceUpdateListNamesdefaultResponse,
+  DeviceUpdateListNamesDefaultResponse,
   DeviceUpdateListVersions200Response,
-  DeviceUpdateListVersionsdefaultResponse,
+  DeviceUpdateListVersionsDefaultResponse,
   DeviceUpdateListFiles200Response,
-  DeviceUpdateListFilesdefaultResponse,
+  DeviceUpdateListFilesDefaultResponse,
   DeviceUpdateGetFile200Response,
   DeviceUpdateGetFile304Response,
-  DeviceUpdateGetFiledefaultResponse,
+  DeviceUpdateGetFileDefaultResponse,
   DeviceUpdateListOperationStatuses200Response,
-  DeviceUpdateListOperationStatusesdefaultResponse,
+  DeviceUpdateListOperationStatusesDefaultResponse,
   DeviceUpdateGetOperationStatus200Response,
   DeviceUpdateGetOperationStatus304Response,
-  DeviceUpdateGetOperationStatusdefaultResponse,
+  DeviceUpdateGetOperationStatusDefaultResponse,
   DeviceManagementListDeviceClasses200Response,
-  DeviceManagementListDeviceClassesdefaultResponse,
+  DeviceManagementListDeviceClassesDefaultResponse,
   DeviceManagementGetDeviceClass200Response,
-  DeviceManagementGetDeviceClassdefaultResponse,
+  DeviceManagementGetDeviceClassDefaultResponse,
   DeviceManagementUpdateDeviceClass200Response,
-  DeviceManagementUpdateDeviceClassdefaultResponse,
+  DeviceManagementUpdateDeviceClassDefaultResponse,
   DeviceManagementDeleteDeviceClass204Response,
-  DeviceManagementDeleteDeviceClassdefaultResponse,
+  DeviceManagementDeleteDeviceClassDefaultResponse,
   DeviceManagementListInstallableUpdatesForDeviceClass200Response,
-  DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse,
+  DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse,
   DeviceManagementListDevices200Response,
-  DeviceManagementListDevicesdefaultResponse,
+  DeviceManagementListDevicesDefaultResponse,
   DeviceManagementImportDevices202Response,
-  DeviceManagementImportDevicesdefaultResponse,
+  DeviceManagementImportDevicesDefaultResponse,
   DeviceManagementGetDevice200Response,
-  DeviceManagementGetDevicedefaultResponse,
+  DeviceManagementGetDeviceDefaultResponse,
   DeviceManagementGetDeviceModule200Response,
-  DeviceManagementGetDeviceModuledefaultResponse,
+  DeviceManagementGetDeviceModuleDefaultResponse,
   DeviceManagementGetUpdateCompliance200Response,
-  DeviceManagementGetUpdateCompliancedefaultResponse,
+  DeviceManagementGetUpdateComplianceDefaultResponse,
   DeviceManagementListGroups200Response,
-  DeviceManagementListGroupsdefaultResponse,
+  DeviceManagementListGroupsDefaultResponse,
   DeviceManagementGetGroup200Response,
-  DeviceManagementGetGroupdefaultResponse,
+  DeviceManagementGetGroupDefaultResponse,
   DeviceManagementDeleteGroup204Response,
-  DeviceManagementDeleteGroupdefaultResponse,
+  DeviceManagementDeleteGroupDefaultResponse,
   DeviceManagementGetUpdateComplianceForGroup200Response,
-  DeviceManagementGetUpdateComplianceForGroupdefaultResponse,
+  DeviceManagementGetUpdateComplianceForGroupDefaultResponse,
   DeviceManagementListBestUpdatesForGroup200Response,
-  DeviceManagementListBestUpdatesForGroupdefaultResponse,
+  DeviceManagementListBestUpdatesForGroupDefaultResponse,
   DeviceManagementListDeploymentsForGroup200Response,
-  DeviceManagementListDeploymentsForGroupdefaultResponse,
+  DeviceManagementListDeploymentsForGroupDefaultResponse,
   DeviceManagementGetDeployment200Response,
-  DeviceManagementGetDeploymentdefaultResponse,
+  DeviceManagementGetDeploymentDefaultResponse,
   DeviceManagementCreateOrUpdateDeployment200Response,
-  DeviceManagementCreateOrUpdateDeploymentdefaultResponse,
+  DeviceManagementCreateOrUpdateDeploymentDefaultResponse,
   DeviceManagementDeleteDeployment204Response,
-  DeviceManagementDeleteDeploymentdefaultResponse,
+  DeviceManagementDeleteDeploymentDefaultResponse,
   DeviceManagementGetDeploymentStatus200Response,
-  DeviceManagementGetDeploymentStatusdefaultResponse,
+  DeviceManagementGetDeploymentStatusDefaultResponse,
   DeviceManagementListDeviceClassSubgroupsForGroup200Response,
-  DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse,
+  DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse,
   DeviceManagementGetDeviceClassSubgroup200Response,
-  DeviceManagementGetDeviceClassSubgroupdefaultResponse,
+  DeviceManagementGetDeviceClassSubgroupDefaultResponse,
   DeviceManagementDeleteDeviceClassSubgroup204Response,
-  DeviceManagementDeleteDeviceClassSubgroupdefaultResponse,
+  DeviceManagementDeleteDeviceClassSubgroupDefaultResponse,
   DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response,
-  DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse,
+  DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse,
   DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response,
-  DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse,
   DeviceManagementListDeploymentsForDeviceClassSubgroup200Response,
-  DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse,
   DeviceManagementGetDeploymentForDeviceClassSubgroup200Response,
-  DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse,
   DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response,
-  DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse,
   DeviceManagementStopDeployment200Response,
-  DeviceManagementStopDeploymentdefaultResponse,
+  DeviceManagementStopDeploymentDefaultResponse,
   DeviceManagementRetryDeployment200Response,
-  DeviceManagementRetryDeploymentdefaultResponse,
+  DeviceManagementRetryDeploymentDefaultResponse,
   DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response,
-  DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse,
+  DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response,
-  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
+  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse,
   DeviceManagementGetOperationStatus200Response,
   DeviceManagementGetOperationStatus304Response,
-  DeviceManagementGetOperationStatusdefaultResponse,
+  DeviceManagementGetOperationStatusDefaultResponse,
   DeviceManagementListOperationStatuses200Response,
-  DeviceManagementListOperationStatusesdefaultResponse,
+  DeviceManagementListOperationStatusesDefaultResponse,
   DeviceManagementStartLogCollection201Response,
-  DeviceManagementStartLogCollectiondefaultResponse,
+  DeviceManagementStartLogCollectionDefaultResponse,
   DeviceManagementGetLogCollection200Response,
-  DeviceManagementGetLogCollectiondefaultResponse,
+  DeviceManagementGetLogCollectionDefaultResponse,
   DeviceManagementListLogCollections200Response,
-  DeviceManagementListLogCollectionsdefaultResponse,
+  DeviceManagementListLogCollectionsDefaultResponse,
   DeviceManagementGetLogCollectionDetailedStatus200Response,
-  DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
+  DeviceManagementGetLogCollectionDetailedStatusDefaultResponse,
   DeviceManagementListHealthOfDevices200Response,
-  DeviceManagementListHealthOfDevicesdefaultResponse,
+  DeviceManagementListHealthOfDevicesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -166,7 +166,7 @@ export interface DeviceUpdateListUpdates {
   /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
   get(
     options?: DeviceUpdateListUpdatesParameters,
-  ): StreamableMethod<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
+  ): StreamableMethod<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesDefaultResponse>;
 }
 
 export interface DeviceUpdateImportUpdate {
@@ -176,7 +176,7 @@ export interface DeviceUpdateImportUpdate {
   ): StreamableMethod<
     | DeviceUpdateImportUpdate200Response
     | DeviceUpdateImportUpdate202Response
-    | DeviceUpdateImportUpdatedefaultResponse
+    | DeviceUpdateImportUpdateDefaultResponse
   >;
 }
 
@@ -187,13 +187,13 @@ export interface DeviceUpdateGetUpdate {
   ): StreamableMethod<
     | DeviceUpdateGetUpdate200Response
     | DeviceUpdateGetUpdate304Response
-    | DeviceUpdateGetUpdatedefaultResponse
+    | DeviceUpdateGetUpdateDefaultResponse
   >;
   /** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
   delete(
     options?: DeviceUpdateDeleteUpdateParameters,
   ): StreamableMethod<
-    DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse
+    DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdateDefaultResponse
   >;
 }
 
@@ -202,7 +202,7 @@ export interface DeviceUpdateListProviders {
   get(
     options?: DeviceUpdateListProvidersParameters,
   ): StreamableMethod<
-    DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse
+    DeviceUpdateListProviders200Response | DeviceUpdateListProvidersDefaultResponse
   >;
 }
 
@@ -210,7 +210,7 @@ export interface DeviceUpdateListNames {
   /** Get a list of all update names that match the specified provider. */
   get(
     options?: DeviceUpdateListNamesParameters,
-  ): StreamableMethod<DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse>;
+  ): StreamableMethod<DeviceUpdateListNames200Response | DeviceUpdateListNamesDefaultResponse>;
 }
 
 export interface DeviceUpdateListVersions {
@@ -218,7 +218,7 @@ export interface DeviceUpdateListVersions {
   get(
     options?: DeviceUpdateListVersionsParameters,
   ): StreamableMethod<
-    DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse
+    DeviceUpdateListVersions200Response | DeviceUpdateListVersionsDefaultResponse
   >;
 }
 
@@ -226,7 +226,7 @@ export interface DeviceUpdateListFiles {
   /** Get a list of all update file identifiers for the specified version. */
   get(
     options?: DeviceUpdateListFilesParameters,
-  ): StreamableMethod<DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse>;
+  ): StreamableMethod<DeviceUpdateListFiles200Response | DeviceUpdateListFilesDefaultResponse>;
 }
 
 export interface DeviceUpdateGetFile {
@@ -236,7 +236,7 @@ export interface DeviceUpdateGetFile {
   ): StreamableMethod<
     | DeviceUpdateGetFile200Response
     | DeviceUpdateGetFile304Response
-    | DeviceUpdateGetFiledefaultResponse
+    | DeviceUpdateGetFileDefaultResponse
   >;
 }
 
@@ -245,7 +245,7 @@ export interface DeviceUpdateListOperationStatuses {
   get(
     options?: DeviceUpdateListOperationStatusesParameters,
   ): StreamableMethod<
-    DeviceUpdateListOperationStatuses200Response | DeviceUpdateListOperationStatusesdefaultResponse
+    DeviceUpdateListOperationStatuses200Response | DeviceUpdateListOperationStatusesDefaultResponse
   >;
 }
 
@@ -256,7 +256,7 @@ export interface DeviceUpdateGetOperationStatus {
   ): StreamableMethod<
     | DeviceUpdateGetOperationStatus200Response
     | DeviceUpdateGetOperationStatus304Response
-    | DeviceUpdateGetOperationStatusdefaultResponse
+    | DeviceUpdateGetOperationStatusDefaultResponse
   >;
 }
 
@@ -265,7 +265,7 @@ export interface DeviceManagementListDeviceClasses {
   get(
     options?: DeviceManagementListDeviceClassesParameters,
   ): StreamableMethod<
-    DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse
+    DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesDefaultResponse
   >;
 }
 
@@ -274,19 +274,19 @@ export interface DeviceManagementGetDeviceClass {
   get(
     options?: DeviceManagementGetDeviceClassParameters,
   ): StreamableMethod<
-    DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse
+    DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassDefaultResponse
   >;
   /** Update device class details. */
   patch(
     options: DeviceManagementUpdateDeviceClassParameters,
   ): StreamableMethod<
-    DeviceManagementUpdateDeviceClass200Response | DeviceManagementUpdateDeviceClassdefaultResponse
+    DeviceManagementUpdateDeviceClass200Response | DeviceManagementUpdateDeviceClassDefaultResponse
   >;
   /** Deletes a device class. Device classes are created automatically when Device Update-enabled devices are connected to the hub but are not automatically cleaned up since they are referenced by DeviceClassSubgroups. If the user has deleted all DeviceClassSubgroups for a device class they can also delete the device class to remove the records from the system and to stop checking the compatibility of this device class with new updates. If a device is ever reconnected for this device class it will be re-created. */
   delete(
     options?: DeviceManagementDeleteDeviceClassParameters,
   ): StreamableMethod<
-    DeviceManagementDeleteDeviceClass204Response | DeviceManagementDeleteDeviceClassdefaultResponse
+    DeviceManagementDeleteDeviceClass204Response | DeviceManagementDeleteDeviceClassDefaultResponse
   >;
 }
 
@@ -296,7 +296,7 @@ export interface DeviceManagementListInstallableUpdatesForDeviceClass {
     options?: DeviceManagementListInstallableUpdatesForDeviceClassParameters,
   ): StreamableMethod<
     | DeviceManagementListInstallableUpdatesForDeviceClass200Response
-    | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse
+    | DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse
   >;
 }
 
@@ -305,7 +305,7 @@ export interface DeviceManagementListDevices {
   get(
     options?: DeviceManagementListDevicesParameters,
   ): StreamableMethod<
-    DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse
+    DeviceManagementListDevices200Response | DeviceManagementListDevicesDefaultResponse
   >;
 }
 
@@ -314,7 +314,7 @@ export interface DeviceManagementImportDevices {
   post(
     options: DeviceManagementImportDevicesParameters,
   ): StreamableMethod<
-    DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse
+    DeviceManagementImportDevices202Response | DeviceManagementImportDevicesDefaultResponse
   >;
 }
 
@@ -323,7 +323,7 @@ export interface DeviceManagementGetDevice {
   get(
     options?: DeviceManagementGetDeviceParameters,
   ): StreamableMethod<
-    DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse
+    DeviceManagementGetDevice200Response | DeviceManagementGetDeviceDefaultResponse
   >;
 }
 
@@ -332,7 +332,7 @@ export interface DeviceManagementGetDeviceModule {
   get(
     options?: DeviceManagementGetDeviceModuleParameters,
   ): StreamableMethod<
-    DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuledefaultResponse
+    DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuleDefaultResponse
   >;
 }
 
@@ -342,7 +342,7 @@ export interface DeviceManagementGetUpdateCompliance {
     options?: DeviceManagementGetUpdateComplianceParameters,
   ): StreamableMethod<
     | DeviceManagementGetUpdateCompliance200Response
-    | DeviceManagementGetUpdateCompliancedefaultResponse
+    | DeviceManagementGetUpdateComplianceDefaultResponse
   >;
 }
 
@@ -351,7 +351,7 @@ export interface DeviceManagementListGroups {
   get(
     options?: DeviceManagementListGroupsParameters,
   ): StreamableMethod<
-    DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse
+    DeviceManagementListGroups200Response | DeviceManagementListGroupsDefaultResponse
   >;
 }
 
@@ -360,13 +360,13 @@ export interface DeviceManagementGetGroup {
   get(
     options?: DeviceManagementGetGroupParameters,
   ): StreamableMethod<
-    DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse
+    DeviceManagementGetGroup200Response | DeviceManagementGetGroupDefaultResponse
   >;
   /** Deletes a device group. This group is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a group if they do not need to retain any of the history of the group and no longer need it. If a device is ever connected again for this group after the group was deleted it will be automatically re-created but there will be no history. */
   delete(
     options?: DeviceManagementDeleteGroupParameters,
   ): StreamableMethod<
-    DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse
+    DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupDefaultResponse
   >;
 }
 
@@ -376,7 +376,7 @@ export interface DeviceManagementGetUpdateComplianceForGroup {
     options?: DeviceManagementGetUpdateComplianceForGroupParameters,
   ): StreamableMethod<
     | DeviceManagementGetUpdateComplianceForGroup200Response
-    | DeviceManagementGetUpdateComplianceForGroupdefaultResponse
+    | DeviceManagementGetUpdateComplianceForGroupDefaultResponse
   >;
 }
 
@@ -386,7 +386,7 @@ export interface DeviceManagementListBestUpdatesForGroup {
     options?: DeviceManagementListBestUpdatesForGroupParameters,
   ): StreamableMethod<
     | DeviceManagementListBestUpdatesForGroup200Response
-    | DeviceManagementListBestUpdatesForGroupdefaultResponse
+    | DeviceManagementListBestUpdatesForGroupDefaultResponse
   >;
 }
 
@@ -396,7 +396,7 @@ export interface DeviceManagementListDeploymentsForGroup {
     options?: DeviceManagementListDeploymentsForGroupParameters,
   ): StreamableMethod<
     | DeviceManagementListDeploymentsForGroup200Response
-    | DeviceManagementListDeploymentsForGroupdefaultResponse
+    | DeviceManagementListDeploymentsForGroupDefaultResponse
   >;
 }
 
@@ -405,20 +405,20 @@ export interface DeviceManagementGetDeployment {
   get(
     options?: DeviceManagementGetDeploymentParameters,
   ): StreamableMethod<
-    DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse
+    DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentDefaultResponse
   >;
   /** Creates or updates a deployment. */
   put(
     options: DeviceManagementCreateOrUpdateDeploymentParameters,
   ): StreamableMethod<
     | DeviceManagementCreateOrUpdateDeployment200Response
-    | DeviceManagementCreateOrUpdateDeploymentdefaultResponse
+    | DeviceManagementCreateOrUpdateDeploymentDefaultResponse
   >;
   /** Deletes a deployment. */
   delete(
     options?: DeviceManagementDeleteDeploymentParameters,
   ): StreamableMethod<
-    DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse
+    DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentDefaultResponse
   >;
 }
 
@@ -428,7 +428,7 @@ export interface DeviceManagementGetDeploymentStatus {
     options?: DeviceManagementGetDeploymentStatusParameters,
   ): StreamableMethod<
     | DeviceManagementGetDeploymentStatus200Response
-    | DeviceManagementGetDeploymentStatusdefaultResponse
+    | DeviceManagementGetDeploymentStatusDefaultResponse
   >;
 }
 
@@ -438,7 +438,7 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroup {
     options?: DeviceManagementListDeviceClassSubgroupsForGroupParameters,
   ): StreamableMethod<
     | DeviceManagementListDeviceClassSubgroupsForGroup200Response
-    | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
+    | DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse
   >;
 }
 
@@ -448,14 +448,14 @@ export interface DeviceManagementGetDeviceClassSubgroup {
     options?: DeviceManagementGetDeviceClassSubgroupParameters,
   ): StreamableMethod<
     | DeviceManagementGetDeviceClassSubgroup200Response
-    | DeviceManagementGetDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupDefaultResponse
   >;
   /** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
   delete(
     options?: DeviceManagementDeleteDeviceClassSubgroupParameters,
   ): StreamableMethod<
     | DeviceManagementDeleteDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse
+    | DeviceManagementDeleteDeviceClassSubgroupDefaultResponse
   >;
 }
 
@@ -465,7 +465,7 @@ export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance {
     options?: DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters,
   ): StreamableMethod<
     | DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
-    | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse
   >;
 }
 
@@ -475,7 +475,7 @@ export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroup {
     options?: DeviceManagementGetBestUpdatesForDeviceClassSubgroupParameters,
   ): StreamableMethod<
     | DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
-    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse
   >;
 }
 
@@ -485,7 +485,7 @@ export interface DeviceManagementListDeploymentsForDeviceClassSubgroup {
     options?: DeviceManagementListDeploymentsForDeviceClassSubgroupParameters,
   ): StreamableMethod<
     | DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
-    | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse
   >;
 }
 
@@ -495,14 +495,14 @@ export interface DeviceManagementGetDeploymentForDeviceClassSubgroup {
     options?: DeviceManagementGetDeploymentForDeviceClassSubgroupParameters,
   ): StreamableMethod<
     | DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
-    | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse
   >;
   /** Deletes a device class subgroup deployment. */
   delete(
     options?: DeviceManagementDeleteDeploymentForDeviceClassSubgroupParameters,
   ): StreamableMethod<
     | DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse
   >;
 }
 
@@ -511,7 +511,7 @@ export interface DeviceManagementStopDeployment {
   post(
     options?: DeviceManagementStopDeploymentParameters,
   ): StreamableMethod<
-    DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse
+    DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentDefaultResponse
   >;
 }
 
@@ -520,7 +520,7 @@ export interface DeviceManagementRetryDeployment {
   post(
     options?: DeviceManagementRetryDeploymentParameters,
   ): StreamableMethod<
-    DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse
+    DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentDefaultResponse
   >;
 }
 
@@ -530,7 +530,7 @@ export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus {
     options?: DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters,
   ): StreamableMethod<
     | DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
-    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse
   >;
 }
 
@@ -540,7 +540,7 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
     options?: DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters,
   ): StreamableMethod<
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
-    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
+    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse
   >;
 }
 
@@ -551,7 +551,7 @@ export interface DeviceManagementGetOperationStatus {
   ): StreamableMethod<
     | DeviceManagementGetOperationStatus200Response
     | DeviceManagementGetOperationStatus304Response
-    | DeviceManagementGetOperationStatusdefaultResponse
+    | DeviceManagementGetOperationStatusDefaultResponse
   >;
 }
 
@@ -561,7 +561,7 @@ export interface DeviceManagementListOperationStatuses {
     options?: DeviceManagementListOperationStatusesParameters,
   ): StreamableMethod<
     | DeviceManagementListOperationStatuses200Response
-    | DeviceManagementListOperationStatusesdefaultResponse
+    | DeviceManagementListOperationStatusesDefaultResponse
   >;
 }
 
@@ -571,13 +571,13 @@ export interface DeviceManagementStartLogCollection {
     options: DeviceManagementStartLogCollectionParameters,
   ): StreamableMethod<
     | DeviceManagementStartLogCollection201Response
-    | DeviceManagementStartLogCollectiondefaultResponse
+    | DeviceManagementStartLogCollectionDefaultResponse
   >;
   /** Get the device diagnostics log collection */
   get(
     options?: DeviceManagementGetLogCollectionParameters,
   ): StreamableMethod<
-    DeviceManagementGetLogCollection200Response | DeviceManagementGetLogCollectiondefaultResponse
+    DeviceManagementGetLogCollection200Response | DeviceManagementGetLogCollectionDefaultResponse
   >;
 }
 
@@ -587,7 +587,7 @@ export interface DeviceManagementListLogCollections {
     options?: DeviceManagementListLogCollectionsParameters,
   ): StreamableMethod<
     | DeviceManagementListLogCollections200Response
-    | DeviceManagementListLogCollectionsdefaultResponse
+    | DeviceManagementListLogCollectionsDefaultResponse
   >;
 }
 
@@ -597,7 +597,7 @@ export interface DeviceManagementGetLogCollectionDetailedStatus {
     options?: DeviceManagementGetLogCollectionDetailedStatusParameters,
   ): StreamableMethod<
     | DeviceManagementGetLogCollectionDetailedStatus200Response
-    | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
+    | DeviceManagementGetLogCollectionDetailedStatusDefaultResponse
   >;
 }
 
@@ -607,7 +607,7 @@ export interface DeviceManagementListHealthOfDevices {
     options: DeviceManagementListHealthOfDevicesParameters,
   ): StreamableMethod<
     | DeviceManagementListHealthOfDevices200Response
-    | DeviceManagementListHealthOfDevicesdefaultResponse
+    | DeviceManagementListHealthOfDevicesDefaultResponse
   >;
 }
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
+/** Update identifier. */
 export interface UpdateId {
   /** Update provider. */
   provider: string;
@@ -10,6 +11,7 @@ export interface UpdateId {
   version: string;
 }
 
+/** Import update input item metadata. */
 export interface ImportUpdateInputItem {
   /** Import manifest metadata like source URL, file size/hashes, etc. */
   importManifest: ImportManifestMetadata;
@@ -19,6 +21,7 @@ export interface ImportUpdateInputItem {
   files?: Array<FileImportMetadata>;
 }
 
+/** Metadata describing the import manifest, a document which describes the files and other metadata about an update version. */
 export interface ImportManifestMetadata {
   /** Azure Blob location from which the import manifest can be downloaded by Device Update for IoT Hub. This is typically a read-only SAS-protected blob URL with an expiration set to at least 4 hours. */
   url: string;
@@ -28,6 +31,7 @@ export interface ImportManifestMetadata {
   hashes: Record<string, string>;
 }
 
+/** Metadata describing an update file. */
 export interface FileImportMetadata {
   /** Update file name as specified inside import manifest. */
   filename: string;
@@ -35,20 +39,19 @@ export interface FileImportMetadata {
   url: string;
 }
 
+/** Update information. */
 export interface UpdateInfo {
   /** Update identifier. */
   updateId: UpdateId;
-  /** Update description. */
-  description?: string;
-  /** Friendly update name. */
-  friendlyName?: string;
 }
 
+/** Device Class JSON Merge Patch request body */
 export interface PatchBody {
   /** The device class friendly name. Friendly name can be 1-100 characters, alphanumeric, dot, and dash. */
   friendlyName: string;
 }
 
+/** Deployment metadata. */
 export interface Deployment {
   /** The caller-provided deployment identifier. This cannot be longer than 73 characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{', '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you create a deployment. */
   deploymentId: string;
@@ -70,6 +73,7 @@ export interface Deployment {
   isCloudInitiatedRollback?: boolean;
 }
 
+/** Rollback policy for deployment */
 export interface CloudInitiatedRollbackPolicy {
   /** Update to rollback to. */
   update: UpdateInfo;
@@ -77,6 +81,7 @@ export interface CloudInitiatedRollbackPolicy {
   failure: CloudInitiatedRollbackPolicyFailure;
 }
 
+/** Failure conditions to initiate rollback policy */
 export interface CloudInitiatedRollbackPolicyFailure {
   /** Percentage of devices that failed. */
   devicesFailedPercentage: number;
@@ -84,6 +89,7 @@ export interface CloudInitiatedRollbackPolicyFailure {
   devicesFailedCount: number;
 }
 
+/** Diagnostics request body */
 export interface LogCollection {
   /** The log collection id. */
   operationId?: string;
@@ -91,14 +97,9 @@ export interface LogCollection {
   deviceList: Array<DeviceUpdateAgentId>;
   /** Description of the diagnostics operation. */
   description?: string;
-  /** The timestamp when the operation was created. */
-  createdDateTime?: string;
-  /** A timestamp for when the current state was entered. */
-  lastActionDateTime?: string;
-  /** Operation status. */
-  status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
 }
 
+/** Device Update agent id */
 export interface DeviceUpdateAgentId {
   /** Device Id */
   deviceId: string;

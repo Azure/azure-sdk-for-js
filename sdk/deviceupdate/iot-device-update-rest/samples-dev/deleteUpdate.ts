@@ -39,7 +39,7 @@ async function main() {
     .delete();
 
   const poller = getLongRunningPoller(client, initialResponse);
-  const result = await poller.pollUntilDone();
+  const result = await (await poller).pollUntilDone();
 
   if (isUnexpected(result)) {
     throw result.body.error;

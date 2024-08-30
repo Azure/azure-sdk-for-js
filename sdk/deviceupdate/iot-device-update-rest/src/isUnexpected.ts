@@ -1,118 +1,118 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   DeviceUpdateListUpdates200Response,
-  DeviceUpdateListUpdatesdefaultResponse,
+  DeviceUpdateListUpdatesDefaultResponse,
   DeviceUpdateImportUpdate200Response,
   DeviceUpdateImportUpdate202Response,
-  DeviceUpdateImportUpdatedefaultResponse,
+  DeviceUpdateImportUpdateDefaultResponse,
   DeviceUpdateGetUpdate200Response,
   DeviceUpdateGetUpdate304Response,
-  DeviceUpdateGetUpdatedefaultResponse,
+  DeviceUpdateGetUpdateDefaultResponse,
   DeviceUpdateDeleteUpdate202Response,
-  DeviceUpdateDeleteUpdatedefaultResponse,
+  DeviceUpdateDeleteUpdateDefaultResponse,
   DeviceUpdateListProviders200Response,
-  DeviceUpdateListProvidersdefaultResponse,
+  DeviceUpdateListProvidersDefaultResponse,
   DeviceUpdateListNames200Response,
-  DeviceUpdateListNamesdefaultResponse,
+  DeviceUpdateListNamesDefaultResponse,
   DeviceUpdateListVersions200Response,
-  DeviceUpdateListVersionsdefaultResponse,
+  DeviceUpdateListVersionsDefaultResponse,
   DeviceUpdateListFiles200Response,
-  DeviceUpdateListFilesdefaultResponse,
+  DeviceUpdateListFilesDefaultResponse,
   DeviceUpdateGetFile200Response,
   DeviceUpdateGetFile304Response,
-  DeviceUpdateGetFiledefaultResponse,
+  DeviceUpdateGetFileDefaultResponse,
   DeviceUpdateListOperationStatuses200Response,
-  DeviceUpdateListOperationStatusesdefaultResponse,
+  DeviceUpdateListOperationStatusesDefaultResponse,
   DeviceUpdateGetOperationStatus200Response,
   DeviceUpdateGetOperationStatus304Response,
-  DeviceUpdateGetOperationStatusdefaultResponse,
+  DeviceUpdateGetOperationStatusDefaultResponse,
   DeviceManagementListDeviceClasses200Response,
-  DeviceManagementListDeviceClassesdefaultResponse,
+  DeviceManagementListDeviceClassesDefaultResponse,
   DeviceManagementGetDeviceClass200Response,
-  DeviceManagementGetDeviceClassdefaultResponse,
+  DeviceManagementGetDeviceClassDefaultResponse,
   DeviceManagementUpdateDeviceClass200Response,
-  DeviceManagementUpdateDeviceClassdefaultResponse,
+  DeviceManagementUpdateDeviceClassDefaultResponse,
   DeviceManagementDeleteDeviceClass204Response,
-  DeviceManagementDeleteDeviceClassdefaultResponse,
+  DeviceManagementDeleteDeviceClassDefaultResponse,
   DeviceManagementListInstallableUpdatesForDeviceClass200Response,
-  DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse,
+  DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse,
   DeviceManagementListDevices200Response,
-  DeviceManagementListDevicesdefaultResponse,
+  DeviceManagementListDevicesDefaultResponse,
   DeviceManagementImportDevices202Response,
-  DeviceManagementImportDevicesdefaultResponse,
+  DeviceManagementImportDevicesDefaultResponse,
   DeviceManagementGetDevice200Response,
-  DeviceManagementGetDevicedefaultResponse,
+  DeviceManagementGetDeviceDefaultResponse,
   DeviceManagementGetDeviceModule200Response,
-  DeviceManagementGetDeviceModuledefaultResponse,
+  DeviceManagementGetDeviceModuleDefaultResponse,
   DeviceManagementGetUpdateCompliance200Response,
-  DeviceManagementGetUpdateCompliancedefaultResponse,
+  DeviceManagementGetUpdateComplianceDefaultResponse,
   DeviceManagementListGroups200Response,
-  DeviceManagementListGroupsdefaultResponse,
+  DeviceManagementListGroupsDefaultResponse,
   DeviceManagementGetGroup200Response,
-  DeviceManagementGetGroupdefaultResponse,
+  DeviceManagementGetGroupDefaultResponse,
   DeviceManagementDeleteGroup204Response,
-  DeviceManagementDeleteGroupdefaultResponse,
+  DeviceManagementDeleteGroupDefaultResponse,
   DeviceManagementGetUpdateComplianceForGroup200Response,
-  DeviceManagementGetUpdateComplianceForGroupdefaultResponse,
+  DeviceManagementGetUpdateComplianceForGroupDefaultResponse,
   DeviceManagementListBestUpdatesForGroup200Response,
-  DeviceManagementListBestUpdatesForGroupdefaultResponse,
+  DeviceManagementListBestUpdatesForGroupDefaultResponse,
   DeviceManagementListDeploymentsForGroup200Response,
-  DeviceManagementListDeploymentsForGroupdefaultResponse,
+  DeviceManagementListDeploymentsForGroupDefaultResponse,
   DeviceManagementGetDeployment200Response,
-  DeviceManagementGetDeploymentdefaultResponse,
+  DeviceManagementGetDeploymentDefaultResponse,
   DeviceManagementCreateOrUpdateDeployment200Response,
-  DeviceManagementCreateOrUpdateDeploymentdefaultResponse,
+  DeviceManagementCreateOrUpdateDeploymentDefaultResponse,
   DeviceManagementDeleteDeployment204Response,
-  DeviceManagementDeleteDeploymentdefaultResponse,
+  DeviceManagementDeleteDeploymentDefaultResponse,
   DeviceManagementGetDeploymentStatus200Response,
-  DeviceManagementGetDeploymentStatusdefaultResponse,
+  DeviceManagementGetDeploymentStatusDefaultResponse,
   DeviceManagementListDeviceClassSubgroupsForGroup200Response,
-  DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse,
+  DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse,
   DeviceManagementGetDeviceClassSubgroup200Response,
-  DeviceManagementGetDeviceClassSubgroupdefaultResponse,
+  DeviceManagementGetDeviceClassSubgroupDefaultResponse,
   DeviceManagementDeleteDeviceClassSubgroup204Response,
-  DeviceManagementDeleteDeviceClassSubgroupdefaultResponse,
+  DeviceManagementDeleteDeviceClassSubgroupDefaultResponse,
   DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response,
-  DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse,
+  DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse,
   DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response,
-  DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse,
   DeviceManagementListDeploymentsForDeviceClassSubgroup200Response,
-  DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse,
   DeviceManagementGetDeploymentForDeviceClassSubgroup200Response,
-  DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse,
   DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response,
-  DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse,
+  DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse,
   DeviceManagementStopDeployment200Response,
-  DeviceManagementStopDeploymentdefaultResponse,
+  DeviceManagementStopDeploymentDefaultResponse,
   DeviceManagementRetryDeployment200Response,
-  DeviceManagementRetryDeploymentdefaultResponse,
+  DeviceManagementRetryDeploymentDefaultResponse,
   DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response,
-  DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse,
+  DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse,
   DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response,
-  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
+  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse,
   DeviceManagementGetOperationStatus200Response,
   DeviceManagementGetOperationStatus304Response,
-  DeviceManagementGetOperationStatusdefaultResponse,
+  DeviceManagementGetOperationStatusDefaultResponse,
   DeviceManagementListOperationStatuses200Response,
-  DeviceManagementListOperationStatusesdefaultResponse,
+  DeviceManagementListOperationStatusesDefaultResponse,
   DeviceManagementStartLogCollection201Response,
-  DeviceManagementStartLogCollectiondefaultResponse,
+  DeviceManagementStartLogCollectionDefaultResponse,
   DeviceManagementGetLogCollection200Response,
-  DeviceManagementGetLogCollectiondefaultResponse,
+  DeviceManagementGetLogCollectionDefaultResponse,
   DeviceManagementListLogCollections200Response,
-  DeviceManagementListLogCollectionsdefaultResponse,
+  DeviceManagementListLogCollectionsDefaultResponse,
   DeviceManagementGetLogCollectionDetailedStatus200Response,
-  DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
+  DeviceManagementGetLogCollectionDetailedStatusDefaultResponse,
   DeviceManagementListHealthOfDevices200Response,
-  DeviceManagementListHealthOfDevicesdefaultResponse,
+  DeviceManagementListHealthOfDevicesDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /deviceUpdate/{instanceId}/updates": ["200"],
-  "POST /deviceUpdate/{instanceId}/updates:import": ["200", "202"],
   "GET /deviceUpdate/{instanceId}/updates:import": ["200", "202"],
+  "POST /deviceUpdate/{instanceId}/updates:import": ["200", "202"],
   "GET /deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}": [
     "200",
     "304",
@@ -136,8 +136,8 @@ const responseMap: Record<string, string[]> = {
     "200",
   ],
   "GET /deviceUpdate/{instanceId}/management/devices": ["200"],
-  "POST /deviceUpdate/{instanceId}/management/devices:import": ["202"],
   "GET /deviceUpdate/{instanceId}/management/devices:import": ["202"],
+  "POST /deviceUpdate/{instanceId}/management/devices:import": ["202"],
   "GET /deviceUpdate/{instanceId}/management/devices/{deviceId}": ["200"],
   "GET /deviceUpdate/{instanceId}/management/devices/{deviceId}/modules/{moduleId}": ["200"],
   "GET /deviceUpdate/{instanceId}/management/updateCompliance": ["200"],
@@ -193,450 +193,461 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse,
-): response is DeviceUpdateListUpdatesdefaultResponse;
+  response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesDefaultResponse,
+): response is DeviceUpdateListUpdatesDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateImportUpdate200Response
     | DeviceUpdateImportUpdate202Response
-    | DeviceUpdateImportUpdatedefaultResponse,
-): response is DeviceUpdateImportUpdatedefaultResponse;
+    | DeviceUpdateImportUpdateDefaultResponse,
+): response is DeviceUpdateImportUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateGetUpdate200Response
     | DeviceUpdateGetUpdate304Response
-    | DeviceUpdateGetUpdatedefaultResponse,
-): response is DeviceUpdateGetUpdatedefaultResponse;
+    | DeviceUpdateGetUpdateDefaultResponse,
+): response is DeviceUpdateGetUpdateDefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse,
-): response is DeviceUpdateDeleteUpdatedefaultResponse;
+  response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdateDefaultResponse,
+): response is DeviceUpdateDeleteUpdateDefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse,
-): response is DeviceUpdateListProvidersdefaultResponse;
+  response: DeviceUpdateListProviders200Response | DeviceUpdateListProvidersDefaultResponse,
+): response is DeviceUpdateListProvidersDefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse,
-): response is DeviceUpdateListNamesdefaultResponse;
+  response: DeviceUpdateListNames200Response | DeviceUpdateListNamesDefaultResponse,
+): response is DeviceUpdateListNamesDefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse,
-): response is DeviceUpdateListVersionsdefaultResponse;
+  response: DeviceUpdateListVersions200Response | DeviceUpdateListVersionsDefaultResponse,
+): response is DeviceUpdateListVersionsDefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse,
-): response is DeviceUpdateListFilesdefaultResponse;
+  response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesDefaultResponse,
+): response is DeviceUpdateListFilesDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateGetFile200Response
     | DeviceUpdateGetFile304Response
-    | DeviceUpdateGetFiledefaultResponse,
-): response is DeviceUpdateGetFiledefaultResponse;
+    | DeviceUpdateGetFileDefaultResponse,
+): response is DeviceUpdateGetFileDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateListOperationStatuses200Response
-    | DeviceUpdateListOperationStatusesdefaultResponse,
-): response is DeviceUpdateListOperationStatusesdefaultResponse;
+    | DeviceUpdateListOperationStatusesDefaultResponse,
+): response is DeviceUpdateListOperationStatusesDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateGetOperationStatus200Response
     | DeviceUpdateGetOperationStatus304Response
-    | DeviceUpdateGetOperationStatusdefaultResponse,
-): response is DeviceUpdateGetOperationStatusdefaultResponse;
+    | DeviceUpdateGetOperationStatusDefaultResponse,
+): response is DeviceUpdateGetOperationStatusDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceClasses200Response
-    | DeviceManagementListDeviceClassesdefaultResponse,
-): response is DeviceManagementListDeviceClassesdefaultResponse;
+    | DeviceManagementListDeviceClassesDefaultResponse,
+): response is DeviceManagementListDeviceClassesDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClass200Response
-    | DeviceManagementGetDeviceClassdefaultResponse,
-): response is DeviceManagementGetDeviceClassdefaultResponse;
+    | DeviceManagementGetDeviceClassDefaultResponse,
+): response is DeviceManagementGetDeviceClassDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementUpdateDeviceClass200Response
-    | DeviceManagementUpdateDeviceClassdefaultResponse,
-): response is DeviceManagementUpdateDeviceClassdefaultResponse;
+    | DeviceManagementUpdateDeviceClassDefaultResponse,
+): response is DeviceManagementUpdateDeviceClassDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeviceClass204Response
-    | DeviceManagementDeleteDeviceClassdefaultResponse,
-): response is DeviceManagementDeleteDeviceClassdefaultResponse;
+    | DeviceManagementDeleteDeviceClassDefaultResponse,
+): response is DeviceManagementDeleteDeviceClassDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListInstallableUpdatesForDeviceClass200Response
-    | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse,
-): response is DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse;
+    | DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse,
+): response is DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse,
-): response is DeviceManagementListDevicesdefaultResponse;
+  response: DeviceManagementListDevices200Response | DeviceManagementListDevicesDefaultResponse,
+): response is DeviceManagementListDevicesDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse,
-): response is DeviceManagementImportDevicesdefaultResponse;
+  response: DeviceManagementImportDevices202Response | DeviceManagementImportDevicesDefaultResponse,
+): response is DeviceManagementImportDevicesDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse,
-): response is DeviceManagementGetDevicedefaultResponse;
+  response: DeviceManagementGetDevice200Response | DeviceManagementGetDeviceDefaultResponse,
+): response is DeviceManagementGetDeviceDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceModule200Response
-    | DeviceManagementGetDeviceModuledefaultResponse,
-): response is DeviceManagementGetDeviceModuledefaultResponse;
+    | DeviceManagementGetDeviceModuleDefaultResponse,
+): response is DeviceManagementGetDeviceModuleDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetUpdateCompliance200Response
-    | DeviceManagementGetUpdateCompliancedefaultResponse,
-): response is DeviceManagementGetUpdateCompliancedefaultResponse;
+    | DeviceManagementGetUpdateComplianceDefaultResponse,
+): response is DeviceManagementGetUpdateComplianceDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse,
-): response is DeviceManagementListGroupsdefaultResponse;
+  response: DeviceManagementListGroups200Response | DeviceManagementListGroupsDefaultResponse,
+): response is DeviceManagementListGroupsDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse,
-): response is DeviceManagementGetGroupdefaultResponse;
+  response: DeviceManagementGetGroup200Response | DeviceManagementGetGroupDefaultResponse,
+): response is DeviceManagementGetGroupDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse,
-): response is DeviceManagementDeleteGroupdefaultResponse;
+  response: DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupDefaultResponse,
+): response is DeviceManagementDeleteGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetUpdateComplianceForGroup200Response
-    | DeviceManagementGetUpdateComplianceForGroupdefaultResponse,
-): response is DeviceManagementGetUpdateComplianceForGroupdefaultResponse;
+    | DeviceManagementGetUpdateComplianceForGroupDefaultResponse,
+): response is DeviceManagementGetUpdateComplianceForGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListBestUpdatesForGroup200Response
-    | DeviceManagementListBestUpdatesForGroupdefaultResponse,
-): response is DeviceManagementListBestUpdatesForGroupdefaultResponse;
+    | DeviceManagementListBestUpdatesForGroupDefaultResponse,
+): response is DeviceManagementListBestUpdatesForGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeploymentsForGroup200Response
-    | DeviceManagementListDeploymentsForGroupdefaultResponse,
-): response is DeviceManagementListDeploymentsForGroupdefaultResponse;
+    | DeviceManagementListDeploymentsForGroupDefaultResponse,
+): response is DeviceManagementListDeploymentsForGroupDefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse,
-): response is DeviceManagementGetDeploymentdefaultResponse;
+  response: DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentDefaultResponse,
+): response is DeviceManagementGetDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementCreateOrUpdateDeployment200Response
-    | DeviceManagementCreateOrUpdateDeploymentdefaultResponse,
-): response is DeviceManagementCreateOrUpdateDeploymentdefaultResponse;
+    | DeviceManagementCreateOrUpdateDeploymentDefaultResponse,
+): response is DeviceManagementCreateOrUpdateDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeployment204Response
-    | DeviceManagementDeleteDeploymentdefaultResponse,
-): response is DeviceManagementDeleteDeploymentdefaultResponse;
+    | DeviceManagementDeleteDeploymentDefaultResponse,
+): response is DeviceManagementDeleteDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeploymentStatus200Response
-    | DeviceManagementGetDeploymentStatusdefaultResponse,
-): response is DeviceManagementGetDeploymentStatusdefaultResponse;
+    | DeviceManagementGetDeploymentStatusDefaultResponse,
+): response is DeviceManagementGetDeploymentStatusDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceClassSubgroupsForGroup200Response
-    | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse,
-): response is DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse;
+    | DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse,
+): response is DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClassSubgroup200Response
-    | DeviceManagementGetDeviceClassSubgroupdefaultResponse,
-): response is DeviceManagementGetDeviceClassSubgroupdefaultResponse;
+    | DeviceManagementGetDeviceClassSubgroupDefaultResponse,
+): response is DeviceManagementGetDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse,
-): response is DeviceManagementDeleteDeviceClassSubgroupdefaultResponse;
+    | DeviceManagementDeleteDeviceClassSubgroupDefaultResponse,
+): response is DeviceManagementDeleteDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
-    | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse,
-): response is DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse;
+    | DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse,
+): response is DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
-    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse,
-): response is DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse;
+    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse,
+): response is DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
-    | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse,
-): response is DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse;
+    | DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse,
+): response is DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
-    | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse,
-): response is DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse;
+    | DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse,
+): response is DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse,
-): response is DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse;
+    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse,
+): response is DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementStopDeployment200Response
-    | DeviceManagementStopDeploymentdefaultResponse,
-): response is DeviceManagementStopDeploymentdefaultResponse;
+    | DeviceManagementStopDeploymentDefaultResponse,
+): response is DeviceManagementStopDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementRetryDeployment200Response
-    | DeviceManagementRetryDeploymentdefaultResponse,
-): response is DeviceManagementRetryDeploymentdefaultResponse;
+    | DeviceManagementRetryDeploymentDefaultResponse,
+): response is DeviceManagementRetryDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
-    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse,
-): response is DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse;
+    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse,
+): response is DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
-    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
-): response is DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse;
+    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse,
+): response is DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetOperationStatus200Response
     | DeviceManagementGetOperationStatus304Response
-    | DeviceManagementGetOperationStatusdefaultResponse,
-): response is DeviceManagementGetOperationStatusdefaultResponse;
+    | DeviceManagementGetOperationStatusDefaultResponse,
+): response is DeviceManagementGetOperationStatusDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListOperationStatuses200Response
-    | DeviceManagementListOperationStatusesdefaultResponse,
-): response is DeviceManagementListOperationStatusesdefaultResponse;
+    | DeviceManagementListOperationStatusesDefaultResponse,
+): response is DeviceManagementListOperationStatusesDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementStartLogCollection201Response
-    | DeviceManagementStartLogCollectiondefaultResponse,
-): response is DeviceManagementStartLogCollectiondefaultResponse;
+    | DeviceManagementStartLogCollectionDefaultResponse,
+): response is DeviceManagementStartLogCollectionDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetLogCollection200Response
-    | DeviceManagementGetLogCollectiondefaultResponse,
-): response is DeviceManagementGetLogCollectiondefaultResponse;
+    | DeviceManagementGetLogCollectionDefaultResponse,
+): response is DeviceManagementGetLogCollectionDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListLogCollections200Response
-    | DeviceManagementListLogCollectionsdefaultResponse,
-): response is DeviceManagementListLogCollectionsdefaultResponse;
+    | DeviceManagementListLogCollectionsDefaultResponse,
+): response is DeviceManagementListLogCollectionsDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetLogCollectionDetailedStatus200Response
-    | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
-): response is DeviceManagementGetLogCollectionDetailedStatusdefaultResponse;
+    | DeviceManagementGetLogCollectionDetailedStatusDefaultResponse,
+): response is DeviceManagementGetLogCollectionDetailedStatusDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListHealthOfDevices200Response
-    | DeviceManagementListHealthOfDevicesdefaultResponse,
-): response is DeviceManagementListHealthOfDevicesdefaultResponse;
+    | DeviceManagementListHealthOfDevicesDefaultResponse,
+): response is DeviceManagementListHealthOfDevicesDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateListUpdates200Response
-    | DeviceUpdateListUpdatesdefaultResponse
+    | DeviceUpdateListUpdatesDefaultResponse
     | DeviceUpdateImportUpdate200Response
     | DeviceUpdateImportUpdate202Response
-    | DeviceUpdateImportUpdatedefaultResponse
+    | DeviceUpdateImportUpdateDefaultResponse
     | DeviceUpdateGetUpdate200Response
     | DeviceUpdateGetUpdate304Response
-    | DeviceUpdateGetUpdatedefaultResponse
+    | DeviceUpdateGetUpdateDefaultResponse
     | DeviceUpdateDeleteUpdate202Response
-    | DeviceUpdateDeleteUpdatedefaultResponse
+    | DeviceUpdateDeleteUpdateDefaultResponse
     | DeviceUpdateListProviders200Response
-    | DeviceUpdateListProvidersdefaultResponse
+    | DeviceUpdateListProvidersDefaultResponse
     | DeviceUpdateListNames200Response
-    | DeviceUpdateListNamesdefaultResponse
+    | DeviceUpdateListNamesDefaultResponse
     | DeviceUpdateListVersions200Response
-    | DeviceUpdateListVersionsdefaultResponse
+    | DeviceUpdateListVersionsDefaultResponse
     | DeviceUpdateListFiles200Response
-    | DeviceUpdateListFilesdefaultResponse
+    | DeviceUpdateListFilesDefaultResponse
     | DeviceUpdateGetFile200Response
     | DeviceUpdateGetFile304Response
-    | DeviceUpdateGetFiledefaultResponse
+    | DeviceUpdateGetFileDefaultResponse
     | DeviceUpdateListOperationStatuses200Response
-    | DeviceUpdateListOperationStatusesdefaultResponse
+    | DeviceUpdateListOperationStatusesDefaultResponse
     | DeviceUpdateGetOperationStatus200Response
     | DeviceUpdateGetOperationStatus304Response
-    | DeviceUpdateGetOperationStatusdefaultResponse
+    | DeviceUpdateGetOperationStatusDefaultResponse
     | DeviceManagementListDeviceClasses200Response
-    | DeviceManagementListDeviceClassesdefaultResponse
+    | DeviceManagementListDeviceClassesDefaultResponse
     | DeviceManagementGetDeviceClass200Response
-    | DeviceManagementGetDeviceClassdefaultResponse
+    | DeviceManagementGetDeviceClassDefaultResponse
     | DeviceManagementUpdateDeviceClass200Response
-    | DeviceManagementUpdateDeviceClassdefaultResponse
+    | DeviceManagementUpdateDeviceClassDefaultResponse
     | DeviceManagementDeleteDeviceClass204Response
-    | DeviceManagementDeleteDeviceClassdefaultResponse
+    | DeviceManagementDeleteDeviceClassDefaultResponse
     | DeviceManagementListInstallableUpdatesForDeviceClass200Response
-    | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse
+    | DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse
     | DeviceManagementListDevices200Response
-    | DeviceManagementListDevicesdefaultResponse
+    | DeviceManagementListDevicesDefaultResponse
     | DeviceManagementImportDevices202Response
-    | DeviceManagementImportDevicesdefaultResponse
+    | DeviceManagementImportDevicesDefaultResponse
     | DeviceManagementGetDevice200Response
-    | DeviceManagementGetDevicedefaultResponse
+    | DeviceManagementGetDeviceDefaultResponse
     | DeviceManagementGetDeviceModule200Response
-    | DeviceManagementGetDeviceModuledefaultResponse
+    | DeviceManagementGetDeviceModuleDefaultResponse
     | DeviceManagementGetUpdateCompliance200Response
-    | DeviceManagementGetUpdateCompliancedefaultResponse
+    | DeviceManagementGetUpdateComplianceDefaultResponse
     | DeviceManagementListGroups200Response
-    | DeviceManagementListGroupsdefaultResponse
+    | DeviceManagementListGroupsDefaultResponse
     | DeviceManagementGetGroup200Response
-    | DeviceManagementGetGroupdefaultResponse
+    | DeviceManagementGetGroupDefaultResponse
     | DeviceManagementDeleteGroup204Response
-    | DeviceManagementDeleteGroupdefaultResponse
+    | DeviceManagementDeleteGroupDefaultResponse
     | DeviceManagementGetUpdateComplianceForGroup200Response
-    | DeviceManagementGetUpdateComplianceForGroupdefaultResponse
+    | DeviceManagementGetUpdateComplianceForGroupDefaultResponse
     | DeviceManagementListBestUpdatesForGroup200Response
-    | DeviceManagementListBestUpdatesForGroupdefaultResponse
+    | DeviceManagementListBestUpdatesForGroupDefaultResponse
     | DeviceManagementListDeploymentsForGroup200Response
-    | DeviceManagementListDeploymentsForGroupdefaultResponse
+    | DeviceManagementListDeploymentsForGroupDefaultResponse
     | DeviceManagementGetDeployment200Response
-    | DeviceManagementGetDeploymentdefaultResponse
+    | DeviceManagementGetDeploymentDefaultResponse
     | DeviceManagementCreateOrUpdateDeployment200Response
-    | DeviceManagementCreateOrUpdateDeploymentdefaultResponse
+    | DeviceManagementCreateOrUpdateDeploymentDefaultResponse
     | DeviceManagementDeleteDeployment204Response
-    | DeviceManagementDeleteDeploymentdefaultResponse
+    | DeviceManagementDeleteDeploymentDefaultResponse
     | DeviceManagementGetDeploymentStatus200Response
-    | DeviceManagementGetDeploymentStatusdefaultResponse
+    | DeviceManagementGetDeploymentStatusDefaultResponse
     | DeviceManagementListDeviceClassSubgroupsForGroup200Response
-    | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
+    | DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse
     | DeviceManagementGetDeviceClassSubgroup200Response
-    | DeviceManagementGetDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupDefaultResponse
     | DeviceManagementDeleteDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse
+    | DeviceManagementDeleteDeviceClassSubgroupDefaultResponse
     | DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
-    | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse
     | DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
-    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse
     | DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
-    | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse
     | DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
-    | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse
     | DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse
     | DeviceManagementStopDeployment200Response
-    | DeviceManagementStopDeploymentdefaultResponse
+    | DeviceManagementStopDeploymentDefaultResponse
     | DeviceManagementRetryDeployment200Response
-    | DeviceManagementRetryDeploymentdefaultResponse
+    | DeviceManagementRetryDeploymentDefaultResponse
     | DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
-    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
-    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
+    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse
     | DeviceManagementGetOperationStatus200Response
     | DeviceManagementGetOperationStatus304Response
-    | DeviceManagementGetOperationStatusdefaultResponse
+    | DeviceManagementGetOperationStatusDefaultResponse
     | DeviceManagementListOperationStatuses200Response
-    | DeviceManagementListOperationStatusesdefaultResponse
+    | DeviceManagementListOperationStatusesDefaultResponse
     | DeviceManagementStartLogCollection201Response
-    | DeviceManagementStartLogCollectiondefaultResponse
+    | DeviceManagementStartLogCollectionDefaultResponse
     | DeviceManagementGetLogCollection200Response
-    | DeviceManagementGetLogCollectiondefaultResponse
+    | DeviceManagementGetLogCollectionDefaultResponse
     | DeviceManagementListLogCollections200Response
-    | DeviceManagementListLogCollectionsdefaultResponse
+    | DeviceManagementListLogCollectionsDefaultResponse
     | DeviceManagementGetLogCollectionDetailedStatus200Response
-    | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
+    | DeviceManagementGetLogCollectionDetailedStatusDefaultResponse
     | DeviceManagementListHealthOfDevices200Response
-    | DeviceManagementListHealthOfDevicesdefaultResponse,
+    | DeviceManagementListHealthOfDevicesDefaultResponse,
 ): response is
-  | DeviceUpdateListUpdatesdefaultResponse
-  | DeviceUpdateImportUpdatedefaultResponse
-  | DeviceUpdateGetUpdatedefaultResponse
-  | DeviceUpdateDeleteUpdatedefaultResponse
-  | DeviceUpdateListProvidersdefaultResponse
-  | DeviceUpdateListNamesdefaultResponse
-  | DeviceUpdateListVersionsdefaultResponse
-  | DeviceUpdateListFilesdefaultResponse
-  | DeviceUpdateGetFiledefaultResponse
-  | DeviceUpdateListOperationStatusesdefaultResponse
-  | DeviceUpdateGetOperationStatusdefaultResponse
-  | DeviceManagementListDeviceClassesdefaultResponse
-  | DeviceManagementGetDeviceClassdefaultResponse
-  | DeviceManagementUpdateDeviceClassdefaultResponse
-  | DeviceManagementDeleteDeviceClassdefaultResponse
-  | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse
-  | DeviceManagementListDevicesdefaultResponse
-  | DeviceManagementImportDevicesdefaultResponse
-  | DeviceManagementGetDevicedefaultResponse
-  | DeviceManagementGetDeviceModuledefaultResponse
-  | DeviceManagementGetUpdateCompliancedefaultResponse
-  | DeviceManagementListGroupsdefaultResponse
-  | DeviceManagementGetGroupdefaultResponse
-  | DeviceManagementDeleteGroupdefaultResponse
-  | DeviceManagementGetUpdateComplianceForGroupdefaultResponse
-  | DeviceManagementListBestUpdatesForGroupdefaultResponse
-  | DeviceManagementListDeploymentsForGroupdefaultResponse
-  | DeviceManagementGetDeploymentdefaultResponse
-  | DeviceManagementCreateOrUpdateDeploymentdefaultResponse
-  | DeviceManagementDeleteDeploymentdefaultResponse
-  | DeviceManagementGetDeploymentStatusdefaultResponse
-  | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
-  | DeviceManagementGetDeviceClassSubgroupdefaultResponse
-  | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse
-  | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse
-  | DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse
-  | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse
-  | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse
-  | DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse
-  | DeviceManagementStopDeploymentdefaultResponse
-  | DeviceManagementRetryDeploymentdefaultResponse
-  | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
-  | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
-  | DeviceManagementGetOperationStatusdefaultResponse
-  | DeviceManagementListOperationStatusesdefaultResponse
-  | DeviceManagementStartLogCollectiondefaultResponse
-  | DeviceManagementGetLogCollectiondefaultResponse
-  | DeviceManagementListLogCollectionsdefaultResponse
-  | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
-  | DeviceManagementListHealthOfDevicesdefaultResponse {
+  | DeviceUpdateListUpdatesDefaultResponse
+  | DeviceUpdateImportUpdateDefaultResponse
+  | DeviceUpdateGetUpdateDefaultResponse
+  | DeviceUpdateDeleteUpdateDefaultResponse
+  | DeviceUpdateListProvidersDefaultResponse
+  | DeviceUpdateListNamesDefaultResponse
+  | DeviceUpdateListVersionsDefaultResponse
+  | DeviceUpdateListFilesDefaultResponse
+  | DeviceUpdateGetFileDefaultResponse
+  | DeviceUpdateListOperationStatusesDefaultResponse
+  | DeviceUpdateGetOperationStatusDefaultResponse
+  | DeviceManagementListDeviceClassesDefaultResponse
+  | DeviceManagementGetDeviceClassDefaultResponse
+  | DeviceManagementUpdateDeviceClassDefaultResponse
+  | DeviceManagementDeleteDeviceClassDefaultResponse
+  | DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse
+  | DeviceManagementListDevicesDefaultResponse
+  | DeviceManagementImportDevicesDefaultResponse
+  | DeviceManagementGetDeviceDefaultResponse
+  | DeviceManagementGetDeviceModuleDefaultResponse
+  | DeviceManagementGetUpdateComplianceDefaultResponse
+  | DeviceManagementListGroupsDefaultResponse
+  | DeviceManagementGetGroupDefaultResponse
+  | DeviceManagementDeleteGroupDefaultResponse
+  | DeviceManagementGetUpdateComplianceForGroupDefaultResponse
+  | DeviceManagementListBestUpdatesForGroupDefaultResponse
+  | DeviceManagementListDeploymentsForGroupDefaultResponse
+  | DeviceManagementGetDeploymentDefaultResponse
+  | DeviceManagementCreateOrUpdateDeploymentDefaultResponse
+  | DeviceManagementDeleteDeploymentDefaultResponse
+  | DeviceManagementGetDeploymentStatusDefaultResponse
+  | DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse
+  | DeviceManagementGetDeviceClassSubgroupDefaultResponse
+  | DeviceManagementDeleteDeviceClassSubgroupDefaultResponse
+  | DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse
+  | DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse
+  | DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse
+  | DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse
+  | DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse
+  | DeviceManagementStopDeploymentDefaultResponse
+  | DeviceManagementRetryDeploymentDefaultResponse
+  | DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse
+  | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse
+  | DeviceManagementGetOperationStatusDefaultResponse
+  | DeviceManagementListOperationStatusesDefaultResponse
+  | DeviceManagementStartLogCollectionDefaultResponse
+  | DeviceManagementGetLogCollectionDefaultResponse
+  | DeviceManagementListLogCollectionsDefaultResponse
+  | DeviceManagementGetLogCollectionDetailedStatusDefaultResponse
+  | DeviceManagementListHealthOfDevicesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(url.pathname);
+    pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(path: string): string[] {
+function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
+  // Traverse list to match the longest candidate
+  // matchedLen: the length of candidate path
+  // matchedValue: the matched status code array
+  let matchedLen = -1,
+    matchedValue: string[] = [];
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
+    if (!key.startsWith(method)) {
+      continue;
+    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
-    // If the candidate and actual paths don't match in size
-    // we move on to the next candidate path
-    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
-      // track if we have found a match to return the values found.
-      let found = true;
-      for (let i = 0; i < candidateParts.length; i++) {
-        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
-          // If the current part of the candidate is a "template" part
-          // it is a match with the actual path part on hand
-          // skip as the parameterized part can match anything
-          continue;
-        }
+    // track if we have found a match to return the values found.
+    let found = true;
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+        const start = candidateParts[i]!.indexOf("}") + 1,
+          end = candidateParts[i]?.length;
+        // If the current part of the candidate is a "template" part
+        // Try to use the suffix of pattern to match the path
+        // {guid} ==> $
+        // {guid}:export ==> :export$
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
-        // If the candidate part is not a template and
-        // the parts don't match mark the candidate as not found
-        // to move on with the next candidate path.
-        if (candidateParts[i] !== pathParts[i]) {
+        if (!isMatched) {
           found = false;
           break;
         }
+        continue;
       }
 
-      // We finished evaluating the current candidate parts
-      // if all parts matched we return the success values form
-      // the path mapping.
-      if (found) {
-        return value;
+      // If the candidate part is not a template and
+      // the parts don't match mark the candidate as not found
+      // to move on with the next candidate path.
+      if (candidateParts[i] !== pathParts[j]) {
+        found = false;
+        break;
       }
+    }
+
+    // We finished evaluating the current candidate parts
+    // Update the matched value if and only if we found the longer pattern
+    if (found && candidatePath.length > matchedLen) {
+      matchedLen = candidatePath.length;
+      matchedValue = value;
     }
   }
 
-  // No match was found, return an empty array.
-  return [];
-}
-
-function hasParametrizedPath(path: string): boolean {
-  return path.includes("/{");
+  return matchedValue;
 }
 
 function getPathFromMapKey(mapKey: string): string {
