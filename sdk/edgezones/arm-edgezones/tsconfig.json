@@ -3,11 +3,19 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@azure/arm-edgezones": [
+        "./src/index"
+      ]
+    }
   },
   "include": [
     "./src/**/*.ts",
     "./src/**/*.mts",
-    "./src/**/*.cts"
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
   ]
 }
