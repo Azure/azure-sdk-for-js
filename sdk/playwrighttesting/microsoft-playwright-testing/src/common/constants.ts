@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ApiErrorMessages } from "./types";
+import { ApiErrorMessage } from "./types";
 
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
@@ -104,7 +104,7 @@ export class Constants {
   public static readonly postTestResults: string = "postTestResults";
   public static readonly getStorageUri: string = "getStorageUri";
 
-  public static readonly ERROR_MESSAGE: ApiErrorMessages = {
+  public static readonly ERROR_MESSAGE: ApiErrorMessage = {
     getTestRun: {
       400: "Bad Request",
       401: "Invalid authentication to run test.",
