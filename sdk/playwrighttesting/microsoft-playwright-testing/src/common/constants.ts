@@ -38,8 +38,12 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
 };
 
+export const InternalServiceEnvironmentVariable = {
+  PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED: "_PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED",
+};
+
 export const DefaultConnectOptionsConstants = {
-  DEFAULT_TIMEOUT: 0,
+  DEFAULT_TIMEOUT: 30000,
   DEFAULT_SLOW_MO: 0,
   DEFAULT_EXPOSE_NETWORK: "<loopback>",
   DEFAULT_SERVICE_OS: ServiceOS.LINUX,
@@ -98,6 +102,70 @@ export class Constants {
 export const BackoffConstants = {
   MAX_RETRIES: 10,
 };
+
+export const TestErrorType = {
+  Scalable: "Scalable",
+  Reporting: "Reporting",
+};
+
+export const TestResultErrorConstants = [
+  {
+    key: "Unauthorized_Scalable",
+    message: "The authentication token provided is invalid. Please check the token and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*401 Unauthorized)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "NoPermissionOnWorkspace_Scalable",
+    message: `You do not have the required permissions to run tests. This could be because:
+
+    a. You do not have the required roles on the workspace. Only Owner and Contributor roles can run tests. Contact the service administrator.
+    b. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal and login using the command 'az login --tenant <TENANT_ID>'.
+    `,
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*CheckAccess API call with non successful response)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "InvalidWorkspace_Scalable",
+    message: "The specified workspace does not exist. Please verify your workspace settings.",
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*InvalidAccountOrSubscriptionState)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "AccessKeyBasedAuthNotSupported_Scalable",
+    message:
+      "Authentication through service access token is disabled for this workspace. Please use Entra ID to authenticate.",
+    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*AccessKeyBasedAuthNotSupported)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "ServiceUnavailable_Scalable",
+    message: "The service is currently unavailable. Please check the service status and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*503 Service Unavailable)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "GatewayTimeout_Scalable",
+    message: "The request to the service timed out. Please try again later.",
+    pattern: /(?=.*browserType\.connect)(?=.*504 Gateway Timeout)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "QuotaLimitError_Scalable",
+    message:
+      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded.",
+    pattern: /browserType.connect: Timeout .* exceeded/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "BrowserConnectionError_Scalable",
+    message: "The service is currently unavailable. Please try again after some time.",
+    pattern: /browserType.connect: Target page, context or browser has been closed/i,
+    type: TestErrorType.Scalable,
+  },
+];
 
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",

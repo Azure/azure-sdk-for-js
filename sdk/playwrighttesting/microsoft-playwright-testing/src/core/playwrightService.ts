@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceAuth } from "../common/constants";
+import { InternalServiceEnvironmentVariable, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
@@ -84,6 +84,12 @@ const getServiceConfig = (
     return {
       ...globalFunctions,
     };
+  }
+  if (
+    !process.env[InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED]
+  ) {
+    process.env[InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED] =
+      "true";
   }
 
   return {

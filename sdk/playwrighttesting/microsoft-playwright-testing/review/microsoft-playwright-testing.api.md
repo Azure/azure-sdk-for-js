@@ -38,6 +38,7 @@ export const getServiceConfig: (config: PlaywrightConfigInput, options?: Playwri
 // @public
 export interface MPTReporterConfig {
     enableGitHubSummary?: boolean;
+    enableResultPublish?: boolean;
 }
 
 // @public
