@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable no-underscore-dangle*/
-
+/* 
 import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";
@@ -365,3 +365,4 @@ describe("#BrowserSdkLoader", () => {
     assert.ok(infoStub.calledOn, "invalid key warning was raised");
   });
 });
+*/

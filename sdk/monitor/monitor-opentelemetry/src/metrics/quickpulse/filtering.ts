@@ -21,6 +21,7 @@ import {
   isDependencyData,
   isExceptionData,
   isTraceData,
+  getMsFromFilterTimestampString,
 } from "./utils";
 
 export class TelemetryTypeError extends Error {
@@ -151,9 +152,8 @@ export class Validator {
       }
       // Duration comparand should be a timestamp; Response/ResultCode comparand should be interpreted as double.
       if (filter.fieldName === KnownDependencyColumns.Duration.toString()) {
-        const date = new Date(filter.comparand);
-        if (isNaN(date.getTime())) {
-          throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' can't be converted to a double.`);
+        if (isNaN(getMsFromFilterTimestampString(filter.comparand))) {
+          throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' can't be converted to a double (ms).`);
         }
       } else if (isNaN(parseFloat(filter.comparand))) {
         throw new UnexpectedFilterCreateError(`The comparand '${filter.comparand}' can't be converted to a double.`);
@@ -176,6 +176,8 @@ export class Validator {
 
     }
   }
+
+
 
 }
 
@@ -232,6 +234,11 @@ export class Filter {
   }
 
   public static checkMetricFilters(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): boolean {
+    if (derivedMetricInfo.filterGroups.length === 0) {
+      // This should never happen - even when a user does not add filter pills to the derived metric, 
+      // the filterGroups array should have one filter group with an empty array of filters.
+      return true;
+    }
     // Haven't yet seen any case where there is more than one filter group in a derived metric info.
     // Just to be safe, handling the multiple filter conjunction group case as an or operation.
     let matched = false;
@@ -286,7 +293,7 @@ export class Filter {
         filter.fieldName === KnownRequestColumns.ResponseCode.toString() ||
         filter.fieldName === KnownDependencyColumns.Duration.toString()) {
         const comparand: number = filter.fieldName === KnownDependencyColumns.Duration.toString() ?
-          new Date(filter.comparand).getTime() : parseFloat(filter.comparand);
+          getMsFromFilterTimestampString(filter.comparand) : parseFloat(filter.comparand);
         switch (filter.predicate) {
           case KnownPredicateType.Equal.toString():
             return dataValue === comparand;
@@ -362,19 +369,15 @@ export class Filter {
 export class Projection {
   // contains the projections for all the derived metrics
   private projectionMap: Map<string, number>;
-  // for calculation of avgs
-  private countMap: Map<string, number>;
+  // for calculation of avgs - key id, value [sum, count]
+  private countMap: Map<string, [number, number]>;
 
   constructor() {
     this.projectionMap = new Map<string, number>();
-    this.countMap = new Map<string, number>();
+    this.countMap = new Map<string, [number, number]>();
   }
 
   public calculateProjection(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): void {
-    if (!this.countMap.has(derivedMetricInfo.id)) {
-      this.countMap.set(derivedMetricInfo.id, 0);
-    }
-
     let incrementBy: number;
     if (derivedMetricInfo.projection === "Count()") {
       incrementBy = 1;
@@ -407,7 +410,7 @@ export class Projection {
   }
 
   public getMetricValues(): Map<string, number> {
-    const result = this.projectionMap;
+    const result: Map<string, number> = new Map(this.projectionMap);
     this.resetProjectionValues();
     return result;
   }
@@ -418,7 +421,7 @@ export class Projection {
     }
 
     for (const key of this.countMap.keys()) {
-      this.countMap.set(key, 0);
+      this.countMap.set(key, [0, 0]);
     }
   }
 
@@ -428,19 +431,26 @@ export class Projection {
   }
 
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
-    const prevValue: number = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
+    let prevValue: number;
     switch (aggregation) {
       case KnownAggregationType.Sum.toString():
+        prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
         return prevValue + incrementBy;
       case KnownAggregationType.Min.toString():
+        prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : Number.MAX_VALUE;
         return Math.min(prevValue, incrementBy);
       case KnownAggregationType.Max.toString():
+        prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : Number.MIN_VALUE;
         return Math.max(prevValue, incrementBy);
       case KnownAggregationType.Avg.toString(): {
-        // add this telemetry to count when we know it's valid
-        this.countMap.set(id, (this.countMap.get(id) as number) + 1);
-        const count: number = this.countMap.get(id) as number;
-        return (prevValue + incrementBy) / count;
+        if (!this.countMap.has(id)) {
+          this.countMap.set(id, [incrementBy, 1]);
+          return incrementBy;
+        } else {
+          const [prevSum, prevCount] = this.countMap.get(id) as [number, number];
+          this.countMap.set(id, [prevSum + incrementBy, prevCount + 1]);
+          return (prevSum + incrementBy) / (prevCount + 1);
+        }
       }
       default:
         throw new MetricFailureToCreateError(`The aggregation '${aggregation}' is not supported in this SDK.`);

@@ -493,7 +493,6 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      // implementation note: apply filtering logic here for exception, trace 
       const columns: TraceData | ExceptionData = getLogColumns(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isTraceData(columns)) {
@@ -683,7 +682,7 @@ export class LiveMetrics {
     this.lastCpus = cpus;
   }
 
-  private updateConfiguration(response: PublishResponse | IsSubscribedResponse) {
+  private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
     this.etag = response.xMsQpsConfigurationEtag || "";
     this.quickpulseExporter.setEtag(this.etag);
     this.errorTracker.clearValidationTimeErrors();

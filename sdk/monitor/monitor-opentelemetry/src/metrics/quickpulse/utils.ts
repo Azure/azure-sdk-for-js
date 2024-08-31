@@ -282,7 +282,7 @@ function getRequestData(span: ReadableSpan): RequestData {
     Duration: hrTimeToMilliseconds(span.duration),
     ResponseCode: 0,
     Success: false,
-    Name: span.name,
+    Name: span.name || "",
     CustomDimensions: createCustomDimsFromAttributes(span.attributes),
   };
 
@@ -290,6 +290,8 @@ function getRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.Url = getUrl(span.attributes);
+    const urlObj = new URL(requestData.Url);
+    requestData.Name = `${httpMethod} ${urlObj.pathname}`;
     const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
       requestData.ResponseCode = Number(httpStatusCode);
@@ -512,7 +514,8 @@ function createCustomDimsFromAttributes(
           key === SEMATTRS_HTTP_HOST ||
           key === SEMATTRS_HTTP_URL ||
           key === SEMATTRS_EXCEPTION_TYPE ||
-          key === SEMATTRS_EXCEPTION_MESSAGE
+          key === SEMATTRS_EXCEPTION_MESSAGE ||
+          key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
         customDims.set(key, String(attributes[key]));
@@ -576,4 +579,30 @@ function getUrl(attributes: Attributes): string {
  */
 export function getTransmissionTime(): number {
   return (Date.now() + 62135596800000) * 10000;
+}
+
+export function getMsFromFilterTimestampString(timestamp: string): number {
+  // The service side will return a timestamp in the following format:
+  // [days].[hours]:[minutes]:[seconds]
+  // the seconds may be a whole number or something like 7.89. 7.89 seconds translates to 7890 ms.
+  // writing this method because date.getmilliseconds() returns incorrect result on large timestamps.
+  // examples: "14.6:56:7.89" = 1234567890 ms, "0.0:0:0.2" = 200 ms
+  const parts = timestamp.split(":");
+  if (parts.length !== 3) {
+    return NaN;
+  }
+  const seconds = parseFloat(parts[2]);
+  const minutes = parseFloat(parts[1]);
+  const firstPart = parts[0].split(".");
+  if (firstPart.length !== 2) {
+    return NaN;
+  }
+  const hours = parseFloat(firstPart[1]);
+  const days = parseFloat(firstPart[0]);
+
+  if (isNaN(days) || isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
+    return NaN;
+  }
+
+  return seconds * 1000 + minutes * 60000 + hours * 3600000 + days * 86400000;
 }
