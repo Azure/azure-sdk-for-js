@@ -25,6 +25,8 @@ import {
   ChangeFeedMode,
   ChangeFeedPolicy,
   ChangeFeedRetentionTimeSpan,
+  PartitionKeyKind,
+  PermissionMode,
 } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { endpoint } from "../common/_testConfig";
@@ -1998,6 +2000,142 @@ describe("Client Side Encryption", () => {
     assert.equal(response.resources[0], 1);
   });
 
+  it("encryption hierarchical partition key test", async () => {
+    const key1Paths = ["/sensitive_LongFormat", "/sensitive_NestedObjectFormatL1"].map(
+      (path) =>
+        new ClientEncryptionIncludedPath(
+          path,
+          "key1",
+          EncryptionType.DETERMINISTIC,
+          EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        ),
+    );
+    const containerDef = {
+      id: "hierarchical_partition_container",
+      partitionKey: {
+        paths: [
+          "/sensitive_StringFormat",
+          "/sensitive_NestedObjectFormatL1/sensitive_NestedObjectFormatL2/sensitive_StringFormatL2",
+        ],
+        version: 2,
+        kind: PartitionKeyKind.MultiHash,
+      },
+      clientEncryptionPolicy: new ClientEncryptionPolicy(key1Paths, 2),
+      throughput: 400,
+    };
+    const container = (await database.containers.create(containerDef)).container;
+    await container.initializeEncryption();
+    const testDoc = TestDoc.create();
+    const createResponse = await container.items.create(testDoc);
+    assert.equal(StatusCodes.Created, createResponse.statusCode);
+    const testDocPartitionKey = [
+      testDoc.sensitive_StringFormat,
+      testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2
+        .sensitive_StringFormatL2,
+    ];
+    verifyExpectedDocResponse(testDoc, createResponse.resource);
+    const readResponse = await container.item(testDoc.id, testDocPartitionKey).read();
+    assert.equal(StatusCodes.Ok, readResponse.statusCode);
+    verifyExpectedDocResponse(testDoc, readResponse.resource);
+    let query = new EncryptionQueryBuilder("SELECT * FROM c");
+    let iterator = await container.items.getEncryptionQueryIterator(query);
+    let queryResponse = await iterator.fetchAll();
+    assert.equal(queryResponse.resources.length, 1);
+    verifyExpectedDocResponse(testDoc, queryResponse.resources[0]);
+    query = new EncryptionQueryBuilder(
+      "SELECT * FROM c WHERE c.sensitive_StringFormat= @sensitive_StringFormat",
+    );
+    query.addStringParameter(
+      "@sensitive_StringFormat",
+      testDoc.sensitive_StringFormat,
+      "/sensitive_StringFormat",
+    );
+    iterator = await container.items.getEncryptionQueryIterator(query);
+    queryResponse = await iterator.fetchAll();
+    assert.equal(queryResponse.resources.length, 1);
+    verifyExpectedDocResponse(testDoc, queryResponse.resources[0]);
+
+    query = new EncryptionQueryBuilder(
+      "SELECT * FROM c WHERE c.sensitive_LongFormat= @sensitive_LongFormat",
+    );
+    query.addIntegerParameter(
+      "@sensitive_LongFormat",
+      testDoc.sensitive_LongFormat,
+      "/sensitive_LongFormat",
+    );
+    iterator = await container.items.getEncryptionQueryIterator(query);
+    queryResponse = await iterator.fetchAll();
+    assert.equal(queryResponse.resources.length, 1);
+    verifyExpectedDocResponse(testDoc, queryResponse.resources[0]);
+
+    query = new EncryptionQueryBuilder(
+      "SELECT * FROM c WHERE c.sensitive_NestedObjectFormatL1= @sensitive_NestedObjectFormatL1",
+    );
+    query.addObjectParameter(
+      "@sensitive_NestedObjectFormatL1",
+      testDoc.sensitive_NestedObjectFormatL1,
+      "/sensitive_NestedObjectFormatL1",
+    );
+    iterator = await container.items.getEncryptionQueryIterator(query);
+    queryResponse = await iterator.fetchAll();
+    assert.equal(queryResponse.resources.length, 1);
+    verifyExpectedDocResponse(testDoc, queryResponse.resources[0]);
+  });
+
+  it("encryption resource token auth restricted", async () => {
+    const { resource: restrictedUserDef } = await database.users.create({ id: randomUUID() });
+    const restrictedUser = database.user(restrictedUserDef.id);
+    const { resource: restrictedUserPermission } = await restrictedUser.permissions.create({
+      id: randomUUID(),
+      permissionMode: PermissionMode.All,
+      resource: encryptionContainer.url,
+    });
+    assert((restrictedUserPermission as any)._token !== undefined, "permission token is invalid");
+    const resourceTokens: any = {};
+    resourceTokens[database.id] = (restrictedUserPermission as any)._token;
+    const restrictedClient = new CosmosClient({
+      endpoint: endpoint,
+      resourceTokens: resourceTokens,
+      enableEncryption: true,
+      keyEncryptionKeyResolver: new MockKeyVaultEncryptionKeyResolver(),
+      encryptionKeyResolverName: testKeyVault,
+    });
+
+    const datbaseForRestrictedUser = restrictedClient.database(database.id);
+
+    try {
+      const cekId = "testingCekId";
+      const metadata = new EncryptionKeyWrapMetadata(
+        testKeyVault,
+        cekId,
+        "testmetadata1",
+        KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      );
+      await datbaseForRestrictedUser.createClientEncryptionKey(
+        cekId,
+        EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+        metadata,
+      );
+      assert.fail("CreateClientEncryptionKey should have failed due to restrictions");
+    } catch (err) {
+      assert.equal(StatusCodes.Forbidden, err.code);
+    }
+
+    try {
+      const cekId = "testingCekId";
+      const metadata = new EncryptionKeyWrapMetadata(
+        testKeyVault,
+        cekId,
+        "testmetadata1" + "updated",
+        KeyEncryptionKeyAlgorithm.RSA_OAEP,
+      );
+      await datbaseForRestrictedUser.rewrapClientEncryptionKey(cekId, metadata);
+      assert.fail("RewrapClientEncryptionKey should have failed due to restrictions");
+    } catch (err) {
+      assert.equal(StatusCodes.Forbidden, err.code);
+    }
+  });
+
   it("key encryption key revoke test", async () => {
     const keyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     const encryptionTestClient = new CosmosClient({
@@ -2143,8 +2281,8 @@ describe("Client Side Encryption", () => {
     assert.ok(unwrapCount === 1);
     newClient.dispose();
   });
-});
-after(async () => {
-  await removeAllDatabases();
-  encryptionClient.dispose();
+  after(async () => {
+    await removeAllDatabases();
+    encryptionClient.dispose();
+  });
 });
