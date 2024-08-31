@@ -61,7 +61,7 @@ export class MsalMsiProvider {
 
   constructor(
     clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
-    options: ManagedIdentityCredentialOptions = {},
+    options: ManagedIdentityCredentialOptions = {}
   ) {
     let _options: ManagedIdentityCredentialOptions = {};
     if (typeof clientIdOrOptions === "string") {
@@ -79,8 +79,8 @@ export class MsalMsiProvider {
     if (providedIds.length > 1) {
       throw new Error(
         `ManagedIdentityCredential: only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
-          { clientId: this.clientId, resourceId: this.resourceId, objectId: this.objectId },
-        )}`,
+          { clientId: this.clientId, resourceId: this.resourceId, objectId: this.objectId }
+        )}`
       );
     }
 
@@ -130,11 +130,11 @@ export class MsalMsiProvider {
               clientId: this.clientId,
               resourceId: this.resourceId,
               objectId: this.objectId,
-            },
-          )}.`,
+            }
+          )}.`
         );
         throw new CredentialUnavailableError(
-          "ManagedIdentityCredential: Specifying a user-assigned managed identity is not supported for CloudShell at runtime. When using Managed Identity in CloudShell, omit the clientId, resourceId, and objectId parameters.",
+          "ManagedIdentityCredential: Specifying a user-assigned managed identity is not supported for CloudShell at runtime. When using Managed Identity in CloudShell, omit the clientId, resourceId, and objectId parameters."
         );
       }
     }
@@ -151,13 +151,15 @@ export class MsalMsiProvider {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     logger.getToken.info("Using the MSAL provider for Managed Identity.");
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       throw new CredentialUnavailableError(
-        `ManagedIdentityCredential: Multiple scopes are not supported. Scopes: ${JSON.stringify(scopes)}`,
+        `ManagedIdentityCredential: Multiple scopes are not supported. Scopes: ${JSON.stringify(
+          scopes
+        )}`
       );
     }
 
@@ -195,7 +197,7 @@ export class MsalMsiProvider {
 
           if (result === null) {
             throw new CredentialUnavailableError(
-              "Attempted to use the token exchange managed identity, but received a null response.",
+              "Attempted to use the token exchange managed identity, but received a null response."
             );
           }
 
@@ -214,7 +216,7 @@ export class MsalMsiProvider {
 
           if (!isAvailable) {
             throw new CredentialUnavailableError(
-              `Attempted to use the IMDS endpoint, but it is not available.`,
+              `Attempted to use the IMDS endpoint, but it is not available.`
             );
           }
         }
@@ -235,6 +237,7 @@ export class MsalMsiProvider {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
           refreshAfterTimestamp: token.refreshOn?.getTime(),
+          tokenType: "Bearer",
         };
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));
@@ -248,13 +251,13 @@ export class MsalMsiProvider {
         if (isNetworkError(err)) {
           throw new CredentialUnavailableError(
             `ManagedIdentityCredential: Network unreachable. Message: ${err.message}`,
-            { cause: err },
+            { cause: err }
           );
         }
 
         throw new CredentialUnavailableError(
           `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
-          { cause: err },
+          { cause: err }
         );
       }
     });
@@ -266,7 +269,7 @@ export class MsalMsiProvider {
   private ensureValidMsalToken(
     scopes: string | string[],
     msalToken?: MsalToken,
-    getTokenOptions?: GetTokenOptions,
+    getTokenOptions?: GetTokenOptions
   ): asserts msalToken is ValidMsalToken {
     const createError = (message: string): Error => {
       logger.getToken.info(message);

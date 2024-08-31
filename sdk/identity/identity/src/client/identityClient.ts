@@ -124,18 +124,19 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
           refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
+          tokenType: "Bearer",
         },
         refreshToken: parsedBody.refresh_token,
       };
 
       logger.info(
-        `IdentityClient: [${request.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`,
+        `IdentityClient: [${request.url}] token acquired, expires on ${token.accessToken.expiresOnTimestamp}`
       );
       return token;
     } else {
       const error = new AuthenticationError(response.status, response.bodyAsText);
       logger.warning(
-        `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`,
+        `IdentityClient: authentication error. HTTP status: ${response.status}, ${error.errorResponse.errorDescription}`
       );
       throw error;
     }
@@ -147,13 +148,13 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     scopes: string,
     refreshToken: string | undefined,
     clientSecret: string | undefined,
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
       return null;
     }
     logger.info(
-      `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`,
+      `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
 
     const refreshParams = {
@@ -202,12 +203,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
             return null;
           } else {
             logger.warning(
-              `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`,
+              `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
             );
             throw err;
           }
         }
-      },
+      }
     );
   }
 
@@ -257,7 +258,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   async sendGetRequestAsync<T>(
     url: string,
-    options?: NetworkRequestOptions,
+    options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
     const request = createPipelineRequest({
       url,
@@ -281,7 +282,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   async sendPostRequestAsync<T>(
     url: string,
-    options?: NetworkRequestOptions,
+    options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
     const request = createPipelineRequest({
       url,
@@ -337,18 +338,18 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       }
       const base64Metadata = accessToken.split(".")[1];
       const { appid, upn, tid, oid } = JSON.parse(
-        Buffer.from(base64Metadata, "base64").toString("utf8"),
+        Buffer.from(base64Metadata, "base64").toString("utf8")
       );
 
       logger.info(
         `[Authenticated account] Client ID: ${appid}. Tenant ID: ${tid}. User Principal Name: ${
           upn || unavailableUpn
-        }. Object ID (user): ${oid}`,
+        }. Object ID (user): ${oid}`
       );
     } catch (e: any) {
       logger.warning(
         "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
-        e.message,
+        e.message
       );
     }
   }
