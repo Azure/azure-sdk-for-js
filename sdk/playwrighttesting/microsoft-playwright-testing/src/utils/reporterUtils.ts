@@ -62,6 +62,7 @@ class ReporterUtils {
         this.envVariables.runId = randomUUID();
       }
     }
+    testRun.testRunId = this.envVariables.runId;
     testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? randomUUID() : runName;
     testRun.creatorName = this.envVariables.userName;
     testRun.creatorId = this.envVariables.userId!;
@@ -85,11 +86,10 @@ class ReporterUtils {
     } else {
       this.envVariables.shardId = "1";
     }
+    shard.shardId = this.envVariables.shardId;
     shard.summary = {
-      status: TestRunStatus.RUNNING,
       startTime: ReporterUtils.timestampToRFC3339(this.startTime),
     };
-    shard.testRunConfig = this.getTestRunConfig();
     shard.uploadCompleted = false;
     return shard;
   }
@@ -100,21 +100,16 @@ class ReporterUtils {
     shard: Shard,
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
+    workers: number
   ): Shard {
-    shard.resultsSummary = {
-      numTotalTests: this.totalTests,
-      numFailedTests: this.failedTests,
-      numSkippedTests: this.skippedTests,
-      numPassedTests: this.passedTests,
-      numFlakyTests: this.flakyTests,
-      status: result.status as TestResultStatus,
-    };
+    shard.shardId = this.envVariables.shardId ?? "1";
     shard.summary.totalTime = result.duration;
     shard.summary.endTime = ReporterUtils.timestampToRFC3339(Date.now());
     shard.summary.status = TestRunStatus.CLIENT_COMPLETE;
     shard.summary.errorMessages = errorMessages;
     shard.summary.uploadMetadata = attachmentMetadata;
     shard.uploadCompleted = true;
+    shard.workers = workers;
     return shard;
   }
 
@@ -185,7 +180,7 @@ class ReporterUtils {
 
   public generateMarkdownSummary(testRunUrl: string): void {
     try {
-      if (CIInfoProvider.getCIProvider() === CI_PROVIDERS.GITHUB_ACTIONS) {
+      if (CIInfoProvider.getCIProvider() === CI_PROVIDERS.GITHUB) {
         const markdownContent = `
 #### Microsoft Playwright Testing run summary
 
@@ -394,6 +389,8 @@ class ReporterUtils {
       workers: this.config.workers,
       pwVersion: this.config.version,
       timeout: this.config.globalTimeout,
+      repeatEach: this.config.projects[0].repeatEach,
+      retries: this.config.projects[0].retries,
       shards: this.config.shard ? this.config.shard : { total: 1 },
       testFramework: {
         name: Constants.TEST_FRAMEWORK_NAME,
@@ -558,7 +555,7 @@ class ReporterUtils {
 
   private async getRunName(ciInfo: CIInfo): Promise<string> {
     if (
-      ciInfo.provider === CI_PROVIDERS.GITHUB_ACTIONS &&
+      ciInfo.provider === CI_PROVIDERS.GITHUB &&
       process.env["GITHUB_EVENT_NAME"] === "pull_request"
     ) {
       const prNumber: string = `${process.env["GITHUB_REF_NAME"]?.split("/")[0]}`;

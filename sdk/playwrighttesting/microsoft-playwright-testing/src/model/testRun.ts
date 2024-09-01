@@ -4,6 +4,7 @@
 import { ShardInfo } from "./shard";
 
 export class TestRun {
+  testRunId!: string;
   displayName!: string;
   creatorId!: string;
   creatorName?: string;

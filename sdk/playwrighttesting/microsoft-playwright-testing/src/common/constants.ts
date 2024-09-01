@@ -56,10 +56,10 @@ export const API_VERSION = "2023-10-01-preview";
 
 export class Constants {
   // Config related constants
-  public static readonly TEST_FRAMEWORK_NAME = "Playwright";
-  public static readonly TEST_FRAMEWORK_RUNNERNAME = "Playwright Test Runner";
+  public static readonly TEST_FRAMEWORK_NAME = "PLAYWRIGHT";
+  public static readonly TEST_FRAMEWORK_RUNNERNAME = "PLAYWRIGHT";
   public static readonly TEST_TYPE = "WebTest";
-  public static readonly TEST_SDK_LANGUAGE = "JavaScript/TypeScript";
+  public static readonly TEST_SDK_LANGUAGE = "JAVASCRIPT";
   // Placeholder version
   public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.1";
   public static readonly DEFAULT_DASHBOARD_ENDPOINT = "https://playwright.microsoft.com";
@@ -74,7 +74,7 @@ export class Constants {
   public static readonly GIT_REV_PARSE = "git rev-parse --is-inside-work-tree";
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
-  public static readonly API_VERSION = "2024-05-20-preview";
+  public static readonly API_VERSION = "2024-09-01-preview";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
   public static readonly SupportedRegions: string[] = [
     "eastus",
@@ -92,9 +92,9 @@ export class Constants {
   // API Endpoints
   public static readonly testRunsEndpoint: string = "workspaces/{workspaceId}/test-runs";
   public static readonly testRunsShardEndpoint: string =
-    "workspaces/{workspaceId}/test-runs/{testRunId}/shards/{shardId}";
+    "workspaces/{workspaceId}/test-runs/{testRunId}:updateShardExecutionStatus";
   public static readonly storageUriEndpoint: string =
-    "workspaces/{workspaceId}/test-runs/{testRunId}/resulturi";
+    "workspaces/{workspaceId}/test-runs/{testRunId}:createArtifactsUploadBaseUri";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
 }

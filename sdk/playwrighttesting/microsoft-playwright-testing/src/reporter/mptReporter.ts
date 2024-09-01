@@ -71,6 +71,7 @@ class MPTReporter implements Reporter {
     numTotalAttachments: 0,
     sizeTotalAttachments: 0,
   };
+  private numWorkers: number = -1;
   private testRunUrl: string = "";
   private enableResultPublish: boolean = true;
 
@@ -119,6 +120,7 @@ class MPTReporter implements Reporter {
    * @param result - Result of the test run.
    */
   onTestEnd(test: TestCase, result: TestResult): void {
+    this.numWorkers = Math.max(this.numWorkers, result.parallelIndex + 1);
     this.processTestResult(result);
     if (!this.enableResultPublish) return;
     // Process test result
@@ -174,11 +176,12 @@ class MPTReporter implements Reporter {
           return values;
         });
         try {
-          await this.serviceClient.patchTestRunShardEnd(
+          await this.serviceClient.postTestRunShardEnd(
             result,
             this.shard,
             this.errorMessages,
             this.uploadMetadata,
+            this.numWorkers
           );
           reporterLogger.info(`\nTest run successfully uploaded.`);
 
@@ -208,7 +211,7 @@ class MPTReporter implements Reporter {
       process.stdout.write(
         `\nInitializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
       );
-      const shardResponse = await this.serviceClient.patchTestRunShardStart();
+      const shardResponse = await this.serviceClient.postTestRunShardStart();
       this.shard = shardResponse;
       // Set test report link as environment variable. If/else to check if environment variable defined or not.
       if (
@@ -302,7 +305,7 @@ class MPTReporter implements Reporter {
           !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
         ) {
           // Renew the sas uri
-          this.sasUri = await this.serviceClient.getStorageUri();
+          this.sasUri = await this.serviceClient.createStorageUri();
           reporterLogger.info(
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
@@ -315,7 +318,7 @@ class MPTReporter implements Reporter {
         !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
       ) {
         // Renew the sas uri
-        this.sasUri = await this.serviceClient.getStorageUri();
+        this.sasUri = await this.serviceClient.createStorageUri();
       }
       this.storageClient.uploadBuffer(
         this.sasUri.uri,
@@ -387,7 +390,7 @@ class MPTReporter implements Reporter {
   private processTestResult(result: TestResult): void {
     if (
       process.env[
-        InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
+      InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
       ] &&
       result.status !== "passed"
     ) {
