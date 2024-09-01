@@ -233,7 +233,11 @@ export type ErrorDetails = {
   message: string;
   location?: Location;
 };
-
+export type ApiErrorMessage = {
+  [key: string]: {
+    [key: number]: string;
+  };
+};
 /**
  * @public
  *
