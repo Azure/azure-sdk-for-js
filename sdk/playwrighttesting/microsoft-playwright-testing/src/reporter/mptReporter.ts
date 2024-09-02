@@ -181,7 +181,7 @@ class MPTReporter implements Reporter {
             this.shard,
             this.errorMessages,
             this.uploadMetadata,
-            this.numWorkers
+            this.numWorkers,
           );
           reporterLogger.info(`\nTest run successfully uploaded.`);
 
@@ -390,7 +390,7 @@ class MPTReporter implements Reporter {
   private processTestResult(result: TestResult): void {
     if (
       process.env[
-      InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
+        InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
       ] &&
       result.status !== "passed"
     ) {

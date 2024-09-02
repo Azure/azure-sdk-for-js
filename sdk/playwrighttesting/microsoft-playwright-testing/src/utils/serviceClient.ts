@@ -99,7 +99,7 @@ export class ServiceClient {
       shard,
       errorMessages,
       attachmentMetadata,
-      workers
+      workers,
     );
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",

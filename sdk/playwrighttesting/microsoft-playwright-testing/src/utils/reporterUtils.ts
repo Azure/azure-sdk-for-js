@@ -100,7 +100,7 @@ class ReporterUtils {
     shard: Shard,
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
-    workers: number
+    workers: number,
   ): Shard {
     shard.shardId = this.envVariables.shardId ?? "1";
     shard.summary.totalTime = result.duration;
