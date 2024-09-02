@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TestRunConfig } from "./testRun";
-
 export class Shard {
   shardId!: string;
   summary!: TestRunSummary;

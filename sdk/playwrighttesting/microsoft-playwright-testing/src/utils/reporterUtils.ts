@@ -22,7 +22,7 @@ import { Constants } from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
 import { DedupedStep, RawTestStep } from "../common/types";
 import { TokenType } from "../model/mptTokenDetails";
-import { Shard, TestResultStatus, TestRunStatus, UploadMetadata } from "../model/shard";
+import { Shard, TestRunStatus, UploadMetadata } from "../model/shard";
 import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
 import { TestRun, TestRunConfig } from "../model/testRun";
 import { CIInfo, CI_PROVIDERS } from "./cIInfoProvider";
