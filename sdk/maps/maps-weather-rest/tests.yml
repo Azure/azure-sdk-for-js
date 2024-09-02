@@ -1,0 +1,10 @@
+trigger: none
+
+extends:
+    template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure-rest/maps-render"
+      ServiceDirectory: maps
+      Location: 'eastus'
+      SupportedClouds: 'Public,Canary'
+      UseFederatedAuth: true
