@@ -20371,7 +20371,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Ckt9WaQnIP5+x4m60yXQvQMFfFFmvIVzG5Y2cLKI/6XWnjD9mx5RfL20OpOmwGFT04KnyxWUZoVxalNLlieF8Q==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-Y89gCuNnHD3FSHtxVO2vCgGgCF27cFz7Hd+Xlmfgu5s/Fz8lm4IjZqOm165C2xjS7EWmWmrIEfXKwGfVQcZnBA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -21561,7 +21561,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-sjF9+fskcd/8aI964QgNTcos2w8b0MgC0Zu5Vwn3xmjQtQjWMvPy3o85VZx6+vq4GFHOsou0tobu1krKLtvZJA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-5EkTlu2q3ZkjPIlIBMu4R++aneg//XjawueoiPtgIS2Be16wcAhkmossUcKDv1whl1evCy79PC5drQIvn1Yi6Q==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -24322,7 +24322,7 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-Gs4K/A/sPkDlNDA8CTKk+lhA2xxaanB/XXBivQB5Nn3ePU/x+whmjDMi4Whk3Z/ECGgCSOmm8e6P/3SzG9QITQ==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-mLQ164lrYXzjaHl8qsDUojxgtpn4D8hjNS0IMZAdWD4e2L2noikq050T27BPxumaOQCNmThH5EfICcmQuXqI0Q==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
@@ -24333,6 +24333,8 @@ packages:
       '@types/chai': 4.3.18
       '@types/mocha': 10.0.7
       '@types/node': 18.19.46
+      '@vitest/browser': 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -24349,20 +24351,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.0.0
+      playwright: 1.46.1
       puppeteer: 23.1.1(typescript@5.5.4)
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
+      tshy: 2.0.1
       tslib: 2.7.0
       typescript: 5.5.4
       util: 0.12.5
+      vitest: 2.0.5(@types/node@18.19.46)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/template.tgz:
