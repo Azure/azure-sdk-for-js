@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import {
-  TranslationErrorResponse,
-  TranslationsStatus,
-  DocumentStatus,
-  TranslationStatus,
-  DocumentsStatus,
-  SupportedFileFormats,
-  SupportedStorageSources,
-} from "./models";
-import { HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse } from "@azure-rest/core-client";
+import {
+  TranslationErrorResponseOutput,
+  TranslationsStatusOutput,
+  DocumentStatusOutput,
+  TranslationStatusOutput,
+  DocumentsStatusOutput,
+  SupportedFileFormatsOutput,
+  SupportedStorageSourcesOutput,
+} from "./outputModels";
 
-export interface StartTranslation202Headers {
+export interface DocumentTranslationStartTranslation202Headers {
   /** Location of batch the operation */
   "operation-location"?: string;
 }
@@ -29,9 +29,9 @@ export interface StartTranslation202Headers {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export interface StartTranslation202Response extends HttpResponse {
+export interface DocumentTranslationStartTranslation202Response extends HttpResponse {
   status: "202";
-  headers: RawHttpHeaders & StartTranslation202Headers;
+  headers: RawHttpHeaders & DocumentTranslationStartTranslation202Headers;
 }
 
 /**
@@ -45,9 +45,9 @@ export interface StartTranslation202Response extends HttpResponse {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export interface StartTranslation400Response extends HttpResponse {
+export interface DocumentTranslationStartTranslation400Response extends HttpResponse {
   status: "400";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -61,9 +61,9 @@ export interface StartTranslation400Response extends HttpResponse {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export interface StartTranslation401Response extends HttpResponse {
+export interface DocumentTranslationStartTranslation401Response extends HttpResponse {
   status: "401";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -77,9 +77,9 @@ export interface StartTranslation401Response extends HttpResponse {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export interface StartTranslation429Response extends HttpResponse {
+export interface DocumentTranslationStartTranslation429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -93,9 +93,9 @@ export interface StartTranslation429Response extends HttpResponse {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export interface StartTranslation500Response extends HttpResponse {
+export interface DocumentTranslationStartTranslation500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -109,14 +109,14 @@ export interface StartTranslation500Response extends HttpResponse {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export interface StartTranslation503Response extends HttpResponse {
+export interface DocumentTranslationStartTranslation503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetTranslationsStatus200Headers {
+export interface DocumentTranslationGetTranslationsStatus200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
   etag?: string;
 }
@@ -132,7 +132,7 @@ export interface GetTranslationsStatus200Headers {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -146,10 +146,10 @@ export interface GetTranslationsStatus200Headers {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslationsStatus200Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationsStatus200Response extends HttpResponse {
   status: "200";
-  body: TranslationsStatus;
-  headers: RawHttpHeaders & GetTranslationsStatus200Headers;
+  body: TranslationsStatusOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetTranslationsStatus200Headers;
 }
 
 /**
@@ -163,7 +163,7 @@ export interface GetTranslationsStatus200Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -177,9 +177,9 @@ export interface GetTranslationsStatus200Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslationsStatus400Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationsStatus400Response extends HttpResponse {
   status: "400";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -193,7 +193,7 @@ export interface GetTranslationsStatus400Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -207,9 +207,9 @@ export interface GetTranslationsStatus400Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslationsStatus401Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationsStatus401Response extends HttpResponse {
   status: "401";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -223,7 +223,7 @@ export interface GetTranslationsStatus401Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -237,9 +237,9 @@ export interface GetTranslationsStatus401Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslationsStatus429Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationsStatus429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -253,7 +253,7 @@ export interface GetTranslationsStatus429Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -267,9 +267,9 @@ export interface GetTranslationsStatus429Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslationsStatus500Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationsStatus500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -283,7 +283,7 @@ export interface GetTranslationsStatus500Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -297,58 +297,58 @@ export interface GetTranslationsStatus500Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslationsStatus503Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationsStatus503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetDocumentStatus200Headers {
+export interface DocumentTranslationGetDocumentStatus200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
   etag?: string;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocumentStatus200Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentStatus200Response extends HttpResponse {
   status: "200";
-  body: DocumentStatus;
-  headers: RawHttpHeaders & GetDocumentStatus200Headers;
+  body: DocumentStatusOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetDocumentStatus200Headers;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocumentStatus401Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentStatus401Response extends HttpResponse {
   status: "401";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocumentStatus404Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentStatus404Response extends HttpResponse {
   status: "404";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocumentStatus429Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentStatus429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocumentStatus500Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentStatus500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocumentStatus503Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentStatus503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetTranslationStatus200Headers {
+export interface DocumentTranslationGetTranslationStatus200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
   etag?: string;
 }
@@ -357,55 +357,55 @@ export interface GetTranslationStatus200Headers {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export interface GetTranslationStatus200Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationStatus200Response extends HttpResponse {
   status: "200";
-  body: TranslationStatus;
-  headers: RawHttpHeaders & GetTranslationStatus200Headers;
+  body: TranslationStatusOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetTranslationStatus200Headers;
 }
 
 /**
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export interface GetTranslationStatus401Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationStatus401Response extends HttpResponse {
   status: "401";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export interface GetTranslationStatus404Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationStatus404Response extends HttpResponse {
   status: "404";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export interface GetTranslationStatus429Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationStatus429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export interface GetTranslationStatus500Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationStatus500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export interface GetTranslationStatus503Response extends HttpResponse {
+export interface DocumentTranslationGetTranslationStatus503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -415,9 +415,9 @@ export interface GetTranslationStatus503Response extends HttpResponse {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export interface CancelTranslation200Response extends HttpResponse {
+export interface DocumentTranslationCancelTranslation200Response extends HttpResponse {
   status: "200";
-  body: TranslationStatus;
+  body: TranslationStatusOutput;
 }
 
 /**
@@ -427,9 +427,9 @@ export interface CancelTranslation200Response extends HttpResponse {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export interface CancelTranslation401Response extends HttpResponse {
+export interface DocumentTranslationCancelTranslation401Response extends HttpResponse {
   status: "401";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -439,9 +439,9 @@ export interface CancelTranslation401Response extends HttpResponse {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export interface CancelTranslation404Response extends HttpResponse {
+export interface DocumentTranslationCancelTranslation404Response extends HttpResponse {
   status: "404";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -451,9 +451,9 @@ export interface CancelTranslation404Response extends HttpResponse {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export interface CancelTranslation429Response extends HttpResponse {
+export interface DocumentTranslationCancelTranslation429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -463,9 +463,9 @@ export interface CancelTranslation429Response extends HttpResponse {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export interface CancelTranslation500Response extends HttpResponse {
+export interface DocumentTranslationCancelTranslation500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -475,14 +475,14 @@ export interface CancelTranslation500Response extends HttpResponse {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export interface CancelTranslation503Response extends HttpResponse {
+export interface DocumentTranslationCancelTranslation503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetDocumentsStatus200Headers {
+export interface DocumentTranslationGetDocumentsStatus200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
   etag?: string;
 }
@@ -497,7 +497,7 @@ export interface GetDocumentsStatus200Headers {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -509,10 +509,10 @@ export interface GetDocumentsStatus200Headers {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus200Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus200Response extends HttpResponse {
   status: "200";
-  body: DocumentsStatus;
-  headers: RawHttpHeaders & GetDocumentsStatus200Headers;
+  body: DocumentsStatusOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetDocumentsStatus200Headers;
 }
 
 /**
@@ -525,7 +525,7 @@ export interface GetDocumentsStatus200Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -537,9 +537,9 @@ export interface GetDocumentsStatus200Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus400Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus400Response extends HttpResponse {
   status: "400";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -552,7 +552,7 @@ export interface GetDocumentsStatus400Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -564,9 +564,9 @@ export interface GetDocumentsStatus400Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus401Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus401Response extends HttpResponse {
   status: "401";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -579,7 +579,7 @@ export interface GetDocumentsStatus401Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -591,9 +591,9 @@ export interface GetDocumentsStatus401Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus404Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus404Response extends HttpResponse {
   status: "404";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -606,7 +606,7 @@ export interface GetDocumentsStatus404Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -618,9 +618,9 @@ export interface GetDocumentsStatus404Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus429Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -633,7 +633,7 @@ export interface GetDocumentsStatus429Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -645,9 +645,9 @@ export interface GetDocumentsStatus429Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus500Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
@@ -660,7 +660,7 @@ export interface GetDocumentsStatus500Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -672,121 +672,121 @@ export interface GetDocumentsStatus500Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocumentsStatus503Response extends HttpResponse {
+export interface DocumentTranslationGetDocumentsStatus503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetSupportedDocumentFormats200Headers {
+export interface DocumentTranslationGetSupportedDocumentFormats200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
 }
 
 /**
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export interface GetSupportedDocumentFormats200Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedDocumentFormats200Response extends HttpResponse {
   status: "200";
-  body: SupportedFileFormats;
-  headers: RawHttpHeaders & GetSupportedDocumentFormats200Headers;
+  body: SupportedFileFormatsOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetSupportedDocumentFormats200Headers;
 }
 
 /**
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export interface GetSupportedDocumentFormats429Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedDocumentFormats429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export interface GetSupportedDocumentFormats500Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedDocumentFormats500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export interface GetSupportedDocumentFormats503Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedDocumentFormats503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetSupportedGlossaryFormats200Headers {
+export interface DocumentTranslationGetSupportedGlossaryFormats200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
 }
 
 /**
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export interface GetSupportedGlossaryFormats200Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedGlossaryFormats200Response extends HttpResponse {
   status: "200";
-  body: SupportedFileFormats;
-  headers: RawHttpHeaders & GetSupportedGlossaryFormats200Headers;
+  body: SupportedFileFormatsOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetSupportedGlossaryFormats200Headers;
 }
 
 /**
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export interface GetSupportedGlossaryFormats429Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedGlossaryFormats429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export interface GetSupportedGlossaryFormats500Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedGlossaryFormats500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /**
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export interface GetSupportedGlossaryFormats503Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedGlossaryFormats503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
-export interface GetSupportedStorageSources200Headers {
+export interface DocumentTranslationGetSupportedStorageSources200Headers {
   /** Indicates how long to wait before making a new request. */
-  "retry-after"?: string;
+  "retry-after"?: number;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export interface GetSupportedStorageSources200Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedStorageSources200Response extends HttpResponse {
   status: "200";
-  body: SupportedStorageSources;
-  headers: RawHttpHeaders & GetSupportedStorageSources200Headers;
+  body: SupportedStorageSourcesOutput;
+  headers: RawHttpHeaders & DocumentTranslationGetSupportedStorageSources200Headers;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export interface GetSupportedStorageSources429Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedStorageSources429Response extends HttpResponse {
   status: "429";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export interface GetSupportedStorageSources500Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedStorageSources500Response extends HttpResponse {
   status: "500";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export interface GetSupportedStorageSources503Response extends HttpResponse {
+export interface DocumentTranslationGetSupportedStorageSources503Response extends HttpResponse {
   status: "503";
-  body: TranslationErrorResponse;
+  body: TranslationErrorResponseOutput;
 }

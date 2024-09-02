@@ -1,16 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import { StartTranslationDetails } from "./models";
 
-export interface StartTranslationBodyParam {
+export interface DocumentTranslationStartTranslationBodyParam {
+  /** request details */
   body: StartTranslationDetails;
 }
 
-export type StartTranslationParameters = RequestParameters & StartTranslationBodyParam;
+export interface DocumentTranslationStartTranslationMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json" | "text/json" | "application/*+json";
+}
 
-export interface GetTranslationsStatusQueryParamProperties {
+export type DocumentTranslationStartTranslationParameters =
+  DocumentTranslationStartTranslationMediaTypesParam &
+    DocumentTranslationStartTranslationBodyParam &
+    RequestParameters;
+
+export interface DocumentTranslationGetTranslationsStatusQueryParamProperties {
   /**
    * $top indicates the total number of records the user wants to be returned across all pages.
    *
@@ -30,33 +39,34 @@ export interface GetTranslationsStatusQueryParamProperties {
    */
   $skip?: number;
   /**
-   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
    *
    * Clients MAY request server-driven paging with a specific page size by specifying a $maxpagesize preference. The server SHOULD honor this preference if the specified page size is smaller than the server's default page size.
    */
   $maxpagesize?: number;
   /** Ids to use in filtering */
-  ids?: string[];
+  ids?: Array<string>;
   /** Statuses to use in filtering */
-  statuses?: string[];
+  statuses?: Array<string>;
   /** the start datetime to get items after */
-  createdDateTimeUtcStart?: Date;
+  createdDateTimeUtcStart?: Date | string;
   /** the end datetime to get items before */
-  createdDateTimeUtcEnd?: Date;
+  createdDateTimeUtcEnd?: Date | string;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc', 'CreatedDateTimeUtc desc') */
-  $orderBy?: string[];
+  $orderBy?: Array<string>;
 }
 
-export interface GetTranslationsStatusQueryParam {
-  queryParameters?: GetTranslationsStatusQueryParamProperties;
+export interface DocumentTranslationGetTranslationsStatusQueryParam {
+  queryParameters?: DocumentTranslationGetTranslationsStatusQueryParamProperties;
 }
 
-export type GetTranslationsStatusParameters = RequestParameters & GetTranslationsStatusQueryParam;
-export type GetDocumentStatusParameters = RequestParameters;
-export type GetTranslationStatusParameters = RequestParameters;
-export type CancelTranslationParameters = RequestParameters;
+export type DocumentTranslationGetTranslationsStatusParameters =
+  DocumentTranslationGetTranslationsStatusQueryParam & RequestParameters;
+export type DocumentTranslationGetDocumentStatusParameters = RequestParameters;
+export type DocumentTranslationGetTranslationStatusParameters = RequestParameters;
+export type DocumentTranslationCancelTranslationParameters = RequestParameters;
 
-export interface GetDocumentsStatusQueryParamProperties {
+export interface DocumentTranslationGetDocumentsStatusQueryParamProperties {
   /**
    * $top indicates the total number of records the user wants to be returned across all pages.
    *
@@ -76,28 +86,29 @@ export interface GetDocumentsStatusQueryParamProperties {
    */
   $skip?: number;
   /**
-   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
+   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
    *
    * Clients MAY request server-driven paging with a specific page size by specifying a $maxpagesize preference. The server SHOULD honor this preference if the specified page size is smaller than the server's default page size.
    */
   $maxpagesize?: number;
   /** Ids to use in filtering */
-  ids?: string[];
+  ids?: Array<string>;
   /** Statuses to use in filtering */
-  statuses?: string[];
+  statuses?: Array<string>;
   /** the start datetime to get items after */
-  createdDateTimeUtcStart?: Date;
+  createdDateTimeUtcStart?: Date | string;
   /** the end datetime to get items before */
-  createdDateTimeUtcEnd?: Date;
+  createdDateTimeUtcEnd?: Date | string;
   /** the sorting query for the collection (ex: 'CreatedDateTimeUtc asc', 'CreatedDateTimeUtc desc') */
-  $orderBy?: string[];
+  $orderBy?: Array<string>;
 }
 
-export interface GetDocumentsStatusQueryParam {
-  queryParameters?: GetDocumentsStatusQueryParamProperties;
+export interface DocumentTranslationGetDocumentsStatusQueryParam {
+  queryParameters?: DocumentTranslationGetDocumentsStatusQueryParamProperties;
 }
 
-export type GetDocumentsStatusParameters = RequestParameters & GetDocumentsStatusQueryParam;
-export type GetSupportedDocumentFormatsParameters = RequestParameters;
-export type GetSupportedGlossaryFormatsParameters = RequestParameters;
-export type GetSupportedStorageSourcesParameters = RequestParameters;
+export type DocumentTranslationGetDocumentsStatusParameters =
+  DocumentTranslationGetDocumentsStatusQueryParam & RequestParameters;
+export type DocumentTranslationGetSupportedDocumentFormatsParameters = RequestParameters;
+export type DocumentTranslationGetSupportedGlossaryFormatsParameters = RequestParameters;
+export type DocumentTranslationGetSupportedStorageSourcesParameters = RequestParameters;
