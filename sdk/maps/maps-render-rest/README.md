@@ -11,6 +11,11 @@ Key links:
 - [API reference documentation][api_ref]
 - [Product Information][product_info]
 
+| Package Version | Service Version |
+|-----------------| --------------- |
+| ^1.0.0-beta.4   | V1              |
+| ^2.0.0-beta.1   | V2              |
+
 ## Getting started
 
 ### Currently supported environments
