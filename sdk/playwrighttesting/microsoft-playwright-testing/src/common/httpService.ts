@@ -19,6 +19,7 @@ export class HttpService {
     url: string,
     data: any | null,
     token: string,
+    contentType: string,
     correlationId: string,
   ): Promise<PipelineResponse> {
     const pipeline = createPipelineFromOptions({
@@ -35,7 +36,7 @@ export class HttpService {
       url,
       method,
       headers: createHttpHeaders({
-        "Content-Type": "application/json",
+        "Content-Type": contentType,
         Accept: "*/*",
         Authorization: `Bearer ${token}`,
         "x-ms-client-request-id": `${randomUUID()}`,
