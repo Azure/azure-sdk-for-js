@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import { ApiErrorMessage } from "./types";
 
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
@@ -97,8 +98,60 @@ export class Constants {
     "workspaces/{workspaceId}/test-runs/{testRunId}:createArtifactsUploadBaseUri";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
-}
+  public static readonly getTestRun: string = "getTestRun";
+  public static readonly patchTestRunShardStart: string = "patchTestRunShardStart";
+  public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
+  public static readonly postTestResults: string = "postTestResults";
+  public static readonly getStorageUri: string = "getStorageUri";
 
+  public static readonly ERROR_MESSAGE: ApiErrorMessage = {
+    getTestRun: {
+      400: "Bad Request",
+      401: "Invalid authentication to run test.",
+      403: "You do not have required permissions to run test.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the test run service API. Please wait and try again later",
+      504: "The request to the test run service timed out. Please try again later",
+      503: "The test run service is currently unavailable. Please check the service status and try again.",
+    },
+    patchTestRunShardStart: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the est run shard start service API. Please wait and try again later",
+      504: "The request to the test run shard start service timed out. Please try again later",
+      503: "The test run shard start service is currently unavailable. Please check the service status and try again.",
+    },
+    patchTestRunShardEnd: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the test run shard end service API. Please wait and try again later",
+      504: "The request to the test run shard end service timed out. Please try again later",
+      503: "The test run shard end service is currently unavailable. Please check the service status and try again.",
+    },
+    postTestResults: {
+      400: "Bad Request",
+      401: "Invalid authentication to publish test result.",
+      403: "You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the publish test results service API. Please wait and try again later",
+      504: "The request to the publish test results service timed out. Please try again later",
+      503: "The publish test results service is currently unavailable. Please check the service status and try again.",
+    },
+    getStorageUri: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the get storage uri service API. Please wait and try again later",
+      504: "The request to the get storage uri service timed out. Please try again later",
+      503: "The get storage uri service is currently unavailable. Please check the service status and try again.",
+    },
+  };
+}
 export const BackoffConstants = {
   MAX_RETRIES: 10,
 };

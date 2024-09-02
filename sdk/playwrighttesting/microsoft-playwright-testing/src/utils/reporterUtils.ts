@@ -531,6 +531,8 @@ class ReporterUtils {
       } else {
         return "passed";
       }
+    } else if (result.status === "interrupted") {
+      return "skipped";
     } else {
       return "failed";
     }

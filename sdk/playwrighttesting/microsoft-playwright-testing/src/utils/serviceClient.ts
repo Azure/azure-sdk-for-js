@@ -25,7 +25,7 @@ export class ServiceClient {
     this.reporterUtils = reporterUtils;
   }
 
-  async patchTestRun(ciInfo: CIInfo): Promise<TestRun | undefined> {
+  async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = await this.reporterUtils.getTestRunObject(ciInfo);
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
@@ -45,10 +45,8 @@ export class ServiceClient {
       process.stdout.write(
         `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(new RegExp("{workspaceId}", "g"), this.envVariables.accountId!)}`,
       );
-    } else {
-      throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
     }
-    return; // Not all code paths return a value (warning fix).
+    throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
   }
 
   async getTestRun(): Promise<TestRun> {
@@ -62,9 +60,10 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
-    } else {
-      throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
     }
+    this.handleErrorResponse(response, Constants.getTestRun);
+
+    throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
   }
 
   async postTestRunShardStart(): Promise<Shard> {
@@ -79,11 +78,12 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as Shard;
-    } else {
-      throw new Error(
-        `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
-      );
     }
+    this.handleErrorResponse(response, Constants.patchTestRunShardStart);
+
+    throw new Error(
+      `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
+    );
   }
 
   async postTestRunShardEnd(
@@ -111,11 +111,12 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
-    } else {
-      throw new Error(
-        `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
-      );
     }
+    this.handleErrorResponse(response, Constants.patchTestRunShardEnd);
+
+    throw new Error(
+      `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
+    );
   }
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -133,11 +134,10 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return;
-    } else {
-      throw new Error(
-        `Received status ${response.status} from service from POST TestResults call.`,
-      );
     }
+    this.handleErrorResponse(response, Constants.postTestResults);
+
+    throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
   async createStorageUri(): Promise<StorageUri> {
@@ -151,12 +151,19 @@ export class ServiceClient {
     );
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as StorageUri;
-    } else {
-      throw new Error(`Received status ${response.status} from service from GET StorageUri call.`);
     }
+    this.handleErrorResponse(response, Constants.getStorageUri);
+
+    throw new Error(`Received status ${response.status} from service from GET StorageUri call.`);
   }
 
   private getServiceEndpoint(): string {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
+  }
+
+  private handleErrorResponse(response: PipelineResponse, action: string) {
+    const statusCode = response.status;
+    const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
+    process.stdout.write(`\n${errorMessage}`);
   }
 }
