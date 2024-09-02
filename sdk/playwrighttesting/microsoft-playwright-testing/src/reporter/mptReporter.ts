@@ -71,6 +71,7 @@ class MPTReporter implements Reporter {
     numTotalAttachments: 0,
     sizeTotalAttachments: 0,
   };
+  private numWorkers: number = -1;
   private testRunUrl: string = "";
   private enableResultPublish: boolean = true;
 
@@ -119,6 +120,7 @@ class MPTReporter implements Reporter {
    * @param result - Result of the test run.
    */
   onTestEnd(test: TestCase, result: TestResult): void {
+    this.numWorkers = Math.max(this.numWorkers, result.parallelIndex + 1);
     this.processTestResult(result);
     if (!this.enableResultPublish) return;
     // Process test result
