@@ -39,7 +39,13 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["Azure", "cloud", "test", "framework", "azure"],
+  "keywords": [
+    "Azure",
+    "cloud",
+    "test",
+    "framework",
+    "azure"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
