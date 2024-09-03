@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   AzureCliCredential,
   AzureDeveloperCliCredential,
-  AzurePipelinesCredential,
   AzurePowerShellCredential,
   ChainedTokenCredential,
   DefaultAzureCredentialClientIdOptions,
@@ -45,7 +44,7 @@ export type CreateTestCredentialOptions = DefaultAzureCredentialCombinedOptions 
  *  - returns the NoOpCredential (helps bypass the AAD traffic)
  *
  * ### In record/live modes
- *  - returns the ChainedTokenCredential in Node (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
+ *  - returns the DefaultAzureCredential in Node (expects that you used [`User Auth` or `Auth via development tools`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#authenticate-users) credentials)
  *  - Returns browser relay credential in browser. Requires the dev-tool browser relay server to be running (dev-tool run start-browser-relay, or is automatically started when using the dev-tool browser test command)
  *  - AAD traffic won't be recorded if this credential is used.
  */
@@ -58,24 +57,6 @@ export function createTestCredential(
     return createBrowserRelayCredential(tokenCredentialOptions);
   } else {
     const { browserRelayServerUrl: _, ...dacOptions } = tokenCredentialOptions;
-    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN;
-    // If we have a system access token, we are in Azure Pipelines
-    if (systemAccessToken) {
-      const serviceConnectionID = process.env.AZURESUBSCRIPTION_SERVICE_CONNECTION_ID;
-      const clientID = process.env.AZURESUBSCRIPTION_CLIENT_ID;
-      const tenantID = process.env.AZURESUBSCRIPTION_TENANT_ID;
-      if (serviceConnectionID && clientID && tenantID) {
-        return new AzurePipelinesCredential(
-          tenantID,
-          clientID,
-          serviceConnectionID,
-          systemAccessToken,
-          dacOptions,
-        );
-      }
-      throw new Error(`Running in Azure Pipelines environment. Missing environment variables: 
-        serviceConnectionID: ${serviceConnectionID}, tenantID: ${tenantID}, clientID: ${clientID}`);
-    }
     return new ChainedTokenCredential(
       new AzurePowerShellCredential(dacOptions),
       new AzureCliCredential(dacOptions),
