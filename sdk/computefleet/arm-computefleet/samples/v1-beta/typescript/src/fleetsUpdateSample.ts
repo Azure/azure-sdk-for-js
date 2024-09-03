@@ -64,8 +64,7 @@ async function fleetsUpdate() {
                 listeners: [
                   {
                     protocol: "Http",
-                    certificateUrl:
-                      "https://myVaultName.vault.azure.net/secrets/myCertName",
+                    certificateUrl: "https://myVaultName.vault.azure.net/secrets/myCertName",
                   },
                 ],
               },
@@ -74,9 +73,7 @@ async function fleetsUpdate() {
             linuxConfiguration: {
               disablePasswordAuthentication: true,
               ssh: {
-                publicKeys: [
-                  { path: "kmqz", keyData: "kivgsubusvpprwqaqpjcmhsv" },
-                ],
+                publicKeys: [{ path: "kmqz", keyData: "kivgsubusvpprwqaqpjcmhsv" }],
               },
               provisionVMAgent: true,
               patchSettings: {
@@ -96,8 +93,7 @@ async function fleetsUpdate() {
                 },
                 vaultCertificates: [
                   {
-                    certificateUrl:
-                      "https://myVaultName.vault.azure.net/secrets/myCertName",
+                    certificateUrl: "https://myVaultName.vault.azure.net/secrets/myCertName",
                     certificateStore: "nlxrwavpzhueffxsshlun",
                   },
                 ],
@@ -283,8 +279,7 @@ async function fleetsUpdate() {
                   provisionAfterExtensions: ["nftzosroolbcwmpupujzqwqe"],
                   suppressFailures: true,
                   protectedSettingsFromKeyVault: {
-                    secretUrl:
-                      "https://myVaultName.vault.azure.net/secrets/secret/mySecretName",
+                    secretUrl: "https://myVaultName.vault.azure.net/secrets/secret/mySecretName",
                     sourceVault: {
                       id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}",
                     },
