@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
@@ -18,16 +18,15 @@ export interface MongoClustersCreateOrUpdateBodyParam {
   body: MongoCluster;
 }
 
-export type MongoClustersCreateOrUpdateParameters =
-  MongoClustersCreateOrUpdateBodyParam & RequestParameters;
+export type MongoClustersCreateOrUpdateParameters = MongoClustersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface MongoClustersUpdateBodyParam {
   /** The resource properties to be updated. */
   body: MongoClusterUpdate;
 }
 
-export type MongoClustersUpdateParameters = MongoClustersUpdateBodyParam &
-  RequestParameters;
+export type MongoClustersUpdateParameters = MongoClustersUpdateBodyParam & RequestParameters;
 export type MongoClustersDeleteParameters = RequestParameters;
 export type MongoClustersListByResourceGroupParameters = RequestParameters;
 export type MongoClustersListParameters = RequestParameters;
@@ -47,12 +46,11 @@ export interface FirewallRulesCreateOrUpdateBodyParam {
   body: FirewallRule;
 }
 
-export type FirewallRulesCreateOrUpdateParameters =
-  FirewallRulesCreateOrUpdateBodyParam & RequestParameters;
+export type FirewallRulesCreateOrUpdateParameters = FirewallRulesCreateOrUpdateBodyParam &
+  RequestParameters;
 export type FirewallRulesDeleteParameters = RequestParameters;
 export type FirewallRulesListByMongoClusterParameters = RequestParameters;
-export type PrivateEndpointConnectionsListByMongoClusterParameters =
-  RequestParameters;
+export type PrivateEndpointConnectionsListByMongoClusterParameters = RequestParameters;
 export type PrivateEndpointConnectionsGetParameters = RequestParameters;
 
 export interface PrivateEndpointConnectionsCreateBodyParam {
@@ -60,7 +58,7 @@ export interface PrivateEndpointConnectionsCreateBodyParam {
   body: PrivateEndpointConnectionResource;
 }
 
-export type PrivateEndpointConnectionsCreateParameters =
-  PrivateEndpointConnectionsCreateBodyParam & RequestParameters;
+export type PrivateEndpointConnectionsCreateParameters = PrivateEndpointConnectionsCreateBodyParam &
+  RequestParameters;
 export type PrivateEndpointConnectionsDeleteParameters = RequestParameters;
 export type PrivateLinksListByMongoClusterParameters = RequestParameters;

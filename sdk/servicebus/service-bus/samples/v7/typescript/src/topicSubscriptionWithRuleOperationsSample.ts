@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -14,13 +14,14 @@ import {
   ServiceBusAdministrationClient,
   ServiceBusMessage,
 } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();
 
 // Default rule name
@@ -46,8 +47,9 @@ const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription
 const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
 
 export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
-  const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
+  const sbAdminClient = new ServiceBusAdministrationClient(fqdn, credential);
 
   // Create the topic
   await sbAdminClient.createTopic(topicName);

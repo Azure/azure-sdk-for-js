@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Attributes, SpanStatusCode } from "@opentelemetry/api";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
@@ -8,10 +8,8 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMATTRS_PEER_SERVICE,
-  SEMATTRS_HTTP_HOST,
-  SEMATTRS_HTTP_URL,
   SEMATTRS_NET_PEER_NAME,
-  SEMATTRS_NET_PEER_IP,
+  SEMATTRS_NET_HOST_PORT,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_USER_AGENT,
@@ -39,7 +37,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
@@ -53,7 +51,7 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getExceptionDimensions(resource: Resource): Attributes {
@@ -88,30 +86,25 @@ export function getBaseDimensions(resource: Resource): StandardMetricBaseDimensi
   return dimensions;
 }
 
+// Get metric dependency target, avoiding high cardinality.
 export function getDependencyTarget(attributes: Attributes): string {
   if (!attributes) {
     return "";
   }
   const peerService = attributes[SEMATTRS_PEER_SERVICE];
-  const httpHost = attributes[SEMATTRS_HTTP_HOST];
-  const httpUrl = attributes[SEMATTRS_HTTP_URL];
+  const hostPort = attributes[SEMATTRS_NET_HOST_PORT];
   const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
-  const netPeerIp = attributes[SEMATTRS_NET_PEER_IP];
   if (peerService) {
     return String(peerService);
-  } else if (httpHost) {
-    return String(httpHost);
-  } else if (httpUrl) {
-    return String(httpUrl);
+  } else if (hostPort && netPeerName) {
+    return `${netPeerName}:${hostPort}`;
   } else if (netPeerName) {
     return String(netPeerName);
-  } else if (netPeerIp) {
-    return String(netPeerIp);
   }
   return "";
 }
 
-export function isExceptionTelemetry(logRecord: LogRecord) {
+export function isExceptionTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
@@ -125,7 +118,7 @@ export function isExceptionTelemetry(logRecord: LogRecord) {
   return false;
 }
 
-export function isTraceTelemetry(logRecord: LogRecord) {
+export function isTraceTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {
@@ -147,8 +140,8 @@ export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
 export function convertDimensions(
   dimensions: MetricDependencyDimensions | MetricRequestDimensions,
 ): Attributes {
-  let convertedDimensions: any = {};
-  for (let dim in dimensions) {
+  const convertedDimensions: any = {};
+  for (const dim in dimensions) {
     convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
       dimensions as any
     )[dim];

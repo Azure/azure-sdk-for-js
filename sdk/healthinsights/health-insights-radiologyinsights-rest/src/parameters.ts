@@ -1,25 +1,41 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { RadiologyInsightsData } from "./models";
+import { RadiologyInsightsJob } from "./models";
 
-export type GetJobParameters = RequestParameters;
-
-export interface CreateJobHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "Repeatability-Request-ID"?: string;
-  /** Specifies the date and time at which the request was first created. */
-  "Repeatability-First-Sent"?: string;
+/** Get the job query parameter properties */
+export interface GetJobQueryParamProperties {
+  /** Expand the indicated resources into the response. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  expand?: string;
 }
 
+/** Get the job query parameters */
+export interface GetJobQueryParam {
+  /** The query parameters. */
+  queryParameters?: GetJobQueryParamProperties;
+}
+
+/** Get the job parameters, combining the query and request parameters */
+export type GetJobParameters = GetJobQueryParam & RequestParameters;
+
+/** The create job body parameters. */
 export interface CreateJobBodyParam {
-  body?: RadiologyInsightsData;
+  /** The body of the resource instance. */
+  body: RadiologyInsightsJob;
 }
 
-export interface CreateJobHeaderParam {
-  headers?: RawHttpHeadersInput & CreateJobHeaders;
+/** The create job query parameter properties. */
+export interface CreateJobQueryParamProperties {
+  /** Expand the indicated resources into the response. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
+  expand?: string;
 }
 
-export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
+/** The create job query parameter. */
+export interface CreateJobQueryParam {
+  /** The query parameters. */
+  queryParameters?: CreateJobQueryParamProperties;
+}
+
+/** Create the job parameters, combining the create query parameters, the create job body paramters and the request parameters */
+export type CreateJobParameters = CreateJobQueryParam & CreateJobBodyParam & RequestParameters;

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force there to be only named exports at the top level.
@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force there to be only named exports at the top level",
-      recommended: "recommended",
     },
     messages: {
       NoDefaultExports: "Exports at top level should be named",

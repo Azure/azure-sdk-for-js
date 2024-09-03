@@ -19,21 +19,22 @@ import { Context } from "mocha";
 import { CdnManagementClient } from "../src/cdnManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("CDN test", () => {
+describe("CDN test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CdnManagementClient;
@@ -52,7 +53,7 @@ describe.skip("CDN test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     profileName = "myprofilexxx";
-    endpointName = "myendpointxxx";
+    endpointName = "myendpointxxx1";
   });
 
   afterEach(async function () {
@@ -138,7 +139,8 @@ describe.skip("CDN test", () => {
     assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
-  it("customDomains enable test", async function () {
+  //before create a customdomain, you need to create a DNS Zone and after that add a CName Recoedsets
+  it.skip("customDomains enable test", async function () {// skip this case as there's some issues from service
     // 1. we need to add a custom name https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
     // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
     const defaultSetting = { "certificateSource": "Cdn", "protocolType": "IPBased", "certificateSourceParameters": { "typeName": "CdnCertificateSourceParameters", "certificateType": "Shared" } };

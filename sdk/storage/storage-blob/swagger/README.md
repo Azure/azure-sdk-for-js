@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "latest"
-package-version: 12.24.0-beta.2
+package-version: 12.25.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator
@@ -1472,6 +1472,15 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
+```
+
+### Update service version from "2018-03-28" to "2024-11-04"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2024-11-04" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

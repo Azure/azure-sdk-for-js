@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export * from "./DataLakeServiceClient";
 export * from "./DataLakeFileSystemClient";
 export * from "./clients";
@@ -7,9 +7,15 @@ export * from "./DataLakeLeaseClient";
 export * from "./sas/AccountSASPermissions";
 export * from "./sas/AccountSASResourceTypes";
 export * from "./sas/AccountSASServices";
-export * from "./sas/AccountSASSignatureValues";
+export {
+  AccountSASSignatureValues,
+  generateAccountSASQueryParameters,
+} from "./sas/AccountSASSignatureValues";
 export * from "./sas/DataLakeSASPermissions";
-export * from "./sas/DataLakeSASSignatureValues";
+export {
+  DataLakeSASSignatureValues,
+  generateDataLakeSASQueryParameters,
+} from "./sas/DataLakeSASSignatureValues";
 export * from "./sas/FileSystemSASPermissions";
 export * from "./sas/SASQueryParameters";
 export * from "./models";

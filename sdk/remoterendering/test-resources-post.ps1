@@ -3,7 +3,7 @@
 
 # This script is used to generate the Test Configuration file for Storage live tests.
 # It is invoked by the https://github.com/Azure/azure-sdk-for-js/blob/main/eng/New-TestResources.ps1
-# script after the ARM template, defined in https://github.com/Azure/azure-sdk-for-net/blob/arm-template-storage/sdk/storage/test-resources.json, 
+# script after the Bicep template, defined in https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/remoterendering/test-resources.bicep, 
 # is finished being deployed. The ARM template is responsible for creating the Storage accounts needed for live tests.
 
 param (

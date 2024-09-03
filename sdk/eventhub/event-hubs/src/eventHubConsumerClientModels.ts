@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CloseReason } from "./models/public";
-import { EventPosition } from "./eventPosition";
-import { LastEnqueuedEventProperties } from "./partitionReceiver";
+import { CloseReason } from "./models/public.js";
+import { EventPosition } from "./eventPosition.js";
+import { LastEnqueuedEventProperties } from "./partitionReceiver.js";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { ReceivedEventData } from "./eventData";
+import { ReceivedEventData } from "./eventData.js";
 
 /**
  * @internal

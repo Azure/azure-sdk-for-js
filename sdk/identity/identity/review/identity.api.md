@@ -25,7 +25,9 @@ export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
 
 // @public
 export class AuthenticationError extends Error {
-    constructor(statusCode: number, errorBody: object | string | undefined | null);
+    constructor(statusCode: number, errorBody: object | string | undefined | null, options?: {
+        cause?: unknown;
+    });
     readonly errorResponse: ErrorResponse;
     readonly statusCode: number;
 }
@@ -52,6 +54,7 @@ export class AuthenticationRequiredError extends Error {
 
 // @public
 export interface AuthenticationRequiredErrorOptions {
+    cause?: unknown;
     getTokenOptions?: GetTokenOptions;
     message?: string;
     scopes: string[];
@@ -222,7 +225,9 @@ export interface CredentialPersistenceOptions {
 
 // @public
 export class CredentialUnavailableError extends Error {
-    constructor(message?: string);
+    constructor(message?: string, options?: {
+        cause?: unknown;
+    });
 }
 
 // @public
@@ -356,12 +361,18 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: ManagedIdentityCredentialClientIdOptions);
     constructor(options?: ManagedIdentityCredentialResourceIdOptions);
+    constructor(options?: ManagedIdentityCredentialObjectIdOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
 export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
     clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
+    objectId: string;
 }
 
 // @public

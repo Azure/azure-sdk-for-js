@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DocumentDBContext } from "../../api/mongoClusterManagementContext.js";
 import { PrivateLinkResource } from "../../models/models.js";
@@ -17,10 +17,7 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getPrivateLinks(context: DocumentDBContext, subscriptionId: string) {
   return {
     listByMongoCluster: (
       resourceGroupName: string,

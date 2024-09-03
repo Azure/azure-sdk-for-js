@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for DocumentTranslationClient.",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "keywords": [
     "node",
     "azure",
@@ -62,7 +62,7 @@
     "autorest": "latest",
     "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
-    "eslint": "^8.55.0",
+    "eslint": "^9.9.0",
     "mkdirp": "^3.0.1",
     "source-map-support": "^0.5.9",
     "typescript": "~5.5.3",
@@ -88,7 +88,7 @@
     "karma": "^6.2.0",
     "nyc": "^17.0.0",
     "ts-node": "^10.0.0",
-    "tshy": "1.15.1"
+    "tshy": "^2.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -106,8 +106,8 @@
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",

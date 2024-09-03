@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Represents the outcome of an Image Analysis operation. */
 export interface ImageAnalysisResultOutput {
@@ -202,10 +202,4 @@ export interface CropRegionOutput {
 export interface TagsResultOutput {
   /** A list of tags. */
   values: Array<DetectedTagOutput>;
-}
-
-/** An object holding the publicly reachable URL of an image to analyze. */
-export interface ImageUrlOutput {
-  /** Publicly reachable URL of an image to analyze. */
-  url: string;
 }

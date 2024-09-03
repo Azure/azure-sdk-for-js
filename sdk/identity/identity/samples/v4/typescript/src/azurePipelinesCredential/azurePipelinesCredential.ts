@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Authenticates using AzurePipelinesCredential
@@ -17,7 +17,7 @@ async function main() {
       tenantId,
       clientId,
       serviceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const client = new KeyClient("https://YOUR_KEYVAULT_NAME.vault.azure.net/", credential);
     await client.getKey("keyValue");

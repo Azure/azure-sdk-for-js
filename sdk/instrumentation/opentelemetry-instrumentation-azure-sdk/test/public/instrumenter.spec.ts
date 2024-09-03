@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
 import { SpanKind, context, trace } from "@opentelemetry/api";

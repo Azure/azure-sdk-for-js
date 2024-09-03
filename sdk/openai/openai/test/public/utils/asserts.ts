@@ -1,72 +1,260 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import {
-  AudioResult,
-  AudioResultFormat,
-  AudioResultSimpleJson,
-  AudioResultVerboseJson,
-  AudioSegment,
-  AzureChatEnhancements,
-  AzureChatExtensionDataSourceResponseCitation,
-  AzureChatExtensionsMessageContext,
-  AzureGroundingEnhancement,
-  AzureGroundingEnhancementCoordinatePoint,
-  AzureGroundingEnhancementLine,
-  AzureGroundingEnhancementLineSpan,
-  ChatChoice,
-  ChatCompletions,
-  ChatCompletionsFunctionToolCall,
-  ChatCompletionsToolCallUnion,
-  ChatFinishDetails,
-  ChatResponseMessage,
-  Choice,
-  Completions,
-  CompletionsLogProbabilityModel,
-  CompletionsUsage,
-  ContentFilterBlocklistIdResult,
-  ContentFilterCitedDetectionResult,
-  ContentFilterDetectionResult,
-  ContentFilterErrorResults,
-  ContentFilterResult,
-  ContentFilterResultDetailsForPrompt,
-  ContentFilterResultsForChoice,
-  ContentFilterResultsForPrompt,
-  FunctionCall,
-  ImageGenerations,
-  StopFinishDetails,
-} from "../../../src/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
-import { get } from "./utils.js";
-import { stringToUint8Array } from "@azure/core-util";
+import { assert } from "vitest";
+import { get, Metadata } from "./utils.js";
 import { getImageDimensionsFromResponse } from "./images.js";
+import {
+  AzureChatExtensionDataSourceResponseCitationOutput,
+  AzureChatExtensionsMessageContextOutput,
+  ContentFilterBlocklistIdResultOutput,
+  ContentFilterCitedDetectionResultOutput,
+  ContentFilterDetectionResultOutput,
+  ContentFilterResultOutput,
+  ContentFilterResultDetailsForPromptOutput,
+  ContentFilterResultsForChoiceOutput,
+  ContentFilterResultsForPromptOutput,
+  ChatFinishDetailsOutput,
+  StopFinishDetailsOutput,
+  AzureChatEnhancementsOutput,
+  AzureGroundingEnhancementOutput,
+  AzureGroundingEnhancementLineSpanOutput,
+  AzureGroundingEnhancementCoordinatePointOutput,
+  AzureGroundingEnhancementLineOutput,
+  ContentFilterDetailedResults,
+} from "../../../src/types/index.js";
+import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import {
+  ChatCompletionChunk,
+  ChatCompletionMessage,
+  ChatCompletionTokenLogprob,
+  Completion,
+  CompletionChoice,
+  CompletionUsage,
+  CreateEmbeddingResponse,
+  ImagesResponse,
+} from "openai/resources/index";
+import { ErrorModel } from "@azure-rest/core-client";
+import {
+  ChatCompletion,
+  ChatCompletionMessageToolCall,
+} from "openai/resources/chat/completions.mjs";
+import { Transcription } from "openai/resources/audio/transcriptions.mjs";
+import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 
-function ifDefined(
-  val: any,
-  validate: (x: any) => void,
-  { defined }: { defined?: boolean } = {},
+export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
+  switch (responseFormat) {
+    case "json":
+      assert.isObject(result);
+      assert.isString((result as Transcription).text);
+      break;
+    case "verbose_json":
+      assertVerboseJson(result as unknown as AudioResultVerboseJson);
+      break;
+    case "srt":
+    case "vtt":
+    case "text":
+      assert.isString(result);
+      break;
+  }
+}
+
+function assertSegment(segment: AudioSegment): void {
+  assert.isNumber(segment.start);
+  assert.isNumber(segment.end);
+  assert.isString(segment.text);
+  assert.isNumber(segment.id);
+  assert.isNumber(segment.avg_logprob);
+  assert.isNumber(segment.compression_ratio);
+  assert.isNumber(segment.no_speech_prob);
+  assert.isNumber(segment.seek);
+  assert.isNumber(segment.temperature);
+  assert.isArray(segment.tokens);
+  segment.tokens.forEach((item) => assert.isNumber(item));
+}
+
+function assertVerboseJson(result: AudioResultVerboseJson): void {
+  assert.isString(result.text);
+  assert.isNumber(result.duration);
+  assert.isString(result.language);
+  assert.isString(result.task);
+  assert.isArray(result.segments);
+  result.segments.forEach((item) => assertSegment(item));
+}
+
+export function assertChatCompletions(
+  completions: ChatCompletion,
+  options: ChatCompletionTestOptions = {},
 ): void {
-  if (val !== undefined && val !== null) {
-    validate(val);
-  } else if (defined) {
-    throw new Error("Expected value to be defined");
+  assertChatCompletionsNoUsage(completions, options);
+  ifDefined(completions.usage, assertUsage);
+}
+
+function assertChatCompletionsNoUsage(
+  completions: ChatCompletion,
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+): void {
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
+  }
+  assertChatCompletionsProperties(completions);
+}
+
+function assertChatCompletionsChunkNoUsage(
+  completions: ChatCompletionChunk,
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+): void {
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
+  }
+  assertChatCompletionsProperties(completions);
+}
+
+function assertChatCompletionsProperties(
+  completions: Omit<ChatCompletion, "choices"> | Omit<ChatCompletionChunk, "choices">,
+): void {
+  assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
+  assert.isNumber(completions.created);
+  assert.isString(completions.id);
+  assert.isString(completions.model);
+  ifDefined(completions.system_fingerprint, assert.isString);
+}
+
+export function assertChatCompletionsList(
+  list: Array<ChatCompletionChunk>,
+  options: ChatCompletionTestOptions = {},
+): void {
+  assert.isNotEmpty(list);
+  list.map((item) => assertChatCompletionsChunkNoUsage(item, { ...options, stream: true }));
+}
+
+export function assertCompletions(completions: Completion): void {
+  assertCompletionsNoUsage(completions);
+  ifDefined(completions.usage, assertUsage);
+}
+
+function assertCompletionsNoUsage(
+  completions: Omit<Completion, "usage">,
+  { allowEmptyChoices }: CompletionTestOptions = {},
+): void {
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, assertCompletionsChoice);
+  }
+  assert.isNumber(completions.created);
+  assert.isString(completions.id);
+  assert.isString(completions.model);
+  ifDefined(completions.system_fingerprint, assert.isString);
+  assertContentFilterResultsForPrompt(completions.prompt_filter_results ?? []);
+}
+
+function assertCompletionsChoice(choice: CompletionChoice): void {
+  assert.isNumber(choice.index);
+  ifDefined(choice.logprobs, assertLogprobs);
+  ifDefined(choice.finish_reason, assert.isString);
+  assert.isString(choice.text);
+  ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
+}
+
+function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceOutput): void {
+  if (cfr.error) {
+    assertContentFilterErrorResults(cfr.error);
+  } else {
+    ifDefined(cfr.hate, assertContentFilterResult);
+    ifDefined(cfr.self_harm, assertContentFilterResult);
+    ifDefined(cfr.sexual, assertContentFilterResult);
+    ifDefined(cfr.violence, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
+    ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
+    ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
   }
 }
 
-function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
-  assert.isArray(val);
-  assert.isNotEmpty(val);
-  for (const x of val) {
-    validate(x);
+function assertContentFilterResultsForPrompt(cfr: ContentFilterResultsForPromptOutput[]): void {
+  assert.isArray(cfr);
+  for (const item of cfr) {
+    assertContentFilterResultsForPromptItem(item);
   }
 }
 
-function assertArray<T>(val: T[], validate: (x: T) => void): void {
-  assert.isArray(val);
-  for (const x of val) {
-    validate(x);
+function assertContentFilterCitedDetectionResult(
+  val: ContentFilterCitedDetectionResultOutput,
+): void {
+  assert.isBoolean(val.detected);
+  assert.isBoolean(val.filtered);
+  ifDefined(val.license, assert.isString);
+  ifDefined(val.URL, assert.isString);
+}
+
+function assertContentFilterResultsForPromptItem(cfr: ContentFilterResultsForPromptOutput): void {
+  assert.isNumber(cfr.prompt_index);
+  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results);
+}
+
+function assertContentFilterResultDetailsForPrompt(
+  cfr: ContentFilterResultDetailsForPromptOutput,
+): void {
+  if (cfr.error) {
+    assertContentFilterErrorResults(cfr.error);
+  } else {
+    ifDefined(cfr.hate, assertContentFilterResult);
+    ifDefined(cfr.self_harm, assertContentFilterResult);
+    ifDefined(cfr.sexual, assertContentFilterResult);
+    ifDefined(cfr.violence, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
+    ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
   }
+}
+
+function assertContentFilterErrorResults(error: ErrorModel): void {
+  assert.isDefined(error);
+  assert.isDefined(error.code);
+  assert.isDefined(error.message);
+}
+
+function assertContentFilterResult(val: ContentFilterResultOutput): void {
+  assert.isBoolean(val.filtered);
+  assert.isString(val.severity);
+}
+
+function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOutput): void {
+  assert.isBoolean(val.detected);
+  assert.isBoolean(val.filtered);
+}
+
+function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
+  assert.isBoolean(val.filtered);
+  assertNonEmptyArray(val.details, assertContentFilterBlocklistIdResult);
+}
+
+function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
+  assert.isString(val.id);
+  assert.isBoolean(val.filtered);
+}
+
+function assertChoice(
+  choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
+  options: ChatCompletionTestOptions,
+): void {
+  const stream = options.stream;
+  if (stream) {
+    assertMessage((choice as ChatCompletionChunk.Choice).delta, options);
+    assert.isFalse("message" in choice);
+  } else {
+    assertMessage((choice as ChatCompletion.Choice).message, options);
+    assert.isFalse("delta" in choice);
+  }
+  assert.isNumber(choice.index);
+  ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
+  ifDefined(choice.enhancements, assertAzureChatEnhancements);
+  ifDefined(choice.finish_details, assertChatFinishDetails);
+  ifDefined(choice.logprobs, assertLogProbability);
+  ifDefined(choice.finish_reason, assert.isString);
+}
+
+export async function assertCompletionsStream(
+  stream: AsyncIterable<Omit<Completion, "usage">>,
+  options: CompletionTestOptions = {},
+): Promise<number> {
+  return assertAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
 }
 
 async function assertAsyncIterable<T>(
@@ -91,108 +279,33 @@ async function assertAsyncIterable<T>(
   return items.length;
 }
 
-function assertLogProbabilityModel(logProbability: CompletionsLogProbabilityModel): void {
-  assertNonEmptyArray(logProbability.textOffset, assert.isNumber);
-  assertNonEmptyArray(logProbability.tokenLogprobs, assert.isNumber);
-  assertNonEmptyArray(logProbability.tokens, assert.isString);
-  assertNonEmptyArray(logProbability.topLogprobs, assert.isObject);
+function assertLogprobs(logprobs: CompletionChoice.Logprobs): void {
+  ifDefined(logprobs.token_logprobs, (token_logprob) => assert.isNumber(token_logprob));
+  ifDefined(logprobs.text_offset, (text) => assert.isNumber(text));
+  ifDefined(logprobs.tokens, (token) => assert.isNumber(token));
+  ifDefined(logprobs.top_logprobs, (top_logprob) => assert.instanceOf(top_logprob, Object));
+}
+function assertLogProbability(logProbability: ChatCompletion.Choice.Logprobs): void {
+  assertNonEmptyArray(logProbability.content ?? [], assertTokenLogProbability);
 }
 
-function assertContentFilterResult(val: ContentFilterResult): void {
-  assert.isBoolean(val.filtered);
-  assert.isString(val.severity);
+function assertTokenLogProbability(tokenLogprob: ChatCompletionTokenLogprob): void {
+  ifDefined(tokenLogprob.bytes, (bytes) => {
+    assert.isNumber(bytes);
+  });
+  assert.isString(tokenLogprob.token);
+  assert.isNumber(tokenLogprob.logprob);
 }
 
-function assertContentFilterDetectionResult(val: ContentFilterDetectionResult): void {
-  assert.isBoolean(val.detected);
-  assert.isBoolean(val.filtered);
+function assertUsage(usage: CompletionUsage | undefined): void {
+  assert.isDefined(usage);
+  const castUsage = usage as CompletionUsage;
+  assert.isNumber(castUsage.completion_tokens);
+  assert.isNumber(castUsage.prompt_tokens);
+  assert.isNumber(castUsage.total_tokens);
 }
 
-function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResult): void {
-  assert.isString(val.id);
-  assert.isBoolean(val.filtered);
-}
-
-function assertContentFilterResultsForPromptItem(cfr: ContentFilterResultsForPrompt): void {
-  assert.isNumber(cfr.promptIndex);
-  assertContentFilterResultDetailsForPrompt(cfr.contentFilterResults);
-}
-
-function assertContentFilterErrorResults(cfr: ContentFilterErrorResults): void {
-  assert.isDefined(cfr.error);
-  assert.isDefined(cfr.error.code);
-  assert.isDefined(cfr.error.message);
-}
-
-function assertContentFilterResultDetailsForPrompt(cfr: ContentFilterResultDetailsForPrompt): void {
-  if (cfr.error) {
-    assertContentFilterErrorResults(cfr);
-  } else {
-    ifDefined(cfr.hate, assertContentFilterResult);
-    ifDefined(cfr.selfHarm, assertContentFilterResult);
-    ifDefined(cfr.sexual, assertContentFilterResult);
-    ifDefined(cfr.violence, assertContentFilterResult);
-    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
-    ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.customBlocklists, (arr) =>
-      assertArray(arr, assertContentFilterBlocklistIdResult),
-    );
-  }
-}
-
-function assertContentFilterCitedDetectionResult(val: ContentFilterCitedDetectionResult): void {
-  assert.isBoolean(val.detected);
-  assert.isBoolean(val.filtered);
-  assert.isString(val.license);
-  ifDefined(val.url, assert.isString);
-}
-
-function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoice): void {
-  if (cfr.error) {
-    assertContentFilterErrorResults(cfr);
-  } else {
-    ifDefined(cfr.hate, assertContentFilterResult);
-    ifDefined(cfr.selfHarm, assertContentFilterResult);
-    ifDefined(cfr.sexual, assertContentFilterResult);
-    ifDefined(cfr.violence, assertContentFilterResult);
-    ifDefined(cfr.profanity, assertContentFilterResult);
-    ifDefined(cfr.customBlocklists, assertContentFilterBlocklistIdResult);
-    ifDefined(cfr.protectedMaterialCode, assertContentFilterCitedDetectionResult);
-    ifDefined(cfr.protectedMaterialText, assertContentFilterDetectionResult);
-  }
-}
-
-function assertChoice(choice: Choice): void {
-  assert.isString(choice.text);
-  ifDefined(choice.logprobs, assertLogProbabilityModel);
-  assert.isNumber(choice.index);
-  ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
-  ifDefined(choice.finishReason, assert.isString);
-}
-
-function assertFunctionCall(
-  functionCall: FunctionCall,
-  { stream }: ChatCompletionTestOptions,
-): void {
-  assertIf(!stream, functionCall.arguments, assert.isString);
-  assertIf(!stream, functionCall.name, assert.isString);
-}
-
-function assertToolCall(
-  functionCall: ChatCompletionsToolCallUnion,
-  { stream }: ChatCompletionTestOptions,
-): void {
-  assertIf(!stream, functionCall.type, assert.isString);
-  assertIf(!stream, functionCall.id, assert.isString);
-  assertIf(Boolean(stream), functionCall.index, assert.isNumber);
-  switch (functionCall.type) {
-    case "function":
-      assertFunctionCall((functionCall as ChatCompletionsFunctionToolCall).function, { stream });
-      break;
-  }
-}
-
-function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
+function assertIf<T>(condition: boolean, val: T, check: (x: T) => void): void {
   if (condition) {
     check(val);
   } else {
@@ -200,165 +313,188 @@ function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
   }
 }
 
-function assertMessage(
-  message: ChatResponseMessage | undefined,
-  { functions, stream }: ChatCompletionTestOptions = {},
+function ifDefined<T>(
+  val: T | undefined | null,
+  validate: (x: T) => void,
+  { defined }: { defined?: boolean } = {},
 ): void {
-  assert.isDefined(message);
-  const msg = message as ChatResponseMessage;
-  if (!functions) {
-    assertIf(!stream, msg.content, assert.isString);
+  if (val !== undefined && val !== null) {
+    validate(val);
+  } else if (defined) {
+    throw new Error("Expected value to be defined");
   }
-  assertIf(!stream, msg.role, assert.isString);
-  ifDefined(msg.functionCall, (item) => assertFunctionCall(item, { stream }));
-  for (const item of msg.toolCalls ?? []) {
-    assertToolCall(item, { stream });
+}
+
+function assertFunctionCall(
+  functionCall: ChatCompletionChunk.Choice.Delta.ToolCall.Function,
+  { stream }: ChatCompletionTestOptions,
+): void {
+  assertIf(!stream, functionCall.arguments, assert.isString);
+  assertIf(!stream, functionCall.name, assert.isString);
+}
+
+function assertToolCall(
+  toolCall: ChatCompletionMessageToolCall | ChatCompletionChunk.Choice.Delta.ToolCall,
+  { stream }: ChatCompletionTestOptions,
+): void {
+  assertIf(!stream, toolCall.type, assert.isString);
+  assertIf(!stream, toolCall.id, assert.isString);
+  assertIf(
+    Boolean(stream),
+    (toolCall as ChatCompletionChunk.Choice.Delta.ToolCall).index,
+    assert.isNumber,
+  );
+
+  switch (toolCall.type) {
+    case "function":
+      ifDefined(toolCall.function, (functionCall) => assertFunctionCall(functionCall, { stream }));
+      break;
   }
-  ifDefined(msg.context, assertContext);
 }
 
-function assertContext(context: AzureChatExtensionsMessageContext): void {
-  ifDefined(context.intent, assert.isString);
-  ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
-}
-
-function assertCitations(citations: AzureChatExtensionDataSourceResponseCitation): void {
-  assert.isDefined(citations.content);
-  ifDefined(citations.title, assert.isString);
-  ifDefined(citations.url, assert.isString);
-  ifDefined(citations.filepath, assert.isString);
-  ifDefined(citations.chunkId, assert.isString);
-}
-
-function assertChatFinishDetails(val: ChatFinishDetails): void {
+function assertChatFinishDetails(val: ChatFinishDetailsOutput): void {
   switch (val.type) {
     case "max_tokens":
       break;
     case "stop": {
-      assert.isString((val as StopFinishDetails).stop);
+      assert.isString((val as StopFinishDetailsOutput).stop);
       break;
     }
   }
 }
 
-function assertAzureGroundingEnhancementCoordinatePoint(
-  val: AzureGroundingEnhancementCoordinatePoint,
-): void {
-  assert.isNumber(val.x);
-  assert.isNumber(val.y);
+export function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
+  assert.isNotEmpty(val);
+  assertArray(val, validate);
 }
 
-function assertAzureGroundingEnhancementLineSpan(val: AzureGroundingEnhancementLineSpan): void {
+function assertArray<T>(val: T[], validate: (x: T) => void): void {
+  assert.isArray(val);
+  for (const x of val) {
+    validate(x);
+  }
+}
+
+export function assertImagesWithURLs(image: ImagesResponse, height: number, width: number): void {
+  assert.isNotNull(image);
+  assert.isNumber(image.created);
+  assert.isArray(image.data);
+  image.data.forEach((img) => {
+    ifDefined(img.revised_prompt, assert.isString);
+    assert.isUndefined(img.b64_json);
+    ifDefined(img.url, async (url) => {
+      assert.isString(url);
+      const response = await get(url);
+      const dimensions = await getImageDimensionsFromResponse(response);
+      assert.equal(dimensions?.height, height, "Height does not match");
+      assert.equal(dimensions?.width, width, "Width does not match");
+    });
+  });
+}
+
+export function assertImagesWithJSON(image: ImagesResponse, height: number, width: number): void {
+  assert.isNotNull(image);
+  assert.isNumber(image.created);
+  assert.isArray(image.data);
+  image.data.forEach((img) => {
+    ifDefined(img.revised_prompt, assert.isString);
+    assert.isUndefined(img.url);
+    ifDefined(img.b64_json, async (data) => {
+      assert.isString(data);
+      // Width in PNG is byte 16 - 19
+      const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
+      assert.equal(actualWidth, width, "Width does not match");
+      // Height in PNG is byte 20 - 23
+      const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
+      assert.equal(actualHeight, height, "Height does not match");
+    });
+  });
+}
+
+export function assertEmbeddings(
+  embeddings: CreateEmbeddingResponse,
+  options?: EmbeddingTestOptions,
+) {
+  assert.isNotNull(embeddings.data);
+  assert.equal(embeddings.data.length > 0, true);
+  assert.isNotNull(embeddings.data[0].embedding);
+  assert.equal(embeddings.data[0].embedding.length > 0, true);
+  assert.isNotNull(embeddings.usage);
+  if (options?.dimensions) {
+    assert.equal(embeddings.data[0].embedding.length, options.dimensions);
+  }
+}
+
+function assertMessage(
+  message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta | undefined,
+  { functions, stream }: ChatCompletionTestOptions = {},
+): void {
+  assert.isDefined(message);
+  const msg = message;
+  if (!functions) {
+    assertIf(!stream, msg?.content, assert.isString);
+  }
+  assertIf(!stream, msg?.role, assert.isString);
+  for (const item of msg?.tool_calls ?? []) {
+    assertToolCall(item, { stream });
+  }
+  ifDefined(msg?.context, assertContext);
+}
+
+function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
+  ifDefined(context.intent, assert.isString);
+  ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
+}
+
+function assertAzureChatEnhancements(val: AzureChatEnhancementsOutput): void {
+  ifDefined(val.grounding, assertAzureGroundingEnhancement);
+}
+
+function assertAzureGroundingEnhancementLine(val: AzureGroundingEnhancementLineOutput): void {
+  assertNonEmptyArray(val.spans, assertAzureGroundingEnhancementLineSpan);
+}
+
+function assertAzureGroundingEnhancement(val: AzureGroundingEnhancementOutput): void {
+  assertNonEmptyArray(val.lines, assertAzureGroundingEnhancementLine);
+}
+
+function assertAzureGroundingEnhancementLineSpan(
+  val: AzureGroundingEnhancementLineSpanOutput,
+): void {
   assert.isNumber(val.length);
   assert.isNumber(val.offset);
   assert.isString(val.text);
   assertNonEmptyArray(val.polygon, assertAzureGroundingEnhancementCoordinatePoint);
 }
 
-function assertAzureGroundingEnhancementLine(val: AzureGroundingEnhancementLine): void {
-  assertNonEmptyArray(val.spans, assertAzureGroundingEnhancementLineSpan);
-}
-
-function assertAzureGroundingEnhancement(val: AzureGroundingEnhancement): void {
-  assertNonEmptyArray(val.lines, assertAzureGroundingEnhancementLine);
-}
-
-function assertAzureChatEnhancements(val: AzureChatEnhancements): void {
-  ifDefined(val.grounding, assertAzureGroundingEnhancement);
-}
-
-function assertChatChoice(choice: ChatChoice, options: ChatCompletionTestOptions): void {
-  const stream = options.stream;
-  if (stream) {
-    assertMessage(choice.delta, options);
-    assert.isUndefined(choice.message);
-  } else {
-    assertMessage(choice.message, options);
-    assert.isUndefined(choice.delta);
-  }
-  assert.isNumber(choice.index);
-  ifDefined(choice.contentFilterResults, assertContentFilterResultsForChoice);
-  ifDefined(choice.finishReason, assert.isString);
-  ifDefined(choice.finishDetails, assertChatFinishDetails);
-  ifDefined(choice.enhancements, assertAzureChatEnhancements);
-}
-
-function assertUsage(usage: CompletionsUsage | undefined): void {
-  assert.isDefined(usage);
-  const castUsage = usage as CompletionsUsage;
-  assert.isNumber(castUsage.completionTokens);
-  assert.isNumber(castUsage.promptTokens);
-  assert.isNumber(castUsage.totalTokens);
-}
-
-function assertContentFilterResultsForPrompt(cfr: ContentFilterResultsForPrompt[]): void {
-  assert.isArray(cfr);
-  for (const item of cfr) {
-    assertContentFilterResultsForPromptItem(item);
-  }
-}
-
-function assertCompletionsNoUsage(
-  completions: Omit<Completions, "usage">,
-  { allowEmptyChoices }: CompletionTestOptions = {},
+function assertAzureGroundingEnhancementCoordinatePoint(
+  val: AzureGroundingEnhancementCoordinatePointOutput,
 ): void {
-  if (!allowEmptyChoices || completions.choices.length > 0) {
-    assertNonEmptyArray(completions.choices, assertChoice);
-  }
-  assert.instanceOf(completions.created, Date);
-  assert.isString(completions.id);
-  assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
+  assert.isNumber(val.x);
+  assert.isNumber(val.y);
 }
 
-function assertChatCompletionsNoUsage(
-  completions: ChatCompletions,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+function assertCitations(citations: AzureChatExtensionDataSourceResponseCitationOutput): void {
+  assert.isDefined(citations.content);
+  ifDefined(citations.title, assert.isString);
+  ifDefined(citations.url, assert.isString);
+  ifDefined(citations.filepath, assert.isString);
+  ifDefined(citations.chunk_id, assert.isString);
+}
+
+export function assertAssistantEquality(
+  assistant: AssistantCreateParams,
+  response: Assistant,
 ): void {
-  if (!allowEmptyChoices || completions.choices.length > 0) {
-    assertNonEmptyArray(completions.choices, (choice) => assertChatChoice(choice, opts));
-  }
-  assert.instanceOf(completions.created, Date);
-  ifDefined(completions.id, assert.isString, { defined: !allowEmptyId });
-  assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
-  ifDefined(completions.systemFingerprint, assert.isString);
-  ifDefined(completions.model, assert.isString);
-}
-
-export function assertCompletions(completions: Completions): void {
-  assertCompletionsNoUsage(completions);
-  assertUsage(completions.usage);
-}
-
-export function assertChatCompletions(
-  completions: ChatCompletions,
-  options: ChatCompletionTestOptions = {},
-): void {
-  assertChatCompletionsNoUsage(completions, options);
-  ifDefined(completions.usage, assertUsage);
-}
-
-export async function assertCompletionsStream(
-  stream: AsyncIterable<Omit<Completions, "usage">>,
-  options: CompletionTestOptions = {},
-): Promise<number> {
-  return assertAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
-}
-
-export async function assertChatCompletionsStream(
-  stream: AsyncIterable<ChatCompletions>,
-  options: ChatCompletionTestOptions = {},
-): Promise<number> {
-  return assertAsyncIterable(stream, (item) =>
-    assertChatCompletionsNoUsage(item, { ...options, stream: true }),
-  );
-}
-
-export function assertChatCompletionsList(
-  list: Array<ChatCompletions>,
-  options: ChatCompletionTestOptions = {},
-): void {
-  assert.isNotEmpty(list);
-  list.map((item) => assertChatCompletionsNoUsage(item, { ...options, stream: true }));
+  assert.isNotNull(response);
+  assert.equal(response.model, assistant.model);
+  assert.equal(response.name, assistant.name);
+  assert.equal(response.instructions, assistant.instructions);
+  assert.equal(response.description, assistant.description);
+  assert.equal((response.metadata as Metadata).foo, "bar");
+  assert.isNotNull(response.tools[0]);
+  const tools = assistant.tools || [];
+  assert.equal(response.tools[0].type, tools[0].type);
 }
 
 interface CompletionTestOptions {
@@ -373,117 +509,6 @@ interface ChatCompletionTestOptions {
   allowEmptyId?: boolean;
 }
 
-function assertSegment(segment: AudioSegment): void {
-  assert.isNumber(segment.start);
-  assert.isNumber(segment.end);
-  assert.isString(segment.text);
-  assert.isNumber(segment.id);
-  assert.isNumber(segment.avgLogprob);
-  assert.isNumber(segment.compressionRatio);
-  assert.isNumber(segment.noSpeechProb);
-  assert.isNumber(segment.seek);
-  assert.isNumber(segment.temperature);
-  assert.isArray(segment.tokens);
-  segment.tokens.forEach((item) => assert.isNumber(item));
-}
-
-function assertVerboseJson(result: AudioResultVerboseJson): void {
-  assert.isString(result.text);
-  assert.isNumber(result.duration);
-  assert.isString(result.language);
-  assert.isString(result.task);
-  assert.isArray(result.segments);
-  result.segments.forEach((item) => assertSegment(item));
-}
-
-export function assertAudioResult<Format extends AudioResultFormat>(
-  responseFormat: AudioResultFormat,
-  result: AudioResult<Format>,
-): void {
-  switch (responseFormat) {
-    case "json":
-      assert.isObject(result);
-      assert.isString((result as AudioResultSimpleJson).text);
-      break;
-    case "verbose_json":
-      assertVerboseJson(result as AudioResultVerboseJson);
-      break;
-    case "srt":
-    case "vtt":
-    case "text":
-      assert.isString(result);
-      break;
-  }
-}
-
-export function assertImageGenerationsWithURLs(
-  result: ImageGenerations,
-  recorder: Recorder,
-  height: number,
-  width: number,
-): void {
-  assert.instanceOf(result.created, Date);
-  assert.isNotEmpty(result.data);
-  for (const img of result.data) {
-    assert.isUndefined(img.base64Data);
-    ifDefined(img.revisedPrompt, assert.isString);
-    ifDefined(img.url, async (url) => {
-      assert.isString(url);
-      const response = await get(url, recorder);
-      const dimensions = await getImageDimensionsFromResponse(response);
-      assert.equal(dimensions?.height, height, "Height does not match");
-      assert.equal(dimensions?.width, width, "Width does not match");
-    });
-  }
-}
-
-export function assertImageGenerationsWithString(
-  result: ImageGenerations,
-  height: number,
-  width: number,
-): void {
-  assert.instanceOf(result.created, Date);
-  assert.isNotEmpty(result.data);
-  for (const img of result.data) {
-    assert.isUndefined(img.url);
-    ifDefined(img.revisedPrompt, assert.isString);
-    ifDefined(img.base64Data, async (data) => {
-      assert.isString(data);
-      const arr = stringToUint8Array(data, "base64");
-      const actualWidth = new DataView(arr.subarray(16, 4).buffer).getUint32(0);
-      assert.equal(actualWidth, width, "Width does not match");
-      const actualHeight = new DataView(arr.subarray(20, 4).buffer).getUint32(0);
-      assert.equal(actualHeight, height, "Height does not match");
-    });
-  }
-}
-
-export async function assertOpenAiError<T>(
-  promise: Promise<T>,
-  expectations: {
-    messagePattern?: RegExp;
-    type?: string;
-    errorCode?: string | null;
-  },
-): Promise<void> {
-  try {
-    await promise;
-  } catch (e: any) {
-    const { messagePattern, type, errorCode } = expectations;
-    if (messagePattern) {
-      assert.match(e.message, messagePattern);
-    } else {
-      assert.isUndefined(e.message);
-    }
-    if (type) {
-      assert.equal(e.type, type);
-    } else {
-      assert.isUndefined(e.type);
-    }
-    if (errorCode !== undefined) {
-      assert.equal(e.code, errorCode);
-    } else {
-      assert.isUndefined(e.code);
-    }
-  }
+interface EmbeddingTestOptions {
+  dimensions?: number;
 }

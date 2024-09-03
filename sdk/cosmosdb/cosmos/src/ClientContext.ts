@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
+  HttpClient,
   Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
@@ -34,6 +35,7 @@ import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
+import { supportedQueryFeaturesBuilder } from "./utils/supportedQueryFeaturesBuilder";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { ClientConfigDiagnostic, CosmosDiagnostics } from "./CosmosDiagnostics";
 import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
@@ -269,9 +271,11 @@ export class ClientContext {
     }
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
-    request.headers[HttpHeaders.SupportedQueryFeatures] =
-      "NonValueAggregate, Aggregate, Distinct, MultipleOrderBy, OffsetAndLimit, OrderBy, Top, CompositeAggregate, GroupBy, MultipleAggregates";
     request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
+    request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
+      options.disableNonStreamingOrderByQuery,
+    );
+
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
     }
@@ -837,8 +841,7 @@ export class ClientContext {
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
-      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError || false;
-
+      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError ?? true;
       this.applySessionToken(request);
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -968,6 +971,7 @@ export class ClientContext {
     client?: ClientContext;
     pipeline?: Pipeline;
     plugins: PluginConfig[];
+    httpClient?: HttpClient;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -976,6 +980,7 @@ export class ClientContext {
       client: this,
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
+      httpClient: this.cosmosClientOptions.httpClient,
     };
   }
 

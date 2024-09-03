@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { Suite } from "mocha";
 import { Container, FeedOptions } from "../../../src";
@@ -67,7 +67,9 @@ describe("Test Query Metrics", function (this: Suite) {
 
     await createdContainer.items.create(doc);
     const query = "SELECT * from " + collectionId;
-    const queryOptions: FeedOptions = { populateQueryMetrics: true };
+    const queryOptions: FeedOptions = {
+      populateQueryMetrics: true,
+    };
     const queryIterator = createdContainer.items.query(query, queryOptions);
 
     while (queryIterator.hasMoreResults()) {
@@ -113,7 +115,9 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     await container.items.create({ id: "foo" });
     await container.items.create({ id: "bar" });
     const query = "SELECT * from C";
-    const queryIterator = container.items.query(query, { partitionKey: "foo" });
+    const queryIterator = container.items.query(query, {
+      partitionKey: "foo",
+    });
 
     const { resources } = await queryIterator.fetchAll();
     assert.equal(resources.length, 1);
@@ -219,7 +223,10 @@ describe("Test Index metrics", function (this: Suite) {
     //  aggregate query
     const query2 = "SELECT * from " + collectionId + " order by " + collectionId + ".name";
     const queryList = [query1, query2];
-    const queryOptions: FeedOptions = { populateIndexMetrics: true, maxItemCount: 1 };
+    const queryOptions: FeedOptions = {
+      populateIndexMetrics: true,
+      maxItemCount: 1,
+    };
     for (const query of queryList) {
       const queryIterator = container.items.query(query, queryOptions);
       while (queryIterator.hasMoreResults()) {

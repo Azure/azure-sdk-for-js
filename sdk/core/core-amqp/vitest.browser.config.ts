@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
+import browserMap from "@azure-tools/vite-plugin-browser-test-map";
+import inject from "@rollup/plugin-inject";
 
 export default defineConfig({
-  plugins: [nodePolyfills()],
+  optimizeDeps: {
+    include: ["process", "buffer"],
+  },
+  plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
   test: {
     testTimeout: 20000,
     reporters: ["basic", "junit"],

@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
 import { isUnexpected } from "../src/generated";
 import MapsRender from "../src/mapsRender";
 
 /**
  * @summary How to get the copyright attribution of a certain tileset.
  */
-async function main() {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
-   * - Azure Active Directory (Azure AD) authentication
+   * - Microsoft Entra ID authentication
    *
-   * In this sample you can put MAPS_SUBSCRIPTION_KEY into .env file to use the first approach or populate
-   * the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for trying out AAD auth.
+   * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
+   * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  /** Shared Key authentication (subscription-key) */
-  const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
-  const credential = new AzureKeyCredential(subscriptionKey);
-  const client = MapsRender(credential);
+  /** Microsoft Entra ID authentication */
+  const credential = new DefaultAzureCredential();
+  const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
+  const client = MapsRender(credential, mapsClientId);
 
-  /** Azure Active Directory (Azure AD) authentication */
-  // const credential = new DefaultAzureCredential();
-  // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
-  // const client = MapsRender(credential, mapsClientId);
+  /** Shared Key authentication (subscription-key) */
+  // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
+  // const credential = new AzureKeyCredential(subscriptionKey);
+  // const client = MapsRender(credential);
 
   const baseResponse = await client.path("/map/attribution").get({
     queryParameters: {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Azure service API version.
@@ -46,6 +46,12 @@ export const ENV_INSTRUMENTATION_KEY = "APPINSIGHTS_INSTRUMENTATIONKEY";
  * @internal
  */
 export const ENV_DISABLE_STATSBEAT = "APPLICATION_INSIGHTS_NO_STATSBEAT";
+/**
+ * Disable OpenTelemetry Resource Metric.
+ * @internal
+ */
+export const ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED =
+  "APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED";
 
 /**
  * QuickPulse metric counter names.

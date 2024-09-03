@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
+/* eslint-disable no-underscore-dangle*/
 
 import * as assert from "assert";
 import sinon from "sinon";
@@ -32,12 +34,12 @@ describe("LogHandler", () => {
     metricHandler = new MetricHandler(_config);
     handler = new LogHandler(_config, metricHandler);
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
-      (logs: any, resultCallback: any) =>
+      (lgs: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
             code: ExportResultCode.SUCCESS,
           });
-          resolve(logs);
+          resolve(lgs);
         }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
@@ -74,10 +76,11 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(result[0][0][0].body, "testLog");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -96,14 +99,15 @@ describe("LogHandler", () => {
           .forceFlush()
           .then(() => {
             assert.ok(exportStub.calledOnce, "Export called");
-            const logs = exportStub.args[0][0];
-            assert.deepStrictEqual(logs.length, 1);
+            const lgs = exportStub.args[0][0];
+            assert.deepStrictEqual(lgs.length, 1);
             const spanContext = trace.getSpanContext(context.active());
-            assert.ok(isValidTraceId(logs[0].spanContext.traceId), "Valid trace Id");
-            assert.ok(isValidSpanId(logs[0].spanContext.spanId), "Valid span Id");
-            assert.deepStrictEqual(logs[0].spanContext.traceId, spanContext?.traceId);
-            assert.deepStrictEqual(logs[0].spanContext.spanId, spanContext?.spanId);
+            assert.ok(isValidTraceId(lgs[0].spanContext.traceId), "Valid trace Id");
+            assert.ok(isValidSpanId(lgs[0].spanContext.spanId), "Valid span Id");
+            assert.deepStrictEqual(lgs[0].spanContext.traceId, spanContext?.traceId);
+            assert.deepStrictEqual(lgs[0].spanContext.spanId, spanContext?.spanId);
             done();
+            return;
           })
           .catch((error: Error) => {
             done(error);
@@ -123,13 +127,14 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
             "(Name:'Exceptions', Ver:'1.1')",
           );
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -146,13 +151,14 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
             "(Name:'Traces', Ver:'1.1')",
           );
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -172,7 +178,7 @@ describe("LogHandler", () => {
       (logs.getLoggerProvider() as LoggerProvider)
         .forceFlush()
         .then(() => {
-          let result = exportStub.args;
+          const result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
@@ -180,6 +186,7 @@ describe("LogHandler", () => {
           );
           assert.strictEqual(result[0][0][0].attributes["operation/synthetic"], "True");
           done();
+          return;
         })
         .catch((error: Error) => {
           done(error);
@@ -187,13 +194,13 @@ describe("LogHandler", () => {
     });
 
     it("should add bunyan instrumentation", () => {
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.bunyan = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
@@ -203,13 +210,13 @@ describe("LogHandler", () => {
     });
 
     it("should add winston instrumentation", () => {
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.winston = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
@@ -220,13 +227,13 @@ describe("LogHandler", () => {
 
     it("should set bunyan log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "DEBUG";
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.bunyan = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.strictEqual(
         (logHandler.getInstrumentations()[0].getConfig() as BunyanInstrumentationConfig)
           .logSeverity,
@@ -236,13 +243,13 @@ describe("LogHandler", () => {
 
     it("should set winston log level with the APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL env var", () => {
       process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL = "ERROR";
-      let config = new InternalConfig();
+      const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
       config.instrumentationOptions.winston = {
         enabled: true,
       };
-      let logHandler = new LogHandler(config, metricHandler);
+      const logHandler = new LogHandler(config, metricHandler);
       assert.strictEqual(
         (logHandler.getInstrumentations()[0].getConfig() as WinstonInstrumentationConfig)
           .logSeverity,

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export * from "./headerUtils";
 export * from "./SqlQuerySpec";
 export * from "./defaultQueryExecutionContext";
@@ -12,3 +12,4 @@ export * from "./parallelQueryExecutionContextBase";
 export * from "./parallelQueryExecutionContext";
 export * from "./orderByQueryExecutionContext";
 export * from "./pipelinedQueryExecutionContext";
+export * from "./orderByComparator";

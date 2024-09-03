@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Paged } from "@azure/core-paging";
 
@@ -10,23 +10,31 @@ export interface OperationOutput {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplayOutput;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly display?: OperationDisplayOutput;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   *
+   * Possible values: "user", "system", "user,system"
+   */
   readonly origin?: OriginOutput;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  /**
+   * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   *
+   * Possible values: "Internal"
+   */
   actionType?: ActionTypeOutput;
 }
 
 /** Localized display information for and operation. */
 export interface OperationDisplayOutput {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  readonly provider?: string;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  readonly resource?: string;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  readonly operation?: string;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  readonly description?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
@@ -65,7 +73,11 @@ export interface MongoClusterOutput extends TrackedResourceOutput {
 
 /** The properties of a mongo cluster. */
 export interface MongoClusterPropertiesOutput {
-  /** The mode to create a mongo cluster. */
+  /**
+   * The mode to create a mongo cluster.
+   *
+   * Possible values: "Default", "PointInTimeRestore"
+   */
   createMode?: CreateModeOutput;
   /** The parameters to create a point-in-time restore mongo cluster. */
   restoreParameters?: MongoClusterRestoreParametersOutput;
@@ -79,11 +91,23 @@ export interface MongoClusterPropertiesOutput {
   readonly connectionString?: string;
   /** Earliest restore timestamp in UTC ISO8601 format. */
   readonly earliestRestoreTime?: string;
-  /** The provisioning state of the mongo cluster. */
+  /**
+   * The provisioning state of the mongo cluster.
+   *
+   * Possible values: "InProgress", "Updating", "Dropping"
+   */
   readonly provisioningState?: ProvisioningStateOutput;
-  /** The status of the mongo cluster. */
+  /**
+   * The status of the mongo cluster.
+   *
+   * Possible values: "Ready", "Provisioning", "Updating", "Starting", "Stopping", "Stopped", "Dropping"
+   */
   readonly clusterStatus?: MongoClusterStatusOutput;
-  /** Whether or not public endpoint access is allowed for this mongo cluster. */
+  /**
+   * Whether or not public endpoint access is allowed for this mongo cluster.
+   *
+   * Possible values: "Enabled", "Disabled"
+   */
   publicNetworkAccess?: PublicNetworkAccessOutput;
   /** The list of node group specs in the cluster. */
   nodeGroupSpecs?: Array<NodeGroupSpecOutput>;
@@ -107,7 +131,11 @@ export interface NodeGroupSpecOutput {
   diskSizeGB?: number;
   /** Whether high availability is enabled on the node group. */
   enableHa?: boolean;
-  /** The node type deployed in the node group. */
+  /**
+   * The node type deployed in the node group.
+   *
+   * Possible values: "Shard"
+   */
   kind?: NodeKindOutput;
   /** The number of nodes in the node group. */
   nodeCount?: number;
@@ -127,7 +155,11 @@ export interface PrivateEndpointConnectionPropertiesOutput {
   privateEndpoint?: PrivateEndpointOutput;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
-  /** The provisioning state of the private endpoint connection resource. */
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   *
+   * Possible values: "Succeeded", "Creating", "Deleting", "Failed"
+   */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningStateOutput;
 }
 
@@ -139,7 +171,11 @@ export interface PrivateEndpointOutput {
 
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionStateOutput {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+   *
+   * Possible values: "Pending", "Approved", "Rejected"
+   */
   status?: PrivateEndpointServiceConnectionStatusOutput;
   /** The reason for approval/rejection of the connection. */
   description?: string;
@@ -163,13 +199,21 @@ export interface ResourceOutput {
 export interface SystemDataOutput {
   /** The identity that created the resource. */
   createdBy?: string;
-  /** The type of identity that created the resource. */
+  /**
+   * The type of identity that created the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   createdByType?: CreatedByTypeOutput;
   /** The timestamp of resource creation (UTC). */
   createdAt?: string;
   /** The identity that last modified the resource. */
   lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
+  /**
+   * The type of identity that last modified the resource.
+   *
+   * Possible values: "User", "Application", "ManagedIdentity", "Key"
+   */
   lastModifiedByType?: CreatedByTypeOutput;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: string;
@@ -184,8 +228,7 @@ export interface TrackedResourceOutput extends ResourceOutput {
 }
 
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
-export interface ResourceModelWithAllowedPropertySetOutput
-  extends TrackedResourceOutput {
+export interface ResourceModelWithAllowedPropertySetOutput extends TrackedResourceOutput {
   /**
    * The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource.
    * If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
@@ -256,7 +299,11 @@ export interface FirewallRuleOutput extends ProxyResourceOutput {
 
 /** The properties of a mongo cluster firewall rule. */
 export interface FirewallRulePropertiesOutput {
-  /** The provisioning state of the firewall rule. */
+  /**
+   * The provisioning state of the firewall rule.
+   *
+   * Possible values: "InProgress", "Updating", "Dropping"
+   */
   readonly provisioningState?: ProvisioningStateOutput;
   /** The start IP address of the mongo cluster firewall rule. Must be IPv4 format. */
   startIpAddress: string;
@@ -265,8 +312,7 @@ export interface FirewallRulePropertiesOutput {
 }
 
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
-export interface PrivateEndpointConnectionResourceOutput
-  extends ProxyResourceOutput {
+export interface PrivateEndpointConnectionResourceOutput extends ProxyResourceOutput {
   /** The resource-specific properties for this resource. */
   properties?: PrivateEndpointConnectionPropertiesOutput;
 }
@@ -320,7 +366,11 @@ export interface ConnectionStringOutput {
 export interface CheckNameAvailabilityResponseOutput {
   /** Indicates if the resource name is available. */
   nameAvailable?: boolean;
-  /** The reason why the given name is not available. */
+  /**
+   * The reason why the given name is not available.
+   *
+   * Possible values: "Invalid", "AlreadyExists"
+   */
   reason?: CheckNameAvailabilityReasonOutput;
   /** Detailed reason why the given name is not available. */
   message?: string;
@@ -364,5 +414,4 @@ export type FirewallRuleListResultOutput = Paged<FirewallRuleOutput>;
 export type PrivateEndpointConnectionResourceListResultOutput =
   Paged<PrivateEndpointConnectionResourceOutput>;
 /** The response of a PrivateLinkResource list operation. */
-export type PrivateLinkResourceListResultOutput =
-  Paged<PrivateLinkResourceOutput>;
+export type PrivateLinkResourceListResultOutput = Paged<PrivateLinkResourceOutput>;

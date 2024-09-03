@@ -102,7 +102,8 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.version
+    Parameters.version,
+    Parameters.fileRequestIntent
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
@@ -128,7 +129,11 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.timeoutInSeconds
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -154,7 +159,11 @@ const listSharesSegmentOperationSpec: coreClient.OperationSpec = {
     Parameters.include
   ],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.accept1],
+  headerParameters: [
+    Parameters.version,
+    Parameters.fileRequestIntent,
+    Parameters.accept1
+  ],
   isXML: true,
   serializer: xmlSerializer
 };

@@ -99,9 +99,20 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2024-08-04",
+    defaultValue: "2024-11-04",
     isConstant: true,
     serializedName: "x-ms-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileRequestIntent: OperationParameter = {
+  parameterPath: ["options", "fileRequestIntent"],
+  mapper: {
+    serializedName: "x-ms-file-request-intent",
+    xmlName: "x-ms-file-request-intent",
     type: {
       name: "String"
     }
@@ -268,6 +279,39 @@ export const enableSnapshotVirtualDirectoryAccess: OperationParameter = {
     xmlName: "x-ms-enable-snapshot-virtual-directory-access",
     type: {
       name: "Boolean"
+    }
+  }
+};
+
+export const paidBurstingEnabled: OperationParameter = {
+  parameterPath: ["options", "paidBurstingEnabled"],
+  mapper: {
+    serializedName: "x-ms-share-paid-bursting-enabled",
+    xmlName: "x-ms-share-paid-bursting-enabled",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const paidBurstingMaxBandwidthMibps: OperationParameter = {
+  parameterPath: ["options", "paidBurstingMaxBandwidthMibps"],
+  mapper: {
+    serializedName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+    xmlName: "x-ms-share-paid-bursting-max-bandwidth-mibps",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const paidBurstingMaxIops: OperationParameter = {
+  parameterPath: ["options", "paidBurstingMaxIops"],
+  mapper: {
+    serializedName: "x-ms-share-paid-bursting-max-iops",
+    xmlName: "x-ms-share-paid-bursting-max-iops",
+    type: {
+      name: "Number"
     }
   }
 };
@@ -475,17 +519,6 @@ export const comp4: OperationQueryParameter = {
   }
 };
 
-export const fileRequestIntent: OperationParameter = {
-  parameterPath: ["options", "fileRequestIntent"],
-  mapper: {
-    serializedName: "x-ms-file-request-intent",
-    xmlName: "x-ms-file-request-intent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -506,6 +539,18 @@ export const filePermissionKey: OperationParameter = {
     xmlName: "x-ms-file-permission-key",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const filePermissionFormat: OperationParameter = {
+  parameterPath: ["options", "filePermissionFormat"],
+  mapper: {
+    serializedName: "x-ms-file-permission-format",
+    xmlName: "x-ms-file-permission-format",
+    type: {
+      name: "Enum",
+      allowedValues: ["Sddl", "Binary"]
     }
   }
 };

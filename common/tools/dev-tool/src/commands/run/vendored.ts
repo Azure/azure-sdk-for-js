@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is a special subcommand that vendors commands from dev-tool's own node_modules folder so that dependent packages

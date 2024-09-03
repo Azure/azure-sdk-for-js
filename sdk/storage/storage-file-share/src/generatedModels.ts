@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   DirectoryCreateHeaders,
@@ -241,6 +241,7 @@ export {
   FileCreateHeaders,
   FileDeleteHeaders,
   FileGetPropertiesHeaders,
+  FilePermissionFormat,
   FileProperty,
   FileListHandlesHeaders,
   FileRenameHeaders,

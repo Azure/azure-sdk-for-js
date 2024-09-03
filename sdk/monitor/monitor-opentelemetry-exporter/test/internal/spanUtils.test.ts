@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import fs from "fs";
 import path from "path";
@@ -378,7 +378,7 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          "_MS.sampleRate": "50",
+          "microsoft.sample_rate": "50",
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -425,7 +425,7 @@ describe("spanUtils.ts", () => {
           "parentSpanId",
         );
         span.setAttributes({
-          "_MS.sampleRate": "50",
+          "microsoft.sample_rate": "50",
           [SEMATTRS_HTTP_STATUS_CODE]: 400,
         });
         span.setStatus({

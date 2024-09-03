@@ -19,13 +19,14 @@ import {
   FetchCrossRegionRestoreJobsListNextOptionalParams,
   FetchCrossRegionRestoreJobsListOptionalParams,
   FetchCrossRegionRestoreJobsListResponse,
-  FetchCrossRegionRestoreJobsListNextResponse
+  FetchCrossRegionRestoreJobsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FetchCrossRegionRestoreJobs operations. */
 export class FetchCrossRegionRestoreJobsImpl
-  implements FetchCrossRegionRestoreJobs {
+  implements FetchCrossRegionRestoreJobs
+{
   private readonly client: DataProtectionClient;
 
   /**
@@ -47,13 +48,13 @@ export class FetchCrossRegionRestoreJobsImpl
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreJobsRequest,
-    options?: FetchCrossRegionRestoreJobsListOptionalParams
+    options?: FetchCrossRegionRestoreJobsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupJobResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       location,
       parameters,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +72,9 @@ export class FetchCrossRegionRestoreJobsImpl
           location,
           parameters,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +83,7 @@ export class FetchCrossRegionRestoreJobsImpl
     location: string,
     parameters: CrossRegionRestoreJobsRequest,
     options?: FetchCrossRegionRestoreJobsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBackupJobResource[]> {
     let result: FetchCrossRegionRestoreJobsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +92,7 @@ export class FetchCrossRegionRestoreJobsImpl
         resourceGroupName,
         location,
         parameters,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +105,7 @@ export class FetchCrossRegionRestoreJobsImpl
         location,
         parameters,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +118,13 @@ export class FetchCrossRegionRestoreJobsImpl
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreJobsRequest,
-    options?: FetchCrossRegionRestoreJobsListOptionalParams
+    options?: FetchCrossRegionRestoreJobsListOptionalParams,
   ): AsyncIterableIterator<AzureBackupJobResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       location,
       parameters,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +141,11 @@ export class FetchCrossRegionRestoreJobsImpl
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreJobsRequest,
-    options?: FetchCrossRegionRestoreJobsListOptionalParams
+    options?: FetchCrossRegionRestoreJobsListOptionalParams,
   ): Promise<FetchCrossRegionRestoreJobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, parameters, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -161,11 +162,11 @@ export class FetchCrossRegionRestoreJobsImpl
     location: string,
     parameters: CrossRegionRestoreJobsRequest,
     nextLink: string,
-    options?: FetchCrossRegionRestoreJobsListNextOptionalParams
+    options?: FetchCrossRegionRestoreJobsListNextOptionalParams,
   ): Promise<FetchCrossRegionRestoreJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, location, parameters, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -173,48 +174,47 @@ export class FetchCrossRegionRestoreJobsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/locations/{location}/fetchCrossRegionRestoreJobs",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupJobResourceList
+      bodyMapper: Mappers.AzureBackupJobResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupJobResourceList
+      bodyMapper: Mappers.AzureBackupJobResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

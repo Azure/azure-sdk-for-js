@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ClientContext } from "../ClientContext";
 import { HTTPMethod, OperationType, ResourceType } from "../common";
 import { Agent } from "../CosmosClientOptions";
@@ -9,7 +9,7 @@ import { PluginConfig } from "../plugins/Plugin";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
 import { RequestOptions } from "./RequestOptions";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * @hidden
@@ -33,4 +33,5 @@ export interface RequestContext {
   plugins: PluginConfig[];
   partitionKey?: PartitionKey;
   pipeline?: Pipeline;
+  httpClient?: HttpClient;
 }

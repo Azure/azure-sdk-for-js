@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-namespace */
@@ -15,7 +15,7 @@ import { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
 import http from "http";
-import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
+import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalClient";
 
 declare global {
   namespace NodeJS {

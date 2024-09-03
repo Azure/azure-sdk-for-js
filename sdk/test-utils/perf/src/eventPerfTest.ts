@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PerfTestBase } from "./perfTestBase";
@@ -51,12 +51,16 @@ export abstract class EventPerfTest<
   public eventRaised() {
     this.completedOperations++;
     this.lastMillisecondsElapsed = this.getTimeElapsedInMilliseconds();
-    this.isTimeExceeded() && !this.abortController?.signal.aborted && this.abortController?.abort();
+    if (this.isTimeExceeded() && !this.abortController?.signal.aborted) {
+      this.abortController?.abort();
+    }
   }
 
   public errorRaised(error: Error) {
     console.warn(`Error occurred:\n ${error}`);
-    !this.abortController?.signal.aborted && this.abortController?.abort();
+    if (!this.abortController?.signal.aborted) {
+      this.abortController?.abort();
+    }
   }
 
   private getTimeElapsedInMilliseconds() {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License.
 
 /**
  * AI MS Links.
@@ -20,7 +20,7 @@ export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
  * AzureMonitorTraceExporter version.
  * @internal
  */
-export const packageVersion = "1.0.0-beta.24";
+export const packageVersion = "1.0.0-beta.25";
 
 export enum DependencyTypes {
   InProc = "InProc",
@@ -31,7 +31,7 @@ export enum DependencyTypes {
   Wcf = "WCF Service",
 }
 
-export const AzureMonitorSampleRate = "_MS.sampleRate";
+export const AzureMonitorSampleRate = "microsoft.sample_rate";
 export const ApplicationInsightsBaseType = "_MS.baseType";
 
 export const ApplicationInsightsMessageName = "Microsoft.ApplicationInsights.Message";

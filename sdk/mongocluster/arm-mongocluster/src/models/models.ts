@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { serializeRecord } from "../helpers/serializerHelpers.js";
 import {
@@ -176,10 +176,9 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState:
-      privateLinkServiceConnectionStateSerializer(
-        item.privateLinkServiceConnectionState,
-      ),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item.privateLinkServiceConnectionState,
+    ),
   };
 }
 
@@ -328,9 +327,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): TrackedResourceRest {
+export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -500,9 +497,7 @@ export interface NodeGroupSpec {
   nodeCount?: number;
 }
 
-export function nodeGroupSpecSerializer(
-  item: NodeGroupSpec,
-): NodeGroupSpecRest {
+export function nodeGroupSpecSerializer(item: NodeGroupSpec): NodeGroupSpecRest {
   return {
     sku: item["sku"],
     diskSizeGB: item["diskSizeGB"],
@@ -537,12 +532,11 @@ export interface PrivateEndpointConnection extends Resource {
 export interface MongoClusterUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
   properties?: MongoClusterUpdateProperties;
 }
 
-export function mongoClusterUpdateSerializer(
-  item: MongoClusterUpdate,
-): MongoClusterUpdateRest {
+export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): MongoClusterUpdateRest {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
@@ -662,7 +656,7 @@ export interface Operation {
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
   readonly isDataAction?: boolean;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  readonly display?: OperationDisplay;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
   readonly origin?: Origin;
   /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
@@ -672,13 +666,13 @@ export interface Operation {
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  readonly provider?: string;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  readonly resource?: string;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  readonly operation?: string;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  readonly description?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */

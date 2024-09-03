@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -9,13 +9,14 @@
  */
 
 import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const messages: ServiceBusMessage[] = [
@@ -34,7 +35,8 @@ const messages: ServiceBusMessage[] = [
 const max32BitNumber = 2147483647;
 
 export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const sbClient = new ServiceBusClient(fqdn, credential);
   try {
     const sender = sbClient.createSender(queueName);
     // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload

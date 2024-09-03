@@ -446,6 +446,57 @@ describe("Batch Service", function () {
       }
     });
 
+    it("should create a pool with confidential VM", async function () {
+      const pool: BatchServiceModels.PoolAddParameter = {
+        id: getPoolName("confidentialVM"),
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+          securityProfile: {
+            securityType: "confidentialVM",
+            encryptionAtHost: true,
+            uefiSettings: {
+              secureBootEnabled: true,
+              vTpmEnabled: true,
+            },
+          },
+          osDisk: {
+            managedDisk: {
+              securityProfile: {
+                securityEncryptionType: "VMGuestStateOnly",
+              },
+            },
+          },
+        },
+        targetDedicatedNodes: 0,
+      };
+
+      const result = await client.pool.add(pool);
+      assert.equal(result._response.status, 201);
+
+      try {
+        const poolResult = await client.pool.get(pool.id);
+        const securityProfile = poolResult.virtualMachineConfiguration!.securityProfile!;
+        assert.equal(securityProfile.securityType?.toLocaleLowerCase(), "confidentialvm");
+        assert.equal(securityProfile.encryptionAtHost, true);
+        assert.equal(securityProfile.uefiSettings!.secureBootEnabled, true);
+        assert.equal(securityProfile.uefiSettings!.vTpmEnabled, true);
+
+        const osDisk = poolResult.virtualMachineConfiguration!.osDisk!;
+        assert.equal(
+          osDisk.managedDisk!.securityProfile!.securityEncryptionType,
+          "VMGuestStateOnly"
+        );
+      } finally {
+        await client.pool.deleteMethod(pool.id);
+      }
+    });
+
     it("should create a pool with Auto OS Upgrade", async function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: getPoolName("AutoOSUpgrade"),
@@ -515,6 +566,13 @@ describe("Batch Service", function () {
       const pool: BatchServiceModels.PoolAddParameter = {
         id: ENDPOINT_POOL,
         vmSize: VMSIZE_A1,
+        userAccounts: [
+          {
+            name: "testuser",
+            password: "Password1234.",
+            elevationLevel: "admin",
+          },
+        ],
         networkConfiguration: {
           endpointConfiguration: {
             inboundNATPools: [
@@ -531,6 +589,13 @@ describe("Batch Service", function () {
                     sourceAddressPrefix: "*",
                   },
                 ],
+              },
+              {
+                name: "ssh",
+                protocol: "tcp",
+                backendPort: 22,
+                frontendPortRangeStart: 15000,
+                frontendPortRangeEnd: 15100,
               },
             ],
           },
@@ -651,18 +716,20 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 200);
     });
 
-    it("should get a remote login settings successfully", function (done) {
-      client.computeNode
-        .getRemoteLoginSettings(BASIC_POOL, compute_nodes[0])
-        .then((result) => {
-          assert.equal(result._response.status, 200);
-          expect(result.remoteLoginIPAddress).to.exist;
-          expect(result.remoteLoginPort).to.exist;
-          done();
-        })
-        .catch((error) => {
-          assert.fail(error);
-        });
+    it("should get a remote login settings successfully", async function () {
+      let result;
+      while (true) {
+        result = await client.computeNode.list(ENDPOINT_POOL);
+        if (result.length > 0 && result[0].state === "starting") {
+          await wait(POLLING_INTERVAL);
+        } else {
+          break;
+        }
+      }
+      const res = await client.computeNode.getRemoteLoginSettings(ENDPOINT_POOL, result[0].id!);
+      assert.equal(res._response.status, 200);
+      expect(res.remoteLoginIPAddress).to.exist;
+      expect(res.remoteLoginPort).to.exist;
     });
 
     it("should delete a compute node user successfully", async function () {
@@ -699,14 +766,40 @@ describe("Batch Service", function () {
       assert.equal(result._response.status, 202);
     });
 
-    it("should reimage a compute node and get expected error", async function () {
-      try {
-        await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
-        assert.fail("Expected error to be thrown");
-      } catch (error: any) {
-        assert.equal(error.statusCode, 409);
-        assert.equal(error.body.code, "OperationNotValidOnNode");
+    it("should reimage a compute node successfully", async function () {
+      const res = await client.computeNode.reimage(BASIC_POOL, compute_nodes[1]);
+      expect(res._response.status).to.equal(202);
+    });
+
+    it("should deallocate and then start a compute node successfully", async function () {
+      let result;
+      while (true) {
+        result = await client.computeNode.list(BASIC_POOL);
+        if (result[1].state !== "idle") {
+          await wait(POLLING_INTERVAL);
+        } else {
+          break;
+        }
       }
+      const computeNode = result[1].id!;
+
+      const deallocateRes = await client.computeNode.deallocate(BASIC_POOL, computeNode, {
+        nodeDeallocateOption: "terminate",
+      });
+      assert.equal(deallocateRes._response.status, 202);
+
+      while (true) {
+        result = await client.computeNode.list(BASIC_POOL);
+        const node = result.find((node) => node.id === computeNode);
+        if (node?.state === "deallocated") {
+          break;
+        } else {
+          await wait(POLLING_INTERVAL);
+        }
+      }
+
+      const startResult = await client.computeNode.start(BASIC_POOL, computeNode);
+      assert.equal(startResult._response.status, 202);
     });
 
     it("should upload pool node logs at paas pool", async function () {
@@ -903,10 +996,24 @@ describe("Batch Service", function () {
       const task = {
         id: TASK3_NAME,
         commandLine: "cat /etc/centos-release",
-        containerSettings: { imageName: "centos" },
-      };
+        containerSettings: {
+          imageName: "centos",
+          containerHostBatchBindMounts: [
+            {
+              source: "Shared",
+              isReadOnly: false,
+            },
+          ],
+        },
+      } as BatchServiceModels.TaskAddParameter;
       const result2 = await client.task.add(TASK3_NAME, task);
       assert.equal(result2._response.status, 201);
+
+      // get the task
+      const result3 = await client.task.get(TASK3_NAME, TASK3_NAME);
+      assert.equal(result3.containerSettings!.imageName, "centos");
+      assert.equal(result3.containerSettings!.containerHostBatchBindMounts![0].source, "Shared");
+      assert.equal(result3.containerSettings!.containerHostBatchBindMounts![0].isReadOnly, false);
 
       await client.job.deleteMethod(TASK3_NAME);
     });
@@ -1303,13 +1410,15 @@ describe("Batch Service", function () {
     });
 
     it("should terminate a job successfully", async function () {
-      const result = await client.job.terminate(JOB_NAME);
+      const result = await client.job.terminate(JOB_NAME, { jobTerminateOptions: { force: true } });
 
       assert.equal(result._response.status, 202);
     });
 
     it("should delete a job successfully", async function () {
-      const result = await client.job.deleteMethod(JOB_NAME);
+      const result = await client.job.deleteMethod(JOB_NAME, {
+        jobDeleteMethodOptions: { force: true },
+      });
 
       assert.equal(result._response.status, 202);
     });

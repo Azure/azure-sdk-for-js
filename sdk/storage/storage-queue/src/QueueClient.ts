@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
@@ -46,7 +46,10 @@ import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/S
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { tracingClient } from "./utils/tracing";
 import { Metadata } from "./models";
-import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
+import {
+  generateQueueSASQueryParameters,
+  generateQueueSASQueryParametersInternal,
+} from "./QueueSASSignatureValues";
 import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
@@ -1171,5 +1174,33 @@ export class QueueClient extends StorageClient {
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Only available for QueueClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: QueueGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateQueueSASQueryParametersInternal(
+      {
+        queueName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

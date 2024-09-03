@@ -1,29 +1,35 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRecorder, testPollingOptions } from "./utils/recorderUtils";
-import { Context } from "mocha";
-import DocumentIntelligence, {
+import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
+import DocumentIntelligence from "../../src/documentIntelligence.js";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import {
+  ASSET_PATH,
+  batchTrainingFilesContainerUrl,
+  batchTrainingFilesResultContainerUrl,
+  getRandomNumber,
+  makeTestUrl,
+} from "./utils/utils.js";
+import path from "path";
+import fs from "fs";
+import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import {
   AnalyzeResultOperationOutput,
   DocumentBarcodeOutput,
-  DocumentIntelligenceClient,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelDetailsOutput,
   DocumentTableOutput,
   getLongRunningPoller,
   isUnexpected,
-} from "../../src";
-import { assert } from "chai";
-import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils";
-import path from "path";
-import fs from "fs";
+} from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
@@ -839,7 +845,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("tax - US - w2", () => {
-    it("png file stream", async function (this: Mocha.Context) {
+    it("png file stream", async function () {
       const filePath = path.join(ASSET_PATH, "w2", "w2-single.png");
       //
 
@@ -873,7 +879,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("healthInsuranceCard - US", function () {
-    it("png file stream", async function (this: Mocha.Context) {
+    it("png file stream", async function () {
       const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
 
       const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -899,6 +905,177 @@ describe("DocumentIntelligenceClient", () => {
       const documents = analyzeResult?.documents;
 
       assert.isNotEmpty(documents);
+    });
+  });
+
+  describe("batch analysis", function () {
+    // We only want to create the model once, but because of the recorder's
+    // precedence, we have to create it in a test, so one test will end up
+    // recording the entire creation and the other tests will still be able
+    // to use it
+    let _model: DocumentModelDetailsOutput | undefined;
+    let modelId: string;
+
+    async function requireModel(): Promise<DocumentModelDetailsOutput> {
+      if (!_model) {
+        // Compute a unique name for the model
+        modelId = recorder.variable("batch-model", `modelName${getRandomNumber()}`);
+        const initialResponse = await client.path("/documentModels:build").post({
+          body: {
+            buildMode: "generative",
+            modelId: modelId,
+            azureBlobSource: {
+              containerUrl: batchTrainingFilesContainerUrl(),
+            },
+          },
+        });
+        if (isUnexpected(initialResponse)) {
+          throw initialResponse.body.error;
+        }
+        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+        const response = (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput;
+        if (!response) {
+          throw new Error("Expected a DocumentModelDetailsOutput response.");
+        }
+        _model = response;
+
+        assert.equal(_model!.modelId, modelId);
+      }
+
+      return _model!;
+    }
+
+    it("batch training", async function () {
+      const model = await requireModel();
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyzeBatch", model.modelId)
+        .post({
+          contentType: "application/json",
+          body: {
+            azureBlobSource: {
+              containerUrl: batchTrainingFilesContainerUrl(),
+            },
+            resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+            resultPrefix: "result",
+          },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+      // get the poller
+      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      // poll until the operation is done
+      await (await poller).pollUntilDone();
+    });
+  });
+
+  describe("get AnalyzeResult methods", function () {
+    it("getAnalyzeResult", async function () {
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-read")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+      await poller.pollUntilDone();
+
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}",
+          "prebuilt-read",
+          poller.getOperationId(),
+        )
+        .get();
+    });
+
+    it("getAnalyzeResult pdf", async function () {
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-read")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          },
+          queryParameters: { output: ["pdf"] },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+      await poller.pollUntilDone();
+
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
+          "prebuilt-read",
+          poller.getOperationId(),
+        )
+        .get();
+
+      // A PDF's header is expected to be: %PDF-
+      assert.ok(output.body.toString().startsWith("%PDF-"));
+    });
+
+    it("getAnalyzeResult figures", async function () {
+      const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+      const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+      const initialResponse = await client
+        .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+        .post({
+          contentType: "application/json",
+          body: {
+            base64Source,
+          },
+          queryParameters: { output: ["figures"] },
+        });
+
+      if (isUnexpected(initialResponse)) {
+        throw initialResponse.body.error;
+      }
+
+      const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+      const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+      const figures = result.analyzeResult?.figures;
+      assert.isArray(figures);
+      assert.isNotEmpty(figures?.[0]);
+      const figureId = figures?.[0].id;
+      assert.isDefined(figureId);
+
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+          "prebuilt-layout",
+          poller.getOperationId(),
+          figureId,
+        )
+        .get();
+
+      // Header starts with a special character followed by "PNG"
+      assert.equal(output.body.toString().slice(1, 4), "PNG");
     });
   });
 });

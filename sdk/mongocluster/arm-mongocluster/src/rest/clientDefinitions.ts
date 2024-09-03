@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   OperationsListParameters,
@@ -74,18 +74,14 @@ export interface OperationsList {
   /** List the operations for the provider */
   get(
     options?: OperationsListParameters,
-  ): StreamableMethod<
-    OperationsList200Response | OperationsListDefaultResponse
-  >;
+  ): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 export interface MongoClustersGet {
   /** Gets information about a mongo cluster. */
   get(
     options?: MongoClustersGetParameters,
-  ): StreamableMethod<
-    MongoClustersGet200Response | MongoClustersGetDefaultResponse
-  >;
+  ): StreamableMethod<MongoClustersGet200Response | MongoClustersGetDefaultResponse>;
   /** Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH. */
   put(
     options: MongoClustersCreateOrUpdateParameters,
@@ -117,8 +113,7 @@ export interface MongoClustersListByResourceGroup {
   get(
     options?: MongoClustersListByResourceGroupParameters,
   ): StreamableMethod<
-    | MongoClustersListByResourceGroup200Response
-    | MongoClustersListByResourceGroupDefaultResponse
+    MongoClustersListByResourceGroup200Response | MongoClustersListByResourceGroupDefaultResponse
   >;
 }
 
@@ -126,9 +121,7 @@ export interface MongoClustersList {
   /** List all the mongo clusters in a given subscription. */
   get(
     options?: MongoClustersListParameters,
-  ): StreamableMethod<
-    MongoClustersList200Response | MongoClustersListDefaultResponse
-  >;
+  ): StreamableMethod<MongoClustersList200Response | MongoClustersListDefaultResponse>;
 }
 
 export interface MongoClustersListConnectionStrings {
@@ -155,9 +148,7 @@ export interface FirewallRulesGet {
   /** Gets information about a mongo cluster firewall rule. */
   get(
     options?: FirewallRulesGetParameters,
-  ): StreamableMethod<
-    FirewallRulesGet200Response | FirewallRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<FirewallRulesGet200Response | FirewallRulesGetDefaultResponse>;
   /** Creates a new firewall rule or updates an existing firewall rule on a mongo cluster. */
   put(
     options: FirewallRulesCreateOrUpdateParameters,
@@ -182,8 +173,7 @@ export interface FirewallRulesListByMongoCluster {
   get(
     options?: FirewallRulesListByMongoClusterParameters,
   ): StreamableMethod<
-    | FirewallRulesListByMongoCluster200Response
-    | FirewallRulesListByMongoClusterDefaultResponse
+    FirewallRulesListByMongoCluster200Response | FirewallRulesListByMongoClusterDefaultResponse
   >;
 }
 
@@ -202,8 +192,7 @@ export interface PrivateEndpointConnectionsGet {
   get(
     options?: PrivateEndpointConnectionsGetParameters,
   ): StreamableMethod<
-    | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetDefaultResponse
+    PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse
   >;
   /** Create a Private endpoint connection */
   put(
@@ -229,8 +218,7 @@ export interface PrivateLinksListByMongoCluster {
   get(
     options?: PrivateLinksListByMongoClusterParameters,
   ): StreamableMethod<
-    | PrivateLinksListByMongoCluster200Response
-    | PrivateLinksListByMongoClusterDefaultResponse
+    PrivateLinksListByMongoCluster200Response | PrivateLinksListByMongoClusterDefaultResponse
   >;
 }
 

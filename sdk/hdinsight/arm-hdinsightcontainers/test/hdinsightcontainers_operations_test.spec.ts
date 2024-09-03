@@ -20,21 +20,22 @@ import { HDInsightContainersManagementClient } from "../src/hDInsightContainersM
 
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("HDInsightOnAks test", () => {
+describe("HDInsightOnAks test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HDInsightContainersManagementClient;
@@ -49,7 +50,7 @@ describe.skip("HDInsightOnAks test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new HDInsightContainersManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
