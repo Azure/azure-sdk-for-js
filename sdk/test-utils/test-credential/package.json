@@ -5,7 +5,7 @@
   "description": "Test utilities library that provides the test credential",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/tools-test-credential.d.ts",
+  "types": "types/test-credential.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -39,12 +39,7 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "Azure",
-    "cloud",
-    "test",
-    "framework"
-  ],
+  "keywords": ["Azure", "cloud", "test", "framework", "azure"],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
