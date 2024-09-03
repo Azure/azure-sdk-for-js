@@ -53,6 +53,11 @@ npm install @azure-rest/ai-translation-document
 
 You can create Translator resource following [Create a Translator resource][translator_resource_create].
 
+#### Setup Azure Blob Storage Account
+For more information about creating an Azure Blob Storage account see [here][azure_blob_storage_account]. For creating containers for your source and target files see [here][container]. Make sure to authorize your Translation resource storage access, more info [here][storage_container_authorization]. 
+
+When "Allow Storage Account Key Access" is disabled on the storage account , Managed Identity is enabled on the Translator resource and it is assigned the role "Storage Blob Data Contributor" on the storage account, then you can use the container URLs directly and no SAS URIs will be need to be generated.
+
 ### Create a `DocumentTranslationClient` using an endpoint URL and API key `KeyCredential`
 
 Once you have the value for API key, create a credential
@@ -344,3 +349,6 @@ Please refer to the service documentation for a conceptual discussion of [langua
 [translator_resource_create]: https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource
 [documentTranslationClient_class]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document-rest/src/documentTranslationClient.ts
 [pre_requisities]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/how-to-guides/use-rest-api-programmatically?tabs=csharp#prerequisites
+[azure_blob_storage_account]: https://ms.portal.azure.com/#create/Microsoft.StorageAccount
+[container]: https://learn.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container
+[storage_container_authorization]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/quickstarts/client-library-sdks?tabs=dotnet&pivots=programming-language-csharp#storage-container-authorization
