@@ -21,10 +21,7 @@ describe("Reports Test", () => {
     const endpoint = assertEnvironmentVariable("ENDPOINT");
     const credential = createTestCredential();
     client = EasmDefender(
-      endpoint,
-      subscription_id,
-      resource_group,
-      workspace_name,
+      endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
       credential,
       recorder.configureClientOptions({}),
     );

@@ -136,7 +136,8 @@ export interface CreateOrReplaceDataConnectionDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrReplaceDataConnectionDefaultResponse extends HttpResponse {
+export interface CreateOrReplaceDataConnectionDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrReplaceDataConnectionDefaultHeaders;
@@ -389,7 +390,8 @@ export interface CreateOrReplaceSavedFilterDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateOrReplaceSavedFilterDefaultResponse extends HttpResponse {
+export interface CreateOrReplaceSavedFilterDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & CreateOrReplaceSavedFilterDefaultHeaders;

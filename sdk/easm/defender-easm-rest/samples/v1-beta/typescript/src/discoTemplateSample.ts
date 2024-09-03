@@ -33,10 +33,7 @@ async function main() {
   console.log(`Partial name is ${partial_name}`);
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
     {}
   );
@@ -53,7 +50,7 @@ async function main() {
     throw new Error(disco_templates.body?.error.message);
   }
 
-  disco_templates.body.value?.forEach((disco_template) => {
+  disco_templates.body.value?.forEach((disco_template: { id: any; displayName: any; }) => {
     console.log(`${disco_template.id}: ${disco_template.displayName}`);
   });
 

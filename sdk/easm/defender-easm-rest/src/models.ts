@@ -6,9 +6,9 @@ export interface AssetUpdateData {
   /**
    * The state to update the asset to.
    *
-   * Possible values: candidate, confirmed, dismissed, candidateInvestigate, associatedPartner, associatedThirdparty
+   * Possible values: "candidate", "confirmed", "dismissed", "candidateInvestigate", "associatedPartner", "associatedThirdparty"
    */
-  state?: string;
+  state?: AssetUpdateState;
   /** A string which can be used to identify the asset in external systems. */
   externalId?: string;
   /** Any Labels to update the asset with. */
@@ -16,9 +16,30 @@ export interface AssetUpdateData {
   /**
    * A list of asset types to cascade the updates to.
    *
-   * Possible values: as, contact, domain, host, ipAddress, ipBlock, page, sslCert
+   * Possible values: "as", "contact", "domain", "host", "ipAddress", "ipBlock", "page", "sslCert"
    */
-  transfers?: string;
+  transfers?: AssetUpdateTransfers;
+}
+
+export interface LogAnalyticsDataConnectionProperties
+  extends DataConnectionProperties {
+  /** log analytics api key */
+  apiKey?: string;
+  /** log analytics workspace id */
+  workspaceId?: string;
+}
+
+/** The properties required to establish connection to a particular service */
+export interface DataConnectionProperties { }
+
+export interface AzureDataExplorerDataConnectionProperties
+  extends DataConnectionProperties {
+  /** The azure data explorer cluster name */
+  clusterName?: string;
+  /** The azure data explorer region */
+  region?: string;
+  /** The azure data explorer database name */
+  databaseName?: string;
 }
 
 export interface DataConnectionDataParent {
@@ -27,18 +48,34 @@ export interface DataConnectionDataParent {
   /**
    * The type of data the data connection will transfer.
    *
-   * Possible values: assets, attackSurfaceInsights
+   * Possible values: "assets", "attackSurfaceInsights"
    */
-  content?: string;
+  content?: DataConnectionContent;
   /**
    * The rate at which the data connection will receive updates.
    *
-   * Possible values: daily, weekly, monthly
+   * Possible values: "daily", "weekly", "monthly"
    */
-  frequency?: string;
+  frequency?: DataConnectionFrequency;
   /** The day to update the data connection on. (1-7 for weekly, 1-31 for monthly) */
   frequencyOffset?: number;
   kind: string;
+}
+
+export interface LogAnalyticsDataConnectionData
+  extends DataConnectionDataParent {
+  /** The kind of DataConnectionData */
+  kind: "logAnalytics";
+  /** properties */
+  properties: LogAnalyticsDataConnectionProperties;
+}
+
+export interface AzureDataExplorerDataConnectionData
+  extends DataConnectionDataParent {
+  /** The kind of DataConnectionData */
+  kind: "azureDataExplorer";
+  /** properties */
+  properties: AzureDataExplorerDataConnectionProperties;
 }
 
 /** Source entity used to drive discovery. */
@@ -46,9 +83,9 @@ export interface DiscoSource {
   /**
    * The kind of disco source.
    *
-   * Possible values: as, attribute, contact, domain, host, ipBlock
+   * Possible values: "as", "attribute", "contact", "domain", "host", "ipBlock"
    */
-  kind?: string;
+  kind?: DiscoSourceKind;
   /** The name for the disco source. */
   name?: string;
 }
@@ -110,36 +147,16 @@ export interface SavedFilterData {
 }
 
 export type DataConnectionData =
+  | DataConnectionDataParent
   | LogAnalyticsDataConnectionData
   | AzureDataExplorerDataConnectionData;
-
-export interface LogAnalyticsDataConnectionData extends DataConnectionDataParent {
-  kind: "logAnalytics";
-  properties: LogAnalyticsDataConnectionProperties;
-}
-
-export interface AzureDataExplorerDataConnectionData extends DataConnectionDataParent {
-  kind: "azureDataExplorer";
-  properties: AzureDataExplorerDataConnectionProperties;
-}
-
-/** LogAnalyticsDataConnectionProperties */
-export interface LogAnalyticsDataConnectionProperties extends DataConnectionProperties {
-  /** log analytics api key */
-  apiKey?: string;
-  /** log analytics workspace id */
-  workspaceId?: string;
-}
-
-/** DataConnectionProperties */
-export interface DataConnectionProperties {}
-
-/** AzureDataExplorerDataConnectionProperties */
-export interface AzureDataExplorerDataConnectionProperties extends DataConnectionProperties {
-  /** The azure data explorer cluster name */
-  clusterName?: string;
-  /** The azure data explorer region */
-  region?: string;
-  /** The azure data explorer database name */
-  databaseName?: string;
-}
+/** Alias for AssetUpdateState */
+export type AssetUpdateState = string;
+/** Alias for AssetUpdateTransfers */
+export type AssetUpdateTransfers = string;
+/** Alias for DataConnectionContent */
+export type DataConnectionContent = string;
+/** Alias for DataConnectionFrequency */
+export type DataConnectionFrequency = string;
+/** Alias for DiscoSourceKind */
+export type DiscoSourceKind = string;

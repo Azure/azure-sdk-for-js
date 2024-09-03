@@ -98,16 +98,22 @@ export function isUnexpected(
   response: ListDataConnection200Response | ListDataConnectionDefaultResponse,
 ): response is ListDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse,
+  response:
+    | ValidateDataConnection200Response
+    | ValidateDataConnectionDefaultResponse,
 ): response is ValidateDataConnectionDefaultResponse;
 export function isUnexpected(
   response: GetDataConnection200Response | GetDataConnectionDefaultResponse,
 ): response is GetDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse,
+  response:
+    | CreateOrReplaceDataConnection200Response
+    | CreateOrReplaceDataConnectionDefaultResponse,
 ): response is CreateOrReplaceDataConnectionDefaultResponse;
 export function isUnexpected(
-  response: DeleteDataConnection204Response | DeleteDataConnectionDefaultResponse,
+  response:
+    | DeleteDataConnection204Response
+    | DeleteDataConnectionDefaultResponse,
 ): response is DeleteDataConnectionDefaultResponse;
 export function isUnexpected(
   response: ListDiscoGroup200Response | ListDiscoGroupDefaultResponse,
@@ -119,7 +125,9 @@ export function isUnexpected(
   response: GetDiscoGroup200Response | GetDiscoGroupDefaultResponse,
 ): response is GetDiscoGroupDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse,
+  response:
+    | CreateOrReplaceDiscoGroup200Response
+    | CreateOrReplaceDiscoGroupDefaultResponse,
 ): response is CreateOrReplaceDiscoGroupDefaultResponse;
 export function isUnexpected(
   response: RunDiscoGroup204Response | RunDiscoGroupDefaultResponse,
@@ -149,7 +157,9 @@ export function isUnexpected(
   response: GetSavedFilter200Response | GetSavedFilterDefaultResponse,
 ): response is GetSavedFilterDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse,
+  response:
+    | CreateOrReplaceSavedFilter200Response
+    | CreateOrReplaceSavedFilterDefaultResponse,
 ): response is CreateOrReplaceSavedFilterDefaultResponse;
 export function isUnexpected(
   response: DeleteSavedFilter204Response | DeleteSavedFilterDefaultResponse,
@@ -276,17 +286,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
