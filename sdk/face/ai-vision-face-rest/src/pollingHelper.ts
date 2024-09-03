@@ -6,7 +6,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import {
   CancelOnProgress,
   CreateHttpPollerOptions,
-  LongRunningOperation,
+  RunningOperation,
   OperationResponse,
   OperationState,
   createHttpPoller,
@@ -52,10 +52,6 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
    * Returns true if the poller has finished polling.
    */
   isDone(): boolean;
-  /**
-   * Returns true if the poller is stopped.
-   */
-  isStopped(): boolean;
   /**
    * Returns the state of the operation.
    */
@@ -106,6 +102,12 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
    * @deprecated Use abortSignal to stop polling instead.
    */
   stopPolling(): void;
+
+  /**
+   * Returns true if the poller is stopped.
+   * @deprecated Use abortSignal status to track this instead.
+   */
+  isStopped(): boolean;
 }
 
 /**
@@ -199,14 +201,14 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
   options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {},
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
   const abortController = new AbortController();
-  const poller: LongRunningOperation<TResult> = {
+  const poller: RunningOperation<TResult> = {
     sendInitialRequest: async () => {
       // In the case of Rest Clients we are building the LRO poller object from a response that's the reason
       // we are not triggering the initial request here, just extracting the information from the
       // response we were provided.
       return getLroResponse(initialResponse);
     },
-    sendPollRequest: async (path, sendPollRequestOptions?: { abortSignal?: AbortSignalLike }) => {
+    sendPollRequest: async (path: string, pollOptions?: { abortSignal?: AbortSignalLike }) => {
       // This is the callback that is going to be called to poll the service
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
@@ -214,7 +216,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       function abortListener(): void {
         abortController.abort();
       }
-      const inputAbortSignal = sendPollRequestOptions?.abortSignal;
+      const inputAbortSignal = pollOptions?.abortSignal;
       const abortSignal = abortController.signal;
       if (inputAbortSignal?.aborted) {
         abortController.abort();
@@ -244,7 +246,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
       return httpPoller.isDone;
     },
     isStopped() {
-      return httpPoller.isStopped;
+      return abortController.signal.aborted;
     },
     getOperationState() {
       if (!httpPoller.operationState) {
