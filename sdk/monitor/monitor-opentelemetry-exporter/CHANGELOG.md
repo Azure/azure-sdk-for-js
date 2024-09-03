@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.26 (Unreleased)
+
+### Other Changes
+
+- Updated OTel dependencies
+
 ## 1.0.0-beta.25 (2024-08-14)
 
 ### Other Changes
