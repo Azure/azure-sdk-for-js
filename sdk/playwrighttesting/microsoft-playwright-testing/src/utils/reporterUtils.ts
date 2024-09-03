@@ -158,15 +158,15 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserName: browserName!,
-      os: os.type(),
+      browserType: browserName!.toUpperCase(),
+      os: this.getOsName(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
     testResult.tags = this.extractTestTags(test);
     testResult.resultsSummary = {
-      status: result.status,
+      status: result.status.toUpperCase(),
       duration: result.duration,
-      startTime: result.startTime.toISOString(),
+      startTime: result.startTime.toISOString().replace(/\.\d+Z$/, "Z"),
       attachmentsMetadata: this.getAttachmentStatus(result),
     };
     testResult.artifactsPath = result.attachments
@@ -524,17 +524,17 @@ class ReporterUtils {
     return result;
   }
 
-  private getTestStatus(test: TestCase, result: TestResult): TestStatus {
+  private getTestStatus(test: TestCase, result: TestResult): string {
     if (test.expectedStatus === result.status) {
       if (result.status === "skipped") {
-        return "skipped";
+        return "SKIPPED";
       } else {
-        return "passed";
+        return "PASSED";
       }
     } else if (result.status === "interrupted") {
-      return "skipped";
+      return "SKIPPED";
     } else {
-      return "failed";
+      return "FAILED";
     }
   }
 
@@ -601,6 +601,20 @@ class ReporterUtils {
 
   public static isNullOrEmpty(str: string | null | undefined): boolean {
     return !str || str.trim() === "";
+  }
+
+  private getOsName(): string {
+    const osType = os.type();
+    switch (osType) {
+        case 'Darwin':
+            return 'MAC';
+        case 'Linux':
+            return 'LINUX';
+        case 'Windows_NT':
+            return 'WINDOWS';
+        default:
+            return 'UNKNOWN';
+    }
   }
 }
 

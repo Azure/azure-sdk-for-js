@@ -17,7 +17,7 @@ export class TestResult {
   fileName!: string;
   lineNumber!: number;
   retry!: number;
-  status!: TestStatus;
+  status!: string;
   tags!: string[];
   annotations!: string[];
   webTestConfig!: WebTestConfig;
@@ -28,12 +28,12 @@ export class TestResult {
 export type WebTestConfig = {
   jobName: string;
   projectName: string;
-  browserName: string;
+  browserType: string;
   os: string;
 };
 
 export type TestResultsSummary = {
-  status: TestStatus;
+  status: string;
   duration: number;
   startTime: string;
   attachmentsMetadata: string;
