@@ -263,7 +263,6 @@ describe("#LiveMetrics", () => {
       testAuto["pingSender"]["instrumentationKey"],
       "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
     );
-    console.log(testAuto["pingSender"]["quickpulseClientOptions"]);
     assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
     assert.equal(
       testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"],
