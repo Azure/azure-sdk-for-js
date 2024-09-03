@@ -78,7 +78,7 @@ export class MsalMsiProvider {
     const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
     if (providedIds.length > 1) {
       throw new Error(
-        `ManagedIdentityCredential - only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
+        `ManagedIdentityCredential: only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
           { clientId: this.clientId, resourceId: this.resourceId, objectId: this.objectId },
         )}`,
       );
@@ -120,6 +120,24 @@ export class MsalMsiProvider {
         maxRetries: 0,
       },
     });
+
+    // CloudShell MSI will ignore any user-assigned identity passed as parameters. To avoid confusion, we prevent this from happening as early as possible.
+    if (this.managedIdentityApp.getManagedIdentitySource() === "CloudShell") {
+      if (this.clientId || this.resourceId || this.objectId) {
+        logger.warning(
+          `CloudShell MSI detected with user-provided IDs - throwing. Received values: ${JSON.stringify(
+            {
+              clientId: this.clientId,
+              resourceId: this.resourceId,
+              objectId: this.objectId,
+            },
+          )}.`,
+        );
+        throw new CredentialUnavailableError(
+          "ManagedIdentityCredential: Specifying a user-assigned managed identity is not supported for CloudShell at runtime. When using Managed Identity in CloudShell, omit the clientId, resourceId, and objectId parameters.",
+        );
+      }
+    }
   }
 
   /**
@@ -196,7 +214,7 @@ export class MsalMsiProvider {
 
           if (!isAvailable) {
             throw new CredentialUnavailableError(
-              `ManagedIdentityCredential: Attempted to use the IMDS endpoint, but it is not available.`,
+              `Attempted to use the IMDS endpoint, but it is not available.`,
             );
           }
         }

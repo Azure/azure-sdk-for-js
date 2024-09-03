@@ -99,6 +99,18 @@ export const ImageReference: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sharedGalleryImageId: {
+        serializedName: "sharedGalleryImageId",
+        type: {
+          name: "String"
+        }
+      },
+      communityGalleryImageId: {
+        serializedName: "communityGalleryImageId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -859,6 +871,12 @@ export const JobNetworkConfiguration: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      skipWithdrawFromVNet: {
+        serializedName: "skipWithdrawFromVNet",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -915,6 +933,28 @@ export const ContainerRegistry: msRest.CompositeMapper = {
   }
 };
 
+export const ContainerHostBatchBindMountEntry: msRest.CompositeMapper = {
+  serializedName: "ContainerHostBatchBindMountEntry",
+  type: {
+    name: "Composite",
+    className: "ContainerHostBatchBindMountEntry",
+    modelProperties: {
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      isReadOnly: {
+        serializedName: "isReadOnly",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const TaskContainerSettings: msRest.CompositeMapper = {
   serializedName: "TaskContainerSettings",
   type: {
@@ -949,6 +989,18 @@ export const TaskContainerSettings: msRest.CompositeMapper = {
             "taskWorkingDirectory",
             "containerImageDefault"
           ]
+        }
+      },
+      containerHostBatchBindMounts: {
+        serializedName: "containerHostBatchBindMounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContainerHostBatchBindMountEntry"
+            }
+          }
         }
       }
     }
@@ -1939,29 +1991,6 @@ export const MetadataItem: msRest.CompositeMapper = {
   }
 };
 
-export const CloudServiceConfiguration: msRest.CompositeMapper = {
-  serializedName: "CloudServiceConfiguration",
-  type: {
-    name: "Composite",
-    className: "CloudServiceConfiguration",
-    modelProperties: {
-      osFamily: {
-        required: true,
-        serializedName: "osFamily",
-        type: {
-          name: "String"
-        }
-      },
-      osVersion: {
-        serializedName: "osVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const WindowsConfiguration: msRest.CompositeMapper = {
   serializedName: "WindowsConfiguration",
   type: {
@@ -2200,6 +2229,22 @@ export const DiffDiskSettings: msRest.CompositeMapper = {
   }
 };
 
+export const VMDiskSecurityProfile: msRest.CompositeMapper = {
+  serializedName: "VMDiskSecurityProfile",
+  type: {
+    name: "Composite",
+    className: "VMDiskSecurityProfile",
+    modelProperties: {
+      securityEncryptionType: {
+        serializedName: "securityEncryptionType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedDisk: msRest.CompositeMapper = {
   serializedName: "ManagedDisk",
   type: {
@@ -2215,6 +2260,13 @@ export const ManagedDisk: msRest.CompositeMapper = {
             "premium_lrs",
             "standardssd_lrs"
           ]
+        }
+      },
+      securityProfile: {
+        serializedName: "securityProfile",
+        type: {
+          name: "Composite",
+          className: "VMDiskSecurityProfile"
         }
       }
     }
@@ -2301,7 +2353,8 @@ export const SecurityProfile: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "trustedLaunch"
+            "trustedLaunch",
+            "confidentialVM"
           ]
         }
       },
@@ -3016,13 +3069,6 @@ export const PoolSpecification: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      cloudServiceConfiguration: {
-        serializedName: "cloudServiceConfiguration",
-        type: {
-          name: "Composite",
-          className: "CloudServiceConfiguration"
-        }
-      },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
@@ -3119,17 +3165,6 @@ export const PoolSpecification: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ApplicationPackageReference"
-            }
-          }
-        }
-      },
-      applicationLicenses: {
-        serializedName: "applicationLicenses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
             }
           }
         }
@@ -4917,13 +4952,6 @@ export const CloudPool: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      cloudServiceConfiguration: {
-        serializedName: "cloudServiceConfiguration",
-        type: {
-          name: "Composite",
-          className: "CloudServiceConfiguration"
-        }
-      },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
@@ -5038,17 +5066,6 @@ export const CloudPool: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ApplicationPackageReference"
-            }
-          }
-        }
-      },
-      applicationLicenses: {
-        serializedName: "applicationLicenses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
             }
           }
         }
@@ -5187,13 +5204,6 @@ export const PoolAddParameter: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      cloudServiceConfiguration: {
-        serializedName: "cloudServiceConfiguration",
-        type: {
-          name: "Composite",
-          className: "CloudServiceConfiguration"
-        }
-      },
       virtualMachineConfiguration: {
         serializedName: "virtualMachineConfiguration",
         type: {
@@ -5277,17 +5287,6 @@ export const PoolAddParameter: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ApplicationPackageReference"
-            }
-          }
-        }
-      },
-      applicationLicenses: {
-        serializedName: "applicationLicenses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
             }
           }
         }
@@ -6682,7 +6681,9 @@ export const ComputeNode: msRest.CompositeMapper = {
             "leavingpool",
             "offline",
             "preempted",
-            "upgradingos"
+            "upgradingos",
+            "deallocated",
+            "deallocating"
           ]
         }
       },
@@ -7062,6 +7063,13 @@ export const JobPatchParameter: msRest.CompositeMapper = {
           className: "PoolInformation"
         }
       },
+      networkConfiguration: {
+        serializedName: "networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "JobNetworkConfiguration"
+        }
+      },
       metadata: {
         serializedName: "metadata",
         type: {
@@ -7349,6 +7357,93 @@ export const PoolPatchParameter: msRest.CompositeMapper = {
             "simplified"
           ]
         }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      vmSize: {
+        serializedName: "vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      taskSlotsPerNode: {
+        serializedName: "taskSlotsPerNode",
+        type: {
+          name: "Number"
+        }
+      },
+      taskSchedulingPolicy: {
+        serializedName: "taskSchedulingPolicy",
+        type: {
+          name: "Composite",
+          className: "TaskSchedulingPolicy"
+        }
+      },
+      enableInterNodeCommunication: {
+        serializedName: "enableInterNodeCommunication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      virtualMachineConfiguration: {
+        serializedName: "virtualMachineConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineConfiguration"
+        }
+      },
+      networkConfiguration: {
+        serializedName: "networkConfiguration",
+        type: {
+          name: "Composite",
+          className: "NetworkConfiguration"
+        }
+      },
+      userAccounts: {
+        serializedName: "userAccounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserAccount"
+            }
+          }
+        }
+      },
+      mountConfiguration: {
+        serializedName: "mountConfiguration",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountConfiguration"
+            }
+          }
+        }
+      },
+      upgradePolicy: {
+        serializedName: "upgradePolicy",
+        type: {
+          name: "Composite",
+          className: "UpgradePolicy"
+        }
+      },
+      resourceTags: {
+        serializedName: "resourceTags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -7457,6 +7552,28 @@ export const NodeDisableSchedulingParameter: msRest.CompositeMapper = {
             "requeue",
             "terminate",
             "taskcompletion"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const NodeDeallocateParameter: msRest.CompositeMapper = {
+  serializedName: "NodeDeallocateParameter",
+  type: {
+    name: "Composite",
+    className: "NodeDeallocateParameter",
+    modelProperties: {
+      nodeDeallocateOption: {
+        serializedName: "nodeDeallocateOption",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "requeue",
+            "terminate",
+            "taskcompletion",
+            "retaineddata"
           ]
         }
       }
@@ -7668,6 +7785,20 @@ export const NodeCounts: msRest.CompositeMapper = {
       upgradingOS: {
         required: true,
         serializedName: "upgradingOS",
+        type: {
+          name: "Number"
+        }
+      },
+      deallocated: {
+        required: true,
+        serializedName: "deallocated",
+        type: {
+          name: "Number"
+        }
+      },
+      deallocating: {
+        required: true,
+        serializedName: "deallocating",
         type: {
           name: "Number"
         }
@@ -9105,6 +9236,12 @@ export const JobScheduleDeleteMethodOptions: msRest.CompositeMapper = {
         type: {
           name: "DateTimeRfc1123"
         }
+      },
+      force: {
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -9421,6 +9558,12 @@ export const JobScheduleTerminateOptions: msRest.CompositeMapper = {
         type: {
           name: "DateTimeRfc1123"
         }
+      },
+      force: {
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -9554,6 +9697,12 @@ export const JobDeleteMethodOptions: msRest.CompositeMapper = {
       ifUnmodifiedSince: {
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      force: {
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -9870,6 +10019,12 @@ export const JobTerminateOptions: msRest.CompositeMapper = {
       ifUnmodifiedSince: {
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      force: {
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -10757,10 +10912,10 @@ export const ComputeNodeEnableSchedulingOptions: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetRemoteLoginSettingsOptions: msRest.CompositeMapper = {
+export const ComputeNodeStartOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ComputeNodeGetRemoteLoginSettingsOptions",
+    className: "ComputeNodeStartOptions",
     modelProperties: {
       timeout: {
         defaultValue: 30,
@@ -10788,10 +10943,41 @@ export const ComputeNodeGetRemoteLoginSettingsOptions: msRest.CompositeMapper = 
   }
 };
 
-export const ComputeNodeGetRemoteDesktopOptions: msRest.CompositeMapper = {
+export const ComputeNodeDeallocateOptions: msRest.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ComputeNodeGetRemoteDesktopOptions",
+    className: "ComputeNodeDeallocateOptions",
+    modelProperties: {
+      timeout: {
+        defaultValue: 30,
+        type: {
+          name: "Number"
+        }
+      },
+      clientRequestId: {
+        type: {
+          name: "Uuid"
+        }
+      },
+      returnClientRequestId: {
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      ocpDate: {
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const ComputeNodeGetRemoteLoginSettingsOptions: msRest.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ComputeNodeGetRemoteLoginSettingsOptions",
     modelProperties: {
       timeout: {
         defaultValue: 30,
@@ -13958,11 +14144,11 @@ export const ComputeNodeEnableSchedulingHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const ComputeNodeGetRemoteLoginSettingsHeaders: msRest.CompositeMapper = {
-  serializedName: "computenode-getremoteloginsettings-headers",
+export const ComputeNodeStartHeaders: msRest.CompositeMapper = {
+  serializedName: "computenode-start-headers",
   type: {
     name: "Composite",
-    className: "ComputeNodeGetRemoteLoginSettingsHeaders",
+    className: "ComputeNodeStartHeaders",
     modelProperties: {
       clientRequestId: {
         serializedName: "client-request-id",
@@ -13987,16 +14173,62 @@ export const ComputeNodeGetRemoteLoginSettingsHeaders: msRest.CompositeMapper = 
         type: {
           name: "DateTimeRfc1123"
         }
+      },
+      dataServiceId: {
+        serializedName: "dataserviceid",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const ComputeNodeGetRemoteDesktopHeaders: msRest.CompositeMapper = {
-  serializedName: "computenode-getremotedesktop-headers",
+export const ComputeNodeDeallocateHeaders: msRest.CompositeMapper = {
+  serializedName: "computenode-deallocate-headers",
   type: {
     name: "Composite",
-    className: "ComputeNodeGetRemoteDesktopHeaders",
+    className: "ComputeNodeDeallocateHeaders",
+    modelProperties: {
+      clientRequestId: {
+        serializedName: "client-request-id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      requestId: {
+        serializedName: "request-id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      dataServiceId: {
+        serializedName: "dataserviceid",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ComputeNodeGetRemoteLoginSettingsHeaders: msRest.CompositeMapper = {
+  serializedName: "computenode-getremoteloginsettings-headers",
+  type: {
+    name: "Composite",
+    className: "ComputeNodeGetRemoteLoginSettingsHeaders",
     modelProperties: {
       clientRequestId: {
         serializedName: "client-request-id",
