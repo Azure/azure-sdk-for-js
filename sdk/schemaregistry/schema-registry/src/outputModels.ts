@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The list of schema group names with server paging support. */
 export interface SchemaGroupsOutput {
