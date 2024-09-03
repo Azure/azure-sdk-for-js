@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/tools-test-credential.d.ts"
+    "publicTrimmedFilePath": "./types/test-credential.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
