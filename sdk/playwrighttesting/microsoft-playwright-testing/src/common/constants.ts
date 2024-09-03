@@ -224,4 +224,4 @@ export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
 };
 
-export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";
+export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.46.1";

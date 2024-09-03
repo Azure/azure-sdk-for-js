@@ -8,8 +8,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@azure/microsoft-playwright-testing": "1.0.0-beta.1",
-    "@playwright/test": "next",
+    "@playwright/test": "1.46.1",
     "@types/node": "^20.14.6"
   }
 }
