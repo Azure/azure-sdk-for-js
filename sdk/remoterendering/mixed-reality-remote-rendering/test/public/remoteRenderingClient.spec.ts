@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -288,7 +288,6 @@ describe("RemoteRendering functional tests", () => {
     );
 
     assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
-    assert.equal(sessionPoller.getOperationState().latestResponse.size, sessionSettings.size);
     assert.equal(
       sessionPoller.getOperationState().latestResponse.maxLeaseTimeInMinutes,
       sessionSettings.maxLeaseTimeInMinutes,

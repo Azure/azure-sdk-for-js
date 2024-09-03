@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Context } from "mocha";
 import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../../src";

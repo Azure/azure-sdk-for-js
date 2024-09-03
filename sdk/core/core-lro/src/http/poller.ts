@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RunningOperation, OperationResponse } from "./models.js";
 import { OperationState, PollerLike } from "../poller/models.js";

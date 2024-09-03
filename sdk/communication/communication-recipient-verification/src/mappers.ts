@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { AcsVerification as AcsVerificationMapper } from "./generated/src/models/mappers";
 export { VerificationConstantsResponse as ConstantsMapper } from "./generated/src/models/mappers";

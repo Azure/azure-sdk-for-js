@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   API_VERSION,
+  InternalEnvironmentVariables,
   ServiceAuth,
   ServiceEnvironmentVariable,
   ServiceOS,
@@ -28,6 +29,7 @@ describe("getServiceConfig", () => {
     sandbox.stub(console, "log");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.47.0";
   });
 
   afterEach(() => {

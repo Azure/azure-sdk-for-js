@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { coreLogger } from "./logger";
@@ -21,7 +21,9 @@ class EntraIdAccessToken {
     try {
       coreLogger.info("Fetching entra id access token");
       const accessToken = await this._credential!.getToken(EntraIdAccessTokenConstants.SCOPE);
-      if (!accessToken) throw new Error("Entra id access token is null");
+      if (!accessToken) {
+        throw new Error("Entra id access token is null");
+      }
       if (accessToken.token === this.token) {
         // azure identity library can fetch the same token again from cache. 10 mins before expiry, it allows token refresh
         coreLogger.info("Cached access token is returned, will be retried again.");

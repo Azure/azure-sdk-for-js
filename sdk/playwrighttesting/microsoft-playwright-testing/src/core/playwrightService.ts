@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ServiceAuth } from "../common/constants";
+import { InternalServiceEnvironmentVariable, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
@@ -17,6 +17,7 @@ import {
   getAccessToken,
   getServiceWSEndpoint,
   validateMptPAT,
+  validatePlaywrightVersion,
   validateServiceUrl,
 } from "../utils/utils";
 
@@ -54,6 +55,7 @@ const getServiceConfig = (
   config: PlaywrightConfigInput,
   options?: PlaywrightServiceAdditionalOptions,
 ): PlaywrightConfig => {
+  validatePlaywrightVersion();
   validateServiceUrl();
   if (options?.credential) {
     playwrightServiceEntra.entraIdAccessToken = options.credential;
@@ -82,6 +84,12 @@ const getServiceConfig = (
     return {
       ...globalFunctions,
     };
+  }
+  if (
+    !process.env[InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED]
+  ) {
+    process.env[InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED] =
+      "true";
   }
 
   return {

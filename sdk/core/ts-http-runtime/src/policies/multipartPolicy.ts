@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces.js";
 import { PipelinePolicy } from "../pipeline.js";

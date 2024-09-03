@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isProxyToolActive, startTestProxy, TestProxy } from "./testProxyUtils";
 import concurrently, { Command as ConcurrentlyCommand } from "concurrently";

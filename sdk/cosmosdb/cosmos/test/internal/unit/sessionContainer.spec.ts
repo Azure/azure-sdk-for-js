@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { Constants, OperationType, ResourceType } from "../../../src/common";
 import { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TracingClient, TracingContext, TracingSpan } from "../tracing/interfaces.js";
 import { createTracingClient } from "../tracing/tracingClient.js";

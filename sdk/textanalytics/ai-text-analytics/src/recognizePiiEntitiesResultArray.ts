@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PiiResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
 import {

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+import { ApiErrorMessage } from "./types";
 
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
@@ -38,8 +39,12 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
 };
 
+export const InternalServiceEnvironmentVariable = {
+  PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED: "_PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED",
+};
+
 export const DefaultConnectOptionsConstants = {
-  DEFAULT_TIMEOUT: 0,
+  DEFAULT_TIMEOUT: 30000,
   DEFAULT_SLOW_MO: 0,
   DEFAULT_EXPOSE_NETWORK: "<loopback>",
   DEFAULT_SERVICE_OS: ServiceOS.LINUX,
@@ -93,8 +98,130 @@ export class Constants {
     "workspaces/{workspaceId}/test-runs/{testRunId}/resulturi";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
-}
+  public static readonly getTestRun: string = "getTestRun";
+  public static readonly patchTestRunShardStart: string = "patchTestRunShardStart";
+  public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
+  public static readonly postTestResults: string = "postTestResults";
+  public static readonly getStorageUri: string = "getStorageUri";
 
+  public static readonly ERROR_MESSAGE: ApiErrorMessage = {
+    getTestRun: {
+      400: "Bad Request",
+      401: "Invalid authentication to run test.",
+      403: "You do not have required permissions to run test.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the test run service API. Please wait and try again later",
+      504: "The request to the test run service timed out. Please try again later",
+      503: "The test run service is currently unavailable. Please check the service status and try again.",
+    },
+    patchTestRunShardStart: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the est run shard start service API. Please wait and try again later",
+      504: "The request to the test run shard start service timed out. Please try again later",
+      503: "The test run shard start service is currently unavailable. Please check the service status and try again.",
+    },
+    patchTestRunShardEnd: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the test run shard end service API. Please wait and try again later",
+      504: "The request to the test run shard end service timed out. Please try again later",
+      503: "The test run shard end service is currently unavailable. Please check the service status and try again.",
+    },
+    postTestResults: {
+      400: "Bad Request",
+      401: "Invalid authentication to publish test result.",
+      403: "You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the publish test results service API. Please wait and try again later",
+      504: "The request to the publish test results service timed out. Please try again later",
+      503: "The publish test results service is currently unavailable. Please check the service status and try again.",
+    },
+    getStorageUri: {
+      400: "Bad Request",
+      401: "Invalid authentication",
+      403: "You do not have required permissions",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the get storage uri service API. Please wait and try again later",
+      504: "The request to the get storage uri service timed out. Please try again later",
+      503: "The get storage uri service is currently unavailable. Please check the service status and try again.",
+    },
+  };
+}
 export const BackoffConstants = {
   MAX_RETRIES: 10,
 };
+
+export const TestErrorType = {
+  Scalable: "Scalable",
+  Reporting: "Reporting",
+};
+
+export const TestResultErrorConstants = [
+  {
+    key: "Unauthorized_Scalable",
+    message: "The authentication token provided is invalid. Please check the token and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*401 Unauthorized)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "NoPermissionOnWorkspace_Scalable",
+    message: `You do not have the required permissions to run tests. This could be because:
+
+    a. You do not have the required roles on the workspace. Only Owner and Contributor roles can run tests. Contact the service administrator.
+    b. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal and login using the command 'az login --tenant <TENANT_ID>'.
+    `,
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*CheckAccess API call with non successful response)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "InvalidWorkspace_Scalable",
+    message: "The specified workspace does not exist. Please verify your workspace settings.",
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*InvalidAccountOrSubscriptionState)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "AccessKeyBasedAuthNotSupported_Scalable",
+    message:
+      "Authentication through service access token is disabled for this workspace. Please use Entra ID to authenticate.",
+    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*AccessKeyBasedAuthNotSupported)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "ServiceUnavailable_Scalable",
+    message: "The service is currently unavailable. Please check the service status and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*503 Service Unavailable)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "GatewayTimeout_Scalable",
+    message: "The request to the service timed out. Please try again later.",
+    pattern: /(?=.*browserType\.connect)(?=.*504 Gateway Timeout)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "QuotaLimitError_Scalable",
+    message:
+      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded.",
+    pattern: /browserType.connect: Timeout .* exceeded/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "BrowserConnectionError_Scalable",
+    message: "The service is currently unavailable. Please try again after some time.",
+    pattern: /browserType.connect: Target page, context or browser has been closed/i,
+    type: TestErrorType.Scalable,
+  },
+];
+
+export const InternalEnvironmentVariables = {
+  MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
+};
+
+export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";
