@@ -11,14 +11,15 @@ urlFragment: ai-inference-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                     | **Description**                       |
-| ------------------------------------------------- | ------------------------------------- |
-| [chatCompletions.ts][chatcompletions]             | get chat completions.                 |
-| [embeddings.ts][embeddings]                       | get embeddings.                       |
-| [getModelInfo.ts][getmodelinfo]                   | get model info.                       |
-| [imageFileCompletions.ts][imagefilecompletions]   | get chat completions with image file. |
-| [streamChatCompletions.ts][streamchatcompletions] | list chat completions.                |
-| [toolCall.ts][toolcall]                           | get chat completions with functions.  |
+| **File Name**                                     | **Description**                                |
+| ------------------------------------------------- | ---------------------------------------------- |
+| [chatCompletions.ts][chatcompletions]             | get chat completions.                          |
+| [embeddings.ts][embeddings]                       | get embeddings.                                |
+| [getModelInfo.ts][getmodelinfo]                   | get model info.                                |
+| [imageFileCompletions.ts][imagefilecompletions]   | get chat completions with image file.          |
+| [streamChatCompletions.ts][streamchatcompletions] | list chat completions.                         |
+| [streamingToolCall.ts][streamingtoolcall]         | use tool call with streaming chat completions. |
+| [toolCall.ts][toolcall]                           | get chat completions with functions.           |
 
 ## Prerequisites
 
@@ -75,6 +76,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getmodelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/getModelInfo.ts
 [imagefilecompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/imageFileCompletions.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/streamChatCompletions.ts
+[streamingtoolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/streamingToolCall.ts
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/toolCall.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference
 [freesub]: https://azure.microsoft.com/free/
