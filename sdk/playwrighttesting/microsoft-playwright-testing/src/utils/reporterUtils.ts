@@ -9,7 +9,6 @@ import type {
   TestStep,
   FullConfig,
   Suite,
-  TestStatus,
 } from "@playwright/test/reporter";
 import { exec } from "child_process";
 import { reporterLogger } from "../common/logger";
