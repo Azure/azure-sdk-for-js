@@ -23,8 +23,7 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE",
-    "dist-esm/src"
+    "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -46,8 +45,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
-    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
+    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
@@ -94,17 +93,17 @@
     "@azure/keyvault-secrets": "^4.2.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/coverage-istanbul": "^1.6.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "playwright": "^1.44.1",
     "nock": "^13.5.4",
+    "playwright": "^1.46.1",
     "rimraf": "^5.0.5",
-    "tshy": "^1.15.1",
+    "tshy": "^3.0.2",
     "tsx": "^4.7.1",
     "typescript": "~5.4.5",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.5"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",
