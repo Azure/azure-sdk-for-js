@@ -11730,7 +11730,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-e6cs/GSLJTOH4U1Hy1w/Zdy849U5IgcA6eAdu/e8S5FA/CxgBuO3PNZtJG5c9YrLreqQlNRMB4FelcCPRSE3dg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-Rm/i4rUb5Xopy5LlWxpAL/IEd4VB0ZvJ2Ax2jgKPWycEypmCmGIyzf/LcQ87M9BTU0V8sPOHB7qw8w/p9bYTnQ==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -11997,7 +11997,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-qapk3PBnQeNUttHIcd8cs/bfhVSL0oS2nsqjfEUuWLOm6+Kz09YFs/88JpbUzgn6VwEzgRAIA1RvVTKp2s/A5g==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-MkdKHEUC9hyPz1Wy7sPkn9/jMyA6igBW24D3cUGVgaHhZf5tiKvkSmsFvtP+/53q+aFkaj4LYYA9JO3UTMI49g==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -12010,6 +12010,8 @@ packages:
       '@types/mocha': 10.0.7
       '@types/node': 18.19.48
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.0.5(playwright@1.46.1)(typescript@5.5.4)(vitest@2.0.5)
+      '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.9.1
@@ -12025,17 +12027,33 @@ packages:
       mocha: 10.7.3
       nock: 13.5.5
       nyc: 17.0.0
+      playwright: 1.46.1
       rimraf: 5.0.10
       sinon: 17.0.1
+      tshy: 3.0.2
       tslib: 2.7.0
       tsx: 4.19.0
       typescript: 5.5.4
+      vitest: 2.0.5(@types/node@18.19.48)(@vitest/browser@2.0.5)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - graphql
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/arm-advisor.tgz:
