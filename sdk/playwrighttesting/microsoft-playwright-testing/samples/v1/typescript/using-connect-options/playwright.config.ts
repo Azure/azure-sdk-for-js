@@ -5,6 +5,7 @@ import { defineConfig, devices } from "@playwright/test";
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
+process.env.PLAYWRIGHT_SERVICE_RUN_ID = process.env.PLAYWRIGHT_SERVICE_RUN_ID || new Date().toISOString();
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -22,7 +23,7 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // reporter: [["list"], ["@azure/microsoft-playwright-testing/reporter"]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  reporter: [["list"], ["../../../../src/reporter/mptReporter.ts"]],
+  reporter: [["list"],["../../../../src/reporter/mptReporter.ts"]],
 
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -30,6 +31,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
+    screenshot: "on",
   },
   globalSetup: require.resolve("./global-setup"),
   globalTeardown: require.resolve("./global-teardown"),

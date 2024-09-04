@@ -2,7 +2,10 @@
   "name": "using-connect-options",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test -c playwright.config.ts",
+    "test-service": "npx playwright test -c playwright.service.config.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

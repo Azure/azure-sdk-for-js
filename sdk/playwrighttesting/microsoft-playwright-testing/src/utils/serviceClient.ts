@@ -35,6 +35,7 @@ export class ServiceClient {
       "application/merge-patch+json",
       this.envVariables.correlationId!,
     );
+    process.stdout.write(`${JSON.stringify(response)}`);
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
     } else if (response.status === 409) {

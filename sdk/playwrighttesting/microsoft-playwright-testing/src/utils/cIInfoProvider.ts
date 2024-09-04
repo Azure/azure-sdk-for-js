@@ -31,7 +31,7 @@ export class CIInfoProvider {
     } else if (CIInfoProvider.isAzureDevOps()) {
       return CI_PROVIDERS.ADO;
     } else {
-      return CI_PROVIDERS.DEFAULT;
+      return CI_PROVIDERS.GITHUB;
     }
   }
 
