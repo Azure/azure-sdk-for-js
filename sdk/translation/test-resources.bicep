@@ -74,7 +74,8 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-resource dataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@${authorizationApiVersion}' = {
+// Assign Data Contributor Role
+resource dataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid('dataContributorRoleId', resourceGroup().id)
   scope: storageAccountResourceId
   properties: {
@@ -87,7 +88,6 @@ resource dataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@
     storageAccount
   ]
 }
-
 
 // Outputs
 output TEXT_TRANSLATION_API_KEY string = listKeys(cognitiveServicesAccount.id, apiVersion).key1
