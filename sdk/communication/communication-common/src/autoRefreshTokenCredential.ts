@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential";
 import { AbortSignalLike } from "@azure/abort-controller";

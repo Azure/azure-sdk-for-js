@@ -16,7 +16,7 @@ import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   KubeEnvironmentsUpdateOptionalParams,
   KubeEnvironmentsUpdateResponse,
   KubeEnvironmentsListBySubscriptionNextResponse,
-  KubeEnvironmentsListByResourceGroupNextResponse
+  KubeEnvironmentsListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,7 +57,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: KubeEnvironmentsListBySubscriptionOptionalParams
+    options?: KubeEnvironmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<KubeEnvironment> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -72,13 +72,13 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: KubeEnvironmentsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<KubeEnvironment[]> {
     let result: KubeEnvironmentsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +99,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: KubeEnvironmentsListBySubscriptionOptionalParams
+    options?: KubeEnvironmentsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<KubeEnvironment> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -113,7 +113,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: KubeEnvironmentsListByResourceGroupOptionalParams
+    options?: KubeEnvironmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<KubeEnvironment> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -130,16 +130,16 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: KubeEnvironmentsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<KubeEnvironment[]> {
     let result: KubeEnvironmentsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,7 +154,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -165,11 +165,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: KubeEnvironmentsListByResourceGroupOptionalParams
+    options?: KubeEnvironmentsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<KubeEnvironment> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -180,11 +180,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: KubeEnvironmentsListBySubscriptionOptionalParams
+    options?: KubeEnvironmentsListBySubscriptionOptionalParams,
   ): Promise<KubeEnvironmentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -195,11 +195,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: KubeEnvironmentsListByResourceGroupOptionalParams
+    options?: KubeEnvironmentsListByResourceGroupOptionalParams,
   ): Promise<KubeEnvironmentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   get(
     resourceGroupName: string,
     name: string,
-    options?: KubeEnvironmentsGetOptionalParams
+    options?: KubeEnvironmentsGetOptionalParams,
   ): Promise<KubeEnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -231,7 +231,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
     resourceGroupName: string,
     name: string,
     kubeEnvironmentEnvelope: KubeEnvironment,
-    options?: KubeEnvironmentsCreateOrUpdateOptionalParams
+    options?: KubeEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<KubeEnvironmentsCreateOrUpdateResponse>,
@@ -240,21 +240,20 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<KubeEnvironmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -263,8 +262,8 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -272,22 +271,22 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, kubeEnvironmentEnvelope, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       KubeEnvironmentsCreateOrUpdateResponse,
       OperationState<KubeEnvironmentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -304,13 +303,13 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
     resourceGroupName: string,
     name: string,
     kubeEnvironmentEnvelope: KubeEnvironment,
-    options?: KubeEnvironmentsCreateOrUpdateOptionalParams
+    options?: KubeEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<KubeEnvironmentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       name,
       kubeEnvironmentEnvelope,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -324,25 +323,24 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   async beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: KubeEnvironmentsDeleteOptionalParams
+    options?: KubeEnvironmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -351,8 +349,8 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -360,19 +358,19 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -387,7 +385,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   async beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: KubeEnvironmentsDeleteOptionalParams
+    options?: KubeEnvironmentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, name, options);
     return poller.pollUntilDone();
@@ -404,11 +402,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
     resourceGroupName: string,
     name: string,
     kubeEnvironmentEnvelope: KubeEnvironmentPatchResource,
-    options?: KubeEnvironmentsUpdateOptionalParams
+    options?: KubeEnvironmentsUpdateOptionalParams,
   ): Promise<KubeEnvironmentsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, kubeEnvironmentEnvelope, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -419,11 +417,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: KubeEnvironmentsListBySubscriptionNextOptionalParams
+    options?: KubeEnvironmentsListBySubscriptionNextOptionalParams,
   ): Promise<KubeEnvironmentsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -436,11 +434,11 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: KubeEnvironmentsListByResourceGroupNextOptionalParams
+    options?: KubeEnvironmentsListByResourceGroupNextOptionalParams,
   ): Promise<KubeEnvironmentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -448,85 +446,81 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/kubeEnvironments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/kubeEnvironments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubeEnvironmentCollection
+      bodyMapper: Mappers.KubeEnvironmentCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubeEnvironmentCollection
+      bodyMapper: Mappers.KubeEnvironmentCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KubeEnvironment,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.KubeEnvironment,
     },
     201: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.KubeEnvironment,
     },
     202: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.KubeEnvironment,
     },
     204: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.KubeEnvironment,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.kubeEnvironmentEnvelope,
   queryParameters: [Parameters.apiVersion],
@@ -534,15 +528,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -550,33 +543,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.KubeEnvironment,
     },
     201: {
-      bodyMapper: Mappers.KubeEnvironment
+      bodyMapper: Mappers.KubeEnvironment,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   requestBody: Parameters.kubeEnvironmentEnvelope1,
   queryParameters: [Parameters.apiVersion],
@@ -584,48 +576,48 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubeEnvironmentCollection
+      bodyMapper: Mappers.KubeEnvironmentCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.KubeEnvironmentCollection
+      bodyMapper: Mappers.KubeEnvironmentCollection,
     },
     default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force module to be the ES6 entrypoint to the application.
@@ -7,7 +7,7 @@
  */
 
 import { TSESTree } from "@typescript-eslint/utils";
-import { VerifierMessages, createRule, getVerifiers, stripPath, usesTshy } from "../utils";
+import { VerifierMessages, createRule, getVerifiers, stripPath, isEsmPackage } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's module value to be the ES6 entrypoint to the application",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,
@@ -38,7 +37,7 @@ export default createRule({
     if (stripPath(context.filename) !== "package.json") {
       return {};
     }
-    if (usesTshy(context.filename)) {
+    if (isEsmPackage(context.filename)) {
       return {};
     }
     return {

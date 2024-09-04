@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   PhoneNumberIdentifier,
@@ -39,6 +39,9 @@ function extractKind(
   }
   if (identifierModel.microsoftTeamsUser !== undefined) {
     return KnownCommunicationIdentifierModelKind.MicrosoftTeamsUser;
+  }
+  if (identifierModel.microsoftTeamsApp !== undefined) {
+    return KnownCommunicationIdentifierModelKind.MicrosoftTeamsApp;
   }
   return KnownCommunicationIdentifierModelKind.Unknown;
 }

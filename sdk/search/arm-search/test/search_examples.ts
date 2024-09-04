@@ -19,9 +19,6 @@ import { Context } from "mocha";
 import { SearchManagementClient } from "../src/searchManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
@@ -38,7 +35,12 @@ const recorderOptions: RecorderStartOptions = {
       value: `fakeKey`,
       target: `[a-z0-9_A-z]{40,100}`
     }]
-  }
+  },
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
+
 };
 
 export const testPollingOptions = {
@@ -70,6 +72,14 @@ describe("Search test", () => {
 
   afterEach(async function () {
     await recorder.stop();
+  });
+
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (const item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
   });
 
   it("services create test", async function () {
@@ -112,7 +122,8 @@ describe("Search test", () => {
     assert.equal(resArray.length, 2);
   });
 
-  it("queryKeys delete test", async function () {
+  //skip this case as Internal Server Error (HTTP Status Code: 500).
+  it.skip("queryKeys delete test", async function () {
     let resArray = new Array();
     for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
       resArray.push(item);

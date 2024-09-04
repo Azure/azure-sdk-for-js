@@ -44,7 +44,8 @@ parameters:
       Public:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
         ServiceConnection: azure-sdk-tests
-        SubscriptionConfigurationFilePath: eng/common/TestResources/sub-config/AzurePublicMsft.json
+        SubscriptionConfigurationFilePaths: 
+          - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Preview:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
       Canary:
@@ -75,7 +76,7 @@ parameters:
     default: []
   - name: UseFederatedAuth
     type: boolean
-    default: false
+    default: true
 
 stages:
   - ${{ each cloud in parameters.CloudConfig }}:
@@ -128,3 +129,4 @@ stages:
                 ServiceConnection: ${{ cloud.value.ServiceConnection }}
                 Location: ${{ coalesce(parameters.Location, cloud.value.Location) }}
                 Cloud: ${{ cloud.key }}
+                SubscriptionConfigurationFilePaths: ${{ cloud.value.SubscriptionConfigurationFilePaths }}

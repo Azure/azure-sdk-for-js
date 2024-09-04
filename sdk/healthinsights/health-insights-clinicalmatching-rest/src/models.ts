@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** A piece of clinical information, expressed as a code in a clinical coding system. */
 export interface ClinicalCodedElement {

@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CertificateClient } from "../../../src";
-import { uniqueString } from "./recorderUtils";
-import { env, isLiveMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { getServiceVersion } from "./common";
-import TestClient from "./testClient";
-import { Context } from "mocha";
+import { CertificateClient } from "../../../src/index.js";
+import { uniqueString } from "./recorderUtils.js";
+import {
+  env,
+  isLiveMode,
+  Recorder,
+  RecorderStartOptions,
+  TestInfo,
+} from "@azure-tools/test-recorder";
+import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-export async function authenticate(
-  that: Context,
-  serviceVersion: ReturnType<typeof getServiceVersion>,
-): Promise<any> {
+export async function authenticate(ctx: TestInfo): Promise<any> {
   const suffix = uniqueString();
 
   const startOptions: RecorderStartOptions = {
@@ -38,9 +39,15 @@ export async function authenticate(
         },
       ],
     },
+    removeCentralSanitizers: [
+      // This sanitizer sanitizes the secret ID, but this ID has a specific format that is parsed by the SDK, and is not a secret
+      "AZSDK3430",
+      // The 'name' property exists in certificate contacts and is not a secret
+      "AZSDK3493",
+    ],
   };
 
-  const recorder = new Recorder(that.currentTest);
+  const recorder = new Recorder(ctx);
   await recorder.start(startOptions);
   if (suffix !== "") {
     await recorder.addSanitizers({
@@ -63,7 +70,6 @@ export async function authenticate(
     keyVaultUrl,
     credential,
     recorder.configureClientOptions({
-      serviceVersion,
       disableChallengeResourceVerification: !isLiveMode(),
     }),
   );

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import ConfidentialLedger, { ConfidentialLedgerClient, getLedgerIdentity } from "../../../src";
 import {
@@ -13,10 +13,7 @@ import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com",
-  AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_OID: "azure_client_oid",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   IDENTITY_SERVICE_URL: "https://identity.confidential-ledger.core.azure.com",
   LEDGER_NAME: "test-ledger",
 };
@@ -66,6 +63,8 @@ export async function createRecorder(context: Context): Promise<Recorder> {
     sanitizerOptions: {
       uriSanitizers,
     },
+    // userId is not a secret, need it for the get user test
+    removeCentralSanitizers: ["AZSDK3433"],
   });
   return recorder;
 }

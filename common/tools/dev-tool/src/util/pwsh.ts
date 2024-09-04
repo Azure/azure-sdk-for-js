@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { exec } from "node:child_process";
 
@@ -18,7 +18,7 @@ export async function hasPowerShell(): Promise<boolean> {
         resolve(false);
       });
       cmd.on("exit", (code) => {
-        code === 0 ? resolve(true) : resolve(false);
+        return code === 0 ? resolve(true) : resolve(false);
       });
     });
 

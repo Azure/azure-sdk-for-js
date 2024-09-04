@@ -20,7 +20,7 @@ import {
   RecoveryPointsListResponse,
   RecoveryPointsGetOptionalParams,
   RecoveryPointsGetResponse,
-  RecoveryPointsListNextResponse
+  RecoveryPointsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): PagedAsyncIterableIterator<AzureBackupRecoveryPointResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
           vaultName,
           backupInstanceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     vaultName: string,
     backupInstanceName: string,
     options?: RecoveryPointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AzureBackupRecoveryPointResource[]> {
     let result: RecoveryPointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         resourceGroupName,
         vaultName,
         backupInstanceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         vaultName,
         backupInstanceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): AsyncIterableIterator<AzureBackupRecoveryPointResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: RecoveryPointsListOptionalParams
+    options?: RecoveryPointsListOptionalParams,
   ): Promise<RecoveryPointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupInstanceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -161,7 +161,7 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     vaultName: string,
     backupInstanceName: string,
     recoveryPointId: string,
-    options?: RecoveryPointsGetOptionalParams
+    options?: RecoveryPointsGetOptionalParams,
   ): Promise<RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -169,9 +169,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         vaultName,
         backupInstanceName,
         recoveryPointId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class RecoveryPointsImpl implements RecoveryPoints {
     vaultName: string,
     backupInstanceName: string,
     nextLink: string,
-    options?: RecoveryPointsListNextOptionalParams
+    options?: RecoveryPointsListNextOptionalParams,
   ): Promise<RecoveryPointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupInstanceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -200,43 +200,41 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/recoveryPoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/recoveryPoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList
+      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/recoveryPoints/{recoveryPointId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/recoveryPoints/{recoveryPointId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupRecoveryPointResource
+      bodyMapper: Mappers.AzureBackupRecoveryPointResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -245,21 +243,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.backupInstanceName,
-    Parameters.recoveryPointId
+    Parameters.recoveryPointId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList
+      bodyMapper: Mappers.AzureBackupRecoveryPointResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -267,8 +265,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vaultName,
     Parameters.nextLink,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { ErrorResponse } from "../../request";
 import { PartitionKeyRange } from "../Container";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * A message that contains binary data and a content type.
@@ -33,7 +33,7 @@ export interface MessageAdapter<MessageT> {
 /**
  * Options for Schema
  */
-export interface JsonSerializerOptions<MessageT> {
+export interface JsonSchemaSerializerOptions<MessageT> {
   /**
    * The group name to be used when registering/looking up a schema. Must be specified
    * if `serialize` will be called.

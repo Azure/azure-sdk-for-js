@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
+import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy.js";
 import { RetryOptions } from "@azure/core-amqp";
 import { Typed } from "rhea-promise";
-import { SubscribeOptions } from "../eventHubConsumerClientModels";
-import { idempotentProducerAmqpPropertyNames } from "../util/constants";
+import { SubscribeOptions } from "../eventHubConsumerClientModels.js";
+import { idempotentProducerAmqpPropertyNames } from "../util/constants.js";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.

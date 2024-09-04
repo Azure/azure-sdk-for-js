@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createDefaultHttpClient,
@@ -43,7 +43,7 @@ import { env } from "./utils/env.js";
  */
 export function calculatePaths(testContext: TestInfo): TestContext {
   if (isVitestTestContext(testContext)) {
-    if (!testContext.task.name || !testContext.task.suite.name) {
+    if (!testContext.task.name || !testContext.task.suite?.name) {
       throw new RecorderError(
         `Unable to determine the recording file path. Unexpected empty Vitest context`,
       );
@@ -444,10 +444,10 @@ export class Recorder {
 
       // See discussion in https://github.com/Azure/azure-sdk-tools/pull/6152
       // Ideally this should be handled by the test-proxy.  However, it was suggested that
-      // there may be scenarios where it is desired to include this header.
-      // Thus we are ignoring Accept-Language header  in recorder for browser.
+      // there may be scenarios where it is desired to include these headers.
+      // Thus we are ignoring Accept-Language and Accept-Encountered headers in recorder for browser.
       const excludedHeaders = isBrowser
-        ? (options.excludedHeaders ?? []).concat("Accept-Language")
+        ? (options.excludedHeaders ?? []).concat("Accept-Language", "Accept-Encoding")
         : options.excludedHeaders;
 
       const updatedOptions = {

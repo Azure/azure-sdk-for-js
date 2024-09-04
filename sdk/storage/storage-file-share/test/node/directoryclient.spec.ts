@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
+  SimpleTokenCredential,
   configureStorageClient,
   getAccountName,
   getBSU,
@@ -76,7 +77,26 @@ describe("DirectoryClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("Bad audience should fail", async () => {
+  it("Bad audience should work", async () => {
+    const token = await createTestCredential().getToken(
+      "https://badaudience.file.core.windows.net/.default",
+    );
+    const dirClientWithSimpleOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      new SimpleTokenCredential(token!.token, new Date(token!.expiresOnTimestamp)),
+      {
+        fileRequestIntent: "backup",
+      },
+    );
+    configureStorageClient(recorder, dirClientWithSimpleOAuthToken);
+
+    try {
+      await dirClientWithSimpleOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
     const dirClientWithOAuthToken = new ShareDirectoryClient(
       dirClient.url,
       createTestCredential(),
@@ -87,12 +107,8 @@ describe("DirectoryClient Node.js only", () => {
     );
     configureStorageClient(recorder, dirClientWithOAuthToken);
 
-    try {
-      await dirClientWithOAuthToken.exists();
-      assert.fail("Should fail with 403");
-    } catch (err) {
-      assert.strictEqual((err as any).statusCode, 403);
-    }
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("can be created with a url and a credential", async () => {

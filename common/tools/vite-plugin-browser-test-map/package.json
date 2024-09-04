@@ -20,8 +20,10 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "types/"
   ],
   "scripts": {
     "build": "tsc -p .",
@@ -30,8 +32,8 @@
     "clean": "rimraf --glob dist/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json src --ext .ts",
-    "lint:fix": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json src --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "integration-test:browser": "echo skipped",
@@ -49,10 +51,12 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
     "@types/node": "^18.0.0",
-    "eslint": "^8.50.0",
-    "prettier": "^3.2.5",
+    "eslint": "^9.9.0",
+    "prettier": "^3.3.3",
     "rimraf": "^5.0.0",
-    "typescript": "~5.4.5"
+    "typescript-eslint": "~8.2.0",
+    "typescript": "~5.5.3"
   }
 }

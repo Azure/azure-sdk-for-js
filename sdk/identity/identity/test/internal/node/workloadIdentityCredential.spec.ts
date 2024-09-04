@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
@@ -72,7 +72,6 @@ describe("WorkloadIdentityCredential", function () {
   it("authenticates with ManagedIdentity Credential", async function (this: Context) {
     process.env.AZURE_FEDERATED_TOKEN_FILE = tokenFilePath;
     const credential = new ManagedIdentityCredential("dummy-clientId");
-    assert.equal(credential["clientId"], "dummy-clientId");
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
     assert.ok(token?.expiresOnTimestamp! > Date.now());

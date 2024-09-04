@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
  *
  * @summary Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualRouterPeerListAdvertisedRoute.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualRouterPeerListAdvertisedRoute.json
  */
 async function virtualRouterPeerListAdvertisedRoutes() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

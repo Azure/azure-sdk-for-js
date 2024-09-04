@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CallConnection } from "../callConnection";
 import { CallConnectionProperties, CallParticipant } from "./models";
@@ -106,6 +106,7 @@ export interface MuteParticipantResult {
 /** The response payload for starting a call recording or getting call recording state. */
 export interface RecordingStateResult {
   recordingId: string;
+  recordingKind: string;
   recordingState: RecordingState;
 }
 

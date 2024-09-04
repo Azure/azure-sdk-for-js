@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { type TaskContext } from "vitest";
 import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
@@ -12,10 +12,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id",
   DEFAULT_PROJECT_NAME: "project",
   DEFAULT_POOL_NAME: "pool",
   DEFAULT_DEVBOX_NAME: "devbox",

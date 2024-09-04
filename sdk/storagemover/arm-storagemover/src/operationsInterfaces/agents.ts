@@ -18,7 +18,7 @@ import {
   AgentUpdateParameters,
   AgentsUpdateOptionalParams,
   AgentsUpdateResponse,
-  AgentsDeleteOptionalParams
+  AgentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Agents {
   list(
     resourceGroupName: string,
     storageMoverName: string,
-    options?: AgentsListOptionalParams
+    options?: AgentsListOptionalParams,
   ): PagedAsyncIterableIterator<Agent>;
   /**
    * Gets an Agent resource.
@@ -46,7 +46,7 @@ export interface Agents {
     resourceGroupName: string,
     storageMoverName: string,
     agentName: string,
-    options?: AgentsGetOptionalParams
+    options?: AgentsGetOptionalParams,
   ): Promise<AgentsGetResponse>;
   /**
    * Creates or updates an Agent resource, which references a hybrid compute machine that can run jobs.
@@ -61,7 +61,7 @@ export interface Agents {
     storageMoverName: string,
     agentName: string,
     agent: Agent,
-    options?: AgentsCreateOrUpdateOptionalParams
+    options?: AgentsCreateOrUpdateOptionalParams,
   ): Promise<AgentsCreateOrUpdateResponse>;
   /**
    * Creates or updates an Agent resource.
@@ -76,7 +76,7 @@ export interface Agents {
     storageMoverName: string,
     agentName: string,
     agent: AgentUpdateParameters,
-    options?: AgentsUpdateOptionalParams
+    options?: AgentsUpdateOptionalParams,
   ): Promise<AgentsUpdateResponse>;
   /**
    * Deletes an Agent resource.
@@ -89,7 +89,7 @@ export interface Agents {
     resourceGroupName: string,
     storageMoverName: string,
     agentName: string,
-    options?: AgentsDeleteOptionalParams
+    options?: AgentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Agent resource.
@@ -102,6 +102,6 @@ export interface Agents {
     resourceGroupName: string,
     storageMoverName: string,
     agentName: string,
-    options?: AgentsDeleteOptionalParams
+    options?: AgentsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.6.1",
+  "version": "1.7.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -71,7 +71,7 @@
     ]
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-client": "^1.5.0",
     "@azure/core-http-compat": "^2.0.0",
     "@azure/core-lro": "^2.5.1",
@@ -89,20 +89,20 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/eventgrid": "^5.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.4.1",
     "@azure/keyvault-secrets": "^4.2.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "nock": "^13.5.4",
     "playwright": "^1.46.1",
     "rimraf": "^5.0.5",
     "tshy": "^3.0.2",
     "tsx": "^4.7.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "vitest": "^2.0.5"
   },
   "//sampleConfiguration": {

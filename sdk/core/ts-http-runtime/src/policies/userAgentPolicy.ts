@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
 import { PipelinePolicy } from "../pipeline.js";
@@ -34,7 +34,7 @@ export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelineP
     name: userAgentPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.headers.has(UserAgentHeaderName)) {
-        request.headers.set(UserAgentHeaderName, userAgentValue);
+        request.headers.set(UserAgentHeaderName, await userAgentValue);
       }
       return next(request);
     },

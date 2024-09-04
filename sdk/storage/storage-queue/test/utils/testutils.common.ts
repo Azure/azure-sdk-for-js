@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -32,7 +32,6 @@ function getUriSanitizerForQueryParam(paramName: string) {
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
-const mockTenantId = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
@@ -53,9 +52,6 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockTenantId}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
   },
   sanitizerOptions: {
     uriSanitizers,

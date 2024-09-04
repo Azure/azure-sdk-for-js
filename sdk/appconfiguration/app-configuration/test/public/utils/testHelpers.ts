@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AppConfigurationClient,
   AppConfigurationClientOptions,
   ListSnapshotsPage,
   ConfigurationSnapshot,
+  SettingLabel,
+  ListLabelsPage,
 } from "../../../src/index.js";
 import {
   ConfigurationSetting,
@@ -19,7 +21,7 @@ import {
   isPlaybackMode,
   VitestTestContext,
 } from "@azure-tools/test-recorder";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -40,6 +42,7 @@ export async function startRecorder(context: VitestTestContext): Promise<Recorde
       "AZSDK3490", // etag value in If-Match header is not a secret and is needed for etag test
       "AZSDK2030", // operation-location header is not a secret and is needed for long running operation tests
       "AZSDK3493", // .name in the body is not a secret
+      "AZSDK2021", // x-ms-client-request-id for custom client ID test
     ],
   };
 
@@ -114,7 +117,9 @@ export async function toSortedArray(
   settings.sort((a, b) =>
     compareFn
       ? compareFn(a, b)
-      : `${a.key}-${a.label}-${a.value}`.localeCompare(`${b.key}-${b.label}-${b.value}`),
+      : `${a.key}-${a.label}-${a.value}-${a.tags}`.localeCompare(
+          `${b.key}-${b.label}-${b.value}-${b.tags}`,
+        ),
   );
 
   return settings;
@@ -149,6 +154,30 @@ export async function toSortedSnapshotArray(
   return snapshots;
 }
 
+export async function toSortedLabelsArray(
+  pagedIterator: PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>,
+  compareFn?: (a: SettingLabel, b: SettingLabel) => number,
+): Promise<SettingLabel[]> {
+  const labels: SettingLabel[] = [];
+
+  for await (const label of pagedIterator) {
+    labels.push(label);
+  }
+
+  let labelsViaPageIterator: SettingLabel[] = [];
+
+  for await (const page of pagedIterator.byPage()) {
+    labelsViaPageIterator = labelsViaPageIterator.concat(page.items);
+  }
+
+  // just a sanity-check
+  assert.deepEqual(labels, labelsViaPageIterator);
+
+  labels.sort((a, b) => (compareFn ? compareFn(a, b) : `${a.name}`.localeCompare(`${b.name}`)));
+
+  return labels;
+}
+
 export function assertEqualSettings(
   expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[],
@@ -163,6 +192,18 @@ export function assertEqualSettings(
   });
 
   assert.deepEqual(expected, actual);
+}
+
+export function assertTags(
+  expected: Pick<ConfigurationSetting, "tags">[],
+  actual: ConfigurationSetting[],
+): void {
+  const tagsList = actual.map((setting) => {
+    return {
+      tags: setting.tags,
+    };
+  });
+  assert.deepEqual(expected, tagsList);
 }
 
 export async function assertThrowsRestError(

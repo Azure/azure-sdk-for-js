@@ -4,8 +4,8 @@
 
 ```ts
 
-/// <reference types="node" />
-
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
@@ -18,7 +18,6 @@ import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -38,6 +37,105 @@ export interface AddressValueOutput {
     streetAddress?: string;
     suburb?: string;
     unit?: string;
+}
+
+// @public (undocumented)
+export interface AnalyzeBatchDocuments {
+    post(options: AnalyzeBatchDocumentsParameters): StreamableMethod<AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface AnalyzeBatchDocuments202Headers {
+    // (undocumented)
+    "operation-location": string;
+    "retry-after"?: number;
+}
+
+// @public
+export interface AnalyzeBatchDocuments202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & AnalyzeBatchDocuments202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface AnalyzeBatchDocumentsBodyParam {
+    body?: AnalyzeBatchDocumentsRequest;
+}
+
+// @public (undocumented)
+export interface AnalyzeBatchDocumentsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface AnalyzeBatchDocumentsLogicalResponse extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AnalyzeBatchDocumentsMediaTypesParam {
+    contentType: "application/json";
+}
+
+// @public (undocumented)
+export type AnalyzeBatchDocumentsParameters = AnalyzeBatchDocumentsQueryParam & AnalyzeBatchDocumentsMediaTypesParam & AnalyzeBatchDocumentsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface AnalyzeBatchDocumentsQueryParam {
+    // (undocumented)
+    queryParameters?: AnalyzeBatchDocumentsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface AnalyzeBatchDocumentsQueryParamProperties {
+    features?: DocumentAnalysisFeature[];
+    locale?: string;
+    output?: AnalyzeOutputOption[];
+    outputContentFormat?: ContentFormat;
+    pages?: string;
+    queryFields?: string[];
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export interface AnalyzeBatchDocumentsRequest {
+    azureBlobFileListSource?: AzureBlobFileListContentSource;
+    azureBlobSource?: AzureBlobContentSource;
+    overwriteExisting?: boolean;
+    resultContainerUrl: string;
+    resultPrefix?: string;
+}
+
+// @public
+export interface AnalyzeBatchOperationDetailOutput {
+    error?: ErrorModelOutput;
+    resultUrl?: string;
+    sourceUrl: string;
+    status: OperationStatusOutput;
+}
+
+// @public
+export interface AnalyzeBatchResultOperationOutput {
+    createdDateTime: string;
+    error?: ErrorModelOutput;
+    lastUpdatedDateTime: string;
+    percentCompleted?: number;
+    result?: AnalyzeBatchResultOutput;
+    status: OperationStatusOutput;
+}
+
+// @public
+export interface AnalyzeBatchResultOutput {
+    details: Array<AnalyzeBatchOperationDetailOutput>;
+    failedCount: number;
+    skippedCount: number;
+    succeededCount: number;
 }
 
 // @public (undocumented)
@@ -124,12 +222,13 @@ export interface AnalyzeDocumentFromStreamQueryParam {
 
 // @public (undocumented)
 export interface AnalyzeDocumentFromStreamQueryParamProperties {
-    features?: string[];
+    features?: DocumentAnalysisFeature[];
     locale?: string;
-    outputContentFormat?: string;
+    output?: AnalyzeOutputOption[];
+    outputContentFormat?: ContentFormat;
     pages?: string;
     queryFields?: string[];
-    stringIndexType?: string;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -154,12 +253,13 @@ export interface AnalyzeDocumentQueryParam {
 
 // @public (undocumented)
 export interface AnalyzeDocumentQueryParamProperties {
-    features?: string[];
+    features?: DocumentAnalysisFeature[];
     locale?: string;
-    outputContentFormat?: string;
+    output?: AnalyzeOutputOption[];
+    outputContentFormat?: ContentFormat;
     pages?: string;
     queryFields?: string[];
-    stringIndexType?: string;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -169,31 +269,70 @@ export interface AnalyzeDocumentRequest {
 }
 
 // @public
+export type AnalyzeOutputOption = string;
+
+// @public
 export interface AnalyzeResultOperationOutput {
     analyzeResult?: AnalyzeResultOutput;
     createdDateTime: string;
     error?: ErrorModelOutput;
     lastUpdatedDateTime: string;
-    status: string;
+    status: OperationStatusOutput;
 }
 
 // @public
 export interface AnalyzeResultOutput {
     apiVersion: string;
     content: string;
-    contentFormat?: string;
+    contentFormat?: ContentFormatOutput;
     documents?: Array<DocumentOutput>;
     figures?: Array<DocumentFigureOutput>;
     keyValuePairs?: Array<DocumentKeyValuePairOutput>;
     languages?: Array<DocumentLanguageOutput>;
-    lists?: Array<DocumentListOutput>;
     modelId: string;
     pages: Array<DocumentPageOutput>;
     paragraphs?: Array<DocumentParagraphOutput>;
     sections?: Array<DocumentSectionOutput>;
-    stringIndexType: string;
+    stringIndexType: StringIndexTypeOutput;
     styles?: Array<DocumentStyleOutput>;
     tables?: Array<DocumentTableOutput>;
+    warnings?: Array<WarningOutput>;
+}
+
+// @public (undocumented)
+export interface AuthorizeClassifierCopy {
+    post(options: AuthorizeClassifierCopyParameters): StreamableMethod<AuthorizeClassifierCopy200Response | AuthorizeClassifierCopyDefaultResponse>;
+}
+
+// @public
+export interface AuthorizeClassifierCopy200Response extends HttpResponse {
+    // (undocumented)
+    body: ClassifierCopyAuthorizationOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface AuthorizeClassifierCopyBodyParam {
+    body: AuthorizeClassifierCopyRequest;
+}
+
+// @public (undocumented)
+export interface AuthorizeClassifierCopyDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type AuthorizeClassifierCopyParameters = AuthorizeClassifierCopyBodyParam & RequestParameters;
+
+// @public
+export interface AuthorizeClassifierCopyRequest {
+    classifierId: string;
+    description?: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -306,6 +445,7 @@ export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParame
 
 // @public
 export interface BuildDocumentClassifierRequest {
+    allowOverwrite?: boolean;
     baseClassifierId?: string;
     classifierId: string;
     description?: string;
@@ -314,10 +454,12 @@ export interface BuildDocumentClassifierRequest {
 
 // @public
 export interface BuildDocumentModelRequest {
+    allowOverwrite?: boolean;
     azureBlobFileListSource?: AzureBlobFileListContentSource;
     azureBlobSource?: AzureBlobContentSource;
-    buildMode: string;
+    buildMode: DocumentBuildMode;
     description?: string;
+    maxTrainingHours?: number;
     modelId: string;
     tags?: Record<string, string>;
 }
@@ -365,17 +507,37 @@ export interface BuildModelLogicalResponse extends HttpResponse {
 export type BuildModelParameters = BuildModelBodyParam & RequestParameters;
 
 // @public
+export interface ClassifierCopyAuthorization {
+    accessToken: string;
+    expirationDateTime: Date | string;
+    targetClassifierId: string;
+    targetClassifierLocation: string;
+    targetResourceId: string;
+    targetResourceRegion: string;
+}
+
+// @public
+export interface ClassifierCopyAuthorizationOutput {
+    accessToken: string;
+    expirationDateTime: string;
+    targetClassifierId: string;
+    targetClassifierLocation: string;
+    targetResourceId: string;
+    targetResourceRegion: string;
+}
+
+// @public
 export interface ClassifierDocumentTypeDetails {
     azureBlobFileListSource?: AzureBlobFileListContentSource;
     azureBlobSource?: AzureBlobContentSource;
-    sourceKind?: string;
+    sourceKind?: ContentSourceKind;
 }
 
 // @public
 export interface ClassifierDocumentTypeDetailsOutput {
     azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
     azureBlobSource?: AzureBlobContentSourceOutput;
-    sourceKind?: string;
+    sourceKind?: ContentSourceKindOutput;
 }
 
 // @public (undocumented)
@@ -462,8 +624,9 @@ export interface ClassifyDocumentFromStreamQueryParam {
 
 // @public (undocumented)
 export interface ClassifyDocumentFromStreamQueryParamProperties {
-    split?: string;
-    stringIndexType?: string;
+    pages?: string;
+    split?: SplitMode;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -488,8 +651,9 @@ export interface ClassifyDocumentQueryParam {
 
 // @public (undocumented)
 export interface ClassifyDocumentQueryParamProperties {
-    split?: string;
-    stringIndexType?: string;
+    pages?: string;
+    split?: SplitMode;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -499,19 +663,12 @@ export interface ClassifyDocumentRequest {
 }
 
 // @public
-export interface ClientRequestIdHeaderOutput {
-}
-
-// @public
-export interface ComponentDocumentModelDetails {
-    modelId: string;
-}
-
-// @public
 export interface ComposeDocumentModelRequest {
-    componentModels: Array<ComponentDocumentModelDetails>;
+    classifierId: string;
     description?: string;
+    docTypes: Record<string, DocumentTypeDetails>;
     modelId: string;
+    split?: SplitMode;
     tags?: Record<string, string>;
 }
 
@@ -558,6 +715,18 @@ export interface ComposeModelLogicalResponse extends HttpResponse {
 export type ComposeModelParameters = ComposeModelBodyParam & RequestParameters;
 
 // @public
+export type ContentFormat = string;
+
+// @public
+export type ContentFormatOutput = string;
+
+// @public
+export type ContentSourceKind = string;
+
+// @public
+export type ContentSourceKindOutput = string;
+
+// @public
 export interface CopyAuthorization {
     accessToken: string;
     expirationDateTime: Date | string;
@@ -576,6 +745,48 @@ export interface CopyAuthorizationOutput {
     targetResourceId: string;
     targetResourceRegion: string;
 }
+
+// @public (undocumented)
+export interface CopyClassifierTo {
+    post(options: CopyClassifierToParameters): StreamableMethod<CopyClassifierTo202Response | CopyClassifierToDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface CopyClassifierTo202Headers {
+    // (undocumented)
+    "operation-location": string;
+    "retry-after"?: number;
+}
+
+// @public
+export interface CopyClassifierTo202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & CopyClassifierTo202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface CopyClassifierToBodyParam {
+    body: ClassifierCopyAuthorization;
+}
+
+// @public (undocumented)
+export interface CopyClassifierToDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public
+export interface CopyClassifierToLogicalResponse extends HttpResponse {
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type CopyClassifierToParameters = CopyClassifierToBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface CopyModelTo {
@@ -620,7 +831,7 @@ export interface CopyModelToLogicalResponse extends HttpResponse {
 export type CopyModelToParameters = CopyModelToBodyParam & RequestParameters;
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentIntelligenceClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: DocumentIntelligenceClientOptions): DocumentIntelligenceClient;
 export default createClient;
 
 // @public
@@ -707,13 +918,28 @@ export interface DeleteModelHeaders {
 export type DeleteModelParameters = DeleteModelHeaderParam & RequestParameters;
 
 // @public
+export type DocumentAnalysisFeature = string;
+
+// @public
+export type DocumentAnalysisFeatureOutput = string;
+
+// @public
+export type DocumentBarcodeKindOutput = string;
+
+// @public
 export interface DocumentBarcodeOutput {
     confidence: number;
-    kind: string;
+    kind: DocumentBarcodeKindOutput;
     polygon?: number[];
     span: DocumentSpanOutput;
     value: string;
 }
+
+// @public
+export type DocumentBuildMode = string;
+
+// @public
+export type DocumentBuildModeOutput = string;
 
 // @public
 export interface DocumentCaptionOutput {
@@ -726,6 +952,12 @@ export interface DocumentCaptionOutput {
 // @public
 export interface DocumentClassifierBuildOperationDetailsOutput extends OperationDetailsOutputParent {
     kind: "documentClassifierBuild";
+    result?: DocumentClassifierDetailsOutput;
+}
+
+// @public
+export interface DocumentClassifierCopyToOperationDetailsOutput extends OperationDetailsOutputParent {
+    kind: "documentClassifierCopyTo";
     result?: DocumentClassifierDetailsOutput;
 }
 
@@ -747,7 +979,7 @@ export interface DocumentFieldOutput {
     confidence?: number;
     content?: string;
     spans?: Array<DocumentSpanOutput>;
-    type: string;
+    type: DocumentFieldTypeOutput;
     valueAddress?: AddressValueOutput;
     valueArray?: Array<DocumentFieldOutput>;
     valueBoolean?: boolean;
@@ -759,10 +991,19 @@ export interface DocumentFieldOutput {
     valueObject?: Record<string, DocumentFieldOutput>;
     valuePhoneNumber?: string;
     valueSelectionGroup?: string[];
-    valueSelectionMark?: string;
-    valueSignature?: string;
+    valueSelectionMark?: DocumentSelectionMarkStateOutput;
+    valueSignature?: DocumentSignatureTypeOutput;
     valueString?: string;
     valueTime?: string;
+}
+
+// @public
+export interface DocumentFieldSchema {
+    description?: string;
+    example?: string;
+    items?: DocumentFieldSchema;
+    properties?: Record<string, DocumentFieldSchema>;
+    type: DocumentFieldType;
 }
 
 // @public
@@ -771,8 +1012,14 @@ export interface DocumentFieldSchemaOutput {
     example?: string;
     items?: DocumentFieldSchemaOutput;
     properties?: Record<string, DocumentFieldSchemaOutput>;
-    type: string;
+    type: DocumentFieldTypeOutput;
 }
+
+// @public
+export type DocumentFieldType = string;
+
+// @public
+export type DocumentFieldTypeOutput = string;
 
 // @public
 export interface DocumentFigureOutput {
@@ -780,6 +1027,7 @@ export interface DocumentFigureOutput {
     caption?: DocumentCaptionOutput;
     elements?: string[];
     footnotes?: Array<DocumentFootnoteOutput>;
+    id?: string;
     spans: Array<DocumentSpanOutput>;
 }
 
@@ -792,9 +1040,12 @@ export interface DocumentFootnoteOutput {
 }
 
 // @public
+export type DocumentFormulaKindOutput = string;
+
+// @public
 export interface DocumentFormulaOutput {
     confidence: number;
-    kind: string;
+    kind: DocumentFormulaKindOutput;
     polygon?: number[];
     span: DocumentSpanOutput;
     value: string;
@@ -804,6 +1055,11 @@ export interface DocumentFormulaOutput {
 export type DocumentIntelligenceClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface DocumentIntelligenceClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface DocumentKeyValueElementOutput {
@@ -834,21 +1090,6 @@ export interface DocumentLineOutput {
 }
 
 // @public
-export interface DocumentListItemOutput {
-    boundingRegions?: Array<BoundingRegionOutput>;
-    content: string;
-    elements?: string[];
-    level: number;
-    spans: Array<DocumentSpanOutput>;
-}
-
-// @public
-export interface DocumentListOutput {
-    items: Array<DocumentListItemOutput>;
-    spans: Array<DocumentSpanOutput>;
-}
-
-// @public
 export interface DocumentModelBuildOperationDetailsOutput extends OperationDetailsOutputParent {
     kind: "documentModelBuild";
     result?: DocumentModelDetailsOutput;
@@ -868,17 +1109,20 @@ export interface DocumentModelCopyToOperationDetailsOutput extends OperationDeta
 
 // @public
 export interface DocumentModelDetailsOutput {
-    apiVersion?: string;
-    azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
-    azureBlobSource?: AzureBlobContentSourceOutput;
-    buildMode?: string;
-    createdDateTime: string;
+    readonly apiVersion?: string;
+    readonly azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
+    readonly azureBlobSource?: AzureBlobContentSourceOutput;
+    readonly buildMode?: DocumentBuildModeOutput;
+    classifierId?: string;
+    readonly createdDateTime: string;
     description?: string;
-    docTypes?: Record<string, DocumentTypeDetailsOutput>;
-    expirationDateTime?: string;
+    readonly docTypes?: Record<string, DocumentTypeDetailsOutput>;
+    readonly expirationDateTime?: string;
     modelId: string;
+    split?: SplitModeOutput;
     tags?: Record<string, string>;
-    warnings?: Array<WarningOutput>;
+    readonly trainingHours?: number;
+    readonly warnings?: Array<WarningOutput>;
 }
 
 // @public
@@ -900,7 +1144,7 @@ export interface DocumentPageOutput {
     pageNumber: number;
     selectionMarks?: Array<DocumentSelectionMarkOutput>;
     spans: Array<DocumentSpanOutput>;
-    unit?: string;
+    unit?: LengthUnitOutput;
     width?: number;
     words?: Array<DocumentWordOutput>;
 }
@@ -909,7 +1153,7 @@ export interface DocumentPageOutput {
 export interface DocumentParagraphOutput {
     boundingRegions?: Array<BoundingRegionOutput>;
     content: string;
-    role?: string;
+    role?: ParagraphRoleOutput;
     spans: Array<DocumentSpanOutput>;
 }
 
@@ -924,8 +1168,14 @@ export interface DocumentSelectionMarkOutput {
     confidence: number;
     polygon?: number[];
     span: DocumentSpanOutput;
-    state: string;
+    state: DocumentSelectionMarkStateOutput;
 }
+
+// @public
+export type DocumentSelectionMarkStateOutput = string;
+
+// @public
+export type DocumentSignatureTypeOutput = string;
 
 // @public
 export interface DocumentSpanOutput {
@@ -938,12 +1188,15 @@ export interface DocumentStyleOutput {
     backgroundColor?: string;
     color?: string;
     confidence: number;
-    fontStyle?: string;
-    fontWeight?: string;
+    fontStyle?: FontStyleOutput;
+    fontWeight?: FontWeightOutput;
     isHandwritten?: boolean;
     similarFontFamily?: string;
     spans: Array<DocumentSpanOutput>;
 }
+
+// @public
+export type DocumentTableCellKindOutput = string;
 
 // @public
 export interface DocumentTableCellOutput {
@@ -952,7 +1205,7 @@ export interface DocumentTableCellOutput {
     columnSpan?: number;
     content: string;
     elements?: string[];
-    kind?: string;
+    kind?: DocumentTableCellKindOutput;
     rowIndex: number;
     rowSpan?: number;
     spans: Array<DocumentSpanOutput>;
@@ -970,11 +1223,29 @@ export interface DocumentTableOutput {
 }
 
 // @public
-export interface DocumentTypeDetailsOutput {
-    buildMode?: string;
+export interface DocumentTypeDetails {
+    buildMode?: DocumentBuildMode;
+    confidenceThreshold?: number;
     description?: string;
+    features?: DocumentAnalysisFeature[];
     fieldConfidence?: Record<string, number>;
-    fieldSchema: Record<string, DocumentFieldSchemaOutput>;
+    fieldSchema?: Record<string, DocumentFieldSchema>;
+    maxDocumentsToAnalyze?: number;
+    modelId?: string;
+    queryFields?: string[];
+}
+
+// @public
+export interface DocumentTypeDetailsOutput {
+    buildMode?: DocumentBuildModeOutput;
+    confidenceThreshold?: number;
+    description?: string;
+    features?: DocumentAnalysisFeatureOutput[];
+    fieldConfidence?: Record<string, number>;
+    fieldSchema?: Record<string, DocumentFieldSchemaOutput>;
+    maxDocumentsToAnalyze?: number;
+    modelId?: string;
+    queryFields?: string[];
 }
 
 // @public
@@ -999,6 +1270,36 @@ export interface ErrorResponseOutput {
     error: ErrorModelOutput;
 }
 
+// @public
+export type FontStyleOutput = string;
+
+// @public
+export type FontWeightOutput = string;
+
+// @public (undocumented)
+export interface GetAnalyzeBatchResult {
+    get(options?: GetAnalyzeBatchResultParameters): StreamableMethod<GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse>;
+}
+
+// @public
+export interface GetAnalyzeBatchResult200Response extends HttpResponse {
+    // (undocumented)
+    body: AnalyzeBatchResultOperationOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetAnalyzeBatchResultDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetAnalyzeBatchResultParameters = RequestParameters;
+
 // @public (undocumented)
 export interface GetAnalyzeResult {
     get(options?: GetAnalyzeResultParameters): StreamableMethod<GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse>;
@@ -1021,7 +1322,67 @@ export interface GetAnalyzeResultDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
+export interface GetAnalyzeResultFigure {
+    get(options?: GetAnalyzeResultFigureParameters): StreamableMethod<GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetAnalyzeResultFigure200Headers {
+    "content-type": "image/png";
+}
+
+// @public
+export interface GetAnalyzeResultFigure200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    headers: RawHttpHeaders & GetAnalyzeResultFigure200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetAnalyzeResultFigureDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetAnalyzeResultFigureParameters = RequestParameters;
+
+// @public (undocumented)
 export type GetAnalyzeResultParameters = RequestParameters;
+
+// @public (undocumented)
+export interface GetAnalyzeResultPdf {
+    get(options?: GetAnalyzeResultPdfParameters): StreamableMethod<GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetAnalyzeResultPdf200Headers {
+    "content-type": "application/pdf";
+}
+
+// @public
+export interface GetAnalyzeResultPdf200Response extends HttpResponse {
+    body: Uint8Array;
+    // (undocumented)
+    headers: RawHttpHeaders & GetAnalyzeResultPdf200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetAnalyzeResultPdfDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetAnalyzeResultPdfParameters = RequestParameters;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -1131,10 +1492,48 @@ export interface GetDocumentClassifierBuildOperationHeaders {
 export type GetDocumentClassifierBuildOperationParameters = GetDocumentClassifierBuildOperationHeaderParam & RequestParameters;
 
 // @public (undocumented)
+export interface GetDocumentClassifierCopyToOperation200Headers {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface GetDocumentClassifierCopyToOperation200Response extends HttpResponse {
+    // (undocumented)
+    body: DocumentClassifierCopyToOperationDetailsOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & GetDocumentClassifierCopyToOperation200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetDocumentClassifierCopyToOperationDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface GetDocumentClassifierCopyToOperationHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & GetDocumentClassifierCopyToOperationHeaders;
+}
+
+// @public (undocumented)
+export interface GetDocumentClassifierCopyToOperationHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type GetDocumentClassifierCopyToOperationParameters = GetDocumentClassifierCopyToOperationHeaderParam & RequestParameters;
+
+// @public (undocumented)
 export interface GetDocumentModelBuildOperation {
     get(options?: GetDocumentModelBuildOperationParameters): StreamableMethod<GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse>;
     get(options?: GetDocumentModelComposeOperationParameters): StreamableMethod<GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse>;
     get(options?: GetDocumentModelCopyToOperationParameters): StreamableMethod<GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse>;
+    get(options?: GetDocumentClassifierCopyToOperationParameters): StreamableMethod<GetDocumentClassifierCopyToOperation200Response | GetDocumentClassifierCopyToOperationDefaultResponse>;
     get(options?: GetDocumentClassifierBuildOperationParameters): StreamableMethod<GetDocumentClassifierBuildOperation200Response | GetDocumentClassifierBuildOperationDefaultResponse>;
     get(options?: GetOperationParameters): StreamableMethod<GetOperation200Response | GetOperationDefaultResponse>;
 }
@@ -1251,6 +1650,9 @@ export interface GetDocumentModelCopyToOperationHeaders {
 export type GetDocumentModelCopyToOperationParameters = GetDocumentModelCopyToOperationHeaderParam & RequestParameters;
 
 // @public
+export function getLongRunningPoller<TResult extends AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse>(client: Client, initialResponse: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
 export function getLongRunningPoller<TResult extends BuildModelLogicalResponse | BuildModelDefaultResponse>(client: Client, initialResponse: BuildModel202Response | BuildModelDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
@@ -1261,6 +1663,9 @@ export function getLongRunningPoller<TResult extends CopyModelToLogicalResponse 
 
 // @public (undocumented)
 export function getLongRunningPoller<TResult extends BuildClassifierLogicalResponse | BuildClassifierDefaultResponse>(client: Client, initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPoller<TResult extends CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse>(client: Client, initialResponse: CopyClassifierTo202Response | CopyClassifierToDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public (undocumented)
 export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse>(client: Client, initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
@@ -1389,7 +1794,22 @@ export interface InnerErrorOutput {
 export function isUnexpected(response: ListOperations200Response | ListOperationsDefaultResponse): response is ListOperationsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelComposeOperation200Response | GetDocumentModelCopyToOperation200Response | GetDocumentClassifierBuildOperation200Response | GetOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
+export function isUnexpected(response: GetDocumentModelBuildOperation200Response | GetDocumentModelBuildOperationDefaultResponse): response is GetDocumentModelBuildOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentModelComposeOperation200Response | GetDocumentModelComposeOperationDefaultResponse): response is GetDocumentModelComposeOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentModelCopyToOperation200Response | GetDocumentModelCopyToOperationDefaultResponse): response is GetDocumentModelCopyToOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentClassifierCopyToOperation200Response | GetDocumentClassifierCopyToOperationDefaultResponse): response is GetDocumentClassifierCopyToOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetDocumentClassifierBuildOperation200Response | GetDocumentClassifierBuildOperationDefaultResponse): response is GetDocumentClassifierBuildOperationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetOperation200Response | GetOperationDefaultResponse): response is GetOperationDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetResourceInfo200Response | GetResourceInfoDefaultResponse): response is GetResourceInfoDefaultResponse;
@@ -1398,7 +1818,22 @@ export function isUnexpected(response: GetResourceInfo200Response | GetResourceI
 export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocument202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse): response is GetAnalyzeResultPdfDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetAnalyzeResultFigure200Response | GetAnalyzeResultFigureDefaultResponse): response is GetAnalyzeResultFigureDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse): response is AnalyzeDocumentFromStreamDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeDocument202Response | AnalyzeDocumentLogicalResponse | AnalyzeDocumentDefaultResponse): response is AnalyzeDocumentDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse): response is GetAnalyzeBatchResultDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse): response is AnalyzeBatchDocumentsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetModel200Response | GetModelDefaultResponse): response is GetModelDefaultResponse;
@@ -1434,10 +1869,22 @@ export function isUnexpected(response: GetClassifier200Response | GetClassifierD
 export function isUnexpected(response: DeleteClassifier204Response | DeleteClassifierDefaultResponse): response is DeleteClassifierDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocument202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
+export function isUnexpected(response: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse): response is ClassifyDocumentFromStreamDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ClassifyDocument202Response | ClassifyDocumentLogicalResponse | ClassifyDocumentDefaultResponse): response is ClassifyDocumentDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetClassifyResult200Response | GetClassifyResultDefaultResponse): response is GetClassifyResultDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: AuthorizeClassifierCopy200Response | AuthorizeClassifierCopyDefaultResponse): response is AuthorizeClassifierCopyDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CopyClassifierTo202Response | CopyClassifierToLogicalResponse | CopyClassifierToDefaultResponse): response is CopyClassifierToDefaultResponse;
+
+// @public
+export type LengthUnitOutput = string;
 
 // @public (undocumented)
 export interface ListClassifiers {
@@ -1566,7 +2013,7 @@ export interface ListOperationsHeaders {
 export type ListOperationsParameters = ListOperationsHeaderParam & RequestParameters;
 
 // @public
-export type OperationDetailsOutput = OperationDetailsOutputParent | DocumentModelBuildOperationDetailsOutput | DocumentModelComposeOperationDetailsOutput | DocumentModelCopyToOperationDetailsOutput | DocumentClassifierBuildOperationDetailsOutput;
+export type OperationDetailsOutput = OperationDetailsOutputParent | DocumentModelBuildOperationDetailsOutput | DocumentModelComposeOperationDetailsOutput | DocumentModelCopyToOperationDetailsOutput | DocumentClassifierCopyToOperationDetailsOutput | DocumentClassifierBuildOperationDetailsOutput;
 
 // @public
 export interface OperationDetailsOutputParent {
@@ -1574,14 +2021,20 @@ export interface OperationDetailsOutputParent {
     createdDateTime: string;
     error?: ErrorModelOutput;
     // (undocumented)
-    kind: string;
+    kind: OperationKindOutput;
     lastUpdatedDateTime: string;
     operationId: string;
     percentCompleted?: number;
     resourceLocation: string;
-    status: string;
+    status: OperationStatusOutput;
     tags?: Record<string, string>;
 }
+
+// @public
+export type OperationKindOutput = string;
+
+// @public
+export type OperationStatusOutput = string;
 
 // @public
 export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
@@ -1608,16 +2061,11 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export interface QuotaDetailsOutput {
-    quota: number;
-    quotaResetDateTime: string;
-    used: number;
-}
+export type ParagraphRoleOutput = string;
 
 // @public
 export interface ResourceDetailsOutput {
     customDocumentModels: CustomDocumentModelsDetailsOutput;
-    customNeuralDocumentModelBuilds: QuotaDetailsOutput;
 }
 
 // @public (undocumented)
@@ -1626,7 +2074,11 @@ export interface Routes {
     (path: "/operations/{operationId}", operationId: string): GetDocumentModelBuildOperation;
     (path: "/info"): GetResourceInfo;
     (path: "/documentModels/{modelId}/analyzeResults/{resultId}", modelId: string, resultId: string): GetAnalyzeResult;
+    (path: "/documentModels/{modelId}/analyzeResults/{resultId}/pdf", modelId: string, resultId: string): GetAnalyzeResultPdf;
+    (path: "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}", modelId: string, resultId: string, figureId: string): GetAnalyzeResultFigure;
     (path: "/documentModels/{modelId}:analyze", modelId: string): AnalyzeDocumentFromStream;
+    (path: "/documentModels/{modelId}/analyzeBatchResults/{resultId}", modelId: string, resultId: string): GetAnalyzeBatchResult;
+    (path: "/documentModels/{modelId}:analyzeBatch", modelId: string): AnalyzeBatchDocuments;
     (path: "/documentModels/{modelId}", modelId: string): GetModel;
     (path: "/documentModels:build"): BuildModel;
     (path: "/documentModels:compose"): ComposeModel;
@@ -1638,7 +2090,44 @@ export interface Routes {
     (path: "/documentClassifiers/{classifierId}", classifierId: string): GetClassifier;
     (path: "/documentClassifiers/{classifierId}:analyze", classifierId: string): ClassifyDocumentFromStream;
     (path: "/documentClassifiers/{classifierId}/analyzeResults/{resultId}", classifierId: string, resultId: string): GetClassifyResult;
+    (path: "/documentClassifiers:authorizeCopy"): AuthorizeClassifierCopy;
+    (path: "/documentClassifiers/{classifierId}:copyTo", classifierId: string): CopyClassifierTo;
 }
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationId(): string;
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
+export type SplitMode = string;
+
+// @public
+export type SplitModeOutput = string;
+
+// @public
+export type StringIndexType = string;
+
+// @public
+export type StringIndexTypeOutput = string;
 
 // @public
 export interface WarningOutput {

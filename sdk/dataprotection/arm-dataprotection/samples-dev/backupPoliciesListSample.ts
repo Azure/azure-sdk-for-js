@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns list of backup policies belonging to a backup vault
  *
  * @summary Returns list of backup policies belonging to a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/PolicyCRUD/ListBackupPolicy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/PolicyCRUD/ListBackupPolicy.json
  */
 async function listBackupPolicy() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listBackupPolicy() {
   const resArray = new Array();
   for await (let item of client.backupPolicies.list(
     resourceGroupName,
-    vaultName
+    vaultName,
   )) {
     resArray.push(item);
   }

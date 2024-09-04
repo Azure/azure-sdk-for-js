@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the details of a Virtual Hub Bgp Connection.
  *
  * @summary Retrieves the details of a Virtual Hub Bgp Connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubBgpConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/VirtualHubBgpConnectionGet.json
  */
 async function virtualHubVirtualHubRouteTableV2Get() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

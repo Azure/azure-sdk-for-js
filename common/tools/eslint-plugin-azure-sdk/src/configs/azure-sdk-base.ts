@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export default {
   parser: "@typescript-eslint/parser",
@@ -9,6 +9,7 @@ export default {
   },
   plugins: [
     "@typescript-eslint",
+    "eslint-plugin-n",
     "no-only-tests",
     "promise",
     "eslint-plugin-tsdoc",
@@ -33,6 +34,7 @@ export default {
       extends: [
         "eslint:recommended",
         "plugin:promise/recommended",
+        "plugin:n/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "prettier",
@@ -42,14 +44,6 @@ export default {
         curly: ["error", "multi-line"],
         "eol-last": ["error", "always"],
         eqeqeq: ["error", "always", { null: "ignore" }],
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
-            optionalDependencies: false,
-            peerDependencies: false,
-          },
-        ],
         "no-console": "off",
         "no-dupe-class-members": "off",
         "no-invalid-this": "off",
@@ -65,6 +59,15 @@ export default {
         "no-unused-expressions": "error",
         "no-useless-constructor": "off",
         "no-use-before-define": "off",
+        "n/exports-style": ["error", "module.exports"],
+        "n/no-missing-import": "off",
+        "n/no-missing-require": "off",
+        "n/hashbang": "warn",
+        "n/no-unsupported-features/node-builtins": "warn",
+        "n/no-deprecated-api": "warn",
+        "n/no-process-exit": "warn",
+        "n/no-unpublished-import": "off",
+        "n/no-unpublished-require": "off",
         "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
         "no-var": "error",
         "one-var-declaration-per-line": "error",
@@ -102,9 +105,11 @@ export default {
         "@typescript-eslint/no-inferrable-types": "off",
         // We use empty extends and empty interface for shimming and renaming extensively
         "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-empty-object-type": "off",
         "@typescript-eslint/no-namespace": "error",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+        "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/no-useless-constructor": "error",
         "@typescript-eslint/no-var-requires": "off",
         "no-shadow": "off",
@@ -172,6 +177,7 @@ export default {
       ],
       rules: {
         "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
       },
     },
   ],

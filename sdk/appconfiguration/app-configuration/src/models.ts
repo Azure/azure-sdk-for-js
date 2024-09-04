@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag.js";
@@ -10,6 +10,7 @@ import {
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
+  SettingLabel,
 } from "./generated/src/index.js";
 
 /**
@@ -177,6 +178,15 @@ export interface OptionalSnapshotFields {
 }
 
 /**
+ * Used when the API supports selectively returning labels fields.
+ */
+export interface OptionalLabelsFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof SettingLabel)[];
+}
+/**
  * Sync token header field
  */
 export interface SyncTokenHeaderField {
@@ -303,6 +313,9 @@ export interface ListSettingsOptions extends OptionalFields {
    * Reference: https://learn.microsoft.com/azure/azure-app-configuration/rest-api-key-value
    */
   labelFilter?: string;
+
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
+  tagsFilter?: string[];
 }
 
 /**
@@ -320,9 +333,22 @@ export interface ListConfigurationSettingsForSnapshotOptions
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
   /**
-   * etag
+   * Etags list for page
    */
   pageEtags?: string[];
+}
+
+/**
+ * Options for listLabels
+ */
+export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {
+  /** A filter for the name of the returned labels. */
+  nameFilter?: string;
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
 }
 
 /**
@@ -380,6 +406,19 @@ export interface ListConfigurationSettingPage
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListLabelsPage
+  extends HttpResponseField<SyncTokenHeaderField>,
+    PageSettings,
+    EtagEntity {
+  /**
+   * The collection of labels
+   */
+  items: SettingLabel[];
 }
 
 /**
@@ -504,4 +543,5 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
+  SettingLabel,
 } from "./generated/src/index.js";

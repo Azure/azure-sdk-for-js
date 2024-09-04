@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msalNode from "@azure/msal-node";
 
@@ -48,6 +48,10 @@ export interface PluginConfiguration {
      * The native broker plugin handler.
      */
     nativeBrokerPlugin?: msalNode.INativeBrokerPlugin;
+    /**
+     * If set to true, the credential will attempt to use the default broker account for authentication before falling back to interactive authentication. Default is set to false.
+     */
+    useDefaultBrokerAccount?: boolean;
   };
 }
 

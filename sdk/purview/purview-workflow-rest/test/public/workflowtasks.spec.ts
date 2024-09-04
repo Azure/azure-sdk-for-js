@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // import { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
 import { Recorder } from "@azure-tools/test-recorder";

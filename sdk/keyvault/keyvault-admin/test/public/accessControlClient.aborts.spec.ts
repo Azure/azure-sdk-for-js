@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 
-import { KeyVaultAccessControlClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
-import { authenticate } from "./utils/authentication";
+import { KeyVaultAccessControlClient } from "../../src/index.js";
+import { authenticate } from "./utils/authentication.js";
+import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { AbortError } from "@azure/abort-controller";
 
 describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let client: KeyVaultAccessControlClient;
@@ -14,8 +14,8 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let generateFakeUUID: () => string;
   const globalScope = "/";
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;
@@ -31,26 +31,22 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client
-        .listRoleDefinitions("/", {
-          abortSignal: controller.signal,
-        })
-        .next();
-    });
+    await expect(
+      client.listRoleDefinitions("/", { abortSignal: controller.signal }).next(),
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort listRoleAssignments", async function () {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client
+    await expect(
+      client
         .listRoleAssignments("/", {
           abortSignal: controller.signal,
         })
-        .next();
-    });
+        .next(),
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort createRoleAssignment", async function () {
@@ -60,8 +56,8 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client.createRoleAssignment(
+    await expect(
+      client.createRoleAssignment(
         globalScope,
         name,
         roleDefinitionId,
@@ -69,8 +65,8 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
         {
           abortSignal: controller.signal,
         },
-      );
-    });
+      ),
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort getRoleAssignment", async function () {
@@ -79,11 +75,11 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client.getRoleAssignment(globalScope, name, {
+    await expect(
+      client.getRoleAssignment(globalScope, name, {
         abortSignal: controller.signal,
-      });
-    });
+      }),
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort deleteRoleAssignment", async function () {
@@ -92,10 +88,10 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client.deleteRoleAssignment(globalScope, name, {
+    await expect(
+      client.deleteRoleAssignment(globalScope, name, {
         abortSignal: controller.signal,
-      });
-    });
+      }),
+    ).rejects.toThrow(AbortError);
   });
 });

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { WebPubSubServiceClient, odata } from "../src/index";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
@@ -350,18 +350,18 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // send to connections in both group1 and group2
     await serviceClient.sendToAll(
       { message: "Hi json!" },
-      { filter: "'group1 1' in groups and 'group2' in groups" },
+      { filter: "'group1' in groups and 'group2' in groups" },
     );
 
     // Send a plain text message
     await serviceClient.sendToAll("Hi text!", {
       contentType: "text/plain",
-      filter: "'group1 1' in groups and 'group2' in groups",
+      filter: "'group1' in groups and 'group2' in groups",
     });
 
     // Send the binary end signal message
     await serviceClient.sendToAll(getEndSignal(2), {
-      filter: "'group1 1' in groups and 'group2' in groups",
+      filter: "'group1' in groups and 'group2' in groups",
     });
 
     // Timeout 1000 ms

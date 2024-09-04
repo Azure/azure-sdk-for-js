@@ -7,9 +7,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "clean": "rimraf --glob dist/",
-    "build-dev": "webpack --mode development",
-    "build": "webpack --mode production",
+    "build": "webpack-cli ./src/index.js -o ./dist/app.js",
     "start": "http-server ./"
   },
   "repository": {
@@ -30,15 +28,13 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/event-hubs": "^5.0.0",
-    "@azure/identity": "^4.2.1",
-    "os-browserify": "^0.3.0",
-    "path-browserify": "^1.0.1"
+    "@azure/event-hubs": "^5.12.0",
+    "@azure/identity": "^4.3.0"
   },
   "devDependencies": {
     "http-server": "^0.12.1",
     "rimraf": "^5.0.5",
-    "webpack": "^5.85.0",
-    "webpack-cli": "^5.1.1"
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4"
   }
 }

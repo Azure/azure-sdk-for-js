@@ -15,7 +15,7 @@
         "AZURE_TEST_AGENT": "UBUNTU_2004_NODE14",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
       },
-      "macos-11": {
+      "macos-latest": {
         "OSVmImage": "env:MACVMIMAGE",
         "Pool": "env:MACPOOL",
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"

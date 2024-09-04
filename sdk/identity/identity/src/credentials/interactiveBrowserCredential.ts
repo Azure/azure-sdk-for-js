@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -11,14 +11,15 @@ import {
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
+  resolveTenantId,
 } from "../util/tenantIdUtils";
 
 import { AuthenticationRecord } from "../msal/types";
-import { MsalFlow } from "../msal/flows";
-import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
+import { MsalClient, MsalClientOptions, createMsalClient } from "../msal/nodeFlows/msalClient";
+import { DeveloperSignOnClientId } from "../constants";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -29,8 +30,10 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId?: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
+  private msalClient: MsalClient;
   private disableAutomaticAuthentication?: boolean;
+  private browserCustomizationOptions: InteractiveBrowserCredentialNodeOptions["browserCustomizationOptions"];
+  private loginHint?: string;
 
   /**
    * Creates an instance of InteractiveBrowserCredential with the details needed.
@@ -47,46 +50,38 @@ export class InteractiveBrowserCredential implements TokenCredential {
   constructor(
     options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions,
   ) {
-    const redirectUri =
-      typeof options.redirectUri === "function"
-        ? options.redirectUri()
-        : options.redirectUri || "http://localhost";
-
-    this.tenantId = options?.tenantId;
+    this.tenantId = resolveTenantId(logger, options.tenantId, options.clientId);
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants,
     );
 
+    const msalClientOptions: MsalClientOptions = {
+      ...options,
+      tokenCredentialOptions: options,
+      logger,
+    };
     const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
+    this.browserCustomizationOptions = ibcNodeOptions.browserCustomizationOptions;
+    this.loginHint = ibcNodeOptions.loginHint;
     if (ibcNodeOptions?.brokerOptions?.enabled) {
       if (!ibcNodeOptions?.brokerOptions?.parentWindowHandle) {
         throw new Error(
           "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter",
         );
       } else {
-        this.msalFlow = new MsalOpenBrowser({
-          ...options,
-          tokenCredentialOptions: options,
-          logger,
-          redirectUri,
-          browserCustomizationOptions: ibcNodeOptions?.browserCustomizationOptions,
-          brokerOptions: {
-            enabled: true,
-            parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
-            legacyEnableMsaPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMsaPassthrough,
-            useDefaultBrokerAccount: ibcNodeOptions.brokerOptions?.useDefaultBrokerAccount,
-          },
-        });
+        msalClientOptions.brokerOptions = {
+          enabled: true,
+          parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
+          legacyEnableMsaPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMsaPassthrough,
+          useDefaultBrokerAccount: ibcNodeOptions.brokerOptions?.useDefaultBrokerAccount,
+        };
       }
-    } else {
-      this.msalFlow = new MsalOpenBrowser({
-        ...options,
-        tokenCredentialOptions: options,
-        logger,
-        redirectUri,
-        browserCustomizationOptions: ibcNodeOptions?.browserCustomizationOptions,
-      });
     }
+    this.msalClient = createMsalClient(
+      options.clientId ?? DeveloperSignOnClientId,
+      this.tenantId,
+      msalClientOptions,
+    );
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
@@ -115,9 +110,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        return this.msalFlow.getToken(arrayScopes, {
+        return this.msalClient.getTokenByInteractiveRequest(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+          browserCustomizationOptions: this.browserCustomizationOptions,
+          loginHint: this.loginHint,
         });
       },
     );
@@ -127,7 +124,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   * If the token can't be retrieved silently, this method will always generate a challenge for the user.
    *
    * On Node.js, this credential has [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) enabled by default.
    * PKCE is a security feature that mitigates authentication code interception attacks.
@@ -145,8 +142,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       options,
       async (newOptions) => {
         const arrayScopes = ensureScopes(scopes);
-        await this.msalFlow.getToken(arrayScopes, newOptions);
-        return this.msalFlow.getActiveAccount();
+        await this.msalClient.getTokenByInteractiveRequest(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: false, // this method should always allow user interaction
+          browserCustomizationOptions: this.browserCustomizationOptions,
+          loginHint: this.loginHint,
+        });
+        return this.msalClient.getActiveAccount();
       },
     );
   }

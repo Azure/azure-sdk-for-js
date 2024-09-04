@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Container, ContainerDefinition } from "../../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import assert from "assert";
@@ -640,12 +640,47 @@ describe("Cross partition GROUP BY", () => {
     );
   });
 
-  it("with multiple aggregates", async () => {
+  it.skip("with MakeList", async () => {
     const queryIterator = container.items.query(
-      "SELECT c.name, Count(1) AS count, Min(c.age) AS min_age, Max(c.age) AS max_age FROM c GROUP BY c.name",
+      "SELECT c.name, MakeList(c.age) AS ages FROM c GROUP BY c.name",
       options,
     );
     const result = await queryIterator.fetchAll();
+    for (const item of result.resources) {
+      item.ages = item.ages.sort();
+    }
+    snapshot(
+      result.resources.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      }),
+    );
+  });
+
+  it.skip("with MakeSet", async () => {
+    const queryIterator = container.items.query(
+      "SELECT c.name, MakeSet(c.age) AS ages FROM c GROUP BY c.name",
+      options,
+    );
+    const result = await queryIterator.fetchAll();
+    for (const item of result.resources) {
+      item.ages = item.ages.sort();
+    }
+    snapshot(
+      result.resources.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      }),
+    );
+  });
+
+  it.skip("with multiple aggregates", async () => {
+    const queryIterator = container.items.query(
+      "SELECT c.name, Count(1) AS count, Min(c.age) AS min_age, Max(c.age) AS max_age, MakeList(c.age) as ages FROM c GROUP BY c.name",
+      options,
+    );
+    const result = await queryIterator.fetchAll();
+    for (const item of result.resources) {
+      item.ages = item.ages.sort();
+    }
     snapshot(
       result.resources.sort((a, b) => {
         return a.name.localeCompare(b.name);

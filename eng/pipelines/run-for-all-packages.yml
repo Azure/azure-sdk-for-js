@@ -1,0 +1,46 @@
+trigger: none
+pr: none
+
+stages:
+  - stage:
+    displayName: Manual Validation All Packages
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-2204-general
+
+    jobs:
+      - job: BuildAllPackages
+        timeoutInMinutes: 120
+        steps:
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 20.x
+
+          - template: ./templates/steps/generate-doc.yml
+            parameters:
+              ServiceDirectory: core
+
+          - script: |
+              node common/scripts/install-run-rush.js install
+            displayName: "Install library dependencies"
+
+          - script: |
+              node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+              node common/scripts/install-run-rush.js lint -p max
+            displayName: "Build ESLint Plugin and Lint All Packages"
+
+          - script: |
+              node common/scripts/install-run-rush.js build -p max
+            displayName: "Build All Packages"
+
+          - script: |
+              node common/scripts/install-run-rush.js build:test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -t @azure-rest/synapse-access-control -t @azure/storage-blob
+            displayName: "Build Tests for Selected Packages"
+
+          - script: |
+              node common/scripts/install-run-rush.js unit-test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -p 1
+            displayName: "Run Unit Tests for Selected Packages"
+
+          - script: |
+              node common/scripts/install-run-rush.js integration-test --only @azure/app-configuration --only @azure/storage-blob --only @azure-rest/synapse-access-control -p 1
+            displayName: "Run Integration Tests for Selected Packages"

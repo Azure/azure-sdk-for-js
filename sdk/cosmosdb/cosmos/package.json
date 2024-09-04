@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "4.0.1",
+  "version": "4.1.2",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
   "sdk-type": "client",
   "keywords": [
@@ -22,7 +22,8 @@
     "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
     "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
     "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
-    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js"
+    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
+    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js"
   },
   "files": [
     "changelog.md",
@@ -96,7 +97,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.1.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -113,7 +114,7 @@
     "chai": "~4.3.8",
     "cross-env": "~7.0.3",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "execa": "^5.0.0",
     "mocha": "^10.0.0",
     "nock": "^13.5.4",
@@ -122,11 +123,11 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.5.3"
   },
   "//sampleConfiguration": {
     "skip": [
-      "AADAuth.ts",
+      "EntraAuth.ts",
       "AlterQueryThroughput.ts",
       "Bulk.ts",
       "BulkUpdateWithSproc.ts",
@@ -139,10 +140,9 @@
       "SasTokenAuth.ts",
       "ServerSideScripts.ts",
       "handleError.ts",
-      "ChangeFeedIteratorEntireContainer.ts",
-      "ChangeFeedIteratorEpkRange.ts",
-      "ChangeFeedPartitionKey.ts",
       "ChangeFeedHierarchicalPartitionKey.ts",
+      "ChangeFeedIteratorLatestVersion.ts",
+      "ChangeFeedIteratorAllVersionsAndDeletes.ts",
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts"
     ],

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Instrumentation } from "@opentelemetry/instrumentation";
@@ -55,7 +55,7 @@ export class LogHandler {
   /**
    * Start auto collection of telemetry
    */
-  private _initializeInstrumentations() {
+  private _initializeInstrumentations(): void {
     const logLevelEnv = process.env.APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL;
 
     if (this._config.instrumentationOptions.bunyan?.enabled) {

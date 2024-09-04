@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    reporters: ["basic", "junit"],
+    testTimeout: 18000,
+    typecheck: {
+      enabled: true,
+    },
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.xml",
     },

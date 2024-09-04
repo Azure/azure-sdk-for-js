@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { delay } from "../../../src";
 import { CreateTopicOptions } from "../../../src";
 import { CreateSubscriptionOptions } from "../../../src";
 import { ServiceBusAdministrationClient } from "../../../src";
 
-import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
 import { CreateQueueOptions } from "../../../src";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 const should = chai.should();
 
 let client: ServiceBusAdministrationClient;
@@ -20,7 +21,10 @@ let client: ServiceBusAdministrationClient;
 function getManagementClient(): ServiceBusAdministrationClient {
   if (client === undefined) {
     const env = getEnvVars();
-    client = new ServiceBusAdministrationClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusAdministrationClient(
+      env[EnvVarNames.SERVICEBUS_FQDN],
+      createTestCredential(),
+    );
   }
   return client;
 }

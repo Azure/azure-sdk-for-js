@@ -16,7 +16,7 @@ import {
   AzureADAdministratorsCreateOrUpdateResponse,
   AzureADAdministratorsDeleteOptionalParams,
   AzureADAdministratorsGetOptionalParams,
-  AzureADAdministratorsGetResponse
+  AzureADAdministratorsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface AzureADAdministrators {
   listByServer(
     resourceGroupName: string,
     serverName: string,
-    options?: AzureADAdministratorsListByServerOptionalParams
+    options?: AzureADAdministratorsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<AzureADAdministrator>;
   /**
    * Creates or updates an existing Azure Active Directory administrator.
@@ -46,7 +46,7 @@ export interface AzureADAdministrators {
     serverName: string,
     administratorName: AdministratorName,
     parameters: AzureADAdministrator,
-    options?: AzureADAdministratorsCreateOrUpdateOptionalParams
+    options?: AzureADAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AzureADAdministratorsCreateOrUpdateResponse>,
@@ -66,7 +66,7 @@ export interface AzureADAdministrators {
     serverName: string,
     administratorName: AdministratorName,
     parameters: AzureADAdministrator,
-    options?: AzureADAdministratorsCreateOrUpdateOptionalParams
+    options?: AzureADAdministratorsCreateOrUpdateOptionalParams,
   ): Promise<AzureADAdministratorsCreateOrUpdateResponse>;
   /**
    * Deletes an Azure AD Administrator.
@@ -79,7 +79,7 @@ export interface AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: AzureADAdministratorsDeleteOptionalParams
+    options?: AzureADAdministratorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Azure AD Administrator.
@@ -92,7 +92,7 @@ export interface AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: AzureADAdministratorsDeleteOptionalParams
+    options?: AzureADAdministratorsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about an azure ad administrator.
@@ -105,6 +105,6 @@ export interface AzureADAdministrators {
     resourceGroupName: string,
     serverName: string,
     administratorName: AdministratorName,
-    options?: AzureADAdministratorsGetOptionalParams
+    options?: AzureADAdministratorsGetOptionalParams,
   ): Promise<AzureADAdministratorsGetResponse>;
 }

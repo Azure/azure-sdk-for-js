@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes specified container under its account.
  *
  * @summary Deletes specified container under its account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/BlobContainersDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersDelete.json
  */
 async function deleteContainers() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";

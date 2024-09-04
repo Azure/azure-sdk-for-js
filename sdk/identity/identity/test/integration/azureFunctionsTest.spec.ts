@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";

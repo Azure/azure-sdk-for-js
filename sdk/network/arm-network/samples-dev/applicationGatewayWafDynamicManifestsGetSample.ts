@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the regional application gateway waf manifest.
  *
  * @summary Gets the regional application gateway waf manifest.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/GetApplicationGatewayWafDynamicManifests.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/GetApplicationGatewayWafDynamicManifests.json
  */
 async function getsWafManifests() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

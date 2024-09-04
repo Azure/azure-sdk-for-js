@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   type TracingClient,
@@ -45,7 +45,7 @@ export interface TracingPolicyOptions {
  * @param options - Options to configure the telemetry logged by the tracing policy.
  */
 export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
-  const userAgent = getUserAgentValue(options.userAgentPrefix);
+  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
   const sanitizer = new Sanitizer({
     additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
   });
@@ -57,6 +57,8 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
       if (!tracingClient || !request.tracingOptions?.tracingContext) {
         return next(request);
       }
+
+      const userAgent = await userAgentPromise;
 
       const spanAttributes = {
         "http.url": sanitizer.sanitizeUrl(request.url),

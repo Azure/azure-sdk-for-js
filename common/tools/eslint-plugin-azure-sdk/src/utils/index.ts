@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file All utility definitions
@@ -11,7 +11,7 @@ export {
   arrayToString,
   getVerifiers,
   stripPath,
-  usesTshy,
+  isEsmPackage,
   VerifierMessages,
   type VerifierMessageIds,
 } from "./verifiers";

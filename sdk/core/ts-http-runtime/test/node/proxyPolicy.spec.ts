@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as process from "node:process";
 import { describe, it, assert, vi, afterEach } from "vitest";
@@ -41,7 +41,7 @@ describe("proxyPolicy (node)", function () {
       url: "https://bing.com",
     });
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
 
     policy.sendRequest(request, next);
 
@@ -69,7 +69,7 @@ describe("proxyPolicy (node)", function () {
       proxySettings: requestProxySettings,
     });
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
 
     policy.sendRequest(request, next);
 
@@ -97,7 +97,7 @@ describe("proxyPolicy (node)", function () {
         url: "https://proxytest.com",
       });
 
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
 
       policy.sendRequest(request, next);
 
@@ -165,7 +165,7 @@ describe("proxyPolicy (node)", function () {
       };
 
       const policy1 = proxyPolicy(proxySettings, { customNoProxyList: ["test.com"] });
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
 
       const request = createPipelineRequest({
         url: "https://proxytest.om",

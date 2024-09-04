@@ -6,9 +6,7 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "eslint.workingDirectories": [{ "pattern": "./sdk/*/*/" }],
-  "eslint.options": {
-    "resolvePluginsRelativeTo": "../../../common/tools/eslint-plugin-azure-sdk-helper"
-  },
+  "eslint.useFlatConfig": true,
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
   Recorder,
@@ -14,9 +14,6 @@ import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 export const loggerForTest = createClientLogger("test");
 const envSetupForPlayback: Record<string, string> = {
-  AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
   LOGS_INGESTION_ENDPOINT:
     "https://thisurl-logsingestion-somethinglocation123abcrd.monitor.azure.com",
   DATA_COLLECTION_RULE_ID: "dcr-abcdefghijklmnopqrstuvwxyztyuiop",

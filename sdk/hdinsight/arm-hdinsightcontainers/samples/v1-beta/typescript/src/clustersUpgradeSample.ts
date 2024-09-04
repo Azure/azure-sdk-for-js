@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Upgrade a cluster.
  *
  * @summary Upgrade a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/UpgradeAKSPatchVersionForCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/UpgradeAKSPatchVersionForCluster.json
  */
 async function clustersUpgradeAksPatchVersion() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function clustersUpgradeAksPatchVersion() {
  * This sample demonstrates how to Upgrade a cluster.
  *
  * @summary Upgrade a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/UpgradeHotfixForCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/UpgradeHotfixForCluster.json
  */
 async function clustersUpgradeHotfix() {
   const subscriptionId =

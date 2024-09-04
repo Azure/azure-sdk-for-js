@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   This sample demonstrates how to create an Authentication provider
   which is capable of fetching an authorization token for the

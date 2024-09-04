@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force the inclusion of type declarations in the package.
@@ -7,7 +7,7 @@
  */
 
 import { TSESTree } from "@typescript-eslint/utils";
-import { createRule, getVerifiers, stripPath, usesTshy } from "../utils";
+import { createRule, getVerifiers, stripPath, isEsmPackage } from "../utils";
 import { VerifierMessages, stripFileName } from "../utils/verifiers";
 
 //------------------------------------------------------------------------------
@@ -20,7 +20,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json to specify types according to package directory",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,
@@ -42,7 +41,7 @@ export default createRule({
     if (stripPath(context.filename) !== "package.json") {
       return {};
     }
-    if (usesTshy(context.filename)) {
+    if (isEsmPackage(context.filename)) {
       return {};
     }
     return {

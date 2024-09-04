@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   FullRestoreOperationOptionalParams,
   FullRestoreOperationResponse,
   RestoreOperation,
   RestoreStatusResponse,
-} from "../../generated/models";
+} from "../../generated/models/index.js";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState,
-} from "../keyVaultAdminPoller";
-import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
+} from "../keyVaultAdminPoller.js";
+import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels.js";
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
+import { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import { OperationOptions } from "@azure/core-client";
-import { tracingClient } from "../../tracing";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.

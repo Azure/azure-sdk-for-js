@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PipelineResponse } from "../interfaces.js";
 import { RestError } from "../restError.js";
@@ -23,7 +23,7 @@ export function createRestError(
   const message =
     typeof messageOrResponse === "string"
       ? messageOrResponse
-      : internalError.message ?? `Unexpected status code: ${resp.status}`;
+      : (internalError.message ?? `Unexpected status code: ${resp.status}`);
   return new RestError(message, {
     statusCode: statusCodeToNumber(resp.status),
     code: internalError.code,

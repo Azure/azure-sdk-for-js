@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -42,9 +42,6 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`,
-    AZURE_CLIENT_ID: `${mockAccountKey}`,
-    AZURE_TENANT_ID: `${mockAccountKey}`,
-    AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_NAME: `${mockSDAccountName}`,
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,

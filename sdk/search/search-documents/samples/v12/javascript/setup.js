@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Defines the utility methods.
  */
 
 const { KnownAnalyzerNames } = require("@azure/search-documents");
+const { env } = require("process");
 
 const WAIT_TIME = 4000;
 
@@ -247,10 +248,21 @@ async function createIndex(client, name) {
     },
     vectorSearch: {
       algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
+      vectorizers: [
+        {
+          vectorizerName: "vector-search-vectorizer",
+          kind: "azureOpenAI",
+          parameters: {
+            resourceUrl: env.AZURE_OPENAI_ENDPOINT,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+          },
+        },
+      ],
       profiles: [
         {
           name: "vector-search-profile",
           algorithmConfigurationName: "vector-search-algorithm",
+          vectorizerName: "vector-search-vectorizer",
         },
       ],
     },

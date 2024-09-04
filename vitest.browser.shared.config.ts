@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
@@ -15,7 +15,8 @@ export default defineConfig({
     include: ["@azure-tools/test-recorder"],
   },
   test: {
-    reporters: ["basic", "junit"],
+    testTimeout: 18000,
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },

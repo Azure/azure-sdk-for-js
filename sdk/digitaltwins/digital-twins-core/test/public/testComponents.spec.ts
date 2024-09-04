@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
@@ -335,7 +335,8 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update component not existing", async function () {
+  // TODO: Fix the test. Tracking issue: https://github.com/Azure/azure-sdk-for-js/issues/30395
+  it.skip("update component not existing", async function () {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 

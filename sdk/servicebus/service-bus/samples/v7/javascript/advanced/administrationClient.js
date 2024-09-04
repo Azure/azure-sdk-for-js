@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -10,18 +10,20 @@
  */
 
 const { ServiceBusAdministrationClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
-  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
+  const credential = new DefaultAzureCredential();
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(fqdn, credential);
 
   // Similarly, you can create topics and subscriptions as well.
   const createQueueResponse = await serviceBusAdministrationClient.createQueue(queueName);

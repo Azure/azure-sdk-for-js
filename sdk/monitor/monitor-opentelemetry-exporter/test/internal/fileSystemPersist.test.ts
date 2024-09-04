@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import * as fs from "fs";
@@ -39,13 +39,13 @@ const deleteFolderRecursive = (dirPath: string): void => {
   }
 };
 
-const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<void> => {
+const assertFirstFile = async (tempDirectory: string, expectation: unknown): Promise<void> => {
   // Assert that tempDir is a directory
-  const stats = await statAsync(tempDir);
+  const stats = await statAsync(tempDirectory);
   assert.strictEqual(stats.isDirectory(), true);
 
   // Read the first file in tempDir
-  const origFiles = await readdirAsync(tempDir);
+  const origFiles = await readdirAsync(tempDirectory);
   const files = origFiles.filter((f) =>
     path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
   );
@@ -53,7 +53,7 @@ const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<v
 
   // Assert file matches expectation
   const firstFile = files[0];
-  const filePath = path.join(tempDir, firstFile);
+  const filePath = path.join(tempDirectory, firstFile);
   const payload = await readFileAsync(filePath);
   assert.deepStrictEqual(JSON.parse(payload.toString()), JSON.parse(JSON.stringify(expectation)));
 
@@ -96,13 +96,13 @@ describe("FileSystemPersist", () => {
 
     it("custom storageDirectory", async () => {
       const customPath = path.join(os.tmpdir(), "TestFolder");
-      const tempDir = path.join(
+      const tempDirectory = path.join(
         customPath,
         "Microsoft",
         "AzureMonitor",
         `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
       );
-      deleteFolderRecursive(tempDir);
+      deleteFolderRecursive(tempDirectory);
       const envelope: Envelope = {
         name: "name",
         time: new Date(),
@@ -111,7 +111,7 @@ describe("FileSystemPersist", () => {
       const persister = new FileSystemPersist(instrumentationKey, { storageDirectory: customPath });
       const success = await persister.push(envelopes);
       assert.strictEqual(success, true);
-      await assertFirstFile(tempDir, JSON.parse(JSON.stringify(envelopes)));
+      await assertFirstFile(tempDirectory, JSON.parse(JSON.stringify(envelopes)));
     });
 
     it("should disable the perister if OS_PROVIDES_FILE_PROTECTION is disabled", () => {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="dom" />
 import { PriorityLevel } from "../documents/PriorityLevel";
 import { CosmosHeaders } from "../index";

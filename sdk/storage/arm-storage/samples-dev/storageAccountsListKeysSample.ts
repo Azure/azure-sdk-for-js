@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
  *
  * @summary Lists the access keys or Kerberos keys (if active directory enabled) for the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/StorageAccountListKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListKeys.json
  */
 async function storageAccountListKeys() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function storageAccountListKeys() {
   const client = new StorageManagementClient(credential, subscriptionId);
   const result = await client.storageAccounts.listKeys(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

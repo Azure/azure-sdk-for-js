@@ -367,6 +367,7 @@ export class QueueClient extends StorageClient {
     deleteIfExists(options?: QueueDeleteOptions): Promise<QueueDeleteIfExistsResponse>;
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     exists(options?: QueueExistsOptions): Promise<boolean>;
+    generateSasStringToSign(options: QueueGenerateSasUrlOptions): string;
     generateSasUrl(options: QueueGenerateSasUrlOptions): string;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
@@ -499,6 +500,7 @@ export interface QueueItem {
 
 // @public
 export interface QueuePeekMessagesOptions extends MessagesPeekOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -508,6 +510,7 @@ export type QueuePeekMessagesResponse = WithResponse<{
 
 // @public
 export interface QueueReceiveMessageOptions extends MessagesDequeueOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -539,6 +542,7 @@ export interface QueueSASSignatureValues {
 
 // @public
 export interface QueueSendMessageOptions extends MessagesEnqueueOptionalParams, CommonOptions {
+    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -558,6 +562,7 @@ export class QueueServiceClient extends StorageClient {
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+    generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;

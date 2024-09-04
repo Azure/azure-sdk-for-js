@@ -1,5 +1,64 @@
 # Release History
 
+## 4.5.0-beta.3 (Unreleased)
+
+### Features Added
+
+- Added support for the field `refreshAfterTimestamp` in `AccessToken` [#30402](https://github.com/Azure/azure-sdk-for-js/pull/30402)
+- Added support for providing an object ID to `ManagedIdentityCredential`. [#30771](https://github.com/Azure/azure-sdk-for-js/pull/30771)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- `ManagedIdentityCredential` now throws an error when attempting to pass a user-assigned Managed Identity in a CloudShell environment instead of silently ignoring it. [#30955](https://github.com/Azure/azure-sdk-for-js/pull/30955)
+
+### Other Changes
+
+## 4.5.0-beta.2 (2024-08-13)
+
+### Features Added
+
+- Added support in `EnvironmentCredential` and `DefaultAzureCredential` for `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` environment variable to configure subject name / issuer authentication. [#30570](https://github.com/Azure/azure-sdk-for-js/pull/30570)
+- Added support for `AsSecureString` in `AzurePowerShellCredential`. [#30720](https://github.com/Azure/azure-sdk-for-js/pull/30720)
+
+### Bugs Fixed
+
+- Fixed an issue where an incorrect error message was returned when the service responds with a 400 status code. [#30532](https://github.com/Azure/azure-sdk-for-js/pull/30532)
+- Improved error messages for credential parameter validation. [#30610](https://github.com/Azure/azure-sdk-for-js/pull/30610)
+
+### Other Changes
+
+- ManagedIdentityCredential errors will now include the underlying error cause under the `cause` property. [#30532](https://github.com/Azure/azure-sdk-for-js/pull/30532)
+
+## 4.4.1 (2024-07-30)
+
+### Bugs Fixed
+
+- Improved error messages for `AzurePipelinesCredential` for Authentication Failed scenarios. [#30387](https://github.com/Azure/azure-sdk-for-js/pull/30387)
+- Improved token parsing for `AzurePowerShellCredential` even with warning messages. [#30508](https://github.com/Azure/azure-sdk-for-js/pull/30508)
+
+## 4.5.0-beta.1 (2024-07-17)
+
+### Other Changes
+
+- `ManagedIdentityCredential` migrated to use [MSAL](https://www.npmjs.com/package/@azure/msal-node) for handling the majority of the managed identity implementation. [#30172](https://github.com/Azure/azure-sdk-for-js/pull/30172)
+
+## 4.4.0 (2024-07-16)
+
+### Features Added
+
+- `OnBehalfOfCredential` now supports taking clientAssertion callback `getAssertion`. [#29711](https://github.com/Azure/azure-sdk-for-js/pull/29711)
+
+### Bugs Fixed
+
+- Fixed an issue where cross-tenant federation did not honor the request's tenant ID. [#30266](https://github.com/Azure/azure-sdk-for-js/pull/30266)
+
+### Other Changes
+
+- `OnBehalfOfCredential` migrated to use MSALClient internally instead of MSALNode flow. This is an internal refactoring and should not result in any behavioral changes. [#29890](https://github.com/Azure/azure-sdk-for-js/pull/29890)
+- `InteractiveBrowserCredential` migrated to use MSALClient internally instead of MSALNode flow in Node. This is an internal refactoring and should not result in any behavioral changes. [#29894](https://github.com/Azure/azure-sdk-for-js/pull/29894)
+
 ## 4.3.0 (2024-06-18)
 
 ### Features Added
@@ -842,7 +901,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.0.0-preview.1 (2019-06-27)
 
-For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
+For release notes and more information please visit <https://aka.ms/azsdk/releases/july2019preview>
 
 - Introduced the following credential types:
   - `DefaultAzureCredential`.

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export interface PartitionKeyRangePropertiesNames {
   // Partition Key Range Constants
@@ -204,7 +204,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.0.1",
+  SDKVersion: "4.1.2",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -261,6 +261,7 @@ export const Constants = {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
+
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
@@ -475,4 +476,19 @@ export enum SasTokenPermissionKind {
   TriggerRead = PermissionScopeValues.ScopeTriggerReadValue,
   TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
   TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue,
+}
+
+export enum QueryFeature {
+  NonValueAggregate = "NonValueAggregate",
+  Aggregate = "Aggregate",
+  Distinct = "Distinct",
+  MultipleOrderBy = "MultipleOrderBy",
+  OffsetAndLimit = "OffsetAndLimit",
+  OrderBy = "OrderBy",
+  Top = "Top",
+  CompositeAggregate = "CompositeAggregate",
+  GroupBy = "GroupBy",
+  MultipleAggregates = "MultipleAggregates",
+  NonStreamingOrderBy = "NonStreamingOrderBy",
+  ListAndSetAggregate = "ListAndSetAggregate",
 }

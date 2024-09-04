@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Paged } from "@azure/core-paging";
 import { ErrorModel } from "@azure-rest/core-client";
@@ -295,7 +295,7 @@ export interface EnvironmentDefinitionParameterOutput {
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type. */
-  name: string;
+  readonly name: string;
   /**
    * Id of a subscription or management group that the environment type will be
    * mapped to. The environment's resources will be deployed into this subscription

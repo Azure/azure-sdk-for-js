@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import MagicString from "magic-string";
 import fs from "node:fs";
@@ -51,8 +51,7 @@ function copyTemplates() {
       const from = path.join("templates");
       const to = path.join("bin");
       fs.mkdirSync("bin", { recursive: true });
-      const log = (msg) => console.log("\x1b[36m%s\x1b[0m", msg);
-      log(`copy templates: ${from} → ${to}`);
+      this.info(`copy templates: ${from} → ${to}`);
       copyFolderRecursiveSync(from, to);
     },
   };

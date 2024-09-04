@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
 
@@ -15,8 +15,6 @@ import {
   CallTransferFailed,
   ParticipantsUpdated,
   RecordingStateChanged,
-  TeamsComplianceRecordingStateChanged,
-  TeamsRecordingStateChanged,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -97,14 +95,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.RecordingStateChanged":
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
-      break;
-    case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
-      callbackEvent = {
-        kind: "TeamsComplianceRecordingStateChanged",
-      } as TeamsComplianceRecordingStateChanged;
-      break;
-    case "Microsoft.Communication.TeamsRecordingStateChanged":
-      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
       break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;

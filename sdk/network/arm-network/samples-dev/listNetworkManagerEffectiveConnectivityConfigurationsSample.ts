@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List all effective connectivity configurations applied on a virtual network.
  *
  * @summary List all effective connectivity configurations applied on a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerEffectiveConnectivityConfigurationsList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/NetworkManagerEffectiveConnectivityConfigurationsList.json
  */
 async function listEffectiveConnectivityConfiguration() {
   const subscriptionId =

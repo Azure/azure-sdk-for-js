@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Test } from "mocha";
 
@@ -10,7 +10,7 @@ import {
 } from "@azure-tools/test-recorder";
 
 import { EventGridSenderClient, EventGridReceiverClient } from "../../../src";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 export interface RecordedV2Client {
@@ -21,7 +21,6 @@ export interface RecordedV2Client {
 
 const envSetupForPlayback: { [k: string]: string } = {
   EVENT_GRID_NAMESPACES_ENDPOINT: "https://Sanitized",
-  EVENT_GRID_NAMESPACES_KEY: "api_key",
   EVENT_SUBSCRIPTION_NAME: "testsubscription1",
   TOPIC_NAME: "testtopic1",
   MAX_DELIVERY_COUNT: "10",
@@ -37,7 +36,6 @@ export const recorderOptions: RecorderStartOptions = {
 export async function createRecordedClient(
   currentTest: Test | undefined,
   endpointEnv: string,
-  apiKeyEnv: string,
   topicName: string,
   subscriptionName: string,
   options: {
@@ -50,7 +48,7 @@ export async function createRecordedClient(
   return {
     senderClient: new EventGridSenderClient(
       assertEnvironmentVariable(endpointEnv),
-      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      createTestCredential(),
       topicName,
       recorder.configureClientOptions({
         additionalPolicies: options.additionalPolicies,
@@ -58,7 +56,7 @@ export async function createRecordedClient(
     ),
     receiverClient: new EventGridReceiverClient(
       assertEnvironmentVariable(endpointEnv),
-      new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
+      createTestCredential(),
       topicName,
       subscriptionName,
       recorder.configureClientOptions({

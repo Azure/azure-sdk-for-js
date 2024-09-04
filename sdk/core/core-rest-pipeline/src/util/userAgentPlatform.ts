@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as os from "node:os";
 import * as process from "node:process";
@@ -22,7 +22,7 @@ export function getHeaderName(): string {
 /**
  * @internal
  */
-export function setPlatformSpecificData(map: Map<string, string>): void {
+export async function setPlatformSpecificData(map: Map<string, string>): Promise<void> {
   if (process && process.versions) {
     const versions = process.versions as ExtendedPlatformVersions;
     if (versions.bun) {

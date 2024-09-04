@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
@@ -23,7 +21,7 @@ export interface Address {
 }
 
 // @public
-export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther";
+export type AttachmentType = "optInSmsKeyword" | "optInIVR" | "optInPointOfSale" | "optInWebsite" | "optInPaperForm" | "optInOther" | "optInDescription";
 
 // @public (undocumented)
 export interface BusinessInformation {

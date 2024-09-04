@@ -9,7 +9,7 @@ a CLA and decorate the PR appropriately (e.g., status check, comment). Simply fo
 provided by the bot. You will only need to do this once across all repos using our CLA.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 # How to contribute to the Azure SDK for Javascript
@@ -23,7 +23,7 @@ There are many ways that you can contribute to the Azure SDK for JavaScript proj
 
 All code submissions will be reviewed and tested by the team, and those that meet a high bar for both quality and design/roadmap appropriateness will be merged into the source. Be sure to follow the existing file/folder structure when adding new boards or sensors.
 
-If you encounter any bugs with the library please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
+If you encounter any bugs with the library, please file an issue in the [Issues](https://github.com/Azure/azure-sdk-for-js/issues) section of the project.
 
 ## Things to keep in mind when contributing
 
@@ -35,7 +35,7 @@ Some guidance for when you make a contribution:
 
 ## Big contributions
 
-If your contribution is significantly big it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
+If your contribution is significantly big, it is better to first check with the project developers in order to make sure the change aligns with the long term plans. This can be done simply by submitting a question via the GitHub Issues section.
 
 ## Project orchestration
 
@@ -181,7 +181,7 @@ If you modify the network calls (both the number of calls or their shape) either
 
 Regenerating the recordings has the same requirements as running the live tests. You will be using the same `test` npm script with the environment variables pointing to previously created Azure resources. The only difference is that the `TEST_MODE` environment variable needs to be set to `record`. When this process finishes without errors, the recordings will be updated.
 
-For more information the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
+For more information about the recorder, please visit the [test-recorder's readme](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md).
 
 Here are a few [Useful Commands](https://github.com/Azure/azure-sdk-for-js/wiki/Golden-Testing-Commands) that can be handy while testing your SDKs.
 
@@ -271,7 +271,15 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 
 You can run the plugin by excuting `rushx lint` inside your package directory.
 
-If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the [internal configuration file](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/.eslintrc.internal.json) instead. For example: `"lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json package.json src test --ext .ts"`
+If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
+
+```javascript
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default [
+  ...azsdkEslint.configs.internal,
+];
+```
 
 ## Onboarding a new library
 
@@ -314,7 +322,7 @@ nodeResolve({
 
 ### Package Versioning
 
-For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
+For information about packages are versioned and tagged, see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
 
 ### Core Client libraries
 

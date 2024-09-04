@@ -1,6 +1,6 @@
 # Release History
 
-## 12.24.0-beta.2 (Unreleased)
+## 12.25.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,23 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.25.0-beta.1 (2024-08-09)
+
+### Features Added
+
+- Added support for service version 2024-11-04.
+- Added ability to retrieve SAS string to sign for debugging purposes.
+
+## 12.24.0 (2024-07-18)
+
+### Features Added
+
+- Includes all features released in 12.24.0-beta.1.
+
+### Bugs Fixed
+
+- Correct content-length header with request body length. (#30138)
 
 ## 12.24.0-beta.1 (2024-06-13)
 

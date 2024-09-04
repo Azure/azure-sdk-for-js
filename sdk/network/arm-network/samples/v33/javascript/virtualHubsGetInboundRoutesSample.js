@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the inbound routes configured for the Virtual Hub on a particular connection.
  *
  * @summary Gets the inbound routes configured for the Virtual Hub on a particular connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/GetInboundRoutes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/GetInboundRoutes.json
  */
 async function inboundRoutesForTheVirtualHubOnAParticularConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

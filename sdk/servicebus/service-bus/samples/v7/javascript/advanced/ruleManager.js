@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -10,12 +10,15 @@
  */
 
 const { ServiceBusAdministrationClient, ServiceBusClient } = require("@azure/service-bus");
+const { DefaultAzureCredential } = require("@azure/identity");
+
 require("dotenv").config();
 
 async function main() {
   // Define connection string and related Service Bus entity names here
-  const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-  const serviceBusAdminClient = new ServiceBusAdministrationClient(connectionString);
+  const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
+  const credential = new DefaultAzureCredential();
+  const serviceBusAdminClient = new ServiceBusAdministrationClient(fqdn, credential);
   const topicName = "topic-rulemanager-sample" + new Date().getTime();
   const subscriptionName = "subscription-rule-manager";
   console.log("Creating topic and subscription...");
@@ -25,7 +28,7 @@ async function main() {
   // for simplicity of this sample, we are using the same connection string for the ServiceBusclient instance.
   // However, the connection string could be a different one, e.g., a SAS connection string with only
   // Listen claim for a specific topic.
-  const client = new ServiceBusClient(connectionString);
+  const client = new ServiceBusClient(fqdn, credential);
   const ruleManager = client.createRuleManager(topicName, subscriptionName);
 
   console.log("Listing all rules...");

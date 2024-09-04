@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isError } from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
@@ -56,10 +56,12 @@ export class RestError extends Error {
   public statusCode?: number;
   /**
    * The request that was made.
+   * This property is non-enumerable.
    */
   public request?: PipelineRequest;
   /**
    * The response received (if any.)
+   * This property is non-enumerable.
    */
   public response?: PipelineResponse;
   /**
@@ -72,8 +74,13 @@ export class RestError extends Error {
     this.name = "RestError";
     this.code = options.code;
     this.statusCode = options.statusCode;
-    this.request = options.request;
-    this.response = options.response;
+
+    // The request and response may contain sensitive information in the headers or body.
+    // To help prevent this sensitive information being accidentally logged, the request and response
+    // properties are marked as non-enumerable here. This prevents them showing up in the output of
+    // JSON.stringify and console.log.
+    Object.defineProperty(this, "request", { value: options.request, enumerable: false });
+    Object.defineProperty(this, "response", { value: options.response, enumerable: false });
 
     Object.setPrototypeOf(this, RestError.prototype);
   }
@@ -82,7 +89,13 @@ export class RestError extends Error {
    * Logging method for util.inspect in Node
    */
   [custom](): string {
-    return `RestError: ${this.message} \n ${errorSanitizer.sanitize(this)}`;
+    // Extract non-enumerable properties and add them back. This is OK since in this output the request and
+    // response get sanitized.
+    return `RestError: ${this.message} \n ${errorSanitizer.sanitize({
+      ...this,
+      request: this.request,
+      response: this.response,
+    })}`;
   }
 }
 

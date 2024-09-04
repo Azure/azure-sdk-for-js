@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status, and f) get test metrics
@@ -61,7 +61,7 @@ async function main() {
   const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
   try {
     fileValidateResult = await fileValidatePoller.pollUntilDone({
-      abortSignal: AbortController.timeout(120 * 1000), // timeout of 120 seconds
+      abortSignal: AbortSignal.timeout(120 * 1000), // timeout of 120 seconds
     });
   } catch (ex) {
     new Error("Error in polling file Validation" + ex.message); //polling timed out
@@ -119,7 +119,7 @@ async function main() {
 
   try {
     testRunResult = await testRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(300 * 1000), // timeout of 5 minutes
+      abortSignal: AbortSignal.timeout(300 * 1000), // timeout of 5 minutes
     });
   } catch (ex) {
     new Error("Error in polling test run completion" + ex.message); //polling timed out

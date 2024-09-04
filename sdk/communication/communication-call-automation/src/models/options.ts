@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
@@ -15,6 +15,7 @@ import {
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
+  RecordingStorage,
   CallLocator,
   ChannelAffinity,
   CallIntelligenceOptions,
@@ -247,6 +248,8 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
+  /** Recording storage option. */
+  recordingStorage?: RecordingStorage;
   /** Pause on start call recording option. */
   pauseOnStart?: boolean;
   /**

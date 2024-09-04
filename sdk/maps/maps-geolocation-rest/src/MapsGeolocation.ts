@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ClientOptions } from "@azure-rest/core-client";
 import {
@@ -81,7 +81,7 @@ export default function MapsGeolocation(
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**
-   * maps service requires a header "ms-x-client-id", which is different from the standard AAD.
+   * maps service requires a header "ms-x-client-id", which is different from the standard Microsoft Entra ID.
    * So we need to do our own implementation.
    * This customized authentication is following by this guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md#custom-authentication
    */
@@ -94,7 +94,7 @@ export default function MapsGeolocation(
     client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
+        scopes: "https://atlas.microsoft.com/.default",
       }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));

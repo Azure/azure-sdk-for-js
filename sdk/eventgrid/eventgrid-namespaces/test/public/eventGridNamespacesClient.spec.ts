@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Suite, Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import { Recorder, env } from "@azure-tools/test-recorder";
@@ -13,6 +13,7 @@ import {
   EventGridDeserializer,
 } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 /* eslint no-constant-condition: "off" */
 async function clearMessages(receiverClient: EventGridReceiverClient): Promise<void> {
@@ -41,7 +42,6 @@ describe("Event Grid Namespace Client", function (this: Suite) {
     ({ senderClient, receiverClient, recorder } = await createRecordedClient(
       this.currentTest,
       "EVENT_GRID_NAMESPACES_ENDPOINT",
-      "EVENT_GRID_NAMESPACES_KEY",
       topicName,
       eventSubscriptionName,
     ));

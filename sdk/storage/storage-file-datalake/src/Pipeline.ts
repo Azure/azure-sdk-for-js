@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   CompatResponse as HttpOperationResponse,
@@ -52,6 +52,7 @@ import {
   isPipelineLike,
   Pipeline,
 } from "@azure/storage-blob";
+import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -199,6 +200,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
+    corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);

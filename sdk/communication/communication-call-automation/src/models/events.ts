@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommunicationIdentifier } from "@azure/communication-common";
 
@@ -14,8 +14,6 @@ import {
   RestCallTransferFailed,
   RestParticipantsUpdated,
   RestRecordingStateChanged,
-  RestTeamsComplianceRecordingStateChanged,
-  RestTeamsRecordingStateChanged,
   RestPlayCompleted,
   RestPlayFailed,
   RestPlayCanceled,
@@ -54,8 +52,6 @@ export type CallAutomationEvent =
   | CallTransferFailed
   | ParticipantsUpdated
   | RecordingStateChanged
-  | TeamsComplianceRecordingStateChanged
-  | TeamsRecordingStateChanged
   | PlayCompleted
   | PlayFailed
   | PlayCanceled
@@ -267,38 +263,6 @@ export interface RecordingStateChanged
   correlationId: string;
   /** kind of this event. */
   kind: "RecordingStateChanged";
-}
-
-/** Event when Teams Compliance Recording state has been changed. */
-export interface TeamsComplianceRecordingStateChanged
-  extends Omit<
-    RestTeamsComplianceRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsComplianceRecordingStateChanged";
-}
-
-/** Event when Teams Recording state has been changed. */
-export interface TeamsRecordingStateChanged
-  extends Omit<
-    RestTeamsRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsRecordingStateChanged";
 }
 
 /** Event when Media play was successfully completed. */

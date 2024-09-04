@@ -1,8 +1,760 @@
 # Release History
     
+## 3.0.0 (2024-08-15)
+    
+### Features Added
+
+  - Added operation group Features
+  - Added operation group FeaturesetContainers
+  - Added operation group FeaturesetVersions
+  - Added operation group FeaturestoreEntityContainers
+  - Added operation group FeaturestoreEntityVersions
+  - Added operation group ManagedNetworkProvisions
+  - Added operation group ManagedNetworkSettingsRule
+  - Added operation group MarketplaceSubscriptions
+  - Added operation group Registries
+  - Added operation group RegistryCodeContainers
+  - Added operation group RegistryCodeVersions
+  - Added operation group RegistryComponentContainers
+  - Added operation group RegistryComponentVersions
+  - Added operation group RegistryDataContainers
+  - Added operation group RegistryDataReferences
+  - Added operation group RegistryDataVersions
+  - Added operation group RegistryEnvironmentContainers
+  - Added operation group RegistryEnvironmentVersions
+  - Added operation group RegistryModelContainers
+  - Added operation group RegistryModelVersions
+  - Added operation group ServerlessEndpoints
+  - Added operation CodeVersions.beginPublish
+  - Added operation CodeVersions.beginPublishAndWait
+  - Added operation CodeVersions.createOrGetStartPendingUpload
+  - Added operation ComponentVersions.beginPublish
+  - Added operation ComponentVersions.beginPublishAndWait
+  - Added operation DataVersions.beginPublish
+  - Added operation DataVersions.beginPublishAndWait
+  - Added operation EnvironmentVersions.beginPublish
+  - Added operation EnvironmentVersions.beginPublishAndWait
+  - Added operation ModelVersions.beginPublish
+  - Added operation ModelVersions.beginPublishAndWait
+  - Added operation WorkspaceConnections.listSecrets
+  - Added Interface AADAuthTypeWorkspaceConnectionProperties
+  - Added Interface AccessKeyAuthTypeWorkspaceConnectionProperties
+  - Added Interface AccountKeyAuthTypeWorkspaceConnectionProperties
+  - Added Interface AcrDetails
+  - Added Interface AllFeatures
+  - Added Interface AllNodes
+  - Added Interface AmlTokenComputeIdentity
+  - Added Interface AnonymousAccessCredential
+  - Added Interface ApiKeyAuthWorkspaceConnectionProperties
+  - Added Interface ArmResourceId
+  - Added Interface AzureDatastore
+  - Added Interface AzureDevOpsWebhook
+  - Added Interface AzureMachineLearningServicesManagementClientOptionalParams
+  - Added Interface BatchDeploymentConfiguration
+  - Added Interface BatchPipelineComponentDeploymentConfiguration
+  - Added Interface BindOptions
+  - Added Interface BlobReferenceForConsumptionDto
+  - Added Interface CategoricalDataDriftMetricThreshold
+  - Added Interface CategoricalDataQualityMetricThreshold
+  - Added Interface CategoricalPredictionDriftMetricThreshold
+  - Added Interface CodeVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface CodeVersionsPublishHeaders
+  - Added Interface CodeVersionsPublishOptionalParams
+  - Added Interface Collection
+  - Added Interface ComponentVersionsPublishHeaders
+  - Added Interface ComponentVersionsPublishOptionalParams
+  - Added Interface ComputeRecurrenceSchedule
+  - Added Interface ComputeRuntimeDto
+  - Added Interface ContentSafety
+  - Added Interface CreateMonitorAction
+  - Added Interface Cron
+  - Added Interface CustomKeys
+  - Added Interface CustomKeysWorkspaceConnectionProperties
+  - Added Interface CustomMetricThreshold
+  - Added Interface CustomMonitoringSignal
+  - Added Interface CustomService
+  - Added Interface DataCollector
+  - Added Interface DataDriftMetricThresholdBase
+  - Added Interface DataDriftMonitoringSignal
+  - Added Interface DataQualityMetricThresholdBase
+  - Added Interface DataQualityMonitoringSignal
+  - Added Interface DataReferenceCredential
+  - Added Interface DataVersionsPublishHeaders
+  - Added Interface DataVersionsPublishOptionalParams
+  - Added Interface DestinationAsset
+  - Added Interface Docker
+  - Added Interface DockerCredential
+  - Added Interface EncryptionKeyVaultUpdateProperties
+  - Added Interface EncryptionUpdateProperties
+  - Added Interface Endpoint
+  - Added Interface EnvironmentVariable
+  - Added Interface EnvironmentVersionsPublishHeaders
+  - Added Interface EnvironmentVersionsPublishOptionalParams
+  - Added Interface Feature
+  - Added Interface FeatureAttributionDriftMonitoringSignal
+  - Added Interface FeatureAttributionMetricThreshold
+  - Added Interface FeatureImportanceSettings
+  - Added Interface FeatureProperties
+  - Added Interface FeatureResourceArmPaginatedResult
+  - Added Interface FeaturesetContainer
+  - Added Interface FeaturesetContainerProperties
+  - Added Interface FeaturesetContainerResourceArmPaginatedResult
+  - Added Interface FeaturesetContainersCreateOrUpdateHeaders
+  - Added Interface FeaturesetContainersCreateOrUpdateOptionalParams
+  - Added Interface FeaturesetContainersDeleteHeaders
+  - Added Interface FeaturesetContainersDeleteOptionalParams
+  - Added Interface FeaturesetContainersGetEntityOptionalParams
+  - Added Interface FeaturesetContainersListNextOptionalParams
+  - Added Interface FeaturesetContainersListOptionalParams
+  - Added Interface FeaturesetSpecification
+  - Added Interface FeaturesetVersion
+  - Added Interface FeaturesetVersionBackfillRequest
+  - Added Interface FeaturesetVersionBackfillResponse
+  - Added Interface FeaturesetVersionProperties
+  - Added Interface FeaturesetVersionResourceArmPaginatedResult
+  - Added Interface FeaturesetVersionsBackfillHeaders
+  - Added Interface FeaturesetVersionsBackfillOptionalParams
+  - Added Interface FeaturesetVersionsCreateOrUpdateHeaders
+  - Added Interface FeaturesetVersionsCreateOrUpdateOptionalParams
+  - Added Interface FeaturesetVersionsDeleteHeaders
+  - Added Interface FeaturesetVersionsDeleteOptionalParams
+  - Added Interface FeaturesetVersionsGetOptionalParams
+  - Added Interface FeaturesetVersionsListNextOptionalParams
+  - Added Interface FeaturesetVersionsListOptionalParams
+  - Added Interface FeaturesGetOptionalParams
+  - Added Interface FeaturesListNextOptionalParams
+  - Added Interface FeaturesListOptionalParams
+  - Added Interface FeaturestoreEntityContainer
+  - Added Interface FeaturestoreEntityContainerProperties
+  - Added Interface FeaturestoreEntityContainerResourceArmPaginatedResult
+  - Added Interface FeaturestoreEntityContainersCreateOrUpdateHeaders
+  - Added Interface FeaturestoreEntityContainersCreateOrUpdateOptionalParams
+  - Added Interface FeaturestoreEntityContainersDeleteHeaders
+  - Added Interface FeaturestoreEntityContainersDeleteOptionalParams
+  - Added Interface FeaturestoreEntityContainersGetEntityOptionalParams
+  - Added Interface FeaturestoreEntityContainersListNextOptionalParams
+  - Added Interface FeaturestoreEntityContainersListOptionalParams
+  - Added Interface FeaturestoreEntityVersion
+  - Added Interface FeaturestoreEntityVersionProperties
+  - Added Interface FeaturestoreEntityVersionResourceArmPaginatedResult
+  - Added Interface FeaturestoreEntityVersionsCreateOrUpdateHeaders
+  - Added Interface FeaturestoreEntityVersionsCreateOrUpdateOptionalParams
+  - Added Interface FeaturestoreEntityVersionsDeleteHeaders
+  - Added Interface FeaturestoreEntityVersionsDeleteOptionalParams
+  - Added Interface FeaturestoreEntityVersionsGetOptionalParams
+  - Added Interface FeaturestoreEntityVersionsListNextOptionalParams
+  - Added Interface FeaturestoreEntityVersionsListOptionalParams
+  - Added Interface FeatureStoreSettings
+  - Added Interface FeatureSubset
+  - Added Interface FeatureWindow
+  - Added Interface FixedInputData
+  - Added Interface FqdnOutboundRule
+  - Added Interface GetBlobReferenceForConsumptionDto
+  - Added Interface GetBlobReferenceSASRequestDto
+  - Added Interface GetBlobReferenceSASResponseDto
+  - Added Interface IdleShutdownSetting
+  - Added Interface Image_2
+  - Added Interface ImageMetadata
+  - Added Interface IndexColumn
+  - Added Interface LakeHouseArtifact
+  - Added Interface ManagedComputeIdentity
+  - Added Interface ManagedIdentityCredential
+  - Added Interface ManagedNetworkProvisionOptions
+  - Added Interface ManagedNetworkProvisionsProvisionManagedNetworkHeaders
+  - Added Interface ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams
+  - Added Interface ManagedNetworkProvisionStatus
+  - Added Interface ManagedNetworkSettings
+  - Added Interface ManagedNetworkSettingsRuleCreateOrUpdateHeaders
+  - Added Interface ManagedNetworkSettingsRuleCreateOrUpdateOptionalParams
+  - Added Interface ManagedNetworkSettingsRuleDeleteHeaders
+  - Added Interface ManagedNetworkSettingsRuleDeleteOptionalParams
+  - Added Interface ManagedNetworkSettingsRuleGetOptionalParams
+  - Added Interface ManagedNetworkSettingsRuleListNextOptionalParams
+  - Added Interface ManagedNetworkSettingsRuleListOptionalParams
+  - Added Interface MarketplacePlan
+  - Added Interface MarketplaceSubscription
+  - Added Interface MarketplaceSubscriptionProperties
+  - Added Interface MarketplaceSubscriptionResourceArmPaginatedResult
+  - Added Interface MarketplaceSubscriptionsCreateOrUpdateHeaders
+  - Added Interface MarketplaceSubscriptionsCreateOrUpdateOptionalParams
+  - Added Interface MarketplaceSubscriptionsDeleteHeaders
+  - Added Interface MarketplaceSubscriptionsDeleteOptionalParams
+  - Added Interface MarketplaceSubscriptionsGetOptionalParams
+  - Added Interface MarketplaceSubscriptionsListNextOptionalParams
+  - Added Interface MarketplaceSubscriptionsListOptionalParams
+  - Added Interface MaterializationComputeResource
+  - Added Interface MaterializationSettings
+  - Added Interface ModelSettings
+  - Added Interface ModelVersionsPublishHeaders
+  - Added Interface ModelVersionsPublishOptionalParams
+  - Added Interface MonitorComputeConfigurationBase
+  - Added Interface MonitorComputeIdentityBase
+  - Added Interface MonitorDefinition
+  - Added Interface MonitorEmailNotificationSettings
+  - Added Interface MonitoringFeatureFilterBase
+  - Added Interface MonitoringInputDataBase
+  - Added Interface MonitoringSignalBase
+  - Added Interface MonitoringTarget
+  - Added Interface MonitoringThreshold
+  - Added Interface MonitorNotificationSettings
+  - Added Interface MonitorServerlessSparkCompute
+  - Added Interface Nodes
+  - Added Interface NotificationSetting
+  - Added Interface NumericalDataDriftMetricThreshold
+  - Added Interface NumericalDataQualityMetricThreshold
+  - Added Interface NumericalPredictionDriftMetricThreshold
+  - Added Interface OAuth2AuthTypeWorkspaceConnectionProperties
+  - Added Interface OneLakeArtifact
+  - Added Interface OneLakeDatastore
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationListResult
+  - Added Interface OutboundRule
+  - Added Interface OutboundRuleBasicResource
+  - Added Interface OutboundRuleListResult
+  - Added Interface PartialMinimalTrackedResourceWithSkuAndIdentity
+  - Added Interface PartialRegistryPartialTrackedResource
+  - Added Interface PendingUploadCredentialDto
+  - Added Interface PendingUploadRequestDto
+  - Added Interface PendingUploadResponseDto
+  - Added Interface PredictionDriftMetricThresholdBase
+  - Added Interface PredictionDriftMonitoringSignal
+  - Added Interface PrivateEndpointDestination
+  - Added Interface PrivateEndpointOutboundRule
+  - Added Interface PrivateEndpointResource
+  - Added Interface ProxyResource
+  - Added Interface QueueSettings
+  - Added Interface Recurrence
+  - Added Interface RegistriesCreateOrUpdateOptionalParams
+  - Added Interface RegistriesDeleteHeaders
+  - Added Interface RegistriesDeleteOptionalParams
+  - Added Interface RegistriesGetOptionalParams
+  - Added Interface RegistriesListBySubscriptionNextOptionalParams
+  - Added Interface RegistriesListBySubscriptionOptionalParams
+  - Added Interface RegistriesListNextOptionalParams
+  - Added Interface RegistriesListOptionalParams
+  - Added Interface RegistriesRemoveRegionsHeaders
+  - Added Interface RegistriesRemoveRegionsOptionalParams
+  - Added Interface RegistriesUpdateOptionalParams
+  - Added Interface Registry
+  - Added Interface RegistryCodeContainersCreateOrUpdateHeaders
+  - Added Interface RegistryCodeContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryCodeContainersDeleteHeaders
+  - Added Interface RegistryCodeContainersDeleteOptionalParams
+  - Added Interface RegistryCodeContainersGetOptionalParams
+  - Added Interface RegistryCodeContainersListNextOptionalParams
+  - Added Interface RegistryCodeContainersListOptionalParams
+  - Added Interface RegistryCodeVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface RegistryCodeVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryCodeVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryCodeVersionsDeleteHeaders
+  - Added Interface RegistryCodeVersionsDeleteOptionalParams
+  - Added Interface RegistryCodeVersionsGetOptionalParams
+  - Added Interface RegistryCodeVersionsListNextOptionalParams
+  - Added Interface RegistryCodeVersionsListOptionalParams
+  - Added Interface RegistryComponentContainersCreateOrUpdateHeaders
+  - Added Interface RegistryComponentContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryComponentContainersDeleteHeaders
+  - Added Interface RegistryComponentContainersDeleteOptionalParams
+  - Added Interface RegistryComponentContainersGetOptionalParams
+  - Added Interface RegistryComponentContainersListNextOptionalParams
+  - Added Interface RegistryComponentContainersListOptionalParams
+  - Added Interface RegistryComponentVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryComponentVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryComponentVersionsDeleteHeaders
+  - Added Interface RegistryComponentVersionsDeleteOptionalParams
+  - Added Interface RegistryComponentVersionsGetOptionalParams
+  - Added Interface RegistryComponentVersionsListNextOptionalParams
+  - Added Interface RegistryComponentVersionsListOptionalParams
+  - Added Interface RegistryDataContainersCreateOrUpdateHeaders
+  - Added Interface RegistryDataContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryDataContainersDeleteHeaders
+  - Added Interface RegistryDataContainersDeleteOptionalParams
+  - Added Interface RegistryDataContainersGetOptionalParams
+  - Added Interface RegistryDataContainersListNextOptionalParams
+  - Added Interface RegistryDataContainersListOptionalParams
+  - Added Interface RegistryDataReferencesGetBlobReferenceSASOptionalParams
+  - Added Interface RegistryDataVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface RegistryDataVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryDataVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryDataVersionsDeleteHeaders
+  - Added Interface RegistryDataVersionsDeleteOptionalParams
+  - Added Interface RegistryDataVersionsGetOptionalParams
+  - Added Interface RegistryDataVersionsListNextOptionalParams
+  - Added Interface RegistryDataVersionsListOptionalParams
+  - Added Interface RegistryEnvironmentContainersCreateOrUpdateHeaders
+  - Added Interface RegistryEnvironmentContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryEnvironmentContainersDeleteHeaders
+  - Added Interface RegistryEnvironmentContainersDeleteOptionalParams
+  - Added Interface RegistryEnvironmentContainersGetOptionalParams
+  - Added Interface RegistryEnvironmentContainersListNextOptionalParams
+  - Added Interface RegistryEnvironmentContainersListOptionalParams
+  - Added Interface RegistryEnvironmentVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryEnvironmentVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryEnvironmentVersionsDeleteHeaders
+  - Added Interface RegistryEnvironmentVersionsDeleteOptionalParams
+  - Added Interface RegistryEnvironmentVersionsGetOptionalParams
+  - Added Interface RegistryEnvironmentVersionsListNextOptionalParams
+  - Added Interface RegistryEnvironmentVersionsListOptionalParams
+  - Added Interface RegistryModelContainersCreateOrUpdateHeaders
+  - Added Interface RegistryModelContainersCreateOrUpdateOptionalParams
+  - Added Interface RegistryModelContainersDeleteHeaders
+  - Added Interface RegistryModelContainersDeleteOptionalParams
+  - Added Interface RegistryModelContainersGetOptionalParams
+  - Added Interface RegistryModelContainersListNextOptionalParams
+  - Added Interface RegistryModelContainersListOptionalParams
+  - Added Interface RegistryModelVersionsCreateOrGetStartPendingUploadOptionalParams
+  - Added Interface RegistryModelVersionsCreateOrUpdateHeaders
+  - Added Interface RegistryModelVersionsCreateOrUpdateOptionalParams
+  - Added Interface RegistryModelVersionsDeleteHeaders
+  - Added Interface RegistryModelVersionsDeleteOptionalParams
+  - Added Interface RegistryModelVersionsGetOptionalParams
+  - Added Interface RegistryModelVersionsListNextOptionalParams
+  - Added Interface RegistryModelVersionsListOptionalParams
+  - Added Interface RegistryPartialManagedServiceIdentity
+  - Added Interface RegistryPrivateEndpointConnection
+  - Added Interface RegistryPrivateLinkServiceConnectionState
+  - Added Interface RegistryRegionArmDetails
+  - Added Interface RegistryTrackedResourceArmPaginatedResult
+  - Added Interface RequestLogging
+  - Added Interface RollingInputData
+  - Added Interface SASCredential
+  - Added Interface SASCredentialDto
+  - Added Interface ServerlessComputeSettings
+  - Added Interface ServerlessEndpoint
+  - Added Interface ServerlessEndpointProperties
+  - Added Interface ServerlessEndpointsCreateOrUpdateHeaders
+  - Added Interface ServerlessEndpointsCreateOrUpdateOptionalParams
+  - Added Interface ServerlessEndpointsDeleteHeaders
+  - Added Interface ServerlessEndpointsDeleteOptionalParams
+  - Added Interface ServerlessEndpointsGetOptionalParams
+  - Added Interface ServerlessEndpointsListKeysOptionalParams
+  - Added Interface ServerlessEndpointsListNextOptionalParams
+  - Added Interface ServerlessEndpointsListOptionalParams
+  - Added Interface ServerlessEndpointsRegenerateKeysHeaders
+  - Added Interface ServerlessEndpointsRegenerateKeysOptionalParams
+  - Added Interface ServerlessEndpointsUpdateHeaders
+  - Added Interface ServerlessEndpointsUpdateOptionalParams
+  - Added Interface ServerlessEndpointTrackedResourceArmPaginatedResult
+  - Added Interface ServerlessInferenceEndpoint
+  - Added Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties
+  - Added Interface ServiceTagDestination
+  - Added Interface ServiceTagOutboundRule
+  - Added Interface SparkJob
+  - Added Interface SparkJobEntry
+  - Added Interface SparkJobPythonEntry
+  - Added Interface SparkJobScalaEntry
+  - Added Interface SparkResourceConfiguration
+  - Added Interface StaticInputData
+  - Added Interface StorageAccountDetails
+  - Added Interface SystemCreatedAcrAccount
+  - Added Interface SystemCreatedStorageAccount
+  - Added Interface TmpfsOptions
+  - Added Interface TopNFeaturesByAttribution
+  - Added Interface UserCreatedAcrAccount
+  - Added Interface UserCreatedStorageAccount
+  - Added Interface VolumeDefinition
+  - Added Interface VolumeOptions
+  - Added Interface Webhook
+  - Added Interface WorkspaceConnectionAccessKey
+  - Added Interface WorkspaceConnectionAccountKey
+  - Added Interface WorkspaceConnectionApiKey
+  - Added Interface WorkspaceConnectionOAuth2
+  - Added Interface WorkspaceConnectionServicePrincipal
+  - Added Interface WorkspaceConnectionsListSecretsOptionalParams
+  - Added Interface WorkspaceHubConfig
+  - Added Interface WorkspacesCreateOrUpdateHeaders
+  - Added Interface WorkspacesPrepareNotebookHeaders
+  - Added Interface WorkspacesResyncKeysHeaders
+  - Added Interface WorkspacesUpdateHeaders
+  - Added Class AzureMachineLearningServicesManagementClient
+  - Added Type Alias ActionType
+  - Added Type Alias AssetProvisioningState
+  - Added Type Alias BatchDeploymentConfigurationType
+  - Added Type Alias BatchDeploymentConfigurationUnion
+  - Added Type Alias CategoricalDataDriftMetric
+  - Added Type Alias CategoricalDataQualityMetric
+  - Added Type Alias CategoricalPredictionDriftMetric
+  - Added Type Alias CodeVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias ComputeRecurrenceFrequency
+  - Added Type Alias ComputeTriggerType
+  - Added Type Alias ComputeWeekDay
+  - Added Type Alias ConnectionGroup
+  - Added Type Alias ContentSafetyStatus
+  - Added Type Alias DataAvailabilityStatus
+  - Added Type Alias DataCollectionMode
+  - Added Type Alias DataDriftMetricThresholdBaseUnion
+  - Added Type Alias DataQualityMetricThresholdBaseUnion
+  - Added Type Alias DataReferenceCredentialType
+  - Added Type Alias DataReferenceCredentialUnion
+  - Added Type Alias EmailNotificationEnableType
+  - Added Type Alias EndpointServiceConnectionStatus
+  - Added Type Alias EnvironmentVariableType
+  - Added Type Alias FeatureAttributionMetric
+  - Added Type Alias FeatureDataType
+  - Added Type Alias FeatureImportanceMode
+  - Added Type Alias FeaturesetContainersCreateOrUpdateResponse
+  - Added Type Alias FeaturesetContainersGetEntityResponse
+  - Added Type Alias FeaturesetContainersListNextResponse
+  - Added Type Alias FeaturesetContainersListResponse
+  - Added Type Alias FeaturesetVersionsBackfillResponse
+  - Added Type Alias FeaturesetVersionsCreateOrUpdateResponse
+  - Added Type Alias FeaturesetVersionsGetResponse
+  - Added Type Alias FeaturesetVersionsListNextResponse
+  - Added Type Alias FeaturesetVersionsListResponse
+  - Added Type Alias FeaturesGetResponse
+  - Added Type Alias FeaturesListNextResponse
+  - Added Type Alias FeaturesListResponse
+  - Added Type Alias FeaturestoreEntityContainersCreateOrUpdateResponse
+  - Added Type Alias FeaturestoreEntityContainersGetEntityResponse
+  - Added Type Alias FeaturestoreEntityContainersListNextResponse
+  - Added Type Alias FeaturestoreEntityContainersListResponse
+  - Added Type Alias FeaturestoreEntityVersionsCreateOrUpdateResponse
+  - Added Type Alias FeaturestoreEntityVersionsGetResponse
+  - Added Type Alias FeaturestoreEntityVersionsListNextResponse
+  - Added Type Alias FeaturestoreEntityVersionsListResponse
+  - Added Type Alias ImageType
+  - Added Type Alias IsolationMode
+  - Added Type Alias JobTier
+  - Added Type Alias ManagedNetworkProvisionsProvisionManagedNetworkResponse
+  - Added Type Alias ManagedNetworkSettingsRuleCreateOrUpdateResponse
+  - Added Type Alias ManagedNetworkSettingsRuleGetResponse
+  - Added Type Alias ManagedNetworkSettingsRuleListNextResponse
+  - Added Type Alias ManagedNetworkSettingsRuleListResponse
+  - Added Type Alias ManagedNetworkStatus
+  - Added Type Alias MarketplaceSubscriptionProvisioningState
+  - Added Type Alias MarketplaceSubscriptionsCreateOrUpdateResponse
+  - Added Type Alias MarketplaceSubscriptionsDeleteResponse
+  - Added Type Alias MarketplaceSubscriptionsGetResponse
+  - Added Type Alias MarketplaceSubscriptionsListNextResponse
+  - Added Type Alias MarketplaceSubscriptionsListResponse
+  - Added Type Alias MarketplaceSubscriptionStatus
+  - Added Type Alias MaterializationStoreType
+  - Added Type Alias ModelTaskType
+  - Added Type Alias MonitorComputeConfigurationBaseUnion
+  - Added Type Alias MonitorComputeIdentityBaseUnion
+  - Added Type Alias MonitorComputeIdentityType
+  - Added Type Alias MonitorComputeType
+  - Added Type Alias MonitoringFeatureDataType
+  - Added Type Alias MonitoringFeatureFilterBaseUnion
+  - Added Type Alias MonitoringFeatureFilterType
+  - Added Type Alias MonitoringInputDataBaseUnion
+  - Added Type Alias MonitoringInputDataType
+  - Added Type Alias MonitoringNotificationType
+  - Added Type Alias MonitoringSignalBaseUnion
+  - Added Type Alias MonitoringSignalType
+  - Added Type Alias NodesUnion
+  - Added Type Alias NodesValueType
+  - Added Type Alias NumericalDataDriftMetric
+  - Added Type Alias NumericalDataQualityMetric
+  - Added Type Alias NumericalPredictionDriftMetric
+  - Added Type Alias OneLakeArtifactType
+  - Added Type Alias OneLakeArtifactUnion
+  - Added Type Alias Origin
+  - Added Type Alias OutboundRuleUnion
+  - Added Type Alias PendingUploadCredentialDtoUnion
+  - Added Type Alias PendingUploadCredentialType
+  - Added Type Alias PendingUploadType
+  - Added Type Alias PredictionDriftMetricThresholdBaseUnion
+  - Added Type Alias Protocol
+  - Added Type Alias RegistriesCreateOrUpdateResponse
+  - Added Type Alias RegistriesGetResponse
+  - Added Type Alias RegistriesListBySubscriptionNextResponse
+  - Added Type Alias RegistriesListBySubscriptionResponse
+  - Added Type Alias RegistriesListNextResponse
+  - Added Type Alias RegistriesListResponse
+  - Added Type Alias RegistriesRemoveRegionsResponse
+  - Added Type Alias RegistriesUpdateResponse
+  - Added Type Alias RegistryCodeContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryCodeContainersGetResponse
+  - Added Type Alias RegistryCodeContainersListNextResponse
+  - Added Type Alias RegistryCodeContainersListResponse
+  - Added Type Alias RegistryCodeVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias RegistryCodeVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryCodeVersionsGetResponse
+  - Added Type Alias RegistryCodeVersionsListNextResponse
+  - Added Type Alias RegistryCodeVersionsListResponse
+  - Added Type Alias RegistryComponentContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryComponentContainersGetResponse
+  - Added Type Alias RegistryComponentContainersListNextResponse
+  - Added Type Alias RegistryComponentContainersListResponse
+  - Added Type Alias RegistryComponentVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryComponentVersionsGetResponse
+  - Added Type Alias RegistryComponentVersionsListNextResponse
+  - Added Type Alias RegistryComponentVersionsListResponse
+  - Added Type Alias RegistryDataContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryDataContainersGetResponse
+  - Added Type Alias RegistryDataContainersListNextResponse
+  - Added Type Alias RegistryDataContainersListResponse
+  - Added Type Alias RegistryDataReferencesGetBlobReferenceSASResponse
+  - Added Type Alias RegistryDataVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias RegistryDataVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryDataVersionsGetResponse
+  - Added Type Alias RegistryDataVersionsListNextResponse
+  - Added Type Alias RegistryDataVersionsListResponse
+  - Added Type Alias RegistryEnvironmentContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryEnvironmentContainersGetResponse
+  - Added Type Alias RegistryEnvironmentContainersListNextResponse
+  - Added Type Alias RegistryEnvironmentContainersListResponse
+  - Added Type Alias RegistryEnvironmentVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryEnvironmentVersionsGetResponse
+  - Added Type Alias RegistryEnvironmentVersionsListNextResponse
+  - Added Type Alias RegistryEnvironmentVersionsListResponse
+  - Added Type Alias RegistryModelContainersCreateOrUpdateResponse
+  - Added Type Alias RegistryModelContainersGetResponse
+  - Added Type Alias RegistryModelContainersListNextResponse
+  - Added Type Alias RegistryModelContainersListResponse
+  - Added Type Alias RegistryModelVersionsCreateOrGetStartPendingUploadResponse
+  - Added Type Alias RegistryModelVersionsCreateOrUpdateResponse
+  - Added Type Alias RegistryModelVersionsGetResponse
+  - Added Type Alias RegistryModelVersionsListNextResponse
+  - Added Type Alias RegistryModelVersionsListResponse
+  - Added Type Alias RollingRateType
+  - Added Type Alias RuleAction
+  - Added Type Alias RuleCategory
+  - Added Type Alias RuleStatus
+  - Added Type Alias RuleType
+  - Added Type Alias ServerlessEndpointsCreateOrUpdateResponse
+  - Added Type Alias ServerlessEndpointsDeleteResponse
+  - Added Type Alias ServerlessEndpointsGetResponse
+  - Added Type Alias ServerlessEndpointsListKeysResponse
+  - Added Type Alias ServerlessEndpointsListNextResponse
+  - Added Type Alias ServerlessEndpointsListResponse
+  - Added Type Alias ServerlessEndpointsRegenerateKeysResponse
+  - Added Type Alias ServerlessEndpointState
+  - Added Type Alias ServerlessEndpointsUpdateResponse
+  - Added Type Alias ServerlessInferenceEndpointAuthMode
+  - Added Type Alias SparkJobEntryType
+  - Added Type Alias SparkJobEntryUnion
+  - Added Type Alias VolumeDefinitionType
+  - Added Type Alias WebhookType
+  - Added Type Alias WebhookUnion
+  - Added Type Alias WorkspaceConnectionsListSecretsResponse
+  - Interface AutoMLJob has a new optional parameter queueSettings
+  - Interface BatchDeploymentProperties has a new optional parameter deploymentConfiguration
+  - Interface CodeContainerProperties has a new optional parameter provisioningState
+  - Interface CodeVersionProperties has a new optional parameter provisioningState
+  - Interface CodeVersionsListOptionalParams has a new optional parameter hash
+  - Interface CodeVersionsListOptionalParams has a new optional parameter hashVersion
+  - Interface CommandJob has a new optional parameter queueSettings
+  - Interface ComponentContainerProperties has a new optional parameter provisioningState
+  - Interface ComponentVersionProperties has a new optional parameter provisioningState
+  - Interface ComputeInstanceProperties has a new optional parameter customServices
+  - Interface ComputeInstanceProperties has a new optional parameter osImageMetadata
+  - Interface EnvironmentContainerProperties has a new optional parameter provisioningState
+  - Interface EnvironmentVersionProperties has a new optional parameter provisioningState
+  - Interface EnvironmentVersionProperties has a new optional parameter stage
+  - Interface JobBaseProperties has a new optional parameter notificationSetting
+  - Interface JobService has a new optional parameter nodes
+  - Interface JobsListOptionalParams has a new optional parameter properties
+  - Interface ModelContainerProperties has a new optional parameter provisioningState
+  - Interface ModelVersionProperties has a new optional parameter provisioningState
+  - Interface ModelVersionProperties has a new optional parameter stage
+  - Interface OnlineDeploymentProperties has a new optional parameter dataCollector
+  - Interface OnlineEndpointProperties has a new optional parameter mirrorTraffic
+  - Interface SweepJob has a new optional parameter queueSettings
+  - Interface Workspace has a new optional parameter associatedWorkspaces
+  - Interface Workspace has a new optional parameter enableDataIsolation
+  - Interface Workspace has a new optional parameter featureStoreSettings
+  - Interface Workspace has a new optional parameter hubResourceId
+  - Interface Workspace has a new optional parameter kind
+  - Interface Workspace has a new optional parameter managedNetwork
+  - Interface Workspace has a new optional parameter serverlessComputeSettings
+  - Interface Workspace has a new optional parameter workspaceHubConfig
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter createdByWorkspaceArmId
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter expiryTime
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter group
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter isSharedToAll
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter metadata
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter sharedUserList
+  - Interface WorkspaceConnectionUsernamePassword has a new optional parameter securityToken
+  - Interface WorkspacesDeleteOptionalParams has a new optional parameter forceToPurge
+  - Interface WorkspaceUpdateParameters has a new optional parameter enableDataIsolation
+  - Interface WorkspaceUpdateParameters has a new optional parameter encryption
+  - Interface WorkspaceUpdateParameters has a new optional parameter featureStoreSettings
+  - Interface WorkspaceUpdateParameters has a new optional parameter managedNetwork
+  - Interface WorkspaceUpdateParameters has a new optional parameter serverlessComputeSettings
+  - Interface WorkspaceUpdateParameters has a new optional parameter v1LegacyMode
+  - Type of parameter referenceType of interface AssetReferenceBase is changed from "DataPath" | "Id" | "OutputPath" to "Id" | "DataPath" | "OutputPath"
+  - Type of parameter actionType of interface ScheduleActionBase is changed from "InvokeBatchEndpoint" | "CreateJob" to "CreateMonitor" | "InvokeBatchEndpoint" | "CreateJob"
+  - Type of parameter authType of interface WorkspaceConnectionPropertiesV2 is changed from "PAT" | "SAS" | "UsernamePassword" | "None" | "ManagedIdentity" to "PAT" | "SAS" | "UsernamePassword" | "None" | "ManagedIdentity" | "AAD" | "AccessKey" | "AccountKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "ServicePrincipal"
+  - Added Enum KnownActionType
+  - Added Enum KnownAssetProvisioningState
+  - Added Enum KnownBatchDeploymentConfigurationType
+  - Added Enum KnownCategoricalDataDriftMetric
+  - Added Enum KnownCategoricalDataQualityMetric
+  - Added Enum KnownCategoricalPredictionDriftMetric
+  - Added Enum KnownComputeRecurrenceFrequency
+  - Added Enum KnownComputeTriggerType
+  - Added Enum KnownComputeWeekDay
+  - Added Enum KnownConnectionGroup
+  - Added Enum KnownContentSafetyStatus
+  - Added Enum KnownDataAvailabilityStatus
+  - Added Enum KnownDataCollectionMode
+  - Added Enum KnownDataReferenceCredentialType
+  - Added Enum KnownEmailNotificationEnableType
+  - Added Enum KnownEndpointServiceConnectionStatus
+  - Added Enum KnownEnvironmentVariableType
+  - Added Enum KnownFeatureAttributionMetric
+  - Added Enum KnownFeatureDataType
+  - Added Enum KnownFeatureImportanceMode
+  - Added Enum KnownImageType
+  - Added Enum KnownIsolationMode
+  - Added Enum KnownJobTier
+  - Added Enum KnownManagedNetworkStatus
+  - Added Enum KnownMarketplaceSubscriptionProvisioningState
+  - Added Enum KnownMarketplaceSubscriptionStatus
+  - Added Enum KnownMaterializationStoreType
+  - Added Enum KnownModelTaskType
+  - Added Enum KnownMonitorComputeIdentityType
+  - Added Enum KnownMonitorComputeType
+  - Added Enum KnownMonitoringFeatureDataType
+  - Added Enum KnownMonitoringFeatureFilterType
+  - Added Enum KnownMonitoringInputDataType
+  - Added Enum KnownMonitoringNotificationType
+  - Added Enum KnownMonitoringSignalType
+  - Added Enum KnownNodesValueType
+  - Added Enum KnownNumericalDataDriftMetric
+  - Added Enum KnownNumericalDataQualityMetric
+  - Added Enum KnownNumericalPredictionDriftMetric
+  - Added Enum KnownOneLakeArtifactType
+  - Added Enum KnownOrigin
+  - Added Enum KnownPendingUploadCredentialType
+  - Added Enum KnownPendingUploadType
+  - Added Enum KnownProtocol
+  - Added Enum KnownRollingRateType
+  - Added Enum KnownRuleAction
+  - Added Enum KnownRuleCategory
+  - Added Enum KnownRuleStatus
+  - Added Enum KnownRuleType
+  - Added Enum KnownServerlessEndpointState
+  - Added Enum KnownServerlessInferenceEndpointAuthMode
+  - Added Enum KnownSparkJobEntryType
+  - Added Enum KnownVolumeDefinitionType
+  - Added Enum KnownWebhookType
+  - Enum KnownConnectionAuthType has a new value AAD
+  - Enum KnownConnectionAuthType has a new value AccessKey
+  - Enum KnownConnectionAuthType has a new value AccountKey
+  - Enum KnownConnectionAuthType has a new value ApiKey
+  - Enum KnownConnectionAuthType has a new value CustomKeys
+  - Enum KnownConnectionAuthType has a new value OAuth2
+  - Enum KnownConnectionAuthType has a new value ServicePrincipal
+  - Enum KnownConnectionCategory has a new value AdlsGen2
+  - Enum KnownConnectionCategory has a new value AIServices
+  - Enum KnownConnectionCategory has a new value AmazonMws
+  - Enum KnownConnectionCategory has a new value AmazonRdsForOracle
+  - Enum KnownConnectionCategory has a new value AmazonRdsForSqlServer
+  - Enum KnownConnectionCategory has a new value AmazonRedshift
+  - Enum KnownConnectionCategory has a new value AmazonS3Compatible
+  - Enum KnownConnectionCategory has a new value ApiKey
+  - Enum KnownConnectionCategory has a new value AzureBlob
+  - Enum KnownConnectionCategory has a new value AzureDatabricksDeltaLake
+  - Enum KnownConnectionCategory has a new value AzureDataExplorer
+  - Enum KnownConnectionCategory has a new value AzureMariaDb
+  - Enum KnownConnectionCategory has a new value AzureMySqlDb
+  - Enum KnownConnectionCategory has a new value AzureOneLake
+  - Enum KnownConnectionCategory has a new value AzureOpenAI
+  - Enum KnownConnectionCategory has a new value AzurePostgresDb
+  - Enum KnownConnectionCategory has a new value AzureSqlDb
+  - Enum KnownConnectionCategory has a new value AzureSqlMi
+  - Enum KnownConnectionCategory has a new value AzureSynapseAnalytics
+  - Enum KnownConnectionCategory has a new value AzureTableStorage
+  - Enum KnownConnectionCategory has a new value BingLLMSearch
+  - Enum KnownConnectionCategory has a new value Cassandra
+  - Enum KnownConnectionCategory has a new value CognitiveSearch
+  - Enum KnownConnectionCategory has a new value CognitiveService
+  - Enum KnownConnectionCategory has a new value Concur
+  - Enum KnownConnectionCategory has a new value CosmosDb
+  - Enum KnownConnectionCategory has a new value CosmosDbMongoDbApi
+  - Enum KnownConnectionCategory has a new value Couchbase
+  - Enum KnownConnectionCategory has a new value CustomKeys
+  - Enum KnownConnectionCategory has a new value Db2
+  - Enum KnownConnectionCategory has a new value Drill
+  - Enum KnownConnectionCategory has a new value Dynamics
+  - Enum KnownConnectionCategory has a new value DynamicsAx
+  - Enum KnownConnectionCategory has a new value DynamicsCrm
+  - Enum KnownConnectionCategory has a new value Eloqua
+  - Enum KnownConnectionCategory has a new value FileServer
+  - Enum KnownConnectionCategory has a new value FtpServer
+  - Enum KnownConnectionCategory has a new value GenericContainerRegistry
+  - Enum KnownConnectionCategory has a new value GenericHttp
+  - Enum KnownConnectionCategory has a new value GenericRest
+  - Enum KnownConnectionCategory has a new value GoogleAdWords
+  - Enum KnownConnectionCategory has a new value GoogleBigQuery
+  - Enum KnownConnectionCategory has a new value GoogleCloudStorage
+  - Enum KnownConnectionCategory has a new value Greenplum
+  - Enum KnownConnectionCategory has a new value Hbase
+  - Enum KnownConnectionCategory has a new value Hdfs
+  - Enum KnownConnectionCategory has a new value Hive
+  - Enum KnownConnectionCategory has a new value Hubspot
+  - Enum KnownConnectionCategory has a new value Impala
+  - Enum KnownConnectionCategory has a new value Informix
+  - Enum KnownConnectionCategory has a new value Jira
+  - Enum KnownConnectionCategory has a new value Magento
+  - Enum KnownConnectionCategory has a new value MariaDb
+  - Enum KnownConnectionCategory has a new value Marketo
+  - Enum KnownConnectionCategory has a new value MicrosoftAccess
+  - Enum KnownConnectionCategory has a new value MongoDbAtlas
+  - Enum KnownConnectionCategory has a new value MongoDbV2
+  - Enum KnownConnectionCategory has a new value MySql
+  - Enum KnownConnectionCategory has a new value Netezza
+  - Enum KnownConnectionCategory has a new value ODataRest
+  - Enum KnownConnectionCategory has a new value Odbc
+  - Enum KnownConnectionCategory has a new value Office365
+  - Enum KnownConnectionCategory has a new value OpenAI
+  - Enum KnownConnectionCategory has a new value Oracle
+  - Enum KnownConnectionCategory has a new value OracleCloudStorage
+  - Enum KnownConnectionCategory has a new value OracleServiceCloud
+  - Enum KnownConnectionCategory has a new value PayPal
+  - Enum KnownConnectionCategory has a new value Phoenix
+  - Enum KnownConnectionCategory has a new value PostgreSql
+  - Enum KnownConnectionCategory has a new value Presto
+  - Enum KnownConnectionCategory has a new value QuickBooks
+  - Enum KnownConnectionCategory has a new value Redis
+  - Enum KnownConnectionCategory has a new value Responsys
+  - Enum KnownConnectionCategory has a new value S3
+  - Enum KnownConnectionCategory has a new value Salesforce
+  - Enum KnownConnectionCategory has a new value SalesforceMarketingCloud
+  - Enum KnownConnectionCategory has a new value SalesforceServiceCloud
+  - Enum KnownConnectionCategory has a new value SapBw
+  - Enum KnownConnectionCategory has a new value SapCloudForCustomer
+  - Enum KnownConnectionCategory has a new value SapEcc
+  - Enum KnownConnectionCategory has a new value SapHana
+  - Enum KnownConnectionCategory has a new value SapOpenHub
+  - Enum KnownConnectionCategory has a new value SapTable
+  - Enum KnownConnectionCategory has a new value Serp
+  - Enum KnownConnectionCategory has a new value Serverless
+  - Enum KnownConnectionCategory has a new value ServiceNow
+  - Enum KnownConnectionCategory has a new value Sftp
+  - Enum KnownConnectionCategory has a new value SharePointOnlineList
+  - Enum KnownConnectionCategory has a new value Shopify
+  - Enum KnownConnectionCategory has a new value Snowflake
+  - Enum KnownConnectionCategory has a new value Spark
+  - Enum KnownConnectionCategory has a new value SqlServer
+  - Enum KnownConnectionCategory has a new value Square
+  - Enum KnownConnectionCategory has a new value Sybase
+  - Enum KnownConnectionCategory has a new value Teradata
+  - Enum KnownConnectionCategory has a new value Vertica
+  - Enum KnownConnectionCategory has a new value WebTable
+  - Enum KnownConnectionCategory has a new value Xero
+  - Enum KnownConnectionCategory has a new value Zoho
+  - Enum KnownDatastoreType has a new value OneLake
+  - Enum KnownJobType has a new value Spark
+  - Enum KnownOutputDeliveryMode has a new value Direct
+  - Enum KnownScheduleActionType has a new value CreateMonitor
+
+### Breaking Changes
+
+  - Deleted Class AzureMachineLearningWorkspaces
+  - Interface PrivateEndpoint no longer has parameter subnetArmId
+  - Type of parameter cron of interface ComputeStartStopSchedule is changed from CronTrigger to Cron
+  - Type of parameter recurrence of interface ComputeStartStopSchedule is changed from RecurrenceTrigger to Recurrence
+  - Type of parameter triggerType of interface ComputeStartStopSchedule is changed from TriggerType to ComputeTriggerType
+    
+    
 ## 2.2.0 (2024-05-20)
 
-**Features**
+### Features Added
     
   - Interface BatchDeploymentsListNextOptionalParams no longer has parameter orderBy
   - Interface BatchDeploymentsListNextOptionalParams no longer has parameter skip
@@ -101,17 +853,17 @@
     
 ## 2.1.1 (2022-11-28)
 
-**Features**
+### Features Added
 
 -  Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 2.1.0 (2022-11-01)
     
-**Features**
+### Features Added
 
   - Added operation group Schedules
   - Added Interface AutoForecastHorizon
@@ -284,7 +1036,7 @@
     
 ## 2.0.0 (2022-08-05)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureBlobDatastore has a new required parameter datastoreType
   - Interface AzureDataLakeGen1Datastore has a new required parameter datastoreType

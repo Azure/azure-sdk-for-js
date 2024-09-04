@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { DataLakePathClient } from "../clients";
 import { PathOperationsImpl as Path } from "../generated/src/operations";
 import { Pipeline } from "@azure/storage-blob";

@@ -1,26 +1,31 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ImageAnalysisClient } from "./clientDefinitions";
+
+/** The optional parameters for the client */
+export interface ImageAnalysisClientOptions extends ClientOptions {
+  /** The api version option of the client */
+  apiVersion?: string;
+}
 
 /**
  * Initialize a new instance of `ImageAnalysisClient`
- * @param endpoint - Azure AI Computer Vision endpoint (protocol and hostname, for example:
+ * @param endpointParam - Azure AI Computer Vision endpoint (protocol and hostname, for example:
  * https://<resource-name>.cognitiveservices.azure.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpoint: string,
-  credentials: KeyCredential,
-  options: ClientOptions = {},
+  endpointParam: string,
+  credentials: TokenCredential | KeyCredential,
+  { apiVersion = "2023-10-01", ...options }: ImageAnalysisClientOptions = {},
 ): ImageAnalysisClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
-  options.apiVersion = options.apiVersion ?? "2023-10-01";
-  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.3`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/computervision`;
+  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.4`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -34,11 +39,28 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
+  const client = getClient(endpointUrl, credentials, options) as ImageAnalysisClient;
 
-  const client = getClient(baseUrl, credentials, options) as ImageAnalysisClient;
+  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+  client.pipeline.addPolicy({
+    name: "ClientApiVersionPolicy",
+    sendRequest: (req, next) => {
+      // Use the apiVersion defined in request url directly
+      // Append one if there is no apiVersion and we have one at client options
+      const url = new URL(req.url);
+      if (!url.searchParams.get("api-version") && apiVersion) {
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
+      }
+
+      return next(req);
+    },
+  });
 
   return client;
 }

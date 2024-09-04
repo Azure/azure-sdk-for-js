@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 declare global {
@@ -107,7 +107,7 @@ export {
 export { useInstrumenter } from "./tracing/instrumenter.js";
 export { createTracingClient } from "./tracing/tracingClient.js";
 // from core-util
-export { delay, DelayOptions } from "./util/delay.js";
+export { delay, DelayOptions, calculateRetryDelay } from "./util/delay.js";
 export {
   AbortOptions,
   cancelablePromiseRace,

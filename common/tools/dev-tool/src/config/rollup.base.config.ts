@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   LoadResult,
@@ -170,7 +170,7 @@ export function sourcemaps() {
       } catch (e) {
         // eslint-disable-next-line no-inner-declarations
         function toString(error: unknown): string {
-          return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
+          return error instanceof Error ? (error.stack ?? error.toString()) : JSON.stringify(error);
         }
         this.warn({ message: toString(e), id });
         return null;

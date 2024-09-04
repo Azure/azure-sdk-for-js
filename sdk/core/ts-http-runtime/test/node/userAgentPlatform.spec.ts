@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { setPlatformSpecificData } from "../../src/util/userAgentPlatform.js";
@@ -18,22 +18,23 @@ describe("userAgentPlatform", () => {
     vi.clearAllMocks();
   });
 
-  it("should handle an empty process.versions", () => {
+  it("should handle an empty process.versions", async () => {
     vi.mocked(process).versions = undefined;
     const map = new Map<string, string>();
 
-    setPlatformSpecificData(map);
+    await setPlatformSpecificData(map);
+
     assert.ok(map.has("OS"));
     assert.notOk(map.has("Node"));
     assert.notOk(map.has("Deno"));
     assert.notOk(map.has("Bun"));
   });
 
-  it("should handle a Node.js process.versions with Bun", () => {
+  it("should handle a Node.js process.versions with Bun", async () => {
     vi.mocked(process).versions = { bun: "1.0.0" };
     const map = new Map<string, string>();
 
-    setPlatformSpecificData(map);
+    await setPlatformSpecificData(map);
 
     assert.ok(map.has("OS"));
     assert.ok(map.has("Bun"));
@@ -42,11 +43,11 @@ describe("userAgentPlatform", () => {
     assert.notOk(map.has("Deno"));
   });
 
-  it("should handle a Node.js process.versions with Deno", () => {
+  it("should handle a Node.js process.versions with Deno", async () => {
     vi.mocked(process).versions = { deno: "2.0.0" };
     const map = new Map<string, string>();
 
-    setPlatformSpecificData(map);
+    await setPlatformSpecificData(map);
 
     assert.ok(map.has("OS"));
     assert.ok(map.has("Deno"));
@@ -55,11 +56,11 @@ describe("userAgentPlatform", () => {
     assert.notOk(map.has("Bun"));
   });
 
-  it("should handle a Node.js process.versions", () => {
+  it("should handle a Node.js process.versions", async () => {
     vi.mocked(process).versions = { node: "20.0.0" };
     const map = new Map<string, string>();
 
-    setPlatformSpecificData(map);
+    await setPlatformSpecificData(map);
 
     assert.ok(map.has("OS"));
     assert.ok(map.has("Node"));
