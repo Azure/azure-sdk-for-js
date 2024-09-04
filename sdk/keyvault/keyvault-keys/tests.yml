@@ -10,7 +10,6 @@ extends:
       CloudConfig:
         Public:
           ServiceConnection: azure-sdk-tests
-          SubscriptionConfiguration: $(test-does-not-exist-single)
           SubscriptionConfigurationFilePaths:
             - eng/common/TestResources/sub-config/AzurePublicMsft.json
           Location: 'eastus2'
