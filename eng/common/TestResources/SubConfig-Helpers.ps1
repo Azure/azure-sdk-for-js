@@ -197,10 +197,17 @@ function UpdateSubscriptionConfigurationWithFiles([object]$baseSubConfig, [strin
 function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$additionalSubConfigsJson, [string]$subConfigFilesJson) {
   $finalConfig = @{}
 
+  write-host 'base:'
+  write-host "b - '$baseSubConfigJson'"
+  write-host "l - '$($baseSubConfigJson.Length)'"
+  write-host "e - $($baseSubConfigJson -eq '')"
+  write-host "n - $($baseSubConfigJson -eq $null)"
+  write-host "t - $($baseSubConfigJson.GetType())"
+
   if ($baseSubConfigJson) {
     # When variable groups are not added to the pipeline, secret references like
     # $(<my secret>) are passed as a string literal instead of being replaced by the keyvault secret value
-    if ($baseSubConfigJson -and $baseSubConfigJson -notlike '{*') {
+    if ($baseSubConfigJson -notlike '{*') {
       throw "Expected a json dictionary object but found '$baseSubConfigJson'. This probably means a subscription config secret was not downloaded. The pipeline is likely missing a variable group."
     }
     $baseSubConfig = $baseSubConfigJson | ConvertFrom-Json -AsHashtable
