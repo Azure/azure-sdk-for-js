@@ -1,15 +1,15 @@
 {
-  "name": "@azure-samples/maps-render-js-beta",
+  "name": "@azure-samples/maps-weather-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Maps Render client library samples for JavaScript (Beta)",
+  "description": "Azure Maps Weather client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/maps/maps-render-rest"
+    "directory": "sdk/maps/maps-weather-rest"
   },
   "keywords": [
     "node",
@@ -24,9 +24,9 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-weather-rest",
   "dependencies": {
-    "@azure-rest/maps-render": "next",
+    "@azure-rest/maps-weather": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.0.1",
     "@azure/maps-common": "1.0.0-beta.2"

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/maps-render": ["./src/index"] },
+    "paths": { "@azure-rest/maps-weather": ["./src/index"] },
     "lib": ["DOM"]
   },
   "include": ["src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]

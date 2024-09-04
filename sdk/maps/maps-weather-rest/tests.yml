@@ -3,7 +3,7 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
-      PackageName: "@azure-rest/maps-render"
+      PackageName: "@azure-rest/maps-weather"
       ServiceDirectory: maps
       Location: 'eastus'
       SupportedClouds: 'Public,Canary'
