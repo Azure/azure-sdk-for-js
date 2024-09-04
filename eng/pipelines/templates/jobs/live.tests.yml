@@ -77,6 +77,8 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - ${{ parameters.PreSteps }}
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/build-test-resource-config.yml
           parameters:
@@ -154,8 +156,6 @@ jobs:
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
-      - ${{ parameters.PreSteps }}
-
       - pwsh: |
           npm install
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
@@ -185,6 +185,7 @@ jobs:
           displayName: "Start browser credential relay"
           condition: and(succeeded(), eq(variables['TestType'], 'browser'))
           env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             TEST_MODE: "live"
             ${{ insert }}: ${{ parameters.EnvVars }}
 
@@ -224,7 +225,6 @@ jobs:
               $account = (Get-AzContext).Account
               $env:AZURESUBSCRIPTION_CLIENT_ID = $account.Id
               $env:AZURESUBSCRIPTION_TENANT_ID = $account.Tenants
-              Update-AzConfig -DisplayBreakingChangeWarning $false
 
               node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType)
               exit $LASTEXITCODE

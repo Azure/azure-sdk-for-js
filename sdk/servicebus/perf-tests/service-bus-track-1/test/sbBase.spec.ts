@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getEnvVar, BatchPerfTest } from "@azure-tools/test-perf";
 import { ServiceBusClient } from "@azure/service-bus";

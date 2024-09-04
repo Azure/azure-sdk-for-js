@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import os from "os";
 import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";

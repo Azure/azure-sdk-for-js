@@ -233,7 +233,7 @@ const queueServiceClient = new QueueServiceClient(
 );
 
 async function main() {
-  let iter1 = queueServiceClient.listQueues();
+  const iter1 = queueServiceClient.listQueues();
   let i = 1;
   for await (const item of iter1) {
     console.log(`Queue${i}: ${item.name}`);
@@ -259,7 +259,7 @@ const queueServiceClient = new QueueServiceClient(
 );
 
 async function main() {
-  let iter2 = queueServiceClient.listQueues();
+  const iter2 = queueServiceClient.listQueues();
   let i = 1;
   let item = await iter2.next();
   while (!item.done) {
@@ -386,7 +386,7 @@ const queueName = "<valid queue name>";
 async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const response = await queueClient.receiveMessages();
-  if (response.receivedMessageItems.length == 1) {
+  if (response.receivedMessageItems.length === 1) {
     const receivedMessageItem = response.receivedMessageItems[0];
     console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
     const deleteMessageResponse = await queueClient.deleteMessage(

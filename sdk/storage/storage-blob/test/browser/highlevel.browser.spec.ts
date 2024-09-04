@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
-import { AbortController } from "@azure/abort-controller";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -64,7 +63,7 @@ describe("Highlevel", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile1, {
@@ -80,7 +79,7 @@ describe("Highlevel", () => {
     if (!isLiveMode()) {
       this.skip();
     }
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
@@ -124,7 +123,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter.signal,

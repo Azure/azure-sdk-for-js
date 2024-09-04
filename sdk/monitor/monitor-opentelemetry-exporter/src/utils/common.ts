@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import os from "os";
 import {
@@ -138,7 +138,7 @@ function getCloudRoleInstance(resource: Resource): string {
   return os && os.hostname();
 }
 
-export function isSqlDB(dbSystem: string) {
+export function isSqlDB(dbSystem: string): boolean {
   return (
     dbSystem === DBSYSTEMVALUES_DB2 ||
     dbSystem === DBSYSTEMVALUES_DERBY ||
@@ -272,4 +272,8 @@ export function serializeAttribute(attribute: AttributeValue | AnyValue | undefi
     }
   }
   return "";
+}
+
+export function shouldCreateResourceMetric(): boolean {
+  return !(process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED?.toLowerCase() === "true");
 }

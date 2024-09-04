@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 
-import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError, BlobServiceClient } from "../src";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
@@ -90,7 +89,7 @@ describe("RetryPolicy", () => {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
       await containerClient.setMetadata(metadata, {
-        abortSignal: AbortController.timeout(2 * 1000),
+        abortSignal: AbortSignal.timeout(2 * 1000),
       });
     } catch (err: any) {
       hasError = true;

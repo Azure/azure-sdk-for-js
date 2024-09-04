@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AuthorizeRequestOptions,
@@ -8,9 +8,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { assert } from "@azure-tools/test-utils";
-import { createKeyVaultChallengeCallbacks } from "../../src";
-import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate";
+import { createKeyVaultChallengeCallbacks } from "../../src/index.js";
+import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate.js";
+import { describe, it, beforeEach, expect } from "vitest";
 
 describe("Challenge based authentication tests", function () {
   let request: PipelineRequest;
@@ -35,9 +35,9 @@ describe("Challenge based authentication tests", function () {
 
       await challengeCallbacks.authorizeRequest!(options);
 
-      assert.notExists(options.request.headers.get("authorization"));
+      expect(options.request.headers.get("authorization")).toBeUndefined();
       // We do not call getAccessToken on the first request
-      assert.equal(getAccessTokenCallCount, 0);
+      expect(getAccessTokenCallCount).toEqual(0);
     });
 
     it("sets the authorization token if it gets one on subsequent calls", async () => {
@@ -69,8 +69,8 @@ describe("Challenge based authentication tests", function () {
 
       await challengeCallbacks.authorizeRequest!(options);
 
-      assert.equal(1, getAccessTokenCallCount);
-      assert.equal(options.request.headers.get("authorization"), "Bearer access_token");
+      expect(options.request.headers.get("authorization")).toEqual("Bearer access_token");
+      expect(getAccessTokenCallCount).toEqual(1);
     });
 
     it("does not modify headers when unable to get access token", async () => {
@@ -87,13 +87,13 @@ describe("Challenge based authentication tests", function () {
 
       await challengeCallbacks.authorizeRequest!(options);
 
-      assert.notExists(options.request.headers.get("authorization"));
+      expect(options.request.headers.get("authorization")).toBeUndefined();
     });
   });
 
   describe("authorizeRequestOnChallenge", () => {
     it("validates WWW-Authenticate exists", async () => {
-      await assert.isRejected(
+      await expect(
         challengeCallbacks.authorizeRequestOnChallenge!({
           getAccessToken: () => Promise.resolve(null),
           request,
@@ -104,8 +104,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Missing challenge",
-      );
+      ).rejects.toThrow("Missing challenge");
     });
 
     it("passes the correct scopes if provided", async () => {
@@ -126,11 +125,11 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      assert.sameMembers(getAccessTokenScopes, ["https://vault.azure.net/.default"]);
+      expect(getAccessTokenScopes).to.deep.equal(["https://vault.azure.net/.default"]);
     });
 
     it("throws if the resource is not a valid URL", async () => {
-      await assert.isRejected(
+      await expect(
         challengeCallbacks.authorizeRequestOnChallenge!({
           getAccessToken: () => Promise.resolve(null),
           request,
@@ -143,12 +142,11 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        `The challenge contains invalid scope 'invalid_scope/.default'`,
-      );
+      ).rejects.toThrow(`The challenge contains invalid scope 'invalid_scope/.default'`);
     });
 
     it("throws if the resource URI host does not match the request by default", async () => {
-      await assert.isRejected(
+      await expect(
         challengeCallbacks.authorizeRequestOnChallenge!({
           getAccessToken: () => Promise.resolve(null),
           request: createPipelineRequest({ url: "https://foo.bar" }),
@@ -161,12 +159,13 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
+      ).rejects.toThrow(
         "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.",
       );
     });
 
     it("throws if the request host is a prefix, but not a subdomain, of the resource URI host", async () => {
-      await assert.isRejected(
+      await expect(
         challengeCallbacks.authorizeRequestOnChallenge!({
           getAccessToken: () => Promise.resolve(null),
           request: createPipelineRequest({ url: "https://myvault.azure.net" }),
@@ -179,6 +178,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
+      ).rejects.toThrow(
         "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.",
       );
     });
@@ -237,7 +237,7 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      assert.equal(getAccessTokenTenantId, expectedTenantId);
+      expect(getAccessTokenTenantId).toEqual(expectedTenantId);
     });
 
     it("returns true and sets the authorization header if challenge succeeds", async () => {
@@ -255,7 +255,7 @@ describe("Challenge based authentication tests", function () {
         },
         scopes: [],
       });
-      assert.isTrue(result);
+      expect(result).toEqual(true);
     });
 
     it("returns false and does not modify header if challenge fails", async () => {
@@ -273,7 +273,7 @@ describe("Challenge based authentication tests", function () {
         },
         scopes: [],
       });
-      assert.isFalse(result);
+      expect(result).toEqual(false);
     });
   });
 
@@ -281,14 +281,14 @@ describe("Challenge based authentication tests", function () {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url"`;
       const parsed1 = parseWWWAuthenticateHeader(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
+      expect(parsed1).to.deep.equal({
         authorization: "https://login.windows.net",
         resource: "https://some.url",
       });
 
       const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net/", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticateHeader(wwwAuthenticate2);
-      assert.deepEqual(parsed2, {
+      expect(parsed2).to.deep.equal({
         authorization: "https://login.windows.net/",
         scope: "https://some.url",
       });
@@ -297,7 +297,7 @@ describe("Challenge based authentication tests", function () {
     it("Should ignore unknown values in the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url" scope="scope", a="a", b="b"`;
       const parsed1 = parseWWWAuthenticateHeader(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
+      expect(parsed1).to.deep.equal({
         authorization: "https://login.windows.net",
         resource: "https://some.url",
         scope: "scope",
@@ -307,7 +307,7 @@ describe("Challenge based authentication tests", function () {
     it("should include the tenantId when present", () => {
       const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net/9999", resource="https://some.url"`;
       const parsed1 = parseWWWAuthenticateHeader(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
+      expect(parsed1).to.deep.equal({
         authorization: "https://login.windows.net/9999",
         resource: "https://some.url",
         tenantId: "9999",

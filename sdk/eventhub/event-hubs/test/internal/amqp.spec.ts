@@ -1,71 +1,67 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
+import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData.js";
 import { Constants } from "@azure/core-amqp";
-import chai from "chai";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { describe, it } from "vitest";
+import { assert } from "../utils/chai.js";
 
-const assert: typeof chai.assert = chai.assert;
-
-testWithServiceTypes(() => {
-  describe("AMQP message encoding", () => {
-    it("isAmqpAnnotatedMessage", () => {
-      assert.isFalse(isAmqpAnnotatedMessage({}));
-      assert.isFalse(isAmqpAnnotatedMessage({ body: "hello world" }));
-      assert.isFalse(
-        isAmqpAnnotatedMessage(
-          fromRheaMessage(
-            {
-              message_annotations: {
-                [Constants.enqueuedTime]: Date.now(),
-              },
-              body: undefined,
+describe("AMQP message encoding", function () {
+  it("isAmqpAnnotatedMessage", async function () {
+    assert.isFalse(isAmqpAnnotatedMessage({}));
+    assert.isFalse(isAmqpAnnotatedMessage({ body: "hello world" }));
+    assert.isFalse(
+      isAmqpAnnotatedMessage(
+        fromRheaMessage(
+          {
+            message_annotations: {
+              [Constants.enqueuedTime]: Date.now(),
             },
-            false,
-          ),
+            body: undefined,
+          },
+          false,
         ),
-      );
+      ),
+    );
 
-      assert.isTrue(
-        isAmqpAnnotatedMessage(
-          fromRheaMessage(
-            {
-              message_annotations: {
-                [Constants.enqueuedTime]: Date.now(),
-              },
-              body: undefined,
+    assert.isTrue(
+      isAmqpAnnotatedMessage(
+        fromRheaMessage(
+          {
+            message_annotations: {
+              [Constants.enqueuedTime]: Date.now(),
             },
-            false,
-          ).getRawAmqpMessage(),
-        ),
-      );
+            body: undefined,
+          },
+          false,
+        ).getRawAmqpMessage(),
+      ),
+    );
 
-      assert.isTrue(
-        isAmqpAnnotatedMessage({
-          body: "hello world",
-          bodyType: "sequence",
-        }),
-      );
-      assert.isTrue(
-        isAmqpAnnotatedMessage({
-          body: "hello world",
-          bodyType: "value",
-        }),
-      );
-      assert.isTrue(
-        isAmqpAnnotatedMessage({
-          body: "hello world",
-          bodyType: "data",
-        }),
-      );
+    assert.isTrue(
+      isAmqpAnnotatedMessage({
+        body: "hello world",
+        bodyType: "sequence",
+      }),
+    );
+    assert.isTrue(
+      isAmqpAnnotatedMessage({
+        body: "hello world",
+        bodyType: "value",
+      }),
+    );
+    assert.isTrue(
+      isAmqpAnnotatedMessage({
+        body: "hello world",
+        bodyType: "data",
+      }),
+    );
 
-      assert.isTrue(
-        isAmqpAnnotatedMessage({
-          body: "hello world",
-          bodyType: undefined, // the property _must_ exist, but undefined is fine. We'll default to 'data'
-        }),
-      );
-    });
+    assert.isTrue(
+      isAmqpAnnotatedMessage({
+        body: "hello world",
+        bodyType: undefined, // the property _must_ exist, but undefined is fine. We'll default to 'data'
+      }),
+    );
   });
 });

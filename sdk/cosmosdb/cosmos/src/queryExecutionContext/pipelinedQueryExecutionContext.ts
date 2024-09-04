@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ClientContext } from "../ClientContext";
 import { Response, FeedOptions } from "../request";
-import { PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
+import { ErrorResponse, PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
@@ -27,7 +27,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private pageSize: number;
   private vectorSearchBufferSize: number = 0;
   private static DEFAULT_PAGE_SIZE = 10;
-  private static DEFAULT_VECTOR_SEARCH_BUFFER_SIZE = 2000;
+  private static DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE = 50000;
   private nonStreamingOrderBy = false;
 
   constructor(
@@ -50,10 +50,24 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const sortOrders = partitionedQueryExecutionInfo.queryInfo.orderBy;
     // TODO: Currently we don't get any field from backend to determine streaming queries
     if (this.nonStreamingOrderBy) {
+      if (!options.allowUnboundedNonStreamingQueries) {
+        this.checkQueryConstraints(partitionedQueryExecutionInfo.queryInfo);
+      }
+
       this.vectorSearchBufferSize = this.calculateVectorSearchBufferSize(
         partitionedQueryExecutionInfo.queryInfo,
         options,
       );
+      const maxBufferSize = options["vectorSearchBufferSize"]
+        ? options["vectorSearchBufferSize"]
+        : PipelinedQueryExecutionContext.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+
+      if (this.vectorSearchBufferSize > maxBufferSize) {
+        throw new ErrorResponse(
+          `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
+            `is not allowed`,
+        );
+      }
 
       const distinctType = partitionedQueryExecutionInfo.queryInfo.distinctType;
       const context: ExecutionContext = new ParallelQueryExecutionContext(
@@ -261,6 +275,19 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         ? queryInfo.offset + queryInfo.limit
         : options["vectorSearchBufferSize"] && options["vectorSearchBufferSize"] > 0
           ? options["vectorSearchBufferSize"]
-          : PipelinedQueryExecutionContext.DEFAULT_VECTOR_SEARCH_BUFFER_SIZE;
+          : PipelinedQueryExecutionContext.DEFAULT_MAX_VECTOR_SEARCH_BUFFER_SIZE;
+  }
+
+  private checkQueryConstraints(queryInfo: QueryInfo): void {
+    const hasTop = queryInfo.top || queryInfo.top === 0;
+    const hasLimit = queryInfo.limit || queryInfo.limit === 0;
+    if (!hasTop && !hasLimit) {
+      throw new ErrorResponse(
+        "Executing a vector search query without TOP or LIMIT can consume a large number of RUs " +
+          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+          "with your vector search query.",
+      );
+    }
+    return;
   }
 }

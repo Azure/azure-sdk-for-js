@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   type SendRequest,
@@ -18,7 +18,7 @@ describe("decompressResponsePolicy (node)", function () {
 
     assert.isFalse(request.headers.has("Accept-Encoding"), "acceptEncoding is set.");
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
 
     policy.sendRequest(request, next);
 

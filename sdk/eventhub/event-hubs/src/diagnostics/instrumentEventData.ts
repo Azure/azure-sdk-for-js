@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EventData, isAmqpAnnotatedMessage } from "../eventData";
+import { EventData, isAmqpAnnotatedMessage } from "../eventData.js";
 import { TracingContext } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { OperationOptions } from "../util/operationOptions";
-import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing";
+import { OperationOptions } from "../util/operationOptions.js";
+import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing.js";
 
 /**
  * @internal

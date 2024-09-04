@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { PartitionKey } from "../documents";
 import { SharedOptions } from "./SharedOptions";
 
@@ -123,4 +123,9 @@ export interface FeedOptions extends SharedOptions {
    * Default: false. Set to true to avoid error from an old gateway that doesn't support this feature.
    */
   disableNonStreamingOrderByQuery?: boolean;
+  /**
+   * Valid only for non streaming order by query.
+   * Default: false; When set to true, it allows queries to bypass the default behavior that blocks nonStreaming queries without top or limit clauses.
+   */
+  allowUnboundedNonStreamingQueries?: boolean;
 }

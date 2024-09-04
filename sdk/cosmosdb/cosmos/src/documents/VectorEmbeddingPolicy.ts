@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * Represents the policy configuration for vector embeddings in the Azure Cosmos DB service.
  */
@@ -36,10 +36,6 @@ export interface VectorEmbedding {
  * Represents the data type of the vector.
  */
 export enum VectorEmbeddingDataType {
-  /**
-   * 16-bit floating point number.
-   */
-  Float16 = "float16",
   /**
    * 32-bit floating point number.
    */

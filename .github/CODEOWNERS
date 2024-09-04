@@ -4,9 +4,14 @@
 ################
 # Orphaned paths
 ################
-# As of 1/30/2023 these paths have no owners:
 
-# /**
+/** @xirzec @jeremymeng @Azure/azure-sdk-eng
+
+################
+# CODEOWNERS
+################
+
+/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
 
 ################
 # Misc.
@@ -62,7 +67,7 @@
 
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds
+/sdk/batch/ @wiboris @wanghoppe @dpwatrous @cRui861 @skapur12
 
 # PRLabel: %Communication
 # ServiceLabel: %Communication
@@ -115,10 +120,10 @@
 # AzureSdkOwners: @timovv @jeremymeng
 
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh @v1k1
+# ServiceOwners: @sajeetharan @simorenoh
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
+/sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # PRLabel: %Digital Twins
 # ServiceLabel: %Digital Twins
@@ -215,7 +220,7 @@
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
-/sdk/web-pubsub/ @vicancy
+/sdk/web-pubsub/ @vicancy @chenkennt @zackliu
 
 # PRLabel: %EngSys
 /sdk/template/ @ckairen @mikeharder @weshaggard @benbp
@@ -244,7 +249,7 @@
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %AI Model Inference
-sdk/ai/ai-inference-rest @glharper @dargilco
+sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
@@ -302,6 +307,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 # PRLabel: %Maps
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
+
+# PRLabel: %Microsoft Playwright Testing
+# ServiceLabel: %Microsoft Playwright Testing
+/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
@@ -387,6 +396,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao
@@ -512,6 +524,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -548,7 +563,14 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
+
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -761,6 +783,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -816,6 +841,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @MaryGao
@@ -1547,7 +1575,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 /**/tsconfig.json @Azure/azure-sdk-for-js-core
 
 # Managment tsconfig.json
-/sdk/**/arm-*/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+/sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 /.scripts/ @mikeharder @ckairen
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
@@ -1562,3 +1590,8 @@ sdk/ai/ai-inference-rest @glharper @dargilco
 
 /eng/emitter-package-lock.json @qiaozha @MaryGao
 /eng/emitter-package.json @qiaozha @MaryGao
+
+# Make sure to not check in anymore test-resources.json files
+# and review bicep scripts for any exposed secrets
+/sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Attributes } from "@opentelemetry/api";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";

@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ComputeManagementClient.",
-  "version": "21.6.1",
+  "version": "22.1.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -37,9 +37,10 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-credential": "^1.1.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
+    "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",

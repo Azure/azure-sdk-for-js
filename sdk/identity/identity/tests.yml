@@ -3,12 +3,29 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
+      PreSteps:
+      - task: AzureCLI@2
+        displayName: Set OIDC variables
+        env:
+          ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
+          ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+          ARM_TENANT_ID: $(ARM_TENANT_ID)
+        inputs:
+          azureSubscription: azure-sdk-tests
+          scriptType: pscore
+          scriptLocation: inlineScript
+          addSpnToEnvironment: true
+          inlineScript: |
+            Write-Host "##vso[task.setvariable variable=ARM_CLIENT_ID;issecret=true]$($env:servicePrincipalId)"
+            Write-Host "##vso[task.setvariable variable=ARM_TENANT_ID;issecret=true]$($env:tenantId)"
+            Write-Host "##vso[task.setvariable variable=ARM_OIDC_TOKEN;issecret=true]$($env:idToken)"
       PackageName: "@azure/identity"
       ServiceDirectory: identity
       TimeoutInMinutes: 120
       SupportedClouds: 'Public,UsGov,China,Canary'
       CloudConfig:
         Public:
+          ServiceConnection: azure-sdk-tests
           SubscriptionConfigurations:
             - $(sub-config-azure-cloud-test-resources)
             # Contains alternate tenant, AAD app and cert info for testing
@@ -26,4 +43,6 @@ extends:
         AZURE_CLIENT_ID: $(IDENTITY_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(IDENTITY_CLIENT_SECRET)
         AZURE_TENANT_ID: $(IDENTITY_TENANT_ID)
-        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+        ARM_OIDC_TOKEN: $(ARM_OIDC_TOKEN)
+        ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+        ARM_TENANT_ID: $(ARM_TENANT_ID)

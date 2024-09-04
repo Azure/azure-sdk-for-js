@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
+/* eslint-disable @typescript-eslint/no-require-imports */
 
 import * as assert from "assert";
 import * as sinon from "sinon";
@@ -81,12 +83,14 @@ describe("Library/AzureFunctionsHook", () => {
       ["3.x", v3Context],
       ["4.x", v4Context],
     ]) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       it(`[${testModelVersion}] Pre Invokation Hook added if running in Azure Functions and context is propagated`, async () => {
         let preInvocationCallback: any;
         let preInvocationCalled = false;
 
         const Module = require("module");
         Module.prototype.require = function () {
+          // eslint-disable-next-line prefer-rest-params
           if (arguments[0] === "@azure/functions-core") {
             return {
               registerHook(name: string, callback: PreInvocationCallback) {
@@ -97,6 +101,7 @@ describe("Library/AzureFunctionsHook", () => {
               },
             };
           }
+          // eslint-disable-next-line prefer-rest-params, @typescript-eslint/no-unsafe-return
           return originalRequire.apply(this, arguments);
         };
 

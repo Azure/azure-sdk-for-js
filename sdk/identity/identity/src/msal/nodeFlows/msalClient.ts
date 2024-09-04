@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msal from "@azure/msal-node";
 
@@ -22,12 +22,12 @@ import { AuthenticationRequiredError } from "../../errors";
 import { BrokerOptions } from "./brokerOptions";
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
+import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
+import open from "open";
 import { resolveTenantId } from "../../util/tenantIdUtils";
-import { interactiveBrowserMockable } from "./msalOpenBrowser";
-import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -240,6 +240,14 @@ export interface MsalClientOptions {
    */
   authenticationRecord?: AuthenticationRecord;
 }
+
+/**
+ * A call to open(), but mockable
+ * @internal
+ */
+export const interactiveBrowserMockable = {
+  open,
+};
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -522,10 +530,10 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     state.cachedAccount = response?.account ?? null;
 
     state.logger.getToken.info(formatSuccess(scopes));
-
     return {
       token: response.accessToken,
       expiresOnTimestamp: response.expiresOn.getTime(),
+      refreshAfterTimestamp: response.refreshOn?.getTime(),
     };
   }
 
@@ -548,12 +556,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         claims: options?.claims,
       });
       ensureValidMsalToken(scopes, response, options);
-
       state.logger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -582,10 +589,10 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -612,10 +619,10 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -743,10 +750,10 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       msalLogger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);

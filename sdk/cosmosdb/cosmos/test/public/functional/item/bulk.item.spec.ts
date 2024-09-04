@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import assert from "assert";
 import {
@@ -376,7 +376,7 @@ describe("test bulk operations", async function () {
               if (context.operationType === "batch" && responseIndex < 1) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
-                error.subStatusCode = SubStatusCodes.PartitionKeyRangeGone;
+                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
                 responseIndex++;
                 throw error;
               }
@@ -432,9 +432,7 @@ describe("test bulk operations", async function () {
       };
       const defaultBulkTestDataSet: BulkTestDataSet = {
         dbName: "bulkTestDB",
-        bulkOperationOptions: {
-          continueOnError: false,
-        },
+        bulkOperationOptions: {},
         containerRequest: {
           id: "patchContainer",
           partitionKey: {
@@ -937,11 +935,14 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("424 errors for operations after an error", async function () {
+      it("424 errors for operations after an error when continueOnError is set to false", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("424 errors"),
           documentToCreate: [],
+          bulkOperationOptions: {
+            continueOnError: false,
+          },
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
@@ -961,14 +962,11 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("Continues after errors with continueOnError true", async function () {
+      it("Continues after errors with default value of continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("continueOnError"),
           documentToCreate: [],
-          bulkOperationOptions: {
-            continueOnError: true,
-          },
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
@@ -1108,7 +1106,7 @@ describe("test bulk operations", async function () {
               if (context.operationType === "batch" && responseIndex % 50 === 0) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
-                error.subStatusCode = SubStatusCodes.PartitionKeyRangeGone;
+                error.substatus = SubStatusCodes.PartitionKeyRangeGone;
                 responseIndex++;
                 throw error;
               }

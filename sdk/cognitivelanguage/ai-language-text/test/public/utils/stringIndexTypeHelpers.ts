@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Entity, StringIndexType, TextAnalysisClient } from "../../../src";
 import { assert } from "chai";

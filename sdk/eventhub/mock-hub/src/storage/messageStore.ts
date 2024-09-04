@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="ES2018.AsyncIterable" />
 
-import { EventPosition } from "../utils/eventPosition";
+import { EventPosition } from "../utils/eventPosition.js";
 import { Message } from "rhea";
-import { Queue } from "./queue";
+import { Queue } from "./queue.js";
 
 export interface MessageRecord {
   partitionKey?: string;

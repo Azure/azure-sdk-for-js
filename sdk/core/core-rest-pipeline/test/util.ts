@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { AzureLogger } from "@azure/logger";
 import type { RequestBodyType } from "../src/interfaces.js";

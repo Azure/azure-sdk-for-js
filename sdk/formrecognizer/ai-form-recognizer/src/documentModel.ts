@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DocumentFieldSchema, DocumentModelDetails } from "./generated";
 import { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";

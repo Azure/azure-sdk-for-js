@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import { context, SpanKind } from "@opentelemetry/api";
@@ -7,12 +7,12 @@ import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-ba
 import { ApplicationInsightsSampler } from "../../../../src/traces/sampler";
 
 describe("Library/ApplicationInsightsSampler", () => {
-  let idGenerator = new RandomIdGenerator();
+  const idGenerator = new RandomIdGenerator();
 
   describe("#shouldSample()", () => {
     it("will not send data on 0% sampling", () => {
-      let sampler = new ApplicationInsightsSampler(0);
-      let result = sampler.shouldSample(context.active(), "", "", SpanKind.INTERNAL, {}, []);
+      const sampler = new ApplicationInsightsSampler(0);
+      const result = sampler.shouldSample(context.active(), "", "", SpanKind.INTERNAL, {}, []);
       assert.equal(
         result.decision,
         SamplingDecision.RECORD,
@@ -21,12 +21,12 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
 
     it("will send data roughly 1/3 of the time on 33% sampling", () => {
-      var iterations = 1000;
-      var accepted = 0;
-      let sampler = new ApplicationInsightsSampler(0.33);
+      const iterations = 1000;
+      let accepted = 0;
+      const sampler = new ApplicationInsightsSampler(0.33);
 
-      for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(
+      for (let i = 0; i < iterations; i++) {
+        const result = sampler.shouldSample(
           context.active(),
           idGenerator.generateTraceId(),
           "",
@@ -42,12 +42,12 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
 
     it("will send data roughly 1/2 of the time on 50% sampling", () => {
-      var iterations = 1000;
-      var accepted = 0;
-      let sampler = new ApplicationInsightsSampler(0.5);
+      const iterations = 1000;
+      let accepted = 0;
+      const sampler = new ApplicationInsightsSampler(0.5);
 
-      for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(
+      for (let i = 0; i < iterations; i++) {
+        const result = sampler.shouldSample(
           context.active(),
           idGenerator.generateTraceId(),
           "",
@@ -63,12 +63,12 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
 
     it("will send data all of the time on 100% sampling", () => {
-      var iterations = 1000;
-      var accepted = 0;
-      let sampler = new ApplicationInsightsSampler(1);
+      const iterations = 1000;
+      let accepted = 0;
+      const sampler = new ApplicationInsightsSampler(1);
 
-      for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(
+      for (let i = 0; i < iterations; i++) {
+        const result = sampler.shouldSample(
           context.active(),
           idGenerator.generateTraceId(),
           "",
@@ -83,12 +83,12 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
 
     it("will keep all telemetry from an operation together if correlation tracking is enabled", () => {
-      var iterations = 1000;
-      var accepted = 0;
-      let sampler = new ApplicationInsightsSampler(0.33);
+      const iterations = 1000;
+      let accepted = 0;
+      const sampler = new ApplicationInsightsSampler(0.33);
 
-      for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), "a", "", SpanKind.INTERNAL, {}, []);
+      for (let i = 0; i < iterations; i++) {
+        const result = sampler.shouldSample(context.active(), "a", "", SpanKind.INTERNAL, {}, []);
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
@@ -96,12 +96,12 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
 
     it("will keep all telemetry from an operation together if correlation tracking is enabled #2", () => {
-      var iterations = 1000;
-      var accepted = 0;
-      let sampler = new ApplicationInsightsSampler(0.33);
+      const iterations = 1000;
+      let accepted = 0;
+      const sampler = new ApplicationInsightsSampler(0.33);
 
-      for (var i = 0; i < iterations; i++) {
-        let result = sampler.shouldSample(context.active(), "abc", "", SpanKind.INTERNAL, {}, []);
+      for (let i = 0; i < iterations; i++) {
+        const result = sampler.shouldSample(context.active(), "abc", "", SpanKind.INTERNAL, {}, []);
         if (result.decision === SamplingDecision.RECORD_AND_SAMPLED) accepted++;
       }
 
@@ -111,7 +111,7 @@ describe("Library/ApplicationInsightsSampler", () => {
   describe("#getSamplingHashCode()", () => {
     it("has results consistent with .net", () => {
       // test array is produced by .net sdk test
-      var testArray = [
+      const testArray = [
         ["ss", 1179811869],
         ["kxi", 34202699],
         ["wr", 1281077591],
@@ -154,10 +154,10 @@ describe("Library/ApplicationInsightsSampler", () => {
         ["hqmyv", 1510970959],
       ];
 
-      var csharpMax = 2147483647;
-      let sampler = new ApplicationInsightsSampler();
-      for (var i = 0; i < testArray.length; ++i) {
-        var res = sampler["_getSamplingHashCode"](<string>testArray[i][0]);
+      const csharpMax = 2147483647;
+      const sampler = new ApplicationInsightsSampler();
+      for (let i = 0; i < testArray.length; ++i) {
+        const res = sampler["_getSamplingHashCode"](<string>testArray[i][0]);
         assert.equal(res, (<number>testArray[i][1] / csharpMax) * 100);
       }
     });

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isDefined } from "@azure/core-util";
-import { mapPartitionKeyToId } from "./partitionKeyToIdMapper";
+import { mapPartitionKeyToId } from "./partitionKeyToIdMapper.js";
 
 /**
  * @internal

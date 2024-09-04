@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";

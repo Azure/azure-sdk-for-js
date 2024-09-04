@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -60,10 +60,7 @@ describe("embeddings test suite", () => {
     assert.isTrue(json["model"] == embeddingParams.body?.model);
     assert.isTrue(json["encoding_format"] == embeddingParams.body?.encoding_format);
     assert.isTrue(json["input_type"] == embeddingParams.body?.input_type);
-  },
-    {
-      timeout: 50000
-    });
+  });
 
   it("simple embeddings test", async function () {
     const response = await client.path("/embeddings").post({
@@ -87,9 +84,6 @@ describe("embeddings test suite", () => {
     assert.isDefined(result.usage);
     assert.isTrue(result.usage.prompt_tokens > 0);
     assert.isTrue(result.usage.prompt_tokens == result.usage.total_tokens);
-  },
-    {
-      timeout: 50000
-    });
+  });
 
 });

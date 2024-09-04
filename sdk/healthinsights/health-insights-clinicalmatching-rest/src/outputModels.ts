@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The response for the Trial Matcher request. */
 export interface TrialMatcherResultOutput {

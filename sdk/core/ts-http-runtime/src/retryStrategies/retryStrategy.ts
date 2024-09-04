@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TypeSpecRuntimeLogger } from "../logger/logger.js";
 import { PipelineResponse } from "../interfaces.js";

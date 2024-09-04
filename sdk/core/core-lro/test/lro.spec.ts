@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   ImplementationName,
@@ -679,6 +679,46 @@ matrix(
                     path: operationLocationPath,
                     status: 200,
                     body: `{ "status": "succeeded", "id": "100"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: locationPath,
+                    status: 400,
+                  },
+                ],
+                resourceLocationConfig: "azure-async-operation",
+              });
+              assert.equal(result.statusCode, 200);
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle PUT with final-state-via", async () => {
+              const path = "/put/final-state-via";
+              const locationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/location`;
+              const operationLocationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "PUT",
+                    path,
+                    status: 202,
+                    body: "",
+                    headers: {
+                      Location: locationPath,
+                      [headerName]: operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path,
+                    status: 200,
+                    body: `{ "id": "100" }`,
                   },
                   {
                     method: "GET",

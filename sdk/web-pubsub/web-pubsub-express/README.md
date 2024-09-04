@@ -158,7 +158,7 @@ const handler = new WebPubSubEventHandler("chat", {
     res.success();
   },
   handleUserEvent(req, res) {
-    var calledTime = req.context.states.calledTime++;
+    const calledTime = req.context.states.calledTime++;
     console.log(calledTime);
     // You can also set the state here
     res.setState("calledTime", calledTime);

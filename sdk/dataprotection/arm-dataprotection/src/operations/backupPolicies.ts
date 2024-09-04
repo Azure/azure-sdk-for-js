@@ -23,7 +23,7 @@ import {
   BackupPoliciesCreateOrUpdateOptionalParams,
   BackupPoliciesCreateOrUpdateResponse,
   BackupPoliciesDeleteOptionalParams,
-  BackupPoliciesListNextResponse
+  BackupPoliciesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<BaseBackupPolicyResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -66,9 +66,9 @@ export class BackupPoliciesImpl implements BackupPolicies {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +76,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     vaultName: string,
     options?: BackupPoliciesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BaseBackupPolicyResource[]> {
     let result: BackupPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class BackupPoliciesImpl implements BackupPolicies {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +104,12 @@ export class BackupPoliciesImpl implements BackupPolicies {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): AsyncIterableIterator<BaseBackupPolicyResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +124,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: BackupPoliciesListOptionalParams
+    options?: BackupPoliciesListOptionalParams,
   ): Promise<BackupPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +143,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     vaultName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesGetOptionalParams
+    options?: BackupPoliciesGetOptionalParams,
   ): Promise<BackupPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -164,11 +164,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     vaultName: string,
     backupPolicyName: string,
     parameters: BaseBackupPolicyResource,
-    options?: BackupPoliciesCreateOrUpdateOptionalParams
+    options?: BackupPoliciesCreateOrUpdateOptionalParams,
   ): Promise<BackupPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupPolicyName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -183,11 +183,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     vaultName: string,
     backupPolicyName: string,
-    options?: BackupPoliciesDeleteOptionalParams
+    options?: BackupPoliciesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupPolicyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -202,11 +202,11 @@ export class BackupPoliciesImpl implements BackupPolicies {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: BackupPoliciesListNextOptionalParams
+    options?: BackupPoliciesListNextOptionalParams,
   ): Promise<BackupPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -214,38 +214,15 @@ export class BackupPoliciesImpl implements BackupPolicies {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BaseBackupPolicyResourceList
+      bodyMapper: Mappers.BaseBackupPolicyResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BaseBackupPolicyResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -253,22 +230,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupPolicyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BaseBackupPolicyResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupPolicyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BaseBackupPolicyResource
+      bodyMapper: Mappers.BaseBackupPolicyResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -277,22 +274,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupPolicyName
+    Parameters.backupPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies/{backupPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -300,29 +296,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupPolicyName
+    Parameters.backupPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BaseBackupPolicyResourceList
+      bodyMapper: Mappers.BaseBackupPolicyResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

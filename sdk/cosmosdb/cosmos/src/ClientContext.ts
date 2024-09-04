@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
+  HttpClient,
   Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
@@ -274,6 +275,7 @@ export class ClientContext {
     request.headers[HttpHeaders.SupportedQueryFeatures] = supportedQueryFeaturesBuilder(
       options.disableNonStreamingOrderByQuery,
     );
+
     if (typeof query === "string") {
       request.body = { query }; // Converts query text to query object.
     }
@@ -839,8 +841,7 @@ export class ClientContext {
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
-      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError || false;
-
+      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError ?? true;
       this.applySessionToken(request);
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -970,6 +971,7 @@ export class ClientContext {
     client?: ClientContext;
     pipeline?: Pipeline;
     plugins: PluginConfig[];
+    httpClient?: HttpClient;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -978,6 +980,7 @@ export class ClientContext {
       client: this,
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
+      httpClient: this.cosmosClientOptions.httpClient,
     };
   }
 

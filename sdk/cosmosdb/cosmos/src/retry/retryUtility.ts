@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
@@ -103,17 +103,25 @@ export async function execute({
         );
       }
       const startTimeUTCInMs = getCurrentTimestampInMs();
+      const correlatedActivityId =
+        requestContext.headers[Constants.HttpHeaders.CorrelatedActivityId];
       try {
         const response = await executeRequest(localDiagnosticNode, requestContext);
         response.headers[Constants.ThrottleRetryCount] =
           retryPolicies.resourceThrottleRetryPolicy.currentRetryAttemptCount;
         response.headers[Constants.ThrottleRetryWaitTimeInMs] =
           retryPolicies.resourceThrottleRetryPolicy.cummulativeWaitTimeinMs;
+        if (correlatedActivityId) {
+          response.headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+        }
         return response;
       } catch (err: any) {
         // TODO: any error
         let retryPolicy: RetryPolicy = null;
         const headers = err.headers || {};
+        if (correlatedActivityId) {
+          headers[Constants.HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+        }
         if (
           err.code === StatusCodes.ENOTFOUND ||
           err.code === "REQUEST_SEND_ERROR" ||

@@ -7,10 +7,6 @@ extends:
       ServiceDirectory: attestation
       TimeoutInMinutes: 90
       Clouds: Preview
-      CloudConfig:
-        Preview:
-          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-          ServiceConnection: azure-sdk-tests-preview      
       Location: westus
       MatrixFilters:
         - DependencyVersion=^$
@@ -19,4 +15,3 @@ extends:
           Path: sdk/attestation/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-      UseFederatedAuth: true

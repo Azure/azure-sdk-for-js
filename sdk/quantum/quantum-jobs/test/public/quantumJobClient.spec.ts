@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import { QuantumJobClient } from "../../src";
@@ -58,7 +58,7 @@ describe("Quantum job lifecycle", () => {
   it("Test Quantum Job Lifecycle", async function () {
     // Get container Uri with SAS key
     const containerName = "testcontainer";
-    let containerUri =
+    const containerUri =
       (
         await client.storage.sasUri({
           containerName: containerName,
@@ -73,7 +73,7 @@ describe("Quantum job lifecycle", () => {
 
     // Get input data blob Uri with SAS key
     const blobName = `${getRecorderUniqueVariable(recorder, "input-")}.bc`;
-    let inputDataUri =
+    const inputDataUri =
       (
         await client.storage.sasUri({
           containerName: containerName,
@@ -135,7 +135,7 @@ describe("Quantum job lifecycle", () => {
     let jobFound = false;
     const jobs = client.jobs.list();
     for await (const job of jobs) {
-      if (job.id == jobDetails.id) {
+      if (job.id === jobDetails.id) {
         jobFound = true;
         assert.equal(jobDetails.inputDataFormat, jobDetails.inputDataFormat);
         assert.equal(jobDetails.outputDataFormat, jobDetails.outputDataFormat);

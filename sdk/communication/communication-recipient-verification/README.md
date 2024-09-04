@@ -72,7 +72,7 @@ const {
   RecipientVerificationClient,
 } = require("@azure-tools/communication-recipient-verification");
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new RecipientVerificationClient("<endpoint-from-resource>", credential);
 ```
 
@@ -100,7 +100,7 @@ async function main() {
   };
 
   // get the verification status
-  var status = await client.requestVerification(VerificationRequest);
+  const status = await client.requestVerification(VerificationRequest);
   console.log(status);
 }
 
@@ -158,7 +158,7 @@ const client = new RecipientVerificationClient(connectionString);
 
 async function main() {
   // get all verifications for a resource
-  var verifications = await client.getVerifications();
+  const verifications = await client.getVerifications();
 
   // print all verifications
   for await (const verification of verifications) {

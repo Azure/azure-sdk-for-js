@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -124,7 +124,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   * If the token can't be retrieved silently, this method will always generate a challenge for the user.
    *
    * On Node.js, this credential has [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) enabled by default.
    * PKCE is a security feature that mitigates authentication code interception attacks.

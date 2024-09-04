@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
  *
  * @summary Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Volumes_ReestablishReplication.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Volumes_ReestablishReplication.json
  */
 async function volumesReestablishReplication() {
   const subscriptionId =
