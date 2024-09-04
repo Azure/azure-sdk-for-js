@@ -124,8 +124,8 @@ export interface DeviceManagementUpdateDeviceClassMediaTypesParam {
 
 export type DeviceManagementUpdateDeviceClassParameters =
   DeviceManagementUpdateDeviceClassMediaTypesParam &
-  DeviceManagementUpdateDeviceClassBodyParam &
-  RequestParameters;
+    DeviceManagementUpdateDeviceClassBodyParam &
+    RequestParameters;
 export type DeviceManagementDeleteDeviceClassParameters = RequestParameters;
 export type DeviceManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
 
@@ -199,8 +199,8 @@ export interface DeviceManagementCreateOrUpdateDeploymentMediaTypesParam {
 
 export type DeviceManagementCreateOrUpdateDeploymentParameters =
   DeviceManagementCreateOrUpdateDeploymentMediaTypesParam &
-  DeviceManagementCreateOrUpdateDeploymentBodyParam &
-  RequestParameters;
+    DeviceManagementCreateOrUpdateDeploymentBodyParam &
+    RequestParameters;
 export type DeviceManagementDeleteDeploymentParameters = RequestParameters;
 export type DeviceManagementGetDeploymentStatusParameters = RequestParameters;
 
@@ -287,8 +287,8 @@ export interface DeviceManagementStartLogCollectionMediaTypesParam {
 
 export type DeviceManagementStartLogCollectionParameters =
   DeviceManagementStartLogCollectionMediaTypesParam &
-  DeviceManagementStartLogCollectionBodyParam &
-  RequestParameters;
+    DeviceManagementStartLogCollectionBodyParam &
+    RequestParameters;
 export type DeviceManagementGetLogCollectionParameters = RequestParameters;
 export type DeviceManagementListLogCollectionsParameters = RequestParameters;
 export type DeviceManagementGetLogCollectionDetailedStatusParameters = RequestParameters;
