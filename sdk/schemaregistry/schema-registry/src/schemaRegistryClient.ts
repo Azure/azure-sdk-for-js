@@ -166,7 +166,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
     throw e;
   }
    * ```
-   * Note: If the client uses an older API version that does not support the format of the schema, 
+   * @remarks 
+   * 
+   * If the client uses an older API version that does not support the format of the schema, 
    * the schema format may return the value in the content type header. Please upgrade to the client using
    * the latest API version so that it can return the correct schema format.
    * 
