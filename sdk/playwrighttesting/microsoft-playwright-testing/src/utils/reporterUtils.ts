@@ -605,14 +605,14 @@ class ReporterUtils {
   private getOsName(): string {
     const osType = os.type();
     switch (osType) {
-        case 'Darwin':
-            return 'MAC';
-        case 'Linux':
-            return 'LINUX';
-        case 'Windows_NT':
-            return 'WINDOWS';
-        default:
-            return 'UNKNOWN';
+      case "Darwin":
+        return "MAC";
+      case "Linux":
+        return "LINUX";
+      case "Windows_NT":
+        return "WINDOWS";
+      default:
+        return "UNKNOWN";
     }
   }
 }
