@@ -200,12 +200,11 @@ function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$addi
   if ($baseSubConfigJson) {
     # When variable groups are not added to the pipeline, secret references like
     # $(<my secret>) are passed as a string literal instead of being replaced by the keyvault secret value
-    write-host 'base'
-    write-host $baseSubConfig
-    if ($baseSubConfig -like '$(*') {
+    $baseSubConfig = $baseSubConfigJson | ConvertFrom-Json -AsHashtable
+
+    if ($baseSubConfig -and $baseSubConfig -isnot [hashtable]) {
       throw "Expected a json dictionary object but found '$baseSubConfig'. This probably means a subscription config secret was not downloaded. The pipeline is likely missing a variable group."
     }
-    $baseSubConfig = $baseSubConfigJson | ConvertFrom-Json -AsHashtable
 
     Write-Host "Setting base sub config"
     $finalConfig = SetSubscriptionConfiguration $baseSubConfig
