@@ -8,27 +8,32 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  BillingPermissionsProperties,
-  BillingPermissionsListByCustomerOptionalParams,
+  BillingPermission,
   BillingPermissionsListByBillingAccountOptionalParams,
-  BillingPermissionsListByInvoiceSectionsOptionalParams,
-  BillingPermissionsListByBillingProfileOptionalParams
+  BillingPermissionsListByBillingProfileOptionalParams,
+  BillingPermissionsListByCustomerOptionalParams,
+  BillingPermissionsListByInvoiceSectionOptionalParams,
+  BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+  BillingPermissionsListByDepartmentOptionalParams,
+  BillingPermissionsListByEnrollmentAccountOptionalParams,
+  CheckAccessRequest,
+  BillingPermissionsCheckAccessByBillingProfileOptionalParams,
+  BillingPermissionsCheckAccessByBillingProfileResponse,
+  BillingPermissionsCheckAccessByCustomerOptionalParams,
+  BillingPermissionsCheckAccessByCustomerResponse,
+  BillingPermissionsCheckAccessByInvoiceSectionOptionalParams,
+  BillingPermissionsCheckAccessByInvoiceSectionResponse,
+  BillingPermissionsCheckAccessByBillingAccountOptionalParams,
+  BillingPermissionsCheckAccessByBillingAccountResponse,
+  BillingPermissionsCheckAccessByDepartmentOptionalParams,
+  BillingPermissionsCheckAccessByDepartmentResponse,
+  BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams,
+  BillingPermissionsCheckAccessByEnrollmentAccountResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingPermissions. */
 export interface BillingPermissions {
-  /**
-   * Lists the billing permissions the caller has for a customer.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  listByCustomer(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
   /**
    * Lists the billing permissions the caller has on a billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -36,21 +41,8 @@ export interface BillingPermissions {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingPermissionsListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
-  /**
-   * Lists the billing permissions the caller has on an invoice section.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param options The options parameters.
-   */
-  listByInvoiceSections(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
+    options?: BillingPermissionsListByBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
   /**
    * Lists the billing permissions the caller has on a billing profile.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -60,6 +52,145 @@ export interface BillingPermissions {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties>;
+    options?: BillingPermissionsListByBillingProfileOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
+  /**
+   * Lists the billing permissions the caller has for a customer.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
+  /**
+   * Lists the billing permissions the caller has for an invoice section.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingPermissionsListByInvoiceSectionOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
+  /**
+   * Lists the billing permissions the caller has for a customer at billing account level.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  listByCustomerAtBillingAccount(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
+  /**
+   * Lists the billing permissions the caller has for a department.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param options The options parameters.
+   */
+  listByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    options?: BillingPermissionsListByDepartmentOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
+  /**
+   * Lists the billing permissions the caller has for an enrollment account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param options The options parameters.
+   */
+  listByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingPermissionsListByEnrollmentAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission>;
+  /**
+   * Provides a list of check access response objects for a billing profile.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByBillingProfileOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByBillingProfileResponse>;
+  /**
+   * Provides a list of check access response objects for a customer.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByCustomerOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByCustomerResponse>;
+  /**
+   * Provides a list of check access response objects for an invoice section.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByInvoiceSectionOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByInvoiceSectionResponse>;
+  /**
+   * Provides a list of check access response objects for a billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByBillingAccount(
+    billingAccountName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByBillingAccountOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByBillingAccountResponse>;
+  /**
+   * Provides a list of check access response objects for a department.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByDepartmentOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByDepartmentResponse>;
+  /**
+   * Provides a list of check access response objects for an enrollment account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByEnrollmentAccountResponse>;
 }

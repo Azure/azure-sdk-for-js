@@ -12,7 +12,9 @@ import {
   CustomersListByBillingProfileOptionalParams,
   CustomersListByBillingAccountOptionalParams,
   CustomersGetOptionalParams,
-  CustomersGetResponse
+  CustomersGetResponse,
+  CustomersGetByBillingAccountOptionalParams,
+  CustomersGetByBillingAccountResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +30,7 @@ export interface Customers {
   listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: CustomersListByBillingProfileOptionalParams
+    options?: CustomersListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<Customer>;
   /**
    * Lists the customers that are billed to a billing account. The operation is supported only for
@@ -38,18 +40,32 @@ export interface Customers {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: CustomersListByBillingAccountOptionalParams
+    options?: CustomersListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Customer>;
   /**
    * Gets a customer by its ID. The operation is supported only for billing accounts with agreement type
    * Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param customerName The ID that uniquely identifies a customer.
    * @param options The options parameters.
    */
   get(
     billingAccountName: string,
+    billingProfileName: string,
     customerName: string,
-    options?: CustomersGetOptionalParams
+    options?: CustomersGetOptionalParams,
   ): Promise<CustomersGetResponse>;
+  /**
+   * Gets a customer by its ID at billing account level. The operation is supported only for billing
+   * accounts with agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  getByBillingAccount(
+    billingAccountName: string,
+    customerName: string,
+    options?: CustomersGetByBillingAccountOptionalParams,
+  ): Promise<CustomersGetByBillingAccountResponse>;
 }

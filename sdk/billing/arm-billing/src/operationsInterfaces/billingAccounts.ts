@@ -7,29 +7,31 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  BillingAccount,
-  BillingAccountsListOptionalParams,
   InvoiceSectionWithCreateSubPermission,
   BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams,
+  BillingAccount,
+  BillingAccountsListOptionalParams,
+  PaymentTerm,
+  BillingAccountsAddPaymentTermsOptionalParams,
+  BillingAccountsAddPaymentTermsResponse,
+  BillingAccountsCancelPaymentTermsOptionalParams,
+  BillingAccountsCancelPaymentTermsResponse,
+  BillingAccountsConfirmTransitionOptionalParams,
+  BillingAccountsConfirmTransitionResponse,
+  BillingAccountsValidatePaymentTermsOptionalParams,
+  BillingAccountsValidatePaymentTermsResponse,
   BillingAccountsGetOptionalParams,
   BillingAccountsGetResponse,
-  BillingAccountUpdateRequest,
+  BillingAccountPatch,
   BillingAccountsUpdateOptionalParams,
-  BillingAccountsUpdateResponse
+  BillingAccountsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingAccounts. */
 export interface BillingAccounts {
-  /**
-   * Lists the billing accounts that a user has access to.
-   * @param options The options parameters.
-   */
-  list(
-    options?: BillingAccountsListOptionalParams
-  ): PagedAsyncIterableIterator<BillingAccount>;
   /**
    * Lists the invoice sections for which the user has permission to create Azure subscriptions. The
    * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
@@ -38,8 +40,101 @@ export interface BillingAccounts {
    */
   listInvoiceSectionsByCreateSubscriptionPermission(
     billingAccountName: string,
-    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
+    options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams,
   ): PagedAsyncIterableIterator<InvoiceSectionWithCreateSubPermission>;
+  /**
+   * Lists the billing accounts that a user has access to.
+   * @param options The options parameters.
+   */
+  list(
+    options?: BillingAccountsListOptionalParams,
+  ): PagedAsyncIterableIterator<BillingAccount>;
+  /**
+   * Adds payment terms to all the billing profiles under the billing account. Currently, payment terms
+   * can be added only on billing accounts that have Agreement Type as 'Microsoft Customer Agreement' and
+   * AccountType as 'Enterprise'. This action needs pre-authorization and only Field Sellers are
+   * authorized to add the payment terms and is not a self-serve action.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The properties of payment term.
+   * @param options The options parameters.
+   */
+  beginAddPaymentTerms(
+    billingAccountName: string,
+    parameters: PaymentTerm[],
+    options?: BillingAccountsAddPaymentTermsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingAccountsAddPaymentTermsResponse>,
+      BillingAccountsAddPaymentTermsResponse
+    >
+  >;
+  /**
+   * Adds payment terms to all the billing profiles under the billing account. Currently, payment terms
+   * can be added only on billing accounts that have Agreement Type as 'Microsoft Customer Agreement' and
+   * AccountType as 'Enterprise'. This action needs pre-authorization and only Field Sellers are
+   * authorized to add the payment terms and is not a self-serve action.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The properties of payment term.
+   * @param options The options parameters.
+   */
+  beginAddPaymentTermsAndWait(
+    billingAccountName: string,
+    parameters: PaymentTerm[],
+    options?: BillingAccountsAddPaymentTermsOptionalParams,
+  ): Promise<BillingAccountsAddPaymentTermsResponse>;
+  /**
+   * Cancels all the payment terms on billing account that falls after the cancellation date in the
+   * request. Currently, cancel payment terms is only served by admin actions and is not a self-serve
+   * action.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters Date after which any payment terms that needs to be cancelled.
+   * @param options The options parameters.
+   */
+  beginCancelPaymentTerms(
+    billingAccountName: string,
+    parameters: Date,
+    options?: BillingAccountsCancelPaymentTermsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingAccountsCancelPaymentTermsResponse>,
+      BillingAccountsCancelPaymentTermsResponse
+    >
+  >;
+  /**
+   * Cancels all the payment terms on billing account that falls after the cancellation date in the
+   * request. Currently, cancel payment terms is only served by admin actions and is not a self-serve
+   * action.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters Date after which any payment terms that needs to be cancelled.
+   * @param options The options parameters.
+   */
+  beginCancelPaymentTermsAndWait(
+    billingAccountName: string,
+    parameters: Date,
+    options?: BillingAccountsCancelPaymentTermsOptionalParams,
+  ): Promise<BillingAccountsCancelPaymentTermsResponse>;
+  /**
+   * Gets the transition details for a billing account that has transitioned from agreement type
+   * Microsoft Online Services Program to agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  confirmTransition(
+    billingAccountName: string,
+    options?: BillingAccountsConfirmTransitionOptionalParams,
+  ): Promise<BillingAccountsConfirmTransitionResponse>;
+  /**
+   * Validates payment terms on a billing account with agreement type 'Microsoft Customer Agreement' and
+   * account type 'Enterprise'.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The properties of payment term.
+   * @param options The options parameters.
+   */
+  validatePaymentTerms(
+    billingAccountName: string,
+    parameters: PaymentTerm[],
+    options?: BillingAccountsValidatePaymentTermsOptionalParams,
+  ): Promise<BillingAccountsValidatePaymentTermsResponse>;
   /**
    * Gets a billing account by its ID.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -47,35 +142,41 @@ export interface BillingAccounts {
    */
   get(
     billingAccountName: string,
-    options?: BillingAccountsGetOptionalParams
+    options?: BillingAccountsGetOptionalParams,
   ): Promise<BillingAccountsGetResponse>;
   /**
-   * Updates the properties of a billing account. Currently, displayName and address can be updated. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * Updates the properties of a billing account. Currently, displayName and address can be updated for
+   * billing accounts with agreement type Microsoft Customer Agreement. Currently address and
+   * notification email address can be updated for billing accounts with agreement type Microsoft Online
+   * Services Agreement. Currently, purchase order number can be edited for billing accounts with
+   * agreement type Enterprise Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the update billing account operation.
+   * @param parameters A billing account.
    * @param options The options parameters.
    */
   beginUpdate(
     billingAccountName: string,
-    parameters: BillingAccountUpdateRequest,
-    options?: BillingAccountsUpdateOptionalParams
+    parameters: BillingAccountPatch,
+    options?: BillingAccountsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingAccountsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingAccountsUpdateResponse>,
       BillingAccountsUpdateResponse
     >
   >;
   /**
-   * Updates the properties of a billing account. Currently, displayName and address can be updated. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
+   * Updates the properties of a billing account. Currently, displayName and address can be updated for
+   * billing accounts with agreement type Microsoft Customer Agreement. Currently address and
+   * notification email address can be updated for billing accounts with agreement type Microsoft Online
+   * Services Agreement. Currently, purchase order number can be edited for billing accounts with
+   * agreement type Enterprise Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the update billing account operation.
+   * @param parameters A billing account.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     billingAccountName: string,
-    parameters: BillingAccountUpdateRequest,
-    options?: BillingAccountsUpdateOptionalParams
+    parameters: BillingAccountPatch,
+    options?: BillingAccountsUpdateOptionalParams,
   ): Promise<BillingAccountsUpdateResponse>;
 }

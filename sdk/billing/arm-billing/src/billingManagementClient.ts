@@ -8,75 +8,113 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AgreementsImpl,
+  AssociatedTenantsImpl,
+  AvailableBalancesImpl,
   BillingAccountsImpl,
   AddressImpl,
-  AvailableBalancesImpl,
-  InstructionsImpl,
-  BillingProfilesImpl,
-  CustomersImpl,
-  InvoiceSectionsImpl,
   BillingPermissionsImpl,
-  BillingSubscriptionsImpl,
-  ProductsImpl,
-  InvoicesImpl,
-  TransactionsImpl,
-  PoliciesImpl,
+  BillingProfilesImpl,
   BillingPropertyOperationsImpl,
-  OperationsImpl,
-  BillingRoleDefinitionsImpl,
+  BillingRequestsImpl,
   BillingRoleAssignmentsImpl,
-  AgreementsImpl,
-  ReservationsImpl,
+  BillingRoleDefinitionOperationsImpl,
+  SavingsPlanOrdersImpl,
+  SavingsPlansImpl,
+  BillingSubscriptionsImpl,
+  BillingSubscriptionsAliasesImpl,
+  CustomersImpl,
+  DepartmentsImpl,
   EnrollmentAccountsImpl,
-  BillingPeriodsImpl
+  InvoicesImpl,
+  InvoiceSectionsImpl,
+  OperationsImpl,
+  PaymentMethodsImpl,
+  PoliciesImpl,
+  ProductsImpl,
+  ReservationsImpl,
+  ReservationOrdersImpl,
+  TransactionsImpl,
+  TransfersImpl,
+  PartnerTransfersImpl,
+  RecipientTransfersImpl,
 } from "./operations";
 import {
+  Agreements,
+  AssociatedTenants,
+  AvailableBalances,
   BillingAccounts,
   Address,
-  AvailableBalances,
-  Instructions,
-  BillingProfiles,
-  Customers,
-  InvoiceSections,
   BillingPermissions,
-  BillingSubscriptions,
-  Products,
-  Invoices,
-  Transactions,
-  Policies,
+  BillingProfiles,
   BillingPropertyOperations,
-  Operations,
-  BillingRoleDefinitions,
+  BillingRequests,
   BillingRoleAssignments,
-  Agreements,
-  Reservations,
+  BillingRoleDefinitionOperations,
+  SavingsPlanOrders,
+  SavingsPlans,
+  BillingSubscriptions,
+  BillingSubscriptionsAliases,
+  Customers,
+  Departments,
   EnrollmentAccounts,
-  BillingPeriods
+  Invoices,
+  InvoiceSections,
+  Operations,
+  PaymentMethods,
+  Policies,
+  Products,
+  Reservations,
+  ReservationOrders,
+  Transactions,
+  Transfers,
+  PartnerTransfers,
+  RecipientTransfers,
 } from "./operationsInterfaces";
 import { BillingManagementClientOptionalParams } from "./models";
 
 export class BillingManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the BillingManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID that uniquely identifies an Azure subscription.
+   * @param subscriptionId The ID that uniquely identifies a billing subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: BillingManagementClientOptionalParams
+    options?: BillingManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: BillingManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: BillingManagementClientOptionalParams | string,
+    options?: BillingManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -85,10 +123,10 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     }
     const defaults: BillingManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-billing/4.1.1`;
+    const packageDetails = `azsdk-js-arm-billing/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -98,20 +136,21 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -121,7 +160,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -131,9 +170,9 @@ export class BillingManagementClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -141,48 +180,99 @@ export class BillingManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.agreements = new AgreementsImpl(this);
+    this.associatedTenants = new AssociatedTenantsImpl(this);
+    this.availableBalances = new AvailableBalancesImpl(this);
     this.billingAccounts = new BillingAccountsImpl(this);
     this.address = new AddressImpl(this);
-    this.availableBalances = new AvailableBalancesImpl(this);
-    this.instructions = new InstructionsImpl(this);
-    this.billingProfiles = new BillingProfilesImpl(this);
-    this.customers = new CustomersImpl(this);
-    this.invoiceSections = new InvoiceSectionsImpl(this);
     this.billingPermissions = new BillingPermissionsImpl(this);
-    this.billingSubscriptions = new BillingSubscriptionsImpl(this);
-    this.products = new ProductsImpl(this);
-    this.invoices = new InvoicesImpl(this);
-    this.transactions = new TransactionsImpl(this);
-    this.policies = new PoliciesImpl(this);
+    this.billingProfiles = new BillingProfilesImpl(this);
     this.billingPropertyOperations = new BillingPropertyOperationsImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.billingRoleDefinitions = new BillingRoleDefinitionsImpl(this);
+    this.billingRequests = new BillingRequestsImpl(this);
     this.billingRoleAssignments = new BillingRoleAssignmentsImpl(this);
-    this.agreements = new AgreementsImpl(this);
-    this.reservations = new ReservationsImpl(this);
+    this.billingRoleDefinitionOperations =
+      new BillingRoleDefinitionOperationsImpl(this);
+    this.savingsPlanOrders = new SavingsPlanOrdersImpl(this);
+    this.savingsPlans = new SavingsPlansImpl(this);
+    this.billingSubscriptions = new BillingSubscriptionsImpl(this);
+    this.billingSubscriptionsAliases = new BillingSubscriptionsAliasesImpl(
+      this,
+    );
+    this.customers = new CustomersImpl(this);
+    this.departments = new DepartmentsImpl(this);
     this.enrollmentAccounts = new EnrollmentAccountsImpl(this);
-    this.billingPeriods = new BillingPeriodsImpl(this);
+    this.invoices = new InvoicesImpl(this);
+    this.invoiceSections = new InvoiceSectionsImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.paymentMethods = new PaymentMethodsImpl(this);
+    this.policies = new PoliciesImpl(this);
+    this.products = new ProductsImpl(this);
+    this.reservations = new ReservationsImpl(this);
+    this.reservationOrders = new ReservationOrdersImpl(this);
+    this.transactions = new TransactionsImpl(this);
+    this.transfers = new TransfersImpl(this);
+    this.partnerTransfers = new PartnerTransfersImpl(this);
+    this.recipientTransfers = new RecipientTransfersImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest,
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      },
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  agreements: Agreements;
+  associatedTenants: AssociatedTenants;
+  availableBalances: AvailableBalances;
   billingAccounts: BillingAccounts;
   address: Address;
-  availableBalances: AvailableBalances;
-  instructions: Instructions;
-  billingProfiles: BillingProfiles;
-  customers: Customers;
-  invoiceSections: InvoiceSections;
   billingPermissions: BillingPermissions;
-  billingSubscriptions: BillingSubscriptions;
-  products: Products;
-  invoices: Invoices;
-  transactions: Transactions;
-  policies: Policies;
+  billingProfiles: BillingProfiles;
   billingPropertyOperations: BillingPropertyOperations;
-  operations: Operations;
-  billingRoleDefinitions: BillingRoleDefinitions;
+  billingRequests: BillingRequests;
   billingRoleAssignments: BillingRoleAssignments;
-  agreements: Agreements;
-  reservations: Reservations;
+  billingRoleDefinitionOperations: BillingRoleDefinitionOperations;
+  savingsPlanOrders: SavingsPlanOrders;
+  savingsPlans: SavingsPlans;
+  billingSubscriptions: BillingSubscriptions;
+  billingSubscriptionsAliases: BillingSubscriptionsAliases;
+  customers: Customers;
+  departments: Departments;
   enrollmentAccounts: EnrollmentAccounts;
-  billingPeriods: BillingPeriods;
+  invoices: Invoices;
+  invoiceSections: InvoiceSections;
+  operations: Operations;
+  paymentMethods: PaymentMethods;
+  policies: Policies;
+  products: Products;
+  reservations: Reservations;
+  reservationOrders: ReservationOrders;
+  transactions: Transactions;
+  transfers: Transfers;
+  partnerTransfers: PartnerTransfers;
+  recipientTransfers: RecipientTransfers;
 }
