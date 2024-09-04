@@ -9,7 +9,7 @@ param dtEndpointSuffix string = '.cognitiveservices.azure.com'
 
 var uniqueSubDomainName = '${baseName}'
 var apiVersion = '2024-04-01-preview'
-var blobDataContributorRoleId = '/subscriptions/${subscription().subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+var blobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var storageAccountName = '${baseName}prim'
 var storageAccountResourceId = '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}'
 
@@ -74,19 +74,16 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-// Assign Data Contributor Role
-resource dataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('dataContributorRoleId', resourceGroup().id)
-  scope: storageAccountResourceId
-  properties: {
-    roleDefinitionId: blobDataContributorRoleId
-    principalId: cognitiveServicesAccount.identity.principalId
-    principalType: 'ServicePrincipal'
-  }
+// Assign Storage Blob Data Contributor Role
+resource blobDataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid('blobDataContributorRoleId', storageAccountName)
   dependsOn: [
-    cognitiveServicesAccount
     storageAccount
   ]
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', blobDataContributorRoleId)
+    principalId: testApplicationOid
+  }
 }
 
 // Outputs
