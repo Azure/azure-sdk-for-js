@@ -15,7 +15,6 @@ import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
-    // Warning: (ae-forgotten-export) The symbol "EntraCommunicationTokenCredentialOptions" needs to be exported by the entry point index.d.ts
     constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
@@ -71,6 +70,13 @@ export const deserializeCommunicationIdentifier: (serializedIdentifier: Serializ
 export interface EndpointCredential {
     credential: KeyCredential;
     endpoint: string;
+}
+
+// @public (undocumented)
+export interface EntraCommunicationTokenCredentialOptions {
+    resourceEndpoint: string;
+    scopes: string[];
+    tokenCredential: TokenCredential;
 }
 
 // @public
