@@ -17,6 +17,9 @@
       "path": "sh .scripts/automation_generate.sh",
       "stderr": {
         "showInComment": ".*ERROR.*"
+      },
+      "cmdout": {
+        "showInComment": ".*ERROR.*"
       }
     },
     "parseGenerateOutput": true
