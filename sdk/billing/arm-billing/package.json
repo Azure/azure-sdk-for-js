@@ -32,7 +32,7 @@
     "mkdirp": "^3.0.1",
     "typescript": "~5.5.3",
     "uglify-js": "^3.4.9",
-    "rimraf": "^5.0.0",
+    "rimraf": "^5.0.5",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.2.1",
