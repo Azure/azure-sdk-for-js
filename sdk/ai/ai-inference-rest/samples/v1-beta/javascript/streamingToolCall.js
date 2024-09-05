@@ -89,6 +89,17 @@ const handleToolCalls = (functionArray) => {
   return messageArray;
 };
 
+const streamToString = async (stream) => {
+  // lets have a ReadableStream as a stream variable
+  const chunks = [];
+
+  for await (const chunk of stream) {
+    chunks.push(Buffer.from(chunk));
+  }
+
+  return Buffer.concat(chunks).toString("utf-8");
+};
+
 async function main() {
   const credential = new DefaultAzureCredential();
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
@@ -123,7 +134,7 @@ async function main() {
     }
 
     if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
+      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
     }
 
     const sses = createSseStream(stream);
@@ -133,8 +144,9 @@ async function main() {
       if (event.data === "[DONE]") {
         continue;
       }
+      const eventData = JSON.parse(event.data);
 
-      for (const choice of JSON.parse(event.data).choices) {
+      for (const choice of eventData.choices) {
         const toolCallArray = choice.delta?.tool_calls;
 
         if (toolCallArray) {
@@ -159,17 +171,6 @@ async function main() {
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
-
-  async function streamToString(stream) {
-    // lets have a ReadableStream as a stream variable
-    const chunks = [];
-
-    for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
-    }
-
-    return Buffer.concat(chunks).toString("utf-8");
-  }
 }
 
 main().catch((err) => {

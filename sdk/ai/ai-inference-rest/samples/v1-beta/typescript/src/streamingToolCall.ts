@@ -19,6 +19,20 @@ dotenv.config();
 // You will need to set these environment variables or edit the following values
 const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
 
+interface EventData {
+  choices: [
+    {
+      content_filter_results: any,
+      delta: any,
+      finish_reason: string | null,
+      index: number,
+      logprobs: any | null,
+    }
+  ],
+  id: string,
+  model: string,
+}
+
 const getCurrentWeather = {
   name: "get_current_weather",
   description: "Get the current weather in a given location",
@@ -92,6 +106,17 @@ const handleToolCalls = (functionArray: Array<any>) => {
   return messageArray;
 }
 
+const streamToString = async (stream: NodeJS.ReadableStream) => {
+  // lets have a ReadableStream as a stream variable
+  const chunks = [];
+
+  for await (const chunk of stream) {
+    chunks.push(Buffer.from(chunk));
+  }
+
+  return Buffer.concat(chunks).toString("utf-8");
+}
+
 
 export async function main() {
   const credential = new DefaultAzureCredential();
@@ -124,7 +149,7 @@ export async function main() {
     }
 
     if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
+      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
     }
 
     const sses = createSseStream(stream as IncomingMessage);
@@ -135,8 +160,9 @@ export async function main() {
       if (event.data === "[DONE]") {
         continue;
       }
+      const eventData: EventData = JSON.parse(event.data);
 
-      for (const choice of (JSON.parse(event.data)).choices) {
+      for (const choice of eventData.choices) {
 
         const toolCallArray = choice.delta?.tool_calls;
 
@@ -166,16 +192,6 @@ export async function main() {
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
 
-  async function streamToString(stream: NodeJS.ReadableStream) {
-    // lets have a ReadableStream as a stream variable
-    const chunks = [];
-
-    for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
-    }
-
-    return Buffer.concat(chunks).toString("utf-8");
-  }
 }
 
 main().catch((err) => {
