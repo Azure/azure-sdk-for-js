@@ -1,10 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { DocumentTranslationClient } from "./clientDefinitions";
+
+/** The optional parameters for the client */
+export interface DocumentTranslationClientOptions extends ClientOptions {
+  /** The api version option of the client */
+  apiVersion?: string;
+}
 
 /**
  * Initialize a new instance of `DocumentTranslationClient`
@@ -15,11 +24,10 @@ import { DocumentTranslationClient } from "./clientDefinitions";
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {},
+  { apiVersion = "2024-05-01", ...options }: DocumentTranslationClientOptions = {},
 ): DocumentTranslationClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/translator`;
-  options.apiVersion = options.apiVersion ?? "2024-05-01";
-  const userAgentInfo = `azsdk-js-ai-translation-document-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-ai-translation-document-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -37,8 +45,24 @@ export default function createClient(
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
-
   const client = getClient(endpointUrl, credentials, options) as DocumentTranslationClient;
+
+  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+  client.pipeline.addPolicy({
+    name: "ClientApiVersionPolicy",
+    sendRequest: (req, next) => {
+      // Use the apiVersion defined in request url directly
+      // Append one if there is no apiVersion and we have one at client options
+      const url = new URL(req.url);
+      if (!url.searchParams.get("api-version") && apiVersion) {
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
+      }
+
+      return next(req);
+    },
+  });
 
   return client;
 }
