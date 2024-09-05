@@ -103,6 +103,7 @@ const streamToString = async (stream) => {
 async function main() {
   const credential = new DefaultAzureCredential();
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
   const scopes = ["https://cognitiveservices.azure.com/.default"];
   const clientOptions = { credentials: { scopes } };
   const client = ModelClient(modelEndpoint, credential, clientOptions);
