@@ -11,7 +11,7 @@ const tokenExchangePath = "/access/entra:exchangeToken";
 const resourceEndpoint = "https://contoso.communication.azure.com";
 const entraToken = "entraToken";
 const acsToken = "acsToken";
-const scopes = ["https://auth.entra.communication.azure.com/voip"];
+const scopes = ["https://communication.azure.com/clients/VoIP"];
 
 const tokenCredential: TokenCredential = {
   getToken: async (_scopes: string, _options?: GetTokenOptions) => {
@@ -119,6 +119,8 @@ describe("Entra CommunicationTokenCredential", function () {
     getTokenSpy.restore();
   };
 
-  it("Respects abort signal", async () => await testAbortSignal(true));
-  it("Continues when abort signal isn't aborted", async () => await testAbortSignal(false));
+  it("Respects abort signal", () => testAbortSignal(true));
+  it("Continues when abort signal isn't aborted", () => testAbortSignal(false));
+
+  // todo: doesn't retry more than 3 times
 });
