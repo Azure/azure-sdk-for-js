@@ -22,7 +22,13 @@ describe("Discovery Templates Test", () => {
     const endpoint = assertEnvironmentVariable("ENDPOINT");
     const credential = createTestCredential();
     client = EasmDefender(
-      endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
+      endpoint +
+        "/subscriptions/" +
+        subscription_id +
+        "/resourceGroups/" +
+        resource_group +
+        "/workspaces/" +
+        workspace_name,
       credential,
       recorder.configureClientOptions({}),
     );

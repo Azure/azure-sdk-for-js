@@ -26,9 +26,15 @@ describe("Discovery Groups Test", () => {
     const endpoint = assertEnvironmentVariable("ENDPOINT");
     const credential = createTestCredential();
     client = EasmDefender(
-      endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
+      endpoint +
+        "/subscriptions/" +
+        subscription_id +
+        "/resourceGroups/" +
+        resource_group +
+        "/workspaces/" +
+        workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     known_group_name = "University of Kansas";
     new_group_name = "New disco group name from ts";

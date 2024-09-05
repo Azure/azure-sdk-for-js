@@ -25,7 +25,13 @@ describe("Data Connections Test", () => {
     const credential = createTestCredential();
     console.log("subscription id is: " + subscription_id);
     client = EasmDefender(
-      endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
+      endpoint +
+        "/subscriptions/" +
+        subscription_id +
+        "/resourceGroups/" +
+        resource_group +
+        "/workspaces/" +
+        workspace_name,
       credential,
       recorder.configureClientOptions({}),
     );

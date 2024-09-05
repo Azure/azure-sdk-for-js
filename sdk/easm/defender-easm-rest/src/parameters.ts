@@ -28,8 +28,7 @@ export interface ListAssetResourceQueryParam {
   queryParameters?: ListAssetResourceQueryParamProperties;
 }
 
-export type ListAssetResourceParameters = ListAssetResourceQueryParam &
-  RequestParameters;
+export type ListAssetResourceParameters = ListAssetResourceQueryParam & RequestParameters;
 
 export interface UpdateAssetsBodyParam {
   /** Body parameter. */
@@ -61,16 +60,14 @@ export interface ListDataConnectionQueryParam {
   queryParameters?: ListDataConnectionQueryParamProperties;
 }
 
-export type ListDataConnectionParameters = ListDataConnectionQueryParam &
-  RequestParameters;
+export type ListDataConnectionParameters = ListDataConnectionQueryParam & RequestParameters;
 
 export interface ValidateDataConnectionBodyParam {
   /** Body parameter. */
   body: DataConnectionData;
 }
 
-export type ValidateDataConnectionParameters = ValidateDataConnectionBodyParam &
-  RequestParameters;
+export type ValidateDataConnectionParameters = ValidateDataConnectionBodyParam & RequestParameters;
 export type GetDataConnectionParameters = RequestParameters;
 
 export interface CreateOrReplaceDataConnectionBodyParam {
@@ -78,8 +75,8 @@ export interface CreateOrReplaceDataConnectionBodyParam {
   body: DataConnectionData;
 }
 
-export type CreateOrReplaceDataConnectionParameters =
-  CreateOrReplaceDataConnectionBodyParam & RequestParameters;
+export type CreateOrReplaceDataConnectionParameters = CreateOrReplaceDataConnectionBodyParam &
+  RequestParameters;
 export type DeleteDataConnectionParameters = RequestParameters;
 
 export interface ListDiscoGroupQueryParamProperties {
@@ -95,16 +92,14 @@ export interface ListDiscoGroupQueryParam {
   queryParameters?: ListDiscoGroupQueryParamProperties;
 }
 
-export type ListDiscoGroupParameters = ListDiscoGroupQueryParam &
-  RequestParameters;
+export type ListDiscoGroupParameters = ListDiscoGroupQueryParam & RequestParameters;
 
 export interface ValidateDiscoGroupBodyParam {
   /** Body parameter. */
   body: DiscoGroupData;
 }
 
-export type ValidateDiscoGroupParameters = ValidateDiscoGroupBodyParam &
-  RequestParameters;
+export type ValidateDiscoGroupParameters = ValidateDiscoGroupBodyParam & RequestParameters;
 export type GetDiscoGroupParameters = RequestParameters;
 
 export interface CreateOrReplaceDiscoGroupBodyParam {
@@ -112,8 +107,8 @@ export interface CreateOrReplaceDiscoGroupBodyParam {
   body: DiscoGroupData;
 }
 
-export type CreateOrReplaceDiscoGroupParameters =
-  CreateOrReplaceDiscoGroupBodyParam & RequestParameters;
+export type CreateOrReplaceDiscoGroupParameters = CreateOrReplaceDiscoGroupBodyParam &
+  RequestParameters;
 export type RunDiscoGroupParameters = RequestParameters;
 
 export interface ListRunsQueryParamProperties {
@@ -144,8 +139,7 @@ export interface ListDiscoTemplateQueryParam {
   queryParameters?: ListDiscoTemplateQueryParamProperties;
 }
 
-export type ListDiscoTemplateParameters = ListDiscoTemplateQueryParam &
-  RequestParameters;
+export type ListDiscoTemplateParameters = ListDiscoTemplateQueryParam & RequestParameters;
 export type GetDiscoTemplateParameters = RequestParameters;
 export type GetBillableParameters = RequestParameters;
 
@@ -176,8 +170,7 @@ export interface ListSavedFilterQueryParam {
   queryParameters?: ListSavedFilterQueryParamProperties;
 }
 
-export type ListSavedFilterParameters = ListSavedFilterQueryParam &
-  RequestParameters;
+export type ListSavedFilterParameters = ListSavedFilterQueryParam & RequestParameters;
 export type GetSavedFilterParameters = RequestParameters;
 
 export interface CreateOrReplaceSavedFilterBodyParam {
@@ -185,8 +178,8 @@ export interface CreateOrReplaceSavedFilterBodyParam {
   body: SavedFilterData;
 }
 
-export type CreateOrReplaceSavedFilterParameters =
-  CreateOrReplaceSavedFilterBodyParam & RequestParameters;
+export type CreateOrReplaceSavedFilterParameters = CreateOrReplaceSavedFilterBodyParam &
+  RequestParameters;
 export type DeleteSavedFilterParameters = RequestParameters;
 
 export interface ListTaskQueryParamProperties {

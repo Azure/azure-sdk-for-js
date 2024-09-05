@@ -158,7 +158,7 @@ export interface ObservedIntegersOutput extends ObservedValueOutput {
 }
 
 /** A inventory base model created for swagger documentation purpose */
-export interface InventoryAssetOutput { }
+export interface InventoryAssetOutput {}
 
 export interface ContactAssetOutput extends InventoryAssetOutput {
   email?: string;
@@ -694,8 +694,7 @@ export interface HostAssetResourceOutput extends AssetResourceOutputParent {
   asset: HostAssetOutput;
 }
 
-export interface IpAddressAssetResourceOutput
-  extends AssetResourceOutputParent {
+export interface IpAddressAssetResourceOutput extends AssetResourceOutputParent {
   /** The kind of AssetResource */
   kind: "ipAddress";
   /** asset */
@@ -784,16 +783,14 @@ export interface DataConnectionOutputParent {
   kind: string;
 }
 
-export interface LogAnalyticsDataConnectionOutput
-  extends DataConnectionOutputParent {
+export interface LogAnalyticsDataConnectionOutput extends DataConnectionOutputParent {
   /** The kind of DataConnection */
   kind: "logAnalytics";
   /** properties */
   properties: LogAnalyticsDataConnectionPropertiesOutput;
 }
 
-export interface LogAnalyticsDataConnectionPropertiesOutput
-  extends DataConnectionPropertiesOutput {
+export interface LogAnalyticsDataConnectionPropertiesOutput extends DataConnectionPropertiesOutput {
   /** log analytics api key */
   apiKey?: string;
   /** log analytics workspace id */
@@ -801,7 +798,7 @@ export interface LogAnalyticsDataConnectionPropertiesOutput
 }
 
 /** The properties required to establish connection to a particular service */
-export interface DataConnectionPropertiesOutput { }
+export interface DataConnectionPropertiesOutput {}
 
 export interface AzureDataExplorerDataConnectionPropertiesOutput
   extends DataConnectionPropertiesOutput {
@@ -813,8 +810,7 @@ export interface AzureDataExplorerDataConnectionPropertiesOutput
   databaseName?: string;
 }
 
-export interface AzureDataExplorerDataConnectionOutput
-  extends DataConnectionOutputParent {
+export interface AzureDataExplorerDataConnectionOutput extends DataConnectionOutputParent {
   /** The kind of DataConnection */
   kind: "azureDataExplorer";
   /** properties */

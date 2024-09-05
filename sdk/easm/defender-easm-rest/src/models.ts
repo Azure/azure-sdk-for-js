@@ -21,8 +21,7 @@ export interface AssetUpdateData {
   transfers?: AssetUpdateTransfers;
 }
 
-export interface LogAnalyticsDataConnectionProperties
-  extends DataConnectionProperties {
+export interface LogAnalyticsDataConnectionProperties extends DataConnectionProperties {
   /** log analytics api key */
   apiKey?: string;
   /** log analytics workspace id */
@@ -30,10 +29,9 @@ export interface LogAnalyticsDataConnectionProperties
 }
 
 /** The properties required to establish connection to a particular service */
-export interface DataConnectionProperties { }
+export interface DataConnectionProperties {}
 
-export interface AzureDataExplorerDataConnectionProperties
-  extends DataConnectionProperties {
+export interface AzureDataExplorerDataConnectionProperties extends DataConnectionProperties {
   /** The azure data explorer cluster name */
   clusterName?: string;
   /** The azure data explorer region */
@@ -62,16 +60,14 @@ export interface DataConnectionDataParent {
   kind: string;
 }
 
-export interface LogAnalyticsDataConnectionData
-  extends DataConnectionDataParent {
+export interface LogAnalyticsDataConnectionData extends DataConnectionDataParent {
   /** The kind of DataConnectionData */
   kind: "logAnalytics";
   /** properties */
   properties: LogAnalyticsDataConnectionProperties;
 }
 
-export interface AzureDataExplorerDataConnectionData
-  extends DataConnectionDataParent {
+export interface AzureDataExplorerDataConnectionData extends DataConnectionDataParent {
   /** The kind of DataConnectionData */
   kind: "azureDataExplorer";
   /** properties */
