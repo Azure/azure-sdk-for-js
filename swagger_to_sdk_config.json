@@ -18,7 +18,7 @@
       "stderr": {
         "showInComment": ".*ERROR.*"
       },
-      "cmdout": {
+      "stdout": {
         "showInComment": ".*ERROR.*"
       }
     },
