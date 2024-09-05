@@ -5,7 +5,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import MapsWeather from "../src/mapsWeather";
 import { isUnexpected } from "../src/generated";
 
-
 /**
  * @summary Get daily air quality forecasts for up to 7 days, including pollutant levels and air quality index.
  */

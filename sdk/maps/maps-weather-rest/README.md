@@ -1,6 +1,6 @@
-# Azure MapsRender REST client library for JavaScript
+# Azure MapsWeather REST client library for JavaScript
 
-Azure Maps Render Client
+Azure Maps Weather Client
 
 \*\*If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library, the REST client provides a light-weighted & developer friendly way to call azure rest api
 
@@ -29,17 +29,17 @@ If you use Azure CLI, replace `<resource-group-name>` and `<map-account-name>` o
 az maps account create --resource-group <resource-group-name> --name <map-account-name> --sku <sku-name>
 ```
 
-### Install the `@azure-rest/maps-render` package
+### Install the `@azure-rest/maps-weather` package
 
-Install the Azure Maps Render REST client library for JavaScript with `npm`:
+Install the Azure Maps Weather REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/maps-render
+npm install @azure-rest/maps-weather
 ```
 
-### Create and authenticate a `MapsRenderClient`
+### Create and authenticate a `MapsWeatherClient`
 
-You'll need a `credential` instance for authentication when creating the `MapsRenderClient` instance used to access the Azure Maps render APIs. You can use either a Microsoft Entra ID credential or an Azure subscription key to authenticate. For more information on authentication, see [Authentication with Azure Maps][az_map_auth].
+You'll need a `credential` instance for authentication when creating the `MapsWeatherClient` instance used to access the Azure Maps weather APIs. You can use either a Microsoft Entra ID credential or an Azure subscription key to authenticate. For more information on authentication, see [Authentication with Azure Maps][az_map_auth].
 
 #### Using an Microsoft Entra ID credential
 
@@ -60,11 +60,11 @@ You will also need to specify the Azure Maps resource you intend to use by speci
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-const MapsRender = require("@azure-rest/maps-render").default;
+const MapsWeather = require("@azure-rest/maps-weather").default;
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const credential = new DefaultAzureCredential();
-const client = MapsRender(credential, "<maps-account-client-id>");
+const client = MapsWeather(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -76,11 +76,11 @@ npm install @azure/core-auth
 ```
 
 ```javascript
-const MapsRender = require("@azure-rest/maps-render").default;
+const MapsWeather = require("@azure-rest/maps-weather").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
-const client = MapsRender(credential);
+const client = MapsWeather(credential);
 ```
 
 #### Using a Shared Access Signature (SAS) Token Credential
@@ -100,7 +100,7 @@ npm install @azure/core-auth
 Finally, you can use the SAS token to authenticate the client:
 
 ```javascript
-const MapsRender = require("@azure-rest/maps-render").default;
+const MapsWeather = require("@azure-rest/maps-weather").default;
 const { AzureSASCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AzureMapsManagementClient } = require("@azure/arm-maps");
@@ -126,144 +126,87 @@ if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
 const sasCredential = new AzureSASCredential(accountSasToken);
-const client = MapsRender(sasCredential);
+const client = MapsWeather(sasCredential);
 ```
 
 ## Key concepts
 
-### MapsRenderClient
+### MapsWeatherClient
 
-`MapsRenderClient` is the primary interface for developers using the Azure Maps Render client library. Explore the methods on this client object to understand the different features of the Azure Maps Render service that you can access.
+`MapsWeatherClient` is the primary interface for developers using the Azure Maps Weather client library. Explore the methods on this client object to understand the different features of the Azure Maps Weather service that you can access.
 
 ## Examples
 
-The following sections provide several code snippets covering some of the most common Azure Maps Render tasks, including:
-
-- [Request map tiles in vector or raster formats](#request-map-tiles-in-vector-or-raster-formats)
-- [Request map copyright attribution information](#request-map-copyright-attribution-information)
-- [Request metadata for a tileset](#request-metadata-for-a-tileset)
-
-### Request map tiles in vector or raster formats
-
-You can request map tiles in vector or raster formats. These tiles are typically to be integrated into a map control or SDK.
-Some example tiles that can be requested are Azure Maps road tiles, real-time Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://docs.microsoft.com/shows/internet-of-things-show/introducing-azure-maps-creator).
+### Get Daily Air Quality Forecasts
 
 ```javascript
-const { createWriteStream } = require("fs");
-const { positionToTileXY } = require("@azure-rest/maps-render");
+const { DefaultAzureCredential } = require("@azure/identity");
+const MapsWeather = require("@azure-rest/maps-weather").default;
 
-const zoom = 6;
-// Use the helper function `positionToTileXY` to get the tile index from the coordinate.
-const { x, y } = positionToTileXY([47.61559, -122.33817], 6, "256");
-const response = await client
-  .path("/map/tile")
-  .get({
-    queryParameters: {
-      tilesetId: "microsoft.base.road",
-      zoom,
-      x,
-      y,
-    },
-  })
-  .asNodeStream();
-
-// Handle the error.
-if (!response.body) {
-  throw Error("No response body");
+async function main() {
+    const credential = new DefaultAzureCredential();
+    const client = MapsWeather(credential, "<maps-account-client-id>");
+    const response = await client.path("/weather/airQuality/forecasts/daily/{format}", "json").get({
+        queryParameters: { query: [47.641268, -122.125679], duration: 5 }
+    });
+    console.log(response.body);
 }
-response.body.pipe(createWriteStream("tile.png"));
+main();
 ```
 
-### Request map copyright attribution information
-
-You can request map copyright attribution information for a section of a tileset.
-A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://docs.microsoft.com/rest/api/maps/render/get-map-attribution?tabs=HTTP#tilesetid).
+### Get Hourly Air Quality Forecasts
 
 ```javascript
-const { isUnexpected } = require("@azure-rest/maps-render");
+const { DefaultAzureCredential } = require("@azure/identity");
+const MapsWeather = require("@azure-rest/maps-weather").default;
 
-const response = await client.path("/map/attribution").get({
-  queryParameters: {
-    tilesetId: "microsoft.base",
-    zoom: 6,
-    /** The order is [SouthwestCorner_Longitude, SouthwestCorner_Latitude, NortheastCorner_Longitude, NortheastCorner_Latitude] */
-    bounds: [-122.414162, 47.57949, -122.247157, 47.668372],
-  },
-});
-
-// Handle exception.
-if (isUnexpected(response)) {
-  throw response.body.error;
+async function main() {
+    const credential = new DefaultAzureCredential();
+    const client = MapsWeather(credential, "<maps-account-client-id>");
+    const response = await client.path("/weather/airQuality/forecasts/hourly/{format}", "json").get({
+        queryParameters: { query: [47.641268, -122.125679], duration: 24 }
+    });
+    console.log(response.body);
 }
-
-console.log("Copyright attribution for microsoft.base: ");
-response.body.copyrights.forEach((copyright) => console.log(copyright));
-```
-
-### Request metadata for a tileset
-
-You can request metadata for a tileset in TileJSON format using the following code snippet.
-
-```javascript
-const { isUnexpected } = require("@azure-rest/maps-render");
-
-const response = await client.path("/map/tileset").get({
-  queryParameters: {
-    tilesetId: "microsoft.base",
-  },
-});
-
-if (isUnexpected(response)) {
-  throw response.body.error;
-}
-
-console.log("The metadata of Microsoft Base tileset: ");
-const { maxzoom, minzoom, bounds = [] } = response.body;
-console.log(`The zoom range started from ${minzoom} to ${maxzoom}`);
-console.log(
-  `The left bound is ${bounds[0]}, bottom bound is ${bounds[1]}, right bound is ${bounds[2]}, and top bound is ${bounds[3]}`,
-);
+main();
 ```
 
 ## Troubleshooting
 
-### Logging
+### Enable Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+Enable logging for HTTP requests and responses by setting the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, you can set the log level programmatically with `@azure/logger`:
 
 ```javascript
 const { setLogLevel } = require("@azure/logger");
-
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+For more detailed logging setup, check the [@azure/logger documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
+## Next Steps
 
-Please take a look at the [samples][samples] directory for detailed examples on how to use this library.
+Check out the [samples directory][samples] for detailed examples.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+For contributing to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
 
-## Related projects
+## Related Projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-render-rest%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-weather-rest%2FREADME.png)
 
-[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest
-[npm_package]: https://www.npmjs.com/package/@azure-rest/maps-render
-[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render?view=azure-node-preview
-[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest/samples
-[product_info]: https://docs.microsoft.com/rest/api/maps/render
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-weather-rest
+[npm_package]: https://www.npmjs.com/package/@azure-rest/maps-weather
+[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-weather?view=azure-node-preview
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-weather-rest/samples
+[product_info]: https://docs.microsoft.com/rest/api/maps/weather
 [nodejs_release]: https://github.com/nodejs/release#release-schedule
 [az_subscription]: https://azure.microsoft.com/free/
 [az_maps_account_management]: https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys
 [azure_portal]: https://portal.azure.com
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount
 [azure_cli]: https://docs.microsoft.com/cli/azure
-[az_map_pricing]: https://docs.microsoft.com/azure/azure-maps/choose-pricing-tier
-[az_map_az_cli]: https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create
 [az_map_auth]: https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication
