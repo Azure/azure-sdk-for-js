@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { TableClient, TableServiceClient } from "@azure/data-tables";
 import type { Checkpoint, PartitionOwnership } from "@azure/event-hubs";

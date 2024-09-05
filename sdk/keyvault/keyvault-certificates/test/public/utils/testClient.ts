@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CertificateClient, KeyVaultCertificate } from "../../../src";
+import { CertificateClient, KeyVaultCertificate } from "../../../src/index.js";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { RestoreCertificateBackupPoller } from "./lro/restore/poller";
-import { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation";
-import { testPollerProperties } from "./recorderUtils";
+import { RestoreCertificateBackupPoller } from "./lro/restore/poller.js";
+import { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation.js";
+import { testPollerProperties } from "./recorderUtils.js";
 
 export default class TestClient {
   public readonly client: CertificateClient;

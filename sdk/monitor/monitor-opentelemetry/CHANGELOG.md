@@ -1,19 +1,31 @@
 # Release History
 
-## 1.6.1 (Unreleased)
+## 1.7.1 ()
+
+### Other Changes
+
+- Update the relative path used in the OTel instrumentation patcher to work with webpack.
+- Update OTel dependencies.
+
+## 1.7.0 (2024-08-14)
 
 ### Features Added
 
-### Breaking Changes
+- Add support for Azure Functions v4 types.
 
 ### Bugs Fixed
 
 - Live Metrics instrumentation key should be set when env var is used to set the connection string.
+- Fix high cardinality issue with dependency stanadard metrics.
+- Fix credential issue with Quickpulse sender.
+- Fix default for Azure log level.
 
 ### Other Changes
 
+- Update applicationinsights-web-snippet version to 1.2.1.
 - Add statsbeat tracking for all OpenTelemetry instrumentations.
 - Update value used to send sample rate to ingestion.
+- Update to the latest OpenTelemetry dependencies.
 
 ## 1.6.0 (2024-06-13)
 

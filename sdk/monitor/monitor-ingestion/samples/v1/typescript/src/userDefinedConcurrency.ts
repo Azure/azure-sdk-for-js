@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to control the number of concurrent requests using the maxConcurrency option.
@@ -35,7 +35,7 @@ async function main() {
       let aggregateErrors = e.errors;
       console.log(
         "Some logs have failed to complete ingestion. Length of errors =",
-        aggregateErrors.length
+        aggregateErrors.length,
       );
       for (const errors of aggregateErrors) {
         console.log(`Error - ${JSON.stringify(errors.cause)}`);

@@ -4,9 +4,14 @@
 
 ### Features Added
 
+- Added support for the field `refreshAfterTimestamp` in `AccessToken` [#30402](https://github.com/Azure/azure-sdk-for-js/pull/30402)
+- Added support for providing an object ID to `ManagedIdentityCredential`. [#30771](https://github.com/Azure/azure-sdk-for-js/pull/30771)
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- `ManagedIdentityCredential` now throws an error when attempting to pass a user-assigned Managed Identity in a CloudShell environment instead of silently ignoring it. [#30955](https://github.com/Azure/azure-sdk-for-js/pull/30955)
 
 ### Other Changes
 

@@ -1,5 +1,22 @@
 # Release History
 
+## 4.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.1.1 (2024-08-30)
+
+### Bugs Fixed
+
+- Fixed a issue caused by accessing `process` without checking its existence in the global scope, it was leading to crashes in non-Node environments.
+- The default value of `continueOnError` of BulkRequestOptions is now set to true. Pass `{ continueOnError: false }` in `bulkOptions` to stop executing operations when one fails.
+
 ## 4.1.0 (2024-08-07)
 
 ### Features Added
@@ -145,7 +162,6 @@ await database.containers.createIfNotExists(containerDefinition);
 ### Bugs Fixed
 
 - Fix Bulk operations(Read, Delete, and Patch) failing due to wrong format of partition key in non-partitioned container.
-
 
 ## 4.0.0 (2023-09-12)
 

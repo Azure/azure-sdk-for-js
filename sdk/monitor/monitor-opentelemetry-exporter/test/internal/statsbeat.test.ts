@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import { ExportResultCode } from "@opentelemetry/core";
@@ -101,7 +101,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should add correct network properites to the custom metric", (done) => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
-        // eslint-disable-next-line no-unused-expressions
+        // eslint-disable-next-line no-unused-expressions, @typescript-eslint/no-unused-expressions
         statsbeat["statsCollectionShortInterval"];
         statsbeat.countSuccess(100);
         const metric = statsbeat["networkStatsbeatCollection"][0];

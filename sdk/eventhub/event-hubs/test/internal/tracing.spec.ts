@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
-  assert,
   createMockTracingContext,
   MockInstrumenter,
   MockTracingSpan,
-} from "@azure-tools/test-utils";
+} from "@azure-tools/test-utils-vitest";
 import { afterEach, beforeEach, describe, it, vi } from "vitest";
 import { EventData, EventHubConsumerClient, EventHubProducerClient } from "../../src/index.js";
 import { createBufferedProducer, createConsumer, createProducer } from "../utils/clients.js";
@@ -15,17 +14,14 @@ import {
   instrumentEventData,
   TRACEPARENT_PROPERTY,
 } from "../../src/diagnostics/instrumentEventData.js";
-import { expect } from "../utils/chai.js";
+import { assert, expect } from "../utils/chai.js";
 
 type ClientCommonMethods = Pick<
   EventHubProducerClient,
   "close" | "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties"
 >;
 
-// TODO: Unskip when https://github.com/Azure/azure-sdk-for-js/issues/29287
-// is resolved and when @azure-tools/test-utils migrates to chai@^5.0.0.
-
-describe.skip("Tracing", function () {
+describe("Tracing", function () {
   describe("EventHub Sender", function () {
     let producerClient: EventHubProducerClient;
 

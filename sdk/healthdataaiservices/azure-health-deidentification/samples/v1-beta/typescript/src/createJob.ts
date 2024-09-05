@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary This sample demonstrates how to create a job which will deidentify all files within a blob storage container filtering via a prefix.

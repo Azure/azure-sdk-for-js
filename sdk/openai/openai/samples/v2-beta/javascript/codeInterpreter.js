@@ -63,6 +63,14 @@ async function main() {
           console.log(`${runMessageDatum.role}: ${item.text.value}`);
           break;
         }
+        case "image_file": {
+          console.log(`Received image: ${item.image_file.file_id}`);
+          break;
+        }
+        case "image_url": {
+          console.log(`Received image: ${item.image_url.url}`);
+          break;
+        }
         default: {
           console.log(`Unhandled item type: ${item.type}`);
         }

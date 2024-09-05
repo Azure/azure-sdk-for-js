@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample shows an example of how to load the `@azure/identity-vscode`

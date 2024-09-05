@@ -570,9 +570,7 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": [
-        "@azure/identity"
-      ]
+      "decoupledLocalDependencies": ["@azure/identity"]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -612,9 +610,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -813,11 +809,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
-      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure-tools/vite-plugin-browser-test-map",
       "projectFolder": "common/tools/vite-plugin-browser-test-map",
       "versionPolicyName": "utility"
@@ -840,6 +831,11 @@
     {
       "packageName": "@azure-tools/test-utils",
       "projectFolder": "sdk/test-utils/test-utils",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/test-utils-vitest",
+      "projectFolder": "sdk/test-utils/test-utils-vitest",
       "versionPolicyName": "utility"
     },
     {
@@ -2235,6 +2231,16 @@
     {
       "packageName": "@azure-rest/ai-inference",
       "projectFolder": "sdk/ai/ai-inference-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/create-microsoft-playwright-testing",
+      "projectFolder": "sdk/playwrighttesting/create-microsoft-playwright-testing",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/microsoft-playwright-testing",
+      "projectFolder": "sdk/playwrighttesting/microsoft-playwright-testing",
       "versionPolicyName": "client"
     },
     {

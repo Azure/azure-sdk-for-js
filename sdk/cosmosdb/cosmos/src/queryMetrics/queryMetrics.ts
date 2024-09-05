@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ClientSideMetrics } from "./clientSideMetrics";
 import QueryMetricsConstants from "./queryMetricsConstants";
 import { parseDelimitedString, timeSpanFromMetrics } from "./queryMetricsUtils";

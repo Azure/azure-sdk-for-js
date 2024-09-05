@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   HttpOperationMode,
@@ -64,6 +64,7 @@ function findResourceLocation(inputs: {
 
   function getDefault() {
     switch (resourceLocationConfig) {
+      case "operation-location":
       case "azure-async-operation": {
         return undefined;
       }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
  *
  * @summary Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Subvolumes_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Subvolumes_Create.json
  */
 async function subvolumesCreate() {
   const subscriptionId =

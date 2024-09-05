@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { checkOnInterval } from "../../src/partitionReceiver.js";
 import { describe, it, vi } from "vitest";

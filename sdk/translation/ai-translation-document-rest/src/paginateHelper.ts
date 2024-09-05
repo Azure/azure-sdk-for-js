@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";

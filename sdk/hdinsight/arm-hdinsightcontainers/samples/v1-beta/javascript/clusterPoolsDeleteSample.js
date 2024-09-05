@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a Cluster Pool.
  *
  * @summary Deletes a Cluster Pool.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/DeleteClusterPool.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/DeleteClusterPool.json
  */
 async function clusterPoolDelete() {
   const subscriptionId =

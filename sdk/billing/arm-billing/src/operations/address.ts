@@ -14,7 +14,7 @@ import { BillingManagementClient } from "../billingManagementClient";
 import {
   AddressDetails,
   AddressValidateOptionalParams,
-  AddressValidateResponse
+  AddressValidateResponse,
 } from "../models";
 
 /** Class containing Address operations. */
@@ -32,16 +32,16 @@ export class AddressImpl implements Address {
   /**
    * Validates an address. Use the operation to validate an address before using it as soldTo or a billTo
    * address.
-   * @param address Address details.
+   * @param parameters Address details.
    * @param options The options parameters.
    */
   validate(
-    address: AddressDetails,
-    options?: AddressValidateOptionalParams
+    parameters: AddressDetails,
+    options?: AddressValidateOptionalParams,
   ): Promise<AddressValidateResponse> {
     return this.client.sendOperationRequest(
-      { address, options },
-      validateOperationSpec
+      { parameters, options },
+      validateOperationSpec,
     );
   }
 }
@@ -53,16 +53,16 @@ const validateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateAddressResponse
+      bodyMapper: Mappers.AddressValidationResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.address,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

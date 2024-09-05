@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { SearchField as GeneratedSearchField } from "../../src/generated/service/models/index";

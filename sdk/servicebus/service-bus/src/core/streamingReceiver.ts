@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
 import {
@@ -17,18 +17,18 @@ import {
   ListRoleDefinitionsOptions,
   ListRoleDefinitionsPageSettings,
   SetRoleDefinitionOptions,
-} from "./accessControlModels";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { LATEST_API_VERSION } from "./constants";
+} from "./accessControlModels.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { LATEST_API_VERSION } from "./constants.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
+import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { logger } from "./log";
-import { mappings } from "./mappings";
-import { tracingClient } from "./tracing";
-import { v4 as v4uuid } from "uuid";
+import { logger } from "./log.js";
+import { mappings } from "./mappings.js";
+import { tracingClient } from "./tracing.js";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
@@ -447,7 +447,7 @@ export class KeyVaultAccessControlClient {
         const response = await this.client.roleDefinitions.createOrUpdate(
           this.vaultUrl,
           roleScope,
-          options.roleDefinitionName || v4uuid(),
+          options.roleDefinitionName || randomUUID(),
           {
             properties: {
               description: options.description,

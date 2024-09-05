@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ChangeFeedRange } from "./ChangeFeedRange";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";

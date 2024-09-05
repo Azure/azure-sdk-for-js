@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import typescriptEslint from "typescript-eslint";
@@ -11,7 +11,7 @@ const markdownConfigs: FlatConfig.ConfigArray = [
   },
   {
     name: "markdown-js-azsdk-customized",
-    files: ["*.md/*.js"],
+    files: ["*.md/*.js", "*/*/*.md/*.js"],
     languageOptions: {
       parserOptions: {
         project: true,
@@ -36,11 +36,12 @@ const markdownConfigs: FlatConfig.ConfigArray = [
       ],
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
   {
     name: "markdown-ts-azsdk-customized",
-    files: ["*.md/*.ts"],
+    files: ["*.md/*.ts", "*/*/*.md/*.ts"],
     languageOptions: {
       parserOptions: {
         project: true,
@@ -50,6 +51,7 @@ const markdownConfigs: FlatConfig.ConfigArray = [
     ...typescriptEslint.configs.disableTypeChecked,
     rules: {
       "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
     },
   },
 ];

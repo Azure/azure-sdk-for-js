@@ -8,29 +8,64 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EnrollmentAccountSummary,
-  EnrollmentAccountsListOptionalParams,
+  EnrollmentAccount,
+  EnrollmentAccountsListByDepartmentOptionalParams,
+  EnrollmentAccountsListByBillingAccountOptionalParams,
+  EnrollmentAccountsGetByDepartmentOptionalParams,
+  EnrollmentAccountsGetByDepartmentResponse,
   EnrollmentAccountsGetOptionalParams,
-  EnrollmentAccountsGetResponse
+  EnrollmentAccountsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EnrollmentAccounts. */
 export interface EnrollmentAccounts {
   /**
-   * Lists the enrollment accounts the caller has access to.
+   * Lists the enrollment accounts for a department. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
    * @param options The options parameters.
    */
-  list(
-    options?: EnrollmentAccountsListOptionalParams
-  ): PagedAsyncIterableIterator<EnrollmentAccountSummary>;
+  listByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    options?: EnrollmentAccountsListByDepartmentOptionalParams,
+  ): PagedAsyncIterableIterator<EnrollmentAccount>;
   /**
-   * Gets a enrollment account by name.
-   * @param name Enrollment Account name.
+   * Lists the enrollment accounts for a billing account. The operation is supported only for billing
+   * accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    options?: EnrollmentAccountsListByBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<EnrollmentAccount>;
+  /**
+   * Gets an enrollment account by department. The operation is supported only for billing accounts with
+   * agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param options The options parameters.
+   */
+  getByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    enrollmentAccountName: string,
+    options?: EnrollmentAccountsGetByDepartmentOptionalParams,
+  ): Promise<EnrollmentAccountsGetByDepartmentResponse>;
+  /**
+   * Gets an enrollment account by ID. The operation is supported only for billing accounts with
+   * agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
    * @param options The options parameters.
    */
   get(
-    name: string,
-    options?: EnrollmentAccountsGetOptionalParams
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: EnrollmentAccountsGetOptionalParams,
   ): Promise<EnrollmentAccountsGetResponse>;
 }
