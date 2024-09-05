@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -69,16 +69,16 @@ export function paginate<TResponse extends PathUncheckedResponse>(
       typeof customGetPage === "function"
         ? customGetPage
         : async (pageLink: string) => {
-            const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
-            firstRun = false;
-            checkPagingRequest(result);
-            const nextLink = getNextLink(result.body, nextLinkName);
-            const values = getElements<TElement>(result.body, itemName);
-            return {
-              page: values,
-              nextPageLink: nextLink,
-            };
-          },
+          const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
+          firstRun = false;
+          checkPagingRequest(result);
+          const nextLink = getNextLink(result.body, nextLinkName);
+          const values = getElements<TElement>(result.body, itemName);
+          return {
+            page: values,
+            nextPageLink: nextLink,
+          };
+        },
   };
 
   return getPagedAsyncIterator(pagedResult);

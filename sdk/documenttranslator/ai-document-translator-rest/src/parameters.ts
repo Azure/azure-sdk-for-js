@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import { StartTranslationDetails } from "./models";
@@ -16,8 +16,8 @@ export interface DocumentTranslationStartTranslationMediaTypesParam {
 
 export type DocumentTranslationStartTranslationParameters =
   DocumentTranslationStartTranslationMediaTypesParam &
-    DocumentTranslationStartTranslationBodyParam &
-    RequestParameters;
+  DocumentTranslationStartTranslationBodyParam &
+  RequestParameters;
 
 export interface DocumentTranslationGetTranslationsStatusQueryParamProperties {
   /**

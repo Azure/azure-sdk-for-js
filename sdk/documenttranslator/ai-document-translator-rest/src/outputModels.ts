@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Contains unified error information used for HTTP responses across any Cognitive Service. Instances
@@ -15,13 +15,13 @@ export interface TranslationErrorResponseOutput {
 export interface TranslationErrorOutput {
   /** Enums containing high level error codes. */
   code:
-    | "InvalidRequest"
-    | "InvalidArgument"
-    | "InternalServerError"
-    | "ServiceUnavailable"
-    | "ResourceNotFound"
-    | "Unauthorized"
-    | "RequestRateTooHigh";
+  | "InvalidRequest"
+  | "InvalidArgument"
+  | "InternalServerError"
+  | "ServiceUnavailable"
+  | "ResourceNotFound"
+  | "Unauthorized"
+  | "RequestRateTooHigh";
   /** Gets high level error message. */
   message: string;
   /**
@@ -79,13 +79,13 @@ export interface TranslationStatusOutput {
   lastActionDateTimeUtc: string;
   /** List of possible statuses for job or document */
   status:
-    | "NotStarted"
-    | "Running"
-    | "Succeeded"
-    | "Failed"
-    | "Cancelled"
-    | "Cancelling"
-    | "ValidationFailed";
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled"
+  | "Cancelling"
+  | "ValidationFailed";
   /** This contains an outer error with error code, message, details, target and an inner error with more descriptive details. */
   error?: TranslationErrorOutput;
   summary: StatusSummaryOutput;
@@ -120,13 +120,13 @@ export interface DocumentStatusOutput {
   lastActionDateTimeUtc: string;
   /** List of possible statuses for job or document */
   status:
-    | "NotStarted"
-    | "Running"
-    | "Succeeded"
-    | "Failed"
-    | "Cancelled"
-    | "Cancelling"
-    | "ValidationFailed";
+  | "NotStarted"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled"
+  | "Cancelling"
+  | "ValidationFailed";
   /** To language */
   to: string;
   /** This contains an outer error with error code, message, details, target and an inner error with more descriptive details. */
