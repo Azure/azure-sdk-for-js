@@ -47,17 +47,12 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getIanaVersion.js
 ```
 
-## Next Steps
-
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
 [getTimezoneById]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getTimezoneById.js
 [getTimezoneByCoordinates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getTimezoneByCoordinates.js
 [getWindowsTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getWindowsTimezoneIds.js
 [getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaTimezoneIds.js
 [getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaVersion.js
 [convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/convertWindowsToIana.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-timezone
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest/README.md

@@ -9,7 +9,6 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/maps-timezone)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/maps-timezone?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest/samples)
 
 ## Getting started
