@@ -197,13 +197,6 @@ function UpdateSubscriptionConfigurationWithFiles([object]$baseSubConfig, [strin
 function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$additionalSubConfigsJson, [string]$subConfigFilesJson) {
   $finalConfig = @{}
 
-  write-host 'base:'
-  write-host "b - '$baseSubConfigJson'"
-  write-host "l - '$($baseSubConfigJson.Length)'"
-  write-host "e - $($baseSubConfigJson -eq '')"
-  write-host "n - $($baseSubConfigJson -eq $null)"
-  write-host "t - $($baseSubConfigJson.GetType())"
-
   if ($baseSubConfigJson) {
     # When variable groups are not added to the pipeline, secret references like
     # $(<my secret>) are passed as a string literal instead of being replaced by the keyvault secret value
@@ -218,8 +211,13 @@ function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$addi
 
   if ($additionalSubConfigsJson) {
     $subConfigs = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
+    write-host "sub configs: $additionalSubConfigsJson"
+    write-host "sub configs t: $($additionalSubConfigsJson.GetType())"
 
     foreach ($subConfig in $subConfigs) {
+      write-host "sub config in: $($subConfig -eq '')"
+      write-host "sub config in: $($subConfig -eq $null)"
+      write-host "sub config t2: $($subConfig.GetType())"
       if ($subConfig -isnot [hashtable]) {
         throw "Expected a json dictionary object but found '$subConfig'. This probably means a subscription config secret was not downloaded. The pipeline is likely missing a variable group."
       }
