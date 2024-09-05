@@ -370,11 +370,11 @@ export class Projection {
   // contains the projections for all the derived metrics
   private projectionMap: Map<string, number>;
   // for calculation of avgs - key id, value [sum, count]
-  private countMap: Map<string, [number, number]>;
+  private avgMap: Map<string, [number, number]>;
 
   constructor() {
     this.projectionMap = new Map<string, number>();
-    this.countMap = new Map<string, [number, number]>();
+    this.avgMap = new Map<string, [number, number]>();
   }
 
   public calculateProjection(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): void {
@@ -420,14 +420,14 @@ export class Projection {
       this.projectionMap.set(key, 0);
     }
 
-    for (const key of this.countMap.keys()) {
-      this.countMap.set(key, [0, 0]);
+    for (const key of this.avgMap.keys()) {
+      this.avgMap.set(key, [0, 0]);
     }
   }
 
   public clearProjectionMaps(): void {
     this.projectionMap.clear();
-    this.countMap.clear();
+    this.avgMap.clear();
   }
 
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
@@ -443,12 +443,12 @@ export class Projection {
         prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : Number.MIN_VALUE;
         return Math.max(prevValue, incrementBy);
       case KnownAggregationType.Avg.toString(): {
-        if (!this.countMap.has(id)) {
-          this.countMap.set(id, [incrementBy, 1]);
+        if (!this.avgMap.has(id)) {
+          this.avgMap.set(id, [incrementBy, 1]);
           return incrementBy;
         } else {
-          const [prevSum, prevCount] = this.countMap.get(id) as [number, number];
-          this.countMap.set(id, [prevSum + incrementBy, prevCount + 1]);
+          const [prevSum, prevCount] = this.avgMap.get(id) as [number, number];
+          this.avgMap.set(id, [prevSum + incrementBy, prevCount + 1]);
           return (prevSum + incrementBy) / (prevCount + 1);
         }
       }

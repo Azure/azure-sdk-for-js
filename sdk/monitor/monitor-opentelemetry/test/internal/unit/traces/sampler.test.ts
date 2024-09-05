@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/*
 import * as assert from "assert";
 import { context, SpanKind } from "@opentelemetry/api";
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
@@ -163,4 +162,3 @@ describe("Library/ApplicationInsightsSampler", () => {
     });
   });
 });
-*/

@@ -78,7 +78,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     await context.with(suppressTracing(context.active()), async () => {
       try {
         console.log("calling post");
-        let postResponse = await this.sender.publish(optionalParams);
+        const postResponse = await this.sender.publish(optionalParams);
         console.log("post response {}", postResponse);
         this.postCallback(postResponse);
         resultCallback({ code: ExportResultCode.SUCCESS });
@@ -124,7 +124,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     return this.sender;
   }
 
-  public setEtag(etag: string) {
+  public setEtag(etag: string): void {
     this.etag = etag;
   }
 }

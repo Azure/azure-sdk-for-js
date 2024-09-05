@@ -191,7 +191,7 @@ export class LiveMetrics {
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       getErrorsFn: this.getErrors.bind(this),
-      getDerivedMetricValuesFn: this.derivedMetricProjection.getMetricValues.bind(this),
+      getDerivedMetricValuesFn: this.getDerivedMetricValues.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
     };
     this.quickpulseExporter = new QuickpulseMetricExporter(exporterOptions);
@@ -428,6 +428,10 @@ export class LiveMetrics {
     const result = this.errorTracker.getErrors();
     this.errorTracker.clearRunTimeErrors();
     return result;
+  }
+
+  public getDerivedMetricValues(): Map<string, number> {
+    return this.derivedMetricProjection.getMetricValues();
   }
 
   private addDocument(document: DocumentIngress): void {
