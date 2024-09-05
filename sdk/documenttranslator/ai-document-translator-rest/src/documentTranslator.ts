@@ -7,7 +7,7 @@ import { KeyCredential } from "@azure/core-auth";
 import { DocumentTranslatorClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
-export interface DocumentTranslatorClientOptions extends ClientOptions {}
+export interface DocumentTranslatorClientOptions extends ClientOptions { }
 
 /**
  * Initialize a new instance of `DocumentTranslatorClient`
@@ -21,7 +21,7 @@ export default function createClient(
   options: DocumentTranslatorClientOptions = {},
 ): DocumentTranslatorClient {
   const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0-preview.1`;
+    options.endpoint ?? options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0`;
   const userAgentInfo = `azsdk-js-ai-document-translator-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
