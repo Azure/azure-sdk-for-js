@@ -197,7 +197,7 @@ function UpdateSubscriptionConfigurationWithFiles([object]$baseSubConfig, [strin
 function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$additionalSubConfigsJson, [string]$subConfigFilesJson) {
   $finalConfig = @{}
 
-  if ($baseSubConfigJson) {
+  if ($baseSubConfigJson -and $baseSubConfigJson -ne '""') {
     # When variable groups are not added to the pipeline, secret references like
     # $(<my secret>) are passed as a string literal instead of being replaced by the keyvault secret value
     if ($baseSubConfigJson -notlike '{*') {
@@ -209,7 +209,7 @@ function BuildAndSetSubscriptionConfig([string]$baseSubConfigJson, [string]$addi
     $finalConfig = SetSubscriptionConfiguration $baseSubConfig
   }
 
-  if ($additionalSubConfigsJson) {
+  if ($additionalSubConfigsJson -and $additionalSubConfigsJson -ne '""') {
     $subConfigs = $additionalSubConfigsJson | ConvertFrom-Json -AsHashtable
     write-host "sub configs: $additionalSubConfigsJson"
     write-host "sub configs t: $($additionalSubConfigsJson.GetType())"
