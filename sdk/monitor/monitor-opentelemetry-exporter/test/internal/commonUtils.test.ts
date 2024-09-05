@@ -98,7 +98,7 @@ describe("commonUtils.ts", () => {
     });
 
     describe("#createProperties", () => {
-      it("should serialize attributes", async () => {
+      it("should serialize attributes", () => {
         let attr = serializeAttribute("test");
         assert.strictEqual(attr, "test");
         attr = serializeAttribute(false);
