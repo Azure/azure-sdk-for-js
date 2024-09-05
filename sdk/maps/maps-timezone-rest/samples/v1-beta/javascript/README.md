@@ -57,3 +57,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getIanaTimezoneIds]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaTimezoneIds.js
 [getIanaVersion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/getIanaVersion.js
 [convertWindowsToIana]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-timezone-rest/samples/v1-beta/javascript/convertWindowsToIana.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-timezone
+[freesub]: https://azure.microsoft.com/free/
+[createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest/README.md
+
