@@ -7,3 +7,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-
 https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-node-preview
 https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md
 https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/ai-document-translator
