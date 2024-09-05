@@ -7,7 +7,7 @@
  * @summary use tool call with streaming chat completions.
  */
 
-import ModelClient, { ChatCompletionsToolCallOutput } from "@azure-rest/ai-inference";
+import ModelClient, { ChatCompletionsFunctionToolCallOutput } from "@azure-rest/ai-inference";
 import { createSseStream } from "@azure/core-sse";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -59,7 +59,7 @@ const getWeatherFunc = (location: string, unit: string): string => {
   return `The temperature in ${location} is 72 degrees ${unit}`;
 }
 
-const updateToolCalls = (toolCallArray: Array<ChatCompletionsToolCallOutput>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<ChatCompletionsFunctionToolCallOutput>, functionArray: Array<any>) => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while ( functionArray.length < toolCallArray.length ) {
     functionArray.push(dummyFunction);
