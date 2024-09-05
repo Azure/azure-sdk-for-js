@@ -97,19 +97,20 @@ describe("commonUtils.ts", () => {
       assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
     });
 
-    it("should serialize attributes", async () => {
-      let attr = serializeAttribute("test");
-      assert.strictEqual(attr, "test");
-      attr = serializeAttribute(false);
-      assert.strictEqual(attr, "false");
-      attr = serializeAttribute("123");
-      assert.strictEqual(attr, "123");
-      attr = serializeAttribute({ test: "value" });
-      assert.strictEqual(attr, '{"test":"value"}');
-      attr = serializeAttribute(new Error("testError") as any);
-      assert.ok(attr.includes("stack: 'Error: testError"));
-      assert.ok(attr.includes("message: 'testError'"));
-      assert.ok(attr.includes("name: 'Error'"));
+    describe("#createProperties", () => {
+      it("should serialize attributes", async () => {
+        let attr = serializeAttribute("test");
+        assert.strictEqual(attr, "test");
+        attr = serializeAttribute(false);
+        assert.strictEqual(attr, "false");
+        attr = serializeAttribute("123");
+        assert.strictEqual(attr, "123");
+        attr = serializeAttribute({ test: "value" });
+        assert.strictEqual(attr, '{"test":"value"}');
+        attr = serializeAttribute(new Error("testError") as any);
+        assert.ok(attr.includes('"stack":"Error: testError'));
+        assert.ok(attr.includes('"message":"testError"'));
+      });
     });
   });
 });

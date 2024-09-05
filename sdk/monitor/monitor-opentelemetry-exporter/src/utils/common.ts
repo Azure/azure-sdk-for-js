@@ -42,7 +42,7 @@ import { Tags } from "../types";
 import { getInstance } from "../platform";
 import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
 import { Resource } from "@opentelemetry/resources";
-import { Attributes, AttributeValue, HrTime } from "@opentelemetry/api";
+import { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
 import { AnyValue } from "@opentelemetry/api-logs";
 
@@ -256,22 +256,22 @@ export function createResourceMetricEnvelope(
   return;
 }
 
-export function serializeAttribute(attribute: AttributeValue | AnyValue | undefined) {
-  if (attribute != undefined) {
-    if (
-      typeof attribute === "string" ||
-      typeof attribute === "number" ||
-      typeof attribute === "boolean"
-    ) {
-      return String(attribute);
-    }
-    if (attribute instanceof Error) {
-      return `{ stack: '${attribute.stack}', message: '${attribute.message}', name: '${attribute.name}'`;
+export function serializeAttribute(value: AnyValue): string {
+  if (typeof value === "object") {
+    if (value instanceof Uint8Array) {
+      return String(value);
     } else {
-      return JSON.stringify(attribute);
+      try {
+        // Should handle Error objects as well
+        return JSON.stringify(value, Object.getOwnPropertyNames(value));
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
     }
   }
-  return "";
+  // Return scalar and undefined values
+  return String(value);
 }
 
 export function shouldCreateResourceMetric(): boolean {
