@@ -23,7 +23,7 @@ Key links:
 
 ### Install the `@azure-rest/maps-timezone` package
 
-Install the Azure MapsTimezone REST client library for JavaScript with `npm`:
+Install the Azure Maps Timezone REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/maps-timezone
