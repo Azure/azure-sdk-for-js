@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get model info using the Inference SDK.
  *
- * @summary get model info.
+ * @summary Get model info.
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";

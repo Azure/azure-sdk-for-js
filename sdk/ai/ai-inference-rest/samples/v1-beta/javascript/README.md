@@ -13,13 +13,13 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                     | **Description**                                |
 | ------------------------------------------------- | ---------------------------------------------- |
-| [chatCompletions.js][chatcompletions]             | get chat completions.                          |
-| [embeddings.js][embeddings]                       | get embeddings.                                |
-| [getModelInfo.js][getmodelinfo]                   | get model info.                                |
-| [imageFileCompletions.js][imagefilecompletions]   | get chat completions with image file.          |
-| [streamChatCompletions.js][streamchatcompletions] | list chat completions.                         |
-| [streamingToolCall.js][streamingtoolcall]         | use tool call with streaming chat completions. |
-| [toolCall.js][toolcall]                           | get chat completions with functions.           |
+| [chatCompletions.js][chatcompletions]             | Get chat completions.                          |
+| [embeddings.js][embeddings]                       | Get embeddings.                                |
+| [getModelInfo.js][getmodelinfo]                   | Get model info.                                |
+| [imageFileCompletions.js][imagefilecompletions]   | Get chat completions with image file.          |
+| [streamChatCompletions.js][streamchatcompletions] | List chat completions.                         |
+| [streamingToolCall.js][streamingtoolcall]         | Get chat completions with streaming and function call. |
+| [toolCall.js][toolcall]                           | Get chat completions with function call.           |
 
 ## Prerequisites
 

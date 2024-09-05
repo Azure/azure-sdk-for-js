@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get chat completions for a chat context.
  *
- * @summary get chat completions.
+ * @summary Get chat completions.
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";

@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get embeddings from a model endpoint.
  *
- * @summary get embeddings.
+ * @summary Get embeddings.
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";

@@ -13,13 +13,13 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                     | **Description**                                |
 | ------------------------------------------------- | ---------------------------------------------- |
-| [chatCompletions.ts][chatcompletions]             | get chat completions.                          |
-| [embeddings.ts][embeddings]                       | get embeddings.                                |
-| [getModelInfo.ts][getmodelinfo]                   | get model info.                                |
-| [imageFileCompletions.ts][imagefilecompletions]   | get chat completions with image file.          |
-| [streamChatCompletions.ts][streamchatcompletions] | list chat completions.                         |
-| [streamingToolCall.ts][streamingtoolcall]         | use tool call with streaming chat completions. |
-| [toolCall.ts][toolcall]                           | get chat completions with functions.           |
+| [chatCompletions.ts][chatcompletions]             | Get chat completions.                          |
+| [embeddings.ts][embeddings]                       | Get embeddings.                                |
+| [getModelInfo.ts][getmodelinfo]                   | Get model info.                                |
+| [imageFileCompletions.ts][imagefilecompletions]   | Get chat completions with image file.          |
+| [streamChatCompletions.ts][streamchatcompletions] | List chat completions.                         |
+| [streamingToolCall.ts][streamingtoolcall]         | Get chat completions with streaming and function call. |
+| [toolCall.ts][toolcall]                           | Get chat completions with function call.           |
 
 ## Prerequisites
 

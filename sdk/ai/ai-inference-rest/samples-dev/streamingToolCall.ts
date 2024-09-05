@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to use tool calls with streaming chat completions.
  *
- * @summary use tool call with streaming chat completions.
+ * @summary Get chat completions with streaming and function call.
  */
 
 import ModelClient, { ChatCompletionsFunctionToolCallOutput } from "@azure-rest/ai-inference";
