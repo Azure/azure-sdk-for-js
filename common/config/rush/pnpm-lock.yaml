@@ -992,6 +992,9 @@ dependencies:
   '@rush-temp/maps-search':
     specifier: file:./projects/maps-search.tgz
     version: file:projects/maps-search.tgz
+  '@rush-temp/maps-timezone':
+    specifier: file:./projects/maps-timezone.tgz
+    version: file:projects/maps-timezone.tgz
   '@rush-temp/microsoft-playwright-testing':
     specifier: file:./projects/microsoft-playwright-testing.tgz
     version: file:projects/microsoft-playwright-testing.tgz
