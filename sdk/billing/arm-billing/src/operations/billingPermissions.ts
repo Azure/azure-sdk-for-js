@@ -14,23 +14,48 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
 import {
-  BillingPermissionsProperties,
-  BillingPermissionsListByCustomerNextOptionalParams,
-  BillingPermissionsListByCustomerOptionalParams,
-  BillingPermissionsListByCustomerResponse,
+  BillingPermission,
   BillingPermissionsListByBillingAccountNextOptionalParams,
   BillingPermissionsListByBillingAccountOptionalParams,
   BillingPermissionsListByBillingAccountResponse,
-  BillingPermissionsListByInvoiceSectionsNextOptionalParams,
-  BillingPermissionsListByInvoiceSectionsOptionalParams,
-  BillingPermissionsListByInvoiceSectionsResponse,
   BillingPermissionsListByBillingProfileNextOptionalParams,
   BillingPermissionsListByBillingProfileOptionalParams,
   BillingPermissionsListByBillingProfileResponse,
-  BillingPermissionsListByCustomerNextResponse,
+  BillingPermissionsListByCustomerNextOptionalParams,
+  BillingPermissionsListByCustomerOptionalParams,
+  BillingPermissionsListByCustomerResponse,
+  BillingPermissionsListByInvoiceSectionNextOptionalParams,
+  BillingPermissionsListByInvoiceSectionOptionalParams,
+  BillingPermissionsListByInvoiceSectionResponse,
+  BillingPermissionsListByCustomerAtBillingAccountNextOptionalParams,
+  BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+  BillingPermissionsListByCustomerAtBillingAccountResponse,
+  BillingPermissionsListByDepartmentNextOptionalParams,
+  BillingPermissionsListByDepartmentOptionalParams,
+  BillingPermissionsListByDepartmentResponse,
+  BillingPermissionsListByEnrollmentAccountNextOptionalParams,
+  BillingPermissionsListByEnrollmentAccountOptionalParams,
+  BillingPermissionsListByEnrollmentAccountResponse,
+  CheckAccessRequest,
+  BillingPermissionsCheckAccessByBillingProfileOptionalParams,
+  BillingPermissionsCheckAccessByBillingProfileResponse,
+  BillingPermissionsCheckAccessByCustomerOptionalParams,
+  BillingPermissionsCheckAccessByCustomerResponse,
+  BillingPermissionsCheckAccessByInvoiceSectionOptionalParams,
+  BillingPermissionsCheckAccessByInvoiceSectionResponse,
+  BillingPermissionsCheckAccessByBillingAccountOptionalParams,
+  BillingPermissionsCheckAccessByBillingAccountResponse,
+  BillingPermissionsCheckAccessByDepartmentOptionalParams,
+  BillingPermissionsCheckAccessByDepartmentResponse,
+  BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams,
+  BillingPermissionsCheckAccessByEnrollmentAccountResponse,
   BillingPermissionsListByBillingAccountNextResponse,
-  BillingPermissionsListByInvoiceSectionsNextResponse,
-  BillingPermissionsListByBillingProfileNextResponse
+  BillingPermissionsListByBillingProfileNextResponse,
+  BillingPermissionsListByCustomerNextResponse,
+  BillingPermissionsListByInvoiceSectionNextResponse,
+  BillingPermissionsListByCustomerAtBillingAccountNextResponse,
+  BillingPermissionsListByDepartmentNextResponse,
+  BillingPermissionsListByEnrollmentAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,101 +72,17 @@ export class BillingPermissionsImpl implements BillingPermissions {
   }
 
   /**
-   * Lists the billing permissions the caller has for a customer.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  public listByCustomer(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties> {
-    const iter = this.listByCustomerPagingAll(
-      billingAccountName,
-      customerName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByCustomerPagingPage(
-          billingAccountName,
-          customerName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByCustomerPagingPage(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BillingPermissionsProperties[]> {
-    let result: BillingPermissionsListByCustomerResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByCustomer(
-        billingAccountName,
-        customerName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByCustomerNext(
-        billingAccountName,
-        customerName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByCustomerPagingAll(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
-  ): AsyncIterableIterator<BillingPermissionsProperties> {
-    for await (const page of this.listByCustomerPagingPage(
-      billingAccountName,
-      customerName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists the billing permissions the caller has on a billing account.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
   public listByBillingAccount(
     billingAccountName: string,
-    options?: BillingPermissionsListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties> {
+    options?: BillingPermissionsListByBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
     const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -157,17 +98,17 @@ export class BillingPermissionsImpl implements BillingPermissions {
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
     options?: BillingPermissionsListByBillingAccountOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BillingPermissionsProperties[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
     let result: BillingPermissionsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -181,7 +122,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
       result = await this._listByBillingAccountNext(
         billingAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -192,104 +133,11 @@ export class BillingPermissionsImpl implements BillingPermissions {
 
   private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: BillingPermissionsListByBillingAccountOptionalParams
-  ): AsyncIterableIterator<BillingPermissionsProperties> {
+    options?: BillingPermissionsListByBillingAccountOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists the billing permissions the caller has on an invoice section.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param options The options parameters.
-   */
-  public listByInvoiceSections(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties> {
-    const iter = this.listByInvoiceSectionsPagingAll(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByInvoiceSectionsPagingPage(
-          billingAccountName,
-          billingProfileName,
-          invoiceSectionName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByInvoiceSectionsPagingPage(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BillingPermissionsProperties[]> {
-    let result: BillingPermissionsListByInvoiceSectionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByInvoiceSections(
-        billingAccountName,
-        billingProfileName,
-        invoiceSectionName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByInvoiceSectionsNext(
-        billingAccountName,
-        billingProfileName,
-        invoiceSectionName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByInvoiceSectionsPagingAll(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams
-  ): AsyncIterableIterator<BillingPermissionsProperties> {
-    for await (const page of this.listByInvoiceSectionsPagingPage(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -304,12 +152,12 @@ export class BillingPermissionsImpl implements BillingPermissions {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<BillingPermissionsProperties> {
+    options?: BillingPermissionsListByBillingProfileOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -326,9 +174,9 @@ export class BillingPermissionsImpl implements BillingPermissions {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -336,15 +184,15 @@ export class BillingPermissionsImpl implements BillingPermissions {
     billingAccountName: string,
     billingProfileName: string,
     options?: BillingPermissionsListByBillingProfileOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BillingPermissionsProperties[]> {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
     let result: BillingPermissionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -356,7 +204,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -368,12 +216,12 @@ export class BillingPermissionsImpl implements BillingPermissions {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
-  ): AsyncIterableIterator<BillingPermissionsProperties> {
+    options?: BillingPermissionsListByBillingProfileOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -382,18 +230,439 @@ export class BillingPermissionsImpl implements BillingPermissions {
   /**
    * Lists the billing permissions the caller has for a customer.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param customerName The ID that uniquely identifies a customer.
    * @param options The options parameters.
    */
-  private _listByCustomer(
+  public listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
+    const iter = this.listByCustomerPagingAll(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCustomerPagingPage(
+          billingAccountName,
+          billingProfileName,
+          customerName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByCustomerPagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
+    let result: BillingPermissionsListByCustomerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomer(
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCustomerNext(
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByCustomerPagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
+    for await (const page of this.listByCustomerPagingPage(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billing permissions the caller has for an invoice section.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  public listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingPermissionsListByInvoiceSectionOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
+    const iter = this.listByInvoiceSectionPagingAll(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByInvoiceSectionPagingPage(
+          billingAccountName,
+          billingProfileName,
+          invoiceSectionName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByInvoiceSectionPagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingPermissionsListByInvoiceSectionOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
+    let result: BillingPermissionsListByInvoiceSectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoiceSection(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByInvoiceSectionNext(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByInvoiceSectionPagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingPermissionsListByInvoiceSectionOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
+    for await (const page of this.listByInvoiceSectionPagingPage(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billing permissions the caller has for a customer at billing account level.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  public listByCustomerAtBillingAccount(
     billingAccountName: string,
     customerName: string,
-    options?: BillingPermissionsListByCustomerOptionalParams
-  ): Promise<BillingPermissionsListByCustomerResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, customerName, options },
-      listByCustomerOperationSpec
+    options?: BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
+    const iter = this.listByCustomerAtBillingAccountPagingAll(
+      billingAccountName,
+      customerName,
+      options,
     );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCustomerAtBillingAccountPagingPage(
+          billingAccountName,
+          customerName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByCustomerAtBillingAccountPagingPage(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
+    let result: BillingPermissionsListByCustomerAtBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomerAtBillingAccount(
+        billingAccountName,
+        customerName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCustomerAtBillingAccountNext(
+        billingAccountName,
+        customerName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByCustomerAtBillingAccountPagingAll(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
+    for await (const page of this.listByCustomerAtBillingAccountPagingPage(
+      billingAccountName,
+      customerName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billing permissions the caller has for a department.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param options The options parameters.
+   */
+  public listByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    options?: BillingPermissionsListByDepartmentOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
+    const iter = this.listByDepartmentPagingAll(
+      billingAccountName,
+      departmentName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByDepartmentPagingPage(
+          billingAccountName,
+          departmentName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByDepartmentPagingPage(
+    billingAccountName: string,
+    departmentName: string,
+    options?: BillingPermissionsListByDepartmentOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
+    let result: BillingPermissionsListByDepartmentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDepartment(
+        billingAccountName,
+        departmentName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByDepartmentNext(
+        billingAccountName,
+        departmentName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByDepartmentPagingAll(
+    billingAccountName: string,
+    departmentName: string,
+    options?: BillingPermissionsListByDepartmentOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
+    for await (const page of this.listByDepartmentPagingPage(
+      billingAccountName,
+      departmentName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the billing permissions the caller has for an enrollment account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param options The options parameters.
+   */
+  public listByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingPermissionsListByEnrollmentAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingPermission> {
+    const iter = this.listByEnrollmentAccountPagingAll(
+      billingAccountName,
+      enrollmentAccountName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByEnrollmentAccountPagingPage(
+          billingAccountName,
+          enrollmentAccountName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByEnrollmentAccountPagingPage(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingPermissionsListByEnrollmentAccountOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingPermission[]> {
+    let result: BillingPermissionsListByEnrollmentAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEnrollmentAccount(
+        billingAccountName,
+        enrollmentAccountName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByEnrollmentAccountNext(
+        billingAccountName,
+        enrollmentAccountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByEnrollmentAccountPagingAll(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingPermissionsListByEnrollmentAccountOptionalParams,
+  ): AsyncIterableIterator<BillingPermission> {
+    for await (const page of this.listByEnrollmentAccountPagingPage(
+      billingAccountName,
+      enrollmentAccountName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -403,30 +672,11 @@ export class BillingPermissionsImpl implements BillingPermissions {
    */
   private _listByBillingAccount(
     billingAccountName: string,
-    options?: BillingPermissionsListByBillingAccountOptionalParams
+    options?: BillingPermissionsListByBillingAccountOptionalParams,
   ): Promise<BillingPermissionsListByBillingAccountResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, options },
-      listByBillingAccountOperationSpec
-    );
-  }
-
-  /**
-   * Lists the billing permissions the caller has on an invoice section.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param options The options parameters.
-   */
-  private _listByInvoiceSections(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    options?: BillingPermissionsListByInvoiceSectionsOptionalParams
-  ): Promise<BillingPermissionsListByInvoiceSectionsResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, invoiceSectionName, options },
-      listByInvoiceSectionsOperationSpec
+      listByBillingAccountOperationSpec,
     );
   }
 
@@ -439,30 +689,228 @@ export class BillingPermissionsImpl implements BillingPermissions {
   private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingPermissionsListByBillingProfileOptionalParams
+    options?: BillingPermissionsListByBillingProfileOptionalParams,
   ): Promise<BillingPermissionsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
     );
   }
 
   /**
-   * ListByCustomerNext
+   * Provides a list of check access response objects for a billing profile.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param nextLink The nextLink from the previous successful call to the ListByCustomer method.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param parameters The request object against which access of the caller will be checked.
    * @param options The options parameters.
    */
-  private _listByCustomerNext(
+  checkAccessByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByBillingProfileOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByBillingProfileResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, parameters, options },
+      checkAccessByBillingProfileOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the billing permissions the caller has for a customer.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  private _listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingPermissionsListByCustomerOptionalParams,
+  ): Promise<BillingPermissionsListByCustomerResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, customerName, options },
+      listByCustomerOperationSpec,
+    );
+  }
+
+  /**
+   * Provides a list of check access response objects for a customer.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByCustomerOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByCustomerResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        parameters,
+        options,
+      },
+      checkAccessByCustomerOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the billing permissions the caller has for an invoice section.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  private _listByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingPermissionsListByInvoiceSectionOptionalParams,
+  ): Promise<BillingPermissionsListByInvoiceSectionResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, invoiceSectionName, options },
+      listByInvoiceSectionOperationSpec,
+    );
+  }
+
+  /**
+   * Provides a list of check access response objects for an invoice section.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByInvoiceSectionOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByInvoiceSectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        parameters,
+        options,
+      },
+      checkAccessByInvoiceSectionOperationSpec,
+    );
+  }
+
+  /**
+   * Provides a list of check access response objects for a billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByBillingAccount(
+    billingAccountName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByBillingAccountOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, parameters, options },
+      checkAccessByBillingAccountOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the billing permissions the caller has for a customer at billing account level.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  private _listByCustomerAtBillingAccount(
     billingAccountName: string,
     customerName: string,
-    nextLink: string,
-    options?: BillingPermissionsListByCustomerNextOptionalParams
-  ): Promise<BillingPermissionsListByCustomerNextResponse> {
+    options?: BillingPermissionsListByCustomerAtBillingAccountOptionalParams,
+  ): Promise<BillingPermissionsListByCustomerAtBillingAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, customerName, nextLink, options },
-      listByCustomerNextOperationSpec
+      { billingAccountName, customerName, options },
+      listByCustomerAtBillingAccountOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the billing permissions the caller has for a department.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param options The options parameters.
+   */
+  private _listByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    options?: BillingPermissionsListByDepartmentOptionalParams,
+  ): Promise<BillingPermissionsListByDepartmentResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, departmentName, options },
+      listByDepartmentOperationSpec,
+    );
+  }
+
+  /**
+   * Provides a list of check access response objects for a department.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByDepartmentOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByDepartmentResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, departmentName, parameters, options },
+      checkAccessByDepartmentOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the billing permissions the caller has for an enrollment account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param options The options parameters.
+   */
+  private _listByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingPermissionsListByEnrollmentAccountOptionalParams,
+  ): Promise<BillingPermissionsListByEnrollmentAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, enrollmentAccountName, options },
+      listByEnrollmentAccountOperationSpec,
+    );
+  }
+
+  /**
+   * Provides a list of check access response objects for an enrollment account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param parameters The request object against which access of the caller will be checked.
+   * @param options The options parameters.
+   */
+  checkAccessByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    parameters: CheckAccessRequest,
+    options?: BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams,
+  ): Promise<BillingPermissionsCheckAccessByEnrollmentAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, enrollmentAccountName, parameters, options },
+      checkAccessByEnrollmentAccountOperationSpec,
     );
   }
 
@@ -475,38 +923,11 @@ export class BillingPermissionsImpl implements BillingPermissions {
   private _listByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: BillingPermissionsListByBillingAccountNextOptionalParams
+    options?: BillingPermissionsListByBillingAccountNextOptionalParams,
   ): Promise<BillingPermissionsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByInvoiceSectionsNext
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param nextLink The nextLink from the previous successful call to the ListByInvoiceSections method.
-   * @param options The options parameters.
-   */
-  private _listByInvoiceSectionsNext(
-    billingAccountName: string,
-    billingProfileName: string,
-    invoiceSectionName: string,
-    nextLink: string,
-    options?: BillingPermissionsListByInvoiceSectionsNextOptionalParams
-  ): Promise<BillingPermissionsListByInvoiceSectionsNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        billingAccountName,
-        billingProfileName,
-        invoiceSectionName,
-        nextLink,
-        options
-      },
-      listByInvoiceSectionsNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 
@@ -521,179 +942,579 @@ export class BillingPermissionsImpl implements BillingPermissions {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: BillingPermissionsListByBillingProfileNextOptionalParams
+    options?: BillingPermissionsListByBillingProfileNextOptionalParams,
   ): Promise<BillingPermissionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByCustomerNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param nextLink The nextLink from the previous successful call to the ListByCustomer method.
+   * @param options The options parameters.
+   */
+  private _listByCustomerNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    nextLink: string,
+    options?: BillingPermissionsListByCustomerNextOptionalParams,
+  ): Promise<BillingPermissionsListByCustomerNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        nextLink,
+        options,
+      },
+      listByCustomerNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByInvoiceSectionNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param nextLink The nextLink from the previous successful call to the ListByInvoiceSection method.
+   * @param options The options parameters.
+   */
+  private _listByInvoiceSectionNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    nextLink: string,
+    options?: BillingPermissionsListByInvoiceSectionNextOptionalParams,
+  ): Promise<BillingPermissionsListByInvoiceSectionNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        nextLink,
+        options,
+      },
+      listByInvoiceSectionNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByCustomerAtBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param nextLink The nextLink from the previous successful call to the ListByCustomerAtBillingAccount
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByCustomerAtBillingAccountNext(
+    billingAccountName: string,
+    customerName: string,
+    nextLink: string,
+    options?: BillingPermissionsListByCustomerAtBillingAccountNextOptionalParams,
+  ): Promise<BillingPermissionsListByCustomerAtBillingAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, customerName, nextLink, options },
+      listByCustomerAtBillingAccountNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByDepartmentNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param nextLink The nextLink from the previous successful call to the ListByDepartment method.
+   * @param options The options parameters.
+   */
+  private _listByDepartmentNext(
+    billingAccountName: string,
+    departmentName: string,
+    nextLink: string,
+    options?: BillingPermissionsListByDepartmentNextOptionalParams,
+  ): Promise<BillingPermissionsListByDepartmentNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, departmentName, nextLink, options },
+      listByDepartmentNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByEnrollmentAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param nextLink The nextLink from the previous successful call to the ListByEnrollmentAccount
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByEnrollmentAccountNext(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    nextLink: string,
+    options?: BillingPermissionsListByEnrollmentAccountNextOptionalParams,
+  ): Promise<BillingPermissionsListByEnrollmentAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, enrollmentAccountName, nextLink, options },
+      listByEnrollmentAccountNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByCustomerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingPermissions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingPermissions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingPermissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByInvoiceSectionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingPermissions",
+const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingPermissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingPermissions",
+const checkAccessByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/checkAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CheckAccessResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listByCustomerOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/billingPermissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
+    Parameters.customerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const checkAccessByCustomerOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/checkAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CheckAccessResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.customerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingPermissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink,
-    Parameters.customerName
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const checkAccessByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/checkAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CheckAccessResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const checkAccessByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/checkAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CheckAccessResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listByCustomerAtBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingPermissions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.customerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByDepartmentOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/billingPermissions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.departmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const checkAccessByDepartmentOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/departments/{departmentName}/checkAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CheckAccessResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.departmentName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listByEnrollmentAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingPermissions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.enrollmentAccountName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const checkAccessByEnrollmentAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/checkAccess",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CheckAccessResponse" },
+          },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.enrollmentAccountName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByInvoiceSectionsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingPermissionsListResult
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName,
+    Parameters.customerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByCustomerAtBillingAccountNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.BillingPermissionListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.billingAccountName,
+      Parameters.nextLink,
+      Parameters.customerName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listByDepartmentNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.departmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByEnrollmentAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.enrollmentAccountName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

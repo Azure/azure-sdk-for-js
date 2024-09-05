@@ -7,14 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingProfile,
   BillingProfilesListByBillingAccountOptionalParams,
+  BillingProfilesValidateDeleteEligibilityOptionalParams,
+  BillingProfilesValidateDeleteEligibilityResponse,
+  BillingProfilesDeleteOptionalParams,
+  BillingProfilesDeleteResponse,
   BillingProfilesGetOptionalParams,
   BillingProfilesGetResponse,
   BillingProfilesCreateOrUpdateOptionalParams,
-  BillingProfilesCreateOrUpdateResponse
+  BillingProfilesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,17 +26,58 @@ import {
 export interface BillingProfiles {
   /**
    * Lists the billing profiles that a user has access to. The operation is supported for billing
-   * accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * accounts with agreement of type Microsoft Customer Agreement and Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: BillingProfilesListByBillingAccountOptionalParams
+    options?: BillingProfilesListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingProfile>;
   /**
+   * Validates if the billing profile can be deleted. The operation is supported for billing accounts
+   * with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  validateDeleteEligibility(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingProfilesValidateDeleteEligibilityOptionalParams,
+  ): Promise<BillingProfilesValidateDeleteEligibilityResponse>;
+  /**
+   * Deletes a billing profile. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingProfilesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingProfilesDeleteResponse>,
+      BillingProfilesDeleteResponse
+    >
+  >;
+  /**
+   * Deletes a billing profile. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingProfilesDeleteOptionalParams,
+  ): Promise<BillingProfilesDeleteResponse>;
+  /**
    * Gets a billing profile by its ID. The operation is supported for billing accounts with agreement
-   * type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * type Microsoft Customer Agreement and Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
@@ -40,39 +85,41 @@ export interface BillingProfiles {
   get(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingProfilesGetOptionalParams
+    options?: BillingProfilesGetOptionalParams,
   ): Promise<BillingProfilesGetResponse>;
   /**
    * Creates or updates a billing profile. The operation is supported for billing accounts with agreement
-   * type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * type Microsoft Customer Agreement and Microsoft Partner Agreement. If you are a MCA Individual
+   * (Pay-as-you-go) customer, then please use the Azure portal experience to create the billing profile.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param parameters The new or updated billing profile.
+   * @param parameters A billing profile.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     billingAccountName: string,
     billingProfileName: string,
     parameters: BillingProfile,
-    options?: BillingProfilesCreateOrUpdateOptionalParams
+    options?: BillingProfilesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingProfilesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<BillingProfilesCreateOrUpdateResponse>,
       BillingProfilesCreateOrUpdateResponse
     >
   >;
   /**
    * Creates or updates a billing profile. The operation is supported for billing accounts with agreement
-   * type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * type Microsoft Customer Agreement and Microsoft Partner Agreement. If you are a MCA Individual
+   * (Pay-as-you-go) customer, then please use the Azure portal experience to create the billing profile.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param parameters The new or updated billing profile.
+   * @param parameters A billing profile.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     billingAccountName: string,
     billingProfileName: string,
     parameters: BillingProfile,
-    options?: BillingProfilesCreateOrUpdateOptionalParams
+    options?: BillingProfilesCreateOrUpdateOptionalParams,
   ): Promise<BillingProfilesCreateOrUpdateResponse>;
 }
