@@ -366,7 +366,10 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   }
   if (baseData.properties) {
     for (const key of Object.keys(baseData.properties)) {
-      baseData.properties[key] = baseData.properties[key].substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+      baseData.properties[key] = baseData.properties[key].substring(
+        0,
+        MaxPropertyLengths.THIRTEEN_BIT,
+      );
     }
   }
 
@@ -469,7 +472,10 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       }
       if (baseData.properties) {
         for (const key of Object.keys(baseData.properties)) {
-          baseData.properties[key] = baseData.properties[key].substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+          baseData.properties[key] = baseData.properties[key].substring(
+            0,
+            MaxPropertyLengths.THIRTEEN_BIT,
+          );
         }
       }
       const env: Envelope = {

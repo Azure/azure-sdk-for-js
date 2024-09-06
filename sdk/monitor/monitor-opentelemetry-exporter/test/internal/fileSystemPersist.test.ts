@@ -69,7 +69,6 @@ describe("FileSystemPersist", () => {
   afterEach((done) => {
     fs.readdir(tempDir, (err, files) => {
       if (err) {
-         
         console.error(err);
         done();
       } else {
