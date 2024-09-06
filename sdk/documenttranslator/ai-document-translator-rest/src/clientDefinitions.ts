@@ -98,7 +98,7 @@ export interface StartTranslation {
    *
    * $top indicates the total number of records the user wants to be returned across all pages.
    * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
-   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
+   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), '@nextLink' will contain the link to the next page.
    *
    * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
    * The default sorting is descending by createdDateTimeUtc.
@@ -183,7 +183,7 @@ export interface GetDocumentsStatus {
    *
    * $top indicates the total number of records the user wants to be returned across all pages.
    * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
-   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
+   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), '@nextLink' will contain the link to the next page.
    *
    * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
    * The default sorting is descending by createdDateTimeUtc.
