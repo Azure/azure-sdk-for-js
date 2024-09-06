@@ -53,6 +53,7 @@ export class PlaywrightServiceInitialize {
   };
 
   private promptOnCancel = (): never => {
+    // eslint-disable-next-line n/no-process-exit
     process.exit(0);
   };
 
@@ -71,6 +72,13 @@ export class PlaywrightServiceInitialize {
 
     console.log("\nPlaywright Service Portal - https://playwright.microsoft.com/");
     console.log("Getting Started - https://aka.ms/mpt/quickstart\n");
+
+    console.log(
+      "If you're already using the Microsoft Playwright Testing service, please review the quickstart guide [https://aka.ms/mpt/quickstart] to ensure your tests continue running smoothly.",
+    );
+    console.log(
+      "We've introduced changes related to authentication. You'll need to update the new config file to align with these changes.",
+    );
   };
 
   private installServicePackage = async (): Promise<void> => {
