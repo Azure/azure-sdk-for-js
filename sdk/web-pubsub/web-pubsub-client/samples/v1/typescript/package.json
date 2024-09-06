@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/web-pubsub-client-ts-beta",
+  "name": "@azure-samples/web-pubsub-client-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Web PubSub Client client library samples for TypeScript (Beta)",
+  "description": "Azure Web PubSub Client client library samples for TypeScript",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client",
   "dependencies": {
-    "@azure/web-pubsub-client": "next",
+    "@azure/web-pubsub-client": "latest",
     "dotenv": "latest",
     "@azure/web-pubsub": "^1.1.0"
   },
