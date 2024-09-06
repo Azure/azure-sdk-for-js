@@ -23695,11 +23695,12 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-kaYUj6TSbXhrF0JJBeuFYrrf9QdZ/JQeWnWrLVJm9hxiczEHVnDfA4l4xwZBNOK7e2nKGqcweD73a37cWQDxPg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-cGQF+Z00t0R9e/YZbdiNh5tsKt8OcUTukL0XQqT7O9z8S+Yr20Du/H9UPEncOH055//F1GdQBhFAodgymPa1aw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-amqp': 4.3.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.7(@types/node@18.19.46)
