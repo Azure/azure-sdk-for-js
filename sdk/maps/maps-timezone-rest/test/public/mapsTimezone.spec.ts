@@ -8,7 +8,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import MapsTimezone, { isUnexpected } from "../../src";
+import { MapsTimezone, isUnexpected } from "../../src";
 import { IanaIdOutput } from "../../src";
 
 

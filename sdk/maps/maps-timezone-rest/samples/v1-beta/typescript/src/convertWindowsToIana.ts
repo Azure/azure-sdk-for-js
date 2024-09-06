@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone, {IanaIdOutput} from "../src";
-import { isUnexpected } from "../../src";
+import { MapsTimezone, IanaIdOutput, isUnexpected } from "../../src";
 
 /**
  * @summary How to convert a Windows Timezone ID to IANA Timezone IDs.

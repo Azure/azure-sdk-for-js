@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const MapsTimezone = require("@azure-rest/maps-timezone").default,
-    { isUnexpected } = require("@azure-rest/maps-timezone");
+const { MapsTimezone, isUnexpected } = require("@azure-rest/maps-timezone");
 
 /**
  * @summary How to get the timezone by IANA ID.

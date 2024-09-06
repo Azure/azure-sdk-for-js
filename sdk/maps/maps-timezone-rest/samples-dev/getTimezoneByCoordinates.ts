@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsTimezone from "../src";
-import { isUnexpected } from "../src";
+import { MapsTimezone, isUnexpected } from "../src";
 
 /**
  * @summary How to get the timezone by coordinates.
