@@ -30,12 +30,6 @@ export class AzureBatchLogRecordProcessor extends BatchLogRecordProcessor {
         }
       }
     }
-    // Ensure nested log attributes are serialized
-    for (const [key, value] of Object.entries(logRecord.attributes)) {
-      if (typeof value === "object") {
-        logRecord.attributes[key] = JSON.stringify(value);
-      }
-    }
     super.onEmit(logRecord);
   }
 }

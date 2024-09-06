@@ -38,6 +38,7 @@ import {
   getUrl,
   hrTimeToDate,
   isSqlDB,
+  serializeAttribute,
 } from "./common";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { parseEventHubSpan } from "./eventhub";
@@ -137,7 +138,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
-        properties[key] = attributes[key] as string;
+        properties[key] = serializeAttribute(attributes[key]);
       }
     }
   }
