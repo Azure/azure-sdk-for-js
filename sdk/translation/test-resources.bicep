@@ -9,9 +9,8 @@ param dtEndpointSuffix string = '.cognitiveservices.azure.com'
 
 var uniqueSubDomainName = '${baseName}'
 var apiVersion = '2024-04-01-preview'
-var blobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+var storageBlobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
 var storageAccountName = '${baseName}prim'
-var storageAccountResourceId = '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Storage/storageAccounts/${storageAccountName}'
 
 
 var encryption = {
@@ -74,16 +73,15 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
 }
 
-// Assign Storage Blob Data Contributor Role
-resource blobDataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('blobDataContributorRoleId', storageAccountName)
-  dependsOn: [
-    storageAccount
-  ]
+// Role assignment to grant Storage Blob Data Contributor role to the Cognitive Services(Translator) Account Managed Identity
+resource storageBlobDataContributorRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(storageAccount.id, cognitiveServicesAccount.id, storageBlobDataContributorRoleId)
   properties: {
-    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', blobDataContributorRoleId)
-    principalId: testApplicationOid
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', storageBlobDataContributorRoleId)
+    principalId: cognitiveServicesAccount.identity.principalId
+    principalType: 'ServicePrincipal'
   }
+  scope: storageAccount
 }
 
 // Outputs
