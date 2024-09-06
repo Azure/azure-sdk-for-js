@@ -1324,6 +1324,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-eventhub@5.2.0-beta.1:
+    resolution: {integrity: sha512-EBvr9/PN6CXwxyOQ0/m9VeLUHQoiVm7M5Cz5fFmxsrVv8oVVYxLP8v0tRxRJluKhwlDCCcoM8zX2wAYCBpzq5Q==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.3
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network@32.2.0:
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
     engines: {node: '>=14.0.0'}
@@ -14719,7 +14734,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-NK8mDnu6HDMOlxun9X23Jc7OciDr5lidWZb/j0XdcRVaOWKdj4KHU6Pm6oIHAHdRQkJ320EqyErR1zd3uWiElw==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-XqGGgdiWd0zbXpqsvvyMXxDy5WANEis+oGAVFWc2QTfgngSoIlFaVLBiBh7r6r4rj/nZm8SExFzaGY7cWp2w3Q==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -14739,9 +14754,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.48)(typescript@5.4.5)
       tslib: 2.7.0
-      typescript: 5.5.4
+      tsx: 4.19.0
+      typescript: 5.4.5
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -16327,13 +16343,14 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-K+9G34mEgOxgIoTZLVRz12Rde0+aAM0bJXmZV+Mz1rruwrsNjwMk6oh3vwtguLLhts+BN91pJ9YxkEk6GtcYyA==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-kp8BpFXpMU04/C+fUDgnJ5mNmZBFLje3bnypHgQRBiPJlXwseyLZFQdcY7/zC2VdwlAzEmg1RfSYKrUiZKjkLg==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-eventhub': 5.2.0-beta.1
       '@azure/core-lro': 2.7.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.7(@types/node@18.19.48)

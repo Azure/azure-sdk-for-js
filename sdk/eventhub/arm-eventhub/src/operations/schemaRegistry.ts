@@ -23,7 +23,7 @@ import {
   SchemaRegistryDeleteOptionalParams,
   SchemaRegistryGetOptionalParams,
   SchemaRegistryGetResponse,
-  SchemaRegistryListByNamespaceNextResponse
+  SchemaRegistryListByNamespaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
+    options?: SchemaRegistryListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<SchemaGroup> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class SchemaRegistryImpl implements SchemaRegistry {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class SchemaRegistryImpl implements SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     options?: SchemaRegistryListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SchemaGroup[]> {
     let result: SchemaRegistryListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class SchemaRegistryImpl implements SchemaRegistry {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class SchemaRegistryImpl implements SchemaRegistry {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
+    options?: SchemaRegistryListByNamespaceOptionalParams,
   ): AsyncIterableIterator<SchemaGroup> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,15 +132,16 @@ export class SchemaRegistryImpl implements SchemaRegistry {
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
+    options?: SchemaRegistryListByNamespaceOptionalParams,
   ): Promise<SchemaRegistryListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
     );
   }
 
   /**
+   * Creates or Updates an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -152,7 +153,7 @@ export class SchemaRegistryImpl implements SchemaRegistry {
     namespaceName: string,
     schemaGroupName: string,
     parameters: SchemaGroup,
-    options?: SchemaRegistryCreateOrUpdateOptionalParams
+    options?: SchemaRegistryCreateOrUpdateOptionalParams,
   ): Promise<SchemaRegistryCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -160,13 +161,14 @@ export class SchemaRegistryImpl implements SchemaRegistry {
         namespaceName,
         schemaGroupName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
+   * Deletes an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -176,15 +178,16 @@ export class SchemaRegistryImpl implements SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     schemaGroupName: string,
-    options?: SchemaRegistryDeleteOptionalParams
+    options?: SchemaRegistryDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, schemaGroupName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
+   * Gets the details of an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -194,11 +197,11 @@ export class SchemaRegistryImpl implements SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     schemaGroupName: string,
-    options?: SchemaRegistryGetOptionalParams
+    options?: SchemaRegistryGetOptionalParams,
   ): Promise<SchemaRegistryGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, schemaGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -213,11 +216,11 @@ export class SchemaRegistryImpl implements SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: SchemaRegistryListByNamespaceNextOptionalParams
+    options?: SchemaRegistryListByNamespaceNextOptionalParams,
   ): Promise<SchemaRegistryListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 }
@@ -225,38 +228,36 @@ export class SchemaRegistryImpl implements SchemaRegistry {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroupListResult
+      bodyMapper: Mappers.SchemaGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroup
+      bodyMapper: Mappers.SchemaGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
@@ -265,22 +266,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.schemaGroupName
+    Parameters.schemaGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -288,22 +288,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.schemaGroupName
+    Parameters.schemaGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/schemagroups/{schemaGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroup
+      bodyMapper: Mappers.SchemaGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -311,29 +310,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.schemaGroupName
+    Parameters.schemaGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SchemaGroupListResult
+      bodyMapper: Mappers.SchemaGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
