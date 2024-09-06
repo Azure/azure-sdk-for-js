@@ -1089,9 +1089,36 @@ describe("Live Metrics filtering - Applying valid filters", () => {
 describe("Live Metrics filtering - Metric Projection", () => {
   const proj: Projection = new Projection();
   it("Count()", () => {
-    const derivedMetricInfo: DerivedMetricInfo = {
+    const derivedMetricInfoRequest: DerivedMetricInfo = {
       id: "id-for-request",
       telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    const derivedMetricInfoDependency: DerivedMetricInfo = {
+      id: "id-for-dependency",
+      telemetryType: KnownTelemetryType.Dependency,
+      filterGroups: [{ filters: [] }],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    const derivedMetricInfoTrace: DerivedMetricInfo = {
+      id: "id-for-trace",
+      telemetryType: KnownTelemetryType.Trace,
+      filterGroups: [{ filters: [] }],
+      projection: "Count()",
+      aggregation: "Sum",
+      backEndAggregation: "Sum",
+    }
+
+    const derivedMetricInfoException: DerivedMetricInfo = {
+      id: "id-for-exception",
+      telemetryType: KnownTelemetryType.Exception,
       filterGroups: [{ filters: [] }],
       projection: "Count()",
       aggregation: "Sum",
@@ -1129,26 +1156,25 @@ describe("Live Metrics filtering - Metric Projection", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
+    proj.initDerivedMetricProjection(derivedMetricInfoRequest);
+    proj.initDerivedMetricProjection(derivedMetricInfoDependency);
+    proj.initDerivedMetricProjection(derivedMetricInfoTrace);
+    proj.initDerivedMetricProjection(derivedMetricInfoException);
+
     // call the projection function with the corresponding telemetry data for each telemetry type
-    proj.calculateProjection(derivedMetricInfo, request);
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(derivedMetricInfoRequest, request);
+    proj.calculateProjection(derivedMetricInfoRequest, request);
 
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
-    derivedMetricInfo.id = "id-for-dependency";
-    proj.calculateProjection(derivedMetricInfo, dependency);
-    proj.calculateProjection(derivedMetricInfo, dependency);
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(derivedMetricInfoDependency, dependency);
+    proj.calculateProjection(derivedMetricInfoDependency, dependency);
+    proj.calculateProjection(derivedMetricInfoDependency, dependency);
 
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Trace;
-    derivedMetricInfo.id = "id-for-trace";
-    proj.calculateProjection(derivedMetricInfo, trace);
-    proj.calculateProjection(derivedMetricInfo, trace);
-    proj.calculateProjection(derivedMetricInfo, trace);
-    proj.calculateProjection(derivedMetricInfo, trace);
+    proj.calculateProjection(derivedMetricInfoTrace, trace);
+    proj.calculateProjection(derivedMetricInfoTrace, trace);
+    proj.calculateProjection(derivedMetricInfoTrace, trace);
+    proj.calculateProjection(derivedMetricInfoTrace, trace);
 
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Exception;
-    derivedMetricInfo.id = "id-for-exception";
-    proj.calculateProjection(derivedMetricInfo, exception);
+    proj.calculateProjection(derivedMetricInfoException, exception);
 
     // get the projection map at the end and check if the count is correct
     const projectionMap: Map<string, number> = proj.getMetricValues();
@@ -1161,13 +1187,58 @@ describe("Live Metrics filtering - Metric Projection", () => {
   });
 
   it("Duration", () => {
-    const derivedMetricInfo: DerivedMetricInfo = {
+    const requestAvg: DerivedMetricInfo = {
       id: "id-for-request-avg",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [{ filters: [] }],
       projection: "Duration",
       aggregation: KnownAggregationType.Avg,
       backEndAggregation: KnownAggregationType.Avg,
+    }
+
+    const requestMin: DerivedMetricInfo = {
+      id: "id-for-request-min",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "Duration",
+      aggregation: KnownAggregationType.Min,
+      backEndAggregation: KnownAggregationType.Min,
+    }
+
+    const requestMax: DerivedMetricInfo = {
+      id: "id-for-request-max",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "Duration",
+      aggregation: KnownAggregationType.Max,
+      backEndAggregation: KnownAggregationType.Max,
+    }
+
+    const dependencyAvg: DerivedMetricInfo = {
+      id: "id-for-dependency-avg",
+      telemetryType: KnownTelemetryType.Dependency,
+      filterGroups: [{ filters: [] }],
+      projection: "Duration",
+      aggregation: KnownAggregationType.Avg,
+      backEndAggregation: KnownAggregationType.Avg,
+    }
+
+    const dependencyMin: DerivedMetricInfo = {
+      id: "id-for-dependency-min",
+      telemetryType: KnownTelemetryType.Dependency,
+      filterGroups: [{ filters: [] }],
+      projection: "Duration",
+      aggregation: KnownAggregationType.Min,
+      backEndAggregation: KnownAggregationType.Min,
+    }
+
+    const dependencyMax: DerivedMetricInfo = {
+      id: "id-for-dependency-max",
+      telemetryType: KnownTelemetryType.Dependency,
+      filterGroups: [{ filters: [] }],
+      projection: "Duration",
+      aggregation: KnownAggregationType.Max,
+      backEndAggregation: KnownAggregationType.Max,
     }
 
     const request: RequestData = {
@@ -1190,58 +1261,54 @@ describe("Live Metrics filtering - Metric Projection", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
+    proj.initDerivedMetricProjection(requestAvg);
+    proj.initDerivedMetricProjection(requestMin);
+    proj.initDerivedMetricProjection(requestMax);
+    proj.initDerivedMetricProjection(dependencyAvg);
+    proj.initDerivedMetricProjection(dependencyMin);
+    proj.initDerivedMetricProjection(dependencyMax);
+
     // projection for request duration - avg
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestAvg, request);
     request.Duration = 400;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestAvg, request);
     request.Duration = 600;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestAvg, request);
 
     // projection for request duration - min
-    derivedMetricInfo.id = "id-for-request-min";
-    derivedMetricInfo.aggregation = KnownAggregationType.Min;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestMin, request);
     request.Duration = 100;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestMin, request);
     request.Duration = 500;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestMin, request);
 
     // projection for request duration - max
-    derivedMetricInfo.id = "id-for-request-max";
-    derivedMetricInfo.aggregation = KnownAggregationType.Max;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestMax, request);
     request.Duration = 100;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestMax, request);
     request.Duration = 600;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(requestMax, request);
 
     // projection for dependency duration - avg
-    derivedMetricInfo.id = "id-for-dependency-avg";
-    derivedMetricInfo.telemetryType = KnownTelemetryType.Dependency;
-    derivedMetricInfo.aggregation = KnownAggregationType.Avg;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyAvg, dependency);
     dependency.Duration = 400;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyAvg, dependency);
     dependency.Duration = 600;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyAvg, dependency);
 
     // projection for request duration - min
-    derivedMetricInfo.id = "id-for-dependency-min";
-    derivedMetricInfo.aggregation = KnownAggregationType.Min;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyMin, dependency);
     dependency.Duration = 100;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyMin, dependency);
     dependency.Duration = 500;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyMin, dependency);
 
     // projection for request duration - max
-    derivedMetricInfo.id = "id-for-dependency-max";
-    derivedMetricInfo.aggregation = KnownAggregationType.Max;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyMax, dependency);
     dependency.Duration = 100;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyMax, dependency);
     dependency.Duration = 600;
-    proj.calculateProjection(derivedMetricInfo, dependency);
+    proj.calculateProjection(dependencyMax, dependency);
 
     // get the projection map at the end and check if the projections are correct
     const projectionMap: Map<string, number> = proj.getMetricValues();
@@ -1257,13 +1324,40 @@ describe("Live Metrics filtering - Metric Projection", () => {
 
   it("CustomDimension", () => {
 
-    const derivedMetricInfo: DerivedMetricInfo = {
+    const avg: DerivedMetricInfo = {
       id: "id-avg",
       telemetryType: KnownTelemetryType.Request,
       filterGroups: [{ filters: [] }],
       projection: "CustomDimensions.property",
       aggregation: KnownAggregationType.Avg,
       backEndAggregation: KnownAggregationType.Avg,
+    }
+
+    const min: DerivedMetricInfo = {
+      id: "id-min",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "CustomDimensions.property",
+      aggregation: KnownAggregationType.Min,
+      backEndAggregation: KnownAggregationType.Min,
+    }
+
+    const max: DerivedMetricInfo = {
+      id: "id-max",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "CustomDimensions.property",
+      aggregation: KnownAggregationType.Max,
+      backEndAggregation: KnownAggregationType.Max,
+    }
+
+    const sum: DerivedMetricInfo = {
+      id: "id-sum",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "CustomDimensions.property",
+      aggregation: KnownAggregationType.Sum,
+      backEndAggregation: KnownAggregationType.Sum,
     }
 
     const request: RequestData = {
@@ -1275,47 +1369,46 @@ describe("Live Metrics filtering - Metric Projection", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
+    proj.initDerivedMetricProjection(avg);
+    proj.initDerivedMetricProjection(min);
+    proj.initDerivedMetricProjection(max);
+    proj.initDerivedMetricProjection(sum);
+
     // custom dim doesn't exist in current request - should throw exception
-    assert.throws(() => proj.calculateProjection(derivedMetricInfo, request), MetricFailureToCreateError);
+    assert.throws(() => proj.calculateProjection(avg, request), MetricFailureToCreateError);
 
     // custom dim exists in current request but value does not convert to a number - should throw exception
     request.CustomDimensions.set("property", "hi");
-    assert.throws(() => proj.calculateProjection(derivedMetricInfo, request), MetricFailureToCreateError);
+    assert.throws(() => proj.calculateProjection(avg, request), MetricFailureToCreateError);
 
     // custom dim - avg
     request.CustomDimensions.set("property", "5");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(avg, request);
     request.CustomDimensions.set("property", "10");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(avg, request);
     request.CustomDimensions.set("property", "15");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(avg, request);
 
     // custom dim - min
-    derivedMetricInfo.id = "id-min";
-    derivedMetricInfo.aggregation = KnownAggregationType.Min;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(min, request);
     request.CustomDimensions.set("property", "1");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(min, request);
     request.CustomDimensions.set("property", "20");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(min, request);
 
     // custom dim - max
-    derivedMetricInfo.id = "id-max";
-    derivedMetricInfo.aggregation = KnownAggregationType.Max;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(max, request);
     request.CustomDimensions.set("property", "1");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(max, request);
     request.CustomDimensions.set("property", "15");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(max, request);
 
     // custom dim - sum
-    derivedMetricInfo.id = "id-sum";
-    derivedMetricInfo.aggregation = KnownAggregationType.Sum;
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(sum, request);
     request.CustomDimensions.set("property", "1");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(sum, request);
     request.CustomDimensions.set("property", "15");
-    proj.calculateProjection(derivedMetricInfo, request);
+    proj.calculateProjection(sum, request);
 
     // get the projection map at the end and check if the values are correct.
     const projectionMap: Map<string, number> = proj.getMetricValues();

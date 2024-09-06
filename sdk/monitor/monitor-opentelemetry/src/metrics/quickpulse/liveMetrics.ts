@@ -19,7 +19,6 @@ import {
 } from "@opentelemetry/api";
 import { RandomIdGenerator, ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
-import { isExceptionTelemetry } from "../utils";
 import {
   DocumentIngress,
   Exception,
@@ -46,8 +45,8 @@ import {
   getSpanDocument,
   getTransmissionTime,
   isRequestData,
-  isTraceData,
   getSpanExceptionColumns,
+  isExceptionData,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
@@ -503,18 +502,16 @@ export class LiveMetrics {
     if (this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogColumns(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
-      if (isTraceData(columns)) {
-        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
-      } else { // exception
+      if (isExceptionData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+        this.totalExceptionCount++;
+      } else { // trace
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
       const exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]) || "";
       const document: Trace | Exception = getLogDocument(columns, exceptionType);
       this.addDocument(document);
-      if (isExceptionTelemetry(logRecord)) {
-        this.totalExceptionCount++;
-      }
     }
   }
 
@@ -717,6 +714,7 @@ export class LiveMetrics {
         } else {
           throw new DuplicateMetricIdError(`Duplicate Metric Id: ${derivedMetricInfo.id}`);
         }
+        this.derivedMetricProjection.initDerivedMetricProjection(derivedMetricInfo);
       } catch (error) {
         const configError: CollectionConfigurationError = {
           collectionConfigurationErrorType: "",

@@ -356,10 +356,16 @@ export class Filter {
         return dataValue === comparand;
       case KnownPredicateType.NotEqual.toString():
         return dataValue !== comparand;
-      case KnownPredicateType.Contains.toString():
-        return dataValue.includes(comparand);
-      case KnownPredicateType.DoesNotContain.toString():
-        return !dataValue.includes(comparand);
+      case KnownPredicateType.Contains.toString(): {
+        const lowerDataValue = dataValue.toLowerCase();
+        const lowerComparand = comparand.toLowerCase();
+        return lowerDataValue.includes(lowerComparand);
+      }
+      case KnownPredicateType.DoesNotContain.toString(): {
+        const lowerDataValue = dataValue.toLowerCase();
+        const lowerComparand = comparand.toLowerCase();
+        return !lowerDataValue.includes(lowerComparand);
+      }
       default:
         return false;
     }
@@ -372,9 +378,27 @@ export class Projection {
   // for calculation of avgs - key id, value [sum, count]
   private avgMap: Map<string, [number, number]>;
 
+  // Whether the projection maps have been cleared/reset.
+  // This is used when calculating min/max aggregations.
+  // If maps were reset, then the min/max for the first telemetry item 
+  // in a given 1s interval should be the value of the first telemetry item.
+  private reset: boolean;
+
   constructor() {
     this.projectionMap = new Map<string, number>();
     this.avgMap = new Map<string, [number, number]>();
+    this.reset = true;
+  }
+
+  // This method is intended to be called upon configuration change for every valid derivedMetricInfo.
+  // This is so even when there are no telemetry items flowing in from the processor after the config has changed, we still
+  // emit a value of 0 to quickpulse for the derived metric.
+  public initDerivedMetricProjection(derivedMetricInfo: DerivedMetricInfo): void {
+    this.projectionMap.set(derivedMetricInfo.id, 0);
+    if (derivedMetricInfo.aggregation === KnownAggregationType.Avg.toString()) {
+      this.avgMap.set(derivedMetricInfo.id, [0, 0]);
+    }
+    this.reset = true;
   }
 
   public calculateProjection(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): void {
@@ -409,6 +433,7 @@ export class Projection {
     this.projectionMap.set(derivedMetricInfo.id, projection);
   }
 
+  // This method is intended to be called every second when export() is called.
   public getMetricValues(): Map<string, number> {
     const result: Map<string, number> = new Map(this.projectionMap);
     this.resetProjectionValues();
@@ -423,34 +448,34 @@ export class Projection {
     for (const key of this.avgMap.keys()) {
       this.avgMap.set(key, [0, 0]);
     }
+    this.reset = true;
   }
 
+  // This method is intended to be called after upon config change or when we return to ping.
   public clearProjectionMaps(): void {
     this.projectionMap.clear();
     this.avgMap.clear();
+    this.reset = true;
   }
 
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
     let prevValue: number;
     switch (aggregation) {
       case KnownAggregationType.Sum.toString():
-        prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : 0;
+        prevValue = this.projectionMap.get(id) as number;
         return prevValue + incrementBy;
       case KnownAggregationType.Min.toString():
-        prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : Number.MAX_VALUE;
+        prevValue = this.reset ? Number.MAX_VALUE : this.projectionMap.get(id) as number;
+        this.reset = false;
         return Math.min(prevValue, incrementBy);
       case KnownAggregationType.Max.toString():
-        prevValue = this.projectionMap.has(id) ? this.projectionMap.get(id) as number : Number.MIN_VALUE;
+        prevValue = this.reset ? Number.MIN_VALUE : this.projectionMap.get(id) as number;
+        this.reset = false;
         return Math.max(prevValue, incrementBy);
       case KnownAggregationType.Avg.toString(): {
-        if (!this.avgMap.has(id)) {
-          this.avgMap.set(id, [incrementBy, 1]);
-          return incrementBy;
-        } else {
-          const [prevSum, prevCount] = this.avgMap.get(id) as [number, number];
-          this.avgMap.set(id, [prevSum + incrementBy, prevCount + 1]);
-          return (prevSum + incrementBy) / (prevCount + 1);
-        }
+        const [prevSum, prevCount] = this.avgMap.get(id) as [number, number];
+        this.avgMap.set(id, [prevSum + incrementBy, prevCount + 1]);
+        return (prevSum + incrementBy) / (prevCount + 1);
       }
       default:
         throw new MetricFailureToCreateError(`The aggregation '${aggregation}' is not supported in this SDK.`);

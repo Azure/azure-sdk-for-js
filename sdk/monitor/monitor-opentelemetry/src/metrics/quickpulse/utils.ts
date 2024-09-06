@@ -76,7 +76,7 @@ import {
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
 import { LogAttributes } from "@opentelemetry/api-logs";
-import { getDependencyTarget, isSqlDB } from "../utils";
+import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
 import { DependencyTypes } from "../../../../monitor-opentelemetry-exporter/src/utils/constants/applicationinsights";
 
 
@@ -421,9 +421,8 @@ function getDependencyData(span: ReadableSpan): DependencyData {
 }
 
 export function getLogColumns(log: LogRecord): ExceptionData | TraceData {
-  const exceptionType = log.attributes[SEMATTRS_EXCEPTION_TYPE];
   const customDims = createCustomDimsFromAttributes(log.attributes);
-  if (exceptionType) {
+  if (isExceptionTelemetry(log)) {
     return {
       Message: String(log.attributes[SEMATTRS_EXCEPTION_MESSAGE]),
       StackTrace: String(log.attributes[SEMATTRS_EXCEPTION_STACKTRACE]),
@@ -463,7 +462,7 @@ export function isDependencyData(data: TelemetryData): data is DependencyData {
 }
 
 export function isTraceData(data: TelemetryData): data is TraceData {
-  return (data as TraceData).Message !== undefined;
+  return (data as TraceData).Message !== undefined && (data as any).StackTrace === undefined;
 }
 
 export function isExceptionData(data: TelemetryData): data is ExceptionData {
