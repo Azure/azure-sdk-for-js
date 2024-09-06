@@ -26,7 +26,11 @@ const replaceableVariables: Record<string, string> = {
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -52,7 +56,7 @@ describe("HybridConnectivity test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "default";
-    resourceUri ="subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.HybridCompute/machines/AWP-AzRael-01"
+    resourceUri = "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/AWP-AzRael-01"
   });
 
   afterEach(async function () {
@@ -63,7 +67,7 @@ describe("HybridConnectivity test", () => {
 
     const res = await client.endpoints.createOrUpdate(
       resourceUri,
-    	resourcename,
+      resourcename,
       {
         properties: { type: "default" }
       });
@@ -72,7 +76,7 @@ describe("HybridConnectivity test", () => {
 
   it("endpoints get test", async function () {
     const res = await client.endpoints.get(resourceUri,
-    	resourcename);
+      resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -87,8 +91,8 @@ describe("HybridConnectivity test", () => {
   it("endpoints delete test", async function () {
     const resArray = new Array();
     const res = await client.endpoints.delete(resourceUri,
-    	resourcename
-)
+      resourcename
+    )
     for await (let item of client.endpoints.list(resourceUri)) {
       resArray.push(item);
     }

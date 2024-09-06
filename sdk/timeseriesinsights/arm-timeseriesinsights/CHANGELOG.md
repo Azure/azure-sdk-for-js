@@ -12,7 +12,7 @@
 
 ## 2.1.0-beta.2 (2022-12-15)
     
-**Features**
+### Features Added
 
   - Added operation group PrivateEndpointConnections
   - Added operation group PrivateLinkResources

@@ -12,7 +12,7 @@
 
 ## 3.1.0 (2023-02-02)
     
-**Features**
+### Features Added
 
   - Interface CustomizationPoliciesListNextOptionalParams no longer has parameter filter
   - Interface DedicatedCloudNodesListByResourceGroupNextOptionalParams no longer has parameter filter
@@ -39,7 +39,7 @@
     
 ## 3.0.1 (2022-07-06)
     
-**Features**
+### Features Added
 
   - Bugs Fixed
 
@@ -47,7 +47,7 @@
     
 ## 3.0.0 (2022-05-05)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Operation DedicatedCloudNodes.beginCreateOrUpdate has a new signature
   - Operation DedicatedCloudNodes.beginCreateOrUpdateAndWait has a new signature

@@ -12,7 +12,7 @@
 
 ## 7.0.0-beta.2 (2022-11-28)
     
-**Features**
+### Features Added
 
   - Added operation group PrivateEndpointConnections
   - Added operation group PrivateLinks
@@ -72,7 +72,7 @@
   - Added Enum KnownProvisioningState
   - Added Enum KnownPublicNetworkAccess
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags

@@ -2,7 +2,7 @@
     
 ## 2.2.0 (2023-10-24)
     
-**Features**
+### Features Added
 
   - Added Type Alias MoveType
   - Interface MoveCollectionProperties has a new optional parameter moveRegion
@@ -15,7 +15,7 @@
     
 ## 2.1.0 (2022-12-12)
     
-**Features**
+### Features Added
 
   - Added Interface AvailabilitySetResourceSettings
   - Added Interface DiskEncryptionSetResourceSettings
@@ -46,7 +46,7 @@
     
 ## 2.0.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
     

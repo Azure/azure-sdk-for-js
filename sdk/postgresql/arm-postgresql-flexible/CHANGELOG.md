@@ -12,7 +12,7 @@
 
 ## 8.0.0-beta.6 (2024-04-18)
     
-**Features**
+### Features Added
 
   - Added operation group FlexibleServer
   - Added operation group LogFiles
@@ -251,7 +251,7 @@
   - Enum KnownServerVersion has a new value Fifteen
   - Enum KnownServerVersion has a new value Sixteen
 
-**Breaking Changes**
+### Breaking Changes
 
   - Class PostgreSQLManagementFlexibleServerClient has a new signature
   - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
@@ -265,7 +265,7 @@
     
 ## 8.0.0-beta.5 (2023-12-06)
     
-**Features**
+### Features Added
 
   - Added operation group FlexibleServer
   - Added operation group LogFiles
@@ -502,7 +502,7 @@
   - Enum KnownServerVersion has a new value Fifteen
   - Enum KnownServerVersion has a new value Sixteen
 
-**Breaking Changes**
+### Breaking Changes
 
   - Class PostgreSQLManagementFlexibleServerClient has a new signature
   - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
@@ -516,7 +516,7 @@
     
 ## 8.0.0-beta.4 (2023-11-07)
     
-**Features**
+### Features Added
 
   - Added operation group FlexibleServer
   - Added operation group LogFiles
@@ -752,7 +752,7 @@
   - Enum KnownServerVersion has a new value Fifteen
   - Enum KnownServerVersion has a new value Sixteen
 
-**Breaking Changes**
+### Breaking Changes
 
   - Class PostgreSQLManagementFlexibleServerClient has a new signature
   - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
@@ -766,7 +766,7 @@
 
 ## 8.0.0-beta.3 (2023-10-16)
     
-**Features**
+### Features Added
 
   - Added operation group FlexibleServer
   - Added operation group LogFiles
@@ -899,7 +899,7 @@
   - Enum KnownServerVersion has a new value Fifteen
   - Class PostgreSQLManagementFlexibleServerClient has a new signature
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
   - Interface ServerVersionCapability no longer has parameter supportedVcores
@@ -912,7 +912,7 @@
     
 ## 8.0.0-beta.2 (2023-05-26)
     
-**Features**
+### Features Added
 
   - Added operation group FlexibleServer
   - Added operation group LogFiles
@@ -1044,7 +1044,7 @@
   - Enum KnownCreateMode has a new value ReviveDropped
   - Enum KnownServerVersion has a new value Fifteen
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
   - Interface ServerVersionCapability no longer has parameter supportedVcores
@@ -1057,7 +1057,7 @@
 
 ## 8.0.0-beta.1 (2023-05-22)
     
-**Features**
+### Features Added
 
   - Added operation group FlexibleServer
   - Added operation group LogFiles
@@ -1187,7 +1187,7 @@
   - Enum KnownCreateMode has a new value ReviveDropped
   - Enum KnownServerVersion has a new value Fifteen
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface FlexibleServerEditionCapability no longer has parameter supportedServerVersions
   - Interface ServerVersionCapability no longer has parameter supportedVcores
@@ -1200,11 +1200,11 @@
   
 ## 7.1.0 (2023-04-10)
     
-**Features**
+### Features Added
 
   - Enum KnownArmServerKeyType has a new value SystemManaged
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - Enum KnownArmServerKeyType no longer has value SystemAssigned
   - Enum KnownReplicationRole no longer has value GeoSyncReplica
@@ -1215,7 +1215,7 @@
     
 ## 7.0.0 (2023-01-09)
     
-**Features**
+### Features Added
 
   - Added operation group Administrators
   - Added operation group Backups
@@ -1309,7 +1309,7 @@
   - Enum KnownHighAvailabilityMode has a new value SameZone
   - Enum KnownServerVersion has a new value Fourteen
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation CheckNameAvailability.execute has a new signature
   - Operation Configurations.beginUpdate has a new signature
@@ -1329,7 +1329,7 @@
     
 ## 6.1.0 (2022-12-22)
     
-**Features**
+### Features Added
 
   - Added Interface Configuration
   - Added Interface Database
@@ -1342,12 +1342,12 @@
     
 ## 6.0.0 (2022-04-28)
     
-**Features**
+### Features Added
 
   - Added Interface PostgreSQLManagementFlexibleServerClientOptionalParams
   - Added Class PostgreSQLManagementFlexibleServerClient
 
-**Breaking Changes**
+### Breaking Changes
 
   - Deleted Class PostgreSQLManagementClient
     

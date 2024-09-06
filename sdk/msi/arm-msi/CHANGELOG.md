@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2023-02-03)
     
-**Features**
+### Features Added
 
   - Added operation group FederatedIdentityCredentials
   - Added Interface FederatedIdentityCredential

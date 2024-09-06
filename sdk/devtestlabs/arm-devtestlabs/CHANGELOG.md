@@ -12,7 +12,7 @@
 
 ## 4.1.0 (2022-11-22)
     
-**Features**
+### Features Added
 
   - Added Interface ApplicableSchedule
   - Added Interface ApplicableScheduleFragment
@@ -52,7 +52,7 @@
     
 ## 4.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - bug fix
 

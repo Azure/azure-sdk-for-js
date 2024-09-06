@@ -12,7 +12,7 @@
 
 ## 2.0.0-beta.1 (2024-01-04)
     
-**Features**
+### Features Added
 
   - Added operation group CloudHsmClusterPrivateEndpointConnections
   - Added operation group CloudHsmClusterPrivateLinkResources
@@ -90,7 +90,7 @@
   - Added Enum KnownProvisioningState
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Deleted Class AzureDedicatedHSMResourceProvider
   - Interface DedicatedHsmListByResourceGroupNextOptionalParams no longer has parameter top

@@ -12,7 +12,7 @@
 
 ## 3.3.0 (2023-03-01)
     
-**Features**
+### Features Added
 
   - Added Type Alias CleanupConnectionArtifacts
   - Added Type Alias RecordPropertyAndItemRemovals
@@ -26,7 +26,7 @@
     
 ## 3.2.0 (2022-11-30)
     
-**Features**
+### Features Added
 
   - Added Interface AzureDataExplorerConnectionProperties
   - Added Interface ConnectionPropertiesPrivateLinkServiceConnectionState
@@ -50,7 +50,7 @@
     
 ## 3.1.0 (2022-06-22)
     
-**Features**
+### Features Added
 
   - Added operation group TimeSeriesDatabaseConnections
   - Added Interface GroupIdInformationProperties

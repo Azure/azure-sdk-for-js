@@ -12,7 +12,7 @@
 
 ## 3.2.0 (2023-05-10)
     
-**Features**
+### Features Added
 
   - Interface PrivateZonesListByResourceGroupNextOptionalParams no longer has parameter top
   - Interface PrivateZonesListNextOptionalParams no longer has parameter top
@@ -25,7 +25,7 @@
     
 ## 3.1.0 (2022-12-02)
     
-**Features**
+### Features Added
 
   - Added Interface PrivateZone
   - Added Interface ProxyResource
@@ -36,7 +36,7 @@
     
 ## 3.0.1 (2022-04-28)
 
-**Features**
+### Features Added
 
   - Bug fix
   
