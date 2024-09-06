@@ -1,5 +1,6 @@
+
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
@@ -94,7 +95,7 @@ describe("MapsTimezone", () => {
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isTrue(response.body.TimeZones?.length == 1, "TimeZones array should contain one element.");
+      assert.isTrue(response.body.TimeZones?.length === 1, "TimeZones array should contain one element.");
     }
   });
 
