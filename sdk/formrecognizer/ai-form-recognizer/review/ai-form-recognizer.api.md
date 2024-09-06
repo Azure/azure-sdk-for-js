@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';

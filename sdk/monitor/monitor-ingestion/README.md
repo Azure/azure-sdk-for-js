@@ -101,7 +101,7 @@ workspace. The target table must exist before you can send data to it. The follo
 - [Upload custom logs](#upload-custom-logs)
 - [Verify logs](#verify-logs)
 
-You can familiarize yourself with different APIs using [Samples](https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/monitor/Azure.Monitor.Ingestion/samples).
+You can familiarize yourself with different APIs using [Samples][azure_monitor_samples].
 
 ### Upload custom logs
 
@@ -162,7 +162,7 @@ You can verify that your data has been uploaded correctly by using the [@azure/m
 
 ```js
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to run query against a Log Analytics workspace to verify if the logs were uploaded
@@ -280,7 +280,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [data_collection_rule]: https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
 [data_collection_rule_tutorial]: https://learn.microsoft.com/azure/azure-monitor/logs/tutorial-logs-ingestion-portal#collect-information-from-the-dcr
 [ingestion_overview]: https://learn.microsoft.com/azure/azure-monitor/logs/logs-ingestion-api-overview
-[azure_monitor_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/samples/v1-beta
+[azure_monitor_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/samples/v1
 [monitor_query]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/monitor-ingestion/README.png)

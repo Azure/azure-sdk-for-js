@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all service endpoint Policies in a resource group.
  *
  * @summary Gets all service endpoint Policies in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/ServiceEndpointPolicyList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/ServiceEndpointPolicyList.json
  */
 async function listResourceGroupServiceEndpointPolicies() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

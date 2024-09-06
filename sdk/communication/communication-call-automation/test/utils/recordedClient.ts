@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
@@ -61,13 +61,13 @@ const envSetupForPlayback: Record<string, string> = {
 
 const fakeToken = generateToken();
 const dispatcherEndpoint: string = !isPlaybackMode()
-  ? env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  ? (env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["DISPATCHER_ENDPOINT"];
 const serviceBusConnectionString: string = !isPlaybackMode()
-  ? env["SERVICEBUS_STRING"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  ? (env["SERVICEBUS_STRING"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["SERVICEBUS_STRING"];
 export const fileSourceUrl: string = !isPlaybackMode()
-  ? env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["FILE_SOURCE_URL"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";

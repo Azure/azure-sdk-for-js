@@ -1,14 +1,22 @@
 # Release History
 
-## 1.9.1 (Unreleased)
+## 1.9.3 (2024-09-12)
 
 ### Features Added
 
-### Breaking Changes
+- Added `calculateRetryDelay` helper that can be used to calculate the next delay interval for exponential delay with jitter. [#30572](https://github.com/Azure/azure-sdk-for-js/pull/30572)
+
+## 1.9.2 (2024-08-01)
+
+### Other Changes
+
+- Adding React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
+
+## 1.9.1 (2024-07-10)
 
 ### Bugs Fixed
 
-### Other Changes
+- Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
 
 ## 1.9.0 (2024-04-09)
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Represents a Test.
@@ -32,7 +32,7 @@ export interface VitestTask extends VitestTaskBase {
   /**
    * The Vitest Context Task Suite.
    */
-  suite: VitestSuite;
+  suite?: VitestSuite;
 }
 
 /**

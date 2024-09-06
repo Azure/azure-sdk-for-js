@@ -23,8 +23,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
+    "lint:fix": "eslint src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint src test",
     "pack": "npm pack 2>&1",
     "unit-test:browser": "tsc -p . && dev-tool run bundle && cross-env karma start --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
@@ -76,14 +76,14 @@
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
     "cross-env": "^7.0.2",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "ts-node": "^10.0.0"
   }
 }

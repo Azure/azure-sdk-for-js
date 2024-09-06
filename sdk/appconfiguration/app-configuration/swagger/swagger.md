@@ -4,7 +4,7 @@
 
 ```yaml
 package-name: app-configuration
-package-version: "1.6.1"
+package-version: "1.7.1"
 title: AppConfiguration
 description: App Configuration client
 enable-xml: true
@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-10-01/appconfiguration.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/c1af3ab8e803da2f40fc90217a6d023bc13b677f/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-11-01/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -125,6 +125,7 @@ directive:
     transform: >
       $.key["x-ms-client-name"] = "keyFilter";
       $.label["x-ms-client-name"] = "labelFilter";
+      $.tags["x-ms-client-name"] = "tagsFilter";
 ```
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter
 ```yaml
@@ -162,4 +163,22 @@ directive:
   - rename-model:
       from: Snapshot
       to: ConfigurationSnapshot
+```
+
+### Add description for Label
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["Label"]
+    transform: >
+      $["description"] = "Label details, with name property that can only be populated by the server";
+
+```
+
+### Rename Label -> SettingLabel
+```yaml
+directive:
+  - rename-model:
+      from: Label
+      to: SettingLabel
 ```

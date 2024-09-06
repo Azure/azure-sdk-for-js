@@ -1,64 +1,56 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { OpenAIClient } from "../../src/index.js";
-import { createClient } from "./utils/recordedClient.js";
-import { assert } from "@azure-tools/test-utils";
-import { AbortController } from "@azure/abort-controller";
-import { isLiveMode } from "@azure-tools/test-recorder";
+import { assert, describe, beforeEach, it } from "vitest";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import OpenAI, { AzureOpenAI } from "openai";
+import { createClient } from "./utils/createClient.js";
+import { APIMatrix, APIVersion } from "./utils/utils.js";
 
 describe("AbortSignal", () => {
-  let client: OpenAIClient;
+  let client: AzureOpenAI | OpenAI;
 
-  beforeEach(async function (this: Context) {
-    // Streaming doesn't work in the record/playback because stream chunks are part of a single response
-    // and the test-proxy just sends all of them at once.
-    if (!isLiveMode()) {
-      this.skip();
-    }
+  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
+    beforeEach(async function () {
+      client = createClient(apiVersion, "completions");
+    });
 
-    client = createClient("OpenAIKey", "completions", {});
-  });
+    // TODO: Fix the tests for client.chat.completions.create
+    it("Abort signal test for streaming method", async function () {
+      const messages = [
+        {
+          role: "system",
+          content: "You are a helpful assistant. You will talk like a pirate.",
+        } as const,
+        { role: "user", content: "Can you help me?" } as const,
+        {
+          role: "assistant",
+          content: "Arrrr! Of course, me hearty! What can I do for ye?",
+        } as const,
+        { role: "user", content: "What's the best way to train a parrot?" } as const,
+      ];
 
-  it("Abort signal test for streaming method", async function () {
-    const messages = [
-      {
-        role: "system",
-        content: "You are a helpful assistant. You will talk like a pirate.",
-      } as const,
-      { role: "user", content: "Can you help me?" } as const,
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" } as const,
-      { role: "user", content: "What's the best way to train a parrot?" } as const,
-    ];
-
-    const deploymentName = "gpt-3.5-turbo";
-    const abortController = new AbortController();
-    const abortSignal = abortController.signal;
-    let currentMessage = "";
-    try {
-      const events = await client.streamChatCompletions(deploymentName, messages, {
-        maxTokens: 800,
-        temperature: 0.7,
-        presencePenalty: 0,
-        frequencyPenalty: 0,
-        abortSignal,
-      });
-      for await (const event of events) {
-        for (const choice of event.choices) {
-          const delta = choice.delta?.content;
-          abortController.abort();
-          if (delta !== undefined) {
-            currentMessage += delta;
-          }
+      const deploymentName = "gpt-35-turbo";
+      let currentMessage = "";
+      try {
+        const events = client.beta.chat.completions.stream({
+          model: deploymentName,
+          messages,
+          stream: true,
+          max_tokens: 800,
+          temperature: 0.7,
+          presence_penalty: 0,
+          frequency_penalty: 0,
+        });
+        for await (const event of events) {
+          assert.isDefined(event);
+          events.abort();
         }
+        assert.isDefined(currentMessage);
+        assert.fail("Expected to abort streaming");
+      } catch (error: any) {
+        assert.isTrue(error.message.includes("aborted"));
       }
-      assert.isDefined(currentMessage);
-      assert.fail("Expected to abort streaming");
-    } catch (error: any) {
-      console.log(error);
-      assert.isTrue(error.name === "AbortError" || error.code === "ECONNRESET");
-      assert.equal(abortSignal.aborted, true);
-    }
+    });
   });
 });

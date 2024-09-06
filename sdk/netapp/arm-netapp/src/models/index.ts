@@ -400,7 +400,7 @@ export interface KeyVaultProperties {
   /** The name of KeyVault key. */
   keyName: string;
   /** The resource ID of KeyVault. */
-  keyVaultResourceId: string;
+  keyVaultResourceId?: string;
   /**
    * Status of the KeyVault connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -521,7 +521,7 @@ export interface CapacityPoolPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
@@ -682,10 +682,12 @@ export interface VolumePatch {
   tags?: { [propertyName: string]: string };
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume or 2400Tib for LargeVolume on exceptional basis. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
+  /** Set of protocol types, default NFSv3, CIFS for SMB protocol */
+  protocolTypes?: string[];
   /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
   /** DataProtection type volumes include an object containing details of the replication */
@@ -791,6 +793,11 @@ export interface ListReplications {
 
 /** Replication properties */
 export interface Replication {
+  /**
+   * UUID v4 used to identify the replication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationId?: string;
   /** Indicates whether the local volume is the source or destination for the Volume Replication */
   endpointType?: EndpointType;
   /** Schedule */
@@ -1133,7 +1140,7 @@ export interface VolumeGroupVolumeProperties {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume or 2400Tib for LargeVolume on exceptional basis. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1727,7 +1734,7 @@ export interface CapacityPool extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly poolId?: string;
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
   size: number;
   /** The service level of the file system */
   serviceLevel: ServiceLevel;
@@ -1772,7 +1779,7 @@ export interface Volume extends TrackedResource {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume or 2400Tib for LargeVolume on exceptional basis. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;

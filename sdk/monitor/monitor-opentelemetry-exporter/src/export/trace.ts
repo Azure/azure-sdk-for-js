@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
@@ -8,7 +8,7 @@ import { AzureMonitorBaseExporter } from "./base";
 import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
-import { createResourceMetricEnvelope } from "../utils/common";
+import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common";
 import { HttpSender } from "../platform";
 
 /**
@@ -20,6 +20,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   private isShutdown = false;
   private readonly sender: HttpSender;
+  private shouldCreateResourceMetric: boolean = shouldCreateResourceMetric();
 
   /**
    * Initializes a new instance of the AzureMonitorTraceExporter class.
@@ -42,6 +43,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * @param spans - Spans to export.
    * @param resultCallback - Result callback.
    */
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void,
@@ -60,7 +62,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
         spans[0].resource,
         this.instrumentationKey,
       );
-      if (resourceMetricEnvelope) {
+      if (resourceMetricEnvelope && this.shouldCreateResourceMetric) {
         envelopes.push(resourceMetricEnvelope);
       }
       spans.forEach((span) => {

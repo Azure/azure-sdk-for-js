@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient.js";
@@ -121,7 +121,7 @@ describe("DevCenter Environments Operations Test", () => {
       environmentDefinitions.push(environmentDefinition);
     }
 
-    expect(environmentDefinitions.length).to.equal(3);
+    expect(environmentDefinitions.length).to.equal(8);
   });
 
   it("List environments within a project", async function () {

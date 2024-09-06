@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Represents an installation for a device for Notification Hubs.
@@ -34,6 +34,16 @@ export interface InstallationCommon {
    * The templates for the installation.
    */
   templates?: Record<string, InstallationTemplate>;
+
+  /**
+   * This parameter is true if the PNS expired the channel.
+   */
+  readonly pushChannelExpired?: boolean;
+
+  /**
+   * The push variables for the installation.
+   */
+  pushVariables?: Record<string, string>;
 }
 
 /**

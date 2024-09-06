@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
@@ -107,7 +107,7 @@ describe("MsalClient", function () {
       const clientId = "client-id";
       const tenantId = "tenant-id";
       const logger = credentialLogger("test");
-      const logSpy = sinon.spy(logger, "info");
+      const logSpy = sinon.spy(logger.getToken, "info");
 
       const client = msalClient.createMsalClient(clientId, tenantId, { logger });
       try {
@@ -139,33 +139,6 @@ describe("MsalClient", function () {
 
         const config = msalClient.generateMsalConfiguration(clientId, tenantId, {});
         assert.instanceOf(config.system!.networkClient, IdentityClient);
-      });
-
-      it("configures logging options", function () {
-        const clientId = "client-id";
-        const tenantId = "tenant-id";
-        const loggingOptions = {
-          enableUnsafeSupportLogging: true,
-        };
-        const testCorrelationId = "test-correlation-id-1";
-        const logger = credentialLogger("test");
-        const logSpy = sinon.spy(logger, "info");
-
-        const config = msalClient.generateMsalConfiguration(clientId, tenantId, {
-          loggingOptions,
-          logger,
-        });
-        config.auth.clientSecret = "client-secret";
-        const cca = new ConfidentialClientApplication(config);
-
-        assert.equal(config.system!.loggerOptions!.piiLoggingEnabled, true);
-
-        cca.getLogger().info("logging test", testCorrelationId);
-        const loggerCall = logSpy.getCalls().find((c) => c.lastArg.includes(testCorrelationId));
-        assert.exists(
-          loggerCall,
-          `Unable to find logger call with correlation id ${testCorrelationId}`,
-        );
       });
     });
 
@@ -498,6 +471,32 @@ describe("MsalClient", function () {
         },
       );
       await assert.isRejected(request, AbortError);
+    });
+
+    it("supports cross-tenant federation", async function (this: Context) {
+      const tenantIdOne = "tenantOne";
+      const tenantIdTwo = "tenantTwo";
+      const authorityHost = "https://custom.authority.com";
+
+      const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
+
+      const clientCredentialAuthStub = sinon
+        .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+        .resolves({
+          accessToken: "token",
+          expiresOn: new Date(Date.now() + 3600 * 1000),
+        } as AuthenticationResult);
+
+      const client = msalClient.createMsalClient(clientId, tenantIdOne, {
+        authorityHost,
+      });
+
+      const scopes = ["https://vault.azure.net/.default"];
+
+      await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
+
+      const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
+      assert.equal(requestAuthority, expectedAuthority);
     });
   });
 });

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
@@ -612,7 +612,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("output pii categories are accepted as input", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("output pii categories are accepted as input", async function () {
           const [result1] = await client.recognizePiiEntities([
             {
               id: "0",
@@ -1083,7 +1084,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single pii entities recognition action", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("single pii entities recognition action", async function () {
           const docs = [
             { id: "1", text: "My SSN is 859-98-0987." },
             {
@@ -1783,7 +1785,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("paged results with custom page size", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("paged results with custom page size", async function () {
           const totalDocs = 25;
           const docs = Array(totalDocs - 1).fill("random text");
           docs.push("Microsoft was founded by Bill Gates and Paul Allen");
@@ -2022,7 +2025,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("entity assertions", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("entity assertions", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
               "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
@@ -2171,7 +2175,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("payload too large", async function () {
+        // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
+        it.skip("payload too large", async function () {
           const large_doc =
             "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
                 CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \

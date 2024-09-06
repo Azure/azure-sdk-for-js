@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
@@ -23,6 +23,8 @@ import {
   ListConfigurationSettingPage,
   ListConfigurationSettingsForSnapshotOptions,
   ListConfigurationSettingsOptions,
+  ListLabelsOptions,
+  ListLabelsPage,
   ListRevisionsOptions,
   ListRevisionsPage,
   ListSnapshotsOptions,
@@ -33,6 +35,7 @@ import {
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
+  SettingLabel,
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
@@ -45,6 +48,8 @@ import {
   GetRevisionsResponse,
   GetSnapshotsResponse,
   ConfigurationSnapshot,
+  GetLabelsResponse,
+  AppConfigurationGetLabelsHeaders,
 } from "./generated/src/models";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
@@ -57,6 +62,7 @@ import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   SendConfigurationSettingsOptions,
+  SendLabelsRequestOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
@@ -65,6 +71,7 @@ import {
   formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
+  formatLabelsFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
@@ -92,6 +99,7 @@ const deserializationContentTypes = {
     "application/vnd.microsoft.appconfig.revs+json",
     "application/vnd.microsoft.appconfig.snapshotset+json",
     "application/vnd.microsoft.appconfig.snapshot+json",
+    "application/vnd.microsoft.appconfig.labelset+json",
     "application/json",
   ],
 };
@@ -334,11 +342,11 @@ export class AppConfigurationClient {
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
     delete options.pageEtags;
-    const etag = pageEtags?.shift();
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
         firstPageLink: undefined,
         getPage: async (pageLink: string | undefined) => {
+          const etag = pageEtags?.shift();
           try {
             const response = await this.sendConfigurationSettingsRequest(
               { ...options, etag },
@@ -424,6 +432,60 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
+  /**
+   * Get a list of labels from the Azure App Configuration service
+   *
+   * Example code:
+   * ```ts
+   * const allSettingsWithLabel = client.listLabels({ nameFilter: "prod*" });
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listLabels(
+    options: ListLabelsOptions = {},
+  ): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings> {
+    const pagedResult: PagedResult<ListLabelsPage, PageSettings, string | undefined> = {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendLabelsRequest(options, pageLink);
+        const currentResponse: ListLabelsPage = {
+          ...response,
+          items: response.items ?? [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+          _response: response._response,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  private async sendLabelsRequest(
+    options: SendLabelsRequestOptions & PageSettings = {},
+    pageLink: string | undefined,
+  ): Promise<GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.listConfigurationSettings",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getLabels({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatLabelsFiltersAndSelect(options),
+          after: pageLink,
+        });
+
+        return response as GetLabelsResponse & HttpResponseField<AppConfigurationGetLabelsHeaders>;
+      },
+    );
+  }
+
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
@@ -445,6 +507,7 @@ export class AppConfigurationClient {
       },
     );
   }
+
   /**
    * Lists revisions of a set of keys, optionally filtered by key names,
    * labels and accept datetime.

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { PartitionKeyRange, Resource } from "../client";
 import { ClientContext } from "../ClientContext";
 import {
@@ -112,7 +112,7 @@ export class DocumentProducer {
       options,
       diagnosticNode,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"],
-      correlatedActivityId,
+      correlatedActivityId: correlatedActivityId,
     });
   };
 

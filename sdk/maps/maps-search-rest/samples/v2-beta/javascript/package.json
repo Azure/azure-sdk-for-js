@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure-rest/maps-search": "next",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.3.0"
+    "@azure/identity": "^4.0.1"
   }
 }

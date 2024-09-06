@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary use advanced HTTP pipeline and request options for several methods
@@ -8,7 +8,6 @@
 
 import * as fs from "fs";
 
-import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
@@ -77,7 +76,7 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
@@ -104,7 +103,7 @@ async function main() {
   const buffer = Buffer.alloc(fileSize);
   try {
     await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+      abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       concurrency: 20, // 20 concurrency
       onProgress: (ev) => console.log(ev),

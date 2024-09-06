@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
@@ -186,7 +186,10 @@ export class ClientCertificateCredential implements TokenCredential {
   }
 
   private async buildClientCertificate(): Promise<CertificateParts> {
-    const parts = await this.parseCertificate();
+    const parts = await parseCertificate(
+      this.certificateConfiguration,
+      this.sendCertificateChain ?? false,
+    );
 
     let privateKey: string;
     if (this.certificateConfiguration.certificatePassword !== undefined) {
@@ -210,45 +213,53 @@ export class ClientCertificateCredential implements TokenCredential {
       x5c: parts.x5c,
     };
   }
+}
 
-  private async parseCertificate(): Promise<
-    Omit<CertificateParts, "privateKey"> & { certificateContents: string }
-  > {
-    const certificate: string | undefined = (
-      this.certificateConfiguration as ClientCertificatePEMCertificate
-    ).certificate;
-    const certificatePath: string | undefined = (
-      this.certificateConfiguration as ClientCertificatePEMCertificatePath
-    ).certificatePath;
-    const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
-    const x5c = this.sendCertificateChain ? certificateContents : undefined;
+/**
+ * Parses a certificate into its relevant parts
+ *
+ * @param certificateConfiguration - The certificate contents or path to the certificate
+ * @param sendCertificateChain - true if the entire certificate chain should be sent for SNI, false otherwise
+ * @returns The parsed certificate parts and the certificate contents
+ */
+export async function parseCertificate(
+  certificateConfiguration: ClientCertificateCredentialPEMConfiguration,
+  sendCertificateChain: boolean,
+): Promise<Omit<CertificateParts, "privateKey"> & { certificateContents: string }> {
+  const certificate: string | undefined = (
+    certificateConfiguration as ClientCertificatePEMCertificate
+  ).certificate;
+  const certificatePath: string | undefined = (
+    certificateConfiguration as ClientCertificatePEMCertificatePath
+  ).certificatePath;
+  const certificateContents = certificate || (await readFile(certificatePath!, "utf8"));
+  const x5c = sendCertificateChain ? certificateContents : undefined;
 
-    const certificatePattern =
-      /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
-    const publicKeys: string[] = [];
+  const certificatePattern =
+    /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
+  const publicKeys: string[] = [];
 
-    // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
-    let match;
-    do {
-      match = certificatePattern.exec(certificateContents);
-      if (match) {
-        publicKeys.push(match[3]);
-      }
-    } while (match);
-
-    if (publicKeys.length === 0) {
-      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+  // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
+  let match;
+  do {
+    match = certificatePattern.exec(certificateContents);
+    if (match) {
+      publicKeys.push(match[3]);
     }
+  } while (match);
 
-    const thumbprint = createHash("sha1")
-      .update(Buffer.from(publicKeys[0], "base64"))
-      .digest("hex")
-      .toUpperCase();
-
-    return {
-      certificateContents,
-      thumbprint,
-      x5c,
-    };
+  if (publicKeys.length === 0) {
+    throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
   }
+
+  const thumbprint = createHash("sha1")
+    .update(Buffer.from(publicKeys[0], "base64"))
+    .digest("hex")
+    .toUpperCase();
+
+  return {
+    certificateContents,
+    thumbprint,
+    x5c,
+  };
 }

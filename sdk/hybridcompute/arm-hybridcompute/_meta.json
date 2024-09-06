@@ -1,8 +1,8 @@
 {
-  "commit": "d4cb3a1cfa9ec74e75fed7240aab03ddd777414b",
+  "commit": "b574e2a41acda14a90ef237006e8bbdda2b63c63",
   "readme": "specification/hybridcompute/resource-manager/readme.md",
   "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\hybridcompute\\resource-manager\\readme.md --use=@autorest/typescript@6.0.23 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
-  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.9",
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.7.11",
   "use": "@autorest/typescript@6.0.23"
 }

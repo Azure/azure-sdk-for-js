@@ -1,39 +1,45 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary parses server-sent events.
  */
 import { createSseStream } from "@azure/core-sse";
+import { Client, getClient } from "@azure-rest/core-client";
+import type { IncomingMessage } from "http";
 
-function* createChunkedEvent(str: string, chunkLen: number): Iterable<Uint8Array> {
-  const encoder = new TextEncoder();
-  yield encoder.encode("data: ");
-  const bytes = encoder.encode(str);
-  for (let i = 0; i < bytes.length; i += chunkLen) {
-    const chunk = bytes.slice(i, i + chunkLen);
-    yield chunk;
+async function sendRequest(client: Client, path: string): Promise<IncomingMessage> {
+  const res = await client.pathUnchecked(path).get({ accept: "text/event-stream" }).asNodeStream();
+  if (res.status !== "200") {
+    throw new Error(`Unexpected status code: ${res.status}`);
   }
-  yield encoder.encode("\n\n");
-}
-
-function createStream(txt: string, chunkLen: number) {
-  const stream = new ReadableStream({
-    start(controller) {
-      for (const chunk of createChunkedEvent(txt, chunkLen)) {
-        controller.enqueue(chunk);
-      }
-      controller.close();
-    },
-  });
-  return stream;
+  if (!res.body) {
+    throw new Error("Expected a readable stream body");
+  }
+  const contentType = "text/event-stream";
+  const receivedContentType = res.headers["content-type"];
+  if (!receivedContentType.includes(contentType)) {
+    throw new Error(`Expected a text/event-stream content but received\"${receivedContentType}\"`);
+  }
+  return res.body as IncomingMessage;
 }
 
 async function main() {
-  const stream = createStream("hello world", 2);
-  await using events = createSseStream(stream);
-  for await (const event of events) {
-    console.log(event.data);
+  const client = getClient("https://postman-echo.com");
+  let stream: IncomingMessage;
+  try {
+    stream = await sendRequest(client, "/server-events/5");
+  } catch (e) {
+    console.error(e);
+    return;
+  }
+  const events = createSseStream(stream);
+  try {
+    for await (const event of events) {
+      console.log(event.data);
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
 

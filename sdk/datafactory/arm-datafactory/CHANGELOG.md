@@ -1,6 +1,6 @@
 # Release History
 
-## 16.0.1 (Unreleased)
+## 17.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,46 @@
 
 ### Other Changes
 
+## 17.0.0 (2024-08-27)
+    
+### Features Added
+
+  - Added Interface AzureStorageLinkedServiceTypeProperties
+  - Added Interface AzureTableStorageLinkedServiceTypeProperties
+  - Added Interface ContinuationSettingsReference
+  - Interface AzureFileStorageLinkedService has a new optional parameter credential
+  - Interface AzureFileStorageLinkedService has a new optional parameter serviceEndpoint
+  - Interface AzureTableStorageLinkedService has a new optional parameter credential
+  - Interface AzureTableStorageLinkedService has a new optional parameter serviceEndpoint
+  - Interface CommonDataServiceForAppsLinkedService has a new optional parameter domain
+  - Interface DynamicsCrmLinkedService has a new optional parameter domain
+  - Interface DynamicsLinkedService has a new optional parameter domain
+  - Interface ExecuteDataFlowActivity has a new optional parameter continuationSettings
+  - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter continuationSettings
+  - Interface ExecuteWranglingDataflowActivity has a new optional parameter continuationSettings
+  - Interface LinkedService has a new optional parameter version
+  - Interface RestServiceLinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface RestServiceLinkedService has a new optional parameter servicePrincipalEmbeddedCert
+  - Interface RestServiceLinkedService has a new optional parameter servicePrincipalEmbeddedCertPassword
+  - Interface SharePointOnlineListLinkedService has a new optional parameter servicePrincipalCredentialType
+  - Interface SharePointOnlineListLinkedService has a new optional parameter servicePrincipalEmbeddedCert
+  - Interface SharePointOnlineListLinkedService has a new optional parameter servicePrincipalEmbeddedCertPassword
+  - Interface SnowflakeExportCopyCommand has a new optional parameter storageIntegration
+  - Interface SnowflakeImportCopyCommand has a new optional parameter storageIntegration
+  - Interface SqlServerLinkedService has a new optional parameter credential
+  - Interface SqlServerLinkedServiceTypeProperties has a new optional parameter credential
+  - Interface VerticaLinkedService has a new optional parameter database
+  - Interface VerticaLinkedService has a new optional parameter port
+  - Interface VerticaLinkedService has a new optional parameter server
+  - Interface VerticaLinkedService has a new optional parameter uid
+  - Enum KnownDynamicsAuthenticationType has a new value ActiveDirectory
+  - Enum KnownSqlServerAuthenticationType has a new value UserAssignedManagedIdentity
+
+### Breaking Changes
+
+  - Interface HDInsightOnDemandLinkedService has a new required parameter versionTypePropertiesVersion
+    
+    
 ## 16.0.0 (2024-06-11)
     
 ### Features Added

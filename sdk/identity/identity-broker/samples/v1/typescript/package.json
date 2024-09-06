@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm run clean && tsc && cp index.html ./dist",
     "clean": "rimraf --glob dist",
-    "lint": "eslint -c .eslintrc --ext .ts ./src",
+    "lint": "eslint src",
     "start": "electron ./dist/index.js"
   },
   "repository": {
@@ -35,10 +35,10 @@
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.9.0",
-    "@typescript-eslint/parser": "^6.9.0",
-    "eslint": "^8.52.0",
-    "typescript": "~5.4.5",
+    "@eslint/js": "^9.9.0",
+    "eslint": "^9.9.0",
+    "typescript-eslint": "8.2.0",
+    "typescript": "~5.5.3",
     "rimraf": "^5.0.0"
   }
 }

@@ -32,12 +32,12 @@
   "dependencies": {
     "@azure-rest/maps-render": "next",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/maps-common": "^1.0.0-beta.2"
+    "@azure/identity": "^4.0.1",
+    "@azure/maps-common": "1.0.0-beta.2"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "rimraf": "latest"
   }
 }

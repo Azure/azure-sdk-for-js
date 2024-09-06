@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -21,14 +21,16 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
 } from "@azure/service-bus";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
+const credential = new DefaultAzureCredential();
 
 export async function main() {
   await sendMessages();
@@ -37,7 +39,7 @@ export async function main() {
 
 // Shuffle and send messages
 async function sendMessages() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sbClient = new ServiceBusClient(fqdn, credential);
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
@@ -74,7 +76,7 @@ async function sendMessages() {
 }
 
 async function receiveMessage() {
-  const sbClient = new ServiceBusClient(connectionString);
+  const sbClient = new ServiceBusClient(fqdn, credential);
 
   // If receiving from a subscription, you can use the createReceiver(topicName, subscriptionName) overload
   let receiver = sbClient.createReceiver(queueName);

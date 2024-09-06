@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { Project, SourceFile } from "ts-morph";
@@ -86,7 +86,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
 
 const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
@@ -103,7 +103,7 @@ export default mergeConfig(
 
 const VITEST_BROWSER_CONFIG = `
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
@@ -239,7 +239,7 @@ function fixSourceFiles(packageFolder: string): void {
         { pattern: /sinon\.stub/gi, replace: "vi.spyOn" },
         { pattern: /\(this: Context\)/g, replace: "(ctx)" },
         { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
-        { pattern: /\(!this\.currentTest\?\.\isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
+        { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
         { pattern: /this\.skip\(\);/g, replace: "ctx.task.skip();" },
       ];
 

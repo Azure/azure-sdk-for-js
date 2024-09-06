@@ -19,10 +19,7 @@ import { Context } from "mocha";
 import { AzureQuotaExtensionAPI } from "../src/azureQuotaExtensionAPI";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -37,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("quota test", () => {
+describe("quota test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureQuotaExtensionAPI;
@@ -49,15 +46,14 @@ describe.skip("quota test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new AzureQuotaExtensionAPI(credential, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "StandardSkuPublicIpAddresses";
-    scope =
-      "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus"
+    scope = "subscriptions/" + subscriptionId + "/providers/Microsoft.Network/locations/eastus";
   });
 
   afterEach(async function () {
@@ -79,5 +75,4 @@ describe.skip("quota test", () => {
     }
     console.log(resArray);
   });
-
-})
+});

@@ -31,11 +31,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-sse",
   "dependencies": {
     "@azure/core-sse": "latest",
-    "dotenv": "latest"
+    "dotenv": "latest",
+    "@azure-rest/core-client": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "rimraf": "latest"
   }
 }

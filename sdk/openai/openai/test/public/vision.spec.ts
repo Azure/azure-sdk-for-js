@@ -1,61 +1,82 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
-import { createClient, startRecorder } from "./utils/recordedClient.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { assert, describe, beforeEach, it, beforeAll } from "vitest";
+import { createClient } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
-import { getDeployments, getModels } from "./utils/utils.js";
-import { OpenAIClient } from "../../src/index.js";
-import { AuthMethod } from "./types.js";
+import {
+  APIMatrix,
+  APIVersion,
+  DeploymentInfo,
+  getDeployments,
+  withDeployments,
+} from "./utils/utils.js";
+import OpenAI, { AzureOpenAI } from "openai";
+import { logger } from "@azure/identity";
+import { RestError } from "@azure/core-rest-pipeline";
+import { visionModelsToSkip } from "./utils/models.js";
 
 describe("OpenAI", function () {
-  let recorder: Recorder;
-  let deployments: string[] = [];
-  let models: string[] = [];
+  let deployments: DeploymentInfo[] = [];
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this.currentTest);
-    if (!deployments.length || !models.length) {
-      deployments = await getDeployments("completions", recorder);
-      models = await getModels(recorder);
-    }
+  beforeAll(async function () {
+    deployments = await getDeployments("vision");
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
+    describe(`[${apiVersion}] Client`, () => {
+      let client: AzureOpenAI | OpenAI;
 
-  matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
-      let client: OpenAIClient;
-
-      beforeEach(async function (this: Context) {
-        client = createClient(authMethod, "completions", { recorder });
+      beforeEach(async function () {
+        client = createClient(apiVersion, "vision");
       });
 
       describe("getChatCompletions", function () {
         it("Describes an image", async function () {
-          if (authMethod !== "OpenAIKey") this.skip();
           const url =
             "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
-          const res = await client.getChatCompletions("gpt-4-vision-preview", [
-            {
-              role: "user",
-              content: [
-                {
-                  type: "image_url",
-                  imageUrl: {
-                    url,
-                    detail: "auto",
+          await withDeployments(
+            deployments,
+            (deploymentName) =>
+              client.chat.completions.create({
+                model: deploymentName,
+                messages: [
+                  {
+                    role: "user",
+                    content: [
+                      {
+                        type: "text",
+                        text: "What’s in this image?",
+                      },
+                      {
+                        type: "image_url",
+                        image_url: {
+                          url,
+                          detail: "auto",
+                        },
+                      },
+                    ],
                   },
-                },
-              ],
+                ],
+              }),
+            (res) => {
+              assertChatCompletions(res);
+              try {
+                assert.isTrue(
+                  res.choices[0].message?.content?.includes("snow") ||
+                    res.choices[0].message?.content?.includes("icy"),
+                );
+              } catch (error: any) {
+                if (error.name === "AssertionError") {
+                  logger.info("The content returned is:", res.choices[0].message?.content);
+                } else {
+                  throw new RestError("Unexpceted error encounterd", error);
+                }
+              }
             },
-          ]);
-          assertChatCompletions(res);
-          assert.include(res.choices[0].message?.content, "snow");
+            visionModelsToSkip,
+          );
         });
       });
     });

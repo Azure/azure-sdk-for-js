@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Context } from "mocha";
 import { Recorder, env } from "@azure-tools/test-recorder";
@@ -7,17 +7,15 @@ import { ClientOptions } from "@azure-rest/core-client";
 import { DocumentTranslationClient } from "../../../src";
 import createClient from "../../../src/documentTranslationClient";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function startRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start({
     envSetupForPlayback: {
-      DOCUMENT_TRANSLATION_API_KEY: "fakeApiKey",
       DOCUMENT_TRANSLATION_ENDPOINT:
         "https://fakeEndpoint-doctranslation.cognitiveservices.azure.com",
       DOCUMENT_TRANSLATION_STORAGE_NAME: "fakestoragename",
-      DOCUMENT_TRANSLATION_CONNECTION_STRING:
-        "DefaultEndpointsProtocol=https;AccountName=fakeStorageName;AccountKey=fakeKey;EndpointSuffix=core.windows.net",
     },
     removeCentralSanitizers: ["AZSDK2030", "AZSDK3430"],
   });
@@ -46,13 +44,13 @@ export async function startRecorder(context: Context): Promise<Recorder> {
 
 export async function createDocumentTranslationClient(options: {
   recorder?: Recorder;
+  testCredential?: TokenCredential;
   clientOptions?: ClientOptions;
 }): Promise<DocumentTranslationClient> {
   const { recorder, clientOptions = {} } = options;
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
   const endpoint = env.DOCUMENT_TRANSLATION_ENDPOINT ?? "";
-  const credentials = { key: env.DOCUMENT_TRANSLATION_API_KEY ?? "" };
-
+  const credentials = options?.testCredential ?? createTestCredential();
   const client = createClient(endpoint, credentials, updatedOptions);
   return client;
 }

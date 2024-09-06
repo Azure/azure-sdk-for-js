@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
@@ -54,8 +54,8 @@ module.exports = function (config) {
     envPreprocessor: [
       "TEST_MODE",
       "HEALTH_INSIGHTS_ENDPOINT",
-      "HEALTH_INSIGHTS_KEY",
       "RECORDINGS_RELATIVE_PATH",
+      "MANAGED_IDENTITY_CLIENT_ID",
     ],
 
     // test results reporter to use

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
@@ -60,7 +60,14 @@ export {
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
+  CompositePath,
   ComputedProperty,
+  VectorEmbeddingPolicy,
+  VectorIndex,
+  VectorEmbedding,
+  VectorEmbeddingDataType,
+  VectorEmbeddingDistanceFunction,
+  VectorIndexType,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";

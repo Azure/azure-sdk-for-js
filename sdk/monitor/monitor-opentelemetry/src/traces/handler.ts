@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestOptions } from "http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
@@ -79,6 +79,7 @@ export class TraceHandler {
   /**
    * Shutdown handler
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._azureFunctionsHook.shutdown();
   }
@@ -86,7 +87,7 @@ export class TraceHandler {
   /**
    * Start auto collection of telemetry
    */
-  private _initializeInstrumentations() {
+  private _initializeInstrumentations(): void {
     if (this._config.instrumentationOptions.http?.enabled) {
       const httpinstrumentationOptions = this._config.instrumentationOptions
         .http as HttpInstrumentationConfig;

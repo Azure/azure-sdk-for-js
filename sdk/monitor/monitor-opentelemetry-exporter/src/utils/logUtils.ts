@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AvailabilityData,
@@ -13,7 +13,7 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated";
-import { createTagsFromResource, hrTimeToDate } from "./common";
+import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
@@ -45,6 +45,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
+  // eslint-disable-next-line prefer-const
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
@@ -134,7 +135,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
-        properties[key] = log.attributes[key] as string;
+        properties[key] = serializeAttribute(log.attributes[key]);
       }
     }
   }

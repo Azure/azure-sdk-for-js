@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.13.0-beta.2",
+  "version": "5.13.0-beta.3",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -21,48 +21,40 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/latest/event-hubs.d.ts",
-  "browser": {
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
-    "./dist-esm/test/public/utils/mockService.js": "./dist-esm/test/public/utils/mockService.browser.js"
-  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "bundle": "tsc -p . && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
-    "build:browser": "npm run bundle",
-    "build:node": "npm run bundle",
     "build:samples": "echo Obsolete.",
-    "build:test:browser": "npm run build:browser",
-    "build:test:node": "tsc -p .",
-    "build:test": "npm run bundle && npm run generate-certs && copyfiles -f ./test/internal/node/partitionKeyHashMap.json ./dist-esm/test/internal/node",
-    "build": "npm run clean && npm run bundle && dev-tool run extract-api",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "build:test:browser": "tshy && dev-tool run build-test",
+    "build:test:node": "tshy && dev-tool run build-test && npm run generate-certs && copyfiles -f ./test/internal/node/partitionKeyHashMap.json ./dist-esm/test/internal/node",
+    "build:test": "npm run build:test:node",
+    "build": "npm run clean && tshy && dev-tool run extract-api",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "clean": "rimraf --glob dist dist-* temp *.tgz *.log .tshy *.xml",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate-certs": "node ./scripts/generateCerts.js",
-    "integration-test:browser": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true karma start --single-run",
-    "integration-test:node": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true dev-tool run test:node-js-input --no-test-proxy -- --timeout 600000 \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
+    "extract-api": "tshy && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "generate-certs": "tsx ./scripts/generateCerts.mts",
+    "integration-test:browser": "tshy && dev-tool run build-test && cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
+    "integration-test:node": "cross-env TEST_MODE=live npm run vitest:node",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint package.json api-extractor.json src test README.md --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test README.md",
     "pack": "npm pack 2>&1",
     "perf-test:node": "tsc -p . --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "vitest:node": "dev-tool run test:vitest --no-test-proxy",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" TEST_TARGET=mock DISABLE_MULTI_VERSION_TESTING=true dev-tool run test:node-ts-input --no-test-proxy -- --timeout 1200000 \"test/internal/*.spec.ts\" \"test/public/*.spec.ts\" \"test/public/**/*.spec.ts\" \"test/internal/**/*.spec.ts\"",
+    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" AZURE_LOG_LEVEL=\"info\" npm run vitest:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
@@ -83,10 +75,7 @@
       ]
     },
     "skip": [
-      "iothubConnectionString.js",
-      "iothubConnectionStringWebsockets.js",
-      "useWithIotHub.js",
-      "usingAadAuth.js"
+      "useWithIotHub.js"
     ],
     "productName": "Azure Event Hubs",
     "productSlugs": [
@@ -97,64 +86,83 @@
       "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser"
+    ],
+    "selfLink": false
+  },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-amqp": "4.4.0-beta.1",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-tracing": "^1.0.0",
-    "@azure/core-util": "^1.5.0",
+    "@azure/core-tracing": "^1.1.2",
+    "@azure/core-util": "^1.9.1",
     "@azure/logger": "^1.0.0",
-    "buffer": "^6.0.0",
-    "is-buffer": "^2.0.3",
-    "jssha": "^3.1.0",
+    "buffer": "^6.0.3",
+    "is-buffer": "^2.0.5",
     "process": "^0.11.10",
     "rhea-promise": "^3.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.3"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.4.1",
+    "@azure/keyvault-secrets": "^4.8.0",
     "@azure/mock-hub": "^1.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/async-lock": "^1.1.0",
-    "@types/chai": "^4.1.6",
-    "@types/chai-as-promised": "^7.1.0",
-    "@types/chai-string": "^1.4.1",
+    "@rollup/plugin-inject": "^5.0.5",
     "@types/debug": "^4.1.4",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
+    "@vitest/browser": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "@types/chai-as-promised": "^7.1.8",
     "@types/ws": "^7.2.4",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "chai-exclude": "^2.0.2",
-    "chai-string": "^1.5.0",
+    "chai": "^5.1.1",
+    "chai-as-promised": "^8.0.0",
+    "chai-exclude": "^3.0.0",
     "copyfiles": "^2.4.1",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "https-proxy-agent": "^7.0.0",
-    "karma": "^6.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
-    "moment": "^2.24.0",
-    "nyc": "^15.1.0",
-    "puppeteer": "^22.2.0",
-    "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
-    "ts-node": "^10.0.0",
-    "typescript": "~5.4.5",
+    "playwright": "^1.45.3",
+    "rimraf": "^6.0.1",
+    "tshy": "^2.0.0",
+    "tsx": "^4.16.2",
+    "typescript": "~5.5.4",
+    "vitest": "^2.0.5",
     "ws": "^8.2.0"
-  }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "type": "module"
 }

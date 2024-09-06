@@ -2,8 +2,8 @@
   "name": "@azure/arm-machinelearning",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
-  "description": "A generated SDK for AzureMachineLearningWorkspaces.",
-  "version": "2.2.0",
+  "description": "A generated SDK for AzureMachineLearningServicesManagementClient.",
+  "version": "3.0.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.5.3",
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
@@ -100,7 +100,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/azureMachineLearningWorkspaces.ts",
+        "path": "src/azureMachineLearningServicesManagementClient.ts",
         "prefix": "packageDetails"
       }
     ]

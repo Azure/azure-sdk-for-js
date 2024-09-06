@@ -8,7 +8,7 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -726,6 +726,8 @@ export interface InstallationCommon {
     readonly expirationTime?: string;
     installationId: string;
     readonly lastUpdate?: string;
+    readonly pushChannelExpired?: boolean;
+    pushVariables?: Record<string, string>;
     tags?: string[];
     templates?: Record<string, InstallationTemplate>;
     userId?: string;
@@ -834,7 +836,7 @@ export interface NotificationHubJob {
 }
 
 // @public
-export type NotificationHubJobPoller = SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>;
+export type NotificationHubJobPoller = PollerLike<OperationState<NotificationHubJob>, NotificationHubJob>;
 
 // @public
 export type NotificationHubJobStatus =

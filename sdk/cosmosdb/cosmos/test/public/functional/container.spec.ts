@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { Suite } from "mocha";
 import {
@@ -413,6 +413,16 @@ describe("Containers", function (this: Suite) {
               path: '/"systemMetadata"/*',
             },
           ],
+          compositeIndexes: [
+            [
+              { path: "/a", order: "ascending" },
+              { path: "/b", order: "descending" },
+            ],
+            [
+              { path: "/c", order: "ascending" },
+              { path: "/d", order: "descending" },
+            ],
+          ],
         },
       };
 
@@ -437,6 +447,11 @@ describe("Containers", function (this: Suite) {
         '/"systemMetadata"/*',
         containerWithIndexingPolicyDef.indexingPolicy.excludedPaths[0].path,
       );
+      // Check for composite Index metrics
+      assert.equal("/a", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][0].path);
+      assert.equal("/b", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[0][1].path);
+      assert.equal("/c", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][0].path);
+      assert.equal("/d", containerWithIndexingPolicyDef.indexingPolicy.compositeIndexes[1][1].path);
     });
 
     const checkDefaultIndexingPolicyPaths = function (indexingPolicy: IndexingPolicy): void {

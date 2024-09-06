@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/// <reference lib="esnext.asynciterable" />
+// Licensed under the MIT License.
 
-export { TableCheckpointStore } from "./tableCheckpointStore";
-export { logger } from "./log";
+export { TableCheckpointStore } from "./tableCheckpointStore.js";
+export { logger } from "./log.js";

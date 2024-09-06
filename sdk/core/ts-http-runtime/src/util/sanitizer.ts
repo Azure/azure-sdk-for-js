@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { UnknownObject, isObject } from "./object.js";
 
@@ -133,7 +133,7 @@ export class Sanitizer {
   }
 
   public sanitizeUrl(value: string): string {
-    if (typeof value !== "string" || value === null) {
+    if (typeof value !== "string" || value === null || value === "") {
       return value;
     }
 

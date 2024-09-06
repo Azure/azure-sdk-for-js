@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
@@ -20,9 +20,6 @@ const replaceableVariables: { [k: string]: string } = {
   ACCOUNT_SAS: `${mockAccountKey}`,
   TABLES_URL: `https://fakeaccountname.table.core.windows.net`,
   SAS_CONNECTION_STRING: fakeConnString,
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const sanitizerOptions: SanitizerOptions = {
@@ -103,12 +100,6 @@ export async function createTableClient(
       break;
 
     case "TokenCredential": {
-      if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
-        throw new Error(
-          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment",
-        );
-      }
-
       const credential = createTestCredential();
       client = new TableClient(env.TABLES_URL ?? "", tableName, credential, options);
       break;
@@ -180,12 +171,6 @@ export async function createTableServiceClient(
       break;
 
     case "TokenCredential": {
-      if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
-        throw new Error(
-          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment",
-        );
-      }
-
       const credential = createTestCredential();
       client = new TableServiceClient(env.TABLES_URL ?? "", credential, {
         ...options,

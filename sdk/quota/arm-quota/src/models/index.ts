@@ -1571,8 +1571,7 @@ export enum KnownQuotaLimitTypes {
 export type QuotaLimitTypes = string;
 
 /** Optional parameters. */
-export interface GroupQuotasCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupQuotasCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The GroupQuota body details for creation or update of a GroupQuota entity. */
   groupQuotaPutRequestBody?: GroupQuotasEntity;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1585,8 +1584,7 @@ export interface GroupQuotasCreateOrUpdateOptionalParams
 export type GroupQuotasCreateOrUpdateResponse = GroupQuotasEntity;
 
 /** Optional parameters. */
-export interface GroupQuotasUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupQuotasUpdateOptionalParams extends coreClient.OperationOptions {
   /** The  GroupQuotas Patch Request. */
   groupQuotasPatchRequestBody?: GroupQuotasEntityPatch;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1599,15 +1597,13 @@ export interface GroupQuotasUpdateOptionalParams
 export type GroupQuotasUpdateResponse = GroupQuotasEntity;
 
 /** Optional parameters. */
-export interface GroupQuotasGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotasGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type GroupQuotasGetResponse = GroupQuotasEntity;
 
 /** Optional parameters. */
-export interface GroupQuotasDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupQuotasDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1618,15 +1614,13 @@ export interface GroupQuotasDeleteOptionalParams
 export type GroupQuotasDeleteResponse = GroupQuotasDeleteHeaders;
 
 /** Optional parameters. */
-export interface GroupQuotasListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotasListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type GroupQuotasListResponse = GroupQuotaList;
 
 /** Optional parameters. */
-export interface GroupQuotasListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotasListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GroupQuotasListNextResponse = GroupQuotaList;
@@ -1641,12 +1635,10 @@ export interface GroupQuotaSubscriptionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GroupQuotaSubscriptionsCreateOrUpdateResponse =
-  GroupQuotaSubscriptionId;
+export type GroupQuotaSubscriptionsCreateOrUpdateResponse = GroupQuotaSubscriptionId;
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupQuotaSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1657,8 +1649,7 @@ export interface GroupQuotaSubscriptionsUpdateOptionalParams
 export type GroupQuotaSubscriptionsUpdateResponse = GroupQuotaSubscriptionId;
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupQuotaSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1666,19 +1657,16 @@ export interface GroupQuotaSubscriptionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type GroupQuotaSubscriptionsDeleteResponse =
-  GroupQuotaSubscriptionsDeleteHeaders;
+export type GroupQuotaSubscriptionsDeleteResponse = GroupQuotaSubscriptionsDeleteHeaders;
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaSubscriptionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type GroupQuotaSubscriptionsGetResponse = GroupQuotaSubscriptionId;
 
 /** Optional parameters. */
-export interface GroupQuotaSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaSubscriptionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type GroupQuotaSubscriptionsListResponse = GroupQuotaSubscriptionIdList;
@@ -1688,24 +1676,21 @@ export interface GroupQuotaSubscriptionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GroupQuotaSubscriptionsListNextResponse =
-  GroupQuotaSubscriptionIdList;
+export type GroupQuotaSubscriptionsListNextResponse = GroupQuotaSubscriptionIdList;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionRequestsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GroupQuotaSubscriptionRequestsListResponse =
-  GroupQuotaSubscriptionRequestStatusList;
+export type GroupQuotaSubscriptionRequestsListResponse = GroupQuotaSubscriptionRequestStatusList;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionRequestsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GroupQuotaSubscriptionRequestsGetResponse =
-  GroupQuotaSubscriptionRequestStatus;
+export type GroupQuotaSubscriptionRequestsGetResponse = GroupQuotaSubscriptionRequestStatus;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionRequestsListNextOptionalParams
@@ -1716,22 +1701,19 @@ export type GroupQuotaSubscriptionRequestsListNextResponse =
   GroupQuotaSubscriptionRequestStatusList;
 
 /** Optional parameters. */
-export interface GroupQuotaLimitsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLimitsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type GroupQuotaLimitsGetResponse = GroupQuotaLimit;
 
 /** Optional parameters. */
-export interface GroupQuotaLimitsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLimitsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type GroupQuotaLimitsListResponse = GroupQuotaLimitList;
 
 /** Optional parameters. */
-export interface GroupQuotaLimitsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLimitsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GroupQuotaLimitsListNextResponse = GroupQuotaLimitList;
@@ -1748,12 +1730,10 @@ export interface GroupQuotaLimitsRequestCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GroupQuotaLimitsRequestCreateOrUpdateResponse =
-  SubmittedResourceRequestStatus;
+export type GroupQuotaLimitsRequestCreateOrUpdateResponse = SubmittedResourceRequestStatus;
 
 /** Optional parameters. */
-export interface GroupQuotaLimitsRequestUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupQuotaLimitsRequestUpdateOptionalParams extends coreClient.OperationOptions {
   /** The GroupQuotaRequest body details for specific resourceProvider/location/resources. */
   groupQuotaRequest?: SubmittedResourceRequestStatus;
   /** Delay to wait until next poll, in milliseconds. */
@@ -1763,71 +1743,61 @@ export interface GroupQuotaLimitsRequestUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type GroupQuotaLimitsRequestUpdateResponse =
-  SubmittedResourceRequestStatus;
+export type GroupQuotaLimitsRequestUpdateResponse = SubmittedResourceRequestStatus;
 
 /** Optional parameters. */
-export interface GroupQuotaLimitsRequestGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLimitsRequestGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type GroupQuotaLimitsRequestGetResponse = SubmittedResourceRequestStatus;
 
 /** Optional parameters. */
-export interface GroupQuotaLimitsRequestListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLimitsRequestListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GroupQuotaLimitsRequestListResponse =
-  SubmittedResourceRequestStatusList;
+export type GroupQuotaLimitsRequestListResponse = SubmittedResourceRequestStatusList;
 
 /** Optional parameters. */
 export interface GroupQuotaLimitsRequestListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GroupQuotaLimitsRequestListNextResponse =
-  SubmittedResourceRequestStatusList;
+export type GroupQuotaLimitsRequestListNextResponse = SubmittedResourceRequestStatusList;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GroupQuotaSubscriptionAllocationListResponse =
-  SubscriptionQuotaAllocationsList;
+export type GroupQuotaSubscriptionAllocationListResponse = SubscriptionQuotaAllocationsList;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GroupQuotaSubscriptionAllocationGetResponse =
-  SubscriptionQuotaAllocations;
+export type GroupQuotaSubscriptionAllocationGetResponse = SubscriptionQuotaAllocations;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GroupQuotaSubscriptionAllocationListNextResponse =
-  SubscriptionQuotaAllocationsList;
+export type GroupQuotaSubscriptionAllocationListNextResponse = SubscriptionQuotaAllocationsList;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationRequestGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GroupQuotaSubscriptionAllocationRequestGetResponse =
-  QuotaAllocationRequestStatus;
+export type GroupQuotaSubscriptionAllocationRequestGetResponse = QuotaAllocationRequestStatus;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationRequestListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GroupQuotaSubscriptionAllocationRequestListResponse =
-  QuotaAllocationRequestStatusList;
+export type GroupQuotaSubscriptionAllocationRequestListResponse = QuotaAllocationRequestStatusList;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationRequestCreateOrUpdateOptionalParams
@@ -1852,8 +1822,7 @@ export interface GroupQuotaSubscriptionAllocationRequestUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type GroupQuotaSubscriptionAllocationRequestUpdateResponse =
-  QuotaAllocationRequestStatus;
+export type GroupQuotaSubscriptionAllocationRequestUpdateResponse = QuotaAllocationRequestStatus;
 
 /** Optional parameters. */
 export interface GroupQuotaSubscriptionAllocationRequestListNextOptionalParams
@@ -1864,15 +1833,13 @@ export type GroupQuotaSubscriptionAllocationRequestListNextResponse =
   QuotaAllocationRequestStatusList;
 
 /** Optional parameters. */
-export interface GroupQuotaUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaUsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type GroupQuotaUsagesListResponse = ResourceUsageList;
 
 /** Optional parameters. */
-export interface GroupQuotaUsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaUsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GroupQuotaUsagesListNextResponse = ResourceUsageList;
@@ -1889,8 +1856,7 @@ export interface GroupQuotaLocationSettingsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GroupQuotaLocationSettingsCreateOrUpdateResponse =
-  GroupQuotasEnforcementResponse;
+export type GroupQuotaLocationSettingsCreateOrUpdateResponse = GroupQuotasEnforcementResponse;
 
 /** Optional parameters. */
 export interface GroupQuotaLocationSettingsUpdateOptionalParams
@@ -1904,32 +1870,26 @@ export interface GroupQuotaLocationSettingsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type GroupQuotaLocationSettingsUpdateResponse =
-  GroupQuotasEnforcementResponse;
+export type GroupQuotaLocationSettingsUpdateResponse = GroupQuotasEnforcementResponse;
 
 /** Optional parameters. */
-export interface GroupQuotaLocationSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLocationSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GroupQuotaLocationSettingsGetResponse =
-  GroupQuotasEnforcementResponse;
+export type GroupQuotaLocationSettingsGetResponse = GroupQuotasEnforcementResponse;
 
 /** Optional parameters. */
-export interface GroupQuotaLocationSettingsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupQuotaLocationSettingsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GroupQuotaLocationSettingsListResponse =
-  GroupQuotasEnforcementListResponse;
+export type GroupQuotaLocationSettingsListResponse = GroupQuotasEnforcementListResponse;
 
 /** Optional parameters. */
 export interface GroupQuotaLocationSettingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GroupQuotaLocationSettingsListNextResponse =
-  GroupQuotasEnforcementListResponse;
+export type GroupQuotaLocationSettingsListNextResponse = GroupQuotasEnforcementListResponse;
 
 /** Optional parameters. */
 export interface UsagesGetOptionalParams extends coreClient.OperationOptions {}
@@ -1944,8 +1904,7 @@ export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
 export type UsagesListResponse = UsagesListHeaders & UsagesLimits;
 
 /** Optional parameters. */
-export interface UsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = UsagesListNextHeaders & UsagesLimits;
@@ -1957,8 +1916,7 @@ export interface QuotaGetOptionalParams extends coreClient.OperationOptions {}
 export type QuotaGetResponse = QuotaGetHeaders & CurrentQuotaLimitBase;
 
 /** Optional parameters. */
-export interface QuotaCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface QuotaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1986,22 +1944,19 @@ export interface QuotaListOptionalParams extends coreClient.OperationOptions {}
 export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
 
 /** Optional parameters. */
-export interface QuotaListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaListNextResponse = QuotaListNextHeaders & QuotaLimits;
 
 /** Optional parameters. */
-export interface QuotaRequestStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaRequestStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 
 /** Optional parameters. */
-export interface QuotaRequestStatusListOptionalParams
-  extends coreClient.OperationOptions {
+export interface QuotaRequestStatusListOptionalParams extends coreClient.OperationOptions {
   /**
    * | Field                    | Supported operators
    * |---------------------|------------------------
@@ -2022,29 +1977,25 @@ export interface QuotaRequestStatusListOptionalParams
 export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
-export interface QuotaRequestStatusListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaRequestStatusListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
-export interface QuotaOperationListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaOperationListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type QuotaOperationListResponse = OperationList;
 
 /** Optional parameters. */
-export interface QuotaOperationListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaOperationListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaOperationListNextResponse = OperationList;
 
 /** Optional parameters. */
-export interface AzureQuotaExtensionAPIOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AzureQuotaExtensionAPIOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

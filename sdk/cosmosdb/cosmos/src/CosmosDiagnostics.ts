@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationType, ResourceType } from "./common";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
@@ -118,6 +118,11 @@ export type GatewayStatistics = {
    * This is the activityId for request, made to server for fetching the requested resource. (As opposed to other potential meta data requests)
    */
   activityId?: string;
+  /*
+   * The correlated activity ID is added in the header of every request made to the backend for a query. This aids in troubleshooting by linking all
+   * requests associated with a particular query.
+   */
+  correlatedActivityId?: string;
   startTimeUTCInMs: number;
   durationInMs: number;
   operationType?: OperationType;

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
  *
  * @summary Updates the Autoscale Configuration for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DisableClusterAutoScale.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DisableClusterAutoScale.json
  */
 async function disableAutoscaleForTheHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function disableAutoscaleForTheHdInsightCluster() {
     resourceGroupName,
     clusterName,
     roleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function disableAutoscaleForTheHdInsightCluster() {
  * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
  *
  * @summary Updates the Autoscale Configuration for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/EnableOrUpdateAutoScaleWithLoadBasedConfiguration.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableOrUpdateAutoScaleWithLoadBasedConfiguration.json
  */
 async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -55,7 +55,7 @@ async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightC
     resourceGroupName,
     clusterName,
     roleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightC
  * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
  *
  * @summary Updates the Autoscale Configuration for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/EnableOrUpdateAutoScaleWithScheduleBasedConfiguration.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableOrUpdateAutoScaleWithScheduleBasedConfiguration.json
  */
 async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -94,7 +94,7 @@ async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsi
     resourceGroupName,
     clusterName,
     roleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

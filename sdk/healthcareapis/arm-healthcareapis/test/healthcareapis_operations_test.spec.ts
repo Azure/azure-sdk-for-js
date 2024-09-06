@@ -19,10 +19,7 @@ import { Context } from "mocha";
 import { HealthcareApisManagementClient } from "../src/healthcareApisManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -37,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("HealthcareApis test", () => {
+describe("HealthcareApis test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HealthcareApisManagementClient;
@@ -54,7 +51,7 @@ describe.skip("HealthcareApis test", () => {
     client = new HealthcareApisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    resourcename = "resourcetest";
+    resourcename = "resourcetest1";
 
   });
 

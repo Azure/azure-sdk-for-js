@@ -1,4 +1,20 @@
 # Release History
+
+## 1.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.2 (2024-07-01)
+
+### Other Changes
+- Re-release of 1.0.0-beta.1 as the SDK package was released without types
+
 ## 1.0.0-beta.1 (2024-06-27)
 - Initial release. Please see the README and wiki for information on the new design.
 

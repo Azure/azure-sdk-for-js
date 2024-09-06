@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BackupInstanceResource,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a backup instance in a backup vault
  *
  * @summary Create or update a backup instance in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/PutBackupInstance.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/PutBackupInstance.json
  */
 async function createBackupInstance() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function createBackupInstance() {
         resourceLocation: "",
         resourceName: "testdb",
         resourceType: "Microsoft.DBforPostgreSQL/servers/databases",
-        resourceUri: ""
+        resourceUri: "",
       },
       dataSourceSetInfo: {
         datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
@@ -51,14 +51,14 @@ async function createBackupInstance() {
         resourceLocation: "",
         resourceName: "viveksipgtest",
         resourceType: "Microsoft.DBforPostgreSQL/servers",
-        resourceUri: ""
+        resourceUri: "",
       },
       datasourceAuthCredentials: {
         objectType: "SecretStoreBasedAuthCredentials",
         secretStoreResource: {
           secretStoreType: "AzureKeyVault",
-          uri: "https://samplevault.vault.azure.net/secrets/credentials"
-        }
+          uri: "https://samplevault.vault.azure.net/secrets/credentials",
+        },
       },
       friendlyName: "harshitbi2",
       objectType: "BackupInstance",
@@ -71,14 +71,14 @@ async function createBackupInstance() {
               dataStoreType: "OperationalStore",
               objectType: "AzureOperationalStoreParameters",
               resourceGroupId:
-                "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest"
-            }
-          ]
-        }
+                "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest",
+            },
+          ],
+        },
       },
-      validationType: "ShallowValidation"
+      validationType: "ShallowValidation",
     },
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -86,13 +86,91 @@ async function createBackupInstance() {
     resourceGroupName,
     vaultName,
     backupInstanceName,
-    parameters
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a backup instance in a backup vault
+ *
+ * @summary Create or update a backup instance in a backup vault
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/PutBackupInstance_ResourceGuardEnabled.json
+ */
+async function createBackupInstanceToPerformCriticalOperationWithMua() {
+  const subscriptionId =
+    process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
+    "04cf684a-d41f-4550-9f70-7708a3a2283b";
+  const resourceGroupName =
+    process.env["DATAPROTECTION_RESOURCE_GROUP"] || "000pikumar";
+  const vaultName = "PratikPrivatePreviewVault1";
+  const backupInstanceName = "testInstance1";
+  const parameters: BackupInstanceResource = {
+    properties: {
+      dataSourceInfo: {
+        datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
+        objectType: "Datasource",
+        resourceID:
+          "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest/databases/testdb",
+        resourceLocation: "",
+        resourceName: "testdb",
+        resourceType: "Microsoft.DBforPostgreSQL/servers/databases",
+        resourceUri: "",
+      },
+      dataSourceSetInfo: {
+        datasourceType: "Microsoft.DBforPostgreSQL/servers/databases",
+        objectType: "DatasourceSet",
+        resourceID:
+          "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest/providers/Microsoft.DBforPostgreSQL/servers/viveksipgtest",
+        resourceLocation: "",
+        resourceName: "viveksipgtest",
+        resourceType: "Microsoft.DBforPostgreSQL/servers",
+        resourceUri: "",
+      },
+      datasourceAuthCredentials: {
+        objectType: "SecretStoreBasedAuthCredentials",
+        secretStoreResource: {
+          secretStoreType: "AzureKeyVault",
+          uri: "https://samplevault.vault.azure.net/secrets/credentials",
+        },
+      },
+      friendlyName: "harshitbi2",
+      objectType: "BackupInstance",
+      policyInfo: {
+        policyId:
+          "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/Backupvaults/PratikPrivatePreviewVault1/backupPolicies/PratikPolicy1",
+        policyParameters: {
+          dataStoreParametersList: [
+            {
+              dataStoreType: "OperationalStore",
+              objectType: "AzureOperationalStoreParameters",
+              resourceGroupId:
+                "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/viveksipgtest",
+            },
+          ],
+        },
+      },
+      resourceGuardOperationRequests: [
+        "/subscriptions/38304e13-357e-405e-9e9a-220351dcce8c/resourcegroups/ankurResourceGuard1/providers/Microsoft.DataProtection/resourceGuards/ResourceGuard38-1/dppModifyPolicy/default",
+      ],
+      validationType: "ShallowValidation",
+    },
+    tags: { key1: "val1" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new DataProtectionClient(credential, subscriptionId);
+  const result = await client.backupInstances.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vaultName,
+    backupInstanceName,
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
   createBackupInstance();
+  createBackupInstanceToPerformCriticalOperationWithMua();
 }
 
 main().catch(console.error);

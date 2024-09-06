@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
@@ -14,6 +17,8 @@ import {
 export interface DocumentTranslate200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
+  /** response content type */
+  "content-type": "application/octet-stream";
 }
 
 /** The request has succeeded. */

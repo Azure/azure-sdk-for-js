@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the DataSource Connection Operations.
  */
 
-const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SearchIndexerClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const connectionString = process.env.CONNECTION_STRING || "";
-const dataSourceConnectionName = "example-ds-connection-sample-1";
+const TEST_DATA_SOURCE_CONNECTION_NAME = "example-ds-connection-sample-1";
 
 async function createDataSourceConnection(dataSourceConnectionName, client) {
   console.log(`Creating DS Connection Operation`);
@@ -42,7 +42,7 @@ async function listDataSourceConnections(client) {
 
   console.log(`List of Data Source Connections`);
   console.log(`*******************************`);
-  for (let ds of listOfDataSourceConnections) {
+  for (const ds of listOfDataSourceConnections) {
     console.log(`Name: ${ds.name}`);
     console.log(`Description: ${ds.description}`);
     console.log(`Connection String: ${ds.connectionString}`);
@@ -63,17 +63,17 @@ async function deleteDataSourceConnection(dataSourceConnectionName, client) {
 
 async function main() {
   console.log(`Running DS Connection Operations Sample....`);
-  if (!endpoint || !apiKey || !connectionString) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint || !connectionString) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexerClient(endpoint, new DefaultAzureCredential());
   try {
-    await createDataSourceConnection(dataSourceConnectionName, client);
-    await getAndUpdateDataSourceConnection(dataSourceConnectionName, client);
+    await createDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
+    await getAndUpdateDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
     await listDataSourceConnections(client);
   } finally {
-    await deleteDataSourceConnection(dataSourceConnectionName, client);
+    await deleteDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
   }
 }
 

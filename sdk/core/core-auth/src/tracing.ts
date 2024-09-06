@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // The interfaces in this file should be kept in sync with those
 // found in the `@azure/core-tracing` package.

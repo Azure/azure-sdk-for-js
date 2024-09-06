@@ -31,12 +31,12 @@
     "@azure/monitor-opentelemetry-exporter": "next",
     "dotenv": "latest",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/resources": "^1.25.0",
-    "@opentelemetry/semantic-conventions": "^1.25.0",
-    "@opentelemetry/instrumentation": "^0.52.0",
-    "@opentelemetry/sdk-trace-base": "^1.25.0",
-    "@opentelemetry/sdk-trace-node": "^1.25.0",
-    "@opentelemetry/instrumentation-http": "^0.52.0",
-    "@opentelemetry/sdk-metrics": "^1.25.0"
+    "@opentelemetry/resources": "^1.26.0",
+    "@opentelemetry/semantic-conventions": "^1.26.0",
+    "@opentelemetry/instrumentation": "^0.53.0",
+    "@opentelemetry/sdk-trace-base": "^1.26.0",
+    "@opentelemetry/sdk-trace-node": "^1.26.0",
+    "@opentelemetry/instrumentation-http": "^0.53.0",
+    "@opentelemetry/sdk-metrics": "^1.26.0"
   }
 }

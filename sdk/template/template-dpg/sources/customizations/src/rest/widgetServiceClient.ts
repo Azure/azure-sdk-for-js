@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ClientOptions, addCredentialPipelinePolicy } from "@azure-rest/core-client";
 import { WidgetServiceContext } from "../../../generated/src/rest/clientDefinitions.js";

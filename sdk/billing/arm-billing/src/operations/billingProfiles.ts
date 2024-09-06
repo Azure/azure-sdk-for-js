@@ -13,18 +13,26 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BillingProfile,
   BillingProfilesListByBillingAccountNextOptionalParams,
   BillingProfilesListByBillingAccountOptionalParams,
   BillingProfilesListByBillingAccountResponse,
+  BillingProfilesValidateDeleteEligibilityOptionalParams,
+  BillingProfilesValidateDeleteEligibilityResponse,
+  BillingProfilesDeleteOptionalParams,
+  BillingProfilesDeleteResponse,
   BillingProfilesGetOptionalParams,
   BillingProfilesGetResponse,
   BillingProfilesCreateOrUpdateOptionalParams,
   BillingProfilesCreateOrUpdateResponse,
-  BillingProfilesListByBillingAccountNextResponse
+  BillingProfilesListByBillingAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,17 +50,17 @@ export class BillingProfilesImpl implements BillingProfiles {
 
   /**
    * Lists the billing profiles that a user has access to. The operation is supported for billing
-   * accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * accounts with agreement of type Microsoft Customer Agreement and Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param options The options parameters.
    */
   public listByBillingAccount(
     billingAccountName: string,
-    options?: BillingProfilesListByBillingAccountOptionalParams
+    options?: BillingProfilesListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingProfile> {
     const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,16 +76,16 @@ export class BillingProfilesImpl implements BillingProfiles {
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
     options?: BillingProfilesListByBillingAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingProfile[]> {
     let result: BillingProfilesListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +100,7 @@ export class BillingProfilesImpl implements BillingProfiles {
       result = await this._listByBillingAccountNext(
         billingAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -103,86 +111,67 @@ export class BillingProfilesImpl implements BillingProfiles {
 
   private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: BillingProfilesListByBillingAccountOptionalParams
+    options?: BillingProfilesListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<BillingProfile> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the billing profiles that a user has access to. The operation is supported for billing
-   * accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param options The options parameters.
-   */
-  private _listByBillingAccount(
-    billingAccountName: string,
-    options?: BillingProfilesListByBillingAccountOptionalParams
-  ): Promise<BillingProfilesListByBillingAccountResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, options },
-      listByBillingAccountOperationSpec
-    );
-  }
-
-  /**
-   * Gets a billing profile by its ID. The operation is supported for billing accounts with agreement
-   * type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * Validates if the billing profile can be deleted. The operation is supported for billing accounts
+   * with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  get(
+  validateDeleteEligibility(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingProfilesGetOptionalParams
-  ): Promise<BillingProfilesGetResponse> {
+    options?: BillingProfilesValidateDeleteEligibilityOptionalParams,
+  ): Promise<BillingProfilesValidateDeleteEligibilityResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      getOperationSpec
+      validateDeleteEligibilityOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a billing profile. The operation is supported for billing accounts with agreement
-   * type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * Deletes a billing profile. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement and Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param parameters The new or updated billing profile.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginDelete(
     billingAccountName: string,
     billingProfileName: string,
-    parameters: BillingProfile,
-    options?: BillingProfilesCreateOrUpdateOptionalParams
+    options?: BillingProfilesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingProfilesCreateOrUpdateResponse>,
-      BillingProfilesCreateOrUpdateResponse
+    SimplePollerLike<
+      OperationState<BillingProfilesDeleteResponse>,
+      BillingProfilesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<BillingProfilesCreateOrUpdateResponse> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingProfilesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -191,8 +180,8 @@ export class BillingProfilesImpl implements BillingProfiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -200,19 +189,136 @@ export class BillingProfilesImpl implements BillingProfiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, billingProfileName, parameters, options },
-      createOrUpdateOperationSpec
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, billingProfileName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingProfilesDeleteResponse,
+      OperationState<BillingProfilesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a billing profile. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingProfilesDeleteOptionalParams,
+  ): Promise<BillingProfilesDeleteResponse> {
+    const poller = await this.beginDelete(
+      billingAccountName,
+      billingProfileName,
+      options,
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a billing profile by its ID. The operation is supported for billing accounts with agreement
+   * type Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  get(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingProfilesGetOptionalParams,
+  ): Promise<BillingProfilesGetResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Creates or updates a billing profile. The operation is supported for billing accounts with agreement
+   * type Microsoft Customer Agreement and Microsoft Partner Agreement. If you are a MCA Individual
+   * (Pay-as-you-go) customer, then please use the Azure portal experience to create the billing profile.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param parameters A billing profile.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    billingAccountName: string,
+    billingProfileName: string,
+    parameters: BillingProfile,
+    options?: BillingProfilesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingProfilesCreateOrUpdateResponse>,
+      BillingProfilesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingProfilesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, billingProfileName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingProfilesCreateOrUpdateResponse,
+      OperationState<BillingProfilesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -220,25 +326,42 @@ export class BillingProfilesImpl implements BillingProfiles {
 
   /**
    * Creates or updates a billing profile. The operation is supported for billing accounts with agreement
-   * type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * type Microsoft Customer Agreement and Microsoft Partner Agreement. If you are a MCA Individual
+   * (Pay-as-you-go) customer, then please use the Azure portal experience to create the billing profile.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
-   * @param parameters The new or updated billing profile.
+   * @param parameters A billing profile.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     billingAccountName: string,
     billingProfileName: string,
     parameters: BillingProfile,
-    options?: BillingProfilesCreateOrUpdateOptionalParams
+    options?: BillingProfilesCreateOrUpdateOptionalParams,
   ): Promise<BillingProfilesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       billingAccountName,
       billingProfileName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the billing profiles that a user has access to. The operation is supported for billing
+   * accounts with agreement of type Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingProfilesListByBillingAccountOptionalParams,
+  ): Promise<BillingProfilesListByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, options },
+      listByBillingAccountOperationSpec,
+    );
   }
 
   /**
@@ -250,104 +373,158 @@ export class BillingProfilesImpl implements BillingProfiles {
   private _listByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: BillingProfilesListByBillingAccountNextOptionalParams
+    options?: BillingProfilesListByBillingAccountNextOptionalParams,
   ): Promise<BillingProfilesListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles",
-  httpMethod: "GET",
+const validateDeleteEligibilityOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/validateDeleteEligibility",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingProfileListResult
+      bodyMapper: Mappers.DeleteBillingProfileEligibilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [Parameters.$host, Parameters.billingAccountName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingProfile
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingProfile
-    },
-    201: {
-      bodyMapper: Mappers.BillingProfile
-    },
-    202: {
-      bodyMapper: Mappers.BillingProfile
-    },
-    204: {
-      bodyMapper: Mappers.BillingProfile
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.BillingProfilesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.BillingProfilesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.BillingProfilesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.BillingProfilesDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingProfile,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingProfile,
+    },
+    201: {
+      bodyMapper: Mappers.BillingProfile,
+    },
+    202: {
+      bodyMapper: Mappers.BillingProfile,
+    },
+    204: {
+      bodyMapper: Mappers.BillingProfile,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingProfileListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingProfileListResult
+      bodyMapper: Mappers.BillingProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

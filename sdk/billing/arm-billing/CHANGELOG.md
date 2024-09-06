@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.1 (Unreleased)
+## 5.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,1386 @@
 
 ### Other Changes
 
+## 5.0.0 (2024-09-04)
+    
+### Features Added
+
+  - Added operation group AssociatedTenants
+  - Added operation group BillingRequests
+  - Added operation group BillingRoleDefinitionOperations
+  - Added operation group BillingSubscriptionsAliases
+  - Added operation group Departments
+  - Added operation group PartnerTransfers
+  - Added operation group PaymentMethods
+  - Added operation group RecipientTransfers
+  - Added operation group ReservationOrders
+  - Added operation group SavingsPlanOrders
+  - Added operation group SavingsPlans
+  - Added operation group Transfers
+  - Added operation AvailableBalances.getByBillingAccount
+  - Added operation AvailableBalances.getByBillingProfile
+  - Added operation BillingAccounts.beginAddPaymentTerms
+  - Added operation BillingAccounts.beginAddPaymentTermsAndWait
+  - Added operation BillingAccounts.beginCancelPaymentTerms
+  - Added operation BillingAccounts.beginCancelPaymentTermsAndWait
+  - Added operation BillingAccounts.confirmTransition
+  - Added operation BillingAccounts.validatePaymentTerms
+  - Added operation BillingPermissions.checkAccessByBillingAccount
+  - Added operation BillingPermissions.checkAccessByBillingProfile
+  - Added operation BillingPermissions.checkAccessByCustomer
+  - Added operation BillingPermissions.checkAccessByDepartment
+  - Added operation BillingPermissions.checkAccessByEnrollmentAccount
+  - Added operation BillingPermissions.checkAccessByInvoiceSection
+  - Added operation BillingPermissions.listByCustomerAtBillingAccount
+  - Added operation BillingPermissions.listByDepartment
+  - Added operation BillingPermissions.listByEnrollmentAccount
+  - Added operation BillingPermissions.listByInvoiceSection
+  - Added operation BillingProfiles.beginDelete
+  - Added operation BillingProfiles.beginDeleteAndWait
+  - Added operation BillingProfiles.validateDeleteEligibility
+  - Added operation BillingRoleAssignments.beginCreateByBillingAccount
+  - Added operation BillingRoleAssignments.beginCreateByBillingAccountAndWait
+  - Added operation BillingRoleAssignments.beginCreateByBillingProfile
+  - Added operation BillingRoleAssignments.beginCreateByBillingProfileAndWait
+  - Added operation BillingRoleAssignments.beginCreateByCustomer
+  - Added operation BillingRoleAssignments.beginCreateByCustomerAndWait
+  - Added operation BillingRoleAssignments.beginCreateByInvoiceSection
+  - Added operation BillingRoleAssignments.beginCreateByInvoiceSectionAndWait
+  - Added operation BillingRoleAssignments.beginCreateOrUpdateByBillingAccount
+  - Added operation BillingRoleAssignments.beginCreateOrUpdateByBillingAccountAndWait
+  - Added operation BillingRoleAssignments.beginCreateOrUpdateByDepartment
+  - Added operation BillingRoleAssignments.beginCreateOrUpdateByDepartmentAndWait
+  - Added operation BillingRoleAssignments.beginCreateOrUpdateByEnrollmentAccount
+  - Added operation BillingRoleAssignments.beginCreateOrUpdateByEnrollmentAccountAndWait
+  - Added operation BillingRoleAssignments.beginResolveByBillingAccount
+  - Added operation BillingRoleAssignments.beginResolveByBillingAccountAndWait
+  - Added operation BillingRoleAssignments.beginResolveByBillingProfile
+  - Added operation BillingRoleAssignments.beginResolveByBillingProfileAndWait
+  - Added operation BillingRoleAssignments.beginResolveByCustomer
+  - Added operation BillingRoleAssignments.beginResolveByCustomerAndWait
+  - Added operation BillingRoleAssignments.beginResolveByInvoiceSection
+  - Added operation BillingRoleAssignments.beginResolveByInvoiceSectionAndWait
+  - Added operation BillingRoleAssignments.deleteByCustomer
+  - Added operation BillingRoleAssignments.deleteByDepartment
+  - Added operation BillingRoleAssignments.deleteByEnrollmentAccount
+  - Added operation BillingRoleAssignments.getByCustomer
+  - Added operation BillingRoleAssignments.getByDepartment
+  - Added operation BillingRoleAssignments.getByEnrollmentAccount
+  - Added operation BillingRoleAssignments.listByCustomer
+  - Added operation BillingRoleAssignments.listByDepartment
+  - Added operation BillingRoleAssignments.listByEnrollmentAccount
+  - Added operation BillingSubscriptions.beginCancel
+  - Added operation BillingSubscriptions.beginCancelAndWait
+  - Added operation BillingSubscriptions.beginDelete
+  - Added operation BillingSubscriptions.beginDeleteAndWait
+  - Added operation BillingSubscriptions.beginMerge
+  - Added operation BillingSubscriptions.beginMergeAndWait
+  - Added operation BillingSubscriptions.beginSplit
+  - Added operation BillingSubscriptions.beginSplitAndWait
+  - Added operation BillingSubscriptions.beginUpdate
+  - Added operation BillingSubscriptions.beginUpdateAndWait
+  - Added operation BillingSubscriptions.getByBillingProfile
+  - Added operation BillingSubscriptions.listByCustomerAtBillingAccount
+  - Added operation BillingSubscriptions.listByEnrollmentAccount
+  - Added operation BillingSubscriptions.validateMoveEligibility
+  - Added operation Customers.getByBillingAccount
+  - Added operation EnrollmentAccounts.getByDepartment
+  - Added operation EnrollmentAccounts.listByBillingAccount
+  - Added operation EnrollmentAccounts.listByDepartment
+  - Added operation Invoices.beginAmend
+  - Added operation Invoices.beginAmendAndWait
+  - Added operation Invoices.beginDownloadByBillingAccount
+  - Added operation Invoices.beginDownloadByBillingAccountAndWait
+  - Added operation Invoices.beginDownloadByBillingSubscription
+  - Added operation Invoices.beginDownloadByBillingSubscriptionAndWait
+  - Added operation Invoices.beginDownloadDocumentsByBillingAccount
+  - Added operation Invoices.beginDownloadDocumentsByBillingAccountAndWait
+  - Added operation Invoices.beginDownloadDocumentsByBillingSubscription
+  - Added operation Invoices.beginDownloadDocumentsByBillingSubscriptionAndWait
+  - Added operation Invoices.beginDownloadSummaryByBillingAccount
+  - Added operation Invoices.beginDownloadSummaryByBillingAccountAndWait
+  - Added operation Invoices.getByBillingAccount
+  - Added operation Invoices.getByBillingSubscription
+  - Added operation InvoiceSections.beginDelete
+  - Added operation InvoiceSections.beginDeleteAndWait
+  - Added operation InvoiceSections.validateDeleteEligibility
+  - Added operation Policies.beginCreateOrUpdateByBillingAccount
+  - Added operation Policies.beginCreateOrUpdateByBillingAccountAndWait
+  - Added operation Policies.beginCreateOrUpdateByBillingProfile
+  - Added operation Policies.beginCreateOrUpdateByBillingProfileAndWait
+  - Added operation Policies.beginCreateOrUpdateByCustomer
+  - Added operation Policies.beginCreateOrUpdateByCustomerAndWait
+  - Added operation Policies.beginCreateOrUpdateByCustomerAtBillingAccount
+  - Added operation Policies.beginCreateOrUpdateByCustomerAtBillingAccountAndWait
+  - Added operation Policies.getByBillingAccount
+  - Added operation Policies.getByCustomerAtBillingAccount
+  - Added operation Policies.getBySubscription
+  - Added operation Products.beginMove
+  - Added operation Products.beginMoveAndWait
+  - Added operation Products.validateMoveEligibility
+  - Added operation Reservations.beginUpdateByBillingAccount
+  - Added operation Reservations.beginUpdateByBillingAccountAndWait
+  - Added operation Reservations.getByReservationOrder
+  - Added operation Reservations.listByReservationOrder
+  - Added operation Transactions.beginTransactionsDownloadByInvoice
+  - Added operation Transactions.beginTransactionsDownloadByInvoiceAndWait
+  - Added operation Transactions.getTransactionSummaryByInvoice
+  - Added operation Transactions.listByBillingProfile
+  - Added operation Transactions.listByCustomer
+  - Added operation Transactions.listByInvoiceSection
+  - Added Interface AcceptTransferRequest
+  - Added Interface AddressValidationResponse
+  - Added Interface AgreementProperties
+  - Added Interface AppliedScopeProperties
+  - Added Interface AssociatedTenant
+  - Added Interface AssociatedTenantListResult
+  - Added Interface AssociatedTenantProperties
+  - Added Interface AssociatedTenantsCreateOrUpdateHeaders
+  - Added Interface AssociatedTenantsCreateOrUpdateOptionalParams
+  - Added Interface AssociatedTenantsDeleteHeaders
+  - Added Interface AssociatedTenantsDeleteOptionalParams
+  - Added Interface AssociatedTenantsGetOptionalParams
+  - Added Interface AssociatedTenantsListByBillingAccountNextOptionalParams
+  - Added Interface AssociatedTenantsListByBillingAccountOptionalParams
+  - Added Interface AvailableBalanceProperties
+  - Added Interface AvailableBalancePropertiesAmount
+  - Added Interface AvailableBalancePropertiesTotalPaymentsOnAccount
+  - Added Interface AvailableBalancesGetByBillingAccountOptionalParams
+  - Added Interface AvailableBalancesGetByBillingProfileOptionalParams
+  - Added Interface Beneficiary
+  - Added Interface BillingAccountPatch
+  - Added Interface BillingAccountPolicy
+  - Added Interface BillingAccountPolicyProperties
+  - Added Interface BillingAccountPolicyPropertiesEnterpriseAgreementPolicies
+  - Added Interface BillingAccountProperties
+  - Added Interface BillingAccountPropertiesEnrollmentDetails
+  - Added Interface BillingAccountPropertiesRegistrationNumber
+  - Added Interface BillingAccountPropertiesSoldTo
+  - Added Interface BillingAccountsAddPaymentTermsHeaders
+  - Added Interface BillingAccountsAddPaymentTermsOptionalParams
+  - Added Interface BillingAccountsCancelPaymentTermsHeaders
+  - Added Interface BillingAccountsCancelPaymentTermsOptionalParams
+  - Added Interface BillingAccountsConfirmTransitionOptionalParams
+  - Added Interface BillingAccountsUpdateHeaders
+  - Added Interface BillingAccountsValidatePaymentTermsOptionalParams
+  - Added Interface BillingPermission
+  - Added Interface BillingPermissionListResult
+  - Added Interface BillingPermissionsCheckAccessByBillingAccountOptionalParams
+  - Added Interface BillingPermissionsCheckAccessByBillingProfileOptionalParams
+  - Added Interface BillingPermissionsCheckAccessByCustomerOptionalParams
+  - Added Interface BillingPermissionsCheckAccessByDepartmentOptionalParams
+  - Added Interface BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams
+  - Added Interface BillingPermissionsCheckAccessByInvoiceSectionOptionalParams
+  - Added Interface BillingPermissionsListByCustomerAtBillingAccountNextOptionalParams
+  - Added Interface BillingPermissionsListByCustomerAtBillingAccountOptionalParams
+  - Added Interface BillingPermissionsListByDepartmentNextOptionalParams
+  - Added Interface BillingPermissionsListByDepartmentOptionalParams
+  - Added Interface BillingPermissionsListByEnrollmentAccountNextOptionalParams
+  - Added Interface BillingPermissionsListByEnrollmentAccountOptionalParams
+  - Added Interface BillingPermissionsListByInvoiceSectionNextOptionalParams
+  - Added Interface BillingPermissionsListByInvoiceSectionOptionalParams
+  - Added Interface BillingPlanInformation
+  - Added Interface BillingProfileInfo
+  - Added Interface BillingProfilePolicy
+  - Added Interface BillingProfilePolicyProperties
+  - Added Interface BillingProfilePolicyPropertiesEnterpriseAgreementPolicies
+  - Added Interface BillingProfileProperties
+  - Added Interface BillingProfilePropertiesBillTo
+  - Added Interface BillingProfilePropertiesCurrentPaymentTerm
+  - Added Interface BillingProfilePropertiesIndirectRelationshipInfo
+  - Added Interface BillingProfilePropertiesShipTo
+  - Added Interface BillingProfilePropertiesSoldTo
+  - Added Interface BillingProfilesDeleteHeaders
+  - Added Interface BillingProfilesDeleteOptionalParams
+  - Added Interface BillingProfilesValidateDeleteEligibilityOptionalParams
+  - Added Interface BillingPropertyProperties
+  - Added Interface BillingPropertyPropertiesEnrollmentDetails
+  - Added Interface BillingPropertyPropertiesSubscriptionServiceUsageAddress
+  - Added Interface BillingRequest
+  - Added Interface BillingRequestListResult
+  - Added Interface BillingRequestProperties
+  - Added Interface BillingRequestPropertiesCreatedBy
+  - Added Interface BillingRequestPropertiesLastUpdatedBy
+  - Added Interface BillingRequestPropertiesReviewedBy
+  - Added Interface BillingRequestsCreateOrUpdateHeaders
+  - Added Interface BillingRequestsCreateOrUpdateOptionalParams
+  - Added Interface BillingRequestsGetOptionalParams
+  - Added Interface BillingRequestsListByBillingAccountNextOptionalParams
+  - Added Interface BillingRequestsListByBillingAccountOptionalParams
+  - Added Interface BillingRequestsListByBillingProfileNextOptionalParams
+  - Added Interface BillingRequestsListByBillingProfileOptionalParams
+  - Added Interface BillingRequestsListByCustomerNextOptionalParams
+  - Added Interface BillingRequestsListByCustomerOptionalParams
+  - Added Interface BillingRequestsListByInvoiceSectionNextOptionalParams
+  - Added Interface BillingRequestsListByInvoiceSectionOptionalParams
+  - Added Interface BillingRequestsListByUserNextOptionalParams
+  - Added Interface BillingRequestsListByUserOptionalParams
+  - Added Interface BillingRoleAssignmentProperties
+  - Added Interface BillingRoleAssignmentsCreateByBillingAccountHeaders
+  - Added Interface BillingRoleAssignmentsCreateByBillingAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsCreateByBillingProfileHeaders
+  - Added Interface BillingRoleAssignmentsCreateByBillingProfileOptionalParams
+  - Added Interface BillingRoleAssignmentsCreateByCustomerHeaders
+  - Added Interface BillingRoleAssignmentsCreateByCustomerOptionalParams
+  - Added Interface BillingRoleAssignmentsCreateByInvoiceSectionHeaders
+  - Added Interface BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams
+  - Added Interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountHeaders
+  - Added Interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsCreateOrUpdateByDepartmentHeaders
+  - Added Interface BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams
+  - Added Interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountHeaders
+  - Added Interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsDeleteByCustomerOptionalParams
+  - Added Interface BillingRoleAssignmentsDeleteByDepartmentOptionalParams
+  - Added Interface BillingRoleAssignmentsDeleteByEnrollmentAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsGetByCustomerOptionalParams
+  - Added Interface BillingRoleAssignmentsGetByDepartmentOptionalParams
+  - Added Interface BillingRoleAssignmentsGetByEnrollmentAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsListByCustomerNextOptionalParams
+  - Added Interface BillingRoleAssignmentsListByCustomerOptionalParams
+  - Added Interface BillingRoleAssignmentsListByDepartmentNextOptionalParams
+  - Added Interface BillingRoleAssignmentsListByDepartmentOptionalParams
+  - Added Interface BillingRoleAssignmentsListByEnrollmentAccountNextOptionalParams
+  - Added Interface BillingRoleAssignmentsListByEnrollmentAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsResolveByBillingAccountHeaders
+  - Added Interface BillingRoleAssignmentsResolveByBillingAccountOptionalParams
+  - Added Interface BillingRoleAssignmentsResolveByBillingProfileHeaders
+  - Added Interface BillingRoleAssignmentsResolveByBillingProfileOptionalParams
+  - Added Interface BillingRoleAssignmentsResolveByCustomerHeaders
+  - Added Interface BillingRoleAssignmentsResolveByCustomerOptionalParams
+  - Added Interface BillingRoleAssignmentsResolveByInvoiceSectionHeaders
+  - Added Interface BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams
+  - Added Interface BillingRoleDefinitionGetByBillingAccountOptionalParams
+  - Added Interface BillingRoleDefinitionGetByBillingProfileOptionalParams
+  - Added Interface BillingRoleDefinitionGetByCustomerOptionalParams
+  - Added Interface BillingRoleDefinitionGetByDepartmentOptionalParams
+  - Added Interface BillingRoleDefinitionGetByEnrollmentAccountOptionalParams
+  - Added Interface BillingRoleDefinitionGetByInvoiceSectionOptionalParams
+  - Added Interface BillingRoleDefinitionListByBillingAccountNextOptionalParams
+  - Added Interface BillingRoleDefinitionListByBillingAccountOptionalParams
+  - Added Interface BillingRoleDefinitionListByBillingProfileNextOptionalParams
+  - Added Interface BillingRoleDefinitionListByBillingProfileOptionalParams
+  - Added Interface BillingRoleDefinitionListByCustomerNextOptionalParams
+  - Added Interface BillingRoleDefinitionListByCustomerOptionalParams
+  - Added Interface BillingRoleDefinitionListByDepartmentNextOptionalParams
+  - Added Interface BillingRoleDefinitionListByDepartmentOptionalParams
+  - Added Interface BillingRoleDefinitionListByEnrollmentAccountNextOptionalParams
+  - Added Interface BillingRoleDefinitionListByEnrollmentAccountOptionalParams
+  - Added Interface BillingRoleDefinitionListByInvoiceSectionNextOptionalParams
+  - Added Interface BillingRoleDefinitionListByInvoiceSectionOptionalParams
+  - Added Interface BillingRoleDefinitionProperties
+  - Added Interface BillingSubscriptionAlias
+  - Added Interface BillingSubscriptionAliasListResult
+  - Added Interface BillingSubscriptionAliasProperties
+  - Added Interface BillingSubscriptionListResult
+  - Added Interface BillingSubscriptionMergeRequest
+  - Added Interface BillingSubscriptionPatch
+  - Added Interface BillingSubscriptionProperties
+  - Added Interface BillingSubscriptionsAliasesCreateOrUpdateHeaders
+  - Added Interface BillingSubscriptionsAliasesCreateOrUpdateOptionalParams
+  - Added Interface BillingSubscriptionsAliasesGetOptionalParams
+  - Added Interface BillingSubscriptionsAliasesListByBillingAccountNextOptionalParams
+  - Added Interface BillingSubscriptionsAliasesListByBillingAccountOptionalParams
+  - Added Interface BillingSubscriptionsCancelHeaders
+  - Added Interface BillingSubscriptionsCancelOptionalParams
+  - Added Interface BillingSubscriptionsDeleteHeaders
+  - Added Interface BillingSubscriptionsDeleteOptionalParams
+  - Added Interface BillingSubscriptionsGetByBillingProfileOptionalParams
+  - Added Interface BillingSubscriptionsListByCustomerAtBillingAccountNextOptionalParams
+  - Added Interface BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams
+  - Added Interface BillingSubscriptionsListByEnrollmentAccountNextOptionalParams
+  - Added Interface BillingSubscriptionsListByEnrollmentAccountOptionalParams
+  - Added Interface BillingSubscriptionsMergeHeaders
+  - Added Interface BillingSubscriptionsMergeOptionalParams
+  - Added Interface BillingSubscriptionSplitRequest
+  - Added Interface BillingSubscriptionsSplitHeaders
+  - Added Interface BillingSubscriptionsSplitOptionalParams
+  - Added Interface BillingSubscriptionStatusDetails
+  - Added Interface BillingSubscriptionsUpdateHeaders
+  - Added Interface BillingSubscriptionsValidateMoveEligibilityOptionalParams
+  - Added Interface CancelSubscriptionRequest
+  - Added Interface CheckAccessRequest
+  - Added Interface CheckAccessResponse
+  - Added Interface Commitment
+  - Added Interface CustomerPolicyProperties
+  - Added Interface CustomerProperties
+  - Added Interface CustomersGetByBillingAccountOptionalParams
+  - Added Interface DeleteBillingProfileEligibilityDetail
+  - Added Interface DeleteBillingProfileEligibilityResult
+  - Added Interface DeleteInvoiceSectionEligibilityDetail
+  - Added Interface DeleteInvoiceSectionEligibilityResult
+  - Added Interface DepartmentListResult
+  - Added Interface DepartmentProperties
+  - Added Interface DepartmentsGetOptionalParams
+  - Added Interface DepartmentsListByBillingAccountNextOptionalParams
+  - Added Interface DepartmentsListByBillingAccountOptionalParams
+  - Added Interface DetailedTransferStatus
+  - Added Interface DocumentDownloadRequest
+  - Added Interface DocumentDownloadResult
+  - Added Interface EnrollmentAccountProperties
+  - Added Interface EnrollmentAccountsGetByDepartmentOptionalParams
+  - Added Interface EnrollmentAccountsListByBillingAccountNextOptionalParams
+  - Added Interface EnrollmentAccountsListByBillingAccountOptionalParams
+  - Added Interface EnrollmentAccountsListByDepartmentNextOptionalParams
+  - Added Interface EnrollmentAccountsListByDepartmentOptionalParams
+  - Added Interface EnrollmentDetails
+  - Added Interface EnrollmentDetailsIndirectRelationshipInfo
+  - Added Interface EnterpriseAgreementPolicies
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ExtendedStatusDefinitionProperties
+  - Added Interface ExtendedStatusInfo
+  - Added Interface ExternalReference
+  - Added Interface FailedPayment
+  - Added Interface InitiateTransferRequest
+  - Added Interface InvoiceDocument
+  - Added Interface InvoiceProperties
+  - Added Interface InvoicePropertiesAmountDue
+  - Added Interface InvoicePropertiesAzurePrepaymentApplied
+  - Added Interface InvoicePropertiesBilledAmount
+  - Added Interface InvoicePropertiesCreditAmount
+  - Added Interface InvoicePropertiesFreeAzureCreditApplied
+  - Added Interface InvoicePropertiesRebillDetails
+  - Added Interface InvoicePropertiesRefundDetails
+  - Added Interface InvoicePropertiesSubTotal
+  - Added Interface InvoicePropertiesTaxAmount
+  - Added Interface InvoicePropertiesTotalAmount
+  - Added Interface InvoicesAmendHeaders
+  - Added Interface InvoicesAmendOptionalParams
+  - Added Interface InvoicesDownloadByBillingAccountHeaders
+  - Added Interface InvoicesDownloadByBillingAccountOptionalParams
+  - Added Interface InvoicesDownloadByBillingSubscriptionHeaders
+  - Added Interface InvoicesDownloadByBillingSubscriptionOptionalParams
+  - Added Interface InvoicesDownloadDocumentsByBillingAccountHeaders
+  - Added Interface InvoicesDownloadDocumentsByBillingAccountOptionalParams
+  - Added Interface InvoicesDownloadDocumentsByBillingSubscriptionHeaders
+  - Added Interface InvoicesDownloadDocumentsByBillingSubscriptionOptionalParams
+  - Added Interface InvoicesDownloadSummaryByBillingAccountHeaders
+  - Added Interface InvoicesDownloadSummaryByBillingAccountOptionalParams
+  - Added Interface InvoiceSectionProperties
+  - Added Interface InvoiceSectionsDeleteHeaders
+  - Added Interface InvoiceSectionsDeleteOptionalParams
+  - Added Interface InvoiceSectionsValidateDeleteEligibilityOptionalParams
+  - Added Interface InvoiceSectionWithCreateSubPermissionListResult
+  - Added Interface InvoicesGetByBillingAccountOptionalParams
+  - Added Interface InvoicesGetByBillingSubscriptionOptionalParams
+  - Added Interface MoveBillingSubscriptionEligibilityResult
+  - Added Interface MoveBillingSubscriptionErrorDetails
+  - Added Interface MoveBillingSubscriptionRequest
+  - Added Interface MoveProductEligibilityResult
+  - Added Interface MoveProductEligibilityResultErrorDetails
+  - Added Interface MoveProductErrorDetails
+  - Added Interface MoveProductRequest
+  - Added Interface NextBillingCycleDetails
+  - Added Interface Participant
+  - Added Interface PartnerInitiateTransferRequest
+  - Added Interface PartnerTransferDetails
+  - Added Interface PartnerTransferDetailsListResult
+  - Added Interface PartnerTransfersCancelOptionalParams
+  - Added Interface PartnerTransfersGetOptionalParams
+  - Added Interface PartnerTransfersInitiateOptionalParams
+  - Added Interface PartnerTransfersListNextOptionalParams
+  - Added Interface PartnerTransfersListOptionalParams
+  - Added Interface Patch
+  - Added Interface Payment
+  - Added Interface PaymentAmount
+  - Added Interface PaymentDetail
+  - Added Interface PaymentMethod
+  - Added Interface PaymentMethodLink
+  - Added Interface PaymentMethodLinksListResult
+  - Added Interface PaymentMethodLogo
+  - Added Interface PaymentMethodProperties
+  - Added Interface PaymentMethodsDeleteByUserOptionalParams
+  - Added Interface PaymentMethodsGetByBillingAccountOptionalParams
+  - Added Interface PaymentMethodsGetByBillingProfileOptionalParams
+  - Added Interface PaymentMethodsGetByUserOptionalParams
+  - Added Interface PaymentMethodsListByBillingAccountNextOptionalParams
+  - Added Interface PaymentMethodsListByBillingAccountOptionalParams
+  - Added Interface PaymentMethodsListByBillingProfileNextOptionalParams
+  - Added Interface PaymentMethodsListByBillingProfileOptionalParams
+  - Added Interface PaymentMethodsListByUserNextOptionalParams
+  - Added Interface PaymentMethodsListByUserOptionalParams
+  - Added Interface PaymentMethodsListResult
+  - Added Interface PaymentOnAccount
+  - Added Interface PaymentOnAccountAmount
+  - Added Interface PaymentTerm
+  - Added Interface PaymentTermsEligibilityDetail
+  - Added Interface PaymentTermsEligibilityResult
+  - Added Interface PoliciesCreateOrUpdateByBillingAccountHeaders
+  - Added Interface PoliciesCreateOrUpdateByBillingAccountOptionalParams
+  - Added Interface PoliciesCreateOrUpdateByBillingProfileHeaders
+  - Added Interface PoliciesCreateOrUpdateByBillingProfileOptionalParams
+  - Added Interface PoliciesCreateOrUpdateByCustomerAtBillingAccountHeaders
+  - Added Interface PoliciesCreateOrUpdateByCustomerAtBillingAccountOptionalParams
+  - Added Interface PoliciesCreateOrUpdateByCustomerHeaders
+  - Added Interface PoliciesCreateOrUpdateByCustomerOptionalParams
+  - Added Interface PoliciesGetByBillingAccountOptionalParams
+  - Added Interface PoliciesGetByCustomerAtBillingAccountOptionalParams
+  - Added Interface PoliciesGetBySubscriptionOptionalParams
+  - Added Interface PolicySummary
+  - Added Interface Price
+  - Added Interface Principal
+  - Added Interface ProductDetails
+  - Added Interface ProductListResult
+  - Added Interface ProductPatch
+  - Added Interface ProductProperties
+  - Added Interface ProductPropertiesLastCharge
+  - Added Interface ProductPropertiesReseller
+  - Added Interface ProductsValidateMoveEligibilityOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ProxyResourceWithTags
+  - Added Interface PurchaseRequest
+  - Added Interface RecipientTransferDetails
+  - Added Interface RecipientTransferDetailsListResult
+  - Added Interface RecipientTransfersAcceptOptionalParams
+  - Added Interface RecipientTransfersDeclineOptionalParams
+  - Added Interface RecipientTransfersGetOptionalParams
+  - Added Interface RecipientTransfersListNextOptionalParams
+  - Added Interface RecipientTransfersListOptionalParams
+  - Added Interface RecipientTransfersValidateOptionalParams
+  - Added Interface RefundDetailsSummary
+  - Added Interface RefundDetailsSummaryAmountRefunded
+  - Added Interface RefundDetailsSummaryAmountRequested
+  - Added Interface RefundTransactionDetails
+  - Added Interface RefundTransactionDetailsAmountRefunded
+  - Added Interface RefundTransactionDetailsAmountRequested
+  - Added Interface RegistrationNumber
+  - Added Interface RenewalTermDetails
+  - Added Interface RenewProperties
+  - Added Interface RenewPropertiesResponse
+  - Added Interface ReservationAppliedScopeProperties
+  - Added Interface ReservationExtendedStatusInfo
+  - Added Interface ReservationList
+  - Added Interface ReservationMergeProperties
+  - Added Interface ReservationOrder
+  - Added Interface ReservationOrderBillingPlanInformation
+  - Added Interface ReservationOrderList
+  - Added Interface ReservationOrdersGetByBillingAccountOptionalParams
+  - Added Interface ReservationOrdersListByBillingAccountNextOptionalParams
+  - Added Interface ReservationOrdersListByBillingAccountOptionalParams
+  - Added Interface ReservationPaymentDetail
+  - Added Interface ReservationPurchaseRequest
+  - Added Interface ReservationsGetByReservationOrderOptionalParams
+  - Added Interface ReservationsListByReservationOrderNextOptionalParams
+  - Added Interface ReservationsListByReservationOrderOptionalParams
+  - Added Interface ReservationSplitProperties
+  - Added Interface ReservationsUpdateByBillingAccountHeaders
+  - Added Interface ReservationsUpdateByBillingAccountOptionalParams
+  - Added Interface ReservationSwapProperties
+  - Added Interface SavingsPlanModel
+  - Added Interface SavingsPlanModelList
+  - Added Interface SavingsPlanModelListResult
+  - Added Interface SavingsPlanOrderModel
+  - Added Interface SavingsPlanOrderModelList
+  - Added Interface SavingsPlanOrdersGetByBillingAccountOptionalParams
+  - Added Interface SavingsPlanOrdersListByBillingAccountNextOptionalParams
+  - Added Interface SavingsPlanOrdersListByBillingAccountOptionalParams
+  - Added Interface SavingsPlansGetByBillingAccountOptionalParams
+  - Added Interface SavingsPlansListByBillingAccountNextOptionalParams
+  - Added Interface SavingsPlansListByBillingAccountOptionalParams
+  - Added Interface SavingsPlansListBySavingsPlanOrderNextOptionalParams
+  - Added Interface SavingsPlansListBySavingsPlanOrderOptionalParams
+  - Added Interface SavingsPlanSummaryCount
+  - Added Interface SavingsPlansUpdateByBillingAccountHeaders
+  - Added Interface SavingsPlansUpdateByBillingAccountOptionalParams
+  - Added Interface SavingsPlansValidateUpdateByBillingAccountOptionalParams
+  - Added Interface SavingsPlanUpdateRequest
+  - Added Interface SavingsPlanUpdateRequestProperties
+  - Added Interface SavingsPlanUpdateValidateRequest
+  - Added Interface SavingsPlanValidateResponse
+  - Added Interface SavingsPlanValidResponseProperty
+  - Added Interface Sku
+  - Added Interface SkuName
+  - Added Interface SpendingLimitDetails
+  - Added Interface SubscriptionEnrollmentDetails
+  - Added Interface SubscriptionPolicy
+  - Added Interface SubscriptionPolicyProperties
+  - Added Interface SystemData
+  - Added Interface SystemOverrides
+  - Added Interface TaxIdentifier
+  - Added Interface TransactionProperties
+  - Added Interface TransactionPropertiesAzureCreditApplied
+  - Added Interface TransactionPropertiesConsumptionCommitmentDecremented
+  - Added Interface TransactionPropertiesEffectivePrice
+  - Added Interface TransactionPropertiesMarketPrice
+  - Added Interface TransactionPropertiesRefundTransactionDetails
+  - Added Interface TransactionPropertiesSubTotal
+  - Added Interface TransactionPropertiesTax
+  - Added Interface TransactionPropertiesTransactionAmount
+  - Added Interface TransactionsGetTransactionSummaryByInvoiceOptionalParams
+  - Added Interface TransactionsListByBillingProfileNextOptionalParams
+  - Added Interface TransactionsListByBillingProfileOptionalParams
+  - Added Interface TransactionsListByCustomerNextOptionalParams
+  - Added Interface TransactionsListByCustomerOptionalParams
+  - Added Interface TransactionsListByInvoiceSectionNextOptionalParams
+  - Added Interface TransactionsListByInvoiceSectionOptionalParams
+  - Added Interface TransactionsTransactionsDownloadByInvoiceHeaders
+  - Added Interface TransactionsTransactionsDownloadByInvoiceOptionalParams
+  - Added Interface TransactionSummary
+  - Added Interface TransferDetails
+  - Added Interface TransferDetailsListResult
+  - Added Interface TransferError
+  - Added Interface TransferItemQueryParameter
+  - Added Interface TransfersCancelOptionalParams
+  - Added Interface TransfersGetOptionalParams
+  - Added Interface TransfersInitiateOptionalParams
+  - Added Interface TransfersListNextOptionalParams
+  - Added Interface TransfersListOptionalParams
+  - Added Interface TransitionDetails
+  - Added Interface Utilization
+  - Added Interface UtilizationAggregates
+  - Added Interface ValidateTransferListResponse
+  - Added Interface ValidateTransferResponse
+  - Added Interface ValidationResultProperties
+  - Added Type Alias AccessDecision
+  - Added Type Alias AccountSubType
+  - Added Type Alias AppliedScopeType
+  - Added Type Alias AssociatedTenantsCreateOrUpdateResponse
+  - Added Type Alias AssociatedTenantsDeleteResponse
+  - Added Type Alias AssociatedTenantsGetResponse
+  - Added Type Alias AssociatedTenantsListByBillingAccountNextResponse
+  - Added Type Alias AssociatedTenantsListByBillingAccountResponse
+  - Added Type Alias AvailableBalancesGetByBillingAccountResponse
+  - Added Type Alias AvailableBalancesGetByBillingProfileResponse
+  - Added Type Alias BillingAccountsAddPaymentTermsResponse
+  - Added Type Alias BillingAccountsCancelPaymentTermsResponse
+  - Added Type Alias BillingAccountsConfirmTransitionResponse
+  - Added Type Alias BillingAccountStatusReasonCode
+  - Added Type Alias BillingAccountsValidatePaymentTermsResponse
+  - Added Type Alias BillingManagementTenantState
+  - Added Type Alias BillingPermissionsCheckAccessByBillingAccountResponse
+  - Added Type Alias BillingPermissionsCheckAccessByBillingProfileResponse
+  - Added Type Alias BillingPermissionsCheckAccessByCustomerResponse
+  - Added Type Alias BillingPermissionsCheckAccessByDepartmentResponse
+  - Added Type Alias BillingPermissionsCheckAccessByEnrollmentAccountResponse
+  - Added Type Alias BillingPermissionsCheckAccessByInvoiceSectionResponse
+  - Added Type Alias BillingPermissionsListByCustomerAtBillingAccountNextResponse
+  - Added Type Alias BillingPermissionsListByCustomerAtBillingAccountResponse
+  - Added Type Alias BillingPermissionsListByDepartmentNextResponse
+  - Added Type Alias BillingPermissionsListByDepartmentResponse
+  - Added Type Alias BillingPermissionsListByEnrollmentAccountNextResponse
+  - Added Type Alias BillingPermissionsListByEnrollmentAccountResponse
+  - Added Type Alias BillingPermissionsListByInvoiceSectionNextResponse
+  - Added Type Alias BillingPermissionsListByInvoiceSectionResponse
+  - Added Type Alias BillingPlan
+  - Added Type Alias BillingProfilesDeleteResponse
+  - Added Type Alias BillingProfilesValidateDeleteEligibilityResponse
+  - Added Type Alias BillingRequestsCreateOrUpdateResponse
+  - Added Type Alias BillingRequestsGetResponse
+  - Added Type Alias BillingRequestsListByBillingAccountNextResponse
+  - Added Type Alias BillingRequestsListByBillingAccountResponse
+  - Added Type Alias BillingRequestsListByBillingProfileNextResponse
+  - Added Type Alias BillingRequestsListByBillingProfileResponse
+  - Added Type Alias BillingRequestsListByCustomerNextResponse
+  - Added Type Alias BillingRequestsListByCustomerResponse
+  - Added Type Alias BillingRequestsListByInvoiceSectionNextResponse
+  - Added Type Alias BillingRequestsListByInvoiceSectionResponse
+  - Added Type Alias BillingRequestsListByUserNextResponse
+  - Added Type Alias BillingRequestsListByUserResponse
+  - Added Type Alias BillingRequestStatus
+  - Added Type Alias BillingRequestType
+  - Added Type Alias BillingRoleAssignmentsCreateByBillingAccountResponse
+  - Added Type Alias BillingRoleAssignmentsCreateByBillingProfileResponse
+  - Added Type Alias BillingRoleAssignmentsCreateByCustomerResponse
+  - Added Type Alias BillingRoleAssignmentsCreateByInvoiceSectionResponse
+  - Added Type Alias BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse
+  - Added Type Alias BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse
+  - Added Type Alias BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse
+  - Added Type Alias BillingRoleAssignmentsGetByCustomerResponse
+  - Added Type Alias BillingRoleAssignmentsGetByDepartmentResponse
+  - Added Type Alias BillingRoleAssignmentsGetByEnrollmentAccountResponse
+  - Added Type Alias BillingRoleAssignmentsListByCustomerNextResponse
+  - Added Type Alias BillingRoleAssignmentsListByCustomerResponse
+  - Added Type Alias BillingRoleAssignmentsListByDepartmentNextResponse
+  - Added Type Alias BillingRoleAssignmentsListByDepartmentResponse
+  - Added Type Alias BillingRoleAssignmentsListByEnrollmentAccountNextResponse
+  - Added Type Alias BillingRoleAssignmentsListByEnrollmentAccountResponse
+  - Added Type Alias BillingRoleAssignmentsResolveByBillingAccountResponse
+  - Added Type Alias BillingRoleAssignmentsResolveByBillingProfileResponse
+  - Added Type Alias BillingRoleAssignmentsResolveByCustomerResponse
+  - Added Type Alias BillingRoleAssignmentsResolveByInvoiceSectionResponse
+  - Added Type Alias BillingRoleDefinitionGetByBillingAccountResponse
+  - Added Type Alias BillingRoleDefinitionGetByBillingProfileResponse
+  - Added Type Alias BillingRoleDefinitionGetByCustomerResponse
+  - Added Type Alias BillingRoleDefinitionGetByDepartmentResponse
+  - Added Type Alias BillingRoleDefinitionGetByEnrollmentAccountResponse
+  - Added Type Alias BillingRoleDefinitionGetByInvoiceSectionResponse
+  - Added Type Alias BillingRoleDefinitionListByBillingAccountNextResponse
+  - Added Type Alias BillingRoleDefinitionListByBillingAccountResponse
+  - Added Type Alias BillingRoleDefinitionListByBillingProfileNextResponse
+  - Added Type Alias BillingRoleDefinitionListByBillingProfileResponse
+  - Added Type Alias BillingRoleDefinitionListByCustomerNextResponse
+  - Added Type Alias BillingRoleDefinitionListByCustomerResponse
+  - Added Type Alias BillingRoleDefinitionListByDepartmentNextResponse
+  - Added Type Alias BillingRoleDefinitionListByDepartmentResponse
+  - Added Type Alias BillingRoleDefinitionListByEnrollmentAccountNextResponse
+  - Added Type Alias BillingRoleDefinitionListByEnrollmentAccountResponse
+  - Added Type Alias BillingRoleDefinitionListByInvoiceSectionNextResponse
+  - Added Type Alias BillingRoleDefinitionListByInvoiceSectionResponse
+  - Added Type Alias BillingSubscriptionOperationStatus
+  - Added Type Alias BillingSubscriptionsAliasesCreateOrUpdateResponse
+  - Added Type Alias BillingSubscriptionsAliasesGetResponse
+  - Added Type Alias BillingSubscriptionsAliasesListByBillingAccountNextResponse
+  - Added Type Alias BillingSubscriptionsAliasesListByBillingAccountResponse
+  - Added Type Alias BillingSubscriptionsCancelResponse
+  - Added Type Alias BillingSubscriptionsDeleteResponse
+  - Added Type Alias BillingSubscriptionsGetByBillingProfileResponse
+  - Added Type Alias BillingSubscriptionsListByCustomerAtBillingAccountNextResponse
+  - Added Type Alias BillingSubscriptionsListByCustomerAtBillingAccountResponse
+  - Added Type Alias BillingSubscriptionsListByEnrollmentAccountNextResponse
+  - Added Type Alias BillingSubscriptionsListByEnrollmentAccountResponse
+  - Added Type Alias BillingSubscriptionsMergeResponse
+  - Added Type Alias BillingSubscriptionsSplitResponse
+  - Added Type Alias BillingSubscriptionStatus
+  - Added Type Alias BillingSubscriptionsValidateMoveEligibilityResponse
+  - Added Type Alias Cancellation
+  - Added Type Alias CancellationReason
+  - Added Type Alias CommitmentGrain
+  - Added Type Alias CreatedByType
+  - Added Type Alias CreditType
+  - Added Type Alias CustomersGetByBillingAccountResponse
+  - Added Type Alias CustomerStatus
+  - Added Type Alias DeleteBillingProfileEligibilityCode
+  - Added Type Alias DeleteBillingProfileEligibilityStatus
+  - Added Type Alias DeleteInvoiceSectionEligibilityCode
+  - Added Type Alias DeleteInvoiceSectionEligibilityStatus
+  - Added Type Alias DepartmentsGetResponse
+  - Added Type Alias DepartmentsListByBillingAccountNextResponse
+  - Added Type Alias DepartmentsListByBillingAccountResponse
+  - Added Type Alias EligibleProductType
+  - Added Type Alias EnrollmentAccountOwnerViewCharges
+  - Added Type Alias EnrollmentAccountsGetByDepartmentResponse
+  - Added Type Alias EnrollmentAccountsListByBillingAccountNextResponse
+  - Added Type Alias EnrollmentAccountsListByBillingAccountResponse
+  - Added Type Alias EnrollmentAccountsListByDepartmentNextResponse
+  - Added Type Alias EnrollmentAccountsListByDepartmentResponse
+  - Added Type Alias EnrollmentAuthLevelState
+  - Added Type Alias EnrollmentDepartmentAdminViewCharges
+  - Added Type Alias ExtendedTermOption
+  - Added Type Alias FailedPaymentReason
+  - Added Type Alias InitiatorCustomerType
+  - Added Type Alias InstanceFlexibility
+  - Added Type Alias InvoicesAmendResponse
+  - Added Type Alias InvoicesDownloadByBillingAccountResponse
+  - Added Type Alias InvoicesDownloadByBillingSubscriptionResponse
+  - Added Type Alias InvoicesDownloadDocumentsByBillingAccountResponse
+  - Added Type Alias InvoicesDownloadDocumentsByBillingSubscriptionResponse
+  - Added Type Alias InvoicesDownloadSummaryByBillingAccountResponse
+  - Added Type Alias InvoiceSectionLabelManagementPolicy
+  - Added Type Alias InvoiceSectionsDeleteResponse
+  - Added Type Alias InvoiceSectionStateReasonCode
+  - Added Type Alias InvoiceSectionsValidateDeleteEligibilityResponse
+  - Added Type Alias InvoicesGetByBillingAccountResponse
+  - Added Type Alias InvoicesGetByBillingSubscriptionResponse
+  - Added Type Alias MarkupStatus
+  - Added Type Alias MoveValidationErrorCode
+  - Added Type Alias PartnerTransfersCancelResponse
+  - Added Type Alias PartnerTransfersGetResponse
+  - Added Type Alias PartnerTransfersInitiateResponse
+  - Added Type Alias PartnerTransfersListNextResponse
+  - Added Type Alias PartnerTransfersListResponse
+  - Added Type Alias PaymentMethodsGetByBillingAccountResponse
+  - Added Type Alias PaymentMethodsGetByBillingProfileResponse
+  - Added Type Alias PaymentMethodsGetByUserResponse
+  - Added Type Alias PaymentMethodsListByBillingAccountNextResponse
+  - Added Type Alias PaymentMethodsListByBillingAccountResponse
+  - Added Type Alias PaymentMethodsListByBillingProfileNextResponse
+  - Added Type Alias PaymentMethodsListByBillingProfileResponse
+  - Added Type Alias PaymentMethodsListByUserNextResponse
+  - Added Type Alias PaymentMethodsListByUserResponse
+  - Added Type Alias PaymentMethodStatus
+  - Added Type Alias PaymentStatus
+  - Added Type Alias PaymentTermsEligibilityCode
+  - Added Type Alias PaymentTermsEligibilityStatus
+  - Added Type Alias PoliciesCreateOrUpdateByBillingAccountResponse
+  - Added Type Alias PoliciesCreateOrUpdateByBillingProfileResponse
+  - Added Type Alias PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse
+  - Added Type Alias PoliciesCreateOrUpdateByCustomerResponse
+  - Added Type Alias PoliciesGetByBillingAccountResponse
+  - Added Type Alias PoliciesGetByCustomerAtBillingAccountResponse
+  - Added Type Alias PoliciesGetBySubscriptionResponse
+  - Added Type Alias PolicyType
+  - Added Type Alias PrincipalType
+  - Added Type Alias ProductStatus
+  - Added Type Alias ProductsValidateMoveEligibilityResponse
+  - Added Type Alias ProductTransferStatus
+  - Added Type Alias ProductType
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ProvisioningTenantState
+  - Added Type Alias RecipientTransfersAcceptResponse
+  - Added Type Alias RecipientTransfersDeclineResponse
+  - Added Type Alias RecipientTransfersGetResponse
+  - Added Type Alias RecipientTransfersListNextResponse
+  - Added Type Alias RecipientTransfersListResponse
+  - Added Type Alias RecipientTransfersValidateResponse
+  - Added Type Alias RefundReasonCode
+  - Added Type Alias RefundStatus
+  - Added Type Alias ReservationBillingPlan
+  - Added Type Alias ReservationOrdersGetByBillingAccountResponse
+  - Added Type Alias ReservationOrdersListByBillingAccountNextResponse
+  - Added Type Alias ReservationOrdersListByBillingAccountResponse
+  - Added Type Alias ReservationsGetByReservationOrderResponse
+  - Added Type Alias ReservationsListByReservationOrderNextResponse
+  - Added Type Alias ReservationsListByReservationOrderResponse
+  - Added Type Alias ReservationStatusCode
+  - Added Type Alias ReservationsUpdateByBillingAccountResponse
+  - Added Type Alias SavingsPlanOrdersGetByBillingAccountResponse
+  - Added Type Alias SavingsPlanOrdersListByBillingAccountNextResponse
+  - Added Type Alias SavingsPlanOrdersListByBillingAccountResponse
+  - Added Type Alias SavingsPlanPurchasesPolicy
+  - Added Type Alias SavingsPlansGetByBillingAccountResponse
+  - Added Type Alias SavingsPlansListByBillingAccountNextResponse
+  - Added Type Alias SavingsPlansListByBillingAccountResponse
+  - Added Type Alias SavingsPlansListBySavingsPlanOrderNextResponse
+  - Added Type Alias SavingsPlansListBySavingsPlanOrderResponse
+  - Added Type Alias SavingsPlansUpdateByBillingAccountResponse
+  - Added Type Alias SavingsPlansValidateUpdateByBillingAccountResponse
+  - Added Type Alias SavingsPlanTerm
+  - Added Type Alias ServiceDefinedResourceName
+  - Added Type Alias SpecialTaxationType
+  - Added Type Alias SpendingLimitStatus
+  - Added Type Alias SpendingLimitType
+  - Added Type Alias SubscriptionBillingType
+  - Added Type Alias SubscriptionEnrollmentAccountStatus
+  - Added Type Alias SubscriptionStatusReason
+  - Added Type Alias SubscriptionWorkloadType
+  - Added Type Alias SupportedAccountType
+  - Added Type Alias SupportLevel
+  - Added Type Alias TaxIdentifierStatus
+  - Added Type Alias TaxIdentifierType
+  - Added Type Alias TransactionKind
+  - Added Type Alias TransactionsGetTransactionSummaryByInvoiceResponse
+  - Added Type Alias TransactionsListByBillingProfileNextResponse
+  - Added Type Alias TransactionsListByBillingProfileResponse
+  - Added Type Alias TransactionsListByCustomerNextResponse
+  - Added Type Alias TransactionsListByCustomerResponse
+  - Added Type Alias TransactionsListByInvoiceSectionNextResponse
+  - Added Type Alias TransactionsListByInvoiceSectionResponse
+  - Added Type Alias TransactionsTransactionsDownloadByInvoiceResponse
+  - Added Type Alias TransactionType
+  - Added Type Alias TransfersCancelResponse
+  - Added Type Alias TransfersGetResponse
+  - Added Type Alias TransfersInitiateResponse
+  - Added Type Alias TransfersListNextResponse
+  - Added Type Alias TransfersListResponse
+  - Added Type Alias TransferStatus
+  - Interface AddressDetails has a new optional parameter isValidAddress
+  - Interface Agreement has a new optional parameter properties
+  - Interface AvailableBalance has a new optional parameter properties
+  - Interface AzurePlan has a new optional parameter productId
+  - Interface BillingAccount has a new optional parameter properties
+  - Interface BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams has a new optional parameter filter
+  - Interface BillingAccountsListOptionalParams has a new optional parameter filter
+  - Interface BillingAccountsListOptionalParams has a new optional parameter includeAll
+  - Interface BillingAccountsListOptionalParams has a new optional parameter includeAllWithoutBillingProfiles
+  - Interface BillingAccountsListOptionalParams has a new optional parameter includeDeleted
+  - Interface BillingAccountsListOptionalParams has a new optional parameter includePendingAgreement
+  - Interface BillingAccountsListOptionalParams has a new optional parameter includeResellee
+  - Interface BillingAccountsListOptionalParams has a new optional parameter legalOwnerOID
+  - Interface BillingAccountsListOptionalParams has a new optional parameter legalOwnerTID
+  - Interface BillingAccountsListOptionalParams has a new optional parameter search
+  - Interface BillingAccountsListOptionalParams has a new optional parameter skip
+  - Interface BillingAccountsListOptionalParams has a new optional parameter top
+  - Interface BillingManagementClientOptionalParams has a new optional parameter apiVersion
+  - Interface BillingProfile has a new optional parameter properties
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter count
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter filter
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter includeDeleted
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter orderBy
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter search
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter skip
+  - Interface BillingProfilesListByBillingAccountOptionalParams has a new optional parameter top
+  - Interface BillingProperty has a new optional parameter properties
+  - Interface BillingPropertyGetOptionalParams has a new optional parameter includeBillingCountry
+  - Interface BillingPropertyGetOptionalParams has a new optional parameter includeTransitionStatus
+  - Interface BillingRoleAssignment has a new optional parameter properties
+  - Interface BillingRoleAssignmentsListByBillingAccountOptionalParams has a new optional parameter filter
+  - Interface BillingRoleAssignmentsListByBillingAccountOptionalParams has a new optional parameter skip
+  - Interface BillingRoleAssignmentsListByBillingAccountOptionalParams has a new optional parameter top
+  - Interface BillingRoleAssignmentsListByBillingProfileOptionalParams has a new optional parameter filter
+  - Interface BillingRoleAssignmentsListByBillingProfileOptionalParams has a new optional parameter skip
+  - Interface BillingRoleAssignmentsListByBillingProfileOptionalParams has a new optional parameter top
+  - Interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams has a new optional parameter filter
+  - Interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams has a new optional parameter skip
+  - Interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams has a new optional parameter top
+  - Interface BillingRoleDefinition has a new optional parameter properties
+  - Interface BillingSubscription has a new optional parameter autoRenew
+  - Interface BillingSubscription has a new optional parameter beneficiary
+  - Interface BillingSubscription has a new optional parameter beneficiaryTenantId
+  - Interface BillingSubscription has a new optional parameter billingFrequency
+  - Interface BillingSubscription has a new optional parameter billingPolicies
+  - Interface BillingSubscription has a new optional parameter billingProfileName
+  - Interface BillingSubscription has a new optional parameter consumptionCostCenter
+  - Interface BillingSubscription has a new optional parameter customerName
+  - Interface BillingSubscription has a new optional parameter enrollmentAccountDisplayName
+  - Interface BillingSubscription has a new optional parameter enrollmentAccountId
+  - Interface BillingSubscription has a new optional parameter enrollmentAccountStartDate
+  - Interface BillingSubscription has a new optional parameter invoiceSectionName
+  - Interface BillingSubscription has a new optional parameter nextBillingCycleDetails
+  - Interface BillingSubscription has a new optional parameter offerId
+  - Interface BillingSubscription has a new optional parameter operationStatus
+  - Interface BillingSubscription has a new optional parameter productCategory
+  - Interface BillingSubscription has a new optional parameter productType
+  - Interface BillingSubscription has a new optional parameter productTypeId
+  - Interface BillingSubscription has a new optional parameter provisioningState
+  - Interface BillingSubscription has a new optional parameter provisioningTenantId
+  - Interface BillingSubscription has a new optional parameter purchaseDate
+  - Interface BillingSubscription has a new optional parameter quantity
+  - Interface BillingSubscription has a new optional parameter renewalTermDetails
+  - Interface BillingSubscription has a new optional parameter resourceUri
+  - Interface BillingSubscription has a new optional parameter status
+  - Interface BillingSubscription has a new optional parameter subscriptionEnrollmentAccountStatus
+  - Interface BillingSubscription has a new optional parameter suspensionReasonDetails
+  - Interface BillingSubscription has a new optional parameter systemOverrides
+  - Interface BillingSubscription has a new optional parameter termDuration
+  - Interface BillingSubscription has a new optional parameter termEndDate
+  - Interface BillingSubscription has a new optional parameter termStartDate
+  - Interface BillingSubscriptionsGetOptionalParams has a new optional parameter expand
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter count
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter expand
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter filter
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter includeDeleted
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter includeFailed
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter includeTenantSubscriptions
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter orderBy
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter search
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter skip
+  - Interface BillingSubscriptionsListByBillingAccountOptionalParams has a new optional parameter top
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter count
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter expand
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter filter
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter includeDeleted
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter orderBy
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter search
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter skip
+  - Interface BillingSubscriptionsListByBillingProfileOptionalParams has a new optional parameter top
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter count
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter expand
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter filter
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter includeDeleted
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter orderBy
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter search
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter skip
+  - Interface BillingSubscriptionsListByCustomerOptionalParams has a new optional parameter top
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter count
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter expand
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter filter
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter includeDeleted
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter orderBy
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter search
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter skip
+  - Interface BillingSubscriptionsListByInvoiceSectionOptionalParams has a new optional parameter top
+  - Interface BillingSubscriptionsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface BillingSubscriptionsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Customer has a new optional parameter properties
+  - Interface CustomerPolicy has a new optional parameter properties
+  - Interface CustomersListByBillingAccountOptionalParams has a new optional parameter count
+  - Interface CustomersListByBillingAccountOptionalParams has a new optional parameter expand
+  - Interface CustomersListByBillingAccountOptionalParams has a new optional parameter orderBy
+  - Interface CustomersListByBillingAccountOptionalParams has a new optional parameter skip
+  - Interface CustomersListByBillingAccountOptionalParams has a new optional parameter top
+  - Interface CustomersListByBillingProfileOptionalParams has a new optional parameter count
+  - Interface CustomersListByBillingProfileOptionalParams has a new optional parameter expand
+  - Interface CustomersListByBillingProfileOptionalParams has a new optional parameter orderBy
+  - Interface CustomersListByBillingProfileOptionalParams has a new optional parameter skip
+  - Interface CustomersListByBillingProfileOptionalParams has a new optional parameter top
+  - Interface Department has a new optional parameter properties
+  - Interface EnrollmentAccount has a new optional parameter properties
+  - Interface Invoice has a new optional parameter properties
+  - Interface InvoiceSection has a new optional parameter properties
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter count
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter filter
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter includeDeleted
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter orderBy
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter search
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter skip
+  - Interface InvoiceSectionsListByBillingProfileOptionalParams has a new optional parameter top
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter count
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter filter
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter orderBy
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter periodEndDate
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter periodStartDate
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter search
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter skip
+  - Interface InvoicesListByBillingAccountOptionalParams has a new optional parameter top
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter count
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter filter
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter orderBy
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter periodEndDate
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter periodStartDate
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter search
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter skip
+  - Interface InvoicesListByBillingProfileOptionalParams has a new optional parameter top
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter count
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter filter
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter orderBy
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter periodEndDate
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter periodStartDate
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter search
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter skip
+  - Interface InvoicesListByBillingSubscriptionOptionalParams has a new optional parameter top
+  - Interface Product has a new optional parameter properties
+  - Interface ProductsListByBillingAccountOptionalParams has a new optional parameter count
+  - Interface ProductsListByBillingAccountOptionalParams has a new optional parameter orderBy
+  - Interface ProductsListByBillingAccountOptionalParams has a new optional parameter search
+  - Interface ProductsListByBillingAccountOptionalParams has a new optional parameter skip
+  - Interface ProductsListByBillingAccountOptionalParams has a new optional parameter top
+  - Interface ProductsListByBillingProfileOptionalParams has a new optional parameter count
+  - Interface ProductsListByBillingProfileOptionalParams has a new optional parameter orderBy
+  - Interface ProductsListByBillingProfileOptionalParams has a new optional parameter search
+  - Interface ProductsListByBillingProfileOptionalParams has a new optional parameter skip
+  - Interface ProductsListByBillingProfileOptionalParams has a new optional parameter top
+  - Interface ProductsListByCustomerOptionalParams has a new optional parameter count
+  - Interface ProductsListByCustomerOptionalParams has a new optional parameter filter
+  - Interface ProductsListByCustomerOptionalParams has a new optional parameter orderBy
+  - Interface ProductsListByCustomerOptionalParams has a new optional parameter search
+  - Interface ProductsListByCustomerOptionalParams has a new optional parameter skip
+  - Interface ProductsListByCustomerOptionalParams has a new optional parameter top
+  - Interface ProductsListByInvoiceSectionOptionalParams has a new optional parameter count
+  - Interface ProductsListByInvoiceSectionOptionalParams has a new optional parameter orderBy
+  - Interface ProductsListByInvoiceSectionOptionalParams has a new optional parameter search
+  - Interface ProductsListByInvoiceSectionOptionalParams has a new optional parameter skip
+  - Interface ProductsListByInvoiceSectionOptionalParams has a new optional parameter top
+  - Interface ProductsMoveOptionalParams has a new optional parameter resumeFrom
+  - Interface ProductsMoveOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Reservation has a new optional parameter aggregates
+  - Interface Reservation has a new optional parameter appliedScopeProperties
+  - Interface Reservation has a new optional parameter archived
+  - Interface Reservation has a new optional parameter benefitStartTime
+  - Interface Reservation has a new optional parameter billingPlan
+  - Interface Reservation has a new optional parameter billingScopeId
+  - Interface Reservation has a new optional parameter capabilities
+  - Interface Reservation has a new optional parameter etag
+  - Interface Reservation has a new optional parameter expiryDateTime
+  - Interface Reservation has a new optional parameter extendedStatusInfo
+  - Interface Reservation has a new optional parameter instanceFlexibility
+  - Interface Reservation has a new optional parameter lastUpdatedDateTime
+  - Interface Reservation has a new optional parameter mergeProperties
+  - Interface Reservation has a new optional parameter productCode
+  - Interface Reservation has a new optional parameter purchaseDate
+  - Interface Reservation has a new optional parameter purchaseDateTime
+  - Interface Reservation has a new optional parameter renewDestination
+  - Interface Reservation has a new optional parameter renewProperties
+  - Interface Reservation has a new optional parameter reviewDateTime
+  - Interface Reservation has a new optional parameter splitProperties
+  - Interface Reservation has a new optional parameter swapProperties
+  - Interface Reservation has a new optional parameter tags
+  - Interface Reservation has a new optional parameter trend
+  - Interface ReservationsListByBillingAccountOptionalParams has a new optional parameter orderBy
+  - Interface ReservationsListByBillingAccountOptionalParams has a new optional parameter skiptoken
+  - Interface ReservationsListByBillingAccountOptionalParams has a new optional parameter take
+  - Interface ReservationsListByBillingProfileOptionalParams has a new optional parameter orderBy
+  - Interface ReservationsListByBillingProfileOptionalParams has a new optional parameter skiptoken
+  - Interface ReservationsListByBillingProfileOptionalParams has a new optional parameter take
+  - Interface ReservationSummary has a new optional parameter noBenefitCount
+  - Interface ReservationSummary has a new optional parameter processingCount
+  - Interface ReservationSummary has a new optional parameter warningCount
+  - Interface Resource has a new optional parameter systemData
+  - Interface Transaction has a new optional parameter properties
+  - Interface TransactionsListByInvoiceOptionalParams has a new optional parameter count
+  - Interface TransactionsListByInvoiceOptionalParams has a new optional parameter filter
+  - Interface TransactionsListByInvoiceOptionalParams has a new optional parameter orderBy
+  - Interface TransactionsListByInvoiceOptionalParams has a new optional parameter search
+  - Interface TransactionsListByInvoiceOptionalParams has a new optional parameter skip
+  - Interface TransactionsListByInvoiceOptionalParams has a new optional parameter top
+  - Added Enum KnownAccessDecision
+  - Added Enum KnownAccountSubType
+  - Added Enum KnownAppliedScopeType
+  - Added Enum KnownBillingAccountStatusReasonCode
+  - Added Enum KnownBillingManagementTenantState
+  - Added Enum KnownBillingPlan
+  - Added Enum KnownBillingRequestStatus
+  - Added Enum KnownBillingRequestType
+  - Added Enum KnownBillingSubscriptionOperationStatus
+  - Added Enum KnownBillingSubscriptionStatus
+  - Added Enum KnownCancellation
+  - Added Enum KnownCancellationReason
+  - Added Enum KnownCommitmentGrain
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCreditType
+  - Added Enum KnownCustomerStatus
+  - Added Enum KnownDeleteBillingProfileEligibilityCode
+  - Added Enum KnownDeleteBillingProfileEligibilityStatus
+  - Added Enum KnownDeleteInvoiceSectionEligibilityCode
+  - Added Enum KnownDeleteInvoiceSectionEligibilityStatus
+  - Added Enum KnownEligibleProductType
+  - Added Enum KnownEnrollmentAccountOwnerViewCharges
+  - Added Enum KnownEnrollmentAuthLevelState
+  - Added Enum KnownEnrollmentDepartmentAdminViewCharges
+  - Added Enum KnownExtendedTermOption
+  - Added Enum KnownFailedPaymentReason
+  - Added Enum KnownInitiatorCustomerType
+  - Added Enum KnownInstanceFlexibility
+  - Added Enum KnownInvoiceSectionLabelManagementPolicy
+  - Added Enum KnownInvoiceSectionStateReasonCode
+  - Added Enum KnownMarkupStatus
+  - Added Enum KnownMoveValidationErrorCode
+  - Added Enum KnownPaymentMethodStatus
+  - Added Enum KnownPaymentStatus
+  - Added Enum KnownPaymentTermsEligibilityCode
+  - Added Enum KnownPaymentTermsEligibilityStatus
+  - Added Enum KnownPolicyType
+  - Added Enum KnownPrincipalType
+  - Added Enum KnownProductStatus
+  - Added Enum KnownProductTransferStatus
+  - Added Enum KnownProductType
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownProvisioningTenantState
+  - Added Enum KnownRefundReasonCode
+  - Added Enum KnownRefundStatus
+  - Added Enum KnownReservationBillingPlan
+  - Added Enum KnownReservationStatusCode
+  - Added Enum KnownSavingsPlanPurchasesPolicy
+  - Added Enum KnownSavingsPlanTerm
+  - Added Enum KnownServiceDefinedResourceName
+  - Added Enum KnownSpecialTaxationType
+  - Added Enum KnownSpendingLimitStatus
+  - Added Enum KnownSpendingLimitType
+  - Added Enum KnownSubscriptionBillingType
+  - Added Enum KnownSubscriptionEnrollmentAccountStatus
+  - Added Enum KnownSubscriptionStatusReason
+  - Added Enum KnownSubscriptionWorkloadType
+  - Added Enum KnownSupportedAccountType
+  - Added Enum KnownSupportLevel
+  - Added Enum KnownTaxIdentifierStatus
+  - Added Enum KnownTaxIdentifierType
+  - Added Enum KnownTransactionKind
+  - Added Enum KnownTransactionType
+  - Added Enum KnownTransferStatus
+  - Enum KnownAcceptanceMode has a new value Implicit
+  - Enum KnownAcceptanceMode has a new value Offline
+  - Enum KnownAcceptanceMode has a new value Other
+  - Enum KnownAcceptanceMode has a new value PhysicalSign
+  - Enum KnownAccountStatus has a new value New
+  - Enum KnownAccountStatus has a new value Other
+  - Enum KnownAccountStatus has a new value Pending
+  - Enum KnownAccountStatus has a new value UnderReview
+  - Enum KnownAccountType has a new value Business
+  - Enum KnownAccountType has a new value ClassicPartner
+  - Enum KnownAccountType has a new value Internal
+  - Enum KnownAccountType has a new value Other
+  - Enum KnownAccountType has a new value Reseller
+  - Enum KnownAccountType has a new value Tenant
+  - Enum KnownAddressValidationStatus has a new value Other
+  - Enum KnownAgreementType has a new value Other
+  - Enum KnownBillingProfileStatus has a new value Deleted
+  - Enum KnownBillingProfileStatus has a new value Other
+  - Enum KnownBillingProfileStatus has a new value UnderReview
+  - Enum KnownBillingProfileStatusReasonCode has a new value Other
+  - Enum KnownBillingProfileStatusReasonCode has a new value UnusualActivity
+  - Enum KnownBillingRelationshipType has a new value CSPCustomer
+  - Enum KnownBillingRelationshipType has a new value Other
+  - Enum KnownCategory has a new value IndirectForGovernmentAgreement
+  - Enum KnownCategory has a new value MicrosoftPartnerAgreement
+  - Enum KnownCategory has a new value UKCloudComputeFramework
+  - Enum KnownDocumentSource has a new value Other
+  - Enum KnownInvoiceDocumentType has a new value Other
+  - Enum KnownInvoiceDocumentType has a new value Summary
+  - Enum KnownInvoiceDocumentType has a new value TaxReceipt
+  - Enum KnownInvoiceDocumentType has a new value Transactions
+  - Enum KnownInvoiceDocumentType has a new value VoidNote
+  - Enum KnownInvoiceSectionState has a new value Deleted
+  - Enum KnownInvoiceSectionState has a new value Disabled
+  - Enum KnownInvoiceSectionState has a new value Other
+  - Enum KnownInvoiceSectionState has a new value UnderReview
+  - Enum KnownInvoiceSectionState has a new value Warned
+  - Enum KnownInvoiceStatus has a new value Locked
+  - Enum KnownInvoiceStatus has a new value Other
+  - Enum KnownInvoiceType has a new value AzureServices
+  - Enum KnownInvoiceType has a new value Other
+  - Enum KnownMarketplacePurchasesPolicy has a new value Disabled
+  - Enum KnownMarketplacePurchasesPolicy has a new value Other
+  - Enum KnownPaymentMethodFamily has a new value DirectDebit
+  - Enum KnownPaymentMethodFamily has a new value EWallet
+  - Enum KnownPaymentMethodFamily has a new value Other
+  - Enum KnownPaymentMethodFamily has a new value TaskOrder
+  - Enum KnownReservationPurchasesPolicy has a new value Disabled
+  - Enum KnownReservationPurchasesPolicy has a new value Other
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value AccountIsLocked
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value AssetHasCap
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value AssetNotActive
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value BillingProfilePastDue
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value InvoiceSectionIsRestricted
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value NoActiveAzurePlan
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value None
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value Other
+  - Enum KnownSubscriptionTransferValidationErrorCode has a new value SubscriptionHasReservations
+  - Enum KnownViewChargesPolicy has a new value Other
+
+### Breaking Changes
+
+  - Removed operation group BillingPeriods
+  - Removed operation group BillingRoleDefinitions
+  - Removed operation group Instructions
+  - Removed operation AvailableBalances.get
+  - Removed operation BillingPermissions.listByInvoiceSections
+  - Removed operation BillingSubscriptions.update
+  - Removed operation BillingSubscriptions.validateMove
+  - Removed operation EnrollmentAccounts.list
+  - Removed operation Invoices.beginDownloadBillingSubscriptionInvoice
+  - Removed operation Invoices.beginDownloadBillingSubscriptionInvoiceAndWait
+  - Removed operation Invoices.beginDownloadInvoice
+  - Removed operation Invoices.beginDownloadInvoiceAndWait
+  - Removed operation Invoices.beginDownloadMultipleBillingProfileInvoices
+  - Removed operation Invoices.beginDownloadMultipleBillingProfileInvoicesAndWait
+  - Removed operation Invoices.beginDownloadMultipleBillingSubscriptionInvoices
+  - Removed operation Invoices.beginDownloadMultipleBillingSubscriptionInvoicesAndWait
+  - Removed operation Invoices.getById
+  - Removed operation Invoices.getBySubscriptionAndInvoiceId
+  - Removed operation Policies.update
+  - Removed operation Policies.updateCustomer
+  - Removed operation Products.move
+  - Removed operation Products.validateMove
+  - Operation BillingAccounts.beginUpdate has a new signature
+  - Operation BillingAccounts.beginUpdateAndWait has a new signature
+  - Operation BillingPermissions.listByCustomer has a new signature
+  - Operation BillingSubscriptions.beginMove has a new signature
+  - Operation BillingSubscriptions.beginMoveAndWait has a new signature
+  - Operation BillingSubscriptions.get has a new signature
+  - Operation BillingSubscriptions.listByCustomer has a new signature
+  - Operation Customers.get has a new signature
+  - Operation EnrollmentAccounts.get has a new signature
+  - Operation Invoices.get has a new signature
+  - Operation Invoices.listByBillingAccount has a new signature
+  - Operation Invoices.listByBillingProfile has a new signature
+  - Operation Invoices.listByBillingSubscription has a new signature
+  - Operation Policies.getByCustomer has a new signature
+  - Operation Products.update has a new signature
+  - Class BillingManagementClient has a new signature
+  - Interface Agreement no longer has parameter acceptanceMode
+  - Interface Agreement no longer has parameter agreementLink
+  - Interface Agreement no longer has parameter category
+  - Interface Agreement no longer has parameter effectiveDate
+  - Interface Agreement no longer has parameter expirationDate
+  - Interface Agreement no longer has parameter participants
+  - Interface Agreement no longer has parameter status
+  - Interface AgreementsGetOptionalParams no longer has parameter expand
+  - Interface AgreementsListByBillingAccountNextOptionalParams no longer has parameter expand
+  - Interface AvailableBalance no longer has parameter amount
+  - Interface BillingAccount no longer has parameter accountStatus
+  - Interface BillingAccount no longer has parameter accountType
+  - Interface BillingAccount no longer has parameter agreementType
+  - Interface BillingAccount no longer has parameter billingProfiles
+  - Interface BillingAccount no longer has parameter departments
+  - Interface BillingAccount no longer has parameter displayName
+  - Interface BillingAccount no longer has parameter enrollmentAccounts
+  - Interface BillingAccount no longer has parameter enrollmentDetails
+  - Interface BillingAccount no longer has parameter hasReadAccess
+  - Interface BillingAccount no longer has parameter notificationEmailAddress
+  - Interface BillingAccount no longer has parameter soldTo
+  - Interface BillingAccountsGetOptionalParams no longer has parameter expand
+  - Interface BillingAccountsListNextOptionalParams no longer has parameter expand
+  - Interface BillingProfile no longer has parameter billingRelationshipType
+  - Interface BillingProfile no longer has parameter billTo
+  - Interface BillingProfile no longer has parameter currency
+  - Interface BillingProfile no longer has parameter displayName
+  - Interface BillingProfile no longer has parameter enabledAzurePlans
+  - Interface BillingProfile no longer has parameter hasReadAccess
+  - Interface BillingProfile no longer has parameter indirectRelationshipInfo
+  - Interface BillingProfile no longer has parameter invoiceDay
+  - Interface BillingProfile no longer has parameter invoiceEmailOptIn
+  - Interface BillingProfile no longer has parameter invoiceSections
+  - Interface BillingProfile no longer has parameter poNumber
+  - Interface BillingProfile no longer has parameter spendingLimit
+  - Interface BillingProfile no longer has parameter status
+  - Interface BillingProfile no longer has parameter statusReasonCode
+  - Interface BillingProfile no longer has parameter systemId
+  - Interface BillingProfile no longer has parameter targetClouds
+  - Interface BillingProfilesGetOptionalParams no longer has parameter expand
+  - Interface BillingProfilesListByBillingAccountNextOptionalParams no longer has parameter expand
+  - Interface BillingProfilesListByBillingAccountOptionalParams no longer has parameter expand
+  - Interface BillingProperty no longer has parameter accountAdminNotificationEmailAddress
+  - Interface BillingProperty no longer has parameter billingAccountDisplayName
+  - Interface BillingProperty no longer has parameter billingAccountId
+  - Interface BillingProperty no longer has parameter billingProfileDisplayName
+  - Interface BillingProperty no longer has parameter billingProfileId
+  - Interface BillingProperty no longer has parameter billingProfileSpendingLimit
+  - Interface BillingProperty no longer has parameter billingProfileStatus
+  - Interface BillingProperty no longer has parameter billingProfileStatusReasonCode
+  - Interface BillingProperty no longer has parameter billingTenantId
+  - Interface BillingProperty no longer has parameter costCenter
+  - Interface BillingProperty no longer has parameter invoiceSectionDisplayName
+  - Interface BillingProperty no longer has parameter invoiceSectionId
+  - Interface BillingProperty no longer has parameter isAccountAdmin
+  - Interface BillingProperty no longer has parameter productId
+  - Interface BillingProperty no longer has parameter productName
+  - Interface BillingProperty no longer has parameter skuDescription
+  - Interface BillingProperty no longer has parameter skuId
+  - Interface BillingRoleAssignment no longer has parameter createdByPrincipalId
+  - Interface BillingRoleAssignment no longer has parameter createdByPrincipalTenantId
+  - Interface BillingRoleAssignment no longer has parameter createdByUserEmailAddress
+  - Interface BillingRoleAssignment no longer has parameter createdOn
+  - Interface BillingRoleAssignment no longer has parameter principalId
+  - Interface BillingRoleAssignment no longer has parameter principalTenantId
+  - Interface BillingRoleAssignment no longer has parameter roleDefinitionId
+  - Interface BillingRoleAssignment no longer has parameter scope
+  - Interface BillingRoleAssignment no longer has parameter userAuthenticationType
+  - Interface BillingRoleAssignment no longer has parameter userEmailAddress
+  - Interface BillingRoleDefinition no longer has parameter description
+  - Interface BillingRoleDefinition no longer has parameter permissions
+  - Interface BillingRoleDefinition no longer has parameter roleName
+  - Interface BillingSubscription no longer has parameter costCenter
+  - Interface BillingSubscription no longer has parameter subscriptionBillingStatus
+  - Interface Customer no longer has parameter billingProfileDisplayName
+  - Interface Customer no longer has parameter billingProfileId
+  - Interface Customer no longer has parameter displayName
+  - Interface Customer no longer has parameter enabledAzurePlans
+  - Interface Customer no longer has parameter resellers
+  - Interface CustomerListResult no longer has parameter totalCount
+  - Interface CustomerPolicy no longer has parameter viewCharges
+  - Interface CustomersGetOptionalParams no longer has parameter expand
+  - Interface CustomersListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface CustomersListByBillingAccountNextOptionalParams no longer has parameter search
+  - Interface CustomersListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface CustomersListByBillingProfileNextOptionalParams no longer has parameter search
+  - Interface Department no longer has parameter costCenter
+  - Interface Department no longer has parameter departmentName
+  - Interface Department no longer has parameter enrollmentAccounts
+  - Interface Department no longer has parameter status
+  - Interface EnrollmentAccount no longer has parameter accountName
+  - Interface EnrollmentAccount no longer has parameter accountOwner
+  - Interface EnrollmentAccount no longer has parameter accountOwnerEmail
+  - Interface EnrollmentAccount no longer has parameter costCenter
+  - Interface EnrollmentAccount no longer has parameter department
+  - Interface EnrollmentAccount no longer has parameter endDate
+  - Interface EnrollmentAccount no longer has parameter startDate
+  - Interface EnrollmentAccount no longer has parameter status
+  - Interface Invoice no longer has parameter amountDue
+  - Interface Invoice no longer has parameter azurePrepaymentApplied
+  - Interface Invoice no longer has parameter billedAmount
+  - Interface Invoice no longer has parameter billedDocumentId
+  - Interface Invoice no longer has parameter billingProfileDisplayName
+  - Interface Invoice no longer has parameter billingProfileId
+  - Interface Invoice no longer has parameter creditAmount
+  - Interface Invoice no longer has parameter creditForDocumentId
+  - Interface Invoice no longer has parameter documents
+  - Interface Invoice no longer has parameter documentType
+  - Interface Invoice no longer has parameter dueDate
+  - Interface Invoice no longer has parameter freeAzureCreditApplied
+  - Interface Invoice no longer has parameter invoiceDate
+  - Interface Invoice no longer has parameter invoicePeriodEndDate
+  - Interface Invoice no longer has parameter invoicePeriodStartDate
+  - Interface Invoice no longer has parameter invoiceType
+  - Interface Invoice no longer has parameter isMonthlyInvoice
+  - Interface Invoice no longer has parameter payments
+  - Interface Invoice no longer has parameter purchaseOrderNumber
+  - Interface Invoice no longer has parameter rebillDetails
+  - Interface Invoice no longer has parameter status
+  - Interface Invoice no longer has parameter subscriptionId
+  - Interface Invoice no longer has parameter subTotal
+  - Interface Invoice no longer has parameter taxAmount
+  - Interface Invoice no longer has parameter totalAmount
+  - Interface InvoiceListResult no longer has parameter totalCount
+  - Interface InvoiceSection no longer has parameter displayName
+  - Interface InvoiceSection no longer has parameter labels
+  - Interface InvoiceSection no longer has parameter state
+  - Interface InvoiceSection no longer has parameter systemId
+  - Interface InvoiceSection no longer has parameter targetCloud
+  - Interface InvoiceSectionListResult no longer has parameter totalCount
+  - Interface Product no longer has parameter autoRenew
+  - Interface Product no longer has parameter availabilityId
+  - Interface Product no longer has parameter billingFrequency
+  - Interface Product no longer has parameter billingProfileDisplayName
+  - Interface Product no longer has parameter billingProfileId
+  - Interface Product no longer has parameter customerDisplayName
+  - Interface Product no longer has parameter customerId
+  - Interface Product no longer has parameter displayName
+  - Interface Product no longer has parameter endDate
+  - Interface Product no longer has parameter invoiceSectionDisplayName
+  - Interface Product no longer has parameter invoiceSectionId
+  - Interface Product no longer has parameter lastCharge
+  - Interface Product no longer has parameter lastChargeDate
+  - Interface Product no longer has parameter productType
+  - Interface Product no longer has parameter productTypeId
+  - Interface Product no longer has parameter purchaseDate
+  - Interface Product no longer has parameter quantity
+  - Interface Product no longer has parameter reseller
+  - Interface Product no longer has parameter skuDescription
+  - Interface Product no longer has parameter skuId
+  - Interface Product no longer has parameter status
+  - Interface Product no longer has parameter tenantId
+  - Interface ProductsListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface ProductsListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface ProductsListByInvoiceSectionNextOptionalParams no longer has parameter filter
+  - Interface Reservation no longer has parameter id
+  - Interface Reservation no longer has parameter name
+  - Interface Reservation no longer has parameter type
+  - Interface Reservation no longer has parameter utilization
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter filter
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter orderby
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter refreshSummary
+  - Interface ReservationsListByBillingAccountNextOptionalParams no longer has parameter selectedState
+  - Interface ReservationsListByBillingAccountOptionalParams no longer has parameter orderby
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter filter
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter orderby
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter refreshSummary
+  - Interface ReservationsListByBillingProfileNextOptionalParams no longer has parameter selectedState
+  - Interface ReservationsListByBillingProfileOptionalParams no longer has parameter orderby
+  - Interface Transaction no longer has parameter azureCreditApplied
+  - Interface Transaction no longer has parameter azurePlan
+  - Interface Transaction no longer has parameter billingCurrency
+  - Interface Transaction no longer has parameter billingProfileDisplayName
+  - Interface Transaction no longer has parameter billingProfileId
+  - Interface Transaction no longer has parameter customerDisplayName
+  - Interface Transaction no longer has parameter customerId
+  - Interface Transaction no longer has parameter date
+  - Interface Transaction no longer has parameter discount
+  - Interface Transaction no longer has parameter effectivePrice
+  - Interface Transaction no longer has parameter exchangeRate
+  - Interface Transaction no longer has parameter invoice
+  - Interface Transaction no longer has parameter invoiceId
+  - Interface Transaction no longer has parameter invoiceSectionDisplayName
+  - Interface Transaction no longer has parameter invoiceSectionId
+  - Interface Transaction no longer has parameter kind
+  - Interface Transaction no longer has parameter marketPrice
+  - Interface Transaction no longer has parameter orderId
+  - Interface Transaction no longer has parameter orderName
+  - Interface Transaction no longer has parameter pricingCurrency
+  - Interface Transaction no longer has parameter productDescription
+  - Interface Transaction no longer has parameter productFamily
+  - Interface Transaction no longer has parameter productType
+  - Interface Transaction no longer has parameter productTypeId
+  - Interface Transaction no longer has parameter quantity
+  - Interface Transaction no longer has parameter servicePeriodEndDate
+  - Interface Transaction no longer has parameter servicePeriodStartDate
+  - Interface Transaction no longer has parameter subscriptionId
+  - Interface Transaction no longer has parameter subscriptionName
+  - Interface Transaction no longer has parameter subTotal
+  - Interface Transaction no longer has parameter tax
+  - Interface Transaction no longer has parameter transactionAmount
+  - Interface Transaction no longer has parameter transactionType
+  - Interface Transaction no longer has parameter unitOfMeasure
+  - Interface Transaction no longer has parameter units
+  - Interface Transaction no longer has parameter unitType
+  - Interface TransactionListResult no longer has parameter totalCount
+  - Type of parameter value of interface EnrollmentAccountListResult is changed from EnrollmentAccountSummary[] to EnrollmentAccount[]
+  - Type of parameter error of interface ErrorResponse is changed from ErrorDetails to ErrorDetail
+  - Type of parameter billingProfileSpendingLimit of interface InvoiceSectionWithCreateSubPermission is changed from SpendingLimitForBillingProfile to SpendingLimit
+  - Type of parameter billingProfileStatusReasonCode of interface InvoiceSectionWithCreateSubPermission is changed from StatusReasonCodeForBillingProfile to BillingProfileStatusReasonCode
+  - Type of parameter rebillDetails of interface RebillDetails is changed from {
+        [propertyName: string]: RebillDetails;
+    } to RebillDetails
+  - Type of parameter effectiveDateTime of interface Reservation is changed from string to Date
+  - Class BillingManagementClient no longer has parameter billingPeriods
+  - Class BillingManagementClient no longer has parameter billingRoleDefinitions
+  - Class BillingManagementClient no longer has parameter instructions
+  - Removed Enum KnownBillingFrequency
+  - Removed Enum KnownBillingProfileSpendingLimit
+  - Removed Enum KnownBillingSubscriptionStatusType
+  - Removed Enum KnownDocumentType
+  - Removed Enum KnownProductStatusType
+  - Removed Enum KnownProductTransferValidationErrorCode
+  - Removed Enum KnownReservationType
+  - Removed Enum KnownSpendingLimitForBillingProfile
+  - Removed Enum KnownStatusReasonCode
+  - Removed Enum KnownStatusReasonCodeForBillingProfile
+  - Removed Enum KnownTargetCloud
+  - Removed Enum KnownTransactionTypeKind
+  - Removed Enum KnownViewCharges
+  - Enum KnownInvoiceType no longer has value AzureService
+  - Enum KnownSubscriptionTransferValidationErrorCode no longer has value NotAvailableForDestinationMarket
+    
+    
 ## 4.1.0 (2022-11-16)
     
 ### Features Added
@@ -47,4 +1427,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

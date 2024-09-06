@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { TimeoutFailoverRetryPolicy } from "../../../src/retry/timeoutFailoverRetryPolicy";
 import { GlobalEndpointManager } from "../../../src/globalEndpointManager";

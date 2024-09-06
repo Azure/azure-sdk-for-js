@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
-import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
 import {

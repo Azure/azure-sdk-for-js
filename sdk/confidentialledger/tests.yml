@@ -6,10 +6,7 @@ extends:
       PackageName: "@azure-rest/confidential-ledger"
       ServiceDirectory: confidentialledger
       EnvVars:
-        AZURE_CLIENT_ID: $(CONFIDENTIALLEDGER_CLIENT_ID)
-        AZURE_TENANT_ID: $(CONFIDENTIALLEDGER_TENANT_ID)
         AZURE_CLIENT_OID: $(CONFIDENTIALLEDGER_CLIENT_OID)
-        AZURE_CLIENT_SECRET: $(CONFIDENTIALLEDGER_CLIENT_SECRET)
         LEDGER_URI: $(LEDGER_URI)
         LEDGER_NAME: $(LEDGER_NAME)
         IDENTITY_SERVICE_URL: $(IDENTITY_SERVICE_URL)

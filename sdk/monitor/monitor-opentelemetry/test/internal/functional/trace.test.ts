@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertCount, assertTraceExpectation } from "../../utils/assert";
 import { TraceBasicScenario } from "../../utils/basic";
@@ -38,6 +38,7 @@ describe("Trace Exporter Scenarios", () => {
             assertTraceExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
             done();
+            return;
           });
         })
         .catch((e) => {

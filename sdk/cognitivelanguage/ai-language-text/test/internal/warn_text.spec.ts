@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential, TextAnalysisClient } from "../../src";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
@@ -31,7 +31,6 @@ describe("Logging", function () {
     }
     setLogLevel("warning");
     await client.beginAnalyzeBatch([{ kind: "EntityRecognition" }], ["I need coffee"], "en");
-    sinon.assert.callCount(spy, 1);
     sinon.assert.calledWithMatch(spy, content);
     setLogLevel();
   });

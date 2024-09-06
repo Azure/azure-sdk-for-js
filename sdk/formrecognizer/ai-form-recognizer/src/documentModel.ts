@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DocumentFieldSchema, DocumentModelDetails } from "./generated";
 import { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";
@@ -101,7 +101,7 @@ export function createModelFromSchema(
         ...baseResult,
         documents: hasDocuments
           ? baseResult.documents?.map(toDocument)
-          : baseResult.documents ?? [],
+          : (baseResult.documents ?? []),
       };
 
       function toDocument(document: AnalyzedDocument): unknown {

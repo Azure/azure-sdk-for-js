@@ -4,9 +4,14 @@
 ################
 # Orphaned paths
 ################
-# As of 1/30/2023 these paths have no owners:
 
-# /**
+/** @xirzec @jeremymeng @Azure/azure-sdk-eng
+
+################
+# CODEOWNERS
+################
+
+/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
 
 ################
 # Misc.
@@ -30,45 +35,39 @@
 /sdk/ @xirzec @Azure/azure-sdk-js-dev
 
 # PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners: @Azure/azure-sdk-for-js-core
 /sdk/core/ @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners:  @jeremymeng @deyaaeldeen @HarshaNalluru
-/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners: @joheredi @jeremymeng @deyaaeldeen
-/sdk/core/core-client-rest/ @joheredi @jeremymeng @deyaaeldeen @timovv
+/sdk/core/core-client-rest/ @joheredi @timovv @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners: @deyaaeldeen @joheredi
-/sdk/core/core-lro/ @deyaaeldeen @joheredi
+/sdk/core/core-lro/ @deyaaeldeen @joheredi @Azure/azure-sdk-for-js-core
 
 # PRLabel: %Azure.Core
-# ServiceLabel: %Azure.Core
-# AzureSdkOwners: @maorleger @jeremymeng @mpodwysocki
-/sdk/core/core-tracing/ @maorleger @jeremymeng @mpodwysocki
+/sdk/core/core-tracing/ @maorleger @mpodwysocki @Azure/azure-sdk-for-js-core
 
-# Service teams
-# ServiceLabel: %App Configuration
+# ServiceLabel: %Azure.Core
+# AzureSdkOwners: @Azure/azure-sdk-for-js-core
+
 # PRLabel: %App Configuration
-# AzureSdkOwners:  @HarshaNalluru @minhanh-phan
 /sdk/appconfiguration/ @HarshaNalluru @minhanh-phan
 
-# ServiceOwners:  @anilba06 @gkostal
-# ServiceLabel: %Attestation
+# ServiceLabel: %App Configuration
+# AzureSdkOwners:  @HarshaNalluru @minhanh-phan
+# ServiceOwners: @jimmyca15 @zhenlan
 
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
+# ServiceOwners:  @anilba06 @gkostal
+# ServiceLabel: %Attestation
+
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds
+/sdk/batch/ @wiboris @wanghoppe @dpwatrous @cRui861 @skapur12
 
 # PRLabel: %Communication
 # ServiceLabel: %Communication
@@ -114,58 +113,68 @@
 # ServiceLabel: %Communication - Common
 /sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft
 
-# AzureSdkOwners: @timovv @jeremymeng
 # PRLabel: %Container Registry
-# ServiceLabel: %Container Registry
 /sdk/containerregistry/ @timovv @jeremymeng @Azure/azsdk-acr
 
+# ServiceLabel: %Container Registry
+# AzureSdkOwners: @timovv @jeremymeng
+
 # ServiceLabel: %Cosmos %Service Attention
-# ServiceOwners: @sajeetharan @simorenoh @v1k1
+# ServiceOwners: @sajeetharan @simorenoh
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
+/sdk/cosmosdb/ @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # PRLabel: %Digital Twins
 # ServiceLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-# AzureSdkOwners: @sarangan12 
-# ServiceLabel: %Event Grid
 /sdk/eventgrid/ @sarangan12
 
+# AzureSdkOwners: @sarangan12
+# ServiceLabel: %Event Grid
+# ServiceOwners: @robece
+
 # PRLabel: %Event Hubs
-# ServiceLabel: %Event Hubs
-# AzureSdkOwners: @deyaaeldeen @jeremymeng 
 /sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru
+
+# ServiceLabel: %Event Hubs
+# AzureSdkOwners: @deyaaeldeen @jeremymeng
+# ServiceOwners: @axisc
 
 # ServiceLabel: %Cognitive - Health Insights
 # PRLabel: %Cognitive - Health Insights
 /sdk/healthinsights/ @tomsft @koen-mertens
 
 # PRLabel: %Azure.Identity
+/sdk/identity/ @KarishmaGhiya @maorleger @schaabs @Azure/azure-sdk-write-identity
+
 # ServiceLabel: %Azure.Identity
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
-/sdk/identity/ @KarishmaGhiya @maorleger @schaabs @Azure/azure-sdk-write-identity
 
 # PRLabel: %Iot
 # ServiceLabel: %Iot
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-# ServiceLabel: %KeyVault
-# AzureSdkOwners:  @timovv @maorleger
 /sdk/keyvault/ @timovv @maorleger @Azure/azsdk-keyvault
 
+# ServiceLabel: %KeyVault
+# AzureSdkOwners:  @timovv @maorleger
+
 # PRLabel: %OpenTelemetryInstrumentation
-# ServiceLabel: %OpenTelemetryInstrumentation
-# AzureSdkOwners: @maorleger @mpodwysocki
 /sdk/instrumentation/ @maorleger @mpodwysocki
 
+# ServiceLabel: %OpenTelemetryInstrumentation
+# AzureSdkOwners: @maorleger @mpodwysocki
+
 # PRLabel: %Service Bus
+/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru
+
 # ServiceLabel: %Service Bus
 # AzureSdkOwners: @jeremymeng @deyaaeldeen @HarshaNalluru
-/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru
+# ServiceOwners: @EldertGrootenboer
 
 # PRLabel: %Storage
 # ServiceLabel: %Storage
@@ -177,43 +186,53 @@
 /sdk/synapse/ @joheredi
 
 # PRLabel: %Tables
-# ServiceLabel: %Tables
-# AzureSdkOwners: @joheredi
 /sdk/tables/ @joheredi
 
+# ServiceLabel: %Tables
+# AzureSdkOwners: @joheredi
+
 # PRLabel: %Purview
-# ServiceLabel: %Purview
-# AzureSdkOwners: @qiaozha
 /sdk/purview/ @qiaozha
 
+# ServiceLabel: %Purview
+# AzureSdkOwners: @qiaozha
+
 # PRLabel: %Farmbeats
-# ServiceLabel: %Farmbeats
-# AzureSdkOwners: @joheredi
 /sdk/agrifood/ @joheredi
 
-# PRLabel: %ConfidentialLedger
-# ServiceLabel: %ConfidentialLedger
+# ServiceLabel: %Farmbeats
 # AzureSdkOwners: @joheredi
+
+# PRLabel: %ConfidentialLedger
 /sdk/confidentialledger/ @joheredi
 
+# ServiceLabel: %ConfidentialLedger
+# AzureSdkOwners: @joheredi
+
 # PRLabel: %DocumentTranslator
+/sdk/documenttranslator/ @joheredi
+
 # ServiceLabel: %DocumentTranslator
 # AzureSdkOwners: @joheredi
-/sdk/documenttranslator/ @joheredi
+
+# PRLabel: %Cognitive - Translator
+/sdk/translation/ai-translation-document-rest/ @hamshavathimunibyraiah
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
-/sdk/web-pubsub/ @vicancy
+/sdk/web-pubsub/ @vicancy @chenkennt @zackliu
 
 # PRLabel: %EngSys
-# ServiceLabel: %EngSys
-# AzureSdkOwners: @ckairen @mikeharder @weshaggard @benbp
 /sdk/template/ @ckairen @mikeharder @weshaggard @benbp
 
+# ServiceLabel: %EngSys
+# AzureSdkOwners: @ckairen @mikeharder @weshaggard @benbp
+
 # PRLabel: %test-utils
+/sdk/test-utils/ @HarshaNalluru @timovv
+
 # ServiceLabel: %test-utils
 # AzureSdkOwners: @HarshaNalluru @timovv
-/sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
 # ServiceLabel: %Cognitive - Text Analytics
@@ -229,38 +248,53 @@
 # PRLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
+# PRLabel: %AI Model Inference
+sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
+
+# ServiceLabel: %AI Model Inference
+# ServiceOwners: @glharper @dargilco
+
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
-/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco 
+/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
 
 # PRLabel: %Schema Registry
+/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen
+
 # ServiceLabel: %Schema Registry
 # AzureSdkOwners: @minhanh-phan
-/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen 
+# ServiceOwners: @axisc
 
 # PRLabel: %Cognitive - Form Recognizer
-# ServiceLabel: %Cognitive - Form Recognizer
-# AzureSdkOwners: @HarshaNalluru
 /sdk/formrecognizer/ @HarshaNalluru @jeremymeng
 
+# ServiceLabel: %Cognitive - Form Recognizer
+# AzureSdkOwners: @HarshaNalluru
+
 # PRLabel: %Cognitive - Metrics Advisor
-# ServiceLabel: %Cognitive - Metrics Advisor
-# AzureSdkOwners: @KarishmaGhiya
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
+# ServiceLabel: %Cognitive - Metrics Advisor
+# AzureSdkOwners: @KarishmaGhiya
+
 # PRLabel: %Notification Hub
-# ServiceLabel: %Notification Hub
-# AzureSdkOwners: @mpodwysocki
 /sdk/notificationhubs/notification-hubs @mpodwysocki @jeremymeng
 
+# ServiceLabel: %Notification Hub
+# AzureSdkOwners: @mpodwysocki
+# ServiceOwners: @lomagdal2
+
 # PRLabel: %Cognitive - Content Safety
-# ServiceLabel: %Cognitive - Content Safety
 /sdk/contentsafety/ @xirzec
 
+# ServiceLabel: %Cognitive - Content Safety
+# AzureSdkOwners: @xirzec
+
 # PRLabel: %Search
+/sdk/search/ @dgetu @Azure/azsdk-search
+
 # ServiceLabel: %Search
 # AzureSdkOwners: @dgetu
-/sdk/search/ @dgetu @Azure/azsdk-search
 
 # PRLabel: %Mixed Reality
 # ServiceLabel: %Mixed Reality
@@ -274,8 +308,15 @@
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
 
+# PRLabel: %Microsoft Playwright Testing
+# ServiceLabel: %Microsoft Playwright Testing
+/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
+
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng @mpodwysocki @maorleger @joheredi
+/sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
+
+# Managment API review files
+/sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
 # Management Plane
 # PRLabel: %Mgmt
@@ -355,6 +396,9 @@
 
 # PRLabel: %Mgmt
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/confidentialledger/arm-confidentialledger/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/commerce/arm-commerce/ @qiaozha @MaryGao
@@ -480,6 +524,9 @@
 /sdk/domainservices/arm-domainservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgezones/arm-edgezones/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/elasticsans/arm-elasticsan/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -516,7 +563,14 @@
 /sdk/healthbot/arm-healthbot/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/healthdataaiservices/arm-healthdataaiservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/healthcareapis/arm-healthcareapis/ @qiaozha @MaryGao
+
+# ServiceLabel: %Health Deidentification
+# PRLabel: %Health Deidentification
+/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -636,6 +690,9 @@
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/monitor/arm-monitor-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -726,6 +783,9 @@
 /sdk/redis/arm-rediscache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/redhatopenshift/arm-redhatopenshift/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -781,6 +841,9 @@
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @MaryGao
@@ -1477,8 +1540,10 @@
 ###########
 # Eng Sys
 ###########
-/eng/           @ckairen @mikeharder @weshaggard @benbp
-/eng/common/    @Azure/azure-sdk-eng
+/eng/                  @ckairen @mikeharder @weshaggard @benbp
+/eng/common/           @Azure/azure-sdk-eng
+/.github/workflows/    @Azure/azure-sdk-eng
+/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
 
 ###########
 # Config
@@ -1493,19 +1558,28 @@
 # Tools
 ###########
 
+# PRLabel: %EngSys
+/common/tools/ @Azure/azure-sdk-js-dev
+
 # PRLabel: %dev-tool
 /common/tools/dev-tool/ @jeremymeng @mpodwysocki @timovv
 
 # PRLabel: %eslint plugin
-/common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen @jeremymeng
+/common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
 /eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
 
-/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-for-js-core
-/tsconfig.json @mikeharder @ckairen @jeremymeng @deyaaeldeen
-/**/tsconfig.json @jeremymeng @deyaaeldeen
-/**/tsconfig.strict.json @deyaaeldeen
+/rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-js-dev
+
+/tsconfig.json @mikeharder @ckairen @Azure/azure-sdk-for-js-core
+/**/tsconfig.json @Azure/azure-sdk-for-js-core
+
+# Managment tsconfig.json
+/sdk/**/arm-*/**/tsconfig.json @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+
 /.scripts/ @mikeharder @ckairen
+/vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
+/vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
@@ -1513,3 +1587,11 @@
 
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao
+
+/eng/emitter-package-lock.json @qiaozha @MaryGao
+/eng/emitter-package.json @qiaozha @MaryGao
+
+# Make sure to not check in anymore test-resources.json files
+# and review bicep scripts for any exposed secrets
+/sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core

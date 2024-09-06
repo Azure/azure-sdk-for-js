@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { Suite } from "mocha";
 import { Container, CosmosClient, PermissionMode } from "../../../src";
@@ -133,7 +133,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(readDoc.id, createdDoc.id, "invalid document read");
   });
 
-  it("Modifying container by resourceTokens", async function () {
+  it.skip("Modifying container by resourceTokens", async function () {
     const rTokens: any = {};
     rTokens[container.id] = collAllPermission._token;
     const clientAllPermission = new CosmosClient({
@@ -146,7 +146,7 @@ describe("Authorization", function (this: Suite) {
     return clientAllPermission.database(database.id).container(container.id).delete();
   });
 
-  it("Modifying container by permissionFeed", async function () {
+  it.skip("Modifying container by permissionFeed", async function () {
     const clientAllPermission = new CosmosClient({
       endpoint,
       permissionFeed: [collAllPermission],

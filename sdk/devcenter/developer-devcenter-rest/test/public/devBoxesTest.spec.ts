@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient.js";
@@ -273,7 +273,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     await setupDevBox();
     const delayActionParameters: DelayActionsParameters = {
       queryParameters: {
-        until: "2024-04-29T02:10:00Z",
+        until: "2024-07-04T02:10:00Z",
       },
     };
 
@@ -294,7 +294,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     await setupDevBox();
     const delayActionsParameters: DelayActionsParameters = {
       queryParameters: {
-        until: "2024-04-29T02:20:00Z",
+        until: "2024-07-04T02:20:00Z",
       },
     };
 

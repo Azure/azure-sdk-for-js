@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetModelInfo200Response,
   GetModelInfoDefaultResponse,
+  GetEmbeddings200Response,
+  GetEmbeddingsDefaultResponse,
+  GetImageEmbeddings200Response,
+  GetImageEmbeddingsDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /chat/completions": ["200"],
   "GET /info": ["200"],
+  "POST /embeddings": ["200"],
+  "POST /images/embeddings": ["200"],
 };
 
 export function isUnexpected(
@@ -20,12 +26,26 @@ export function isUnexpected(
   response: GetModelInfo200Response | GetModelInfoDefaultResponse,
 ): response is GetModelInfoDefaultResponse;
 export function isUnexpected(
+  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
+): response is GetEmbeddingsDefaultResponse;
+export function isUnexpected(
+  response: GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse,
+): response is GetImageEmbeddingsDefaultResponse;
+export function isUnexpected(
   response:
     | GetChatCompletions200Response
     | GetChatCompletionsDefaultResponse
     | GetModelInfo200Response
-    | GetModelInfoDefaultResponse,
-): response is GetChatCompletionsDefaultResponse | GetModelInfoDefaultResponse {
+    | GetModelInfoDefaultResponse
+    | GetEmbeddings200Response
+    | GetEmbeddingsDefaultResponse
+    | GetImageEmbeddings200Response
+    | GetImageEmbeddingsDefaultResponse,
+): response is
+  | GetChatCompletionsDefaultResponse
+  | GetModelInfoDefaultResponse
+  | GetEmbeddingsDefaultResponse
+  | GetImageEmbeddingsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

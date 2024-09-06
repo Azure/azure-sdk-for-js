@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import EventEmitter from "events";
 import { SendMessageError, SendMessageErrorOptions } from "./errors";
@@ -913,7 +913,7 @@ export class WebPubSubClient {
     // Try recover connection
     let recovered = false;
     this._state = WebPubSubClientState.Recovering;
-    const abortSignal = AbortController.timeout(30 * 1000);
+    const abortSignal = AbortSignal.timeout(30 * 1000);
     try {
       while (!abortSignal.aborted || this._isStopping) {
         try {

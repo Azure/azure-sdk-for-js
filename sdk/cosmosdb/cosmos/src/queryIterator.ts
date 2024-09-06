@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
@@ -39,6 +39,7 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   private correlatedActivityId: string;
+  private nonStreamingOrderBy: boolean = false;
   /**
    * @hidden
    */
@@ -245,9 +246,16 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-
       if (result !== undefined) {
-        this.fetchAllTempResources.push(result);
+        if (
+          this.nonStreamingOrderBy &&
+          typeof result === "object" &&
+          Object.keys(result).length === 0
+        ) {
+          // ignore empty results from NonStreamingOrderBy Endpoint components.
+        } else {
+          this.fetchAllTempResources.push(result);
+        }
       }
     }
     return new FeedResponse(
@@ -268,6 +276,7 @@ export class QueryIterator<T> {
 
     const queryPlan = queryPlanResponse.result;
     const queryInfo = queryPlan.queryInfo;
+    this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
     }

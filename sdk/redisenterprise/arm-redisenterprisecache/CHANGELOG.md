@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,31 @@
 
 ### Other Changes
 
+## 3.1.0-beta.1 (2024-05-13)
+Compared with version 3.0.0
+    
+### Features Added
+
+  - Added operation Databases.beginForceLinkToReplicationGroup
+  - Added operation Databases.beginForceLinkToReplicationGroupAndWait
+  - Added operation Databases.beginUpgradeDBRedisVersion
+  - Added operation Databases.beginUpgradeDBRedisVersionAndWait
+  - Added Interface DatabasesForceLinkToReplicationGroupHeaders
+  - Added Interface DatabasesForceLinkToReplicationGroupOptionalParams
+  - Added Interface DatabasesUpgradeDBRedisVersionHeaders
+  - Added Interface DatabasesUpgradeDBRedisVersionOptionalParams
+  - Added Interface ForceLinkParameters
+  - Added Type Alias DatabasesForceLinkToReplicationGroupResponse
+  - Added Type Alias DatabasesUpgradeDBRedisVersionResponse
+  - Added Type Alias DeferUpgradeSetting
+  - Interface Database has a new optional parameter deferUpgrade
+  - Interface Database has a new optional parameter redisVersion
+  - Interface DatabaseUpdate has a new optional parameter deferUpgrade
+  - Interface DatabaseUpdate has a new optional parameter redisVersion
+  - Added Enum KnownDeferUpgradeSetting
+  - Enum KnownSkuName has a new value EnterpriseE5
+    
+    
 ## 3.0.0 (2024-01-31)
     
 ### Features Added

@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as sinon from "sinon";
-import { assert } from "@azure-tools/test-utils";
-import { createTimerLoop } from "../../src/util/timerLoop";
+import { describe, it, vi, beforeAll, afterAll } from "vitest";
+import { assert } from "../utils/chai.js";
+import { createTimerLoop } from "../../src/util/timerLoop.js";
 
 describe("createTimerLoop", function () {
-  let clock: sinon.SinonFakeTimers;
-
-  before(function () {
-    clock = sinon.useFakeTimers();
+  beforeAll(async function () {
+    vi.useFakeTimers();
   });
-  after(function () {
-    clock.restore();
+  afterAll(async function () {
+    vi.useRealTimers();
   });
 
   it("loops the exact number of iterations and can be stopped", async function () {
@@ -26,7 +24,7 @@ describe("createTimerLoop", function () {
     assert.doesNotThrow(() => loop.stop()); // stopping an not yet started loop is a no-op
     loop.start();
     assert.isTrue(loop.isRunning);
-    await clock.tickAsync(interval * callCount);
+    await vi.advanceTimersByTimeAsync(interval * callCount);
     assert.strictEqual(
       curCallCount,
       callCount,
@@ -34,7 +32,7 @@ describe("createTimerLoop", function () {
     );
     loop.stop();
     assert.isFalse(loop.isRunning);
-    await clock.tickAsync(interval * 2);
+    await vi.advanceTimersByTimeAsync(interval * 2);
     assert.doesNotThrow(() => loop.stop()); // stopping an already stopped loop is a no-op
     assert.strictEqual(curCallCount, callCount, "Expected the loop to stop after stop() is called");
     assert.isFalse(loop.isRunning);
@@ -47,7 +45,7 @@ describe("createTimerLoop", function () {
     });
     loop.start();
     assert.isTrue(loop.isRunning);
-    await clock.tickAsync(interval);
+    await vi.advanceTimersByTimeAsync(interval);
     assert.isTrue(loop.isRunning);
     loop.stop();
   });

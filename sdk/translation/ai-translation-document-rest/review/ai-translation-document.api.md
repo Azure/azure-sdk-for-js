@@ -4,16 +4,10 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { createFile } from '@azure/core-rest-pipeline';
-import { createFileFromStream } from '@azure/core-rest-pipeline';
-import { CreateFileFromStreamOptions } from '@azure/core-rest-pipeline';
-import { CreateFileOptions } from '@azure/core-rest-pipeline';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -61,16 +55,8 @@ export interface CancelTranslationDefaultResponse extends HttpResponse {
 export type CancelTranslationParameters = RequestParameters;
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentTranslationClient;
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: DocumentTranslationClientOptions): DocumentTranslationClient;
 export default createClient;
-
-export { createFile }
-
-export { createFileFromStream }
-
-export { CreateFileFromStreamOptions }
-
-export { CreateFileOptions }
 
 // @public
 export interface DocumentFilter {
@@ -105,6 +91,7 @@ export interface DocumentTranslate {
 
 // @public (undocumented)
 export interface DocumentTranslate200Headers {
+    "content-type": "application/octet-stream";
     "x-ms-client-request-id"?: string;
 }
 
@@ -119,8 +106,7 @@ export interface DocumentTranslate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DocumentTranslateBodyParam {
-    // (undocumented)
-    body?: DocumentTranslateContent;
+    body: DocumentTranslateContent;
 }
 
 // @public
@@ -204,6 +190,11 @@ export type DocumentTranslationClient = Client & {
 };
 
 // @public
+export interface DocumentTranslationClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface FileFormatOutput {
     contentTypes: string[];
     defaultVersion?: string;
@@ -214,7 +205,7 @@ export interface FileFormatOutput {
 }
 
 // @public
-export type FileFormatType = "document" | "glossary" | string;
+export type FileFormatType = string;
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -496,6 +487,7 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
     getOperationState(): TState;
     getResult(): TResult | undefined;
     isDone(): boolean;
+    // @deprecated
     isStopped(): boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;
     poll(options?: {
@@ -523,7 +515,7 @@ export interface SourceInput {
 // @public (undocumented)
 export interface StartTranslation {
     get(options?: GetTranslationsStatusParameters): StreamableMethod<GetTranslationsStatus200Response | GetTranslationsStatusDefaultResponse>;
-    post(options?: StartTranslationParameters): StreamableMethod<StartTranslation202Response | StartTranslationDefaultResponse>;
+    post(options: StartTranslationParameters): StreamableMethod<StartTranslation202Response | StartTranslationDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -541,8 +533,7 @@ export interface StartTranslation202Response extends HttpResponse {
 
 // @public (undocumented)
 export interface StartTranslationBodyParam {
-    // (undocumented)
-    body?: StartTranslationDetails;
+    body: StartTranslationDetails;
 }
 
 // @public (undocumented)
@@ -575,7 +566,7 @@ export interface StartTranslationLogicalResponse extends HttpResponse {
 export type StartTranslationParameters = StartTranslationBodyParam & RequestParameters;
 
 // @public
-export type StatusOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Cancelled" | "Cancelling" | "ValidationFailed" | string;
+export type StatusOutput = string;
 
 // @public
 export interface StatusSummaryOutput {
@@ -589,10 +580,10 @@ export interface StatusSummaryOutput {
 }
 
 // @public
-export type StorageInputType = "Folder" | "File" | string;
+export type StorageInputType = string;
 
 // @public
-export type StorageSource = "AzureBlob" | string;
+export type StorageSource = string;
 
 // @public
 export interface SupportedFileFormatsOutput {
@@ -609,7 +600,7 @@ export interface TargetInput {
 }
 
 // @public
-export type TranslationErrorCodeOutput = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "ResourceNotFound" | "Unauthorized" | "RequestRateTooHigh" | string;
+export type TranslationErrorCodeOutput = string;
 
 // @public
 export interface TranslationErrorOutput {

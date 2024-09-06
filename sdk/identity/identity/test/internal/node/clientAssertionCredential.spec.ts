@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
@@ -34,8 +34,6 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it("Should throw if the parameteres are not correctly specified", async function () {
-    const expectedMessage =
-      "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters.";
     assert.throws(
       () =>
         new ClientAssertionCredential(
@@ -43,7 +41,7 @@ describe("ClientAssertionCredential (internal)", function () {
           env.AZURE_CLIENT_ID ?? "client",
           async () => "assertion",
         ),
-      expectedMessage,
+      "ClientAssertionCredential: tenantId is a required parameter.",
     );
     assert.throws(
       () =>
@@ -52,12 +50,12 @@ describe("ClientAssertionCredential (internal)", function () {
           undefined as any,
           async () => "assertion",
         ),
-      expectedMessage,
+      "ClientAssertionCredential: clientId is a required parameter.",
     );
 
     assert.throws(
       () => new ClientAssertionCredential(undefined as any, undefined as any, undefined as any),
-      expectedMessage,
+      "ClientAssertionCredential: tenantId is a required parameter.",
     );
   });
 
@@ -80,6 +78,6 @@ describe("ClientAssertionCredential (internal)", function () {
     }
 
     assert.equal(doGetTokenSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, jwt);
+    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, getAssertion);
   });
 });

@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {
     abortSignal?: AbortSignalLike;
@@ -103,6 +101,14 @@ export interface BodyPart {
     body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
+
+// @public
+export function calculateRetryDelay(retryAttempt: number, config: {
+    retryDelayInMs: number;
+    maxRetryDelayInMs: number;
+}): {
+    retryAfterInMs: number;
+};
 
 // @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {

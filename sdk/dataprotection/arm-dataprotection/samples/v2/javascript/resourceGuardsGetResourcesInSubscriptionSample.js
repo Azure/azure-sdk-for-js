@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns ResourceGuards collection belonging to a subscription.
  *
  * @summary Returns ResourceGuards collection belonging to a subscription.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/GetResourceGuardsInSubscription.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/GetResourceGuardsInSubscription.json
  */
 async function getResourceGuardsInSubscription() {
   const subscriptionId =

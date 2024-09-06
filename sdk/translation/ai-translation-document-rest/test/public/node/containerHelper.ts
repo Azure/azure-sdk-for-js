@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { ContainerClient, ContainerSASPermissions, BlobServiceClient } from "@azure/storage-blob";
+import { Recorder } from "@azure-tools/test-recorder";
+import { ContainerClient, BlobServiceClient } from "@azure/storage-blob";
 import { TestDocument, createTestDocument } from "../utils/TestDocument";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export const ONE_TEST_DOCUMENTS = [
   createTestDocument("Document1.txt", "First english test document"),
@@ -24,12 +25,7 @@ export async function createSourceContainer(
     containerName = recorder.variable("sourceContainer", `source-${getUniqueName()}`);
   }
   const containerClient = await createContainer(recorder, containerName, documents);
-
-  const sasUrl = await containerClient.generateSasUrl({
-    permissions: ContainerSASPermissions.parse("rwl"),
-    expiresOn: getDateOneDayAfter(),
-  });
-  return `${sasUrl}`;
+  return containerClient.url;
 }
 
 export async function createTargetContainer(
@@ -41,12 +37,7 @@ export async function createTargetContainer(
     containerName = recorder.variable("targetContainer", `target-${getUniqueName()}`);
   }
   const containerClient = await createContainer(recorder, containerName, documents);
-
-  const sasUrl = await containerClient.generateSasUrl({
-    permissions: ContainerSASPermissions.parse("rwl"),
-    expiresOn: getDateOneDayAfter(),
-  });
-  return `${sasUrl}`;
+  return containerClient.url;
 }
 
 export async function createGlossaryContainer(recorder: Recorder): Promise<string> {
@@ -55,19 +46,10 @@ export async function createGlossaryContainer(recorder: Recorder): Promise<strin
   const documents = [createTestDocument(glossaryName, glossaryContent)];
   const containerName = recorder.variable("glossaryContainer", `glossary-${getUniqueName()}`);
   const containerClient = await createContainer(recorder, containerName, documents);
+  const containerUrl = containerClient.url;
 
-  const sasUrl = await containerClient.generateSasUrl({
-    permissions: ContainerSASPermissions.parse("rwl"),
-    expiresOn: getDateOneDayAfter(),
-  });
-
-  // Extract the base URL and query parameters
-  const urlParts = `${sasUrl}`.split("?");
-  const baseUrl = urlParts[0];
-  const queryParams = urlParts[1];
-
-  // Add the document name to the base URL
-  const newUrl = `${baseUrl}/${glossaryName}?${queryParams}`;
+  // Add the glossary name to the base URL
+  const newUrl = `${containerUrl}/${glossaryName}`;
   return `${newUrl}`;
 }
 
@@ -77,15 +59,11 @@ export async function createTargetContainerWithInfo(
 ): Promise<Map<string, string>> {
   const containerName = recorder.variable("targetContainer", `target-${getUniqueName()}`);
   const containerClient = await createContainer(recorder, containerName, documents);
+  const containerUrl = containerClient.url;
+  const containerUrlTest = recorder.variable("containerUrl", `${containerUrl}`);
 
-  const sasUrl = await containerClient.generateSasUrl({
-    permissions: ContainerSASPermissions.parse("rwl"),
-    expiresOn: getDateOneDayAfter(),
-  });
-
-  const sasUrlTest = recorder.variable("sasUrl", `${sasUrl}`);
   const containerValuesMap: Map<string, string> = new Map();
-  containerValuesMap.set("sasUrl", sasUrlTest);
+  containerValuesMap.set("containerUrl", containerUrlTest);
   containerValuesMap.set("containerName", containerName);
   return containerValuesMap;
 }
@@ -95,9 +73,9 @@ async function createContainer(
   containerName: string,
   documents?: TestDocument[],
 ): Promise<ContainerClient> {
-  const blobServiceClient: BlobServiceClient = BlobServiceClient.fromConnectionString(
-    env.DOCUMENT_TRANSLATION_CONNECTION_STRING as string,
-  );
+  const storageName = getEnvVar("DOCUMENT_TRANSLATION_STORAGE_NAME");
+  const url = `https://${storageName}.blob.core.windows.net/`;
+  const blobServiceClient: BlobServiceClient = new BlobServiceClient(url, createTestCredential());
   configureBlobStorageClient(recorder, blobServiceClient);
 
   const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -136,10 +114,11 @@ export async function downloadDocument(
   containerName: string,
   documentName: string,
 ): Promise<string> {
-  const blobServiceClient: BlobServiceClient = BlobServiceClient.fromConnectionString(
-    env.DOCUMENT_TRANSLATION_CONNECTION_STRING as string,
-  );
+  const storageName = getEnvVar("DOCUMENT_TRANSLATION_STORAGE_NAME");
+  const url = `https://${storageName}.blob.core.windows.net/`;
+  const blobServiceClient: BlobServiceClient = new BlobServiceClient(url, createTestCredential());
   configureBlobStorageClient(recorder, blobServiceClient);
+
   const containerClient = blobServiceClient.getContainerClient(containerName);
   const blobClient = containerClient.getBlobClient(documentName);
   const blockBlobClient = blobClient.getBlockBlobClient();
@@ -157,13 +136,6 @@ export function getUniqueName(): string {
   return randomNumber.toString().padStart(10, "0");
 }
 
-function getDateOneDayAfter(): Date {
-  const currentDate = new Date();
-  const nextDayDate = new Date(currentDate);
-  nextDayDate.setDate(currentDate.getDate() + 1);
-  return nextDayDate;
-}
-
 // A helper method used to read a Node.js readable stream into a Buffer
 async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined): Promise<Buffer> {
   return new Promise((resolve, reject) => {
@@ -176,4 +148,12 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream | undefined)
     });
     readableStream?.on("error", reject);
   });
+}
+
+export function getEnvVar(name: string): string {
+  const val = process.env[name];
+  if (!val) {
+    throw `Environment variable ${name} is not defined.`;
+  }
+  return val;
 }

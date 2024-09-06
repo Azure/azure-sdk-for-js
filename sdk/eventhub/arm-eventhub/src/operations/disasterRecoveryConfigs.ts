@@ -37,7 +37,7 @@ import {
   DisasterRecoveryConfigsBreakPairingOptionalParams,
   DisasterRecoveryConfigsFailOverOptionalParams,
   DisasterRecoveryConfigsListAuthorizationRulesNextResponse,
-  DisasterRecoveryConfigsListNextResponse
+  DisasterRecoveryConfigsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,13 +64,13 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
       alias,
-      options
+      options,
     );
     return {
       next() {
@@ -88,9 +88,9 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
           namespaceName,
           alias,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -99,7 +99,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationRule[]> {
     let result: DisasterRecoveryConfigsListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -108,7 +108,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         resourceGroupName,
         namespaceName,
         alias,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -121,7 +121,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         namespaceName,
         alias,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -134,13 +134,13 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<AuthorizationRule> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
       alias,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -155,7 +155,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
   public list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
+    options?: DisasterRecoveryConfigsListOptionalParams,
   ): PagedAsyncIterableIterator<ArmDisasterRecovery> {
     const iter = this.listPagingAll(resourceGroupName, namespaceName, options);
     return {
@@ -173,9 +173,9 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -183,7 +183,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     options?: DisasterRecoveryConfigsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ArmDisasterRecovery[]> {
     let result: DisasterRecoveryConfigsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -199,7 +199,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -211,12 +211,12 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
   private async *listPagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
+    options?: DisasterRecoveryConfigsListOptionalParams,
   ): AsyncIterableIterator<ArmDisasterRecovery> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -233,11 +233,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   ): Promise<DisasterRecoveryConfigsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
     );
   }
 
@@ -254,7 +254,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
+    options?: DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   ): Promise<DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -262,9 +262,9 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         namespaceName,
         alias,
         authorizationRuleName,
-        options
+        options,
       },
-      getAuthorizationRuleOperationSpec
+      getAuthorizationRuleOperationSpec,
     );
   }
 
@@ -281,7 +281,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     authorizationRuleName: string,
-    options?: DisasterRecoveryConfigsListKeysOptionalParams
+    options?: DisasterRecoveryConfigsListKeysOptionalParams,
   ): Promise<DisasterRecoveryConfigsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -289,9 +289,9 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         namespaceName,
         alias,
         authorizationRuleName,
-        options
+        options,
       },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -306,11 +306,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     parameters: CheckNameAvailabilityParameter,
-    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
+    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
   ): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -323,11 +323,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
   private _list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
+    options?: DisasterRecoveryConfigsListOptionalParams,
   ): Promise<DisasterRecoveryConfigsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -344,11 +344,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     parameters: ArmDisasterRecovery,
-    options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams
+    options?: DisasterRecoveryConfigsCreateOrUpdateOptionalParams,
   ): Promise<DisasterRecoveryConfigsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -363,11 +363,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsDeleteOptionalParams
+    options?: DisasterRecoveryConfigsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -382,11 +382,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsGetOptionalParams
+    options?: DisasterRecoveryConfigsGetOptionalParams,
   ): Promise<DisasterRecoveryConfigsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -402,11 +402,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsBreakPairingOptionalParams
+    options?: DisasterRecoveryConfigsBreakPairingOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, options },
-      breakPairingOperationSpec
+      breakPairingOperationSpec,
     );
   }
 
@@ -421,11 +421,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsFailOverOptionalParams
+    options?: DisasterRecoveryConfigsFailOverOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, options },
-      failOverOperationSpec
+      failOverOperationSpec,
     );
   }
 
@@ -442,11 +442,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     namespaceName: string,
     alias: string,
     nextLink: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
+    options?: DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams,
   ): Promise<DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, alias, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 
@@ -461,11 +461,11 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: DisasterRecoveryConfigsListNextOptionalParams
+    options?: DisasterRecoveryConfigsListNextOptionalParams,
   ): Promise<DisasterRecoveryConfigsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -473,16 +473,15 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
+      bodyMapper: Mappers.AuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -490,22 +489,21 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.AuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -514,22 +512,21 @@ const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -538,22 +535,21 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.CheckNameAvailabilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -561,46 +557,46 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArmDisasterRecoveryListResult
+      bodyMapper: Mappers.ArmDisasterRecoveryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArmDisasterRecovery
+      bodyMapper: Mappers.ArmDisasterRecovery,
     },
-    201: {},
+    201: {
+      bodyMapper: Mappers.ArmDisasterRecovery,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -609,22 +605,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -632,22 +627,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArmDisasterRecovery
+      bodyMapper: Mappers.ArmDisasterRecovery,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -655,20 +649,19 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const breakPairingOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/breakPairing",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/breakPairing",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -676,20 +669,19 @@ const breakPairingOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const failOverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/failover",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/failover",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -697,21 +689,21 @@ const failOverOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
+      bodyMapper: Mappers.AuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -719,29 +711,29 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.namespaceName,
-    Parameters.alias
+    Parameters.alias,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArmDisasterRecoveryListResult
+      bodyMapper: Mappers.ArmDisasterRecoveryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

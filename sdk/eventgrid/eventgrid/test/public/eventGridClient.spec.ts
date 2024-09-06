@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
 import { Suite, Context } from "mocha";
@@ -31,7 +31,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT",
         "EventGrid",
-        "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY",
       ));
     });
 
@@ -102,7 +101,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "EventGrid",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
         {
           removeApiEventsSuffixBool: true,
         },
@@ -147,7 +145,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
         "CloudEvent",
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
       ));
       await recorder.setMatcher("HeaderlessMatcher");
     });
@@ -230,7 +227,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
           this.currentTest,
           "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
           "CloudEvent",
-          "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
           {
             additionalPolicies: [setHeadersPolicy],
           },
@@ -284,7 +280,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
         "CloudEvent",
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
         {
           removeApiEventsSuffixBool: true,
         },
@@ -327,7 +322,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "Custom",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
       ));
     });
 
@@ -392,7 +386,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "Custom",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
         {
           removeApiEventsSuffixBool: true,
         },

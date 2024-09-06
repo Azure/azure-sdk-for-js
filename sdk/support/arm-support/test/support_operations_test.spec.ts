@@ -19,9 +19,6 @@ import { Context } from "mocha";
 import { MicrosoftSupport } from "../src/microsoftSupport";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
@@ -37,7 +34,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe.skip("MicrosoftSupport test", () => {
+describe("MicrosoftSupport test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MicrosoftSupport;

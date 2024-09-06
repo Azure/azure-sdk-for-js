@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { Buffer } from "buffer";
@@ -32,6 +32,7 @@ import {
   getTokenCredential,
   getUniqueName,
   recorderEnvSetup,
+  SimpleTokenCredential,
   uriSanitizers,
 } from "../utils";
 import { isNode } from "@azure/core-util";
@@ -107,19 +108,34 @@ describe("FileClient Node.js only", () => {
     assert.equal(exist, true);
   });
 
-  it("Bad audience should fail", async () => {
+  it("Bad audience should work", async () => {
     await fileClient.create(1024);
+    const token = await createTestCredential().getToken(
+      "https://badaudience.file.core.windows.net/.default",
+    );
+    const fileClientWithSimpleOAuthToken = new ShareFileClient(
+      fileClient.url,
+      new SimpleTokenCredential(token!.token, new Date(token!.expiresOnTimestamp)),
+      {
+        fileRequestIntent: "backup",
+      },
+    );
+
+    configureStorageClient(recorder, fileClientWithSimpleOAuthToken);
+    try {
+      await fileClientWithSimpleOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
     const fileClientWithOAuthToken = new ShareFileClient(fileClient.url, createTestCredential(), {
       audience: "https://badaudience.file.core.windows.net/.default",
       fileRequestIntent: "backup",
     });
     configureStorageClient(recorder, fileClientWithOAuthToken);
-    try {
-      await fileClientWithOAuthToken.exists();
-      assert.fail("Should fail with 403");
-    } catch (err) {
-      assert.strictEqual((err as any).statusCode, 403);
-    }
+    const exist = await fileClientWithOAuthToken.exists();
+    assert.equal(exist, true);
   });
 
   it("uploadData - large Buffer as data", async function () {

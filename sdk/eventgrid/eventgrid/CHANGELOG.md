@@ -1,16 +1,24 @@
 # Release History
 
-## 5.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 5.6.0 (2024-08-21)
 
 ### Other Changes
 
-## 5.5.0 (2026-06-11)
+- A new property `accessTier` is added to the `StorageBlobCreatedEventData` interface.
+- Two new properties `accessTier` & `previousTier` are added to the `StorageBlobTierChangedEventData` interface.
+
+### Bugs Fixed
+
+- The properties `api`, `blobType`, `clientRequestId`, `contentLength`, `contentOffset`, `contentType`, `eTag`, `identity`, `requestId`, `sequencer`, `storageDiagnostics` & `url` in `StorageBlobCreatedEventData` have been made optional.
+- The properties `api`, `blobType`, `clientRequestId`, `contentLength`, `contentType`,`identity`, `requestId`, `sequencer`, `storageDiagnostics` & `url` in `StorageBlobTierChangedEventData` have been made optional.
+
+## 5.5.1 (2024-07-16)
+
+### Bugs Fixed
+
+- Fixed deserialization bugs in `AcsEmailEngagementTrackingReportReceivedEventData` and `AcsEmailDeliveryReportReceivedEventData` system events that caused the `DeliveryAttemptTimestamp` and `UserActionTimeStamp` properties to be null.
+
+## 5.5.0 (2024-06-11)
 
 ### Features Added
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,48 @@
 
 ### Other Changes
 
+## 2.1.0 (2024-07-08)
+    
+### Features Added
+
+  - Added operation group BackupInstancesExtensionRouting
+  - Added Interface BackupInstancesExtensionRoutingListNextOptionalParams
+  - Added Interface BackupInstancesExtensionRoutingListOptionalParams
+  - Added Interface CmkKekIdentity
+  - Added Interface CmkKeyVaultProperties
+  - Added Interface EncryptionSettings
+  - Added Interface StopProtectionRequest
+  - Added Interface SuspendBackupRequest
+  - Added Type Alias BackupInstancesExtensionRoutingListNextResponse
+  - Added Type Alias BackupInstancesExtensionRoutingListResponse
+  - Added Type Alias BcdrSecurityLevel
+  - Added Type Alias EncryptionState
+  - Added Type Alias IdentityType
+  - Added Type Alias InfrastructureEncryptionState
+  - Interface AzureBackupRestoreRequest has a new optional parameter resourceGuardOperationRequests
+  - Interface BackupInstance has a new optional parameter resourceGuardOperationRequests
+  - Interface BackupInstancesCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupInstancesDeleteOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupInstancesStopProtectionOptionalParams has a new optional parameter parameters
+  - Interface BackupInstancesStopProtectionOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupInstancesSuspendBackupsOptionalParams has a new optional parameter parameters
+  - Interface BackupInstancesSuspendBackupsOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupInstancesTriggerRestoreOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupVault has a new optional parameter bcdrSecurityLevel
+  - Interface BackupVault has a new optional parameter resourceGuardOperationRequests
+  - Interface BackupVaultsCreateOrUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface BackupVaultsUpdateOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface DppResourceGuardProxyUnlockDeleteOptionalParams has a new optional parameter xMsAuthorizationAuxiliary
+  - Interface KubernetesClusterRestoreCriteria has a new optional parameter resourceModifierReference
+  - Interface KubernetesClusterVaultTierRestoreCriteria has a new optional parameter resourceModifierReference
+  - Interface PatchBackupVaultInput has a new optional parameter resourceGuardOperationRequests
+  - Interface SecuritySettings has a new optional parameter encryptionSettings
+  - Added Enum KnownBcdrSecurityLevel
+  - Added Enum KnownEncryptionState
+  - Added Enum KnownIdentityType
+  - Added Enum KnownInfrastructureEncryptionState
+    
+    
 ## 2.0.0 (2023-12-05)
     
 ### Features Added

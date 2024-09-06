@@ -20,7 +20,7 @@ import {
   AgreementsListByBillingAccountResponse,
   AgreementsGetOptionalParams,
   AgreementsGetResponse,
-  AgreementsListByBillingAccountNextResponse
+  AgreementsListByBillingAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,11 +43,11 @@ export class AgreementsImpl implements Agreements {
    */
   public listByBillingAccount(
     billingAccountName: string,
-    options?: AgreementsListByBillingAccountOptionalParams
+    options?: AgreementsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Agreement> {
     const iter = this.listByBillingAccountPagingAll(
       billingAccountName,
-      options
+      options,
     );
     return {
       next() {
@@ -63,16 +63,16 @@ export class AgreementsImpl implements Agreements {
         return this.listByBillingAccountPagingPage(
           billingAccountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
     options?: AgreementsListByBillingAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Agreement[]> {
     let result: AgreementsListByBillingAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class AgreementsImpl implements Agreements {
       result = await this._listByBillingAccountNext(
         billingAccountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -98,29 +98,14 @@ export class AgreementsImpl implements Agreements {
 
   private async *listByBillingAccountPagingAll(
     billingAccountName: string,
-    options?: AgreementsListByBillingAccountOptionalParams
+    options?: AgreementsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<Agreement> {
     for await (const page of this.listByBillingAccountPagingPage(
       billingAccountName,
-      options
+      options,
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Lists the agreements for a billing account.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param options The options parameters.
-   */
-  private _listByBillingAccount(
-    billingAccountName: string,
-    options?: AgreementsListByBillingAccountOptionalParams
-  ): Promise<AgreementsListByBillingAccountResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, options },
-      listByBillingAccountOperationSpec
-    );
   }
 
   /**
@@ -132,11 +117,26 @@ export class AgreementsImpl implements Agreements {
   get(
     billingAccountName: string,
     agreementName: string,
-    options?: AgreementsGetOptionalParams
+    options?: AgreementsGetOptionalParams,
   ): Promise<AgreementsGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, agreementName, options },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the agreements for a billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccount(
+    billingAccountName: string,
+    options?: AgreementsListByBillingAccountOptionalParams,
+  ): Promise<AgreementsListByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, options },
+      listByBillingAccountOperationSpec,
     );
   }
 
@@ -149,72 +149,69 @@ export class AgreementsImpl implements Agreements {
   private _listByBillingAccountNext(
     billingAccountName: string,
     nextLink: string,
-    options?: AgreementsListByBillingAccountNextOptionalParams
+    options?: AgreementsListByBillingAccountNextOptionalParams,
   ): Promise<AgreementsListByBillingAccountNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      listByBillingAccountNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements/{agreementName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgreementListResult
+      bodyMapper: Mappers.Agreement,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.agreementName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AgreementListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/agreements/{agreementName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Agreement
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.agreementName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgreementListResult
+      bodyMapper: Mappers.AgreementListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -4,21 +4,21 @@ languages:
   - typescript
 products:
   - azure
-  - azure-ai
-  - azure-openai
 urlFragment: ai-inference-typescript-beta
 ---
 
 # Azure AI Inference client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for Azure OpenAI in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                                                       | **Description**                                                              |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
-| [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
-| [toolCall.ts][toolcall]                                                             | get chat completions with functions.                                         |
-| [getModelInfo.ts][modelinfo]                                                        | get model info for given endpoint.
+| **File Name**                                     | **Description**                       |
+| ------------------------------------------------- | ------------------------------------- |
+| [chatCompletions.ts][chatcompletions]             | get chat completions.                 |
+| [embeddings.ts][embeddings]                       | get embeddings.                       |
+| [getModelInfo.ts][getmodelinfo]                   | get model info.                       |
+| [imageFileCompletions.ts][imagefilecompletions]   | get chat completions with image file. |
+| [streamChatCompletions.ts][streamchatcompletions] | list chat completions.                |
+| [toolCall.ts][toolcall]                           | get chat completions with functions.  |
 
 ## Prerequisites
 
@@ -30,9 +30,7 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 npm install -g typescript
 ```
 
-You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
-
-- [Azure Cognitive Services instance][createinstance_azurecognitiveservicesinstance]
+You need [an Azure subscription][freesub] to run these sample programs.
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -65,7 +63,7 @@ node dist/chatCompletions.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" AUDIO_FILE_PATH="<audio file path>" node dist/audioTranscription.js
+npx cross-env ENDPOINT="<endpoint>" node dist/chatCompletions.js
 ```
 
 ## Next Steps
@@ -73,11 +71,12 @@ npx cross-env ENDPOINT="<endpoint>" AZURE_API_KEY="<azure api key>" AUDIO_FILE_P
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/chatCompletions.ts
+[embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/embeddings.ts
+[getmodelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/getModelInfo.ts
+[imagefilecompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/imageFileCompletions.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/streamChatCompletions.ts
-[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/toolCall.ts
-[modelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/glharper/azure-ai-inference/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/getModelInfo.ts
-[apiref]: https://aka.ms/npm-azure-inference-rest
+[toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/src/toolCall.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
-[package]: https://aka.ms/npm-azure-inference-rest
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
