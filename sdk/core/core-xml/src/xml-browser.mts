@@ -205,7 +205,12 @@ function buildNode(obj: any, elementName: string, options: Required<XmlOptions>)
     }
     return result;
   } else if (typeof obj === "object") {
-    const elem = doc.createElement(elementName);
+    let elem: HTMLElement;
+    if (obj[XML_ATTRKEY]?.["xmlns"]) {
+      elem = doc.createElementNS(obj[XML_ATTRKEY]["xmlns"], elementName)
+    } else {
+      elem = doc.createElement(elementName);
+    }
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {

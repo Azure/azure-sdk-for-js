@@ -511,6 +511,17 @@ describe("XML serializer", function () {
       );
     });
 
+    it("should handle xmlns properly", function() {
+      const xml = stringifyXML({
+        $: {
+          "xmlns": "https://microsoft.com/",
+          "xmlns:h": "http://www.w3.org/TR/html4/",
+        },
+        _: "yum",
+      });
+      assert.deepEqual(xml, `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root xmlns="https://microsoft.com/" xmlns:h="http://www.w3.org/TR/html4/">yum</root>`);
+    });
+
     it("should handle CDATA sections with default value", function () {
       const xml = stringifyXML(
         {
