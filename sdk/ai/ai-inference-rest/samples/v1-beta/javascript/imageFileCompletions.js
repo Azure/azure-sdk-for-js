@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get chat completions using a local image file for a chat context.
  *
- * @summary get chat completions with image file.
+ * @summary Get chat completions with image file.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,

@@ -11,15 +11,15 @@ urlFragment: ai-inference-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                     | **Description**                                |
-| ------------------------------------------------- | ---------------------------------------------- |
-| [chatCompletions.js][chatcompletions]             | Get chat completions.                          |
-| [embeddings.js][embeddings]                       | Get embeddings.                                |
-| [getModelInfo.js][getmodelinfo]                   | Get model info.                                |
-| [imageFileCompletions.js][imagefilecompletions]   | Get chat completions with image file.          |
-| [streamChatCompletions.js][streamchatcompletions] | List chat completions.                         |
+| **File Name**                                     | **Description**                                        |
+| ------------------------------------------------- | ------------------------------------------------------ |
+| [chatCompletions.js][chatcompletions]             | Get chat completions.                                  |
+| [embeddings.js][embeddings]                       | Get embeddings.                                        |
+| [getModelInfo.js][getmodelinfo]                   | Get model info.                                        |
+| [imageFileCompletions.js][imagefilecompletions]   | Get chat completions with image file.                  |
+| [streamChatCompletions.js][streamchatcompletions] | List chat completions.                                 |
 | [streamingToolCall.js][streamingtoolcall]         | Get chat completions with streaming and function call. |
-| [toolCall.js][toolcall]                           | Get chat completions with function call.           |
+| [toolCall.js][toolcall]                           | Get chat completions with function call.               |
 
 ## Prerequisites
 

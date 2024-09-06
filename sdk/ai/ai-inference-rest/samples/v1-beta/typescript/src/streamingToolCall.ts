@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to use tool calls with streaming chat completions.
  *
- * @summary use tool call with streaming chat completions.
+ * @summary Get chat completions with streaming and function call.
  */
 
 import ModelClient, { ChatCompletionsFunctionToolCallOutput } from "@azure-rest/ai-inference";
@@ -164,25 +164,23 @@ export async function main() {
       const eventData: EventData = JSON.parse(event.data);
 
       for (const choice of eventData.choices) {
-
         const toolCallArray = choice.delta?.tool_calls;
 
-        if ( toolCallArray ) {
-
-          if (choice.delta?.role == "assistant") {
+        if (toolCallArray) {
+          if (toolCallArray[0].function?.name) {
             // Include original response from assistant requesting tool call in chat history
+            choice.delta.role = "assistant";
             messages.push(choice.delta);
           }
-
           updateToolCalls(toolCallArray, functionArray);
-
+        }
+        if (choice.finish_reason == "tool_calls") {
+          const messageArray = handleToolCalls(functionArray);
+          messages.push(...messageArray);
         } else {
-
-          if (choice.finish_reason == 'tool_calls') {
-            const messageArray = handleToolCalls(functionArray);
-            messages.push(...messageArray);
-          } else {
-            toolCallAnswer += choice.delta?.content ?? "";
+          if (choice.delta?.content && choice.delta.content != '')
+          {
+            toolCallAnswer += choice.delta?.content;
             awaitingToolCallAnswer = false;
           }
         }

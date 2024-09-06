@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get model info using the Inference SDK.
  *
- * @summary get model info.
+ * @summary Get model info.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,
