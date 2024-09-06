@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import Long from "long";
 import {
   EventContext,
   ReceiverOptions,
@@ -37,14 +36,14 @@ import {
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
-import { toBuffer, waitForSendable } from "../util/utils";
+import { fromEightBytesBE, toBuffer, toEightBytesBE, waitForSendable } from "../util/utils";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch,
+  tryCoerceToBigInt,
 } from "../util/errors";
 import { max32BitNumber } from "../util/constants";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -220,7 +219,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Provides the sequence number of the last peeked message.
    */
-  private _lastPeekedSequenceNumber: Long = Long.ZERO;
+  private _lastPeekedSequenceNumber: bigint = 0n;
   /**
    * lock token for init operation
    */
@@ -269,7 +268,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const { abortSignal } = options;
         const aborter = new AbortController();
 
-        const abortListener = () => {
+        const abortListener = (): void => {
           aborter.abort();
         };
         abortSignal?.addEventListener("abort", abortListener);
@@ -481,7 +480,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
-      this._lastPeekedSequenceNumber.add(1),
+      this._lastPeekedSequenceNumber + 1n,
       messageCount,
       undefined,
       omitMessageBody,
@@ -510,7 +509,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
-      this._lastPeekedSequenceNumber.add(1),
+      this._lastPeekedSequenceNumber + 1n,
       messageCount,
       sessionId,
       omitMessageBody,
@@ -527,7 +526,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
-    fromSequenceNumber: Long,
+    fromSequenceNumber: bigint,
     maxMessageCount: number,
     sessionId?: string,
     omitMessageBody?: boolean,
@@ -538,7 +537,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
     // Checks for fromSequenceNumber
     throwTypeErrorIfParameterMissing(connId, "fromSequenceNumber", fromSequenceNumber);
-    throwTypeErrorIfParameterNotLong(connId, "fromSequenceNumber", fromSequenceNumber);
+    fromSequenceNumber = tryCoerceToBigInt(connId, "fromSequenceNumber", fromSequenceNumber);
 
     // Checks for maxMessageCount
     throwTypeErrorIfParameterMissing(
@@ -561,8 +560,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] = types.wrap_long(
-        Buffer.from(fromSequenceNumber.toBytesBE()),
+        Buffer.from(toEightBytesBE(fromSequenceNumber)),
       );
+      // bigint-test:
+      const bi = BigInt(fromSequenceNumber.toString());
+      toEightBytesBE(bi);
+
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -693,7 +696,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase & SendManagementRequestOptions,
-  ): Promise<Long[]> {
+  ): Promise<bigint[]> {
     throwErrorIfConnectionClosed(this._context);
     if (!messages.length) {
       return [];
@@ -758,15 +761,17 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       senderLogger.verbose("%s Schedule messages request body: %O.", this.logPrefix, request.body);
       const result = await this._makeManagementRequest(request, senderLogger, updatedOptions);
       const sequenceNumbers = result.body[Constants.sequenceNumbers];
-      const sequenceNumbersAsLong = [];
+      const sequenceNumbersAsBigInt: bigint[] = [];
       for (let i = 0; i < sequenceNumbers.length; i++) {
         if (typeof sequenceNumbers[i] === "number") {
-          sequenceNumbersAsLong.push(Long.fromNumber(sequenceNumbers[i]));
+          sequenceNumbersAsBigInt.push(BigInt(sequenceNumbers[i]));
+        } else if (typeof sequenceNumbers[i] === "bigint") {
+          sequenceNumbersAsBigInt.push(sequenceNumbers[i]);
         } else {
-          sequenceNumbersAsLong.push(Long.fromBytesBE(sequenceNumbers[i]));
+          sequenceNumbersAsBigInt.push(fromEightBytesBE(sequenceNumbers[i]));
         }
       }
-      return sequenceNumbersAsLong;
+      return sequenceNumbersAsBigInt;
     } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
@@ -782,7 +787,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    */
   async cancelScheduledMessages(
-    sequenceNumbers: Long[],
+    sequenceNumbers: bigint[],
     options?: OperationOptionsBase & SendManagementRequestOptions,
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -794,7 +799,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
       try {
-        messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
+        messageBody[Constants.sequenceNumbers].push(Buffer.from(toEightBytesBE(sequenceNumber)));
       } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
@@ -852,7 +857,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * - Throws an error if the messages have not been deferred.
    */
   async receiveDeferredMessages(
-    sequenceNumbers: Long[],
+    sequenceNumbers: bigint[],
     receiveMode: ReceiveMode,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions,
@@ -869,7 +874,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     for (let i = 0; i < sequenceNumbers.length; i++) {
       const sequenceNumber = sequenceNumbers[i];
       try {
-        messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
+        messageBody[Constants.sequenceNumbers].push(Buffer.from(toEightBytesBE(sequenceNumber)));
       } catch (err: any) {
         const error = translateServiceBusError(err);
         receiverLogger.logError(

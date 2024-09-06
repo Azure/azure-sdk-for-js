@@ -96,6 +96,48 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 
 /**
  * @internal
+ * Converts 8-byte buffer to a bigint
+ *
+ * @param buf - Input as a Buffer
+ * @returns The bigint
+ */
+export function fromEightBytesBE(buf: number[]): bigint {
+  const high = ((buf[0] << 24) | (buf[1] << 16) | (buf[2] << 8) | buf[3]) >>> 0;
+  const low = ((buf[4] << 24) | (buf[5] << 16) | (buf[6] << 8) | buf[7]) >>> 0;
+  const result = (BigInt(high) << 32n) | BigInt(low);
+
+  return result;
+}
+
+/**
+ * @internal
+ * Converts a bigint to 8-bytes buffer
+ *
+ * @param buf - Input as a Buffer
+ * @returns The bigint
+ */
+export function toEightBytesBE(n: bigint): Uint8Array {
+  if (typeof n !== "bigint") {
+    n = BigInt(n);
+  }
+  const high = Number((n >> 32n) & 0xffffffffn);
+  const low = Number(n & 0xffffffffn);
+  const result = Uint8Array.from([
+    (high >>> 24) & 0xff,
+    (high >>> 16) & 0xff,
+    (high >>> 8) & 0xff,
+    high & 0xff,
+    (low >>> 24) & 0xff,
+    (low >>> 16) & 0xff,
+    (low >>> 8) & 0xff,
+    low & 0xff,
+  ]);
+
+  return result;
+}
+
+/**
+ * @internal
  * Converts the .net ticks to a JS Date object.
  *
  * - The epoch for the DateTimeOffset type is `0000-01-01`, while the epoch for JS Dates is
@@ -109,10 +151,10 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
  * @returns The JS Date object.
  */
 export function convertTicksToDate(buf: number[]): Date {
-  const epochMicroDiff: number = 621355968000000000;
-  const longValue: Long = Long.fromBytesBE(buf);
-  const timeInMS = longValue.sub(epochMicroDiff).div(10000).toNumber();
-  const result = new Date(timeInMS);
+  const epochMicroDiff = 621355968000000000n;
+  const longValue: bigint = fromEightBytesBE(buf);
+  const timeInMS = (longValue - epochMicroDiff) / 10000n;
+  const result = new Date(Number(timeInMS));
   logger.verbose("The converted date is: %s", result.toString());
   return result;
 }

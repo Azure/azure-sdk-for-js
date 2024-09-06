@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import chai from "chai";
-import Long from "long";
 const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
@@ -108,7 +107,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue, {
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           chai.assert.fail("This should not have passed.");
         } catch (error: any) {
@@ -129,29 +128,27 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "fromSequenceNumber" should be of type "Long"`,
+        `The parameter "fromSequenceNumber" should be coercible to "bigint"`,
       );
     });
 
-    [false, 0, -0, "", NaN].forEach((falsyValue) => {
-      it("PeekBySequenceNumber: Wrong type fromSequenceNumber in SessionReceiver when passing falsy value that is not undefined or null", async function (): Promise<void> {
-        let caughtError: Error | undefined;
-        try {
-          await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
-        } catch (error: any) {
-          caughtError = error;
-        }
-        should.equal(caughtError?.name, "TypeError");
-        expect(caughtError?.message).includes(
-          `The parameter "fromSequenceNumber" should be of type "Long"`,
-        );
-      });
+    it("PeekBySequenceNumber: Wrong type fromSequenceNumber in SessionReceiver when passing NaN", async function (): Promise<void> {
+      let caughtError: Error | undefined;
+      try {
+        await receiver.peekMessages(1, { fromSequenceNumber: NaN as any });
+      } catch (error: any) {
+        caughtError = error;
+      }
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "fromSequenceNumber" should be coercible to "bigint"`,
+      );
     });
 
     it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe(undefined as any, undefined as any);
+        receiver.subscribe(undefined as any, undefined as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -162,7 +159,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe("somestring" as any, "somethingelse" as any);
+        receiver.subscribe("somestring" as any, "somethingelse" as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -180,7 +177,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError?.name, "TypeError");
       console.log(caughtError?.message);
       expect(caughtError?.message).includes(
-        `The parameter "sequenceNumbers" should be of type "Long"`,
+        `The parameter "sequenceNumbers" should be coercible to "bigint"`,
       );
     });
 
@@ -204,7 +201,7 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "sequenceNumbers" should be an array of type "Long"`,
+        `The parameter "sequenceNumbers" should be coercible to an array of "bigint"`,
       );
     });
   });
@@ -282,7 +279,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue, {
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           chai.assert.fail("This should not have passed.");
         } catch (error: any) {
@@ -303,29 +300,27 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "fromSequenceNumber" should be of type "Long"`,
+        `The parameter "fromSequenceNumber" should be coercible to "bigint"`,
       );
     });
 
-    [false, 0, -0, "", NaN].forEach((falsyValue) => {
-      it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Queue when passing falsy value that is not undefined or null", async function (): Promise<void> {
-        let caughtError: Error | undefined;
-        try {
-          await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
-        } catch (error: any) {
-          caughtError = error;
-        }
-        should.equal(caughtError?.name, "TypeError");
-        expect(caughtError?.message).includes(
-          `The parameter "fromSequenceNumber" should be of type "Long"`,
-        );
-      });
+    it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Queue when passing falsy value that is not undefined or null", async function (): Promise<void> {
+      let caughtError: Error | undefined;
+      try {
+        await receiver.peekMessages(1, { fromSequenceNumber: NaN as any });
+      } catch (error: any) {
+        caughtError = error;
+      }
+      should.equal(caughtError?.name, "TypeError");
+      expect(caughtError?.message).includes(
+        `The parameter "fromSequenceNumber" should be coercible to "bigint"`,
+      );
     });
 
     it("RegisterMessageHandler: Missing onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe(undefined as any, undefined as any);
+        receiver.subscribe(undefined as any, undefined as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -336,7 +331,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe("somestring" as any, "somethingelse" as any);
+        receiver.subscribe("somestring" as any, "somethingelse" as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -353,7 +348,7 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "sequenceNumbers" should be of type "Long"`,
+        `The parameter "sequenceNumbers" should be coercible to "bigint"`,
       );
     });
 
@@ -377,7 +372,7 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "sequenceNumbers" should be an array of type "Long"`,
+        `The parameter "sequenceNumbers" should be coercible to an array of "bigint"`,
       );
     });
   });
@@ -419,7 +414,7 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "sequenceNumbers" should be of type "Long"`,
+        `The parameter "sequenceNumbers" should be coercible to "bigint"`,
       );
     });
 
@@ -443,7 +438,7 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError?.name, "TypeError");
       expect(caughtError?.message).includes(
-        `The parameter "sequenceNumbers" should be an array of type "Long"`,
+        `The parameter "sequenceNumbers" should be coercible to an array of "bigint"`,
       );
     });
   });

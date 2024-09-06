@@ -1,5 +1,11 @@
 # Release History
 
+## 8.0.0-beta.1 (Unreleased)
+
+### Breaking Changes
+
+- Switch from `Long` to platform-native `bigint`
+
 ## 7.10.0 (Unreleased)
 
 ### Features Added

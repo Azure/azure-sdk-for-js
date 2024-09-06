@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import Long from "long";
 import { ServiceBusReceivedMessage } from "./serviceBusMessage";
 import { ServiceBusError } from "./serviceBusError";
 
@@ -319,7 +318,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
   /**
    * The sequence number to start peeking messages from (inclusive).
    */
-  fromSequenceNumber?: Long;
+  fromSequenceNumber?: bigint;
   /**
    * @beta
    * (Experimental for diagnostic purpose) Specifies whether to omit the body when peeking messages. Default  value `false`.

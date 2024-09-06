@@ -6,7 +6,6 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
 import { isObjectWithProperties } from "@azure/core-util";
-import Long from "long";
 import {
   isServiceBusError,
   ProcessErrorArgs,
@@ -190,7 +189,7 @@ describe("ServiceBusClient live tests", () => {
 
           let peekedMsgs = await receiver.peekMessages(2, {
             omitMessageBody: true,
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
           should.not.exist(peekedMsgs[0].body);
@@ -205,7 +204,7 @@ describe("ServiceBusClient live tests", () => {
 
           peekedMsgs = await receiver.peekMessages(2, {
             omitMessageBody: false,
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           should.equal(peekedMsgs.length, 1, "expecting one peeked message 2");
           should.exist(peekedMsgs[0].body);
@@ -218,7 +217,7 @@ describe("ServiceBusClient live tests", () => {
             "Not expecting omitted-message-body-size",
           );
 
-          peekedMsgs = await receiver.peekMessages(2, { fromSequenceNumber: Long.ZERO });
+          peekedMsgs = await receiver.peekMessages(2, { fromSequenceNumber: 0n });
           should.equal(peekedMsgs.length, 1, "expecting one peeked message 3");
           should.exist(peekedMsgs[0].body);
           should.exist(
@@ -270,7 +269,6 @@ describe("ServiceBusClient live tests", () => {
           // Send and receive messages
           const testMessages = [
             {
-              // body: Long.fromString("12345678901234567890"),
               body: { id: 123456789 },
               applicationProperties: { createdOn: new Date() },
             },
@@ -278,7 +276,7 @@ describe("ServiceBusClient live tests", () => {
           await sender.sendMessages(testMessages);
 
           const peekedMsgs = await receiver.peekMessages(2, {
-            fromSequenceNumber: Long.ZERO,
+            fromSequenceNumber: 0n,
           });
           should.equal(peekedMsgs.length, 1, "expecting one peeked message 1");
           peekedMsgs[0].body.should.not.deep.equal({ id: 123456789 });
@@ -798,7 +796,7 @@ describe("ServiceBusClient live tests", () => {
       );
 
       let errorCancelMsgs: string = "";
-      await sender.cancelScheduledMessages([Long.ZERO]).catch((err) => {
+      await sender.cancelScheduledMessages([0n]).catch((err) => {
         errorCancelMsgs = err.message;
       });
       should.equal(
@@ -861,7 +859,7 @@ describe("ServiceBusClient live tests", () => {
       );
 
       let errorDeferredMsgs: string = "";
-      await receiver.receiveDeferredMessages(Long.ZERO).catch((err) => {
+      await receiver.receiveDeferredMessages(0n).catch((err) => {
         errorDeferredMsgs = err.message;
       });
       should.equal(
@@ -916,7 +914,7 @@ describe("ServiceBusClient live tests", () => {
       );
 
       let errorPeekBySequence: string = "";
-      await sessionReceiver.peekMessages(1, { fromSequenceNumber: Long.ZERO }).catch((err) => {
+      await sessionReceiver.peekMessages(1, { fromSequenceNumber: 0n }).catch((err) => {
         errorPeekBySequence = err.message;
       });
       should.equal(

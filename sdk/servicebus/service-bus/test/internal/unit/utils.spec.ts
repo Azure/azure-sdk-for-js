@@ -3,6 +3,9 @@
 
 import {
   checkAndRegisterWithAbortSignal,
+  convertTicksToDate,
+  fromEightBytesBE,
+  toEightBytesBE,
   waitForTimeoutOrAbortOrResolve,
 } from "../../../src/util/utils";
 import { StandardAbortMessage } from "@azure/core-amqp";
@@ -22,6 +25,25 @@ chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;
 
 describe("utils", () => {
+  it("converts ticks to JS Date", () => {
+    const ticks = [8, 220, 205, 214, 6, 189, 136, 148];
+    const jsDate = convertTicksToDate(ticks);
+    assert.equal(jsDate.getTime(), 1725559829954);
+  });
+
+  it("bigint from bytes big endian", () => {
+    const bytes = [8, 220, 205, 240, 130, 24, 234, 115];
+    const bi = fromEightBytesBE(bytes);
+    assert.equal(bi, 638611680038283891n);
+  });
+
+  it("bigint to bytes big endian", () => {
+    const bi = 638611566299547796n;
+    const expected = Uint8Array.from([8, 220, 205, 214, 6, 189, 136, 148]);
+    const bytes = toEightBytesBE(bi);
+    assert.deepEqual(bytes, expected);
+  });
+
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;

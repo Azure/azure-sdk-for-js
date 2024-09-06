@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 import { logger, receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
@@ -151,48 +150,49 @@ export function throwTypeErrorIfParameterTypeMismatch(
     throw error;
   }
 }
-
 /**
  * @internal
- * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
+ * Return a `bigint`. Logs and Throws TypeError if given parameter is coercible to `bigint`
  * @param connectionId - Id of the underlying AMQP connection used for logging
  * @param parameterName - Name of the parameter to type check
  * @param parameterValue - Value of the parameter to type check
  */
-export function throwTypeErrorIfParameterNotLong(
+export function tryCoerceToBigInt(
   connectionId: string,
   parameterName: string,
   parameterValue: unknown,
-): TypeError | undefined {
-  if (Array.isArray(parameterValue)) {
-    return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
+): bigint {
+  try {
+    return BigInt(parameterValue as any);
+  } catch {
+    const error = new TypeError(`The parameter "${parameterName}" should be coercible to "bigint"`);
+    logger.warning(`[${connectionId}] %O`, error);
+    throw error;
   }
-  if (Long.isLong(parameterValue)) {
-    return;
-  }
-  const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
-  logger.warning(`[${connectionId}] %O`, error);
-  throw error;
 }
 
 /**
  * @internal
- * Logs and Throws TypeError if given parameter is not an array of type `Long`
+ * Coerces input to a `bigint` array. Logs and Throws TypeError if given parameter is
+ * not coercible to an array of type `bigint`
  * @param connectionId - Id of the underlying AMQP connection used for logging
  * @param parameterName - Name of the parameter to type check
  * @param parameterValue - Value of the parameter to type check
  */
-export function throwTypeErrorIfParameterNotLongArray(
+export function tryCoerceToBigIntArray(
   connectionId: string,
   parameterName: string,
   parameterValue: any[],
-): TypeError | undefined {
-  if (parameterValue.every((item) => Long.isLong(item))) {
-    return;
+): bigint[] {
+  try {
+    return parameterValue.map((v) => BigInt(v));
+  } catch {
+    const error = new TypeError(
+      `The parameter "${parameterName}" should be coercible to an array of "bigint"`,
+    );
+    logger.warning(`[${connectionId}] %O`, error);
+    throw error;
   }
-  const error = new TypeError(`The parameter "${parameterName}" should be an array of type "Long"`);
-  logger.warning(`[${connectionId}] %O`, error);
-  throw error;
 }
 
 /**

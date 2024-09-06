@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import Long from "long";
 import { MessageSender } from "./core/messageSender";
 import { ServiceBusMessage } from "./serviceBusMessage";
 import { ConnectionContext } from "./connectionContext";
@@ -12,7 +11,8 @@ import {
   throwIfNotValidServiceBusMessage,
   throwTypeErrorIfNotInstanceOfParameterType,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong,
+  tryCoerceToBigInt,
+  tryCoerceToBigIntArray,
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "./models";
@@ -113,8 +113,6 @@ export interface ServiceBusSender {
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns The sequence numbers of messages that were scheduled.
    * You will need the sequence number if you intend to cancel the scheduling of the messages.
-   * Save the `Long` type as-is in your application without converting to number. Since JavaScript
-   * only supports 53 bit numbers, converting the `Long` to number will cause loss in precision.
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws `ServiceBusError` if the service returns an error while scheduling messages.
    */
@@ -126,7 +124,7 @@ export interface ServiceBusSender {
       | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
     options?: OperationOptionsBase,
-  ): Promise<Long[]>;
+  ): Promise<bigint[]>;
 
   /**
    * Cancels multiple messages that were scheduled to appear on a ServiceBus Queue/Subscription.
@@ -136,7 +134,7 @@ export interface ServiceBusSender {
    * @throws `ServiceBusError` if the service returns an error while canceling scheduled messages.
    */
   cancelScheduledMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options?: OperationOptionsBase,
   ): Promise<void>;
   /**
@@ -292,7 +290,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
     options: OperationOptionsBase = {},
-  ): Promise<Long[]> {
+  ): Promise<bigint[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
@@ -312,7 +310,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       throwIfNotValidServiceBusMessage(message, errorInvalidMessageTypeSingleOrArray);
     }
 
-    const scheduleMessageOperationPromise = async (): Promise<Long[]> => {
+    const scheduleMessageOperationPromise = async (): Promise<bigint[]> => {
       return this._context
         .getManagementClient(this._entityPath)
         .scheduleMessages(scheduledEnqueueTimeUtc, messagesToSchedule, {
@@ -322,18 +320,18 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           timeoutInMs: this._retryOptions.timeoutInMs,
         });
     };
-    const config: RetryConfig<Long[]> = {
+    const config: RetryConfig<bigint[]> = {
       operation: scheduleMessageOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     };
-    return retry<Long[]>(config);
+    return retry<bigint[]>(config);
   }
 
   async cancelScheduledMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options: OperationOptionsBase = {},
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -342,15 +340,10 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       "sequenceNumbers",
       sequenceNumbers,
     );
-    throwTypeErrorIfParameterNotLong(
-      this._context.connectionId,
-      "sequenceNumbers",
-      sequenceNumbers,
-    );
 
     const sequenceNumbersToCancel = Array.isArray(sequenceNumbers)
-      ? sequenceNumbers
-      : [sequenceNumbers];
+      ? tryCoerceToBigIntArray(this._context.connectionId, "sequenceNumbers", sequenceNumbers)
+      : [tryCoerceToBigInt(this._context.connectionId, "sequenceNumbers", sequenceNumbers)];
     const cancelSchedulesMessagesOperationPromise = async (): Promise<void> => {
       return this._context
         .getManagementClient(this._entityPath)

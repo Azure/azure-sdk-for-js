@@ -4,7 +4,6 @@
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
-import Long from "long";
 import {
   Delivery,
   DeliveryAnnotations,
@@ -16,7 +15,7 @@ import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { reorderLockToken } from "./util/utils";
+import { fromEightBytesBE, reorderLockToken } from "./util/utils";
 
 /**
  * @internal
@@ -482,14 +481,9 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
    * They roll over to 0 when the 48-64 bit range is exhausted.
-   *
-   * **Max safe integer** that Javascript currently supports is `2^53 - 1`. The sequence number
-   * is an AMQP `Long` type which can be upto 64 bits long. To represent that we are using a
-   * library named {@link https://github.com/dcodeIO/long.js | long.js}. We expect customers
-   * to use the **`Long`** type exported by this library.
    * @readonly
    */
-  readonly sequenceNumber?: Long;
+  readonly sequenceNumber?: bigint;
   /**
    * The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
@@ -611,13 +605,11 @@ export function fromRheaMessage(
     }
     if (rheaMessage.message_annotations[Constants.sequenceNumber] != null) {
       if (Buffer.isBuffer(rheaMessage.message_annotations[Constants.sequenceNumber])) {
-        props.sequenceNumber = Long.fromBytesBE(
+        props.sequenceNumber = fromEightBytesBE(
           rheaMessage.message_annotations[Constants.sequenceNumber],
         );
       } else {
-        props.sequenceNumber = Long.fromNumber(
-          rheaMessage.message_annotations[Constants.sequenceNumber],
-        );
+        props.sequenceNumber = BigInt(rheaMessage.message_annotations[Constants.sequenceNumber]);
       }
     }
     if (rheaMessage.message_annotations[Constants.enqueuedTime] != null) {
@@ -877,7 +869,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * They roll over to 0 when the 48-64 bit range is exhausted.
    * @readonly
    */
-  readonly sequenceNumber?: Long;
+  readonly sequenceNumber?: bigint;
   /**
    * The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered

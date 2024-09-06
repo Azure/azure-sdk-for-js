@@ -17,9 +17,10 @@ import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
+  tryCoerceToBigIntArray,
+  tryCoerceToBigInt,
 } from "../util/errors";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import {
@@ -36,7 +37,6 @@ import {
   MaxDeleteMessageCount,
   ServiceBusReceiver,
 } from "./receiver";
-import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import {
   Constants,
@@ -371,7 +371,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   async receiveDeferredMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options: OperationOptionsBase = {},
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -380,15 +380,10 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       "sequenceNumbers",
       sequenceNumbers,
     );
-    throwTypeErrorIfParameterNotLong(
-      this._context.connectionId,
-      "sequenceNumbers",
-      sequenceNumbers,
-    );
 
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
-      ? sequenceNumbers
-      : [sequenceNumbers];
+      ? tryCoerceToBigIntArray(this._context.connectionId, "sequenceNumbers", sequenceNumbers)
+      : [tryCoerceToBigInt(this._context.connectionId, "sequenceNumbers", sequenceNumbers)];
     const receiveDeferredMessagesOperationPromise = async (): Promise<
       ServiceBusReceivedMessage[]
     > => {

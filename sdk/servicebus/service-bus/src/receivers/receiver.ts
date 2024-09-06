@@ -19,9 +19,10 @@ import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
+  tryCoerceToBigInt,
+  tryCoerceToBigIntArray,
 } from "../util/errors";
 import { ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
@@ -34,7 +35,6 @@ import {
   deferMessage,
   getMessageIterator,
 } from "./receiverCommon";
-import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { LockRenewer } from "../core/autoLockRenewer";
@@ -128,7 +128,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` if the service returns an error while receiving deferred messages.
    */
   receiveDeferredMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options?: OperationOptionsBase,
   ): Promise<ServiceBusReceivedMessage[]>;
 
@@ -438,7 +438,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   }
 
   async receiveDeferredMessages(
-    sequenceNumbers: Long | Long[],
+    sequenceNumbers: bigint | bigint[],
     options: OperationOptionsBase = {},
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -447,15 +447,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       "sequenceNumbers",
       sequenceNumbers,
     );
-    throwTypeErrorIfParameterNotLong(
-      this._context.connectionId,
-      "sequenceNumbers",
-      sequenceNumbers,
-    );
 
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
-      ? sequenceNumbers
-      : [sequenceNumbers];
+      ? tryCoerceToBigIntArray(this._context.connectionId, "sequenceNumbers", sequenceNumbers)
+      : [tryCoerceToBigInt(this._context.connectionId, "sequenceNumbers", sequenceNumbers)];
     const receiveDeferredMessagesOperationPromise = async (): Promise<
       ServiceBusReceivedMessage[]
     > => {

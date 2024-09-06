@@ -17,7 +17,6 @@ import {
 import { ServiceBusReceiver } from "../../src";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusReceivedMessage } from "../../src";
-import Long from "long";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -123,7 +122,7 @@ describe("Deferred Messages", () => {
   }
 
   async function completeDeferredMessage(
-    sequenceNumber: Long,
+    sequenceNumber: bigint,
     expectedDeliverCount: number,
     testMessages: ServiceBusMessage,
   ): Promise<void> {

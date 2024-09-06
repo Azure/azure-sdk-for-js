@@ -15,7 +15,6 @@ import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing";
 
 import Sinon from "sinon";
 import { TracingContext } from "@azure/core-tracing";
-import Long from "long";
 import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 
 describe("tracing", () => {
@@ -142,7 +141,7 @@ describe("tracing", () => {
           body: "",
           enqueuedTimeUtc,
           partitionKey: undefined,
-          sequenceNumber: Long.fromNumber(0),
+          sequenceNumber: 0n,
           applicationProperties: {
             [TRACEPARENT_PROPERTY]: "test",
           },

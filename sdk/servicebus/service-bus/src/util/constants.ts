@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.10.0",
+  version: "8.0.0-beta.1",
 };
 
 /**

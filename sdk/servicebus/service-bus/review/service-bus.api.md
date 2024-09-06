@@ -11,7 +11,6 @@ import { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpMethods } from '@azure/core-rest-pipeline';
-import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
@@ -210,7 +209,7 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
-    fromSequenceNumber?: Long;
+    fromSequenceNumber?: bigint;
     // @beta
     omitMessageBody?: boolean;
 }
@@ -477,7 +476,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
-    readonly sequenceNumber?: Long;
+    readonly sequenceNumber?: bigint;
     readonly state: "active" | "deferred" | "scheduled";
 }
 
@@ -501,7 +500,7 @@ export interface ServiceBusReceiver {
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
+    receiveDeferredMessages(sequenceNumbers: bigint | bigint[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
@@ -530,13 +529,13 @@ export interface ServiceBusRuleManager {
 
 // @public
 export interface ServiceBusSender {
-    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: bigint | bigint[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     identifier: string;
     isClosed: boolean;
-    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
+    scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<bigint[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 

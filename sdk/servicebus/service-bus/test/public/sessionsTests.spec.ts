@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import chai, { assert } from "chai";
-import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -299,7 +298,7 @@ describe("session tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
+        await receiver.receiveDeferredMessages([0n], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err: any) {
         err.name.should.equal("AbortError");
