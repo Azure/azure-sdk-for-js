@@ -106,7 +106,7 @@ export class Constants {
 
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
     getTestRun: {
-      400: "Bad Request",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
       403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
@@ -115,7 +115,7 @@ export class Constants {
       503: "The service is currently unavailable. Please check the service status and try again.",
     },
     patchTestRunShardStart: {
-      400: "Bad Request",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
       403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
@@ -124,7 +124,7 @@ export class Constants {
       503: "The service is currently unavailable. Please check the service status and try again.",
     },
     patchTestRunShardEnd: {
-      400: "Bad Request",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
       403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
@@ -133,7 +133,7 @@ export class Constants {
       503: "The service is currently unavailable. Please check the service status and try again.",
     },
     postTestResults: {
-      400: "Bad Request",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
       403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
@@ -142,7 +142,7 @@ export class Constants {
       503: "The service is currently unavailable. Please check the service status and try again.",
     },
     getStorageUri: {
-      400: "Bad Request",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
       403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
