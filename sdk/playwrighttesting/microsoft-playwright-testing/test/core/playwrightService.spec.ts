@@ -87,15 +87,16 @@ describe("getServiceConfig", () => {
     );
   });
 
-  it("should set service global setup and teardown for mpt PAT authentication if pat is not set", () => {
+  it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
+    sandbox.stub(utils, "validateMptPAT").returns();
     const config = getServiceConfig(samplePlaywrightConfigInput, {
-      defaultAuth: ServiceAuth.TOKEN,
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
-    expect(config.globalSetup).to.equal(
+    expect(config.globalSetup).not.to.equal(
       require.resolve("../../src/core/global/playwright-service-global-setup"),
     );
-    expect(config.globalTeardown).to.equal(
+    expect(config.globalTeardown).not.to.equal(
       require.resolve("../../src/core/global/playwright-service-global-teardown"),
     );
   });
@@ -117,7 +118,7 @@ describe("getServiceConfig", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const config = getServiceConfig(samplePlaywrightConfigInput, {
-      defaultAuth: ServiceAuth.TOKEN,
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
     expect(config.globalSetup).to.be.undefined;
     expect(config.globalTeardown).to.be.undefined;
@@ -223,7 +224,9 @@ describe("getConnectOptions", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = accessToken;
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 });
     const credential = {
-      getToken: sandbox.stub().resolves(accessToken),
+      getToken: sandbox
+        .stub()
+        .resolves({ token: accessToken, expiresOnTimestamp: Date.now() + 10000 }),
     };
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({

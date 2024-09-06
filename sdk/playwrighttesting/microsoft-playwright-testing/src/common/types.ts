@@ -147,9 +147,9 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * Authentication types supported by Microsoft Playwright Testing.
    *
-   * @defaultValue  `ENTRA`
+   * @defaultValue  `ENTRA_ID`
    */
-  defaultAuth?: AuthenticationType;
+  serviceAuthType?: AuthenticationType;
 
   /**
    * @public

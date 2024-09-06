@@ -12,7 +12,7 @@ import type {
 import { reporterLogger } from "../common/logger";
 import {
   Constants,
-  InternalServiceEnvironmentVariable,
+  InternalEnvironmentVariables,
   TestResultErrorConstants,
 } from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
@@ -333,6 +333,10 @@ class MPTReporter implements Reporter {
 
   private initializeMPTReporter(): void {
     this.envVariables = new EnvironmentVariables();
+    if (process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR] === "true") {
+      this.isTokenValid = false;
+      return;
+    }
     if (!process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]) {
       process.stdout.write("\nReporting service url not found.");
       this.isTokenValid = false;
@@ -389,9 +393,7 @@ class MPTReporter implements Reporter {
 
   private processTestResult(result: TestResult): void {
     if (
-      process.env[
-        InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
-      ] &&
+      process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] &&
       result.status !== "passed"
     ) {
       result.errors.forEach((error) => {

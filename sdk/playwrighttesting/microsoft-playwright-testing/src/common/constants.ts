@@ -22,8 +22,8 @@ export const ServiceOS = {
  * Authentication types supported on Microsoft Playwright Testing
  */
 export const ServiceAuth = {
-  ENTRA: "ENTRA",
-  TOKEN: "TOKEN",
+  ENTRA_ID: "ENTRA_ID",
+  ACCESS_TOKEN: "ACCESS_TOKEN",
 } as const;
 
 /** @public
@@ -37,10 +37,6 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_ACCESS_TOKEN: "PLAYWRIGHT_SERVICE_ACCESS_TOKEN",
   PLAYWRIGHT_SERVICE_URL: "PLAYWRIGHT_SERVICE_URL",
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
-};
-
-export const InternalServiceEnvironmentVariable = {
-  PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED: "_PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED",
 };
 
 export const DefaultConnectOptionsConstants = {
@@ -222,6 +218,8 @@ export const TestResultErrorConstants = [
 
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
+  MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
+  MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
 };
 
 export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";
