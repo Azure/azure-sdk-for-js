@@ -106,6 +106,19 @@ export function fromEightBytesBE(buf: number[]): bigint {
   const low = ((buf[4] << 24) | (buf[5] << 16) | (buf[6] << 8) | buf[7]) >>> 0;
   const result = (BigInt(high) << 32n) | BigInt(low);
 
+  const res = Long.fromBytesBE(buf);
+  if (result.toString() !== res.toString()) {
+    console.log(`###### different result from fromEightBytesBE()`);
+    console.dir({
+      Long: res,
+      bigint: result,
+      l: res.toString(),
+      n: result.toString(),
+      buf,
+      len: buf.length,
+    });
+  }
+
   return result;
 }
 
@@ -132,6 +145,14 @@ export function toEightBytesBE(n: bigint): Uint8Array {
     (low >>> 8) & 0xff,
     low & 0xff,
   ]);
+
+  const res = Long.fromString(n.toString()).toBytesBE();
+  for (let i = 0; i < res.length; i++) {
+    if (result[i] !== res[i]) {
+      console.log(`################ different result from toEightBytesBE()`);
+      console.dir({ Long: res, bigint: result, l: Long.fromString(n.toString()), n: n.toString() });
+    }
+  }
 
   return result;
 }

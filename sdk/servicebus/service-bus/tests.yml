@@ -8,7 +8,7 @@ extends:
       UseFederatedAuth: true
       TimeoutInMinutes: 120
       Clouds: 'Public,Canary'
-      SupportedClouds: 'Public,UsGov,China'
+      SupportedClouds: 'Public'
       CloudConfig:
         Public:
           ServiceConnection: azure-sdk-tests
@@ -25,4 +25,4 @@ extends:
             - eng/common/TestResources/sub-config/AzureChinaMsft.json
           Location: 'chinaeast'
       EnvVars:
-        DEBUG: azure:service-bus:*,azure:core-amqp:*,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+        MatrixJobFilter: ubuntu2004_20x_node

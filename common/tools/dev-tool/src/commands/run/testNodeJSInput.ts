@@ -23,7 +23,7 @@ export const commandInfo = makeCommandInfo(
 export default leafCommand(commandInfo, async (options) => {
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `-r source-map-support/register.js ${reporterArgs} --full-trace`;
+  const defaultMochaArgs = ` ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
