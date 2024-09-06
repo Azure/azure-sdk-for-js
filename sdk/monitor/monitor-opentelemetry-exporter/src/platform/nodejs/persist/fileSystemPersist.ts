@@ -99,7 +99,7 @@ export class FileSystemPersist implements PersistentStorage {
       try {
         const buffer = await this._getFirstFileOnDisk();
         if (buffer) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+           
           return JSON.parse(buffer.toString("utf8"));
         }
       } catch (e: any) {

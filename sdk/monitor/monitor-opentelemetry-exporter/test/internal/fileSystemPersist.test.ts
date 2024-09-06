@@ -69,7 +69,7 @@ describe("FileSystemPersist", () => {
   afterEach((done) => {
     fs.readdir(tempDir, (err, files) => {
       if (err) {
-        // eslint-disable-next-line no-console
+         
         console.error(err);
         done();
       } else {

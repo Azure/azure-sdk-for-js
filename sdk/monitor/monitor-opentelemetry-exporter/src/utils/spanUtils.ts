@@ -40,7 +40,7 @@ import {
   isSqlDB,
   serializeAttribute,
 } from "./common";
-import { Tags, Properties, MSLink, Measurements } from "../types";
+import { Tags, Properties, MSLink, Measurements, MaxPropertyLengths } from "../types";
 import { parseEventHubSpan } from "./eventhub";
 import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
@@ -345,6 +345,31 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     }
   }
 
+  // Truncate properties
+  if (baseData.id) {
+    baseData.id = baseData.id.substring(0, MaxPropertyLengths.NINE_BIT);
+  }
+  if (baseData.name) {
+    baseData.name = baseData.name.substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.resultCode) {
+    baseData.resultCode = String(baseData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.data) {
+    baseData.data = String(baseData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+  }
+  if (baseData.type) {
+    baseData.type = String(baseData.type).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.target) {
+    baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.properties) {
+    for (const key of Object.keys(baseData.properties)) {
+      baseData.properties[key] = baseData.properties[key].substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+    }
+  }
+
   return {
     name,
     sampleRate,
@@ -437,6 +462,15 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let sampleRate = 100;
       if (span.attributes[AzureMonitorSampleRate]) {
         sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
+      }
+      // Truncate properties
+      if (baseData.message) {
+        baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+      }
+      if (baseData.properties) {
+        for (const key of Object.keys(baseData.properties)) {
+          baseData.properties[key] = baseData.properties[key].substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+        }
       }
       const env: Envelope = {
         name: name,
