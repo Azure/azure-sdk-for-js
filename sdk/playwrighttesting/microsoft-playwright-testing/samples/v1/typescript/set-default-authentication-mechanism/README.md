@@ -43,7 +43,7 @@ The service configuration serves to:
     ```typescript
     import {
         getServiceConfig,
-        Auth,
+        ServiceAuth,
     } from "@azure/microsoft-playwright-testing";
     import { defineConfig } from "@playwright/test";
     import config from "./playwright.config";
@@ -51,7 +51,7 @@ The service configuration serves to:
     export default defineConfig(
         config,
         getServiceConfig(config, {
-            defaultAuth: ServiceAuth.TOKEN,
+            serviceAuthType: ServiceAuth.ACCESS_TOKEN,
         }),
         {
             reporter: [["list"], ["@azure/microsoft-playwright-testing/reporter"]],

@@ -43,7 +43,7 @@ The service configuration serves to:
     ```javascript
     const {
         getServiceConfig,
-        Auth,
+        ServiceAuth,
     } = require("@azure/microsoft-playwright-testing");
     const { defineConfig } = require("@playwright/test");
     const config = require("./playwright.config");
@@ -51,7 +51,7 @@ The service configuration serves to:
     export default defineConfig(
         config,
         getServiceConfig(config, {
-            defaultAuth: ServiceAuth.TOKEN,
+            serviceAuthType: ServiceAuth.ACCESS_TOKEN,
         }),
         {
             reporter: [["list"], ["@azure/microsoft-playwright-testing/reporter"]],

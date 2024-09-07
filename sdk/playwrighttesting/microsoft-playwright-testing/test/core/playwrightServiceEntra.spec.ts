@@ -40,15 +40,13 @@ describe("playwrightServiceEntra", () => {
     expect(playwrightServiceEntra.entraIdGlobalSetupRotationHandler.calledOnce).to.be.true;
   });
 
-  it("should validate mpt PAT if entra id access token fetch fails and does not setup rotation handler", async () => {
+  it("should throw error if entra id access token fetch fails", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(utils, "parseJwt").returns({ exp: new Date().getTime() / 1000 + 10000 });
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
-      .resolves(false);
+    sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken").throws();
     sandbox.stub(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
 
-    await playwrightServiceEntra.globalSetup();
+    await expect(playwrightServiceEntra.globalSetup()).to.be.rejected;
 
     expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.calledOnce).to.be
       .true;
@@ -97,6 +95,21 @@ describe("playwrightServiceEntra", () => {
     sandbox
       .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
       .resolves(true);
+
+    await playwrightServiceEntra.entraIdAccessTokenRotation();
+
+    expect(
+      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation.calledOnce,
+    ).to.be.true;
+    expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.calledOnce).to.be
+      .true;
+  });
+
+  it("should not throw error during entra id access token rotation if fetch fails", async () => {
+    sandbox
+      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
+      .returns(true);
+    sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken").throws();
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 

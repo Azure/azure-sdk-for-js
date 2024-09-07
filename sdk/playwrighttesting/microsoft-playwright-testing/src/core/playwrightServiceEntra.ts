@@ -3,7 +3,6 @@
 
 import { EntraIdAccessTokenConstants } from "../common/constants";
 import { coreLogger } from "../common/logger";
-import { validateMptPAT } from "../utils/utils";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
 import type { TokenCredential } from "@azure/identity";
 
@@ -29,12 +28,8 @@ class PlaywrightServiceEntra {
 
   public globalSetup = async (): Promise<void> => {
     coreLogger.info("Entra id access token setup start");
-    const operationResult = await this._entraIdAccessToken.fetchEntraIdAccessToken();
-    if (operationResult) {
-      this.entraIdGlobalSetupRotationHandler();
-    } else {
-      validateMptPAT();
-    }
+    await this._entraIdAccessToken.fetchEntraIdAccessToken();
+    this.entraIdGlobalSetupRotationHandler();
   };
 
   public globalTeardown = (): void => {
@@ -55,8 +50,12 @@ class PlaywrightServiceEntra {
 
   private entraIdAccessTokenRotation = async (): Promise<void> => {
     coreLogger.info("Entra id access token rotation handler");
-    if (this._entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
-      await this._entraIdAccessToken.fetchEntraIdAccessToken();
+    try {
+      if (this._entraIdAccessToken.doesEntraIdAccessTokenNeedRotation()) {
+        await this._entraIdAccessToken.fetchEntraIdAccessToken();
+      }
+    } catch (err) {
+      coreLogger.error(err); // log error and continue if it's an intermittent issue (optimistic approach)
     }
   };
 }
