@@ -142,7 +142,7 @@ describe("PlaywrightServiceInitialize", () => {
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(4);
+    expect(consoleLogStub.callCount).to.equal(6);
     expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
   });
 
@@ -158,7 +158,7 @@ describe("PlaywrightServiceInitialize", () => {
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(4);
+    expect(consoleLogStub.callCount).to.equal(6);
     expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
   });
 
@@ -174,7 +174,7 @@ describe("PlaywrightServiceInitialize", () => {
     const consoleLogStub = sandbox.stub(console, "log");
     playwrightServiceInitialize["displayAdditionalInformation"]();
 
-    expect(consoleLogStub.callCount).to.equal(4);
+    expect(consoleLogStub.callCount).to.equal(6);
     expect(consoleLogStub.getCall(1).args[0]).to.equal(`\t${npmRunCommandParallelWorkers}\n`);
   });
 });
