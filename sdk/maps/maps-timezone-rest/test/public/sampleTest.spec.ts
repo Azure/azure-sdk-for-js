@@ -2,12 +2,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import {isPlaybackMode, Recorder} from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("My test", () => {
+const describeIfNotPlayback = isPlaybackMode() ? describe.skip : describe;
+
+describeIfNotPlayback("My test", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
