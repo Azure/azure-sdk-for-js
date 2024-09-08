@@ -2231,7 +2231,7 @@
     {
       "packageName": "@azure/create-microsoft-playwright-testing",
       "projectFolder": "sdk/playwrighttesting/create-microsoft-playwright-testing",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/microsoft-playwright-testing",
