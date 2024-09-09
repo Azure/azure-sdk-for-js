@@ -120,7 +120,6 @@ const getServiceConfig = (
  * ```
  * import playwright, { test, expect, BrowserType } from "@playwright/test";
  * import { getConnectOptions } from "@azure/microsoft-playwright-testing";
- * import playwrightConfig from "./playwright.config";
  *
  * test('has title', async ({ browserName }) => {
  *  const { wsEndpoint, options } = await getConnectOptions();
@@ -131,7 +130,7 @@ const getServiceConfig = (
  *  await page.goto('https://playwright.dev/');
  *  await expect(page).toHaveTitle(/Playwright/);
  *
- * 	await page.close();
+ *  await page.close();
  *  await context.close();
  *  await browser.close();
  * });

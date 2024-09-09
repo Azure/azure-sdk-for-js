@@ -31,8 +31,7 @@ The service configuration serves to:
 - Add Microsoft Playwright Testing reporting to your config.
 - Override timeouts for service operations, if needed.
 
-> [!NOTE]
-> Make sure your project uses @playwright/test version 1.37 or above.
+> Make sure your project uses @playwright/test version 1.47 or above.
 
 ### Obtain region endpoint
 
@@ -48,7 +47,6 @@ Ensure that the `PLAYWRIGHT_SERVICE_URL` that you obtained in previous step is a
 
 We recommend using `dotenv` module to manage your environment. With `dotenv` you'll be using the `.env` file to define your environment variables.
 
-> [!IMPORTANT]
 > Don't forget to add `.env` file to your `.gitignore` file in order to not leak your secrets.
 
 ```sh
