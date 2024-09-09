@@ -1420,6 +1420,42 @@ describe("Live Metrics filtering - Metric Projection", () => {
     proj.clearProjectionMaps();
 
   });
+
+  it("Projection across multiple seconds & projection after config change to no derived metrics", () => {
+    const avg: DerivedMetricInfo = {
+      id: "id-avg",
+      telemetryType: KnownTelemetryType.Request,
+      filterGroups: [{ filters: [] }],
+      projection: "CustomDimensions.property",
+      aggregation: KnownAggregationType.Avg,
+      backEndAggregation: KnownAggregationType.Avg,
+    }
+
+    const request: RequestData = {
+      Url: "https://test.com/hiThere",
+      Duration: 200,
+      ResponseCode: 200,
+      Success: true,
+      Name: "GET /hiThere",
+      CustomDimensions: new Map<string, string>([["property", "5"]]),
+    };
+
+    proj.initDerivedMetricProjection(avg);
+    proj.calculateProjection(avg, request);
+    assert.equal(proj.getMetricValues().get("id-avg"), 5);
+
+    assert.equal(proj.getMetricValues().get("id-avg"), 0);
+
+    request.CustomDimensions.set("property", "10");
+    proj.calculateProjection(avg, request);
+    request.CustomDimensions.set("property", "6");
+    proj.calculateProjection(avg, request);
+    assert.equal(proj.getMetricValues().get("id-avg"), 8);
+
+    proj.clearProjectionMaps();
+    assert.equal(proj.getMetricValues().size, 0);
+
+  })
 });
 
 describe("Live Metrics filtering - documents", () => {

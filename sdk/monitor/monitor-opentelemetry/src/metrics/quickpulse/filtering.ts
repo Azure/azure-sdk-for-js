@@ -373,32 +373,30 @@ export class Filter {
 }
 
 export class Projection {
-  // contains the projections for all the derived metrics
-  private projectionMap: Map<string, number>;
+  // contains the projections for all the derived metrics. key id, value [metric value, aggregation type]
+  private projectionMap: Map<string, [number, string]>;
   // for calculation of avgs - key id, value [sum, count]
   private avgMap: Map<string, [number, number]>;
 
-  // Whether the projection maps have been cleared/reset.
-  // This is used when calculating min/max aggregations.
-  // If maps were reset, then the min/max for the first telemetry item 
-  // in a given 1s interval should be the value of the first telemetry item.
-  private reset: boolean;
-
   constructor() {
-    this.projectionMap = new Map<string, number>();
+    this.projectionMap = new Map<string, [number, string]>();
     this.avgMap = new Map<string, [number, number]>();
-    this.reset = true;
   }
 
   // This method is intended to be called upon configuration change for every valid derivedMetricInfo.
-  // This is so even when there are no telemetry items flowing in from the processor after the config has changed, we still
-  // emit a value of 0 to quickpulse for the derived metric.
   public initDerivedMetricProjection(derivedMetricInfo: DerivedMetricInfo): void {
-    this.projectionMap.set(derivedMetricInfo.id, 0);
-    if (derivedMetricInfo.aggregation === KnownAggregationType.Avg.toString()) {
+    if (derivedMetricInfo.aggregation === KnownAggregationType.Min.toString()) {
+      // set to max value so that the value from the first telemetry item will always be less than it
+      this.projectionMap.set(derivedMetricInfo.id, [Number.MAX_VALUE, KnownAggregationType.Min]);
+    } else if (derivedMetricInfo.aggregation === KnownAggregationType.Max.toString()) {
+      // set to min value so that the value from the first telemetry item will always be more than it
+      this.projectionMap.set(derivedMetricInfo.id, [Number.MIN_VALUE, KnownAggregationType.Max]);
+    } else if (derivedMetricInfo.aggregation === KnownAggregationType.Sum.toString()) {
+      this.projectionMap.set(derivedMetricInfo.id, [0, KnownAggregationType.Sum]);
+    } else {
+      this.projectionMap.set(derivedMetricInfo.id, [0, KnownAggregationType.Avg]);
       this.avgMap.set(derivedMetricInfo.id, [0, 0]);
     }
-    this.reset = true;
   }
 
   public calculateProjection(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): void {
@@ -430,47 +428,46 @@ export class Projection {
     }
 
     const projection: number = this.calculateAggregation(derivedMetricInfo.aggregation, derivedMetricInfo.id, incrementBy);
-    this.projectionMap.set(derivedMetricInfo.id, projection);
+    this.projectionMap.set(derivedMetricInfo.id, [projection, derivedMetricInfo.aggregation]);
   }
 
   // This method is intended to be called every second when export() is called.
   public getMetricValues(): Map<string, number> {
-    const result: Map<string, number> = new Map(this.projectionMap);
-    this.resetProjectionValues();
+    const result: Map<string, number> = new Map();
+    for (const [key, value] of this.projectionMap.entries()) {
+      let projection: number;
+      if (value[1] === KnownAggregationType.Min.toString()) {
+        projection = value[0] === Number.MAX_VALUE ? 0 : value[0];
+        value[0] = Number.MAX_VALUE; // reset for next 1s interval
+      } else if (value[1] === KnownAggregationType.Max.toString()) {
+        projection = value[0] === Number.MIN_VALUE ? 0 : value[0];
+        value[0] = Number.MIN_VALUE; // reset for next 1s interval
+      } else {
+        projection = value[0];
+        value[0] = 0; // reset for next 1s interval
+        if (value[1] === KnownAggregationType.Avg.toString()) {
+          this.avgMap.set(key, [0, 0]); // reset for next 1s interval
+        }
+      }
+      result.set(key, projection);
+    }
     return result;
-  }
-
-  private resetProjectionValues(): void {
-    for (const key of this.projectionMap.keys()) {
-      this.projectionMap.set(key, 0);
-    }
-
-    for (const key of this.avgMap.keys()) {
-      this.avgMap.set(key, [0, 0]);
-    }
-    this.reset = true;
   }
 
   // This method is intended to be called after upon config change or when we return to ping.
   public clearProjectionMaps(): void {
     this.projectionMap.clear();
     this.avgMap.clear();
-    this.reset = true;
   }
 
   private calculateAggregation(aggregation: string, id: string, incrementBy: number): number {
-    let prevValue: number;
+    const prevValue: number = (this.projectionMap.get(id) as [number, string])[0];
     switch (aggregation) {
       case KnownAggregationType.Sum.toString():
-        prevValue = this.projectionMap.get(id) as number;
         return prevValue + incrementBy;
       case KnownAggregationType.Min.toString():
-        prevValue = this.reset ? Number.MAX_VALUE : this.projectionMap.get(id) as number;
-        this.reset = false;
         return Math.min(prevValue, incrementBy);
       case KnownAggregationType.Max.toString():
-        prevValue = this.reset ? Number.MIN_VALUE : this.projectionMap.get(id) as number;
-        this.reset = false;
         return Math.max(prevValue, incrementBy);
       case KnownAggregationType.Avg.toString(): {
         const [prevSum, prevCount] = this.avgMap.get(id) as [number, number];
