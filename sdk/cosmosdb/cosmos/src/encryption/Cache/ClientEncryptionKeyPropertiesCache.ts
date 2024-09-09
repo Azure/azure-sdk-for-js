@@ -9,7 +9,7 @@ import { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
  */
 
 export class ClientEncryptionKeyPropertiesCache {
-  // key is database id + '/'+ clientEncryptionKeyId
+  // key is database rid + '/'+ clientEncryptionKeyId
   private clientEncryptionKeyPropertiesCache: Map<string, ClientEncryptionKeyProperties>;
 
   public constructor() {

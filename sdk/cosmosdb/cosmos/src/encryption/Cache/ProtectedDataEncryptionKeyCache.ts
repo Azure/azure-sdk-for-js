@@ -11,7 +11,7 @@ export class ProtectedDataEncryptionKeyCache {
 
   constructor(private cacheTimeToLive: number) {
     this.protectedDataEncryptionKeyCache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
-    this.clearCacheOnTtlExpiry(this.cacheTimeToLive);
+    this.clearCacheOnTtlExpiry();
   }
 
   public getProtectedDataEncryptionKey(key: string): ProtectedDataEncryptionKey | undefined {
@@ -31,15 +31,18 @@ export class ProtectedDataEncryptionKeyCache {
     this.protectedDataEncryptionKeyCache.set(key, [new Date(), protectedDataEncryptionKey]);
   }
 
-  public async clearCacheOnTtlExpiry(time: number): Promise<void> {
+  public async clearCacheOnTtlExpiry(): Promise<void> {
     setInterval(() => {
       const now = new Date();
-      for (const key in this.protectedDataEncryptionKeyCache) {
-        if (now.getTime() - this.protectedDataEncryptionKeyCache.get(key)[0].getTime() > time) {
+      for (const key of this.protectedDataEncryptionKeyCache.keys()) {
+        if (
+          now.getTime() - this.protectedDataEncryptionKeyCache.get(key)[0].getTime() >
+          this.cacheTimeToLive
+        ) {
           this.protectedDataEncryptionKeyCache.delete(key);
         }
       }
-    }, 300000);
+    }, 10000);
   }
 
   private async createProtectedDataEncryptionKey(

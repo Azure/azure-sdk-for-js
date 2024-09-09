@@ -8,6 +8,7 @@ import { ClientEncryptionKeyPropertiesCache } from "./Cache/ClientEncryptionKeyP
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 import { Constants } from "../common/constants";
 import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
+import { EncryptionTimeToLive } from "./EncryptionTimeToLive";
 /**
  * @hidden
  * Cache manager for encryption related caches.
@@ -26,7 +27,9 @@ export class EncryptionManager {
     cacheTimeToLive?: number,
   ) {
     this.cacheTimeToLive =
-      cacheTimeToLive !== undefined ? cacheTimeToLive : Constants.DefaultEncryptionCacheTimeToLive;
+      cacheTimeToLive !== undefined
+        ? cacheTimeToLive
+        : EncryptionTimeToLive.FromHours(Constants.DefaultEncryptionCacheTimeToLive);
     this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
       encryptionKeyResolver,
       encryptionKeyResolverName,
