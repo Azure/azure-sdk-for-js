@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.6 (2024-09-09)
 
 ### Other Changes
+
+- Deprecation notice: The Azure OpenAI Assistants client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/azjssdk_migration) before that date.
 
 ## 1.0.0-beta.5 (2024-03-01)
 
