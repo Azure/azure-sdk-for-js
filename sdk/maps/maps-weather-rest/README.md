@@ -8,7 +8,6 @@ Key links:
 
 - [Source code][source_code]
 - [Package (NPM)][npm_package]
-- [API reference documentation][api_ref]
 - [Product Information][product_info]
 
 ## Getting started
@@ -200,7 +199,6 @@ For contributing to this library, please read the [contributing guide](https://g
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-weather-rest
 [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-weather
-[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-weather?view=azure-node-preview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-weather-rest/samples
 [product_info]: https://docs.microsoft.com/rest/api/maps/weather
 [nodejs_release]: https://github.com/nodejs/release#release-schedule
