@@ -225,7 +225,7 @@ describe("tracingPolicy", function () {
     assert.equal(mockSpan.getAttribute("http.status_code"), 400);
   });
 
-  it("will create a span if tracingContext is missing", async () => {
+  it("will create a span even if tracingContext is missing", async () => {
     const policy = tracingPolicy();
     const { request, next } = createTestRequest({ noContext: true });
     await policy.sendRequest(request, next);
