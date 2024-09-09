@@ -16,7 +16,9 @@ export type WebPubSubMessage =
   | SendToGroupMessage
   | SendEventMessage
   | SequenceAckMessage
-  | AckMessage;
+  | AckMessage
+  | PingMessage
+  | PongMessage;
 
 /**
  * The common of web pubsub message
@@ -33,6 +35,10 @@ export type DownstreamMessageType =
    * Type for AckMessage
    */
   | "ack"
+  /**
+   * Type for PongMessage
+   */
+  | "pong"
   /**
    * Type for ConnectedMessage
    */
@@ -73,7 +79,11 @@ export type UpstreamMessageType =
   /**
    * Type for SequenceAckMessage
    */
-  | "sequenceAck";
+  | "sequenceAck"
+    /**
+   * Type for PingMessage
+   */
+  | "ping";
 
 /**
  * The ack message
@@ -95,6 +105,16 @@ export interface AckMessage extends WebPubSubMessageBase {
    * The error detail. Only available when success is false
    */
   error?: AckMessageError;
+}
+
+/**
+ * The pong message
+ */
+export interface PongMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "pong";
 }
 
 /**
@@ -304,6 +324,17 @@ export interface SequenceAckMessage extends WebPubSubMessageBase {
    */
   sequenceId: number;
 }
+
+/**
+ * Ping message
+ */
+export interface PingMessage extends WebPubSubMessageBase {
+  /**
+   * Message type
+   */
+  readonly kind: "ping";
+}
+
 
 /**
  * The data type
