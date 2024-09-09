@@ -120,7 +120,6 @@ const getServiceConfig = (
  * ```
  * import playwright, { test, expect, BrowserType } from "@playwright/test";
  * import { getConnectOptions } from "@azure/microsoft-playwright-testing";
- * import playwrightConfig from "./playwright.config";
  *
  * test('has title', async ({ browserName }) => {
  *  const { wsEndpoint, options } = await getConnectOptions();
