@@ -9,7 +9,6 @@ Ready to get started? Jump into our [quickstart guide](#get-started)!
 - [Quickstart: Run end-to-end tests at scale](https://aka.ms/mpt/quickstart)
 - [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
 - [Explore features and benefits](https://aka.ms/mpt/about)
-- [View Microsoft Playwright Testing service demo](https://youtu.be/GenC1jAeTZE)
 - [Documentation](https://aka.ms/mpt/docs) 
 - [Pricing](https://aka.ms/mpt/pricing)
 - [Share feedback](https://aka.ms/mpt/feedback)
@@ -92,6 +91,9 @@ az login
 ```
 
 **NOTE**: If you are a part of multiple tenants, you will have to login to a particular tenant. Run `az login --tenant=<TENANT_ID>' to sign in to the tenant where the workspace is created. You can find the tenant id through these [steps.](https://learn.microsoft.com/entra/fundamentals/how-to-find-tenant)
+
+**NOTE**: To use Microsoft Playwright Testing in CI pipelines, you need to configure authentication with the service from pipeline, see
+[set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
 
 ### Run the tests
 
