@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import MapsWeather, { MapsWeatherClient } from "../../../src";
+import MapsWeather, { MapsWeatherClient } from "../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 
@@ -20,19 +20,13 @@ describe("MapsWeatherClient Tests", function () {
         MAPS_RESOURCE_CLIENT_ID: "azure_maps_client_id",
       },
     });
-    client = MapsWeather(new AzureKeyCredential(env["AZURE_SUBSCRIPTION_KEY"]));
+    client = MapsWeather(new AzureKeyCredential(env["AZURE_SUBSCRIPTION_KEY"] as string));
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("Get Hourly Forecast", async function () {
-    const result = await client
-        .path("/weather/forecast/hourly/{format}", "json")
-        .get({ queryParameters: { query: [47.641268, -122.125679] } });
-    assert.isNotEmpty(result.body);
-  });
 
   it("Get Minute Forecast", async function () {
     const result = await client

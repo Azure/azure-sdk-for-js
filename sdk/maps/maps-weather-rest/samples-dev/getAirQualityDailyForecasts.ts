@@ -16,7 +16,7 @@ async function main(): Promise<void> {
     const response = await client.path("/weather/airQuality/forecasts/daily/{format}", "json").get({
         queryParameters: {
             query: [47.641268, -122.125679],
-            duration: 5
+            duration: "5"
         }
     });
 

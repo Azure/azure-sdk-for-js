@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../.src/mapsWeather";
+import MapsWeather from "../src/mapsWeather";
 import { isUnexpected } from "../src/generated";
 
 /**
