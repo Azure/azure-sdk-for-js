@@ -3,12 +3,7 @@
 ## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh @azure-rest/ai-vision-face sdk
 
 ## 1.0.0-beta.1 (2024-05-23)
 
