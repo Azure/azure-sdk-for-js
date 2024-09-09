@@ -22,8 +22,8 @@ export const ServiceOS = {
  * Authentication types supported on Microsoft Playwright Testing
  */
 export const ServiceAuth = {
-  ENTRA: "ENTRA",
-  TOKEN: "TOKEN",
+  ENTRA_ID: "ENTRA_ID",
+  ACCESS_TOKEN: "ACCESS_TOKEN",
 } as const;
 
 /** @public
@@ -37,10 +37,6 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_ACCESS_TOKEN: "PLAYWRIGHT_SERVICE_ACCESS_TOKEN",
   PLAYWRIGHT_SERVICE_URL: "PLAYWRIGHT_SERVICE_URL",
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
-};
-
-export const InternalServiceEnvironmentVariable = {
-  PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED: "_PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED",
 };
 
 export const DefaultConnectOptionsConstants = {
@@ -57,10 +53,10 @@ export const API_VERSION = "2023-10-01-preview";
 
 export class Constants {
   // Config related constants
-  public static readonly TEST_FRAMEWORK_NAME = "Playwright";
-  public static readonly TEST_FRAMEWORK_RUNNERNAME = "Playwright Test Runner";
+  public static readonly TEST_FRAMEWORK_NAME = "PLAYWRIGHT";
+  public static readonly TEST_FRAMEWORK_RUNNERNAME = "PLAYWRIGHT";
   public static readonly TEST_TYPE = "WebTest";
-  public static readonly TEST_SDK_LANGUAGE = "JavaScript/TypeScript";
+  public static readonly TEST_SDK_LANGUAGE = "JAVASCRIPT";
   // Placeholder version
   public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.1";
   public static readonly DEFAULT_DASHBOARD_ENDPOINT = "https://playwright.microsoft.com";
@@ -75,7 +71,7 @@ export class Constants {
   public static readonly GIT_REV_PARSE = "git rev-parse --is-inside-work-tree";
   public static readonly GIT_COMMIT_MESSAGE_COMMAND = 'git log -1 --pretty=format:"%s"';
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
-  public static readonly API_VERSION = "2024-05-20-preview";
+  public static readonly API_VERSION = "2024-09-01-preview";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
   public static readonly SupportedRegions: string[] = [
     "eastus",
@@ -87,15 +83,15 @@ export class Constants {
   ];
   // Error messages
   public static readonly CONFLICT_409_ERROR_MESSAGE =
-    "Test run with id {runId} already exists. Please provide a unique run id.";
+    "Test run with id {runId} already exists. Provide a unique run id.";
   public static readonly FORBIDDEN_403_ERROR_MESSAGE =
-    "Reporting is not enabled for your workspace {workspaceId}. Please enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
+    "Reporting is not enabled for your workspace {workspaceId}. Enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
   // API Endpoints
   public static readonly testRunsEndpoint: string = "workspaces/{workspaceId}/test-runs";
   public static readonly testRunsShardEndpoint: string =
-    "workspaces/{workspaceId}/test-runs/{testRunId}/shards/{shardId}";
+    "workspaces/{workspaceId}/test-runs/{testRunId}:updateShardExecutionStatus";
   public static readonly storageUriEndpoint: string =
-    "workspaces/{workspaceId}/test-runs/{testRunId}/resulturi";
+    "workspaces/{workspaceId}/test-runs/{testRunId}:createArtifactsUploadBaseUri";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
   public static readonly getTestRun: string = "getTestRun";
@@ -106,49 +102,49 @@ export class Constants {
 
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
     getTestRun: {
-      400: "Bad Request",
-      401: "Invalid authentication to run test.",
-      403: "You do not have required permissions to run test.",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
-      429: "You have exceeded the rate limit for the test run service API. Please wait and try again later",
-      504: "The request to the test run service timed out. Please try again later",
-      503: "The test run service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
     },
     patchTestRunShardStart: {
-      400: "Bad Request",
-      401: "Invalid authentication",
-      403: "You do not have required permissions.",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
-      429: "You have exceeded the rate limit for the est run shard start service API. Please wait and try again later",
-      504: "The request to the test run shard start service timed out. Please try again later",
-      503: "The test run shard start service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
     },
     patchTestRunShardEnd: {
-      400: "Bad Request",
-      401: "Invalid authentication",
-      403: "You do not have required permissions.",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
-      429: "You have exceeded the rate limit for the test run shard end service API. Please wait and try again later",
-      504: "The request to the test run shard end service timed out. Please try again later",
-      503: "The test run shard end service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
     },
     postTestResults: {
-      400: "Bad Request",
-      401: "Invalid authentication to publish test result.",
-      403: "You do not have required permissions to publish test results to the service. Please contact your workspace administrator.",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
-      429: "You have exceeded the rate limit for the publish test results service API. Please wait and try again later",
-      504: "The request to the publish test results service timed out. Please try again later",
-      503: "The publish test results service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
     },
     getStorageUri: {
-      400: "Bad Request",
-      401: "Invalid authentication",
-      403: "You do not have required permissions",
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      403: "You do not have the required permissions to run tests. Please contact your workspace administrator.",
       500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
-      429: "You have exceeded the rate limit for the get storage uri service API. Please wait and try again later",
-      504: "The request to the get storage uri service timed out. Please try again later",
-      503: "The get storage uri service is currently unavailable. Please check the service status and try again.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
     },
   };
 }
@@ -208,7 +204,7 @@ export const TestResultErrorConstants = [
   {
     key: "QuotaLimitError_Scalable",
     message:
-      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded.",
+      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded. Check the quota at https://aka.ms/mpt/resource-quota.",
     pattern: /browserType.connect: Timeout .* exceeded/i,
     type: TestErrorType.Scalable,
   },
@@ -222,6 +218,8 @@ export const TestResultErrorConstants = [
 
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
+  MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
+  MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
 };
 
 export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";

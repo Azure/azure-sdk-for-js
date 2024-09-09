@@ -12,7 +12,7 @@
 
 ## 3.1.0 (2024-03-13)
     
-**Features**
+### Features Added
 
   - Added operation Access.createRoleBinding
   - Added operation Access.deleteRoleBinding

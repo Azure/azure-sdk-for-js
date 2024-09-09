@@ -62,6 +62,27 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         );
       });
     });
+
+    describe("when using CloudShell Managed Identity", function () {
+      it("throws when user-assigned IDs are provided", function () {
+        Sinon.stub(ManagedIdentityApplication.prototype, "getManagedIdentitySource").returns(
+          "CloudShell",
+        );
+
+        assert.throws(
+          () => new MsalMsiProvider({ clientId: "id" }),
+          /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
+        );
+        assert.throws(
+          () => new MsalMsiProvider({ resourceId: "id" }),
+          /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
+        );
+        assert.throws(
+          () => new MsalMsiProvider({ objectId: "id" }),
+          /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
+        );
+      });
+    });
   });
 
   describe("#getToken", function () {
