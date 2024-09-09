@@ -43,7 +43,7 @@ import { ServiceErrorMessageConstants } from "../common/messages";
  * import { defineConfig } from "@playwright/test";
  *
  * export default defineConfig({
- *  reporter: [["@azure/microsoft-playwright-testing"]]
+ *  reporter: [["@azure/microsoft-playwright-testing/reporter"]]
  * });
  * ```
  */

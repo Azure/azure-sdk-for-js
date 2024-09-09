@@ -131,7 +131,7 @@ const getServiceConfig = (
  *  await page.goto('https://playwright.dev/');
  *  await expect(page).toHaveTitle(/Playwright/);
  *
- * 	await page.close();
+ *  await page.close();
  *  await context.close();
  *  await browser.close();
  * });
