@@ -6,14 +6,9 @@
     "skipLibCheck": true,
     "rootDir": ".",
     "importHelpers": true,
-    "lib": [
-      "DOM",
-      "ES2017"
-    ],
+    "lib": ["DOM", "ES2017"],
     "paths": {
-      "@azure/web-pubsub-client-protobuf": [
-        "./src/index.ts"
-      ]
+      "@azure/web-pubsub-client-protobuf": ["./src/index.ts"]
     }
   },
   "include": [
