@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.1 (2024-09-09)
 
 ### Features Added
 - refresh @azure-rest/load-testing sdk
