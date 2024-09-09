@@ -7,7 +7,7 @@ import { KeyCredential } from "@azure/core-auth";
 import { DocumentTranslatorClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
-export interface DocumentTranslatorClientOptions extends ClientOptions { }
+export interface DocumentTranslatorClientOptions extends ClientOptions {}
 
 /**
  * Initialize a new instance of `DocumentTranslatorClient`
