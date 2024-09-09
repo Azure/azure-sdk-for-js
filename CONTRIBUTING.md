@@ -99,7 +99,7 @@ If you prefer to setup your own environment instead, make sure you have these pr
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 
-To build all packages managed by Rush:
+To build all packages:
 
 4. Install and link all dependencies (`rush update`)
 5. Build the code base (`rush rebuild`)
