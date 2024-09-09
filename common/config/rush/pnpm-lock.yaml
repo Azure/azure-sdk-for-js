@@ -992,6 +992,9 @@ dependencies:
   '@rush-temp/maps-search':
     specifier: file:./projects/maps-search.tgz
     version: file:projects/maps-search.tgz
+  '@rush-temp/maps-weather':
+    specifier: file:./projects/maps-weather.tgz
+    version: file:projects/maps-weather.tgz
   '@rush-temp/microsoft-playwright-testing':
     specifier: file:./projects/microsoft-playwright-testing.tgz
     version: file:projects/microsoft-playwright-testing.tgz
@@ -3837,7 +3840,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
 
   /@types/debug@4.1.12:
@@ -4175,7 +4178,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
     dev: false
     optional: true
 
@@ -8980,7 +8983,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.46
+      '@types/node': 22.5.0
       long: 5.2.3
     dev: false
 
@@ -13847,7 +13850,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-Q/UgF/jHUhFWs4a2VHg5BPu4EacOjaoAJqlLqGFX3ZwG0GZDoRx8FtqHRw8p4jzKB5vuOrEV/3GzXjtsgu1WWg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-OjurQ7/SHnCoMLxEpSFGvaVMi0A2ZKFX6rJ/jwbdMCikCifxpU7FWz3q7qpsBMKSUwwPiN6m0entDZOQ2Ya3DQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -17289,7 +17292,7 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-xk059uR7eCCN3t024cWSE4S9muFzgPyN0kwgYPtQ9y/4+OQwdv8wvBqclcnw++X7ttxE5uPz9P6NgkNQS+HINA==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-DT26fngJRNaDs9vD1pNoxWWP94MBNU2psw6cuM97r8fzubsU/y5f2u9WsdMzNs5HZT5md5gTN8b8h6aG1M6/Yw==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
@@ -20371,7 +20374,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Ckt9WaQnIP5+x4m60yXQvQMFfFFmvIVzG5Y2cLKI/6XWnjD9mx5RfL20OpOmwGFT04KnyxWUZoVxalNLlieF8Q==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-Y89gCuNnHD3FSHtxVO2vCgGgCF27cFz7Hd+Xlmfgu5s/Fz8lm4IjZqOm165C2xjS7EWmWmrIEfXKwGfVQcZnBA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -21561,7 +21564,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-sjF9+fskcd/8aI964QgNTcos2w8b0MgC0Zu5Vwn3xmjQtQjWMvPy3o85VZx6+vq4GFHOsou0tobu1krKLtvZJA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-5EkTlu2q3ZkjPIlIBMu4R++aneg//XjawueoiPtgIS2Be16wcAhkmossUcKDv1whl1evCy79PC5drQIvn1Yi6Q==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -22199,6 +22202,53 @@ packages:
       mocha: 10.7.3
       nyc: 17.0.0
       rimraf: 5.0.10
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
+      tslib: 2.7.0
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - jiti
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/maps-weather.tgz:
+    resolution: {integrity: sha512-oXAaTKjQ4WGkFNAW+wKEYFi4xK09zGy5Vy2SKSwIp/tvrniM4DajlpOGSkc28HPLqXJMauTI0vVI4oseJmjFEA==, tarball: file:projects/maps-weather.tgz}
+    name: '@rush-temp/maps-weather'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.4.0
+      '@azure-tools/test-credential': 1.2.0
+      '@azure-tools/test-recorder': 3.5.2
+      '@azure/identity': 4.4.1
+      '@azure/maps-common': 1.0.0-beta.2
+      '@microsoft/api-extractor': 7.47.7(@types/node@18.19.46)
+      '@types/chai': 4.3.18
+      '@types/mocha': 10.0.7
+      '@types/node': 18.19.46
+      autorest: 3.7.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      eslint: 9.9.1
+      karma: 6.4.4(debug@4.3.6)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 3.0.1
+      mocha: 10.7.3
+      nyc: 17.0.0
+      rimraf: 6.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.46)(typescript@5.5.4)
       tslib: 2.7.0
