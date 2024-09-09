@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   GroupQuotaSubscriptionId,
@@ -72,12 +68,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          managementGroupId,
-          groupQuotaName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(managementGroupId, groupQuotaName, options, settings);
       },
     };
   }
@@ -98,12 +89,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        managementGroupId,
-        groupQuotaName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(managementGroupId, groupQuotaName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,11 +102,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
     groupQuotaName: string,
     options?: GroupQuotaSubscriptionsListOptionalParams,
   ): AsyncIterableIterator<GroupQuotaSubscriptionId> {
-    for await (const page of this.listPagingPage(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(managementGroupId, groupQuotaName, options)) {
       yield* page;
     }
   }
@@ -155,8 +137,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -215,11 +196,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
     groupQuotaName: string,
     options?: GroupQuotaSubscriptionsCreateOrUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(managementGroupId, groupQuotaName, options);
     return poller.pollUntilDone();
   }
 
@@ -252,8 +229,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -311,11 +287,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
     groupQuotaName: string,
     options?: GroupQuotaSubscriptionsUpdateOptionalParams,
   ): Promise<GroupQuotaSubscriptionsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    );
+    const poller = await this.beginUpdate(managementGroupId, groupQuotaName, options);
     return poller.pollUntilDone();
   }
 
@@ -347,8 +319,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -405,11 +376,7 @@ export class GroupQuotaSubscriptionsImpl implements GroupQuotaSubscriptions {
     groupQuotaName: string,
     options?: GroupQuotaSubscriptionsDeleteOptionalParams,
   ): Promise<GroupQuotaSubscriptionsDeleteResponse> {
-    const poller = await this.beginDelete(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    );
+    const poller = await this.beginDelete(managementGroupId, groupQuotaName, options);
     return poller.pollUntilDone();
   }
 
@@ -596,11 +563,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
   headerParameters: [Parameters.accept],
   serializer,
 };

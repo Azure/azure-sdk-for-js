@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.16.4",
+  "version": "1.17.0",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -91,7 +91,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.4.0",
+    "@azure/core-auth": "^1.8.0",
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.9.0",
     "@azure/logger": "^1.0.0",

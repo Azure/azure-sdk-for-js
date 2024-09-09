@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export { Conflict } from "./Conflict";
 export { Conflicts } from "./Conflicts";
 export { ConflictDefinition } from "./ConflictDefinition";

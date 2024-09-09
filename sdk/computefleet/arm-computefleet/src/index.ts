@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";

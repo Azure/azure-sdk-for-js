@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";

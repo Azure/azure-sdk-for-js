@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
@@ -11,7 +14,8 @@ export interface DocumentTranslateHeaders {
 }
 
 export interface DocumentTranslateBodyParam {
-  body?: DocumentTranslateContent;
+  /** Document Translate Request Content */
+  body: DocumentTranslateContent;
 }
 
 export interface DocumentTranslateQueryParamProperties {
@@ -60,7 +64,8 @@ export type DocumentTranslateParameters = DocumentTranslateQueryParam &
   RequestParameters;
 
 export interface StartTranslationBodyParam {
-  body?: StartTranslationDetails;
+  /** Translation job submission batch request */
+  body: StartTranslationDetails;
 }
 
 export type StartTranslationParameters = StartTranslationBodyParam & RequestParameters;
@@ -191,7 +196,11 @@ export interface GetDocumentsStatusQueryParam {
 export type GetDocumentsStatusParameters = GetDocumentsStatusQueryParam & RequestParameters;
 
 export interface GetSupportedFormatsQueryParamProperties {
-  /** the type of format like document or glossary */
+  /**
+   * the type of format like document or glossary
+   *
+   * Possible values: "document", "glossary"
+   */
   type?: FileFormatType;
 }
 

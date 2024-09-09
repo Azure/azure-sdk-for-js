@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the listRegistrationsByTag() method can be used to list all registrations with

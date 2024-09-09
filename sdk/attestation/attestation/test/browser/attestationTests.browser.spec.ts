@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, use as chaiUse, expect } from "chai";
 import { Context } from "mocha";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { parseKeyVaultKeyIdentifier } from "../../src/identifier";
 import { assert } from "@azure-tools/test-utils";

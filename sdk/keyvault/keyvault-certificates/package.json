@@ -43,7 +43,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy -- --test-timeout 350000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test",

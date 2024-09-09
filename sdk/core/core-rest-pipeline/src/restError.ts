@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isError } from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse } from "./interfaces.js";

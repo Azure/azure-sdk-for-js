@@ -20,7 +20,7 @@ import {
   LocationsCheckNameAvailabilityResponse,
   ClusterCreateRequestValidationParameters,
   LocationsValidateClusterCreateRequestOptionalParams,
-  LocationsValidateClusterCreateRequestResponse
+  LocationsValidateClusterCreateRequestResponse,
 } from "../models";
 
 /** Interface representing a Locations. */
@@ -32,7 +32,7 @@ export interface Locations {
    */
   getCapabilities(
     location: string,
-    options?: LocationsGetCapabilitiesOptionalParams
+    options?: LocationsGetCapabilitiesOptionalParams,
   ): Promise<LocationsGetCapabilitiesResponse>;
   /**
    * Lists the usages for the specified location.
@@ -41,7 +41,7 @@ export interface Locations {
    */
   listUsages(
     location: string,
-    options?: LocationsListUsagesOptionalParams
+    options?: LocationsListUsagesOptionalParams,
   ): Promise<LocationsListUsagesResponse>;
   /**
    * Lists the billingSpecs for the specified subscription and location.
@@ -50,7 +50,7 @@ export interface Locations {
    */
   listBillingSpecs(
     location: string,
-    options?: LocationsListBillingSpecsOptionalParams
+    options?: LocationsListBillingSpecsOptionalParams,
   ): Promise<LocationsListBillingSpecsResponse>;
   /**
    * Get the async operation status.
@@ -61,7 +61,7 @@ export interface Locations {
   getAzureAsyncOperationStatus(
     location: string,
     operationId: string,
-    options?: LocationsGetAzureAsyncOperationStatusOptionalParams
+    options?: LocationsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<LocationsGetAzureAsyncOperationStatusResponse>;
   /**
    * Check the cluster name is available or not.
@@ -72,7 +72,7 @@ export interface Locations {
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityCheckRequestParameters,
-    options?: LocationsCheckNameAvailabilityOptionalParams
+    options?: LocationsCheckNameAvailabilityOptionalParams,
   ): Promise<LocationsCheckNameAvailabilityResponse>;
   /**
    * Validate the cluster create request spec is valid or not.
@@ -83,6 +83,6 @@ export interface Locations {
   validateClusterCreateRequest(
     location: string,
     parameters: ClusterCreateRequestValidationParameters,
-    options?: LocationsValidateClusterCreateRequestOptionalParams
+    options?: LocationsValidateClusterCreateRequestOptionalParams,
   ): Promise<LocationsValidateClusterCreateRequestResponse>;
 }

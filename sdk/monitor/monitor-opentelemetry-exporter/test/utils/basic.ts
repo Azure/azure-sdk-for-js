@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";

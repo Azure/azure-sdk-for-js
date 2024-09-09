@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";

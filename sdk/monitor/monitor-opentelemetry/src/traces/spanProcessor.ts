@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Context } from "@opentelemetry/api";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";

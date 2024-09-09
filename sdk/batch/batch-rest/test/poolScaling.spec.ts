@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";

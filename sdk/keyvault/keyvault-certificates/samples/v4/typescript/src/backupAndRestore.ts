@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it.
