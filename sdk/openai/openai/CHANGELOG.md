@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
+## 2.0.0-beta.2 (2024-09-09)
 
 ### Features Added
 
@@ -8,11 +8,9 @@
 - Updates the `license` property to be optional in `ContentFilterCitedDetectionResultOutput`.
 - Updates `custom_blocklists` type in `ContentFilterResultsForChoiceOutput` to `ContentFilterDetailedResults`.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
-### Other Changes
+- Add `@azure-rest/core-client` as a dependency so TypeScript users don't have to import it manually in their code.
 
 ## 2.0.0-beta.1 (2024-07-22)
 
