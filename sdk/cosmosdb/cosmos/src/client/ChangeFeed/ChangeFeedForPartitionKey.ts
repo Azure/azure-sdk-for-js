@@ -4,7 +4,7 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType, StatusCodes, addContainerRid } from "../../common";
+import { Constants, copyObject, ResourceType, StatusCodes } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
@@ -12,6 +12,7 @@ import { PartitionKey, convertToInternalPartitionKey } from "../../documents";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { ChangeFeedMode } from "./ChangeFeedMode";
+import { decryptChangeFeedResponse } from "./changeFeedUtils";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -49,6 +50,16 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
 
   private async instantiateIterator(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     await this.setIteratorRid(diagnosticNode);
+    if (this.clientContext.enableEncryption) {
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      this.container.encryptionProcessor.containerRid = this.container._rid;
+      this.partitionKey = copyObject(this.partitionKey);
+      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+        convertToInternalPartitionKey(this.partitionKey),
+      );
+    }
     if (this.continuationToken) {
       if (!this.continuationTokenRidMatchContainerRid()) {
         throw new ErrorResponse("The continuation is not for the current container definition.");
@@ -102,12 +113,14 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         await this.instantiateIterator(diagnosticNode);
       }
       const result = await this.fetchNext(diagnosticNode);
-
       if (result.statusCode === StatusCodes.Ok) {
         if (this.clientContext.enableEncryption) {
-          for (let item of result.result) {
-            item = await this.container.encryptionProcessor.decrypt(item);
-          }
+          await decryptChangeFeedResponse(
+            result,
+            diagnosticNode,
+            this.changeFeedOptions.changeFeedMode,
+            this.container.encryptionProcessor,
+          );
         }
       }
       return result;
@@ -166,11 +179,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       feedOptions.useLatestVersionFeed = false;
     }
     if (this.clientContext.enableEncryption) {
-      addContainerRid(this.container);
       feedOptions.containerRid = this.container._rid;
-      this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
-        convertToInternalPartitionKey(this.partitionKey),
-      );
     }
     try {
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({

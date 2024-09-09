@@ -3,7 +3,7 @@
 import { ClientContext } from "../../ClientContext";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
-  addContainerRid,
+  Constants,
   copyObject,
   createDocumentUri,
   getIdFromLink,
@@ -13,8 +13,8 @@ import {
   StatusCodes,
 } from "../../common";
 import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
-import { RequestOptions, Response } from "../../request";
-import { PatchRequestBody } from "../../utils/patch";
+import { ErrorResponse, RequestOptions, Response } from "../../request";
+import { PatchOperationType, PatchRequestBody } from "../../utils/patch";
 import { Container } from "../Container";
 import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
@@ -89,7 +89,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -111,18 +114,19 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         if (error.code !== StatusCodes.NotFound) {
           throw error;
         }
         response = error;
       }
-
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
-
       return new ItemResponse(
         response.result,
         response.headers,
@@ -182,9 +186,12 @@ export class Item {
       if (this.clientContext.enableEncryption) {
         body = copyObject(body);
         options = options || {};
-        addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
-        body = await this.container.encryptionProcessor.encrypt(body);
+        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -205,13 +212,16 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
 
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
       return new ItemResponse(
         response.result,
@@ -246,7 +256,10 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
@@ -267,13 +280,16 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
 
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
 
       return new ItemResponse(
@@ -310,18 +326,42 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
-        addContainerRid(this.container);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+        let propertiesEncryptedCount = 0;
         for (const operation of operations) {
+          if (operation.op === PatchOperationType.remove) {
+            continue;
+          }
+          const isPathEncrypted = await this.container.encryptionProcessor.isPathEncrypted(
+            operation.path,
+          );
+          if (!isPathEncrypted) {
+            continue;
+          }
+          if (operation.op === PatchOperationType.incr) {
+            throw new ErrorResponse(
+              `Increment patch operation is not allowed for encrypted path '${operation.path}'`,
+            );
+          }
           if ("value" in operation) {
             operation.value = await this.container.encryptionProcessor.encryptProperty(
               operation.path,
               operation.value,
             );
           }
+          propertiesEncryptedCount++;
         }
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsEncryptOperation,
+          propertiesEncryptedCount,
+        );
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
@@ -342,12 +382,15 @@ export class Item {
         });
       } catch (error: any) {
         if (this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(response.result);
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
       }
 
       return new ItemResponse(

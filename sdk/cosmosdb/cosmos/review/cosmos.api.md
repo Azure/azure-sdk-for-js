@@ -395,6 +395,7 @@ export type ClientSideRequestStatistics = {
     gatewayStatistics: GatewayStatistics[];
     totalRequestPayloadLengthInBytes: number;
     totalResponsePayloadLengthInBytes: number;
+    encryptionDiagnostics?: EncryptionDiagnostics;
 };
 
 // @public
@@ -634,6 +635,15 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    Encryption: {
+        DiagnosticsDecryptOperation: string;
+        DiagnosticsDuration: string;
+        DiagnosticsEncryptionDiagnostics: string;
+        DiagnosticsEncryptOperation: string;
+        DiagnosticsPropertiesEncryptedCount: string;
+        DiagnosticsPropertiesDecryptedCount: string;
+        DiagnosticsStartTime: string;
+    };
     Quota: {
         CollectionSize: string;
     };
@@ -703,8 +713,7 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
-    // (undocumented)
-    ThrowIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void>;
+    throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void>;
     get url(): string;
 }
 
@@ -798,7 +807,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     encryptionKeyResolverName?: string;
     // (undocumented)
-    encryptionKeyTimeToLiveInHours?: number;
+    encryptionKeyTimeToLive?: number;
     endpoint: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1074,6 +1083,20 @@ export enum DiagnosticNodeType {
 export enum EncryptionAlgorithm {
     // (undocumented)
     AEAD_AES_256_CBC_HMAC_SHA256 = "AEAD_AES_256_CBC_HMAC_SHA256"
+}
+
+// @public
+export interface EncryptionDiagnostics {
+    // (undocumented)
+    decryptContent: {
+        [key: string]: any;
+    };
+    // (undocumented)
+    encryptContent: {
+        [key: string]: any;
+    };
+    // (undocumented)
+    processingDurationInMs: number;
 }
 
 // @public (undocumented)

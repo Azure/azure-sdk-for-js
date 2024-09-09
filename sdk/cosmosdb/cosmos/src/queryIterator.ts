@@ -4,7 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { addContainerRid, getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -99,7 +99,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.container && this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
@@ -121,7 +121,7 @@ export class QueryIterator<T> {
         response.result.length
       ) {
         for (let item of response.result) {
-          item = await this.container.encryptionProcessor.decrypt(item);
+          item = await this.container.encryptionProcessor.decrypt(item, diagnosticNode);
         }
       }
 
@@ -162,7 +162,7 @@ export class QueryIterator<T> {
         response = await this.fetchAllInternal(diagnosticNode);
       } catch (error: any) {
         if (this.container && this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
       }
@@ -174,7 +174,7 @@ export class QueryIterator<T> {
         response.resources.length > 0
       ) {
         for (let result of response.resources) {
-          result = await this.container.encryptionProcessor.decrypt(result);
+          result = await this.container.encryptionProcessor.decrypt(result, diagnosticNode);
         }
       }
       return response;
@@ -219,7 +219,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.container && this.clientContext.enableEncryption) {
-          await this.container.ThrowIfRequestNeedsARetryPostPolicyRefresh(error);
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
@@ -240,7 +240,7 @@ export class QueryIterator<T> {
         response.result.length
       ) {
         for (let result of response.result) {
-          result = await this.container.encryptionProcessor.decrypt(result);
+          result = await this.container.encryptionProcessor.decrypt(result, diagnosticNode);
         }
       }
       return new FeedResponse<T>(
@@ -373,7 +373,10 @@ export class QueryIterator<T> {
   private async init(): Promise<void> {
     // add rid to options if encryption is enable for client
     if (this.container && this.clientContext.enableEncryption) {
-      addContainerRid(this.container);
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      this.container.encryptionProcessor.containerRid = this.container._rid;
       this.options.containerRid = this.container._rid;
     }
     if (this.isInitialized === true) {

@@ -6,17 +6,11 @@ import { PartitionKeyRangeCache, QueryRange } from "../../routing";
 import { FeedRangeQueue } from "./FeedRangeQueue";
 import { ClientContext } from "../../ClientContext";
 import { Container, Resource } from "../../client";
-import {
-  Constants,
-  SubStatusCodes,
-  StatusCodes,
-  ResourceType,
-  addContainerRid,
-} from "../../common";
+import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
 import { Response, FeedOptions, ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { extractOverlappingRanges } from "./changeFeedUtils";
+import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils";
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
@@ -207,9 +201,12 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
                 this.generateContinuationToken();
 
               if (this.clientContext.enableEncryption) {
-                for (let item of result.result) {
-                  item = await this.container.encryptionProcessor.decrypt(item);
-                }
+                await decryptChangeFeedResponse(
+                  result,
+                  diagnosticNode,
+                  this.changeFeedOptions.changeFeedMode,
+                  this.container.encryptionProcessor,
+                );
               }
               return result;
             }
@@ -433,7 +430,10 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
-      addContainerRid(this.container);
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      this.container.encryptionProcessor.containerRid = this.container._rid;
       feedOptions.containerRid = this.container._rid;
     }
     try {

@@ -115,6 +115,7 @@ export {
   ClientSideRequestStatistics,
   ClientConfigDiagnostic,
   DiagnosticNode,
+  EncryptionDiagnostics,
 } from "./CosmosDiagnostics";
 
 export {

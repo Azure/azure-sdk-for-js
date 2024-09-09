@@ -11,6 +11,9 @@ import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { QueryRange } from "../../routing";
 import { FeedRangeInternal } from "./FeedRange";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { EncryptionProcessor } from "../../encryption";
+import { ChangeFeedMode } from "./ChangeFeedMode";
 
 /**
  * @hidden
@@ -128,4 +131,27 @@ export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date |
  */
 export function isNullOrEmpty(text: string | null | undefined): boolean {
   return text === null || text === undefined || text.trim() === "";
+}
+
+/**
+ * @hidden
+ */
+export async function decryptChangeFeedResponse(
+  result: any,
+  diagnosticNode: DiagnosticNodeInternal,
+  changeFeedMode: ChangeFeedMode,
+  encryptionProcessor: EncryptionProcessor,
+): Promise<void> {
+  for (let item of result.result) {
+    if (changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes) {
+      if ("current" in item && item.current !== null) {
+        item.current = await encryptionProcessor.decrypt(item.current, diagnosticNode);
+      }
+      if ("previous" in item && item.previous !== null) {
+        item.previous = await encryptionProcessor.decrypt(item.previous, diagnosticNode);
+      }
+    } else {
+      item = await encryptionProcessor.decrypt(item, diagnosticNode);
+    }
+  }
 }
