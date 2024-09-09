@@ -80,7 +80,7 @@ npm i --save-dev dotenv
 `.env` file
 
 ```nodejs
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
 ```
 
 ### Sign in to Azure
