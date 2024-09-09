@@ -45,6 +45,9 @@ function isCred(cred: Record<string, any>): cred is TokenCredential | KeyCredent
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 /**
+ * @deprecated The Azure OpenAI client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/azjssdk_migration) before that date.
+ * 
+ * 
  * A client for interacting with Azure OpenAI.
  *
  * The client needs the endpoint of an OpenAI resource and an authentication

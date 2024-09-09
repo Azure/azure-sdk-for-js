@@ -110,7 +110,10 @@ import { AssistantsContext } from "./rest/index.js";
 
 export { AssistantsClientOptions } from "./api/AssistantsContext.js";
 
-/** Client handling assistant-related operations. */
+/**
+ * @deprecated The Azure OpenAI Assistants client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/azjssdk_migration) before that date. 
+ * Client handling assistant-related operations.
+ */
 export class AssistantsClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
