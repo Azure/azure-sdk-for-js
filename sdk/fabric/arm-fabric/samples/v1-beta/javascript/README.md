@@ -1,4 +1,4 @@
-# @azure/arm-fabric client library samples for JavaScript
+# @azure/arm-fabric client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-fabric in some common scenarios.
 
@@ -55,18 +55,18 @@ npx cross-env  node fabricCapacitiesCheckNameAvailabilitySample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[fabriccapacitieschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesCheckNameAvailabilitySample.js
-[fabriccapacitiescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesCreateOrUpdateSample.js
-[fabriccapacitiesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesDeleteSample.js
-[fabriccapacitiesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesGetSample.js
-[fabriccapacitieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesListByResourceGroupSample.js
-[fabriccapacitieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesListBySubscriptionSample.js
-[fabriccapacitieslistskusforcapacitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesListSkusForCapacitySample.js
-[fabriccapacitieslistskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesListSkusSample.js
-[fabriccapacitiesresumesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesResumeSample.js
-[fabriccapacitiessuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesSuspendSample.js
-[fabriccapacitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/fabricCapacitiesUpdateSample.js
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1/javascript/operationsListSample.js
+[fabriccapacitieschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesCheckNameAvailabilitySample.js
+[fabriccapacitiescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesCreateOrUpdateSample.js
+[fabriccapacitiesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesDeleteSample.js
+[fabriccapacitiesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesGetSample.js
+[fabriccapacitieslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesListByResourceGroupSample.js
+[fabriccapacitieslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesListBySubscriptionSample.js
+[fabriccapacitieslistskusforcapacitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesListSkusForCapacitySample.js
+[fabriccapacitieslistskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesListSkusSample.js
+[fabriccapacitiesresumesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesResumeSample.js
+[fabriccapacitiessuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesSuspendSample.js
+[fabriccapacitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/operationsListSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fabric/arm-fabric/README.md

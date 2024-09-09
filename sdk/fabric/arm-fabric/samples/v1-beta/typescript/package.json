@@ -1,8 +1,8 @@
 {
-  "name": "@azure-samples/arm-fabric-ts",
+  "name": "@azure-samples/arm-fabric-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-fabric client library samples for TypeScript",
+  "description": "@azure/arm-fabric client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fabric/arm-fabric",
   "dependencies": {
-    "@azure/arm-fabric": "latest",
+    "@azure/arm-fabric": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.2.1"
   },
