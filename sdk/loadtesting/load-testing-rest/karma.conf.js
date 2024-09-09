@@ -16,8 +16,6 @@ module.exports = function (config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ["source-map-support", "mocha"],
 
-    failOnEmptyTestSuite: false,
-
     plugins: [
       "karma-mocha",
       "karma-mocha-reporter",
@@ -55,7 +53,7 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
-      "LOADTESTSERVICE_ENDPOINT",
+      "ENDPOINT",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
@@ -108,7 +106,7 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security", "--lang=en-US"],
+        flags: ["--no-sandbox", "--disable-web-security"],
       },
     },
 

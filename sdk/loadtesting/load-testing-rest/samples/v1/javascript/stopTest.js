@@ -1,7 +1,7 @@
 /**
- * This sample demonstrates how to run a test and  get test status
+ * This sample demonstrates how to run a test and stop execution
  *
- * @summary creates and run a loadtest
+ * @summary creates, run and stop a loadtest
  */
 
 const AzureLoadTesting = require("@azure-rest/load-testing").default,
@@ -18,13 +18,31 @@ async function main() {
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-  // Creating the test run
+  // Patching a load test
+  const testCreationResult = await client.path("/tests/{testId}", testId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      displayName: displayName,
+      description: "",
+      loadTestConfiguration: {
+        engineInstances: 1, // number of engine instances to run test
+      },
+    },
+  });
+  // Checking for error response
+  if (isUnexpected(testCreationResult)) {
+    throw testCreationResult.body.error;
+  }
+
+  if (testCreationResult.body.testId === undefined)
+    throw new Error("Test ID returned as undefined.");
+
+  // Patching the test run
   const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
       displayName: displayName,
-      virtualUsers: 10,
     },
   });
 
@@ -35,28 +53,15 @@ async function main() {
   if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
 
-  // Checking the test run status and printing metrics
-  var testStatus = null;
-  var getTestRunResult = null;
+  // Checking the test run status
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  //wait for terminal state
-  while (
-    testStatus == null ||
-    (testStatus != "DONE" && testStatus != "CANCELLED" && testStatus != "FAILED")
-  ) {
-    getTestRunResult = await client
-      .path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId)
-      .get();
-    if (isUnexpected(getTestRunResult)) {
-      throw getTestRunResult.body.error;
-    }
-    testStatus = getTestRunResult.body.status;
+  sleep(30000);
 
-    //Check test status after every 5 seconds
-    sleep(5000);
+  let stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
+
+  if (isUnexpected(stopTestRunResult)) {
+    throw stopTestRunResult.body.error;
   }
-
-  console.log(getTestRunResult);
 }
 main().catch(console.error);

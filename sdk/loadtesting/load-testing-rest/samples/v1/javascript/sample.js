@@ -5,13 +5,13 @@
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status, and f) get test metrics
  *
  * @summary creates and run a loadtest
- * @azsdk-weight 10
  */
 
-import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
-import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "fs";
-import { v4 as uuidv4 } from "uuid";
+const AzureLoadTesting = require("@azure-rest/load-testing").default,
+  { isUnexpected, getLongRunningPoller } = require("@azure-rest/load-testing");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { createReadStream } = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -61,7 +61,7 @@ async function main() {
     fileValidateResult = await fileValidatePoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(120 * 1000), // timeout of 120 seconds
     });
-  } catch (ex: any) {
+  } catch (ex) {
     new Error("Error in polling file Validation" + ex.message); //polling timed out
   }
 
@@ -114,7 +114,7 @@ async function main() {
     testRunResult = await testRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(300 * 1000), // timeout of 5 minutes
     });
-  } catch (ex: any) {
+  } catch (ex) {
     new Error("Error in polling test run completion" + ex.message); //polling timed out
   }
 
