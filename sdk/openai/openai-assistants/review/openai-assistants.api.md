@@ -50,7 +50,7 @@ export interface AssistantFile {
 export interface AssistantFileDeletionStatus extends DeletionStatus {
 }
 
-// @public @deprecated (undocumented)
+// @public @deprecated
 export class AssistantsClient {
     constructor(endpoint: string, credential: KeyCredential, options?: AssistantsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: AssistantsClientOptions);
