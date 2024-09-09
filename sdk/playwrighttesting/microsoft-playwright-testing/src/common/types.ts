@@ -84,7 +84,7 @@ export type ConnectOptions = {
  * ```
  * import playwright, { test, expect, BrowserType } from "@playwright/test";
  * import { getConnectOptions } from "@azure/microsoft-playwright-testing";
- * 
+ *
  * test("has title", async ({ browserName }) => {
  *  const { wsEndpoint, options } = await getConnectOptions();
  *  const browser = await (playwright[browserName] as BrowserType).connect(wsEndpoint, options);
