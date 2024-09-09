@@ -22,6 +22,7 @@ export interface ConnectionContext {
     eventName: string;
     hub: string;
     origin: string;
+    signature: string;
     states: Record<string, any>;
     subprotocol?: string;
     userId?: string;
@@ -31,7 +32,7 @@ export interface ConnectionContext {
 export interface ConnectRequest {
     claims?: Record<string, string[]>;
     clientCertificates?: Certificate[];
-    context: ConnectionContext;
+    context: ConnectionContext | MqttConnectionContext;
     headers?: Record<string, string[]>;
     queries?: Record<string, string[]>;
     // @deprecated
@@ -58,6 +59,50 @@ export interface ConnectResponseHandler {
 export interface DisconnectedRequest {
     context: ConnectionContext;
     reason?: string;
+}
+
+// @public
+export interface MqttConnectionContext extends ConnectionContext {
+    physicalConnectionId: string;
+    sessionId?: string;
+}
+
+// @public
+export interface MqttConnectProperties {
+    password: string;
+    protocolVersion: string;
+    username: string;
+    userProperties: string;
+}
+
+// @public
+export interface MqttConnectRequest extends ConnectRequest {
+    // (undocumented)
+    mqtt: MqttConnectProperties;
+}
+
+// @public
+export interface MqttConnectResponse extends ConnectResponse {
+    // (undocumented)
+    mqtt?: MqttConnectResponseProperties;
+}
+
+// @public
+export interface MqttConnectResponseHandler {
+    fail(code: 400 | 401 | 500, detail?: string): void;
+    setState(name: string, value: unknown): void;
+    success(response?: MqttConnectResponse): void;
+}
+
+// @public
+export interface MqttConnectResponseProperties {
+    userProperties: MqttUserProperty[];
+}
+
+// @public
+export interface MqttUserProperty {
+    name: string;
+    value: string;
 }
 
 // @public
@@ -93,6 +138,7 @@ export class WebPubSubEventHandler {
 export interface WebPubSubEventHandlerOptions {
     allowedEndpoints?: string[];
     handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
+    handleMqttConnect?: (connectRequest: MqttConnectRequest, connectResponse: MqttConnectResponseHandler) => void;
     handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => void;
     onConnected?: (connectedRequest: ConnectedRequest) => void;
     onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;

@@ -16,6 +16,10 @@ import type {
   UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
+  MqttConnectionContext,
+  MqttConnectRequest,
+  MqttConnectResponseHandler,
+  MqttConnectResponse,
 } from "./cloudEventsProtocols.js";
 
 enum EventType {
@@ -37,6 +41,38 @@ function getConnectResponseHandler(
       modified = true;
     },
     success(res?: ConnectResponse): void {
+      response.statusCode = 200;
+      if (modified) {
+        response.setHeader("ce-connectionState", utils.toBase64JsonString(states));
+      }
+      if (res === undefined) {
+        response.end();
+      } else {
+        response.setHeader("Content-Type", "application/json; charset=utf-8");
+        response.end(JSON.stringify(res));
+      }
+    },
+    fail(code: 400 | 401 | 500, detail?: string): void {
+      response.statusCode = code;
+      response.end(detail ?? "");
+    },
+  };
+
+  return handler;
+}
+
+function getMqttConnectResponseHandler(
+  connectRequest: MqttConnectRequest,
+  response: ServerResponse,
+): MqttConnectResponseHandler {
+  const states: Record<string, any> = connectRequest.context.states;
+  let modified = false;
+  const handler = {
+    setState(name: string, value: unknown): void {
+      states[name] = value;
+      modified = true;
+    },
+    success(res?: MqttConnectResponse): void {
       response.statusCode = 200;
       if (modified) {
         response.setHeader("ce-connectionState", utils.toBase64JsonString(states));
@@ -97,13 +133,30 @@ function getUserEventResponseHandler(
 
 function getContext(request: IncomingMessage, origin: string): ConnectionContext {
   const context = {
-    signature: utils.getHttpHeader(request, "ce-signature"),
+    signature: utils.getHttpHeader(request, "ce-signature")!,
     userId: utils.getHttpHeader(request, "ce-userid"),
     hub: utils.getHttpHeader(request, "ce-hub")!,
     connectionId: utils.getHttpHeader(request, "ce-connectionid")!,
     eventName: utils.getHttpHeader(request, "ce-eventname")!,
     origin: origin,
     states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
+  };
+
+  // TODO: validation
+  return context;
+}
+
+function getMqttContext(request: IncomingMessage, origin: string): MqttConnectionContext {
+  const context: MqttConnectionContext = {
+    signature: utils.getHttpHeader(request, "ce-signature")!,
+    userId: utils.getHttpHeader(request, "ce-userid"),
+    hub: utils.getHttpHeader(request, "ce-hub")!,
+    connectionId: utils.getHttpHeader(request, "ce-connectionid")!,
+    eventName: utils.getHttpHeader(request, "ce-eventname")!,
+    origin: origin,
+    states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
+    sessionId: utils.getHttpHeader(request, "ce-sessionId"),
+    physicalConnectionId: utils.getHttpHeader(request, "ce-physicalConnectionId")!,
   };
 
   // TODO: validation
@@ -140,6 +193,12 @@ function isWebPubSubRequest(req: IncomingMessage): boolean {
   return utils.getHttpHeader(req, "ce-awpsversion") !== undefined;
 }
 
+function isMqttRequest(req: IncomingMessage): boolean {
+  var subprotocol = utils.getHttpHeader(req, "ce-subprotocol");
+  var physicalConnectionId = utils.getHttpHeader(req, "ce-physicalConnectionId");
+  return subprotocol !== undefined && subprotocol.includes("mqtt") && physicalConnectionId !== undefined;
+}
+
 async function readUserEventRequest(
   request: IncomingMessage,
   origin: string,
@@ -173,6 +232,16 @@ async function readUserEventRequest(
     default:
       return undefined;
   }
+}
+
+async function readMqttEventRequest(
+  request: IncomingMessage,
+  origin: string,
+): Promise<MqttConnectRequest> {
+  const body = (await utils.readRequestBody(request)).toString();
+  const parsedRequest = JSON.parse(body) as MqttConnectRequest;
+  parsedRequest.context = getMqttContext(request, origin);
+  return parsedRequest;
 }
 
 async function readSystemEventRequest<T extends { context: ConnectionContext }>(
@@ -247,10 +316,14 @@ export class CloudEventsDispatcher {
     if (hub?.toUpperCase() !== this.hub.toUpperCase()) {
       return false;
     }
-
     // No need to read body if handler is not specified
     switch (eventType) {
       case EventType.Connect:
+        if (isMqttRequest(request) && !this.eventHandler?.handleMqttConnect && !this.eventHandler?.handleConnect) {
+          response.statusCode = 204;
+          response.end();
+          return true;
+        }
         if (!this.eventHandler?.handleConnect) {
           response.end();
           return true;
@@ -281,11 +354,21 @@ export class CloudEventsDispatcher {
 
     switch (eventType) {
       case EventType.Connect: {
+        if (isMqttRequest(request) && this.eventHandler?.handleMqttConnect) {
+          const connectRequest = await readMqttEventRequest(request, origin);
+          logger.verbose(connectRequest);
+
+          this.eventHandler.handleMqttConnect!(
+            connectRequest,
+            getMqttConnectResponseHandler(connectRequest, response),
+          );
+          return true;
+        }
+        // If it is not a mqtt request, or is a mqtt request but no handleMqttConnect is defined, fallback to general handleConnect
         const connectRequest = await readSystemEventRequest<ConnectRequest>(request, origin);
         // service passes out query property, assign it to queries
         connectRequest.queries = connectRequest.query;
         logger.verbose(connectRequest);
-
         this.eventHandler.handleConnect!(
           connectRequest,
           getConnectResponseHandler(connectRequest, response),
