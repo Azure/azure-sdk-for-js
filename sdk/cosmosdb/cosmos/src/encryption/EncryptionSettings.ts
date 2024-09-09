@@ -60,7 +60,7 @@ export class EncryptionSettings {
   public setEncryptionProperty(
     key: string,
     encryptionSettingForProperty: EncryptionSettingForProperty,
-  ) {
+  ): void {
     this.encryptionSettingForProperties[key] = encryptionSettingForProperty;
   }
 

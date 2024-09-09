@@ -9,7 +9,7 @@ import { EncryptionSettingForProperty } from "../EncryptionSettingForProperty";
  * @hidden
  */
 export class EncryptionSettingsCache {
-  // key is databaseId + '/' + containerId
+  // key is databaseRid + '/' + containerRid
   private encryptionSettingsCache: Map<string, EncryptionSettings>;
 
   public constructor() {

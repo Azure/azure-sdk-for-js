@@ -67,6 +67,6 @@ export class EncryptionKeyStoreProvider {
           delete this.unwrappedEncryptionKeyCache[key];
         }
       }
-    }, 300000);
+    }, 10000);
   }
 }

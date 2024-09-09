@@ -6,7 +6,11 @@
     // THIS HAS TO ALWAYS BE ENABLED
     "strict": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.(ts|json)"
+  ],
   // ADDITION TO THIS LIST IS NOT ALLOWED
   "exclude": [
     "src/documents/DatabaseAccount.ts",
@@ -160,6 +164,7 @@
     "src/request/hybridSearchQueryResult.ts",
     "src/encryption/*",
     "test/public/common/TestHelpers.ts",
+    "test/public/common/encryptionTestHelpers.ts",
     "test/public/integration/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
     "test/internal/unit/helper.spec.ts",
@@ -183,6 +188,7 @@
     "test/internal/unit/nonStreamingOrderByMap.spec.ts",
     "test/internal/unit/utils/supportedQueryFeaturesBuilder.spec.ts",
     "test/internal/unit/getHeader.spec.ts",
+    "test/internal/unit/encryption/*",
     "test/internal/unit/partitionMerge.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
@@ -213,7 +219,6 @@
     "test/public/functional/user.spec.ts",
     "test/public/functional/queryIterator.spec.ts",
     "test/public/functional/clientSideEncryption.spec.ts",
-    "test/public/functional/dotnetcse.spec.ts",
     "test/public/integration/aggregateQuery.spec.ts",
     "test/public/integration/authorization.spec.ts",
     "test/public/integration/changeFeed.spec.ts",
