@@ -1,5 +1,9 @@
 # Release History
 
+## 1.3.1 (2024-09-09)
+
+- Fix an issue where the published package was missing TypeScript types. [#31039](https://github.com/Azure/azure-sdk-for-js/pull/31039)
+
 ## 1.3.0 (2024-09-03)
 
 ### Breaking Changes
