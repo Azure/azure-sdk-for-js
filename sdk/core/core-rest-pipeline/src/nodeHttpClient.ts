@@ -27,6 +27,9 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 }
 
 function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
+  if (stream.readable === false) {
+    return Promise.resolve();
+  }
   return new Promise((resolve) => {
     stream.on("close", resolve);
     stream.on("end", resolve);
@@ -177,8 +180,7 @@ class NodeHttpClient implements HttpClient {
         if (isReadableStream(responseStream)) {
           downloadStreamDone = isStreamComplete(responseStream);
         }
-
-        Promise.all([uploadStreamDone, downloadStreamDone])
+        await Promise.all([uploadStreamDone, downloadStreamDone])
           .then(() => {
             // eslint-disable-next-line promise/always-return
             if (abortListener) {
