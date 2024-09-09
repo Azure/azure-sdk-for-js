@@ -1,4 +1,4 @@
-# Azure OpenAI client library for JavaScript
+# Deprecated. Azure OpenAI client library for JavaScript
 
 **Deprecation notice ⚠️**: The Azure OpenAI client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/azjssdk_migration) before that date.
 
