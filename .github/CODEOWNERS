@@ -542,6 +542,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/features/arm-features/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/fabric/arm-fabric/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
