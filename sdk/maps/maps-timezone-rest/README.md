@@ -1,5 +1,5 @@
 
-# Azure MapsTimezone REST client library for JavaScript
+# Azure Maps Timezone REST client library for JavaScript
 
 Azure Maps Timezone Client
 
