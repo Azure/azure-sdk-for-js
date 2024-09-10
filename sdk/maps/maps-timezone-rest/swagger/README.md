@@ -1,4 +1,4 @@
-# Azure Farmbeats TypeScript Protocol Layer
+# Azure Maps Timezone Protocol Layer
 
 > see https://aka.ms/autorest
 
