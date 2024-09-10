@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Deprecation notice: The Azure OpenAI Assistants client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/azjssdk_migration) before that date.
+- Deprecation notice: The Azure OpenAI Assistants client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/oai/js/migrate) before that date.
 
 ## 1.0.0-beta.12 (2024-04-01)
 
