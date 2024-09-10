@@ -10,8 +10,8 @@ import { Constants } from "../common/constants";
 import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import { EncryptionTimeToLive } from "./EncryptionTimeToLive";
 /**
- * @hidden
  * Cache manager for encryption related caches.
+ * @hidden
  */
 export class EncryptionManager {
   public cacheTimeToLive: EncryptionTimeToLive;

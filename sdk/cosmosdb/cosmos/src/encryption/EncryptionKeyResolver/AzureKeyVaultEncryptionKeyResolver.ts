@@ -5,13 +5,18 @@ import { TokenCredential } from "@azure/core-auth";
 import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import { KeyClient, KeyWrapAlgorithm } from "@azure/keyvault-keys";
 
+/**
+ * Implementation of EncryptionKeyResolver that uses Azure KeyVault for customer managed keys.
+ */
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   private credentials: TokenCredential;
 
   constructor(credentials: TokenCredential) {
     this.credentials = credentials;
   }
-
+  /**
+   * wraps the given key using the specified key encryption key identifier and algorithm.
+   */
   public async wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
     const origin = this.getOrigin(encryptionKeyId);
     const keyClient = new KeyClient(origin, this.credentials);
@@ -22,7 +27,9 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
     const res = await cryptographyClient.wrapKey(algorithm as KeyWrapAlgorithm, key);
     return Buffer.from(res.result);
   }
-
+  /**
+   * Unwraps the given wrapped key using the specified key encryption key identifier and algorithm.
+   */
   public async unwrapKey(
     encryptionKeyId: string,
     algorithm: string,

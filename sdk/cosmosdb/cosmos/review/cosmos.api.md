@@ -29,12 +29,10 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
-// @public (undocumented)
+// @public
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
     constructor(credentials: TokenCredential);
-    // (undocumented)
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    // (undocumented)
     wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
 }
 
@@ -221,10 +219,7 @@ export class ClientContext {
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     diagnosticLevel: CosmosDbDiagnosticLevel;
-    // (undocumented)
     enableEncryption: boolean;
-    // (undocumented)
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
@@ -314,60 +309,46 @@ export class ClientContext {
     }): Promise<Response_2<T & U & Resource>>;
 }
 
-// @public (undocumented)
+// @public
 export class ClientEncryptionIncludedPath {
     constructor(path: string, clientEncryptionKeyId: string, encryptionType: EncryptionType, encryptionAlgorithm: EncryptionAlgorithm);
-    // (undocumented)
     clientEncryptionKeyId: string;
-    // (undocumented)
     encryptionAlgorithm: EncryptionAlgorithm;
-    // (undocumented)
     encryptionType: EncryptionType;
-    // (undocumented)
     path: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ClientEncryptionKeyDefinition {
     id: string;
 }
 
-// @public (undocumented)
+// @public
 export class ClientEncryptionKeyProperties {
     constructor(id: string, encryptionAlgorithm: string, etag: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
-    // (undocumented)
     encryptionAlgorithm: string;
-    // (undocumented)
     encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
-    // (undocumented)
     id: string;
-    // (undocumented)
     wrappedDataEncryptionKey: Buffer;
 }
 
-// @public (undocumented)
+// @public
 export interface ClientEncryptionKeyRequest extends ClientEncryptionKeyDefinition {
-    // (undocumented)
     encryptionAlgorithm: string;
-    // (undocumented)
     keyWrapMetadata: EncryptionKeyWrapMetadata;
-    // (undocumented)
     wrappedDataEncryptionKey: string;
 }
 
 // @public
 export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncryptionKeyDefinition & Resource> {
     constructor(resource: ClientEncryptionKeyDefinition & Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
-    // (undocumented)
     readonly clientEncryptionKeyProperties: ClientEncryptionKeyProperties;
 }
 
-// @public (undocumented)
+// @public
 export class ClientEncryptionPolicy {
     constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number);
-    // (undocumented)
     includedPaths: ClientEncryptionIncludedPath[];
-    // (undocumented)
     policyFormatVersion: number;
 }
 
@@ -798,16 +779,12 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    // (undocumented)
     enableEncryption?: boolean;
-    // (undocumented)
     encryptionKeyResolverName?: string;
-    // (undocumented)
     encryptionKeyTimeToLive?: EncryptionTimeToLive;
     endpoint: string;
     httpClient?: HttpClient;
     key?: string;
-    // (undocumented)
     keyEncryptionKeyResolver?: EncryptionKeyResolver;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -880,7 +857,6 @@ export class Database {
     // (undocumented)
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<DatabaseResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
-    // (undocumented)
     rewrapClientEncryptionKey(id: string, newKeyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     get url(): string;
     user(id: string): User;
@@ -1073,37 +1049,30 @@ export enum DiagnosticNodeType {
     REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
 }
 
-// @public (undocumented)
+// @public
 export enum EncryptionAlgorithm {
-    // (undocumented)
     AEAD_AES_256_CBC_HMAC_SHA256 = "AEAD_AES_256_CBC_HMAC_SHA256"
 }
 
 // @public
 export interface EncryptionDiagnostics {
-    // (undocumented)
     decryptContent: {
         [key: string]: any;
     };
-    // (undocumented)
     encryptContent: {
         [key: string]: any;
     };
-    // (undocumented)
     processingDurationInMs: number;
 }
 
-// @public (undocumented)
+// @public
 export interface EncryptionKeyResolver {
-    // (undocumented)
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
-    // (undocumented)
     wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
 }
 
-// @public (undocumented)
+// @public
 export enum EncryptionKeyResolverName {
-    // (undocumented)
     AzureKeyVault = "AZURE_KEY_VAULT"
 }
 
@@ -1124,78 +1093,37 @@ export class EncryptionKeyStoreProvider {
     wrapKey(encryptionKeyId: string, algorithm: KeyEncryptionKeyAlgorithm, key: Buffer): Promise<Buffer>;
 }
 
-// @public (undocumented)
+// @public
 export class EncryptionKeyWrapMetadata {
     constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionKeyAlgorithm);
-    // (undocumented)
     algorithm: KeyEncryptionKeyAlgorithm;
-    // (undocumented)
     name: string;
-    // (undocumented)
     type: EncryptionKeyResolverName;
-    // (undocumented)
     value: string;
 }
 
 // @public
-export class EncryptionManager {
-    constructor(encryptionKeyResolver: EncryptionKeyResolver, encryptionKeyResolverName: string, cacheTimeToLive?: EncryptionTimeToLive);
-    // (undocumented)
-    cacheTimeToLive: EncryptionTimeToLive;
-    // Warning: (ae-forgotten-export) The symbol "ClientEncryptionKeyPropertiesCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
-    // (undocumented)
-    encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
-    // Warning: (ae-forgotten-export) The symbol "EncryptionSettingsCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    encryptionSettingsCache: EncryptionSettingsCache;
-    // Warning: (ae-forgotten-export) The symbol "KeyEncryptionKeyCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    keyEncryptionKeyCache: KeyEncryptionKeyCache;
-    // Warning: (ae-forgotten-export) The symbol "ProtectedDataEncryptionKeyCache" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    protectedDataEncryptionKeyCache: ProtectedDataEncryptionKeyCache;
-}
-
-// @public (undocumented)
 export class EncryptionQueryBuilder {
     constructor(query: string);
-    // (undocumented)
     addArrayParameter(name: string, value: JSONArray, path: string): void;
-    // (undocumented)
     addBooleanParameter(name: string, value: boolean, path: string): void;
-    // (undocumented)
     addDateParameter(name: string, value: Date, path: string): void;
-    // (undocumented)
     addFloatParameter(name: string, value: number, path: string): void;
-    // (undocumented)
     addIntegerParameter(name: string, value: number, path: string): void;
-    // (undocumented)
     addObjectParameter(name: string, value: JSONObject, path: string): void;
-    // (undocumented)
     addStringParameter(name: string, value: string, path: string): void;
 }
 
-// @public (undocumented)
+// @public
 export class EncryptionTimeToLive {
-    // (undocumented)
     static FromHours(hours: number): number;
-    // (undocumented)
     static FromMinutes(minutes: number): number;
-    // (undocumented)
     static NoTtl(): number;
 }
 
-// @public (undocumented)
+// @public
 export enum EncryptionType {
-    // (undocumented)
     DETERMINISTIC = "Deterministic",
-    // (undocumented)
     RANDOMIZED = "Randomized"
 }
 
@@ -1500,9 +1428,8 @@ export interface JSONObject {
 // @public (undocumented)
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject | Date;
 
-// @public (undocumented)
+// @public
 export enum KeyEncryptionKeyAlgorithm {
-    // (undocumented)
     RSA_OAEP = "RSA-OAEP"
 }
 
@@ -1899,8 +1826,6 @@ export interface QueryInfo {
 
 // @public
 export class QueryIterator<T> {
-    // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
-    constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType, container?: Container);
     fetchAll(): Promise<FeedResponse<T>>;
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
@@ -2177,7 +2102,6 @@ export class ResourceResponse<TResource> {
 
 // @public (undocumented)
 export enum ResourceType {
-    // (undocumented)
     clientencryptionkey = "clientencryptionkeys",
     // (undocumented)
     conflicts = "conflicts",

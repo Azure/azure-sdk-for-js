@@ -11,7 +11,7 @@ import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
 import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
-import { EncryptionManager } from "./encryption";
+import { EncryptionManager } from "./encryption/EncryptionManager";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
 import { checkURL } from "./utils/checkURL";

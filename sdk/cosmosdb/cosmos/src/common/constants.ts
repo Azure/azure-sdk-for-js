@@ -303,6 +303,7 @@ export enum ResourceType {
   item = "docs",
   pkranges = "pkranges",
   partitionkey = "partitionKey",
+  /** resource representing client encryption keys to encrypt/decrypt data */
   clientencryptionkey = "clientencryptionkeys",
 }
 

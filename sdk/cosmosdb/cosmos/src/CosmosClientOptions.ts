@@ -59,9 +59,15 @@ export interface CosmosClientOptions {
   /** A custom string to append to the default SDK user agent. */
   userAgentSuffix?: string;
   diagnosticLevel?: CosmosDbDiagnosticLevel;
+  /** boolean flag to support operations involving client side encryption */
   enableEncryption?: boolean;
+  /** resolver that allows interaction with key encryption keys. */
   keyEncryptionKeyResolver?: EncryptionKeyResolver;
+  /** time for which encryption keys and settings will be cached. Default is 2 hour */
   encryptionKeyTimeToLive?: EncryptionTimeToLive;
+  /** name of the resolver to use for client side encryption.
+   * Currently only AzureKeyVault implementation is supported.
+   */
   encryptionKeyResolverName?: string;
   /** @internal */
   plugins?: PluginConfig[];

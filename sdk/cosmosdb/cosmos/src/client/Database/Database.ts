@@ -311,7 +311,7 @@ export class Database {
     }, this.clientContext);
   }
   /**
-   *
+   * rewraps a client encryption key with new key encryption key
    * @param id - client encryption key id
    * @param newKeyWrapMetadata - new encryption key wrap metadata
    * @returns rewrapped client encryption key with new customer managed key

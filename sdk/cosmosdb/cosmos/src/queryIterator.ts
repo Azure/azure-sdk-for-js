@@ -42,7 +42,7 @@ export class QueryIterator<T> {
   private correlatedActivityId: string;
   private nonStreamingOrderBy: boolean = false;
   /**
-   * @hidden
+   * @internal
    */
   constructor(
     private clientContext: ClientContext,

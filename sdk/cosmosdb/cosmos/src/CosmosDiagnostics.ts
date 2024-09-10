@@ -168,8 +168,11 @@ export interface FailedRequestAttemptDiagnostic {
  * Represents the diagnostics information for encryption operations.
  */
 export interface EncryptionDiagnostics {
+  /** shows start time, duration and properties count for encryption*/
   encryptContent: { [key: string]: any };
+  /** shows start time, duration and properties count for decryption*/
   decryptContent: { [key: string]: any };
+  /** represents total processing duration for encryption/decryption*/
   processingDurationInMs: number;
 }
 

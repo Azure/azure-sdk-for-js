@@ -39,11 +39,8 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import {
-  EncryptionProcessor,
-  EncryptionSettingForProperty,
-  EncryptionManager,
-} from "../../encryption";
+import { EncryptionProcessor, EncryptionSettingForProperty } from "../../encryption";
+import { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.

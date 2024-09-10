@@ -14,5 +14,5 @@ export { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 export { ProtectedDataEncryptionKey } from "./EncryptionKey";
 export { EncryptionProcessor } from "./EncryptionProcessor";
 export { EncryptionQueryBuilder } from "./EncryptionQueryBuilder";
-export { EncryptionManager } from "./EncryptionManager";
+// export { EncryptionManager } from "./EncryptionManager";
 export { EncryptionTimeToLive } from "./EncryptionTimeToLive";
