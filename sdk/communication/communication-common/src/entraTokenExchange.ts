@@ -1,6 +1,7 @@
 import { AccessToken } from "@azure/core-auth";
 
 interface ExchangeTokenResponse {
+    identity: string;
     token: {
         token: string;
         expiresOn: string;
