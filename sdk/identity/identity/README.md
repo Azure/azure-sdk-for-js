@@ -17,7 +17,6 @@ Key links:
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-  - **Note:** If your application runs on Node.js v8 or lower and you can't upgrade your Node.js version to the latest stable version, pin your `@azure/identity` dependency to version 1.1.0.
 - Latest versions of Safari, Chrome, Edge, and Firefox.
   - **Note**: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one supported in the browser.
 
