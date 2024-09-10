@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { HttpClient } from "@azure/core-rest-pipeline";
 import { logger } from "../log.js";

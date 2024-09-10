@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Updated to latest OTEL libraries
+
 ## 1.0.0-beta.6 (2024-08-15)
 
 ### Other Changes

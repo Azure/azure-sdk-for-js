@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as path from "path";
 import * as sinon from "sinon";
@@ -189,7 +190,7 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.25.1",
+  "telemetry.sdk.version": "1.26.0",
 };
 
 describe("Library/Config", () => {
@@ -510,7 +511,7 @@ describe("OpenTelemetry Resource", () => {
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
-        0,
+      0,
       "Wrong TELEMETRY_SDK_VERSION",
     );
     assert.deepStrictEqual(

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRuleTester } from "../ruleTester";
 import rule from "../../src/rules/github-source-headers";
@@ -11,12 +11,12 @@ import rule from "../../src/rules/github-source-headers";
 const ruleTester = createRuleTester();
 
 const goodHeader = `// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 `;
 
 const valid = `// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 console.log("hello")`;
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { KeyClient } from "../../../src";
 import { Recorder, env, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";

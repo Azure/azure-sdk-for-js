@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";

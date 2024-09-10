@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to forbid usage of window.
@@ -16,7 +16,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "forbid usage of window",
-      recommended: "recommended",
     },
     messages: {
       useSelf: "`window` should not be used, please use `self` instead.",

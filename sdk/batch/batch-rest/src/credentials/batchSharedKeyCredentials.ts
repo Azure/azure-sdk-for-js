@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { type AzureNamedKeyCredential } from "@azure/core-auth";
 import { HttpHeaders, HttpMethods, PipelinePolicy } from "@azure/core-rest-pipeline";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   isUnexpected,
@@ -10,6 +10,7 @@ import {
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { PublishCloudEventOptionalParams } from "./cadl-generated/models/options";
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 import { CloudEvent } from "./cadl-generated";
 

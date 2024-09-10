@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { ErrorModel } from "@azure-rest/core-client";
 
@@ -33,7 +33,7 @@ export interface ContentFilterResultsForChoiceOutput {
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
   /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+  custom_blocklists?: ContentFilterDetailedResults;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
@@ -45,6 +45,15 @@ export interface ContentFilterResultsForChoiceOutput {
   protected_material_code?: ContentFilterCitedDetectionResultOutput;
 }
 
+/** Represents a structured collection of result details for content filtering. */
+export interface ContentFilterDetailedResults {
+  /** A value indicating whether or not the content has been filtered. */
+  filtered: boolean;
+
+  /** The collection of detailed blocklist result information. */
+  details: ContentFilterBlocklistIdResultOutput[];
+}
+
 /** Represents the outcome of a detection operation against protected resources as performed by content filtering. */
 export interface ContentFilterCitedDetectionResultOutput {
   /** A value indicating whether or not the content has been filtered. */
@@ -54,7 +63,7 @@ export interface ContentFilterCitedDetectionResultOutput {
   /** The internet location associated with the detection. */
   URL?: string;
   /** The license description associated with the detection. */
-  license: string;
+  license?: string;
 }
 
 /**
@@ -198,7 +207,7 @@ export interface ContentFilterResultDetailsForPromptOutput {
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
   /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: Array<ContentFilterBlocklistIdResultOutput>;
+  custom_blocklists?: ContentFilterDetailedResults;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.

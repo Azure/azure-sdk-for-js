@@ -213,7 +213,7 @@ const serviceClient = new ShareServiceClient(
 );
 
 async function main() {
-  let shareIter = serviceClient.listShares();
+  const shareIter = serviceClient.listShares();
   let i = 1;
   for await (const share of shareIter) {
     console.log(`Share${i}: ${share.name}`);
@@ -239,7 +239,7 @@ const serviceClient = new ShareServiceClient(
 );
 
 async function main() {
-  let shareIter = serviceClient.listShares();
+  const shareIter = serviceClient.listShares();
   let i = 1;
   let shareItem = await shareIter.next();
   while (!shareItem.done) {
@@ -338,7 +338,7 @@ const directoryName = "<directory name>";
 async function main() {
   const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
-  let dirIter = directoryClient.listFilesAndDirectories();
+  const dirIter = directoryClient.listFilesAndDirectories();
   let i = 1;
   for await (const item of dirIter) {
     if (item.kind === "directory") {
@@ -373,7 +373,7 @@ const directoryName = "<directory name>";
 async function main() {
   const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
-  let dirIter = directoryClient.listFilesAndDirectories();
+  const dirIter = directoryClient.listFilesAndDirectories();
   let i = 1;
   let item = await dirIter.next();
   while (!item.done) {
@@ -382,6 +382,7 @@ async function main() {
     } else {
       console.log(`${i} - file\t: ${item.value.name}`);
     }
+    i++;
     item = await dirIter.next();
   }
 }

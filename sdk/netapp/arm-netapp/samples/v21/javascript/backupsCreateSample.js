@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a backup under the Backup Vault
  *
  * @summary Create a backup under the Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/BackupsUnderBackupVault_Create.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/BackupsUnderBackupVault_Create.json
  */
 async function backupsUnderBackupVaultCreate() {
   const subscriptionId =

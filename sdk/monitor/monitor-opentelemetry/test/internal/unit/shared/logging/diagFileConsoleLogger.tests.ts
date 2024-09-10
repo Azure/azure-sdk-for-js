@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as sinon from "sinon";
 import * as path from "path";
@@ -82,8 +83,8 @@ describe("Library/DiagFileConsoleLogger", () => {
     });
 
     it("should create backup file", (done) => {
-      sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
-      sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
+      sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => { });
+      sandbox.stub(fileHelper, "accessAsync").callsFake(async () => { });
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
@@ -118,8 +119,8 @@ describe("Library/DiagFileConsoleLogger", () => {
     });
 
     it("should create multiple backup files", (done) => {
-      sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
-      sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
+      sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => { });
+      sandbox.stub(fileHelper, "accessAsync").callsFake(async () => { });
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>

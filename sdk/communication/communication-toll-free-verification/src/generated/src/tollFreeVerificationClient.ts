@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { TollFreeVerificationImpl } from "./operations";
 import { TollFreeVerification } from "./operationsInterfaces";
@@ -27,7 +27,7 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
    */
   constructor(
     endpoint: string,
-    options?: TollFreeVerificationClientOptionalParams
+    options?: TollFreeVerificationClientOptionalParams,
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
@@ -38,7 +38,7 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: TollFreeVerificationClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-communication-toll-free-verification/1.0.0-beta.1`;
@@ -51,9 +51,9 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -74,7 +74,7 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -88,7 +88,7 @@ export class TollFreeVerificationClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

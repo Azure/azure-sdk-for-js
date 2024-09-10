@@ -1,0 +1,22 @@
+trigger: none
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+  parameters:
+    PackageName: "@azure/openai"
+    ServiceDirectory: openai
+    MatrixFilters:
+      - TestType=^(?!sample).*
+      - DependencyVersion=^$
+    TimeoutInMinutes: "120"
+    EnvVars:
+      AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
+      AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT: $(AOAI-ENDPOINT-NORTHCENTRALUS)
+      AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT: $(AOAI-ENDPOINT-SWEDENCENTRAL)
+      AZURE_OPENAI_SEARCH_ENDPOINT: $(COGNITIVE-SEARCH-API-ENDPOINT)
+      AZURE_OPENAI_SEARCH_INDEX: $(COGNITIVE-SEARCH-API-INDEX)
+      SUBSCRIPTION_ID: $(SUBSCRIPTION-ID)
+      RESOURCE_GROUP: $(RESOURCE-GROUP)
+      ACCOUNT_NAME_COMPLETIONS: $(ACCOUNT-NAME-EASTUS)
+      ACCOUNT_NAME_AUDIO: $(ACCOUNT-NAME-NORTHCENTRALUS)
+      ACCOUNT_NAME_VISION: $(ACCOUNT-NAME-SWEDEN-CENTRAL)

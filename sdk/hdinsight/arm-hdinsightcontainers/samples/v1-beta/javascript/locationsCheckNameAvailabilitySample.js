@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of the resource name.
  *
  * @summary Check the availability of the resource name.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/LocationsNameAvailability.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/LocationsNameAvailability.json
  */
 async function locationsNameAvailability() {
   const subscriptionId =

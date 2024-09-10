@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all resources that are encrypted with this disk encryption set.
  *
  * @summary Lists all resources that are encrypted with this disk encryption set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListAssociatedResources.json
  */
 async function listAllResourcesThatAreEncryptedWithThisDiskEncryptionSet() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

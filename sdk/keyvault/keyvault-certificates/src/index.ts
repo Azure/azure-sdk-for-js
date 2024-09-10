@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 
@@ -10,7 +10,7 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { TokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log";
+import { logger } from "./log.js";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import {
@@ -77,7 +77,7 @@ import {
   KnownCertificateKeyTypes,
   KnownKeyUsageTypes,
   PollerLikeWithCancellation,
-} from "./certificatesModels";
+} from "./certificatesModels.js";
 
 import {
   GetCertificatesOptionalParams,
@@ -97,20 +97,20 @@ import {
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
   KeyUsageType,
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
+} from "./generated/models/index.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { CreateCertificatePoller } from "./lro/create/poller";
-import { CertificateOperationPoller } from "./lro/operation/poller";
-import { DeleteCertificatePoller } from "./lro/delete/poller";
-import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { CertificateOperationState } from "./lro/operation/operation";
-import { DeleteCertificateState } from "./lro/delete/operation";
-import { CreateCertificateState } from "./lro/create/operation";
-import { RecoverDeletedCertificateState } from "./lro/recover/operation";
-import { parseCertificateBytes } from "./utils";
-import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier";
+import { CreateCertificatePoller } from "./lro/create/poller.js";
+import { CertificateOperationPoller } from "./lro/operation/poller.js";
+import { DeleteCertificatePoller } from "./lro/delete/poller.js";
+import { RecoverDeletedCertificatePoller } from "./lro/recover/poller.js";
+import { CertificateOperationState } from "./lro/operation/operation.js";
+import { DeleteCertificateState } from "./lro/delete/operation.js";
+import { CreateCertificateState } from "./lro/create/operation.js";
+import { RecoverDeletedCertificateState } from "./lro/recover/operation.js";
+import { parseCertificateBytes } from "./utils.js";
+import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier.js";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -123,9 +123,9 @@ import {
   toCorePolicy,
   toPublicIssuer,
   toPublicPolicy,
-} from "./transformations";
-import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
-import { tracingClient } from "./tracing";
+} from "./transformations.js";
+import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller.js";
+import { tracingClient } from "./tracing.js";
 
 export {
   CertificateClientOptions,

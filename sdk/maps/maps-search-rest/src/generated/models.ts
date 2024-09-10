@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The list of address geocoding queries/requests to process. The list can contain a max of 100 queries and must contain at least 1 query. */
 export interface GeocodingBatchRequestBody {

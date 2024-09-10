@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import debug, { Debugger } from "../src/debug.js";
 import { describe, it, assert, expect, beforeEach, afterEach, vi, MockInstance } from "vitest";

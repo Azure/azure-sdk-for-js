@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CosmosClient } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";

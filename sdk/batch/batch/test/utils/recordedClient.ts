@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Commented code in this file can be uncommented once batch is managed by rush and starts using the recorder
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   HttpClient,
@@ -841,8 +841,7 @@ export class ClientContext {
       request.headers[HttpHeaders.IsBatchRequest] = true;
       request.headers[HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[HttpHeaders.IsBatchAtomic] = false;
-      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError || false;
-
+      request.headers[HttpHeaders.BatchContinueOnError] = bulkOptions.continueOnError ?? true;
       this.applySessionToken(request);
 
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { BlobLeaseClient } from "@azure/storage-blob";
 
 import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";

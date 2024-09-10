@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export default {
   parser: "@typescript-eslint/parser",
@@ -44,14 +44,6 @@ export default {
         curly: ["error", "multi-line"],
         "eol-last": ["error", "always"],
         eqeqeq: ["error", "always", { null: "ignore" }],
-        "import/no-extraneous-dependencies": [
-          "error",
-          {
-            devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
-            optionalDependencies: false,
-            peerDependencies: false,
-          },
-        ],
         "no-console": "off",
         "no-dupe-class-members": "off",
         "no-invalid-this": "off",
@@ -113,9 +105,11 @@ export default {
         "@typescript-eslint/no-inferrable-types": "off",
         // We use empty extends and empty interface for shimming and renaming extensively
         "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-empty-object-type": "off",
         "@typescript-eslint/no-namespace": "error",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+        "@typescript-eslint/no-unused-expressions": "off",
         "@typescript-eslint/no-useless-constructor": "error",
         "@typescript-eslint/no-var-requires": "off",
         "no-shadow": "off",
@@ -183,6 +177,7 @@ export default {
       ],
       rules: {
         "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
       },
     },
   ],

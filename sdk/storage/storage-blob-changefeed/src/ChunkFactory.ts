@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AvroReaderFactory } from "./AvroReaderFactory";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";

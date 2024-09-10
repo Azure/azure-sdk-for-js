@@ -16,9 +16,9 @@ require("dotenv").config();
  * This sample demonstrates how to Enables the Azure Monitor on the HDInsight cluster.
  *
  * @summary Enables the Azure Monitor on the HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/EnableLinuxClusterAzureMonitor.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableLinuxClusterAzureMonitor.json
  */
-async function enableClusterMonitoring() {
+async function enableAzureMonitor() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -31,13 +31,13 @@ async function enableClusterMonitoring() {
   const result = await client.extensions.beginEnableAzureMonitorAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  enableClusterMonitoring();
+  enableAzureMonitor();
 }
 
 main().catch(console.error);

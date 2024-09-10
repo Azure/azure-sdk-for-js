@@ -1360,7 +1360,7 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 }
 
 // @public
-export const enum KnownAcsEmailDeliveryReportStatus {
+export enum KnownAcsEmailDeliveryReportStatus {
     Bounced = "Bounced",
     Delivered = "Delivered",
     Failed = "Failed",
@@ -1370,109 +1370,77 @@ export const enum KnownAcsEmailDeliveryReportStatus {
 }
 
 // @public
-export const enum KnownAcsInteractiveReplyKind {
-    ButtonReply = "buttonReply",
-    ListReply = "listReply",
-    Unknown = "unknown"
+export enum KnownAcsInteractiveReplyKind {
+    buttonReply = "buttonReply",
+    listReply = "listReply",
+    unknown = "unknown"
 }
 
 // @public
-export const enum KnownAcsMessageChannelKind {
-    Whatsapp = "whatsapp"
+export enum KnownAcsMessageChannelKind {
+    whatsapp = "whatsapp"
 }
 
 // @public
-export const enum KnownAcsMessageDeliveryStatus {
-    // (undocumented)
-    Delivered = "delivered",
-    // (undocumented)
-    Failed = "failed",
-    // (undocumented)
-    Read = "read",
-    // (undocumented)
-    Sent = "sent",
-    // (undocumented)
-    Unknown = "unknown",
-    // (undocumented)
-    Warning = "warning"
+export enum KnownAcsMessageDeliveryStatus {
+    delivered = "delivered",
+    failed = "failed",
+    read = "read",
+    sent = "sent",
+    unknown = "unknown",
+    warning = "warning"
 }
 
 // @public
-export const enum KnownAcsRouterJobStatus {
-    // (undocumented)
+export enum KnownAcsRouterJobStatus {
     Assigned = "Assigned",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     ClassificationFailed = "ClassificationFailed",
-    // (undocumented)
     Closed = "Closed",
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     PendingClassification = "PendingClassification",
-    // (undocumented)
     PendingSchedule = "PendingSchedule",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Scheduled = "Scheduled",
-    // (undocumented)
     ScheduleFailed = "ScheduleFailed",
-    // (undocumented)
     WaitingForActivation = "WaitingForActivation"
 }
 
 // @public
-export const enum KnownAcsRouterLabelOperator {
-    // (undocumented)
+export enum KnownAcsRouterLabelOperator {
     Equal = "Equal",
-    // (undocumented)
     Greater = "Greater",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     Less = "Less",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     NotEqual = "NotEqual"
 }
 
 // @public
-export const enum KnownAcsRouterUpdatedWorkerProperty {
-    // (undocumented)
+export enum KnownAcsRouterUpdatedWorkerProperty {
     AvailableForOffers = "AvailableForOffers",
-    // (undocumented)
     ChannelConfigurations = "ChannelConfigurations",
-    // (undocumented)
     Labels = "Labels",
-    // (undocumented)
     QueueAssignments = "QueueAssignments",
-    // (undocumented)
     Tags = "Tags",
-    // (undocumented)
     TotalCapacity = "TotalCapacity"
 }
 
 // @public
-export const enum KnownAcsRouterWorkerSelectorState {
-    Active = "active",
-    Expired = "expired"
+export enum KnownAcsRouterWorkerSelectorState {
+    active = "active",
+    expired = "expired"
 }
 
 // @public
-export const enum KnownAcsUserEngagement {
-    // (undocumented)
-    Click = "click",
-    // (undocumented)
-    View = "view"
+export enum KnownAcsUserEngagement {
+    click = "click",
+    view = "view"
 }
 
 // @public
-export const enum KnownAppAction {
+export enum KnownAppAction {
     ChangedAppSettings = "ChangedAppSettings",
     Completed = "Completed",
     Failed = "Failed",
@@ -1482,50 +1450,41 @@ export const enum KnownAppAction {
 }
 
 // @public
-export const enum KnownAppServicePlanAction {
+export enum KnownAppServicePlanAction {
     Updated = "Updated"
 }
 
 // @public
-export const enum KnownAsyncStatus {
+export enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
 }
 
 // @public
-export const enum KnownCommunicationCloudEnvironmentModel {
-    // (undocumented)
-    Dod = "dod",
-    // (undocumented)
-    Gcch = "gcch",
-    // (undocumented)
-    Public = "public"
+export enum KnownCommunicationCloudEnvironmentModel {
+    dod = "dod",
+    gcch = "gcch",
+    "public" = "public"
 }
 
 // @public
-export const enum KnownCommunicationIdentifierModelKind {
-    // (undocumented)
-    CommunicationUser = "communicationUser",
-    // (undocumented)
-    MicrosoftTeamsApp = "microsoftTeamsApp",
-    // (undocumented)
-    MicrosoftTeamsUser = "microsoftTeamsUser",
-    // (undocumented)
-    PhoneNumber = "phoneNumber",
-    // (undocumented)
-    Unknown = "unknown"
+export enum KnownCommunicationIdentifierModelKind {
+    communicationUser = "communicationUser",
+    microsoftTeamsUser = "microsoftTeamsUser",
+    phoneNumber = "phoneNumber",
+    unknown = "unknown"
 }
 
 // @public
-export const enum KnownDataBoxStageName {
+export enum KnownDataBoxStageName {
     CopyCompleted = "CopyCompleted",
     CopyStarted = "CopyStarted",
     OrderCompleted = "OrderCompleted"
 }
 
 // @public
-export const enum KnownEventGridMqttClientDisconnectionReason {
+export enum KnownEventGridMqttClientDisconnectionReason {
     ClientAuthenticationError = "ClientAuthenticationError",
     ClientAuthorizationError = "ClientAuthorizationError",
     ClientError = "ClientError",
@@ -1540,15 +1499,13 @@ export const enum KnownEventGridMqttClientDisconnectionReason {
 }
 
 // @public
-export const enum KnownEventGridMqttClientState {
-    // (undocumented)
+export enum KnownEventGridMqttClientState {
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
-export const enum KnownHealthcareFhirResourceType {
+export enum KnownHealthcareFhirResourceType {
     Account = "Account",
     ActivityDefinition = "ActivityDefinition",
     AdverseEvent = "AdverseEvent",
@@ -1713,51 +1670,90 @@ export const enum KnownHealthcareFhirResourceType {
 }
 
 // @public
-export const enum KnownRecordingChannelType {
-    // (undocumented)
+export enum KnownMediaJobErrorCategory {
+    Account = "Account",
+    Configuration = "Configuration",
+    Content = "Content",
+    Download = "Download",
+    Service = "Service",
+    Upload = "Upload"
+}
+
+// @public
+export enum KnownMediaJobErrorCode {
+    ConfigurationUnsupported = "ConfigurationUnsupported",
+    ContentMalformed = "ContentMalformed",
+    ContentUnsupported = "ContentUnsupported",
+    DownloadNotAccessible = "DownloadNotAccessible",
+    DownloadTransientError = "DownloadTransientError",
+    IdentityUnsupported = "IdentityUnsupported",
+    ServiceError = "ServiceError",
+    ServiceTransientError = "ServiceTransientError",
+    UploadNotAccessible = "UploadNotAccessible",
+    UploadTransientError = "UploadTransientError"
+}
+
+// @public
+export enum KnownMediaJobRetry {
+    DoNotRetry = "DoNotRetry",
+    MayRetry = "MayRetry"
+}
+
+// @public
+export enum KnownMediaJobState {
+    Canceled = "Canceled",
+    Canceling = "Canceling",
+    Error = "Error",
+    Finished = "Finished",
+    Processing = "Processing",
+    Queued = "Queued",
+    Scheduled = "Scheduled"
+}
+
+// @public
+export enum KnownRecordingChannelType {
     Mixed = "Mixed",
-    // (undocumented)
     Unmixed = "Unmixed"
 }
 
 // @public
-export const enum KnownRecordingContentType {
-    // (undocumented)
+export enum KnownRecordingContentType {
     Audio = "Audio",
-    // (undocumented)
     AudioVideo = "AudioVideo"
 }
 
 // @public
-export const enum KnownRecordingFormatType {
-    // (undocumented)
+export enum KnownRecordingFormatType {
     Mp3 = "Mp3",
-    // (undocumented)
     Mp4 = "Mp4",
-    // (undocumented)
     Wav = "Wav"
 }
 
 // @public
-export const enum KnownStampKind {
+export enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
     Public = "Public"
 }
 
 // @public
-export const enum KnownStorageTaskAssignmentCompletedStatus {
-    // (undocumented)
+export enum KnownStorageBlobAccessTier {
+    Archive = "Archive",
+    Cold = "Cold",
+    Cool = "Cool",
+    Default = "Default",
+    Hot = "Hot"
+}
+
+// @public
+export enum KnownStorageTaskAssignmentCompletedStatus {
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
-export const enum KnownStorageTaskCompletedStatus {
-    // (undocumented)
+export enum KnownStorageTaskCompletedStatus {
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -2356,7 +2352,7 @@ export interface ResourceWriteSuccessEventData {
 }
 
 // @public
-export type ServiceApiVersions = "2024-01-01";
+export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
@@ -2433,7 +2429,11 @@ export interface StorageAsyncOperationInitiatedEventData {
 }
 
 // @public
+export type StorageBlobAccessTier = string;
+
+// @public
 export interface StorageBlobCreatedEventData {
+    accessTier: StorageBlobAccessTier;
     api?: string;
     blobType?: string;
     clientRequestId?: string;
@@ -2486,12 +2486,14 @@ export interface StorageBlobRenamedEventData {
 
 // @public
 export interface StorageBlobTierChangedEventData {
+    accessTier: StorageBlobAccessTier;
     api?: string;
     blobType?: string;
     clientRequestId?: string;
     contentLength?: number;
     contentType?: string;
     identity?: string;
+    previousTier: StorageBlobAccessTier;
     requestId?: string;
     sequencer?: string;
     storageDiagnostics: Record<string, any>;

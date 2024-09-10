@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import * as assert from "assert";
 import { DiagLogLevel } from "@opentelemetry/api";
 import { Logger } from "../../../../../src/shared/logging/logger";

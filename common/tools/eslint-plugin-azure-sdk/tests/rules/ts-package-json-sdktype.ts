@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-package-json-sdktype rule.
@@ -137,7 +137,7 @@ const examplePackageGood = `{
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "karma": "^6.2.0",
@@ -291,7 +291,7 @@ const examplePackageBad = `{
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "karma": "^6.2.0",

@@ -1,0 +1,53 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - '**/*.bicep'
+      - eng/pipelines/bicep-warnings.yml
+
+variables:
+  - template: /eng/pipelines/templates/variables/image.yml
+
+stages:
+  - stage: LintBicepFiles
+    displayName: Lint Bicep Files
+
+    pool:
+      # AzureFileCopy requires Windows
+      name: $(WINDOWSPOOL)
+      vmImage: $(WINDOWSVMIMAGE)
+
+    jobs:
+      - job: LintBicep
+        timeoutInMinutes: 20
+        steps:
+          - bash: |
+              az bicep install
+              find . -name '*.bicep' -exec az bicep lint --file {} \; 2>&1 | tee lint-warnings.txt
+            displayName: 'Install Bicep CLI and Lint Bicep Files'
+
+          - bash: |
+              DATE=$(date +'%Y-%m-%d')
+              echo "##vso[task.setvariable variable=DATE]$DATE"
+              sed '/^$/N;/^\n$/D;' lint-warnings.txt > lint-warnings-${DATE}.txt
+            displayName: 'Rename Lint Warnings File with Date'
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: 'lint-warnings-$(DATE).txt'
+              artifactName: 'bicep-lint-warnings-$(DATE)'
+
+          - task: AzureFileCopy@6
+            displayName: 'Upload Bicep Lint Warnings'
+            inputs:
+              sourcePath: 'lint-warnings-$(DATE).txt'
+              azureSubscription: 'Azure SDK Artifacts'
+              destination: AzureBlob
+              storage: azuresdkartifacts
+              containerName: 'azure-sdk-for-js'
+              blobPrefix: 'bicep-lint-warnings/$(DATE)'
+              AdditionalArgumentsForBlobCopy: '--overwrite=true'

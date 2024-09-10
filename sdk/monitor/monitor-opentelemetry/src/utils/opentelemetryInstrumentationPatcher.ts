@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { Instrumentation } from "@opentelemetry/instrumentation/build/src/types";
 import {
@@ -16,9 +16,9 @@ import { Logger } from "../shared/logging";
 export function patchOpenTelemetryInstrumentationEnable(): void {
   const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
   try {
-    require.resolve("../../../@opentelemetry/instrumentation");
+    require.resolve("@opentelemetry/instrumentation");
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const autoLoaderUtils = require("../../../@opentelemetry/instrumentation/build/src/autoLoaderUtils");
+    const autoLoaderUtils = require("@opentelemetry/instrumentation/build/src/autoLoaderUtils");
 
     const originalModuleDefinition = autoLoaderUtils.enableInstrumentations;
 

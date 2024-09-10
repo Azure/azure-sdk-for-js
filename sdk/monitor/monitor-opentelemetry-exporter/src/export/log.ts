@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { context, diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "./base";
@@ -42,6 +42,7 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
    * @param logs - Logs to export.
    * @param resultCallback - Result callback.
    */
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   public async export(
     logs: ReadableLogRecord[],
     resultCallback: (result: ExportResult) => void,

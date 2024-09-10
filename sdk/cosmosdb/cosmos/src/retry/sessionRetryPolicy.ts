@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { isReadRequest, OperationType, ResourceType } from "../common";
 import { ConnectionPolicy } from "../documents";

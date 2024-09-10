@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List and describe all NetApp accounts in the subscription.
  *
  * @summary List and describe all NetApp accounts in the subscription.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Accounts_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Accounts_List.json
  */
 async function accountsList() {
   const subscriptionId =
