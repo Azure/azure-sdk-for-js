@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -80,7 +80,7 @@
   "dependencies": {
     "@azure/core-auth": "^1.7.2",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-lro": "^2.7.2",
+    "@azure/core-lro": "^3.0.0",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.15.2",
     "@azure/core-tracing": "^1.1.2",

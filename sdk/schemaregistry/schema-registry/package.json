@@ -5,9 +5,6 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/getSchemaDefinition.js": "./dist-esm/src/getSchemaDefinition.browser.js"
-  },
   "types": "types/schema-registry.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -42,14 +39,6 @@
   ],
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "src/generated/generatedSchemaRegistryClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      },
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
@@ -90,6 +79,7 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
+    "@azure-rest/core-client": "^2.2.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

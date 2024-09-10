@@ -7,11 +7,9 @@ export const ServiceErrorMessageConstants = {
   NO_SERVICE_URL_ERROR:
     "The value for the PLAYWRIGHT_SERVICE_URL variable is not set correctly. Please verify the URL and try again.",
   INVALID_MPT_PAT_ERROR:
-    "The authentication token provided is invalid. Please check the token and try again.",
-  EXPIRED_MPT_PAT_ERROR: "Your authentication token has expired. Please create a new token.",
+    "The authentication token provided is invalid. Check the token and try again.",
+  EXPIRED_MPT_PAT_ERROR: "Your authentication token has expired. Create a new token.",
   INVALID_GLOBAL_FUNCTION: "file must export a single function",
-  DUPLICATE_REPORTER:
-    "Another reporter with the same name already exists. Please resolve the duplicate and try again.",
   INVALID_PLAYWRIGHT_VERSION_ERROR:
-    "The Playwright version you are using is not supported. Please upgrade to Playwright 1.47 or above.",
+    "The Playwright version you are using is not supported. See the list of supported versions at https://aka.ms/mpt/supported-versions.",
 };

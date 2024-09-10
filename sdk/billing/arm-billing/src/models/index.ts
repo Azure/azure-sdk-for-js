@@ -8,116 +8,374 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The list of billing accounts. */
-export interface BillingAccountListResult {
+/** An agreement. */
+export interface AgreementProperties {
   /**
-   * The list of billing accounts.
+   * The mode of acceptance for an agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: BillingAccount[];
+  readonly acceptanceMode?: AcceptanceMode;
+  /**
+   * The URL to download the agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agreementLink?: string;
+  /**
+   * The list of billing profiles associated with agreement and present only for specific agreements.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileInfo?: BillingProfileInfo[];
+  /**
+   * The category of the agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly category?: Category;
+  /**
+   * The name of the agreement signed by a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The date from which the agreement is effective.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDate?: Date;
+  /**
+   * The date when the agreement expires.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationDate?: Date;
+  /**
+   * The list of participants that participates in acceptance of an agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly participants?: Participant[];
+  /**
+   * The current status of the agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The ID of the lead billing account if this agreement is part of the Customer Affiliate Purchase Terms.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly leadBillingAccountName?: string;
+}
+
+/** Details about billing profile associated with agreement and available only for specific agreements. */
+export interface BillingProfileInfo {
+  /** The fully qualified ID that uniquely identifies a billing account. */
+  billingAccountId?: string;
+  /** The name of the billing profile. */
+  billingProfileDisplayName?: string;
+  /** The friendly ID that uniquely identifies a billing profile. */
+  billingProfileId?: string;
+  /** The fully qualified ID that uniquely identifies a billing profile. */
+  billingProfileSystemId?: string;
+  /** Billing account name. Available for a specific type of agreement. */
+  indirectRelationshipOrganizationName?: string;
+}
+
+/** Billing account name. Available for a specific type of agreement. */
+export interface Participant {
+  /**
+   * The email address of the participant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly email?: string;
+  /**
+   * The acceptance status of the participant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The date when the status got changed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusDate?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** A container for a list of resources */
+export interface AgreementListResult {
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Address details. */
-export interface AddressDetails {
-  /** First name. */
-  firstName?: string;
-  /** Middle name. */
-  middleName?: string;
-  /** Last name. */
-  lastName?: string;
-  /** Company name. */
-  companyName?: string;
-  /** Address line 1. */
-  addressLine1: string;
-  /** Address line 2. */
-  addressLine2?: string;
-  /** Address line 3. */
-  addressLine3?: string;
-  /** Address city. */
-  city?: string;
-  /** Address district. */
-  district?: string;
-  /** Address region. */
-  region?: string;
-  /** Country code uses ISO2, 2-digit format. */
-  country: string;
-  /** Postal code. */
-  postalCode?: string;
-  /** Email address. */
-  email?: string;
-  /** Phone number. */
-  phoneNumber?: string;
-}
-
-/** The billing profiles associated with the billing account. By default this is not populated, unless it's specified in $expand. */
-export interface BillingProfilesOnExpand {
   /**
-   * Indicates whether there are more billing profiles than the ones listed in this collection. The collection lists a maximum of 50 billing profiles. To get all billing profiles, use the list billing profiles API.
+   * The list of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly hasMoreResults?: boolean;
-  /** The billing profiles associated with the billing account. */
-  value?: BillingProfile[];
+  readonly value?: Agreement[];
 }
 
-/** The billing profile details of the partner of the customer for an indirect motion. */
-export interface IndirectRelationshipInfo {
-  /** The billing account name of the partner or the customer for an indirect motion. */
-  billingAccountName?: string;
-  /** The billing profile name of the partner or the customer for an indirect motion. */
-  billingProfileName?: string;
-  /** The display name of the partner or customer for an indirect motion. */
+/** An associated tenant. */
+export interface AssociatedTenantProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The name of the associated tenant. */
   displayName?: string;
+  /** The ID that uniquely identifies a tenant. */
+  tenantId?: string;
+  /** The state determines whether users from the associated tenant can be assigned roles for commerce activities like viewing and downloading invoices, managing payments, and making purchases. */
+  billingManagementState?: BillingManagementTenantState;
+  /** The state determines whether subscriptions and licenses can be provisioned in the associated tenant. It can be set to 'Pending' to initiate a billing request. */
+  provisioningManagementState?: ProvisioningTenantState;
+  /**
+   * The unique identifier for the billing request that is created when enabling provisioning for an associated tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningBillingRequestId?: string;
 }
 
-/** Details of the Azure plan. */
-export interface AzurePlan {
-  /** The sku id. */
-  skuId?: string;
+/** A container for a list of resources */
+export interface AssociatedTenantListResult {
   /**
-   * The sku description.
+   * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly skuDescription?: string;
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: AssociatedTenant[];
 }
 
-/** The invoice sections associated to the billing profile. By default this is not populated, unless it's specified in $expand. */
-export interface InvoiceSectionsOnExpand {
+/** The Available Credit or Payment on Account Balance. The credit balance can be used to settle due or past due invoices. */
+export interface AvailableBalanceProperties {
+  /** Credit amount for immediate payment. */
+  amount?: AvailableBalancePropertiesAmount;
   /**
-   * Indicates whether there are more invoice sections than the ones listed in this collection. The collection lists a maximum of 50 invoice sections. To get all invoice sections, use the list invoice sections API.
+   * The list of payments on accounts.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly hasMoreResults?: boolean;
-  /** The invoice sections associated to the billing profile. */
-  value?: InvoiceSection[];
+  readonly paymentsOnAccount?: PaymentOnAccount[];
+  /** Total amount of payments on accounts. */
+  totalPaymentsOnAccount?: AvailableBalancePropertiesTotalPaymentsOnAccount;
 }
 
-/** The Resource model definition. */
-export interface Resource {
+/** The amount. */
+export interface Amount {
   /**
-   * Resource Id.
+   * The currency for the amount value.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly currency?: string;
   /**
-   * Resource name.
+   * The amount value. For example, if the currency is USD, then a value of 600 would be $600.00.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly value?: number;
+}
+
+/** A Payment on Account. */
+export interface PaymentOnAccount {
+  /** Payment on Account amount. */
+  amount?: PaymentOnAccountAmount;
   /**
-   * Resource type.
+   * The ID of the billing profile for the payments on account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly billingProfileId?: string;
+  /**
+   * The name of the billing profile for the payments on account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The ID of the invoice for which the payments on account was generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceId?: string;
+  /**
+   * The name of the invoice for the payments on account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceName?: string;
+  /**
+   * The date of the payments on account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly date?: Date;
+  /**
+   * Payment on Account type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly paymentMethodType?: PaymentMethodFamily;
+}
+
+/** The properties of payment term. */
+export interface PaymentTerm {
+  /** Represents duration in netXX format. Always in days. */
+  term?: string;
+  /** The date on when the defined 'Payment Term' will be effective from and is always in UTC. */
+  startDate?: Date;
+  /** The date on when the defined 'Payment Term' will end and is always in UTC. */
+  endDate?: Date;
+  /**
+   * Indicates payment term is the standard payment term.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDefault?: boolean;
+}
+
+/** A billing account. */
+export interface BillingAccountProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The current status of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountStatus?: AccountStatus;
+  /**
+   * The type of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountType?: AccountType;
+  /**
+   * The tier of the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountSubType?: AccountSubType;
+  /**
+   * Reason for the specified billing account status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountStatusReasonCode?: BillingAccountStatusReasonCode;
+  /**
+   * The type of agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly agreementType?: AgreementType;
+  /** The billing account name. */
+  displayName?: string;
+  /** The properties of an enrollment. */
+  enrollmentDetails?: BillingAccountPropertiesEnrollmentDetails;
+  /** Indicates whether user has read access to the billing account. */
+  hasReadAccess?: boolean;
+  /** Indicates whether or not the billing account has any billing profiles. */
+  hasNoBillingProfiles?: boolean;
+  /** Notification email address for legacy account. Available for agreement type Microsoft Online Services Program. */
+  notificationEmailAddress?: string;
+  /** The tenant that was used to set up the billing account. By default, only users from this tenant can get role assignments on the billing account and all purchases are provisioned in this tenant. */
+  primaryBillingTenantId?: string;
+  /** The address of the individual or organization that is responsible for the billing account. */
+  soldTo?: BillingAccountPropertiesSoldTo;
+  /** Describes the registration number of the organization linked with the billing account. */
+  registrationNumber?: BillingAccountPropertiesRegistrationNumber;
+  /**
+   * Identifies the billing relationships represented by a billing account. The billing relationship may be between Microsoft, the customer, and/or a third-party.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingRelationshipTypes?: BillingRelationshipType[];
+  /**
+   * Qualifications for pricing on a billing account. Values may be Commercial, Education, Charity or Government.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly qualifications?: string[];
+  /** A list of tax identifiers for the billing account. */
+  taxIds?: TaxIdentifier[];
 }
 
 /** The properties of an enrollment. */
-export interface Enrollment {
+export interface EnrollmentDetails {
   /** The start date of the enrollment. */
   startDate?: Date;
   /** The end date of the enrollment. */
@@ -133,11 +391,6 @@ export interface Enrollment {
    */
   readonly channel?: string;
   /**
-   * The policies for Enterprise Agreement enrollments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policies?: EnrollmentPolicies;
-  /**
    * The language for the enrollment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -148,168 +401,165 @@ export interface Enrollment {
    */
   readonly countryCode?: string;
   /**
-   * The current status of the enrollment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
    * The billing cycle for the enrollment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly billingCycle?: string;
+  /**
+   * The billing account extension opted by the company.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedTermOption?: ExtendedTermOption;
+  /**
+   * The support level offer associated with an enrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportLevel?: SupportLevel;
+  /**
+   * The support coverage period for the enrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportCoverage?: string;
+  /**
+   * The cloud of the enrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloud?: string;
+  /** The purchase order number of the enrollment. */
+  poNumber?: string;
+  /**
+   * Markup status of enrollment, applicable only for indirect enrollments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly markupStatus?: MarkupStatus;
+  /** The properties of an enrollment which are applicable only for indirect enrollments. */
+  indirectRelationshipInfo?: EnrollmentDetailsIndirectRelationshipInfo;
+  /**
+   * The contact who receives invoices of the enrollment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceRecipient?: string;
 }
 
-/** The policies for Enterprise Agreement enrollments. */
-export interface EnrollmentPolicies {
-  /**
-   * The policy that controls whether Account Owners can view charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountOwnerViewCharges?: boolean;
-  /**
-   * The policy that controls whether Department Administrators can view charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly departmentAdminViewCharges?: boolean;
-  /**
-   * The policy that controls whether Azure marketplace purchases are allowed in the enrollment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly marketplaceEnabled?: boolean;
-  /**
-   * The policy that controls whether Azure reservation purchases are allowed in the enrollment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reservedInstancesEnabled?: boolean;
-}
-
-/** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponse {
-  /** The details of the error. */
-  error?: ErrorDetails;
-}
-
-/** The details of the error. */
-export interface ErrorDetails {
-  /**
-   * Error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The target of the particular error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The sub details of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorSubDetailsItem[];
-}
-
-export interface ErrorSubDetailsItem {
-  /**
-   * Error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The target of the particular error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-}
-
-/** The request properties of the billing account that can be updated. */
-export interface BillingAccountUpdateRequest {
-  /** The billing account name. */
+/** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
+export interface IndirectRelationshipInfo {
+  /** The billing account name of the partner or the customer for an indirect motion. */
+  billingAccountName?: string;
+  /** The billing profile name of the partner or the customer for an indirect motion. */
+  billingProfileName?: string;
+  /** The display name of the partner or customer for an indirect motion. */
   displayName?: string;
-  /** The address of the individual or organization that is responsible for the billing account. */
-  soldTo?: AddressDetails;
-  /**
-   * The type of agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly agreementType?: AgreementType;
-  /**
-   * The type of customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountType?: AccountType;
-  /**
-   * The current status of the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountStatus?: AccountStatus;
-  /** The billing profiles associated with the billing account. By default this is not populated, unless it's specified in $expand. */
-  billingProfiles?: BillingProfilesOnExpand;
-  /**
-   * The details about the associated legacy enrollment. By default this is not populated, unless it's specified in $expand.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enrollmentDetails?: Enrollment;
-  /** The departments associated to the enrollment. */
-  departments?: Department[];
-  /** The accounts associated to the enrollment. */
-  enrollmentAccounts?: EnrollmentAccount[];
-  /**
-   * Indicates whether user has read access to the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasReadAccess?: boolean;
-  /** Notification email address, only for legacy accounts */
-  notificationEmailAddress?: string;
 }
 
-/** The list of invoice section properties with create subscription permission. */
-export interface InvoiceSectionListWithCreateSubPermissionResult {
-  /** The list of invoice section properties with create subscription permission. */
-  value?: InvoiceSectionWithCreateSubPermission[];
+/** Address details. */
+export interface AddressDetails {
+  /** Address line 1. */
+  addressLine1: string;
+  /** Address line 2. */
+  addressLine2?: string;
+  /** Address line 3. */
+  addressLine3?: string;
+  /** Address city. */
+  city?: string;
+  /** Company name. Optional for MCA Individual (Pay-as-you-go). */
+  companyName?: string;
+  /** Country code uses ISO 3166-1 Alpha-2 format. */
+  country: string;
+  /** Address district. */
+  district?: string;
+  /** Email address. */
+  email?: string;
+  /** First name. Optional for MCA Enterprise. */
+  firstName?: string;
+  /** Last name. Optional for MCA Enterprise. */
+  lastName?: string;
+  /** Middle name. */
+  middleName?: string;
+  /** Phone number. */
+  phoneNumber?: string;
+  /** Postal code. */
+  postalCode?: string;
+  /** Address region. */
+  region?: string;
+  /** Indicates if the address is incomplete. */
+  isValidAddress?: boolean;
+}
+
+/** Describes the registration number of the organization linked with the billing account. */
+export interface RegistrationNumber {
+  /** The unique identification number of the organization linked with the billing account. */
+  id?: string;
+  /**
+   * Identifies if the registration number is required for the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly required?: boolean;
+  /**
+   * The types of registration number allowed based on the country of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string[];
+}
+
+/** A tax identifier for the billing account. */
+export interface TaxIdentifier {
+  /** The id of the tax identifier. */
+  id?: string;
+  /** The type of the tax identifier. */
+  type?: TaxIdentifierType;
+  /** The scope of the tax identifier. */
+  scope?: string;
+  /** The country of the tax identifier. */
+  country?: string;
+  /** The status of the tax identifier. */
+  status?: TaxIdentifierStatus;
+}
+
+/** The details for a billing account transitioned from agreement type Microsoft Online Services Program to agreement type Microsoft Customer Agreement. */
+export interface TransitionDetails {
+  /**
+   * The transition completion date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transitionDate?: Date;
+  /**
+   * The anniversary day of the pre-transitioned account of type Microsoft Online Services Program.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly anniversaryDay?: number;
+}
+
+/** A container for a list of resources */
+export interface InvoiceSectionWithCreateSubPermissionListResult {
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: InvoiceSectionWithCreateSubPermission[];
 }
 
 /** Invoice section properties with create subscription permission. */
 export interface InvoiceSectionWithCreateSubPermission {
   /**
-   * The ID of the invoice section.
+   * The name of the billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invoiceSectionId?: string;
+  readonly billingProfileDisplayName?: string;
   /**
-   * The name of the invoice section.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionDisplayName?: string;
-  /**
-   * The system generated unique identifier for an invoice section.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionSystemId?: string;
-  /**
-   * The ID of the billing profile for the invoice section.
+   * The fully qualified ID that uniquely identifies a billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly billingProfileId?: string;
   /**
-   * The name of the billing profile for the invoice section.
+   * The system generated unique identifier for a billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileDisplayName?: string;
+  readonly billingProfileSystemId?: string;
   /**
    * The status of the billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -319,87 +569,1274 @@ export interface InvoiceSectionWithCreateSubPermission {
    * Reason for the specified billing profile status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileStatusReasonCode?: StatusReasonCodeForBillingProfile;
+  readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
   /**
    * The billing profile spending limit.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileSpendingLimit?: SpendingLimitForBillingProfile;
+  readonly billingProfileSpendingLimit?: SpendingLimit;
+  /**
+   * Enabled azure plans for the associated billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enabledAzurePlans?: AzurePlan[];
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * The system generated unique identifier for an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionSystemId?: string;
+}
+
+/** Details of the Azure plan. */
+export interface AzurePlan {
+  /** The ID that uniquely identifies a product. */
+  productId?: string;
+  /** The ID that uniquely identifies a sku. */
+  skuId?: string;
+  /** The sku description. */
+  skuDescription?: string;
+}
+
+/** Result of the payment terms eligibility. */
+export interface PaymentTermsEligibilityResult {
+  /** Indicates the eligibility status of the payment terms. */
+  eligibilityStatus?: PaymentTermsEligibilityStatus;
+  /** Details of the payment terms eligibility. */
+  eligibilityDetails?: PaymentTermsEligibilityDetail[];
+}
+
+/** Details of the payment terms eligibility. */
+export interface PaymentTermsEligibilityDetail {
+  /** Indicates the reason for the ineligibility of the payment terms. */
+  code?: PaymentTermsEligibilityCode;
+  /** Indicates the message for the ineligibility of the payment terms. */
+  message?: string;
+}
+
+/** A container for a list of resources */
+export interface BillingAccountListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BillingAccount[];
+}
+
+/** Result of the address validation. */
+export interface AddressValidationResponse {
+  /**
+   * Status of the address validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: AddressValidationStatus;
+  /**
+   * The list of suggested addresses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedAddresses?: AddressDetails[];
+  /**
+   * Validation error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validationMessage?: string;
+}
+
+/** A container for a list of resources */
+export interface BillingPermissionListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BillingPermission[];
+}
+
+/** The set of allowed action and not allowed actions a caller has on a resource. */
+export interface BillingPermission {
+  /**
+   * The set of actions that the caller is allowed to perform.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actions?: string[];
+  /**
+   * The set of actions that the caller is not allowed to perform.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly notActions?: string[];
+}
+
+/** Request to check access. */
+export interface CheckAccessRequest {
+  /** List of actions passed in the request body against which the permissions will be checked. */
+  actions?: string[];
+}
+
+/** The properties of a check access response. */
+export interface CheckAccessResponse {
+  /**
+   * Access Decision, specifies access is allowed or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessDecision?: AccessDecision;
+  /**
+   * Gets or sets an action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly action?: string;
+}
+
+/** Eligibility to delete a billing profile result. */
+export interface DeleteBillingProfileEligibilityResult {
+  /** Status describing if billing profile is eligible to be deleted. */
+  eligibilityStatus?: DeleteBillingProfileEligibilityStatus;
+  /** Validation details of delete billing profile eligibility. */
+  eligibilityDetails?: DeleteBillingProfileEligibilityDetail[];
+}
+
+/** Validation details of delete billing profile eligibility. */
+export interface DeleteBillingProfileEligibilityDetail {
+  /** Code of the delete invoice section eligibility response. */
+  code?: DeleteBillingProfileEligibilityCode;
+  /** Validation message. */
+  message?: string;
+}
+
+/** A billing profile. */
+export interface BillingProfileProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Identifies the billing relationship represented by the billing profile. The billing relationship may be between Microsoft, the customer, and/or a third-party.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingRelationshipType?: BillingRelationshipType;
+  /** Billing address. */
+  billTo?: BillingProfilePropertiesBillTo;
+  /**
+   * The currency in which the charges for the billing profile are billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currency?: string;
+  /** The name of the billing profile. */
+  displayName?: string;
+  /** Information about the enabled azure plans. */
+  enabledAzurePlans?: AzurePlan[];
+  /**
+   * Indicates whether user has read access to the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasReadAccess?: boolean;
+  /** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
+  indirectRelationshipInfo?: BillingProfilePropertiesIndirectRelationshipInfo;
+  /**
+   * The day of the month when the invoice for the billing profile is generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceDay?: number;
+  /** Flag controlling whether the invoices for the billing profile are sent through email. */
+  invoiceEmailOptIn?: boolean;
+  /** The list of email addresses to receive invoices by email for the billing profile. */
+  invoiceRecipients?: string[];
+  /** The default purchase order number that will appear on the invoices generated for the billing profile. */
+  poNumber?: string;
+  /** The default address where the products are shipped, or the services are being used. If a ship to is not specified for a product or a subscription, then this address will be used. */
+  shipTo?: BillingProfilePropertiesShipTo;
+  /** The address of the individual or organization that is responsible for the billing account. */
+  soldTo?: BillingProfilePropertiesSoldTo;
+  /**
+   * The billing profile spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly spendingLimit?: SpendingLimit;
+  /**
+   * The details of billing profile spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly spendingLimitDetails?: SpendingLimitDetails[];
+  /**
+   * The status of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: BillingProfileStatus;
+  /**
+   * Reason for the specified billing profile status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusReasonCode?: BillingProfileStatusReasonCode;
   /**
    * The system generated unique identifier for a billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileSystemId?: string;
-  /** Enabled azure plans for the associated billing profile. */
-  enabledAzurePlans?: AzurePlan[];
-}
-
-/** Result of the address validation */
-export interface ValidateAddressResponse {
-  /** status of the address validation. */
-  status?: AddressValidationStatus;
-  /** The list of suggested addresses. */
-  suggestedAddresses?: AddressDetails[];
-  /** Validation error message. */
-  validationMessage?: string;
-}
-
-/** The amount. */
-export interface Amount {
+  readonly systemId?: string;
+  /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
+  tags?: { [propertyName: string]: string };
   /**
-   * The currency for the amount value.
+   * Identifies the cloud environments that are associated with a billing profile. This is a system managed optional field and gets updated as the billing profile gets associated with accounts in various clouds.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly currency?: string;
-  /** Amount value. */
-  value?: number;
-}
-
-/** The list of billing instructions used during invoice generation. */
-export interface InstructionListResult {
+  readonly targetClouds?: string[];
+  /** The current payment term of the billing profile. */
+  currentPaymentTerm?: BillingProfilePropertiesCurrentPaymentTerm;
   /**
-   * The list of billing instructions used during invoice generation.
+   * The other payment terms of the billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Instruction[];
+  readonly otherPaymentTerms?: PaymentTerm[];
+}
+
+/** The billing profile spending limit. */
+export interface SpendingLimitDetails {
+  /** The initial amount for the billing profile. */
+  amount?: number;
+  /** The currency in which the charges for the billing profile are billed. */
+  currency?: string;
+  /** The date when this spending limit goes into effect. */
+  startDate?: Date;
+  /** The date when this spending limit is no longer in effect. */
+  endDate?: Date;
+  /** The type of spending limit. */
+  type?: SpendingLimitType;
+  /** The status of current spending limit. */
+  status?: SpendingLimitStatus;
+}
+
+/** A container for a list of resources */
+export interface BillingProfileListResult {
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** The list of billing profiles. */
-export interface BillingProfileListResult {
   /**
-   * The list of billing profiles.
+   * The list of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: BillingProfile[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
 }
 
-/** The list of customers. */
-export interface CustomerListResult {
+/** A billing property. */
+export interface BillingPropertyProperties {
   /**
-   * The list of customers.
+   * The type of agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Customer[];
+  readonly billingAccountAgreementType?: AgreementType;
   /**
-   * Total number of records.
+   * The name of the billing account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly totalCount?: number;
+  readonly billingAccountDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /**
+   * Notification email address for legacy account. Available for agreement type Microsoft Online Services Program.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountAdminNotificationEmailAddress?: string;
+  /**
+   * The country of the individual or organization that is responsible for the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountSoldToCountry?: string;
+  /**
+   * The current status of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountStatus?: AccountStatus;
+  /**
+   * Reason for the specified billing account status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountStatusReasonCode?: BillingAccountStatusReasonCode;
+  /**
+   * The type of customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountType?: AccountType;
+  /**
+   * The tier of the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountSubType?: AccountSubType;
+  /**
+   * The billing currency for the subscription. Available for billing accounts with agreement type Enterprise Agreement
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingCurrency?: string;
+  /**
+   * The name of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * The billing profile spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileSpendingLimit?: SpendingLimit;
+  /**
+   * The details of billing profile spending limit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileSpendingLimitDetails?: SpendingLimitDetails[];
+  /**
+   * The status of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileStatus?: BillingProfileStatus;
+  /**
+   * Reason for the specified billing profile status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
+  /**
+   * The payment method family of the primary payment method for the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfilePaymentMethodFamily?: PaymentMethodFamily;
+  /**
+   * The payment method type of the primary payment method for the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfilePaymentMethodType?: string;
+  /**
+   * The Azure AD tenant ID of the billing account for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingTenantId?: string;
+  /** The cost center applied to the subscription. Available for agreement type Microsoft Customer Agreement and Microsoft Partner Agreement. This property can be updated via patch. */
+  costCenter?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * Identifies the status of an customer. This is an upcoming property that will be populated in the future.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerStatus?: CustomerStatus;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * Identifies the status of an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionStatus?: InvoiceSectionState;
+  /**
+   * Reason for the specified invoice section status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionStatusReasonCode?: InvoiceSectionStateReasonCode;
+  /**
+   * Specifies if the billing account for the subscription is transitioned from a Microsoft Online Service Program to a Microsoft Customer Agreement (MCA) account. Will be present and value will be true if its a transitioned billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTransitionedBillingAccount?: boolean;
+  /**
+   * The sku description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /**
+   * The ID that uniquely identifies a sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuId?: string;
+  /**
+   * The subscription status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionBillingStatus?: BillingSubscriptionStatus;
+  /**
+   * The reason codes for the subscription status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionBillingStatusDetails?: BillingSubscriptionStatusDetails[];
+  /**
+   * The type of billing subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionBillingType?: SubscriptionBillingType;
+  /** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
+  subscriptionServiceUsageAddress?: BillingPropertyPropertiesSubscriptionServiceUsageAddress;
+  /**
+   * The Azure workload type of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionWorkloadType?: SubscriptionWorkloadType;
+  /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
+  enrollmentDetails?: BillingPropertyPropertiesEnrollmentDetails;
+  /**
+   * Indicates whether user is the account admin.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAccountAdmin?: boolean;
+  /**
+   * The ID that uniquely identifies a product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productId?: string;
+  /**
+   * The ID that uniquely identifies a product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+}
+
+/** The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts. */
+export interface BillingSubscriptionStatusDetails {
+  /**
+   * The suspension effective date for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDate?: Date;
+  /**
+   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: SubscriptionStatusReason;
+}
+
+/** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
+export interface SubscriptionEnrollmentDetails {
+  /** The name of the department */
+  departmentDisplayName?: string;
+  /** The ID that uniquely identifies the department. */
+  departmentId?: string;
+  /** The status of the enrollment account. */
+  enrollmentAccountStatus?: string;
+  /** The name of the enrollment account. */
+  enrollmentAccountDisplayName?: string;
+  /** The ID that uniquely identifies an enrollment account. */
+  enrollmentAccountId?: string;
+}
+
+/** A container for a list of resources */
+export interface BillingRequestListResult {
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BillingRequest[];
+}
+
+/** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
+export interface BillingRequestProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Additional information for the billing request. */
+  additionalInformation?: { [propertyName: string]: string };
+  /** The principal of the request reviewer. Will only be set if request is approved. */
+  reviewedBy?: BillingRequestPropertiesReviewedBy;
+  /**
+   * The date and time when the request was reviewed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reviewalDate?: Date;
+  /**
+   * The fully qualified ID that uniquely identifies a billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /**
+   * The ID that uniquely identifies a billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountName?: string;
+  /**
+   * The name of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountDisplayName?: string;
+  /**
+   * The primary tenant ID of the billing account for which the billing request was submitted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountPrimaryBillingTenantId?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * The ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileName?: string;
+  /**
+   * The name of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /** The principal of the entity who created the request. */
+  createdBy?: BillingRequestPropertiesCreatedBy;
+  /**
+   * The date and time when the request was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationDate?: Date;
+  /**
+   * The date and time when the request expires.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationDate?: Date;
+  /** The reason to approve or decline the request. */
+  decisionReason?: string;
+  /**
+   * The fully qualified ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * The ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * The ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerName?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The ID that uniquely identifies a billing subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionName?: string;
+  /**
+   * The name of the billing subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionDisplayName?: string;
+  /** Justification for submitting request. */
+  justification?: string;
+  /** The recipients of the billing request. */
+  recipients?: Principal[];
+  /** The billing scope for which the request was submitted (ex. '/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}'). */
+  requestScope?: string;
+  /**
+   * The billing scope for which the request will be applied. This is a read only property derived by the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingScope?: string;
+  /** Status of billing request. */
+  status?: BillingRequestStatus;
+  /** Type of billing request. */
+  type?: BillingRequestType;
+  /** The principal of the entity who last updated the request. */
+  lastUpdatedBy?: BillingRequestPropertiesLastUpdatedBy;
+  /**
+   * Date and time of last update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedDate?: Date;
+}
+
+/** A principal who has interacted with a billing entity. */
+export interface Principal {
+  /** The tenant id of the principal who has interacted with a billing entity. */
+  tenantId?: string;
+  /** The object id of the principal who has interacted with a billing entity. */
+  objectId?: string;
+  /** The user principal name of the principal who has interacted with a billing entity. */
+  upn?: string;
+}
+
+/** The properties of the billing role assignment. */
+export interface BillingRoleAssignmentProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The date the role assignment was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The tenant Id of the user who created the role assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByPrincipalTenantId?: string;
+  /**
+   * The object ID of the user who created the role assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByPrincipalId?: string;
+  /**
+   * The principal PUID of the user who created the role assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByPrincipalPuid?: string;
+  /**
+   * The email address of the user who created the role assignment. This is supported only for billing accounts with agreement type Enterprise Agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdByUserEmailAddress?: string;
+  /**
+   * The date the role assignment was modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedOn?: Date;
+  /**
+   * The principal PUID of the user who modified the role assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedByPrincipalPuid?: string;
+  /**
+   * The email address of the user who modified the role assignment. This is supported only for billing accounts with agreement type Enterprise Agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedByUserEmailAddress?: string;
+  /**
+   * The principal PUID of the user who modified the role assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedByPrincipalId?: string;
+  /**
+   * The tenant Id of the user who modified the role assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedByPrincipalTenantId?: string;
+  /** The principal PUID of the user to whom the role was assigned. */
+  principalPuid?: string;
+  /** The object id of the user to whom the role was assigned. */
+  principalId?: string;
+  /** The principal tenant id of the user to whom the role was assigned. */
+  principalTenantId?: string;
+  /** The ID of the role definition. */
+  roleDefinitionId: string;
+  /** The scope at which the role was assigned. */
+  scope?: string;
+  /** The authentication type of the user, whether Organization or MSA, of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
+  userAuthenticationType?: string;
+  /** The email address of the user to whom the role was assigned. This is supported only for billing accounts with agreement type Enterprise Agreement. */
+  userEmailAddress?: string;
+  /**
+   * The friendly name of the tenant of the user to whom the role was assigned. This will be 'Primary Tenant' for the primary tenant of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalTenantName?: string;
+  /**
+   * The display name of the principal to whom the role was assigned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalDisplayName?: string;
+  /**
+   * The type of a role Assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalType?: PrincipalType;
+  /**
+   * The ID of the billing request that was created for the role assignment. This is only applicable to cross tenant role assignments or role assignments created through the billing request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingRequestId?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /**
+   * The name of the billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * The name of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+}
+
+/** A container for a list of resources */
+export interface BillingRoleAssignmentListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BillingRoleAssignment[];
+}
+
+/** The properties of a role definition. */
+export interface BillingRoleDefinitionProperties {
+  /**
+   * The role description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The billingPermissions the role has.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly permissions?: BillingPermission[];
+  /** The name of the role. */
+  roleName: string;
+}
+
+/** A container for a list of resources */
+export interface BillingRoleDefinitionListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BillingRoleDefinition[];
+}
+
+/** The SKU to be applied for this resource */
+export interface Sku {
+  /** Name of the SKU to be applied */
+  name?: string;
+}
+
+/** Information describing the type of billing plan for this savings plan. */
+export interface BillingPlanInformation {
+  /** Amount of money to be paid for the Order. Tax is not included. */
+  pricingCurrencyTotal?: Price;
+  /** Date when the billing plan has started. */
+  startDate?: Date;
+  /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
+  nextPaymentDueDate?: Date;
+  transactions?: PaymentDetail[];
+}
+
+/** The price. */
+export interface Price {
+  /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
+  currencyCode?: string;
+  amount?: number;
+}
+
+/** Information about payment related to a savings plan order. */
+export interface PaymentDetail {
+  /** Date when the payment needs to be done. */
+  dueDate?: Date;
+  /** Date when the transaction is completed. Null when it is scheduled. */
+  paymentDate?: Date;
+  /** Amount in pricing currency. Tax not included. */
+  pricingCurrencyTotal?: Price;
+  /** Amount charged in Billing currency. Tax not included. Is null for future payments */
+  billingCurrencyTotal?: Price;
+  /** Describes whether the payment is completed, failed, pending, cancelled or scheduled in the future. */
+  status?: PaymentStatus;
+  /**
+   * Extended status information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedStatusInfo?: ExtendedStatusInfo;
+}
+
+/** Extended status information */
+export interface ExtendedStatusInfo {
+  /** Status code providing additional information. */
+  statusCode?: string;
+  /** The message giving detailed information about the status code. */
+  message?: string;
+  /** The subscription that has failed credit line check. */
+  subscriptionId?: string;
+}
+
+/** List of savings plan orders */
+export interface SavingsPlanOrderModelList {
+  value?: SavingsPlanOrderModel[];
+  /** Url to get the next page. */
+  nextLink?: string;
+}
+
+/** List of savings plans */
+export interface SavingsPlanModelList {
+  value?: SavingsPlanModel[];
+  /** Url to get the next page. */
+  nextLink?: string;
+}
+
+/** Properties specific to renew. */
+export interface RenewProperties {
+  /** Purchase request. */
+  purchaseProperties?: PurchaseRequest;
+}
+
+/** Purchase request. */
+export interface PurchaseRequest {
+  /** The SKU to be applied for this resource */
+  sku?: Sku;
+  /** Friendly name of the savings plan */
+  displayName?: string;
+  /** Subscription that will be charged for purchasing SavingsPlan */
+  billingScopeId?: string;
+  /** Represents the Savings plan term in ISO 8601 format. */
+  term?: SavingsPlanTerm;
+  /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
+  billingPlan?: BillingPlan;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Commitment towards the benefit. */
+  commitment?: Commitment;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** Properties specific to applied scope type. Not required if not applicable. */
+  appliedScopeProperties?: AppliedScopeProperties;
+}
+
+/** Properties specific to applied scope type. Not required if not applicable. */
+export interface AppliedScopeProperties {
+  /** Tenant ID where the savings plan where the benefit is applied. */
+  tenantId?: string;
+  /** Fully-qualified identifier of the management group where the benefit is applied. */
+  managementGroupId?: string;
+  /** Fully-qualified identifier of the subscription where the benefit is applied. */
+  subscriptionId?: string;
+  /** Fully-qualified identifier of the resource group where the benefit is applied. */
+  resourceGroupId?: string;
+  /** Display name */
+  displayName?: string;
+}
+
+/** Savings plan utilization */
+export interface Utilization {
+  /**
+   * The trend for a savings plan's utilization
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trend?: string;
+  /** The array of aggregates of a savings plan's utilization */
+  aggregates?: UtilizationAggregates[];
+}
+
+/** The aggregate values of savings plan utilization */
+export interface UtilizationAggregates {
+  /**
+   * The grain of the aggregate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly grain?: number;
+  /**
+   * The grain unit of the aggregate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly grainUnit?: string;
+  /**
+   * The aggregate value
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: number;
+  /**
+   * The aggregate value unit
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly valueUnit?: string;
+}
+
+/** List of savings plans */
+export interface SavingsPlanModelListResult {
+  value?: SavingsPlanModel[];
+  /** Url to get the next page. */
+  nextLink?: string;
+  /** The roll out count summary of the savings plans */
+  summary?: SavingsPlanSummaryCount;
+}
+
+/** The roll up count summary of savings plans in each state */
+export interface SavingsPlanSummaryCount {
+  /**
+   * The number of savings plans in Succeeded state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly succeededCount?: number;
+  /**
+   * The number of savings plans in Failed state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedCount?: number;
+  /**
+   * The number of savings plans in Expiring state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiringCount?: number;
+  /**
+   * The number of savings plans in Expired state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiredCount?: number;
+  /**
+   * The number of savings plans in Pending state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingCount?: number;
+  /**
+   * The number of savings plans in Cancelled state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cancelledCount?: number;
+  /**
+   * The number of savings plans in Processing state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processingCount?: number;
+  /**
+   * The number of savings plans in No Benefit state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly noBenefitCount?: number;
+  /**
+   * The number of savings plans in Warning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly warningCount?: number;
+}
+
+/** Savings plan patch request */
+export interface SavingsPlanUpdateRequest {
+  /** Savings plan patch request */
+  properties?: SavingsPlanUpdateRequestProperties;
+  /** The SKU to be applied for this resource */
+  sku?: Sku;
+  /** Tags for this reservation */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Savings plan patch request */
+export interface SavingsPlanUpdateRequestProperties {
+  /** Display name */
+  displayName?: string;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** Properties specific to renew. */
+  renewProperties?: RenewProperties;
+}
+
+/** Savings plan update validate request. */
+export interface SavingsPlanUpdateValidateRequest {
+  /** The benefits of a savings plan. */
+  benefits?: SavingsPlanUpdateRequestProperties[];
+}
+
+/** Savings plan update validate response. */
+export interface SavingsPlanValidateResponse {
+  benefits?: SavingsPlanValidResponseProperty[];
+  /** Url to get the next page. */
+  nextLink?: string;
+}
+
+/** Benefit scope response property */
+export interface SavingsPlanValidResponseProperty {
+  /** Indicates if the provided input is valid */
+  valid?: boolean;
+  /** Failure reason code if the provided input is invalid */
+  reasonCode?: string;
+  /** Failure reason if the provided input is invalid */
+  reason?: string;
+}
+
+/** The billing properties of a subscription. */
+export interface BillingSubscriptionProperties {
+  /** Indicates whether auto renewal is turned on or off for a product. */
+  autoRenew?: AutoRenew;
+  /** The provisioning tenant of the subscription. */
+  beneficiaryTenantId?: string;
+  /** The beneficiary of the billing subscription. */
+  beneficiary?: Beneficiary;
+  /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
+  billingFrequency?: string;
+  /** The fully qualified ID that uniquely identifies a billing profile. */
+  billingProfileId?: string;
+  /**
+   * Dictionary of billing policies associated with the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingPolicies?: { [propertyName: string]: string };
+  /**
+   * The name of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileName?: string;
+  /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
+  consumptionCostCenter?: string;
+  /** The fully qualified ID that uniquely identifies a customer. */
+  customerId?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerName?: string;
+  /** The name of the billing subscription. */
+  displayName?: string;
+  /**
+   * The enrollment Account ID associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountId?: string;
+  /**
+   * The enrollment Account name associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountDisplayName?: string;
+  /** The fully qualified ID that uniquely identifies an invoice section. */
+  invoiceSectionId?: string;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * The last month's charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastMonthCharges?: Amount;
+  /**
+   * The current month to date charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly monthToDateCharges?: Amount;
+  /**
+   * Next billing cycle details of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextBillingCycleDetails?: NextBillingCycleDetails;
+  /**
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offerId?: string;
+  /**
+   * The category of the product for which the subscription is purchased. Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder, Software, UsageBased, Other.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productCategory?: string;
+  /**
+   * Type of the product for which the subscription is purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productType?: string;
+  /** Id of the product for which the subscription is purchased. */
+  productTypeId?: string;
+  /**
+   * Purchase date of the product in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseDate?: Date;
+  /** The quantity of licenses or fulfillment units for the subscription. */
+  quantity?: number;
+  /**
+   * Reseller for this subscription. The fields is not available for Microsoft Partner Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reseller?: Reseller;
+  /**
+   * Details for the next renewal term of a subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renewalTermDetails?: RenewalTermDetails;
+  /** The SKU ID of the product for which the subscription is purchased. This field is is only available  for Microsoft Customer Agreement billing accounts. */
+  skuId?: string;
+  /**
+   * The SKU description of the product for which the subscription is purchased. This field is is only available for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /** System imposed policies that regulate behavior of the subscription. */
+  systemOverrides?: SystemOverrides;
+  /**
+   * Unique identifier of the linked resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceUri?: string;
+  /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
+  termDuration?: string;
+  /**
+   * Start date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termStartDate?: Date;
+  /**
+   * End date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termEndDate?: Date;
+  /** The tenant in which the subscription is provisioned. */
+  provisioningTenantId?: string;
+  /**
+   * The status of the subscription. This field is not available for Enterprise Agreement billing accounts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: BillingSubscriptionStatus;
+  /**
+   * The status of an operation on the subscription. When None, there is no ongoing operation. When LockedForUpdate, write operations will be blocked on the Billing Subscription. Other is the default value and you may need to refer to the latest API version for more details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatus?: BillingSubscriptionOperationStatus;
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The ID of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasons?: string[];
+  /**
+   * The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+  /**
+   * The enrollment Account and the subscription association start date. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountStartDate?: Date;
+  /**
+   * The current enrollment account status of the subscription. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionEnrollmentAccountStatus?: SubscriptionEnrollmentAccountStatus;
+}
+
+/** Details of the beneficiary. */
+export interface Beneficiary {
+  /** The ID that uniquely identifies a tenant. */
+  tenantId?: string;
+  /** The ID that uniquely identifies a user in a tenant. */
+  objectId?: string;
+}
+
+/** Billing cycle details of the product. */
+export interface NextBillingCycleDetails {
+  /**
+   * Billing frequency of the product under the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingFrequency?: string;
 }
 
 /** Details of the reseller. */
@@ -416,119 +1853,445 @@ export interface Reseller {
   readonly description?: string;
 }
 
-/** The list of invoice sections. */
-export interface InvoiceSectionListResult {
+/** Details for the next renewal term of a subscription. */
+export interface RenewalTermDetails {
   /**
-   * The list of invoice sections.
+   * The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: InvoiceSection[];
+  readonly billingFrequency?: string;
+  /**
+   * Id of the product for which the subscription is purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productId?: string;
+  /**
+   * Type Id of the product for which the subscription is purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productTypeId?: string;
+  /**
+   * The SKU ID of the product for which the subscription is purchased. This field is is only available  for Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuId?: string;
+  /**
+   * The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termDuration?: string;
+  /** The quantity of licenses or fulfillment units for the subscription. */
+  quantity?: number;
+  /**
+   * End date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termEndDate?: Date;
+}
+
+/** System imposed policies that regulate behavior of the subscription. */
+export interface SystemOverrides {
+  /**
+   * The policy override for the subscription indicates whether the self-serve cancellation or seat reduction is allowed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cancellation?: Cancellation;
+  /**
+   * The end date in UTC time by when the self-serve cancellation ends.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cancellationAllowedEndDate?: Date;
+}
+
+/** A container for a list of resources */
+export interface BillingSubscriptionListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
   /**
    * Total number of records.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalCount?: number;
   /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Result of list billingPermissions a caller has on a billing account. */
-export interface BillingPermissionsListResult {
-  /**
-   * The list of billingPermissions a caller has on a billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: BillingPermissionsProperties[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The set of allowed action and not allowed actions a caller has on a billing account */
-export interface BillingPermissionsProperties {
-  /**
-   * The set of actions that the caller is allowed to perform.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actions?: string[];
-  /**
-   * The set of actions that the caller is not allowed to perform.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly notActions?: string[];
-}
-
-/** The list of billing subscriptions. */
-export interface BillingSubscriptionsListResult {
-  /**
-   * The list of billing subscriptions.
+   * The list of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: BillingSubscription[];
-  /**
-   * Total number of records.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCount?: number;
+}
+
+/** A container for a list of resources */
+export interface BillingSubscriptionAliasListResult {
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: BillingSubscriptionAlias[];
 }
 
-/** The list of products. It contains a list of available product summaries in reverse chronological order by purchase date. */
-export interface ProductsListResult {
+/** Request parameters for cancel customer subscription. */
+export interface CancelSubscriptionRequest {
+  /** Cancellation reason. */
+  cancellationReason: CancellationReason;
+  /** The fully qualified ID that uniquely identifies a customer. */
+  customerId?: string;
+}
+
+/** Request parameters that are provided to merge the two billing subscriptions. */
+export interface BillingSubscriptionMergeRequest {
+  /** The ID of the target billing subscription that will be merged with the source subscription provided in the request. */
+  targetBillingSubscriptionName?: string;
+  /** The quantity of the source billing subscription that will be merged with the target billing subscription. */
+  quantity?: number;
+}
+
+/** Request parameters to transfer billing subscription. */
+export interface MoveBillingSubscriptionRequest {
+  /** The destination invoice section id. */
+  destinationInvoiceSectionId?: string;
+  /** The destination enrollment account id. */
+  destinationEnrollmentAccountId?: string;
+}
+
+/** Request parameters that are provided to split the billing subscription. */
+export interface BillingSubscriptionSplitRequest {
+  /** The ID of the target product to which the subscription needs to be split into. This value is not same as the value returned in Get API call and can be retrieved from Catalog API to know the product id to split into. */
+  targetProductTypeId?: string;
+  /** The ID of the target product to which the subscription needs to be split into. This value is not same as the value returned in Get API call and can be retrieved from Catalog API to know the sku id to split into. */
+  targetSkuId?: string;
+  /** The quantity of the target product to which the subscription needs to be split into. */
+  quantity?: number;
+  /** The term duration of the target in ISO8601 format product to which the subscription needs to be split into. Example: P1M, P1Y */
+  termDuration?: string;
+  /** The billing frequency of the target subscription in the ISO8601 format. Example: P1M, P3M, P1Y" */
+  billingFrequency?: string;
+}
+
+/** Result of the transfer eligibility validation. */
+export interface MoveBillingSubscriptionEligibilityResult {
   /**
-   * The list of products.
+   * Specifies whether the subscription is eligible to be transferred.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Product[];
+  readonly isMoveEligible?: boolean;
+  /** Error details of the transfer eligibility validation. */
+  errorDetails?: MoveBillingSubscriptionErrorDetails;
+}
+
+/** Error details of the transfer eligibility validation. */
+export interface MoveBillingSubscriptionErrorDetails {
+  /** Error code of the transfer validation response. */
+  code?: SubscriptionTransferValidationErrorCode;
+  /** The error message. */
+  message?: string;
+  /** Detailed error message explaining the error. */
+  details?: string;
+}
+
+/** A partner's customer. */
+export interface CustomerProperties {
   /**
-   * Total number of records.
+   * The name of the billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly totalCount?: number;
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The fully qualified ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The system generated unique identifier for a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemId?: string;
+  /**
+   * Identifies the status of an customer. This is an upcoming property that will be populated in the future.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: CustomerStatus;
+  /** Azure plans enabled for the customer. */
+  enabledAzurePlans?: AzurePlan[];
+  /** The list of resellers for which an Azure plan is enabled for the customer. */
+  resellers?: Reseller[];
+  /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
+  tags?: { [propertyName: string]: string };
+}
+
+/** A container for a list of resources */
+export interface CustomerListResult {
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Customer[];
 }
 
-/** The list of invoices. */
+/** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
+export interface DepartmentProperties {
+  /** The cost center associated with the department. */
+  costCenter?: string;
+  /** The name of the department. */
+  displayName?: string;
+  /**
+   * The ID that uniquely identifies the department.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The status of the department.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** A container for a list of resources */
+export interface DepartmentListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Department[];
+}
+
+/** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
+export interface EnrollmentAccountProperties {
+  /** The cost center associated with the enrollment account. */
+  costCenter?: string;
+  /** The name of the enrollment account. */
+  displayName?: string;
+  /**
+   * The name of the department under which the enrollment account exists.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly departmentDisplayName?: string;
+  /**
+   * The ID that uniquely identifies the department.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly departmentId?: string;
+  /** Boolean flag which enables subscribers to run development and testing workloads on Azure at special Dev/Test rates. */
+  isDevTestEnabled?: boolean;
+  /**
+   * The owner of the enrollment account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountOwner?: string;
+  /**
+   * The authorization type of the enrollment account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authType?: string;
+  /**
+   * The status of the enrollment account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The date from which the enrollment account became valid and functional.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDate?: Date;
+  /**
+   * The date of expiration of the enrollment account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endDate?: Date;
+}
+
+/** A container for a list of resources */
+export interface EnrollmentAccountListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: EnrollmentAccount[];
+}
+
+/** A container for a list of resources */
 export interface InvoiceListResult {
   /**
-   * The list of invoices.
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: Invoice[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * Total number of records.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCount?: number;
 }
 
-/** The properties of a document. */
-export interface Document {
+/** An invoice. */
+export interface InvoiceProperties {
+  /** The amount due as of now. */
+  amountDue?: InvoicePropertiesAmountDue;
+  /** The amount of Azure prepayment applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+  azurePrepaymentApplied?: InvoicePropertiesAzurePrepaymentApplied;
+  /** The total charges for the invoice billing period. */
+  billedAmount?: InvoicePropertiesBilledAmount;
+  /**
+   * The Id of the active invoice which is originally billed after this invoice was voided. This field is applicable to the void invoices only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billedDocumentId?: string;
+  /**
+   * The name of the billing profile for which the invoice is generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The ID of the billing profile for which the invoice is generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /** The total refund for returns and cancellations during the invoice billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+  creditAmount?: InvoicePropertiesCreditAmount;
+  /**
+   * The Id of the invoice which got voided and this credit note was issued as a result. This field is applicable to the credit notes only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creditForDocumentId?: string;
+  /**
+   * List of documents available to download and view such as invoice, credit note, or tax receipt.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documents?: InvoiceDocument[];
   /**
    * The type of the document.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kind?: DocumentType;
+  readonly documentType?: InvoiceDocumentType;
   /**
-   * Document URL.
+   * The due date for the invoice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dueDate?: Date;
+  /**
+   * List of failed payments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedPayments?: FailedPayment[];
+  /** The amount of free Azure credits applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+  freeAzureCreditApplied?: InvoicePropertiesFreeAzureCreditApplied;
+  /**
+   * The date when the invoice was generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceDate?: Date;
+  /**
+   * The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoicePeriodEndDate?: Date;
+  /**
+   * The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoicePeriodStartDate?: Date;
+  /**
+   * Invoice type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceType?: InvoiceType;
+  /**
+   * Specifies if the invoice is generated as part of monthly invoicing cycle or not. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMonthlyInvoice?: boolean;
+  /**
+   * List of payments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly payments?: Payment[];
+  /**
+   * An optional purchase order number for the invoice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseOrderNumber?: string;
+  /** Rebill details for an invoice. */
+  rebillDetails?: InvoicePropertiesRebillDetails;
+  /**
+   * The current status of the invoice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: InvoiceStatus;
+  /**
+   * The name of the billing subscription for which the invoice is generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionDisplayName?: string;
+  /**
+   * The ID of the subscription for which the invoice is generated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Identifies the type of tax calculation used for the invoice. The field is applicable only to invoices with special tax calculation logic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly specialTaxationType?: SpecialTaxationType;
+  /** The pre-tax amount due. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+  subTotal?: InvoicePropertiesSubTotal;
+  /** The amount of tax charged for the billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+  taxAmount?: InvoicePropertiesTaxAmount;
+  /** The amount due when the invoice was generated. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+  totalAmount?: InvoicePropertiesTotalAmount;
+  /** The details of a refund request. */
+  refundDetails?: InvoicePropertiesRefundDetails;
+}
+
+/** The properties of a document. */
+export interface InvoiceDocument {
+  /**
+   * The document numbers for the invoice document.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentNumbers?: string[];
+  /**
+   * The URL to download the invoice document if the source is external to Microsoft.Billing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly externalUrl?: string;
+  /**
+   * The type of the document.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: InvoiceDocumentType;
+  /**
+   * The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The URL to download the invoice document if the source is internal to Microsoft.Billing.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
@@ -539,260 +2302,572 @@ export interface Document {
   readonly source?: DocumentSource;
 }
 
-/** The properties of a payment. */
-export interface PaymentProperties {
+/** A failed payment. */
+export interface FailedPayment {
   /**
-   * The type of payment.
+   * The date when the payment was attempted.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly paymentType?: string;
+  readonly date?: Date;
   /**
-   * The paid amount.
+   * The reason that the payment failed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly amount?: Amount;
+  readonly failedPaymentReason?: FailedPaymentReason;
+}
+
+/** An invoice payment. */
+export interface Payment {
+  /** The paid amount. */
+  amount?: PaymentAmount;
   /**
    * The date when the payment was made.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly date?: Date;
-  /** The family of payment method. */
-  paymentMethodFamily?: PaymentMethodFamily;
+  /**
+   * The ID that uniquely identifies the payment method used for the invoice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly paymentMethodId?: string;
+  /**
+   * The family of payment method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly paymentMethodFamily?: PaymentMethodFamily;
   /**
    * The type of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly paymentMethodType?: string;
+  /**
+   * The type of payment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly paymentType?: string;
 }
 
 /** The rebill details of an invoice. */
 export interface RebillDetails {
-  /**
-   * The ID of credit note.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creditNoteDocumentId?: string;
   /**
    * The ID of invoice.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly invoiceDocumentId?: string;
   /**
-   * Rebill details for an invoice.
+   * The ID of credit note.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly rebillDetails?: { [propertyName: string]: RebillDetails };
+  readonly creditNoteDocumentId?: string;
+  /**
+   * The rebill details of an invoice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rebillDetails?: RebillDetails;
+}
+
+/** The details of refund request. */
+export interface RefundDetailsSummary {
+  /**
+   * Date when the refund was requested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestedOn?: Date;
+  /**
+   * Date when the refund was approved.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly approvedOn?: Date;
+  /**
+   * Date when the refund was completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly completedOn?: Date;
+  /** The amount of refund requested. */
+  amountRequested?: RefundDetailsSummaryAmountRequested;
+  /** The amount refunded. */
+  amountRefunded?: RefundDetailsSummaryAmountRefunded;
+  /**
+   * The invoice ID of the rebill invoice for a refund.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rebillInvoiceId?: string;
+  /**
+   * The number of transactions refunded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transactionCount?: number;
+  /**
+   * The status of refund request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly refundStatus?: RefundStatus;
+  /**
+   * The ID of refund operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly refundOperationId?: string;
+  /**
+   * The reason for refund.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly refundReason?: RefundReasonCode;
+}
+
+/** A list of download details for individual documents. */
+export interface DocumentDownloadRequest {
+  /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. If omitted, the most recent invoice PDF for the invoice will be returned. */
+  documentName?: string;
+  /** The ID that uniquely identifies an invoice. */
+  invoiceName?: string;
 }
 
 /** A secure URL that can be used to download a an entity until the URL expires. */
-export interface DownloadUrl {
+export interface DocumentDownloadResult {
   /**
    * The time in UTC when the download URL will expire.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly expiryTime?: Date;
+  readonly expiryTime?: string;
   /**
-   * The URL to the PDF file.
+   * The URL to the PDF or .zip file.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
 }
 
-/** Request parameters to transfer billing subscription. */
-export interface TransferBillingSubscriptionRequestProperties {
+/** Eligibility to delete an invoice section result. */
+export interface DeleteInvoiceSectionEligibilityResult {
+  /** Status describing if invoice section is eligible to be deleted. */
+  eligibilityStatus?: DeleteInvoiceSectionEligibilityStatus;
+  /** A list of delete invoice section eligibility result details. */
+  eligibilityDetails?: DeleteInvoiceSectionEligibilityDetail[];
+}
+
+/** The details of delete invoice section eligibility result. */
+export interface DeleteInvoiceSectionEligibilityDetail {
+  /** Code for the delete invoice section validation. */
+  code?: DeleteInvoiceSectionEligibilityCode;
+  /** Validation message. */
+  message?: string;
+}
+
+/** An invoice section. */
+export interface InvoiceSectionProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The name of the invoice section. */
+  displayName?: string;
+  /** Identifies the status of an invoice section. */
+  state?: InvoiceSectionState;
+  /** Reason for the specified invoice section status. */
+  reasonCode?: InvoiceSectionStateReasonCode;
+  /**
+   * The system generated unique identifier for an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemId?: string;
+  /** Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds. */
+  targetCloud?: string;
+  /** Dictionary of metadata associated with the resource. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
+  tags?: { [propertyName: string]: string };
+}
+
+/** A container for a list of resources */
+export interface InvoiceSectionListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: InvoiceSection[];
+}
+
+/** A container for a list of resources */
+export interface OperationListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API. */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+}
+
+/** The list of payment method links. */
+export interface PaymentMethodLinksListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of payment method links.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PaymentMethodLink[];
+}
+
+/** Logo of payment method. */
+export interface PaymentMethodLogo {
+  /**
+   * MIME type of the logo.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mimeType?: string;
+  /**
+   * Public URL of image of the logo.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+}
+
+/** The properties of a payment method. */
+export interface PaymentMethodProperties {
+  /**
+   * Id of payment method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The account holder name for the payment method. This is only supported for payment methods with family CreditCard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountHolderName?: string;
+  /**
+   * The display name of the payment method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The expiration month and year of the payment method. This is only supported for payment methods with family CreditCard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiration?: string;
+  /** The family of payment method. */
+  family?: PaymentMethodFamily;
+  /**
+   * Last four digits of payment method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastFourDigits?: string;
+  /** The list of logos for the payment method. */
+  logos?: PaymentMethodLogo[];
+  /**
+   * The type of payment method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly paymentMethodType?: string;
+  /** Status of the payment method. */
+  status?: PaymentMethodStatus;
+}
+
+/** The list of payment methods. */
+export interface PaymentMethodsListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of payment methods.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PaymentMethod[];
+}
+
+/** A policy at customer scope. */
+export interface CustomerPolicyProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The policy that controls whether the users in customer's organization can view charges at pay-as-you-go prices. */
+  viewCharges: ViewChargesPolicy;
+  /** List of all policies defined at the billing scope. */
+  policies?: PolicySummary[];
+}
+
+/** The summary of the policy. */
+export interface PolicySummary {
+  /** The name of the policy. */
+  name?: string;
+  /** The value of the policy. */
+  value?: string;
+  /** The type of the policy. */
+  policyType?: PolicyType;
+  /** The scope at which the policy is defined. */
+  scope?: string;
+}
+
+/** A policy at billing profile scope. */
+export interface BillingProfilePolicyProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The policies for Enterprise Agreement enrollments. */
+  enterpriseAgreementPolicies?: BillingProfilePolicyPropertiesEnterpriseAgreementPolicies;
+  /** The policy that controls invoice section label management at invoice section scope. This is allowed by default. */
+  invoiceSectionLabelManagement?: InvoiceSectionLabelManagementPolicy;
+  /** The policy that controls whether Azure marketplace purchases are allowed. */
+  marketplacePurchases?: MarketplacePurchasesPolicy;
+  /** The policy that controls whether Azure reservation purchases are allowed. */
+  reservationPurchases?: ReservationPurchasesPolicy;
+  /** The policy that controls whether users with Azure savings plan purchase are allowed. */
+  savingsPlanPurchases?: SavingsPlanPurchasesPolicy;
+  /** The policy that controls whether the users in customer's organization can view charges at pay-as-you-go prices. */
+  viewCharges?: ViewChargesPolicy;
+  /** List of all policies defined at the billing scope. */
+  policies?: PolicySummary[];
+}
+
+/** The policies for Enterprise Agreement enrollments. */
+export interface EnterpriseAgreementPolicies {
+  /** The state showing the enrollment auth level. */
+  authenticationType?: EnrollmentAuthLevelState;
+  /** The policy that controls whether account owner can view charges. */
+  accountOwnerViewCharges?: EnrollmentAccountOwnerViewCharges;
+  /** The policy that controls whether department admin can view charges. */
+  departmentAdminViewCharges?: EnrollmentDepartmentAdminViewCharges;
+}
+
+/** A policy at billing account scope. */
+export interface BillingAccountPolicyProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The policies for Enterprise Agreement enrollments. */
+  enterpriseAgreementPolicies?: BillingAccountPolicyPropertiesEnterpriseAgreementPolicies;
+  /** The policy that controls whether Azure marketplace purchases are allowed. */
+  marketplacePurchases?: MarketplacePurchasesPolicy;
+  /** The policy that controls whether Azure reservation purchases are allowed. */
+  reservationPurchases?: ReservationPurchasesPolicy;
+  /** The policy that controls whether users with Azure savings plan purchase are allowed. */
+  savingsPlanPurchases?: SavingsPlanPurchasesPolicy;
+  /** List of all policies defined at the billing scope. */
+  policies?: PolicySummary[];
+}
+
+/** A policy at subscription scope. */
+export interface SubscriptionPolicyProperties {
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** List of all policies defined at the billing scope. */
+  policies?: PolicySummary[];
+}
+
+/** A container for a list of resources */
+export interface ProductListResult {
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Product[];
+}
+
+/** A product. */
+export interface ProductProperties {
+  /** Indicates whether auto renewal is turned on or off for a product. */
+  autoRenew?: AutoRenew;
+  /**
+   * The availability of the product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilityId?: string;
+  /**
+   * The frequency at which the product will be billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingFrequency?: string;
+  /**
+   * The ID of the billing profile to which the product is billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * The name of the billing profile to which the product is billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The ID of the customer for whom the product was purchased. The field is applicable only for Microsoft Partner Agreement billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * The name of the customer for whom the product was purchased. The field is applicable only for Microsoft Partner Agreement billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The display name of the product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The date when the product will be renewed or canceled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endDate?: string;
+  /**
+   * The ID of the invoice section to which the product is billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionId?: string;
+  /**
+   * The name of the invoice section to which the product is billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /** The last month charges. */
+  lastCharge?: ProductPropertiesLastCharge;
+  /**
+   * The date of the last charge.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastChargeDate?: string;
+  /**
+   * The description of the type of product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productType?: string;
+  /**
+   * The ID of the type of product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productTypeId?: string;
+  /**
+   * The sku ID of the product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuId?: string;
+  /**
+   * The sku description of the product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /**
+   * The date when the product was purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseDate?: string;
+  /**
+   * The quantity purchased for the product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quantity?: number;
+  /**
+   * The status of the product.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: ProductStatus;
+  /**
+   * The id of the tenant in which the product is used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Reseller for this product. The fields is not available for Microsoft Partner Agreement products. */
+  reseller?: ProductPropertiesReseller;
+}
+
+/** The properties of the product to initiate a transfer. */
+export interface MoveProductRequest {
   /** The destination invoice section id. */
   destinationInvoiceSectionId: string;
 }
 
 /** Result of the transfer eligibility validation. */
-export interface ValidateSubscriptionTransferEligibilityResult {
-  /**
-   * Specifies whether the subscription is eligible to be transferred.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isMoveEligible?: boolean;
-  /** Validation error details. */
-  errorDetails?: ValidateSubscriptionTransferEligibilityError;
+export interface MoveProductEligibilityResult {
+  /** Specifies whether the subscription is eligible to be transferred. */
+  isMoveEligible?: boolean;
+  /** Error details of the transfer eligibility validation. */
+  errorDetails?: MoveProductEligibilityResultErrorDetails;
 }
 
-/** Error details of the transfer eligibility validation */
-export interface ValidateSubscriptionTransferEligibilityError {
-  /** Error code for the product transfer validation. */
-  code?: SubscriptionTransferValidationErrorCode;
-  /** The error message. */
-  message?: string;
-  /** Detailed error message explaining the error. */
-  details?: string;
-}
-
-/** The properties of the product to initiate a transfer. */
-export interface TransferProductRequestProperties {
-  /** The destination invoice section id. */
-  destinationInvoiceSectionId?: string;
-}
-
-/** Result of the product transfer eligibility validation. */
-export interface ValidateProductTransferEligibilityResult {
+/** Error details of the transfer eligibility validation. */
+export interface MoveProductErrorDetails {
   /**
-   * Specifies whether the transfer is eligible or not.
+   * Error code for the product transfer validation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isMoveEligible?: boolean;
-  /** Validation error details. */
-  errorDetails?: ValidateProductTransferEligibilityError;
-}
-
-/** Error details of the product transfer eligibility validation. */
-export interface ValidateProductTransferEligibilityError {
-  /** Error code for the product transfer validation. */
-  code?: ProductTransferValidationErrorCode;
-  /** The error message. */
-  message?: string;
-  /** Detailed error message explaining the error. */
-  details?: string;
-}
-
-/** The list of transactions. */
-export interface TransactionListResult {
+  readonly code?: MoveValidationErrorCode;
   /**
-   * The list of transactions.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Transaction[];
+  readonly message?: string;
   /**
-   * Total number of records.
+   * Error details of the transfer eligibility validation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly totalCount?: number;
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The list of billing operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * The list of billing operations supported by the Microsoft.Billing resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A Billing REST API operation. */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Identifies if the operation is a data operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
-}
-
-/** The object that represents the operation. */
-export interface OperationDisplay {
-  /**
-   * Service provider: Microsoft.Billing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * Resource on which the operation is performed such as invoice and billing subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * Operation type such as read, write and delete.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * Description of operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-}
-
-/** The list of role definitions. */
-export interface BillingRoleDefinitionListResult {
-  /**
-   * The role definitions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: BillingRoleDefinition[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The list of role assignments. */
-export interface BillingRoleAssignmentListResult {
-  /**
-   * The list of role assignments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: BillingRoleAssignment[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Result of listing agreements. */
-export interface AgreementListResult {
-  /**
-   * The list of agreements.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Agreement[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The details about a participant. */
-export interface Participants {
-  /**
-   * The acceptance status of the participant.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The date when the status got changed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusDate?: Date;
-  /**
-   * The email address of the participant.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly email?: string;
+  readonly details?: string;
 }
 
 /** The list of reservations and summary of roll out count of reservations in each state. */
 export interface ReservationsListResult {
-  /**
-   * The list of reservations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Reservation[];
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -800,134 +2875,172 @@ export interface ReservationsListResult {
   readonly nextLink?: string;
   /** The roll out count summary of the reservations */
   summary?: ReservationSummary;
+  /**
+   * The list of reservations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Reservation[];
 }
 
-/** The definition of the reservation. */
-export interface Reservation {
+/** The roll up count summary of reservations in each state */
+export interface ReservationSummary {
   /**
-   * The id of the reservation.
+   * The number of reservation in Cancelled state
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly cancelledCount?: number;
   /**
-   * The name of the reservation.
+   * The number of reservation in Expired state
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly expiredCount?: number;
   /**
-   * The type of the reservation.
+   * The number of reservation in Expiring state
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
+  readonly expiringCount?: number;
   /**
-   * The location of the reservation.
+   * The number of reservation in Failed state
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly location?: string;
-  /** The sku information associated to this reservation */
-  sku?: ReservationSkuProperty;
-  /** The array of applied scopes of a reservation. Will be null if the reservation is in Shared scope */
-  appliedScopes?: string[];
+  readonly failedCount?: number;
   /**
-   * The applied scope type of the reservation.
+   * The number of reservation in Pending state
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appliedScopeType?: string;
+  readonly pendingCount?: number;
+  /**
+   * The number of reservation in Succeeded state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly succeededCount?: number;
+  /**
+   * The number of reservation in 'No Benefit' state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly noBenefitCount?: number;
+  /**
+   * The number of reservation in Warning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly warningCount?: number;
+  /**
+   * The number of reservation in Processing state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processingCount?: number;
+}
+
+/** Extended status information for the reservation. */
+export interface ReservationExtendedStatusInfo {
+  /** The status of the reservation. */
+  statusCode?: ReservationStatusCode;
+  /** The message giving detailed information about the status code. */
+  message?: string;
+  /** Properties for extended status information */
+  properties?: ExtendedStatusDefinitionProperties;
+}
+
+/** Extended status definition properties */
+export interface ExtendedStatusDefinitionProperties {
+  /** Subscription Id */
+  subscriptionId?: string;
+}
+
+/** Properties of reservation split */
+export interface ReservationSplitProperties {
+  /** List of destination resource id that are created due to split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  splitDestinations?: string[];
+  /** Resource id of the reservation from which this is split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  splitSource?: string;
+}
+
+/** Properties of reservation merge */
+export interface ReservationMergeProperties {
+  /** Reservation resource id Created due to the merge. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  mergeDestination?: string;
+  /** Resource ids of the source reservation's merged to form this reservation. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  mergeSources?: string[];
+}
+
+/** Properties of reservation swap */
+export interface ReservationSwapProperties {
+  /** Resource id of the source reservation that gets swapped. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapSource?: string;
+  /** Reservation resource id that the original resource gets swapped to. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapDestination?: string;
+}
+
+/** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+export interface ReservationAppliedScopeProperties {
+  /** Tenant ID where the reservation should apply benefit. */
+  tenantId?: string;
+  /** Fully-qualified identifier of the management group where the benefit must be applied. */
+  managementGroupId?: string;
+  /** Fully-qualified identifier of the subscription. */
+  subscriptionId?: string;
+  /** Fully-qualified identifier of the resource group. */
+  resourceGroupId?: string;
+  /** Display name */
+  displayName?: string;
+}
+
+/** The renew properties for a reservation. */
+export interface RenewPropertiesResponse {
+  /** The request for reservation purchase */
+  purchaseProperties?: ReservationPurchaseRequest;
+  /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
+  pricingCurrencyTotal?: Price;
+  /** Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included. */
+  billingCurrencyTotal?: Price;
+}
+
+/** The request for reservation purchase */
+export interface ReservationPurchaseRequest {
+  /** The name of sku */
+  sku?: SkuName;
+  /** The Azure region where the reserved resource lives. */
+  location?: string;
   /**
    * The reserved source type of the reservation, e.g. virtual machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reservedResourceType?: string;
   /**
-   * The number of the reservation.
+   * Subscription that will be charged for purchasing reservation or savings plan
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly quantity?: number;
-  /**
-   * The provisioning state of the reservation, e.g. Succeeded
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The expiry date of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiryDate?: string;
-  /**
-   * The provisioning state of the reservation, e.g. Succeeded
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningSubState?: string;
-  /**
-   * The display name of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
-  /**
-   * The provisioning state of the reservation for display, e.g. Succeeded
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayProvisioningState?: string;
-  /**
-   * The renew state of the reservation for display, e.g. On
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userFriendlyRenewState?: string;
-  /**
-   * The applied scope type of the reservation for display, e.g. Shared
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userFriendlyAppliedScopeType?: string;
-  /**
-   * The effective date time of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly effectiveDateTime?: string;
-  /**
-   * The sku description of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuDescription?: string;
+  readonly billingScopeId?: string;
   /**
    * The term of the reservation, e.g. P1Y
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly term?: string;
-  /**
-   * The renew state of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly renew?: boolean;
-  /**
-   * The renew source of the reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly renewSource?: string;
-  /**
-   * Reservation utilization
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly utilization?: ReservationPropertyUtilization;
+  /** Represent the billing plans. */
+  billingPlan?: ReservationBillingPlan;
+  /** Quantity of the skus that are part of the reservation. Must be greater than zero. */
+  quantity?: number;
+  /** Friendly name of the reservation */
+  displayName?: string;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
+  appliedScopes?: string[];
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
+  instanceFlexibilityPropertiesInstanceFlexibility?: InstanceFlexibility;
+  /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
+  reviewDateTime?: Date;
+  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
+  instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility?: InstanceFlexibility;
 }
 
-/** The property of reservation sku object. */
-export interface ReservationSkuProperty {
-  /**
-   * The name of the reservation sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-}
-
-/** Reservation utilization */
-export interface ReservationPropertyUtilization {
-  /**
-   * The number of days trend for a reservation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trend?: string;
-  /** The array of aggregates of a reservation's utilization */
-  aggregates?: ReservationUtilizationAggregates[];
+/** The name of sku */
+export interface SkuName {
+  name?: string;
 }
 
 /** The aggregate values of reservation utilization */
@@ -954,47 +3067,278 @@ export interface ReservationUtilizationAggregates {
   readonly valueUnit?: string;
 }
 
-/** The roll up count summary of reservations in each state */
-export interface ReservationSummary {
+/** The property of reservation sku object. */
+export interface ReservationSkuProperty {
   /**
-   * The number of reservation in Succeeded state
+   * The name of the reservation sku.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly succeededCount?: number;
-  /**
-   * The number of reservation in Failed state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedCount?: number;
-  /**
-   * The number of reservation in Expiring state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiringCount?: number;
-  /**
-   * The number of reservation in Expired state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiredCount?: number;
-  /**
-   * The number of reservation in Pending state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingCount?: number;
-  /**
-   * The number of reservation in Cancelled state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cancelledCount?: number;
+  readonly name?: string;
 }
 
-/** Result of listing enrollment accounts. */
-export interface EnrollmentAccountListResult {
+/** The request for reservation patch */
+export interface Patch {
+  /** The sku information associated to this reservation */
+  sku?: ReservationSkuProperty;
+  /** Tags for this reservation */
+  tags?: { [propertyName: string]: string };
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
+  instanceFlexibility?: InstanceFlexibility;
+  /** Display name of the reservation */
+  displayName?: string;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
+  reviewDateTime?: Date;
+  /** The request for reservation purchase */
+  purchaseProperties?: ReservationPurchaseRequest;
+}
+
+/** List of `Reservations */
+export interface ReservationList {
+  value?: Reservation[];
+  /** Url to get the next page of reservations. */
+  nextLink?: string;
+}
+
+/** Information describing the type of billing plan for this reservation order. */
+export interface ReservationOrderBillingPlanInformation {
+  /** Amount of money to be paid for the Order. Tax is not included. */
+  pricingCurrencyTotal?: Price;
+  /** Date when the billing plan has started. */
+  startDate?: Date;
+  /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
+  nextPaymentDueDate?: Date;
+  transactions?: ReservationPaymentDetail[];
+}
+
+/** Information about payment related to a reservation order. */
+export interface ReservationPaymentDetail {
+  /** Date when the payment needs to be done. */
+  dueDate?: Date;
+  /** Date when the transaction is completed. Is null when it is scheduled. */
+  paymentDate?: Date;
+  /** Amount in pricing currency. Tax not included. */
+  pricingCurrencyTotal?: Price;
+  /** Amount charged in Billing currency. Tax not included. Is null for future payments */
+  billingCurrencyTotal?: Price;
+  /** Shows the Account that is charged for this payment. */
+  billingAccount?: string;
+  /** Describes whether the payment is completed, failed, pending, cancelled or scheduled in the future. */
+  status?: PaymentStatus;
+  /** Extended status information for the reservation. */
+  extendedStatusInfo?: ReservationExtendedStatusInfo;
+}
+
+/** List of ReservationOrders */
+export interface ReservationOrderList {
+  value?: ReservationOrder[];
+  /** Url to get the next page of reservationOrders. */
+  nextLink?: string;
+}
+
+/** A container for a list of resources */
+export interface TransactionListResult {
   /**
-   * The list of enrollment accounts.
+   * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: EnrollmentAccountSummary[];
+  readonly nextLink?: string;
+  /**
+   * The list of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Transaction[];
+}
+
+/** A transaction. */
+export interface TransactionProperties {
+  /** The amount of any Azure credits automatically applied to this transaction. */
+  azureCreditApplied?: TransactionPropertiesAzureCreditApplied;
+  /** Details of the Azure plan. */
+  azurePlan?: string;
+  /** The ISO 4217 code for the currency in which this transaction is billed. */
+  billingCurrency?: string;
+  /** The name of the billing profile. */
+  billingProfileDisplayName?: any;
+  /** The fully qualified ID that uniquely identifies a billing profile. */
+  billingProfileId?: string;
+  /** The amount of Microsoft Azure Consumption Commitment(MACC) decrement through the transaction. */
+  consumptionCommitmentDecremented?: TransactionPropertiesConsumptionCommitmentDecremented;
+  /** The name of the customer. */
+  customerDisplayName?: string;
+  /** The fully qualified ID that uniquely identifies a customer. */
+  customerId?: string;
+  /** The credit type of the transaction. Applies only to credited transactions. */
+  creditType?: CreditType;
+  /** The date of transaction. */
+  date?: Date;
+  /** The percentage discount, if any, applied to this transaction. */
+  discount?: number;
+  /** The price of the product after applying any discounts. */
+  effectivePrice?: TransactionPropertiesEffectivePrice;
+  /** The exchange rate used to convert charged amount to billing currency, if applicable. */
+  exchangeRate?: number;
+  /** Invoice name on which the transaction was billed or 'Pending' if the transaction is not billed. */
+  invoice?: string;
+  /** The fully qualified ID of the invoice on which the transaction was billed. This field is only applicable for transactions which are billed. */
+  invoiceId?: string;
+  /** The name of the invoice section. */
+  invoiceSectionDisplayName?: string;
+  /** The fully qualified ID that uniquely identifies an invoice section. */
+  invoiceSectionId?: string;
+  /** Whether or not the transaction is third party. */
+  isThirdParty?: boolean;
+  /** Type of the transaction, billed or unbilled. */
+  kind?: TransactionKind;
+  /** The retail price of the product. */
+  marketPrice?: TransactionPropertiesMarketPrice;
+  /** The part number of the product for which the transaction took place. The field is only applicable for Enterprise Agreement invoices. */
+  partNumber?: string;
+  /** The ISO 4217 code for the currency in which the product is priced. */
+  pricingCurrency?: string;
+  /** The description of the product for which the transaction took place. */
+  productDescription?: string;
+  /** The family of the product for which the transaction took place. */
+  productFamily?: string;
+  /** The ID of the product type for which the transaction took place. */
+  productTypeId?: string;
+  /** The type of the product for which the transaction took place. */
+  productType?: string;
+  /** The quantity purchased in the transaction. */
+  quantity?: number;
+  /** There reason code for the transaction. */
+  reasonCode?: string;
+  /** The date of the purchase of the product, or the start date of the month in which usage started. */
+  servicePeriodStartDate?: Date;
+  /** The end date of the product term, or the end date of the month in which usage ended. */
+  servicePeriodEndDate?: Date;
+  /** The pre-tax charged amount for the transaction. */
+  subTotal?: TransactionPropertiesSubTotal;
+  /** The tax amount applied to the transaction. */
+  tax?: TransactionPropertiesTax;
+  /** The charge associated with the transaction. */
+  transactionAmount?: TransactionPropertiesTransactionAmount;
+  /** The type of transaction. */
+  transactionType?: string;
+  /** The number of units used for a given product. */
+  units?: number;
+  /** The unit of measure used to bill for the product. For example, compute services are billed per hour. */
+  unitOfMeasure?: string;
+  /** The description for the unit of measure for a given product. */
+  unitType?: string;
+  /** Identifies the type of tax calculation used for the invoice. The field is applicable only to invoices with special tax calculation logic. */
+  specialTaxationType?: SpecialTaxationType;
+  /** The refund details of a transaction. */
+  refundTransactionDetails?: TransactionPropertiesRefundTransactionDetails;
+}
+
+/** The refund details of a transaction. */
+export interface RefundTransactionDetails {
+  /** The amount of refund requested. */
+  amountRequested?: RefundTransactionDetailsAmountRequested;
+  /** The amount refunded. */
+  amountRefunded?: RefundTransactionDetailsAmountRefunded;
+  /** The ID of refund operation. */
+  refundOperationId?: string;
+}
+
+/** A transaction summary. */
+export interface TransactionSummary {
+  /**
+   * The total amount of any Azure credits applied.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureCreditApplied?: number;
+  /**
+   * The ISO 4217 code for the currency in which the transactions are billed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingCurrency?: string;
+  /**
+   * The total Microsoft Azure Consumption Commitment (MACC) decrement through the invoice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly consumptionCommitmentDecremented?: number;
+  /**
+   * The total pre-tax charged amount.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subTotal?: number;
+  /**
+   * The total tax amount applied.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tax?: number;
+  /**
+   * The total charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly total?: number;
+}
+
+/** Detailed transfer status. */
+export interface DetailedTransferStatus {
+  /**
+   * Type of product that is transferred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productType?: ProductType;
+  /**
+   * The ID of the product that is transferred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productId?: string;
+  /**
+   * The name of the product that is transferred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productName?: string;
+  /**
+   * The SKU of the product that is transferred.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /**
+   * Transfer status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferStatus?: ProductTransferStatus;
+  /** Error details for transfer execution. */
+  errorDetails?: TransferError;
+}
+
+/** Error details for transfer execution. */
+export interface TransferError {
+  /**
+   * Error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Request parameters to initiate transfer. */
+export interface InitiateTransferRequest {
+  /** The email ID of the recipient to whom the transfer request is sent. */
+  recipientEmailId?: string;
+}
+
+/** The list of transfers initiated by caller. */
+export interface TransferDetailsListResult {
+  /**
+   * The list of transfers initiated by caller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: TransferDetails[];
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1002,13 +3346,21 @@ export interface EnrollmentAccountListResult {
   readonly nextLink?: string;
 }
 
-/** Result of listing billing periods. It contains a list of available billing periods in reverse chronological order. */
-export interface BillingPeriodsListResult {
+/** Request parameters to initiate partner transfer. */
+export interface PartnerInitiateTransferRequest {
+  /** The email ID of the recipient to whom the transfer request is sent. */
+  recipientEmailId?: string;
+  /** Optional MPN ID of the reseller for transfer requests that are sent from a Microsoft Partner Agreement billing account. */
+  resellerId?: string;
+}
+
+/** The list of transfers initiated by partner. */
+export interface PartnerTransferDetailsListResult {
   /**
-   * The list of billing periods.
+   * The list of transfers initiated by partner.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: BillingPeriod[];
+  readonly value?: PartnerTransferDetails[];
   /**
    * The link (url) to the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1016,1078 +3368,2034 @@ export interface BillingPeriodsListResult {
   readonly nextLink?: string;
 }
 
-/** The request parameters for creating a new billing profile. */
-export interface BillingProfileCreationRequest {
-  /** The name of the billing profile. */
-  displayName?: string;
-  /** The purchase order name that will appear on the invoices generated for the billing profile. */
-  poNumber?: string;
-  /** The address of the individual or organization that is responsible for the billing profile. */
-  billTo?: AddressDetails;
-  /** Flag controlling whether the invoices for the billing profile are sent through email. */
-  invoiceEmailOptIn?: boolean;
-  /** Enabled azure plans for the billing profile. */
-  enabledAzurePlans?: AzurePlan[];
+/** Request parameters to accept transfer. */
+export interface AcceptTransferRequest {
+  /** Request parameters to accept transfer. */
+  productDetails?: ProductDetails[];
 }
 
-/** The properties of the invoice section. */
-export interface InvoiceSectionCreationRequest {
-  /** The name of the invoice section. */
-  displayName?: string;
+/** Details of the product that is transferred. */
+export interface ProductDetails {
+  /** Type of the product that is transferred. */
+  productType?: ProductType;
+  /** The ID of the product that is transferred. */
+  productId?: string;
 }
 
-/** The enrollment account context */
-export interface EnrollmentAccountContext {
-  /** The cost center associated with the enrollment account. */
-  costCenter?: string;
-  /** The start date of the enrollment account. */
-  startDate?: Date;
-  /** The end date of the enrollment account. */
-  endDate?: Date;
-  /** The ID of the enrollment account. */
-  enrollmentAccountName?: string;
-}
-
-/** An invoice section. */
-export interface InvoiceSection extends Resource {
-  /** The name of the invoice section. */
-  displayName?: string;
-  /** Dictionary of metadata associated with the invoice section. */
-  labels?: { [propertyName: string]: string };
+/** Result of transfer validation. */
+export interface ValidateTransferListResponse {
   /**
-   * Identifies the state of an invoice section.
+   * The list of transfer validation results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly state?: InvoiceSectionState;
+  readonly value?: ValidateTransferResponse[];
+}
+
+/** Transfer validation response. */
+export interface ValidateTransferResponse {
   /**
-   * The system generated unique identifier for an invoice section.
+   * The status of validation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemId?: string;
-  /** Dictionary of metadata associated with the invoice section. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
+  readonly status?: string;
+  /**
+   * The product id for which this result applies.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productId?: string;
+  /** The array of validation results. */
+  results?: ValidationResultProperties[];
+}
+
+/** The properties of the validation result. */
+export interface ValidationResultProperties {
+  /**
+   * Result Level.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly level?: string;
+  /**
+   * Result Code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The validation message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** The list of transfers received by caller. */
+export interface RecipientTransferDetailsListResult {
+  /**
+   * The list of transfers received by caller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: RecipientTransferDetails[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An external reference. */
+export interface ExternalReference {
+  /**
+   * The ID that uniquely identifies an external reference.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The URL of the external reference.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+}
+
+/** Query parameter to enumerate transfer requests. */
+export interface TransferItemQueryParameter {
+  /** State of the transfer request query filter. */
+  state?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Credit amount for immediate payment. */
+export interface AvailableBalancePropertiesAmount extends Amount {}
+
+/** Payment on Account amount. */
+export interface PaymentOnAccountAmount extends Amount {}
+
+/** Total amount of payments on accounts. */
+export interface AvailableBalancePropertiesTotalPaymentsOnAccount
+  extends Amount {}
+
+/** The amount due as of now. */
+export interface InvoicePropertiesAmountDue extends Amount {}
+
+/** The amount of Azure prepayment applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+export interface InvoicePropertiesAzurePrepaymentApplied extends Amount {}
+
+/** The total charges for the invoice billing period. */
+export interface InvoicePropertiesBilledAmount extends Amount {}
+
+/** The total refund for returns and cancellations during the invoice billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+export interface InvoicePropertiesCreditAmount extends Amount {}
+
+/** The amount of free Azure credits applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+export interface InvoicePropertiesFreeAzureCreditApplied extends Amount {}
+
+/** The paid amount. */
+export interface PaymentAmount extends Amount {}
+
+/** The pre-tax amount due. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+export interface InvoicePropertiesSubTotal extends Amount {}
+
+/** The amount of tax charged for the billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+export interface InvoicePropertiesTaxAmount extends Amount {}
+
+/** The amount due when the invoice was generated. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement. */
+export interface InvoicePropertiesTotalAmount extends Amount {}
+
+/** The amount of refund requested. */
+export interface RefundDetailsSummaryAmountRequested extends Amount {}
+
+/** The amount refunded. */
+export interface RefundDetailsSummaryAmountRefunded extends Amount {}
+
+/** The last month charges. */
+export interface ProductPropertiesLastCharge extends Amount {}
+
+/** The amount of any Azure credits automatically applied to this transaction. */
+export interface TransactionPropertiesAzureCreditApplied extends Amount {}
+
+/** The amount of Microsoft Azure Consumption Commitment(MACC) decrement through the transaction. */
+export interface TransactionPropertiesConsumptionCommitmentDecremented
+  extends Amount {}
+
+/** The price of the product after applying any discounts. */
+export interface TransactionPropertiesEffectivePrice extends Amount {}
+
+/** The retail price of the product. */
+export interface TransactionPropertiesMarketPrice extends Amount {}
+
+/** The pre-tax charged amount for the transaction. */
+export interface TransactionPropertiesSubTotal extends Amount {}
+
+/** The tax amount applied to the transaction. */
+export interface TransactionPropertiesTax extends Amount {}
+
+/** The charge associated with the transaction. */
+export interface TransactionPropertiesTransactionAmount extends Amount {}
+
+/** The amount of refund requested. */
+export interface RefundTransactionDetailsAmountRequested extends Amount {}
+
+/** The amount refunded. */
+export interface RefundTransactionDetailsAmountRefunded extends Amount {}
+
+/** The current payment term of the billing profile. */
+export interface BillingProfilePropertiesCurrentPaymentTerm
+  extends PaymentTerm {}
+
+/** The properties of an enrollment. */
+export interface BillingAccountPropertiesEnrollmentDetails
+  extends EnrollmentDetails {}
+
+/** The properties of an enrollment which are applicable only for indirect enrollments. */
+export interface EnrollmentDetailsIndirectRelationshipInfo
+  extends IndirectRelationshipInfo {}
+
+/** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
+export interface BillingProfilePropertiesIndirectRelationshipInfo
+  extends IndirectRelationshipInfo {}
+
+/** The address of the individual or organization that is responsible for the billing account. */
+export interface BillingAccountPropertiesSoldTo extends AddressDetails {}
+
+/** Billing address. */
+export interface BillingProfilePropertiesBillTo extends AddressDetails {}
+
+/** The default address where the products are shipped, or the services are being used. If a ship to is not specified for a product or a subscription, then this address will be used. */
+export interface BillingProfilePropertiesShipTo extends AddressDetails {}
+
+/** The address of the individual or organization that is responsible for the billing account. */
+export interface BillingProfilePropertiesSoldTo extends AddressDetails {}
+
+/** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
+export interface BillingPropertyPropertiesSubscriptionServiceUsageAddress
+  extends AddressDetails {}
+
+/** Describes the registration number of the organization linked with the billing account. */
+export interface BillingAccountPropertiesRegistrationNumber
+  extends RegistrationNumber {}
+
+/** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
+export interface BillingPropertyPropertiesEnrollmentDetails
+  extends SubscriptionEnrollmentDetails {}
+
+/** The principal of the request reviewer. Will only be set if request is approved. */
+export interface BillingRequestPropertiesReviewedBy extends Principal {}
+
+/** The principal of the entity who created the request. */
+export interface BillingRequestPropertiesCreatedBy extends Principal {}
+
+/** The principal of the entity who last updated the request. */
+export interface BillingRequestPropertiesLastUpdatedBy extends Principal {}
+
+/** Commitment towards the benefit. */
+export interface Commitment extends Price {
+  /** Commitment grain. */
+  grain?: CommitmentGrain;
+}
+
+/** A billing subscription alias. */
+export interface BillingSubscriptionAliasProperties
+  extends BillingSubscriptionProperties {
+  /**
+   * The ID of the billing subscription with the subscription alias.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingSubscriptionId?: string;
+}
+
+/** Reseller for this product. The fields is not available for Microsoft Partner Agreement products. */
+export interface ProductPropertiesReseller extends Reseller {}
+
+/** Rebill details for an invoice. */
+export interface InvoicePropertiesRebillDetails extends RebillDetails {}
+
+/** The details of a refund request. */
+export interface InvoicePropertiesRefundDetails extends RefundDetailsSummary {}
+
+/** The policies for Enterprise Agreement enrollments. */
+export interface BillingProfilePolicyPropertiesEnterpriseAgreementPolicies
+  extends EnterpriseAgreementPolicies {}
+
+/** The policies for Enterprise Agreement enrollments. */
+export interface BillingAccountPolicyPropertiesEnterpriseAgreementPolicies
+  extends EnterpriseAgreementPolicies {}
+
+/** Error details of the transfer eligibility validation. */
+export interface MoveProductEligibilityResultErrorDetails
+  extends MoveProductErrorDetails {}
+
+/** The refund details of a transaction. */
+export interface TransactionPropertiesRefundTransactionDetails
+  extends RefundTransactionDetails {}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources. */
+export interface ProxyResourceWithTags extends ProxyResource {
+  /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: { [propertyName: string]: string };
-  /**
-   * Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetCloud?: TargetCloud;
 }
 
-/** A billing profile. */
-export interface BillingProfile extends Resource {
-  /** The name of the billing profile. */
-  displayName?: string;
-  /** The purchase order name that will appear on the invoices generated for the billing profile. */
-  poNumber?: string;
-  /**
-   * Identifies which services and purchases are paid by a billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingRelationshipType?: BillingRelationshipType;
-  /** Billing address. */
-  billTo?: AddressDetails;
-  /**
-   * Identifies the billing profile that is linked to another billing profile in indirect purchase motion.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly indirectRelationshipInfo?: IndirectRelationshipInfo;
-  /** Flag controlling whether the invoices for the billing profile are sent through email. */
-  invoiceEmailOptIn?: boolean;
-  /**
-   * The day of the month when the invoice for the billing profile is generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceDay?: number;
-  /**
-   * The currency in which the charges for the billing profile are billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currency?: string;
-  /** Information about the enabled azure plans. */
-  enabledAzurePlans?: AzurePlan[];
-  /** The invoice sections associated to the billing profile. By default this is not populated, unless it's specified in $expand. */
-  invoiceSections?: InvoiceSectionsOnExpand;
-  /**
-   * Indicates whether user has read access to the billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasReadAccess?: boolean;
-  /**
-   * The system generated unique identifier for a billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemId?: string;
-  /**
-   * The status of the billing profile.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: BillingProfileStatus;
-  /**
-   * Reason for the specified billing profile status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusReasonCode?: StatusReasonCode;
-  /**
-   * The billing profile spending limit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly spendingLimit?: SpendingLimit;
-  /**
-   * Identifies the cloud environments that are associated with a billing profile. This is a system managed optional field and gets updated as the billing profile gets associated with accounts in various clouds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetClouds?: TargetCloud[];
-  /** Tags of billing profiles. */
+/** The definition of the reservation. */
+export interface Reservation extends ProxyResource {
+  /** The location of the reservation. */
+  location?: string;
+  etag?: number;
+  /** Tags for this reservation */
   tags?: { [propertyName: string]: string };
+  /** The sku information associated to this reservation */
+  sku?: ReservationSkuProperty;
+  /**
+   * The reserved source type of the reservation, e.g. virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservedResourceType?: string;
+  /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
+  instanceFlexibility?: InstanceFlexibility;
+  /**
+   * The display name of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /** The array of applied scopes of a reservation. Will be null if the reservation is in Shared scope */
+  appliedScopes?: string[];
+  /**
+   * The applied scope type of the reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appliedScopeType?: string;
+  /** Indicates if the reservation is archived */
+  archived?: boolean;
+  /** Capabilities of the reservation */
+  capabilities?: string;
+  /**
+   * The number of the reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quantity?: number;
+  /**
+   * The provisioning state of the reservation, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The effective date time of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDateTime?: Date;
+  /** This is the DateTime when the reservation benefit started. */
+  benefitStartTime?: Date;
+  /**
+   * DateTime of the last time the reservation was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedDateTime?: Date;
+  /**
+   * The expiry date of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiryDate?: string;
+  /** This is the date-time when the reservation will expire. */
+  expiryDateTime?: Date;
+  /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
+  reviewDateTime?: Date;
+  /**
+   * The sku description of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /** The message giving detailed information about the status code. */
+  extendedStatusInfo?: ReservationExtendedStatusInfo;
+  /** The billing plan options available for this sku. */
+  billingPlan?: ReservationBillingPlan;
+  /**
+   * The provisioning state of the reservation for display, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayProvisioningState?: string;
+  /**
+   * The provisioning state of the reservation, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningSubState?: string;
+  /** This is the date when the reservation was purchased. */
+  purchaseDate?: Date;
+  /** This is the date-time when the reservation was purchased. */
+  purchaseDateTime?: Date;
+  /** Properties of reservation split */
+  splitProperties?: ReservationSplitProperties;
+  /** Properties of reservation merge */
+  mergeProperties?: ReservationMergeProperties;
+  /** Properties of reservation swap */
+  swapProperties?: ReservationSwapProperties;
+  /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
+  appliedScopeProperties?: ReservationAppliedScopeProperties;
+  /**
+   * Subscription that will be charged for purchasing reservation or savings plan
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingScopeId?: string;
+  /**
+   * The renew state of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renew?: boolean;
+  /**
+   * The renew source of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renewSource?: string;
+  /** Reservation Id of the reservation which is purchased because of renew. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
+  renewDestination?: string;
+  /** The renew properties for a reservation. */
+  renewProperties?: RenewPropertiesResponse;
+  /**
+   * The term of the reservation, e.g. P1Y
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * The applied scope type of the reservation for display, e.g. Shared
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userFriendlyAppliedScopeType?: string;
+  /**
+   * The renew state of the reservation for display, e.g. On
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userFriendlyRenewState?: string;
+  /** Represents UPN */
+  productCode?: string;
+  /**
+   * last 7 day utilization trend for a reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trend?: string;
+  /** The array of aggregates of a reservation's utilization */
+  aggregates?: ReservationUtilizationAggregates[];
 }
 
-/** An enrollment account. */
-export interface EnrollmentAccount extends Resource {
-  /** The name of the enrollment account. */
-  accountName?: string;
-  /** The cost center associated with the enrollment account. */
-  costCenter?: string;
-  /** The owner of the enrollment account. */
-  accountOwner?: string;
-  /** The enrollment account owner email address. */
-  accountOwnerEmail?: string;
-  /** The status of the enrollment account. */
-  status?: string;
-  /** The start date of the enrollment account. */
-  startDate?: Date;
-  /** The end date of the enrollment account. */
-  endDate?: Date;
-  /** Associated department. By default this is not populated, unless it's specified in $expand. */
-  department?: Department;
+/** Details of a reservation order being returned. */
+export interface ReservationOrder extends ProxyResource {
+  etag?: number;
+  /** Tags for this reservation */
+  tags?: { [propertyName: string]: string };
+  /** Friendly name for user to easily identified the reservation order. */
+  displayName?: string;
+  /** Enrollment id of the reservation order. */
+  enrollmentId?: string;
+  /** Fully-qualified identifier of the customerId where the benefit is applied. Present only for Enterprise Agreement PartnerLed customers. */
+  customerId?: string;
+  /** Billing profile Id associated to this reservation order. */
+  billingProfileId?: string;
+  /** Billing account Id associated to this reservation order. */
+  billingAccountId?: string;
+  /** This is the DateTime when the reservation order was initially requested for purchase. */
+  requestDateTime?: Date;
+  /** This is the DateTime when the reservation order was created. */
+  createdDateTime?: Date;
+  /** This is the date when the reservation order will expire. */
+  expiryDate?: Date;
+  /** This is the date-time when the reservation order will expire. */
+  expiryDateTime?: Date;
+  /** This is the DateTime when the reservation benefit started. */
+  benefitStartTime?: Date;
+  /** Total original quantity of the skus purchased in the reservation order. */
+  originalQuantity?: number;
+  /**
+   * The term of the reservation, e.g. P1Y
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * The provisioning state of the reservation, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Represent the billing plans. */
+  billingPlan?: ReservationBillingPlan;
+  /** Information describing the type of billing plan for this reservation order. */
+  planInformation?: ReservationOrderBillingPlanInformation;
+  reservations?: Reservation[];
+  /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
+  reviewDateTime?: Date;
+  /** Extended status information for the reservation. */
+  extendedStatusInfo?: ReservationExtendedStatusInfo;
+  /** Represents UPN */
+  productCode?: string;
 }
 
-/** A department. */
-export interface Department extends Resource {
-  /** The name of the department. */
-  departmentName?: string;
-  /** The cost center associated with the department. */
-  costCenter?: string;
-  /** The status of the department. */
-  status?: string;
-  /** Associated enrollment accounts. By default this is not populated, unless it's specified in $expand. */
-  enrollmentAccounts?: EnrollmentAccount[];
+/** An agreement. */
+export interface Agreement extends ProxyResourceWithTags {
+  /** An agreement. */
+  properties?: AgreementProperties;
+}
+
+/** An associated tenant. */
+export interface AssociatedTenant extends ProxyResourceWithTags {
+  /** An associated tenant. */
+  properties?: AssociatedTenantProperties;
+}
+
+/** The Available Credit or Payment on Account Balance. The credit balance can be used to settle due or past due invoices. */
+export interface AvailableBalance extends ProxyResourceWithTags {
+  /** The Available Credit or Payment on Account Balance. The credit balance can be used to settle due or past due invoices. */
+  properties?: AvailableBalanceProperties;
 }
 
 /** A billing account. */
-export interface BillingAccount extends Resource {
-  /** The billing account name. */
+export interface BillingAccount extends ProxyResourceWithTags {
+  /** A billing account. */
+  properties?: BillingAccountProperties;
+}
+
+/** A billing account. */
+export interface BillingAccountPatch extends ProxyResourceWithTags {
+  /** A billing account. */
+  properties?: BillingAccountProperties;
+}
+
+/** A billing profile. */
+export interface BillingProfile extends ProxyResourceWithTags {
+  /** A billing profile. */
+  properties?: BillingProfileProperties;
+}
+
+/** A billing property. */
+export interface BillingProperty extends ProxyResourceWithTags {
+  /** A billing property. */
+  properties?: BillingPropertyProperties;
+}
+
+/** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
+export interface BillingRequest extends ProxyResourceWithTags {
+  /** A request submitted by a user to manage billing. Users with an owner role on the scope can approve or decline these requests. */
+  properties?: BillingRequestProperties;
+}
+
+/** The properties of the billing role assignment. */
+export interface BillingRoleAssignment extends ProxyResourceWithTags {
+  /** The properties of the billing role assignment. */
+  properties?: BillingRoleAssignmentProperties;
+}
+
+/** The properties of a role definition. */
+export interface BillingRoleDefinition extends ProxyResourceWithTags {
+  /** The properties of a role definition. */
+  properties?: BillingRoleDefinitionProperties;
+}
+
+/** Savings plan order */
+export interface SavingsPlanOrderModel extends ProxyResourceWithTags {
+  /** Savings plan SKU */
+  sku: Sku;
+  /** Display name */
   displayName?: string;
-  /** The address of the individual or organization that is responsible for the billing account. */
-  soldTo?: AddressDetails;
   /**
-   * The type of agreement.
+   * The provisioning state of the savings plan, e.g. Succeeded
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly agreementType?: AgreementType;
+  readonly provisioningState?: string;
+  /** Subscription that will be charged for purchasing SavingsPlan */
+  billingScopeId?: string;
   /**
-   * The type of customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountType?: AccountType;
-  /**
-   * The current status of the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accountStatus?: AccountStatus;
-  /** The billing profiles associated with the billing account. By default this is not populated, unless it's specified in $expand. */
-  billingProfiles?: BillingProfilesOnExpand;
-  /**
-   * The details about the associated legacy enrollment. By default this is not populated, unless it's specified in $expand.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enrollmentDetails?: Enrollment;
-  /** The departments associated to the enrollment. */
-  departments?: Department[];
-  /** The accounts associated to the enrollment. */
-  enrollmentAccounts?: EnrollmentAccount[];
-  /**
-   * Indicates whether user has read access to the billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasReadAccess?: boolean;
-  /** Notification email address, only for legacy accounts */
-  notificationEmailAddress?: string;
-}
-
-/** The latest Azure credit balance. This is the balance available for pay now. */
-export interface AvailableBalance extends Resource {
-  /**
-   * Balance amount.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly amount?: Amount;
-}
-
-/** An instruction. */
-export interface Instruction extends Resource {
-  /** The amount budgeted for this billing instruction. */
-  amount?: number;
-  /** The date this billing instruction goes into effect. */
-  startDate?: Date;
-  /** The date this billing instruction is no longer in effect. */
-  endDate?: Date;
-  /** The date this billing instruction was created. */
-  creationDate?: Date;
-}
-
-/** A partner's customer. */
-export interface Customer extends Resource {
-  /**
-   * The ID of the billing profile for the invoice section.
+   * Fully-qualified identifier of the billing profile where the savings plan is applied. Present only for Field-led or Customer-led customers.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly billingProfileId?: string;
   /**
-   * The name of the billing profile for the invoice section.
+   * Fully-qualified identifier of the customer where the savings plan is applied. Present only for Partner-led customers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * Fully-qualified identifier of the billing account where the savings plan is applied.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /** Represents the Savings plan term in ISO 8601 format. */
+  term?: SavingsPlanTerm;
+  /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
+  billingPlan?: BillingPlan;
+  /**
+   * DateTime when the savings plan benefit started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitStartTime?: Date;
+  /**
+   * DateTime when the savings plan will expire.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiryDateTime?: Date;
+  /** Information describing the type of billing plan for this savings plan. */
+  planInformation?: BillingPlanInformation;
+  savingsPlans?: string[];
+  /**
+   * Extended status information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedStatusInfo?: ExtendedStatusInfo;
+  /** Represents UPN */
+  productCode?: string;
+}
+
+/** Savings plan */
+export interface SavingsPlanModel extends ProxyResourceWithTags {
+  /** Savings plan SKU */
+  sku: Sku;
+  /** Display name */
+  displayName?: string;
+  /** The provisioning state of the resource during a long-running operation. */
+  provisioningState?: ProvisioningState;
+  /**
+   * The provisioning state of the savings plan for display, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayProvisioningState?: string;
+  /**
+   * The applied scope type of the savings plan for display, e.g. Shared
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userFriendlyAppliedScopeType?: string;
+  /** Subscription that will be charged for purchasing SavingsPlan */
+  billingScopeId?: string;
+  /**
+   * Fully-qualified identifier of the billing profile where the savings plan is applied. Present only for Field-led or Customer-led customers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileId?: string;
+  /**
+   * Fully-qualified identifier of the customer where the savings plan is applied. Present only for Partner-led customers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerId?: string;
+  /**
+   * Fully-qualified identifier of the billing account where the savings plan is applied.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountId?: string;
+  /** Represents the Savings plan term in ISO 8601 format. */
+  term?: SavingsPlanTerm;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** SavingsPlan Id of the SavingsPlan from which this SavingsPlan is renewed. */
+  renewSource?: string;
+  /** SavingsPlan Id of the SavingsPlan which is purchased because of renew. */
+  renewDestination?: string;
+  /** Properties specific to renew. */
+  renewProperties?: RenewProperties;
+  /** Represents the billing plan in ISO 8601 format. Required only for monthly purchases. */
+  billingPlan?: BillingPlan;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Commitment towards the benefit. */
+  commitment?: Commitment;
+  /**
+   * DateTime of the savings plan starting when this version is effective from.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDateTime?: Date;
+  /**
+   * This is the DateTime when the savings plan benefit starts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitStartTime?: Date;
+  /**
+   * This is the date-time when the savings plan will expire.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiryDateTime?: Date;
+  /**
+   * Date time when the savings plan was purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseDateTime?: Date;
+  /**
+   * Savings plan utilization
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly utilization?: Utilization;
+  /**
+   * Extended status information
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extendedStatusInfo?: ExtendedStatusInfo;
+  /** Represents UPN */
+  productCode?: string;
+}
+
+/** The billing properties of a subscription. */
+export interface BillingSubscription extends ProxyResourceWithTags {
+  /** Indicates whether auto renewal is turned on or off for a product. */
+  autoRenew?: AutoRenew;
+  /** The provisioning tenant of the subscription. */
+  beneficiaryTenantId?: string;
+  /** The beneficiary of the billing subscription. */
+  beneficiary?: Beneficiary;
+  /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
+  billingFrequency?: string;
+  /** The fully qualified ID that uniquely identifies a billing profile. */
+  billingProfileId?: string;
+  /**
+   * Dictionary of billing policies associated with the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingPolicies?: { [propertyName: string]: string };
+  /**
+   * The name of the billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly billingProfileDisplayName?: string;
-  /** The name of the customer. */
-  displayName?: string;
-  /** Azure plans enabled for the customer. */
-  enabledAzurePlans?: AzurePlan[];
-  /** The list of resellers for which an Azure plan is enabled for the customer. */
-  resellers?: Reseller[];
-}
-
-/** A billing subscription. */
-export interface BillingSubscription extends Resource {
   /**
-   * The name of the subscription.
+   * The ID that uniquely identifies a billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly displayName?: string;
+  readonly billingProfileName?: string;
+  /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
+  consumptionCostCenter?: string;
+  /** The fully qualified ID that uniquely identifies a customer. */
+  customerId?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerName?: string;
+  /** The name of the billing subscription. */
+  displayName?: string;
+  /**
+   * The enrollment Account ID associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountId?: string;
+  /**
+   * The enrollment Account name associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountDisplayName?: string;
+  /** The fully qualified ID that uniquely identifies an invoice section. */
+  invoiceSectionId?: string;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * The last month's charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastMonthCharges?: Amount;
+  /**
+   * The current month to date charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly monthToDateCharges?: Amount;
+  /**
+   * Next billing cycle details of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextBillingCycleDetails?: NextBillingCycleDetails;
+  /**
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offerId?: string;
+  /**
+   * The category of the product for which the subscription is purchased. Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder, Software, UsageBased, Other.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productCategory?: string;
+  /**
+   * Type of the product for which the subscription is purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productType?: string;
+  /** Id of the product for which the subscription is purchased. */
+  productTypeId?: string;
+  /**
+   * Purchase date of the product in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseDate?: Date;
+  /** The quantity of licenses or fulfillment units for the subscription. */
+  quantity?: number;
+  /**
+   * Reseller for this subscription. The fields is not available for Microsoft Partner Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reseller?: Reseller;
+  /**
+   * Details for the next renewal term of a subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renewalTermDetails?: RenewalTermDetails;
+  /** The SKU ID of the product for which the subscription is purchased. This field is is only available  for Microsoft Customer Agreement billing accounts. */
+  skuId?: string;
+  /**
+   * The SKU description of the product for which the subscription is purchased. This field is is only available for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /** System imposed policies that regulate behavior of the subscription. */
+  systemOverrides?: SystemOverrides;
+  /**
+   * Unique identifier of the linked resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceUri?: string;
+  /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
+  termDuration?: string;
+  /**
+   * Start date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termStartDate?: Date;
+  /**
+   * End date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termEndDate?: Date;
+  /** The tenant in which the subscription is provisioned. */
+  provisioningTenantId?: string;
+  /**
+   * The status of the subscription. This field is not available for Enterprise Agreement billing accounts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: BillingSubscriptionStatus;
+  /**
+   * The status of an operation on the subscription. When None, there is no ongoing operation. When LockedForUpdate, write operations will be blocked on the Billing Subscription. Other is the default value and you may need to refer to the latest API version for more details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatus?: BillingSubscriptionOperationStatus;
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /**
    * The ID of the subscription.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-  /** The current billing status of the subscription. */
-  subscriptionBillingStatus?: BillingSubscriptionStatusType;
   /**
-   * The last month charges.
+   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasons?: string[];
+  /**
+   * The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+  /**
+   * The enrollment Account and the subscription association start date. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountStartDate?: Date;
+  /**
+   * The current enrollment account status of the subscription. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionEnrollmentAccountStatus?: SubscriptionEnrollmentAccountStatus;
+}
+
+/** A billing subscription alias. */
+export interface BillingSubscriptionAlias extends ProxyResourceWithTags {
+  /** Indicates whether auto renewal is turned on or off for a product. */
+  autoRenew?: AutoRenew;
+  /** The provisioning tenant of the subscription. */
+  beneficiaryTenantId?: string;
+  /** The beneficiary of the billing subscription. */
+  beneficiary?: Beneficiary;
+  /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
+  billingFrequency?: string;
+  /** The fully qualified ID that uniquely identifies a billing profile. */
+  billingProfileId?: string;
+  /**
+   * Dictionary of billing policies associated with the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingPolicies?: { [propertyName: string]: string };
+  /**
+   * The name of the billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileDisplayName?: string;
+  /**
+   * The ID that uniquely identifies a billing profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileName?: string;
+  /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
+  consumptionCostCenter?: string;
+  /** The fully qualified ID that uniquely identifies a customer. */
+  customerId?: string;
+  /**
+   * The name of the customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerDisplayName?: string;
+  /**
+   * The ID that uniquely identifies a customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerName?: string;
+  /** The name of the billing subscription. */
+  displayName?: string;
+  /**
+   * The enrollment Account ID associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountId?: string;
+  /**
+   * The enrollment Account name associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountDisplayName?: string;
+  /** The fully qualified ID that uniquely identifies an invoice section. */
+  invoiceSectionId?: string;
+  /**
+   * The name of the invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionDisplayName?: string;
+  /**
+   * The ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * The last month's charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastMonthCharges?: Amount;
   /**
-   * The current month to date charges.
+   * The current month to date charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly monthToDateCharges?: Amount;
   /**
-   * The ID of the billing profile to which the subscription is billed.
+   * Next billing cycle details of the subscription.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileId?: string;
+  readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The name of the billing profile to which the subscription is billed.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offerId?: string;
+  /**
+   * The category of the product for which the subscription is purchased. Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder, Software, UsageBased, Other.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productCategory?: string;
+  /**
+   * Type of the product for which the subscription is purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productType?: string;
+  /** Id of the product for which the subscription is purchased. */
+  productTypeId?: string;
+  /**
+   * Purchase date of the product in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseDate?: Date;
+  /** The quantity of licenses or fulfillment units for the subscription. */
+  quantity?: number;
+  /**
+   * Reseller for this subscription. The fields is not available for Microsoft Partner Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reseller?: Reseller;
+  /**
+   * Details for the next renewal term of a subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renewalTermDetails?: RenewalTermDetails;
+  /** The SKU ID of the product for which the subscription is purchased. This field is is only available  for Microsoft Customer Agreement billing accounts. */
+  skuId?: string;
+  /**
+   * The SKU description of the product for which the subscription is purchased. This field is is only available for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuDescription?: string;
+  /** System imposed policies that regulate behavior of the subscription. */
+  systemOverrides?: SystemOverrides;
+  /**
+   * Unique identifier of the linked resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceUri?: string;
+  /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
+  termDuration?: string;
+  /**
+   * Start date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termStartDate?: Date;
+  /**
+   * End date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termEndDate?: Date;
+  /** The tenant in which the subscription is provisioned. */
+  provisioningTenantId?: string;
+  /**
+   * The status of the subscription. This field is not available for Enterprise Agreement billing accounts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: BillingSubscriptionStatus;
+  /**
+   * The status of an operation on the subscription. When None, there is no ongoing operation. When LockedForUpdate, write operations will be blocked on the Billing Subscription. Other is the default value and you may need to refer to the latest API version for more details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatus?: BillingSubscriptionOperationStatus;
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The ID of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasons?: string[];
+  /**
+   * The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+  /**
+   * The enrollment Account and the subscription association start date. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountStartDate?: Date;
+  /**
+   * The current enrollment account status of the subscription. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionEnrollmentAccountStatus?: SubscriptionEnrollmentAccountStatus;
+  /**
+   * The ID of the billing subscription with the subscription alias.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingSubscriptionId?: string;
+}
+
+/** The billing properties of a subscription. */
+export interface BillingSubscriptionPatch extends ProxyResourceWithTags {
+  /** Indicates whether auto renewal is turned on or off for a product. */
+  autoRenew?: AutoRenew;
+  /** The provisioning tenant of the subscription. */
+  beneficiaryTenantId?: string;
+  /** The beneficiary of the billing subscription. */
+  beneficiary?: Beneficiary;
+  /** The billing frequency in ISO8601 format of product in the subscription. Example: P1M, P3M, P1Y */
+  billingFrequency?: string;
+  /** The fully qualified ID that uniquely identifies a billing profile. */
+  billingProfileId?: string;
+  /**
+   * Dictionary of billing policies associated with the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingPolicies?: { [propertyName: string]: string };
+  /**
+   * The name of the billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly billingProfileDisplayName?: string;
-  /** The cost center applied to the subscription. */
-  costCenter?: string;
   /**
-   * The ID of the customer for whom the subscription was created. The field is applicable only for Microsoft Partner Agreement billing account.
+   * The ID that uniquely identifies a billing profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customerId?: string;
+  readonly billingProfileName?: string;
+  /** The cost center applied to the subscription. This field is only available for consumption subscriptions of Microsoft Customer Agreement or Enterprise Agreement Type billing accounts. */
+  consumptionCostCenter?: string;
+  /** The fully qualified ID that uniquely identifies a customer. */
+  customerId?: string;
   /**
-   * The name of the customer for whom the subscription was created. The field is applicable only for Microsoft Partner Agreement billing account.
+   * The name of the customer.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly customerDisplayName?: string;
   /**
-   * The ID of the invoice section to which the subscription is billed.
+   * The ID that uniquely identifies a customer.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invoiceSectionId?: string;
+  readonly customerName?: string;
+  /** The name of the billing subscription. */
+  displayName?: string;
   /**
-   * The name of the invoice section to which the subscription is billed.
+   * The enrollment Account ID associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountId?: string;
+  /**
+   * The enrollment Account name associated with the subscription. This field is available only for the Enterprise Agreement Type billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountDisplayName?: string;
+  /** The fully qualified ID that uniquely identifies an invoice section. */
+  invoiceSectionId?: string;
+  /**
+   * The name of the invoice section.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly invoiceSectionDisplayName?: string;
   /**
-   * Reseller for this subscription.
+   * The ID that uniquely identifies an invoice section.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invoiceSectionName?: string;
+  /**
+   * The last month's charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastMonthCharges?: Amount;
+  /**
+   * The current month to date charges. This field is only available for usage based subscriptions of Microsoft Customer Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly monthToDateCharges?: Amount;
+  /**
+   * Next billing cycle details of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextBillingCycleDetails?: NextBillingCycleDetails;
+  /**
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offerId?: string;
+  /**
+   * The category of the product for which the subscription is purchased. Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder, Software, UsageBased, Other.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productCategory?: string;
+  /**
+   * Type of the product for which the subscription is purchased.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly productType?: string;
+  /** Id of the product for which the subscription is purchased. */
+  productTypeId?: string;
+  /**
+   * Purchase date of the product in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purchaseDate?: Date;
+  /** The quantity of licenses or fulfillment units for the subscription. */
+  quantity?: number;
+  /**
+   * Reseller for this subscription. The fields is not available for Microsoft Partner Agreement billing accounts.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reseller?: Reseller;
-  /** The sku ID of the Azure plan for the subscription. */
+  /**
+   * Details for the next renewal term of a subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly renewalTermDetails?: RenewalTermDetails;
+  /** The SKU ID of the product for which the subscription is purchased. This field is is only available  for Microsoft Customer Agreement billing accounts. */
   skuId?: string;
   /**
-   * The sku description of the Azure plan for the subscription.
+   * The SKU description of the product for which the subscription is purchased. This field is is only available for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly skuDescription?: string;
+  /** System imposed policies that regulate behavior of the subscription. */
+  systemOverrides?: SystemOverrides;
   /**
-   * The suspension reason for a subscription. Applies only to subscriptions in Microsoft Online Services Program billing accounts.
+   * Unique identifier of the linked resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceUri?: string;
+  /** The duration in ISO8601 format for which you can use the subscription. Example: P1M, P3M, P1Y */
+  termDuration?: string;
+  /**
+   * Start date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termStartDate?: Date;
+  /**
+   * End date of the term in UTC time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly termEndDate?: Date;
+  /** The tenant in which the subscription is provisioned. */
+  provisioningTenantId?: string;
+  /**
+   * The status of the subscription. This field is not available for Enterprise Agreement billing accounts
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: BillingSubscriptionStatus;
+  /**
+   * The status of an operation on the subscription. When None, there is no ongoing operation. When LockedForUpdate, write operations will be blocked on the Billing Subscription. Other is the default value and you may need to refer to the latest API version for more details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationStatus?: BillingSubscriptionOperationStatus;
+  /**
+   * The provisioning state of the resource during a long-running operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The ID of the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The suspension reason for a subscription. This field is not available for Enterprise Agreement billing accounts.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly suspensionReasons?: string[];
+  /**
+   * The suspension details for a subscription. This field is not available for Enterprise Agreement billing accounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suspensionReasonDetails?: BillingSubscriptionStatusDetails[];
+  /**
+   * The enrollment Account and the subscription association start date. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enrollmentAccountStartDate?: Date;
+  /**
+   * The current enrollment account status of the subscription. This field is available only for the Enterprise Agreement Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionEnrollmentAccountStatus?: SubscriptionEnrollmentAccountStatus;
 }
 
-/** A product. */
-export interface Product extends Resource {
-  /** Indicates whether auto renewal is turned on or off for a product. */
-  autoRenew?: AutoRenew;
+/** A partner's customer. */
+export interface Customer extends ProxyResourceWithTags {
+  /** A partner's customer. */
+  properties?: CustomerProperties;
+}
+
+/** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
+export interface Department extends ProxyResourceWithTags {
+  /** Optional grouping of enrollment accounts to segment costs into logical groupings and set budgets. */
+  properties?: DepartmentProperties;
+}
+
+/** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
+export interface EnrollmentAccount extends ProxyResourceWithTags {
+  /** It is an organizational hierarchy within a billing account to administer and manage azure costs. */
+  properties?: EnrollmentAccountProperties;
+}
+
+/** An invoice. */
+export interface Invoice extends ProxyResourceWithTags {
+  /** An invoice. */
+  properties?: InvoiceProperties;
+}
+
+/** An invoice section. */
+export interface InvoiceSection extends ProxyResourceWithTags {
+  /** An invoice section. */
+  properties?: InvoiceSectionProperties;
+}
+
+/** A payment method link. */
+export interface PaymentMethodLink extends ProxyResourceWithTags {
   /**
-   * The display name of the product.
+   * The account holder name for the payment method. This is only supported for payment methods with family CreditCard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountHolderName?: string;
+  /**
+   * The display name of the payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly displayName?: string;
   /**
-   * The date when the product was purchased.
+   * The expiration month and year of the payment method. This is only supported for payment methods with family CreditCard.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly purchaseDate?: Date;
+  readonly expiration?: string;
   /**
-   * The ID of the type of product.
+   * The family of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly productTypeId?: string;
+  readonly family?: PaymentMethodFamily;
   /**
-   * The description of the type of product.
+   * Last four digits of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly productType?: string;
-  /** The current status of the product. */
-  status?: ProductStatusType;
+  readonly lastFourDigits?: string;
   /**
-   * The date when the product will be renewed or canceled.
+   * The list of logos for the payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly endDate?: Date;
-  /** The frequency at which the product will be billed. */
-  billingFrequency?: BillingFrequency;
+  readonly logos?: PaymentMethodLogo[];
+  /** Projection of a payment method. Will not be returned in this or future versions. */
+  paymentMethod?: PaymentMethodProperties;
+  /** Id of payment method. Example: /providers/Microsoft.Billing/paymentMethods/ABCDABCDABC0 */
+  paymentMethodId?: string;
   /**
-   * The last month charges.
+   * The type of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastCharge?: Amount;
+  readonly paymentMethodType?: string;
   /**
-   * The date of the last charge.
+   * Status of the payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly lastChargeDate?: Date;
-  /**
-   * The quantity purchased for the product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly quantity?: number;
-  /**
-   * The sku ID of the product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuId?: string;
-  /**
-   * The sku description of the product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuDescription?: string;
-  /**
-   * The id of the tenant in which the product is used.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /**
-   * The availability of the product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availabilityId?: string;
-  /**
-   * The ID of the invoice section to which the product is billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionId?: string;
-  /**
-   * The name of the invoice section to which the product is billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionDisplayName?: string;
-  /**
-   * The ID of the billing profile to which the product is billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileId?: string;
-  /**
-   * The name of the billing profile to which the product is billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileDisplayName?: string;
-  /**
-   * The ID of the customer for whom the product was purchased. The field is applicable only for Microsoft Partner Agreement billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerId?: string;
-  /**
-   * The name of the customer for whom the product was purchased. The field is applicable only for Microsoft Partner Agreement billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerDisplayName?: string;
-  /**
-   * Reseller for this product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reseller?: Reseller;
+  readonly status?: PaymentMethodStatus;
 }
 
-/** An invoice. */
-export interface Invoice extends Resource {
+/** A payment method. */
+export interface PaymentMethod extends ProxyResourceWithTags {
   /**
-   * The due date for the invoice.
+   * Id of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly dueDate?: Date;
+  readonly idPropertiesId?: string;
   /**
-   * The date when the invoice was generated.
+   * The account holder name for the payment method. This is only supported for payment methods with family CreditCard.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invoiceDate?: Date;
+  readonly accountHolderName?: string;
   /**
-   * The current status of the invoice.
+   * The display name of the payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: InvoiceStatus;
+  readonly displayName?: string;
   /**
-   * The amount due as of now.
+   * The expiration month and year of the payment method. This is only supported for payment methods with family CreditCard.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly amountDue?: Amount;
+  readonly expiration?: string;
+  /** The family of payment method. */
+  family?: PaymentMethodFamily;
   /**
-   * The amount of Azure prepayment applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
+   * Last four digits of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly azurePrepaymentApplied?: Amount;
+  readonly lastFourDigits?: string;
+  /** The list of logos for the payment method. */
+  logos?: PaymentMethodLogo[];
   /**
-   * The total charges for the invoice billing period.
+   * The type of payment method.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billedAmount?: Amount;
-  /**
-   * The total refund for returns and cancellations during the invoice billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creditAmount?: Amount;
-  /**
-   * The amount of free Azure credits applied to the charges. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly freeAzureCreditApplied?: Amount;
-  /**
-   * The pre-tax amount due. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subTotal?: Amount;
-  /**
-   * The amount of tax charged for the billing period. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly taxAmount?: Amount;
-  /**
-   * The amount due when the invoice was generated. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalAmount?: Amount;
-  /**
-   * The start date of the billing period for which the invoice is generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoicePeriodStartDate?: Date;
-  /**
-   * The end date of the billing period for which the invoice is generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoicePeriodEndDate?: Date;
-  /**
-   * Invoice type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceType?: InvoiceType;
-  /**
-   * Specifies if the invoice is generated as part of monthly invoicing cycle or not. This field is applicable to billing accounts with agreement type Microsoft Customer Agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isMonthlyInvoice?: boolean;
-  /**
-   * The ID of the billing profile for which the invoice is generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileId?: string;
-  /**
-   * The name of the billing profile for which the invoice is generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileDisplayName?: string;
-  /**
-   * An optional purchase order number for the invoice.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly purchaseOrderNumber?: string;
-  /**
-   * List of documents available to download such as invoice and tax receipt.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documents?: Document[];
-  /**
-   * List of payments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly payments?: PaymentProperties[];
-  /**
-   * Rebill details for an invoice.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rebillDetails?: { [propertyName: string]: RebillDetails };
-  /**
-   * The type of the document.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly documentType?: InvoiceDocumentType;
-  /**
-   * The Id of the active invoice which is originally billed after this invoice was voided. This field is applicable to the void invoices only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billedDocumentId?: string;
-  /**
-   * The Id of the invoice which got voided and this credit note was issued as a result. This field is applicable to the credit notes only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creditForDocumentId?: string;
-  /**
-   * The ID of the subscription for which the invoice is generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
+  readonly paymentMethodType?: string;
+  /** Status of the payment method. */
+  status?: PaymentMethodStatus;
+}
+
+/** A policy at customer scope. */
+export interface CustomerPolicy extends ProxyResourceWithTags {
+  /** A policy at customer scope. */
+  properties?: CustomerPolicyProperties;
+}
+
+/** A policy at billing profile scope. */
+export interface BillingProfilePolicy extends ProxyResourceWithTags {
+  /** A policy at billing profile scope. */
+  properties?: BillingProfilePolicyProperties;
+}
+
+/** A policy at billing account scope. */
+export interface BillingAccountPolicy extends ProxyResourceWithTags {
+  /** A policy at billing account scope. */
+  properties?: BillingAccountPolicyProperties;
+}
+
+/** A policy at subscription scope. */
+export interface SubscriptionPolicy extends ProxyResourceWithTags {
+  /** A policy at subscription scope. */
+  properties?: SubscriptionPolicyProperties;
+}
+
+/** A product. */
+export interface Product extends ProxyResourceWithTags {
+  /** A product. */
+  properties?: ProductProperties;
+}
+
+/** A product. */
+export interface ProductPatch extends ProxyResourceWithTags {
+  /** A product. */
+  properties?: ProductProperties;
 }
 
 /** A transaction. */
-export interface Transaction extends Resource {
-  /** The kind of transaction. Options are all or reservation. */
-  kind?: TransactionTypeKind;
-  /**
-   * The date of transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly date?: Date;
-  /**
-   * Invoice on which the transaction was billed or 'pending' if the transaction is not billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoice?: string;
-  /**
-   * The ID of the invoice on which the transaction was billed. This field is only applicable for transactions which are billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceId?: string;
-  /**
-   * The order ID of the reservation. The field is only applicable for transaction of kind reservation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly orderId?: string;
-  /**
-   * The name of the reservation order. The field is only applicable for transactions of kind reservation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly orderName?: string;
-  /**
-   * The family of the product for which the transaction took place.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productFamily?: string;
-  /**
-   * The ID of the product type for which the transaction took place.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productTypeId?: string;
-  /**
-   * The type of the product for which the transaction took place.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productType?: string;
-  /**
-   * The description of the product for which the transaction took place.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productDescription?: string;
-  /** The type of transaction. */
-  transactionType?: ReservationType;
-  /**
-   * The charge associated with the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transactionAmount?: Amount;
-  /**
-   * The quantity purchased in the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly quantity?: number;
-  /**
-   * The ID of the invoice section which will be billed for the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionId?: string;
-  /**
-   * The name of the invoice section which will be billed for the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceSectionDisplayName?: string;
-  /**
-   * The ID of the billing profile which will be billed for the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileId?: string;
-  /**
-   * The name of the billing profile which will be billed for the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingProfileDisplayName?: string;
-  /**
-   * The ID of the customer for which the transaction took place. The field is applicable only for Microsoft Partner Agreement billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerId?: string;
-  /**
-   * The name of the customer for which the transaction took place. The field is applicable only for Microsoft Partner Agreement billing account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customerDisplayName?: string;
-  /**
-   * The ID of the subscription that was used for the transaction. The field is only applicable for transaction of kind reservation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The name of the subscription that was used for the transaction. The field is only applicable for transaction of kind reservation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionName?: string;
-  /**
-   * The type of azure plan of the subscription that was used for the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azurePlan?: string;
-  /**
-   * The amount of any Azure credits automatically applied to this transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azureCreditApplied?: Amount;
-  /**
-   * The ISO 4217 code for the currency in which this transaction is billed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingCurrency?: string;
-  /**
-   * The percentage discount, if any, applied to this transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly discount?: number;
-  /**
-   * The price of the product after applying any discounts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly effectivePrice?: Amount;
-  /**
-   * The exchange rate used to convert charged amount to billing currency, if applicable.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exchangeRate?: number;
-  /**
-   * The retail price of the product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly marketPrice?: Amount;
-  /**
-   * The ISO 4217 code for the currency in which the product is priced.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pricingCurrency?: string;
-  /**
-   * The date of the purchase of the product, or the start date of the month in which usage started.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly servicePeriodStartDate?: Date;
-  /**
-   * The end date of the product term, or the end date of the month in which usage ended.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly servicePeriodEndDate?: Date;
-  /**
-   * The pre-tax charged amount for the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subTotal?: Amount;
-  /**
-   * The tax amount applied to the transaction.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tax?: Amount;
-  /**
-   * The unit of measure used to bill for the product. For example, compute services are billed per hour.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unitOfMeasure?: string;
-  /**
-   * The number of units used for a given product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly units?: number;
-  /**
-   * The description for the unit of measure for a given product.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly unitType?: string;
+export interface Transaction extends ProxyResourceWithTags {
+  /** A transaction. */
+  properties?: TransactionProperties;
 }
 
-/** A policy. */
-export interface Policy extends Resource {
-  /** The policy that controls whether Azure marketplace purchases are allowed for a billing profile. */
-  marketplacePurchases?: MarketplacePurchasesPolicy;
-  /** The policy that controls whether Azure reservation purchases are allowed for a billing profile. */
-  reservationPurchases?: ReservationPurchasesPolicy;
-  /** The policy that controls whether users with Azure RBAC access to a subscription can view its charges. */
-  viewCharges?: ViewChargesPolicy;
+/** Details of the transfer. */
+export interface TransferDetails extends ProxyResourceWithTags {
+  /**
+   * The time at which the transfer request expires.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationTime?: Date;
+  /**
+   * Overall transfer status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * The email ID of the user to whom the transfer request was sent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recipientEmailId?: string;
+  /**
+   * The email ID of the user who sent the transfer request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly initiatorEmailId?: string;
+  /**
+   * The email ID of the user who canceled the transfer request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canceledBy?: string;
+  /**
+   * Detailed transfer status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
 }
 
-/** The customer's Policy. */
-export interface CustomerPolicy extends Resource {
-  /** The policy that controls whether the users in customer's organization can view charges at pay-as-you-go prices. */
-  viewCharges?: ViewCharges;
+/** Details of the transfer. */
+export interface PartnerTransferDetails extends ProxyResourceWithTags {
+  /**
+   * The time at which the transfer request expires.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationTime?: Date;
+  /**
+   * Overall transfer status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transferStatus?: TransferStatus;
+  /**
+   * The email ID of the user to whom the transfer request was sent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recipientEmailId?: string;
+  /**
+   * The type of customer who sent the transfer request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly initiatorCustomerType?: InitiatorCustomerType;
+  /**
+   * The email ID of the user who sent the transfer request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly initiatorEmailId?: string;
+  /**
+   * Optional MPN ID of the reseller for transfer requests that are sent from a Microsoft Partner Agreement billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resellerId?: string;
+  /**
+   * Optional name of the reseller for transfer requests that are sent from Microsoft Partner Agreement billing account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resellerName?: string;
+  /**
+   * The email ID of the user who canceled the transfer request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly canceledBy?: string;
+  /**
+   * Detailed transfer status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
 }
 
-/** A billing property. */
-export interface BillingProperty extends Resource {
+/** Details of the transfer. */
+export interface RecipientTransferDetails extends ProxyResourceWithTags {
   /**
-   * The email address on which the account admin gets all Azure notifications.
+   * The time at which the transfer request expires.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly accountAdminNotificationEmailAddress?: string;
+  readonly expirationTime?: Date;
   /**
-   * The Azure AD tenant ID of the billing account for the subscription.
+   * Type of subscriptions that can be transferred.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingTenantId?: string;
+  readonly allowedProductType?: EligibleProductType[];
   /**
-   * The ID of the billing account to which the subscription is billed.
+   * Overall transfer status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingAccountId?: string;
+  readonly transferStatus?: TransferStatus;
   /**
-   * The name of the billing account to which the subscription is billed.
+   * The email ID of the user to whom the transfer request was sent.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingAccountDisplayName?: string;
+  readonly recipientEmailId?: string;
   /**
-   * The ID of the billing profile to which the subscription is billed.
+   * The email ID of the user who sent the transfer request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileId?: string;
+  readonly initiatorEmailId?: string;
   /**
-   * The name of the billing profile to which the subscription is billed.
+   * Optional MPN ID of the reseller for transfer requests that are sent from a Microsoft Partner Agreement billing account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileDisplayName?: string;
+  readonly resellerId?: string;
   /**
-   * The status of the billing profile.
+   * Optional name of the reseller for transfer requests that are sent from Microsoft Partner Agreement billing account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileStatus?: BillingProfileStatus;
+  readonly resellerName?: string;
   /**
-   * Reason for the specified billing profile status.
+   * The type of customer who sent the transfer request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileStatusReasonCode?: BillingProfileStatusReasonCode;
+  readonly initiatorCustomerType?: InitiatorCustomerType;
   /**
-   * The billing profile spending limit.
+   * The email ID of the user who canceled the transfer request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly billingProfileSpendingLimit?: BillingProfileSpendingLimit;
-  /** The cost center applied to the subscription. */
-  costCenter?: string;
+  readonly canceledBy?: string;
   /**
-   * The ID of the invoice section to which the subscription is billed.
+   * Detailed transfer status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invoiceSectionId?: string;
+  readonly detailedTransferStatus?: DetailedTransferStatus[];
   /**
-   * The name of the invoice section to which the subscription is billed.
+   * The customer tenant id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly invoiceSectionDisplayName?: string;
+  readonly customerTenantId?: string;
   /**
-   * Indicates whether user is the account admin.
+   * List of supported account types.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isAccountAdmin?: boolean;
-  /**
-   * The product ID of the Azure plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productId?: string;
-  /**
-   * The product name of the Azure plan.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly productName?: string;
-  /**
-   * The sku ID of the Azure plan for the subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuId?: string;
-  /**
-   * The sku description of the Azure plan for the subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuDescription?: string;
+  readonly supportedAccounts?: SupportedAccountType[];
 }
 
-/** The properties of a role definition. */
-export interface BillingRoleDefinition extends Resource {
-  /**
-   * The role description
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /** The billingPermissions the role has */
-  permissions?: BillingPermissionsProperties[];
-  /**
-   * The name of the role
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly roleName?: string;
+/** Defines headers for AssociatedTenants_delete operation. */
+export interface AssociatedTenantsDeleteHeaders {
+  location?: string;
+  retryAfter?: number;
 }
 
-/** The role assignment */
-export interface BillingRoleAssignment extends Resource {
-  /**
-   * The date the role assignment was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdOn?: string;
-  /**
-   * The tenant Id of the user who created the role assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdByPrincipalTenantId?: string;
-  /**
-   * The principal Id of the user who created the role assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdByPrincipalId?: string;
-  /**
-   * The email address of the user who created the role assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdByUserEmailAddress?: string;
-  /** The principal id of the user to whom the role was assigned. */
-  principalId?: string;
-  /** The principal tenant id of the user to whom the role was assigned. */
-  principalTenantId?: string;
-  /** The ID of the role definition. */
-  roleDefinitionId?: string;
-  /**
-   * The scope at which the role was assigned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scope?: string;
-  /** The authentication type. */
-  userAuthenticationType?: string;
-  /** The email address of the user. */
-  userEmailAddress?: string;
+/** Defines headers for AssociatedTenants_createOrUpdate operation. */
+export interface AssociatedTenantsCreateOrUpdateHeaders {
+  location?: string;
+  retryAfter?: number;
 }
 
-/** An agreement. */
-export interface Agreement extends Resource {
-  /**
-   * The URL to download the agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly agreementLink?: string;
-  /**
-   * The category of the agreement signed by a customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly category?: Category;
-  /**
-   * The mode of acceptance for an agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly acceptanceMode?: AcceptanceMode;
-  /**
-   * The date from which the agreement is effective.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly effectiveDate?: Date;
-  /**
-   * The date when the agreement expires.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationDate?: Date;
-  /** The list of participants that participates in acceptance of an agreement. */
-  participants?: Participants[];
-  /**
-   * The current status of the agreement.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
+/** Defines headers for BillingAccounts_addPaymentTerms operation. */
+export interface BillingAccountsAddPaymentTermsHeaders {
+  location?: string;
+  retryAfter?: number;
 }
 
-/** An enrollment account resource. */
-export interface EnrollmentAccountSummary extends Resource {
-  /**
-   * The account owner's principal name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
+/** Defines headers for BillingAccounts_cancelPaymentTerms operation. */
+export interface BillingAccountsCancelPaymentTermsHeaders {
+  location?: string;
+  retryAfter?: number;
 }
 
-/** A billing period resource. */
-export interface BillingPeriod extends Resource {
-  /**
-   * The start of the date range covered by the billing period.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingPeriodStartDate?: Date;
-  /**
-   * The end of the date range covered by the billing period.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingPeriodEndDate?: Date;
-  /**
-   * Array of invoice ids that associated with.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invoiceIds?: string[];
+/** Defines headers for BillingAccounts_update operation. */
+export interface BillingAccountsUpdateHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingProfiles_delete operation. */
+export interface BillingProfilesDeleteHeaders {
+  location?: string;
+  retryAfter?: number;
 }
 
 /** Defines headers for BillingProfiles_createOrUpdate operation. */
 export interface BillingProfilesCreateOrUpdateHeaders {
-  /** Location URI to poll for result */
   location?: string;
-  /** Recommended time to wait before making another request to check the status of the operation. The time is specified in seconds. */
   retryAfter?: number;
 }
 
-/** Defines headers for InvoiceSections_createOrUpdate operation. */
-export interface InvoiceSectionsCreateOrUpdateHeaders {
-  /** Location URI to poll for result */
+/** Defines headers for BillingRequests_createOrUpdate operation. */
+export interface BillingRequestsCreateOrUpdateHeaders {
   location?: string;
-  /** Recommended time to wait before making another request to check the status of the operation. The time is specified in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createByBillingProfile operation. */
+export interface BillingRoleAssignmentsCreateByBillingProfileHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createByCustomer operation. */
+export interface BillingRoleAssignmentsCreateByCustomerHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_resolveByCustomer operation. */
+export interface BillingRoleAssignmentsResolveByCustomerHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createByInvoiceSection operation. */
+export interface BillingRoleAssignmentsCreateByInvoiceSectionHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_resolveByInvoiceSection operation. */
+export interface BillingRoleAssignmentsResolveByInvoiceSectionHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_resolveByBillingProfile operation. */
+export interface BillingRoleAssignmentsResolveByBillingProfileHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createOrUpdateByBillingAccount operation. */
+export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createByBillingAccount operation. */
+export interface BillingRoleAssignmentsCreateByBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createOrUpdateByDepartment operation. */
+export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_createOrUpdateByEnrollmentAccount operation. */
+export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingRoleAssignments_resolveByBillingAccount operation. */
+export interface BillingRoleAssignmentsResolveByBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for SavingsPlans_updateByBillingAccount operation. */
+export interface SavingsPlansUpdateByBillingAccountHeaders {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingSubscriptions_cancel operation. */
+export interface BillingSubscriptionsCancelHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingSubscriptions_merge operation. */
+export interface BillingSubscriptionsMergeHeaders {
+  location?: string;
   retryAfter?: number;
 }
 
 /** Defines headers for BillingSubscriptions_move operation. */
 export interface BillingSubscriptionsMoveHeaders {
-  /** Location URI to poll for result. */
   location?: string;
-  /** Recommended time to wait before making another request to check the status of the operation. The time is specified in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingSubscriptions_split operation. */
+export interface BillingSubscriptionsSplitHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingSubscriptions_delete operation. */
+export interface BillingSubscriptionsDeleteHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingSubscriptions_update operation. */
+export interface BillingSubscriptionsUpdateHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for BillingSubscriptionsAliases_createOrUpdate operation. */
+export interface BillingSubscriptionsAliasesCreateOrUpdateHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Invoices_downloadDocumentsByBillingAccount operation. */
+export interface InvoicesDownloadDocumentsByBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Invoices_amend operation. */
+export interface InvoicesAmendHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Invoices_downloadByBillingAccount operation. */
+export interface InvoicesDownloadByBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Invoices_downloadSummaryByBillingAccount operation. */
+export interface InvoicesDownloadSummaryByBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Invoices_downloadDocumentsByBillingSubscription operation. */
+export interface InvoicesDownloadDocumentsByBillingSubscriptionHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Invoices_downloadByBillingSubscription operation. */
+export interface InvoicesDownloadByBillingSubscriptionHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for InvoiceSections_delete operation. */
+export interface InvoiceSectionsDeleteHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for InvoiceSections_createOrUpdate operation. */
+export interface InvoiceSectionsCreateOrUpdateHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Policies_createOrUpdateByCustomer operation. */
+export interface PoliciesCreateOrUpdateByCustomerHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Policies_createOrUpdateByBillingProfile operation. */
+export interface PoliciesCreateOrUpdateByBillingProfileHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Policies_createOrUpdateByCustomerAtBillingAccount operation. */
+export interface PoliciesCreateOrUpdateByCustomerAtBillingAccountHeaders {
+  location?: string;
+  retryAfter?: number;
+}
+
+/** Defines headers for Policies_createOrUpdateByBillingAccount operation. */
+export interface PoliciesCreateOrUpdateByBillingAccountHeaders {
+  location?: string;
   retryAfter?: number;
 }
 
 /** Defines headers for Products_move operation. */
 export interface ProductsMoveHeaders {
-  /** Location URI to poll for result */
   location?: string;
-  /** Recommended time to wait before making another request to check the status of the operation. The time is specified in seconds. */
   retryAfter?: number;
 }
 
-/** Defines headers for Invoices_downloadInvoice operation. */
-export interface InvoicesDownloadInvoiceHeaders {
-  /** GET this URL to retrieve the status of the asynchronous operation. */
+/** Defines headers for Reservations_updateByBillingAccount operation. */
+export interface ReservationsUpdateByBillingAccountHeaders {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
   location?: string;
-  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
 }
 
-/** Defines headers for Invoices_downloadMultipleBillingProfileInvoices operation. */
-export interface InvoicesDownloadMultipleBillingProfileInvoicesHeaders {
-  /** GET this URL to retrieve the status of the asynchronous operation. */
+/** Defines headers for Transactions_transactionsDownloadByInvoice operation. */
+export interface TransactionsTransactionsDownloadByInvoiceHeaders {
   location?: string;
-  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: string;
+  retryAfter?: number;
 }
 
-/** Defines headers for Invoices_downloadBillingSubscriptionInvoice operation. */
-export interface InvoicesDownloadBillingSubscriptionInvoiceHeaders {
-  /** GET this URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: string;
+/** Known values of {@link AcceptanceMode} that the service accepts. */
+export enum KnownAcceptanceMode {
+  /** Other */
+  Other = "Other",
+  /** ClickToAccept */
+  ClickToAccept = "ClickToAccept",
+  /** ESignEmbedded */
+  ESignEmbedded = "ESignEmbedded",
+  /** ESignOffline */
+  ESignOffline = "ESignOffline",
+  /** Implicit */
+  Implicit = "Implicit",
+  /** Offline */
+  Offline = "Offline",
+  /** PhysicalSign */
+  PhysicalSign = "PhysicalSign",
 }
 
-/** Defines headers for Invoices_downloadMultipleBillingSubscriptionInvoices operation. */
-export interface InvoicesDownloadMultipleBillingSubscriptionInvoicesHeaders {
-  /** GET this URL to retrieve the status of the asynchronous operation. */
-  location?: string;
-  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: string;
-}
+/**
+ * Defines values for AcceptanceMode. \
+ * {@link KnownAcceptanceMode} can be used interchangeably with AcceptanceMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **ClickToAccept** \
+ * **ESignEmbedded** \
+ * **ESignOffline** \
+ * **Implicit** \
+ * **Offline** \
+ * **PhysicalSign**
+ */
+export type AcceptanceMode = string;
 
-/** Known values of {@link AgreementType} that the service accepts. */
-export enum KnownAgreementType {
+/** Known values of {@link Category} that the service accepts. */
+export enum KnownCategory {
+  /** Other */
+  Other = "Other",
+  /** AffiliatePurchaseTerms */
+  AffiliatePurchaseTerms = "AffiliatePurchaseTerms",
+  /** IndirectForGovernmentAgreement */
+  IndirectForGovernmentAgreement = "IndirectForGovernmentAgreement",
   /** MicrosoftCustomerAgreement */
   MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
-  /** EnterpriseAgreement */
-  EnterpriseAgreement = "EnterpriseAgreement",
-  /** MicrosoftOnlineServicesProgram */
-  MicrosoftOnlineServicesProgram = "MicrosoftOnlineServicesProgram",
   /** MicrosoftPartnerAgreement */
-  MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement"
+  MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement",
+  /** UKCloudComputeFramework */
+  UKCloudComputeFramework = "UKCloudComputeFramework",
 }
 
 /**
- * Defines values for AgreementType. \
- * {@link KnownAgreementType} can be used interchangeably with AgreementType,
+ * Defines values for Category. \
+ * {@link KnownCategory} can be used interchangeably with Category,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
+ * **AffiliatePurchaseTerms** \
+ * **IndirectForGovernmentAgreement** \
  * **MicrosoftCustomerAgreement** \
- * **EnterpriseAgreement** \
- * **MicrosoftOnlineServicesProgram** \
- * **MicrosoftPartnerAgreement**
+ * **MicrosoftPartnerAgreement** \
+ * **UKCloudComputeFramework**
  */
-export type AgreementType = string;
+export type Category = string;
 
-/** Known values of {@link AccountType} that the service accepts. */
-export enum KnownAccountType {
-  /** Enterprise */
-  Enterprise = "Enterprise",
-  /** Individual */
-  Individual = "Individual",
-  /** Partner */
-  Partner = "Partner"
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
 }
 
 /**
- * Defines values for AccountType. \
- * {@link KnownAccountType} can be used interchangeably with AccountType,
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enterprise** \
- * **Individual** \
- * **Partner**
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type AccountType = string;
+export type CreatedByType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** New */
+  New = "New",
+  /** Pending */
+  Pending = "Pending",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** PendingBilling */
+  PendingBilling = "PendingBilling",
+  /** ConfirmedBilling */
+  ConfirmedBilling = "ConfirmedBilling",
+  /** Creating */
+  Creating = "Creating",
+  /** Created */
+  Created = "Created",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **New** \
+ * **Pending** \
+ * **Provisioning** \
+ * **PendingBilling** \
+ * **ConfirmedBilling** \
+ * **Creating** \
+ * **Created** \
+ * **Expired**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link BillingManagementTenantState} that the service accepts. */
+export enum KnownBillingManagementTenantState {
+  /** Other */
+  Other = "Other",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+  /** Active */
+  Active = "Active",
+  /** Revoked */
+  Revoked = "Revoked",
+}
+
+/**
+ * Defines values for BillingManagementTenantState. \
+ * {@link KnownBillingManagementTenantState} can be used interchangeably with BillingManagementTenantState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **NotAllowed** \
+ * **Active** \
+ * **Revoked**
+ */
+export type BillingManagementTenantState = string;
+
+/** Known values of {@link ProvisioningTenantState} that the service accepts. */
+export enum KnownProvisioningTenantState {
+  /** Other */
+  Other = "Other",
+  /** NotRequested */
+  NotRequested = "NotRequested",
+  /** Active */
+  Active = "Active",
+  /** Pending */
+  Pending = "Pending",
+  /** BillingRequestExpired */
+  BillingRequestExpired = "BillingRequestExpired",
+  /** BillingRequestDeclined */
+  BillingRequestDeclined = "BillingRequestDeclined",
+  /** Revoked */
+  Revoked = "Revoked",
+}
+
+/**
+ * Defines values for ProvisioningTenantState. \
+ * {@link KnownProvisioningTenantState} can be used interchangeably with ProvisioningTenantState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **NotRequested** \
+ * **Active** \
+ * **Pending** \
+ * **BillingRequestExpired** \
+ * **BillingRequestDeclined** \
+ * **Revoked**
+ */
+export type ProvisioningTenantState = string;
+
+/** Known values of {@link PaymentMethodFamily} that the service accepts. */
+export enum KnownPaymentMethodFamily {
+  /** Other */
+  Other = "Other",
+  /** None */
+  None = "None",
+  /** CreditCard */
+  CreditCard = "CreditCard",
+  /** Credits */
+  Credits = "Credits",
+  /** CheckWire */
+  CheckWire = "CheckWire",
+  /** EWallet */
+  EWallet = "EWallet",
+  /** TaskOrder */
+  TaskOrder = "TaskOrder",
+  /** DirectDebit */
+  DirectDebit = "DirectDebit",
+}
+
+/**
+ * Defines values for PaymentMethodFamily. \
+ * {@link KnownPaymentMethodFamily} can be used interchangeably with PaymentMethodFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **None** \
+ * **CreditCard** \
+ * **Credits** \
+ * **CheckWire** \
+ * **EWallet** \
+ * **TaskOrder** \
+ * **DirectDebit**
+ */
+export type PaymentMethodFamily = string;
 
 /** Known values of {@link AccountStatus} that the service accepts. */
 export enum KnownAccountStatus {
+  /** Other */
+  Other = "Other",
   /** Active */
   Active = "Active",
-  /** Deleted */
-  Deleted = "Deleted",
+  /** UnderReview */
+  UnderReview = "UnderReview",
   /** Disabled */
   Disabled = "Disabled",
-  /** Expired */
-  Expired = "Expired",
-  /** Transferred */
-  Transferred = "Transferred",
+  /** Deleted */
+  Deleted = "Deleted",
   /** Extended */
   Extended = "Extended",
+  /** Pending */
+  Pending = "Pending",
+  /** New */
+  New = "New",
+  /** Expired */
+  Expired = "Expired",
   /** Terminated */
-  Terminated = "Terminated"
+  Terminated = "Terminated",
+  /** Transferred */
+  Transferred = "Transferred",
 }
 
 /**
@@ -2095,18 +5403,219 @@ export enum KnownAccountStatus {
  * {@link KnownAccountStatus} can be used interchangeably with AccountStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **Active** \
- * **Deleted** \
+ * **UnderReview** \
  * **Disabled** \
- * **Expired** \
- * **Transferred** \
+ * **Deleted** \
  * **Extended** \
- * **Terminated**
+ * **Pending** \
+ * **New** \
+ * **Expired** \
+ * **Terminated** \
+ * **Transferred**
  */
 export type AccountStatus = string;
 
+/** Known values of {@link AccountType} that the service accepts. */
+export enum KnownAccountType {
+  /** Other */
+  Other = "Other",
+  /** Enterprise */
+  Enterprise = "Enterprise",
+  /** Individual */
+  Individual = "Individual",
+  /** Partner */
+  Partner = "Partner",
+  /** Reseller */
+  Reseller = "Reseller",
+  /** ClassicPartner */
+  ClassicPartner = "ClassicPartner",
+  /** Internal */
+  Internal = "Internal",
+  /** Tenant */
+  Tenant = "Tenant",
+  /** Business */
+  Business = "Business",
+}
+
+/**
+ * Defines values for AccountType. \
+ * {@link KnownAccountType} can be used interchangeably with AccountType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Enterprise** \
+ * **Individual** \
+ * **Partner** \
+ * **Reseller** \
+ * **ClassicPartner** \
+ * **Internal** \
+ * **Tenant** \
+ * **Business**
+ */
+export type AccountType = string;
+
+/** Known values of {@link AccountSubType} that the service accepts. */
+export enum KnownAccountSubType {
+  /** Other */
+  Other = "Other",
+  /** None */
+  None = "None",
+  /** Individual */
+  Individual = "Individual",
+  /** Professional */
+  Professional = "Professional",
+  /** Enterprise */
+  Enterprise = "Enterprise",
+}
+
+/**
+ * Defines values for AccountSubType. \
+ * {@link KnownAccountSubType} can be used interchangeably with AccountSubType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **None** \
+ * **Individual** \
+ * **Professional** \
+ * **Enterprise**
+ */
+export type AccountSubType = string;
+
+/** Known values of {@link BillingAccountStatusReasonCode} that the service accepts. */
+export enum KnownBillingAccountStatusReasonCode {
+  /** Other */
+  Other = "Other",
+  /** UnusualActivity */
+  UnusualActivity = "UnusualActivity",
+  /** ManuallyTerminated */
+  ManuallyTerminated = "ManuallyTerminated",
+  /** Expired */
+  Expired = "Expired",
+  /** Transferred */
+  Transferred = "Transferred",
+  /** TerminateProcessing */
+  TerminateProcessing = "TerminateProcessing",
+}
+
+/**
+ * Defines values for BillingAccountStatusReasonCode. \
+ * {@link KnownBillingAccountStatusReasonCode} can be used interchangeably with BillingAccountStatusReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **UnusualActivity** \
+ * **ManuallyTerminated** \
+ * **Expired** \
+ * **Transferred** \
+ * **TerminateProcessing**
+ */
+export type BillingAccountStatusReasonCode = string;
+
+/** Known values of {@link AgreementType} that the service accepts. */
+export enum KnownAgreementType {
+  /** Other */
+  Other = "Other",
+  /** MicrosoftCustomerAgreement */
+  MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
+  /** EnterpriseAgreement */
+  EnterpriseAgreement = "EnterpriseAgreement",
+  /** MicrosoftOnlineServicesProgram */
+  MicrosoftOnlineServicesProgram = "MicrosoftOnlineServicesProgram",
+  /** MicrosoftPartnerAgreement */
+  MicrosoftPartnerAgreement = "MicrosoftPartnerAgreement",
+}
+
+/**
+ * Defines values for AgreementType. \
+ * {@link KnownAgreementType} can be used interchangeably with AgreementType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **MicrosoftCustomerAgreement** \
+ * **EnterpriseAgreement** \
+ * **MicrosoftOnlineServicesProgram** \
+ * **MicrosoftPartnerAgreement**
+ */
+export type AgreementType = string;
+
+/** Known values of {@link ExtendedTermOption} that the service accepts. */
+export enum KnownExtendedTermOption {
+  /** Other */
+  Other = "Other",
+  /** OptedIn */
+  OptedIn = "Opted-In",
+  /** OptedOut */
+  OptedOut = "Opted-Out",
+}
+
+/**
+ * Defines values for ExtendedTermOption. \
+ * {@link KnownExtendedTermOption} can be used interchangeably with ExtendedTermOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Opted-In** \
+ * **Opted-Out**
+ */
+export type ExtendedTermOption = string;
+
+/** Known values of {@link SupportLevel} that the service accepts. */
+export enum KnownSupportLevel {
+  /** Other */
+  Other = "Other",
+  /** Standard */
+  Standard = "Standard",
+  /** ProDirect */
+  ProDirect = "Pro-Direct",
+  /** Developer */
+  Developer = "Developer",
+}
+
+/**
+ * Defines values for SupportLevel. \
+ * {@link KnownSupportLevel} can be used interchangeably with SupportLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Standard** \
+ * **Pro-Direct** \
+ * **Developer**
+ */
+export type SupportLevel = string;
+
+/** Known values of {@link MarkupStatus} that the service accepts. */
+export enum KnownMarkupStatus {
+  /** Other */
+  Other = "Other",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Preview */
+  Preview = "Preview",
+  /** Published */
+  Published = "Published",
+  /** Locked */
+  Locked = "Locked",
+}
+
+/**
+ * Defines values for MarkupStatus. \
+ * {@link KnownMarkupStatus} can be used interchangeably with MarkupStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Disabled** \
+ * **Preview** \
+ * **Published** \
+ * **Locked**
+ */
+export type MarkupStatus = string;
+
 /** Known values of {@link BillingRelationshipType} that the service accepts. */
 export enum KnownBillingRelationshipType {
+  /** Other */
+  Other = "Other",
   /** Direct */
   Direct = "Direct",
   /** IndirectCustomer */
@@ -2114,7 +5623,9 @@ export enum KnownBillingRelationshipType {
   /** IndirectPartner */
   IndirectPartner = "IndirectPartner",
   /** CSPPartner */
-  CSPPartner = "CSPPartner"
+  CSPPartner = "CSPPartner",
+  /** CSPCustomer */
+  CSPCustomer = "CSPCustomer",
 }
 
 /**
@@ -2122,60 +5633,122 @@ export enum KnownBillingRelationshipType {
  * {@link KnownBillingRelationshipType} can be used interchangeably with BillingRelationshipType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **Direct** \
  * **IndirectCustomer** \
  * **IndirectPartner** \
- * **CSPPartner**
+ * **CSPPartner** \
+ * **CSPCustomer**
  */
 export type BillingRelationshipType = string;
 
-/** Known values of {@link InvoiceSectionState} that the service accepts. */
-export enum KnownInvoiceSectionState {
-  /** Active */
-  Active = "Active",
-  /** Restricted */
-  Restricted = "Restricted"
+/** Known values of {@link TaxIdentifierType} that the service accepts. */
+export enum KnownTaxIdentifierType {
+  /** Other */
+  Other = "Other",
+  /** BrazilCcmId */
+  BrazilCcmId = "BrazilCcmId",
+  /** BrazilCnpjId */
+  BrazilCnpjId = "BrazilCnpjId",
+  /** BrazilCpfId */
+  BrazilCpfId = "BrazilCpfId",
+  /** CanadianFederalExempt */
+  CanadianFederalExempt = "CanadianFederalExempt",
+  /** CanadianProvinceExempt */
+  CanadianProvinceExempt = "CanadianProvinceExempt",
+  /** ExternalTaxation */
+  ExternalTaxation = "ExternalTaxation",
+  /** IndiaFederalTanId */
+  IndiaFederalTanId = "IndiaFederalTanId",
+  /** IndiaFederalServiceTaxId */
+  IndiaFederalServiceTaxId = "IndiaFederalServiceTaxId",
+  /** IndiaPanId */
+  IndiaPanId = "IndiaPanId",
+  /** IndiaStateCstId */
+  IndiaStateCstId = "IndiaStateCstId",
+  /** IndiaStateGstINId */
+  IndiaStateGstINId = "IndiaStateGstINId",
+  /** IndiaStateVatId */
+  IndiaStateVatId = "IndiaStateVatId",
+  /** IntlExempt */
+  IntlExempt = "IntlExempt",
+  /** USExempt */
+  USExempt = "USExempt",
+  /** VatId */
+  VatId = "VatId",
+  /** LoveCode */
+  LoveCode = "LoveCode",
+  /** MobileBarCode */
+  MobileBarCode = "MobileBarCode",
+  /** NationalIdentificationNumber */
+  NationalIdentificationNumber = "NationalIdentificationNumber",
+  /** PublicSectorId */
+  PublicSectorId = "PublicSectorId",
 }
 
 /**
- * Defines values for InvoiceSectionState. \
- * {@link KnownInvoiceSectionState} can be used interchangeably with InvoiceSectionState,
+ * Defines values for TaxIdentifierType. \
+ * {@link KnownTaxIdentifierType} can be used interchangeably with TaxIdentifierType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Restricted**
+ * **Other** \
+ * **BrazilCcmId** \
+ * **BrazilCnpjId** \
+ * **BrazilCpfId** \
+ * **CanadianFederalExempt** \
+ * **CanadianProvinceExempt** \
+ * **ExternalTaxation** \
+ * **IndiaFederalTanId** \
+ * **IndiaFederalServiceTaxId** \
+ * **IndiaPanId** \
+ * **IndiaStateCstId** \
+ * **IndiaStateGstINId** \
+ * **IndiaStateVatId** \
+ * **IntlExempt** \
+ * **USExempt** \
+ * **VatId** \
+ * **LoveCode** \
+ * **MobileBarCode** \
+ * **NationalIdentificationNumber** \
+ * **PublicSectorId**
  */
-export type InvoiceSectionState = string;
+export type TaxIdentifierType = string;
 
-/** Known values of {@link TargetCloud} that the service accepts. */
-export enum KnownTargetCloud {
-  /** USGov */
-  USGov = "USGov",
-  /** USNat */
-  USNat = "USNat",
-  /** USSec */
-  USSec = "USSec"
+/** Known values of {@link TaxIdentifierStatus} that the service accepts. */
+export enum KnownTaxIdentifierStatus {
+  /** Other */
+  Other = "Other",
+  /** Valid */
+  Valid = "Valid",
+  /** Invalid */
+  Invalid = "Invalid",
 }
 
 /**
- * Defines values for TargetCloud. \
- * {@link KnownTargetCloud} can be used interchangeably with TargetCloud,
+ * Defines values for TaxIdentifierStatus. \
+ * {@link KnownTaxIdentifierStatus} can be used interchangeably with TaxIdentifierStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **USGov** \
- * **USNat** \
- * **USSec**
+ * **Other** \
+ * **Valid** \
+ * **Invalid**
  */
-export type TargetCloud = string;
+export type TaxIdentifierStatus = string;
 
 /** Known values of {@link BillingProfileStatus} that the service accepts. */
 export enum KnownBillingProfileStatus {
+  /** Other */
+  Other = "Other",
   /** Active */
   Active = "Active",
   /** Disabled */
   Disabled = "Disabled",
   /** Warned */
-  Warned = "Warned"
+  Warned = "Warned",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** UnderReview */
+  UnderReview = "UnderReview",
 }
 
 /**
@@ -2183,39 +5756,48 @@ export enum KnownBillingProfileStatus {
  * {@link KnownBillingProfileStatus} can be used interchangeably with BillingProfileStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **Active** \
  * **Disabled** \
- * **Warned**
+ * **Warned** \
+ * **Deleted** \
+ * **UnderReview**
  */
 export type BillingProfileStatus = string;
 
-/** Known values of {@link StatusReasonCode} that the service accepts. */
-export enum KnownStatusReasonCode {
+/** Known values of {@link BillingProfileStatusReasonCode} that the service accepts. */
+export enum KnownBillingProfileStatusReasonCode {
+  /** Other */
+  Other = "Other",
   /** PastDue */
   PastDue = "PastDue",
+  /** UnusualActivity */
+  UnusualActivity = "UnusualActivity",
   /** SpendingLimitReached */
   SpendingLimitReached = "SpendingLimitReached",
   /** SpendingLimitExpired */
-  SpendingLimitExpired = "SpendingLimitExpired"
+  SpendingLimitExpired = "SpendingLimitExpired",
 }
 
 /**
- * Defines values for StatusReasonCode. \
- * {@link KnownStatusReasonCode} can be used interchangeably with StatusReasonCode,
+ * Defines values for BillingProfileStatusReasonCode. \
+ * {@link KnownBillingProfileStatusReasonCode} can be used interchangeably with BillingProfileStatusReasonCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **PastDue** \
+ * **UnusualActivity** \
  * **SpendingLimitReached** \
  * **SpendingLimitExpired**
  */
-export type StatusReasonCode = string;
+export type BillingProfileStatusReasonCode = string;
 
 /** Known values of {@link SpendingLimit} that the service accepts. */
 export enum KnownSpendingLimit {
   /** Off */
   Off = "Off",
   /** On */
-  On = "On"
+  On = "On",
 }
 
 /**
@@ -2228,51 +5810,77 @@ export enum KnownSpendingLimit {
  */
 export type SpendingLimit = string;
 
-/** Known values of {@link StatusReasonCodeForBillingProfile} that the service accepts. */
-export enum KnownStatusReasonCodeForBillingProfile {
-  /** PastDue */
-  PastDue = "PastDue",
-  /** SpendingLimitReached */
-  SpendingLimitReached = "SpendingLimitReached",
-  /** SpendingLimitExpired */
-  SpendingLimitExpired = "SpendingLimitExpired"
-}
-
-/**
- * Defines values for StatusReasonCodeForBillingProfile. \
- * {@link KnownStatusReasonCodeForBillingProfile} can be used interchangeably with StatusReasonCodeForBillingProfile,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PastDue** \
- * **SpendingLimitReached** \
- * **SpendingLimitExpired**
- */
-export type StatusReasonCodeForBillingProfile = string;
-
-/** Known values of {@link SpendingLimitForBillingProfile} that the service accepts. */
-export enum KnownSpendingLimitForBillingProfile {
-  /** Off */
-  Off = "Off",
-  /** On */
-  On = "On"
-}
-
-/**
- * Defines values for SpendingLimitForBillingProfile. \
- * {@link KnownSpendingLimitForBillingProfile} can be used interchangeably with SpendingLimitForBillingProfile,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Off** \
- * **On**
- */
-export type SpendingLimitForBillingProfile = string;
-
-/** Known values of {@link AddressValidationStatus} that the service accepts. */
-export enum KnownAddressValidationStatus {
+/** Known values of {@link PaymentTermsEligibilityStatus} that the service accepts. */
+export enum KnownPaymentTermsEligibilityStatus {
+  /** Other */
+  Other = "Other",
   /** Valid */
   Valid = "Valid",
   /** Invalid */
-  Invalid = "Invalid"
+  Invalid = "Invalid",
+}
+
+/**
+ * Defines values for PaymentTermsEligibilityStatus. \
+ * {@link KnownPaymentTermsEligibilityStatus} can be used interchangeably with PaymentTermsEligibilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Valid** \
+ * **Invalid**
+ */
+export type PaymentTermsEligibilityStatus = string;
+
+/** Known values of {@link PaymentTermsEligibilityCode} that the service accepts. */
+export enum KnownPaymentTermsEligibilityCode {
+  /** Other */
+  Other = "Other",
+  /** OverlappingPaymentTerms */
+  OverlappingPaymentTerms = "OverlappingPaymentTerms",
+  /** InvalidDateFormat */
+  InvalidDateFormat = "InvalidDateFormat",
+  /** InvalidDateRange */
+  InvalidDateRange = "InvalidDateRange",
+  /** InactiveBillingAccount */
+  InactiveBillingAccount = "InactiveBillingAccount",
+  /** InvalidBillingAccountType */
+  InvalidBillingAccountType = "InvalidBillingAccountType",
+  /** NullOrEmptyPaymentTerms */
+  NullOrEmptyPaymentTerms = "NullOrEmptyPaymentTerms",
+  /** BillingAccountNotFound */
+  BillingAccountNotFound = "BillingAccountNotFound",
+  /** IneligibleBillingAccountStatus */
+  IneligibleBillingAccountStatus = "IneligibleBillingAccountStatus",
+  /** InvalidTerms */
+  InvalidTerms = "InvalidTerms",
+}
+
+/**
+ * Defines values for PaymentTermsEligibilityCode. \
+ * {@link KnownPaymentTermsEligibilityCode} can be used interchangeably with PaymentTermsEligibilityCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **OverlappingPaymentTerms** \
+ * **InvalidDateFormat** \
+ * **InvalidDateRange** \
+ * **InactiveBillingAccount** \
+ * **InvalidBillingAccountType** \
+ * **NullOrEmptyPaymentTerms** \
+ * **BillingAccountNotFound** \
+ * **IneligibleBillingAccountStatus** \
+ * **InvalidTerms**
+ */
+export type PaymentTermsEligibilityCode = string;
+
+/** Known values of {@link AddressValidationStatus} that the service accepts. */
+export enum KnownAddressValidationStatus {
+  /** Other */
+  Other = "Other",
+  /** Valid */
+  Valid = "Valid",
+  /** Invalid */
+  Invalid = "Invalid",
 }
 
 /**
@@ -2280,44 +5888,609 @@ export enum KnownAddressValidationStatus {
  * {@link KnownAddressValidationStatus} can be used interchangeably with AddressValidationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **Valid** \
  * **Invalid**
  */
 export type AddressValidationStatus = string;
 
-/** Known values of {@link BillingSubscriptionStatusType} that the service accepts. */
-export enum KnownBillingSubscriptionStatusType {
-  /** Active */
-  Active = "Active",
-  /** Inactive */
-  Inactive = "Inactive",
-  /** Abandoned */
-  Abandoned = "Abandoned",
-  /** Deleted */
-  Deleted = "Deleted",
-  /** Warning */
-  Warning = "Warning"
+/** Known values of {@link AccessDecision} that the service accepts. */
+export enum KnownAccessDecision {
+  /** Other */
+  Other = "Other",
+  /** Allowed */
+  Allowed = "Allowed",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
 }
 
 /**
- * Defines values for BillingSubscriptionStatusType. \
- * {@link KnownBillingSubscriptionStatusType} can be used interchangeably with BillingSubscriptionStatusType,
+ * Defines values for AccessDecision. \
+ * {@link KnownAccessDecision} can be used interchangeably with AccessDecision,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Inactive** \
- * **Abandoned** \
- * **Deleted** \
- * **Warning**
+ * **Other** \
+ * **Allowed** \
+ * **NotAllowed**
  */
-export type BillingSubscriptionStatusType = string;
+export type AccessDecision = string;
+
+/** Known values of {@link DeleteBillingProfileEligibilityStatus} that the service accepts. */
+export enum KnownDeleteBillingProfileEligibilityStatus {
+  /** Allowed */
+  Allowed = "Allowed",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+}
+
+/**
+ * Defines values for DeleteBillingProfileEligibilityStatus. \
+ * {@link KnownDeleteBillingProfileEligibilityStatus} can be used interchangeably with DeleteBillingProfileEligibilityStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allowed** \
+ * **NotAllowed**
+ */
+export type DeleteBillingProfileEligibilityStatus = string;
+
+/** Known values of {@link DeleteBillingProfileEligibilityCode} that the service accepts. */
+export enum KnownDeleteBillingProfileEligibilityCode {
+  /** None */
+  None = "None",
+  /** ActiveCredits */
+  ActiveCredits = "ActiveCredits",
+  /** ActiveCreditCard */
+  ActiveCreditCard = "ActiveCreditCard",
+  /** LastBillingProfile */
+  LastBillingProfile = "LastBillingProfile",
+  /** NotSupported */
+  NotSupported = "NotSupported",
+  /** OutstandingCharges */
+  OutstandingCharges = "OutstandingCharges",
+  /** PendingCharges */
+  PendingCharges = "PendingCharges",
+  /** ReservedInstances */
+  ReservedInstances = "ReservedInstances",
+  /** ActiveBillingSubscriptions */
+  ActiveBillingSubscriptions = "ActiveBillingSubscriptions",
+}
+
+/**
+ * Defines values for DeleteBillingProfileEligibilityCode. \
+ * {@link KnownDeleteBillingProfileEligibilityCode} can be used interchangeably with DeleteBillingProfileEligibilityCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ActiveCredits** \
+ * **ActiveCreditCard** \
+ * **LastBillingProfile** \
+ * **NotSupported** \
+ * **OutstandingCharges** \
+ * **PendingCharges** \
+ * **ReservedInstances** \
+ * **ActiveBillingSubscriptions**
+ */
+export type DeleteBillingProfileEligibilityCode = string;
+
+/** Known values of {@link SpendingLimitType} that the service accepts. */
+export enum KnownSpendingLimitType {
+  /** Other */
+  Other = "Other",
+  /** None */
+  None = "None",
+  /** FreeAccount */
+  FreeAccount = "FreeAccount",
+  /** Sandbox */
+  Sandbox = "Sandbox",
+  /** AzureForStudents */
+  AzureForStudents = "AzureForStudents",
+  /** AcademicSponsorship */
+  AcademicSponsorship = "AcademicSponsorship",
+  /** AzureConsumptionCredit */
+  AzureConsumptionCredit = "AzureConsumptionCredit",
+  /** AzurePassSponsorship */
+  AzurePassSponsorship = "AzurePassSponsorship",
+  /** MpnSponsorship */
+  MpnSponsorship = "MpnSponsorship",
+  /** Msdn */
+  Msdn = "MSDN",
+  /** NonProfitSponsorship */
+  NonProfitSponsorship = "NonProfitSponsorship",
+  /** Sponsorship */
+  Sponsorship = "Sponsorship",
+  /** StartupSponsorship */
+  StartupSponsorship = "StartupSponsorship",
+  /** AzureForStudentsStarter */
+  AzureForStudentsStarter = "AzureForStudentsStarter",
+  /** VisualStudio */
+  VisualStudio = "VisualStudio",
+}
+
+/**
+ * Defines values for SpendingLimitType. \
+ * {@link KnownSpendingLimitType} can be used interchangeably with SpendingLimitType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **None** \
+ * **FreeAccount** \
+ * **Sandbox** \
+ * **AzureForStudents** \
+ * **AcademicSponsorship** \
+ * **AzureConsumptionCredit** \
+ * **AzurePassSponsorship** \
+ * **MpnSponsorship** \
+ * **MSDN** \
+ * **NonProfitSponsorship** \
+ * **Sponsorship** \
+ * **StartupSponsorship** \
+ * **AzureForStudentsStarter** \
+ * **VisualStudio**
+ */
+export type SpendingLimitType = string;
+
+/** Known values of {@link SpendingLimitStatus} that the service accepts. */
+export enum KnownSpendingLimitStatus {
+  /** Other */
+  Other = "Other",
+  /** None */
+  None = "None",
+  /** Active */
+  Active = "Active",
+  /** Expired */
+  Expired = "Expired",
+  /** LimitReached */
+  LimitReached = "LimitReached",
+  /** LimitRemoved */
+  LimitRemoved = "LimitRemoved",
+}
+
+/**
+ * Defines values for SpendingLimitStatus. \
+ * {@link KnownSpendingLimitStatus} can be used interchangeably with SpendingLimitStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **None** \
+ * **Active** \
+ * **Expired** \
+ * **LimitReached** \
+ * **LimitRemoved**
+ */
+export type SpendingLimitStatus = string;
+
+/** Known values of {@link CustomerStatus} that the service accepts. */
+export enum KnownCustomerStatus {
+  /** Other */
+  Other = "Other",
+  /** Active */
+  Active = "Active",
+  /** Pending */
+  Pending = "Pending",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Warned */
+  Warned = "Warned",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** UnderReview */
+  UnderReview = "UnderReview",
+}
+
+/**
+ * Defines values for CustomerStatus. \
+ * {@link KnownCustomerStatus} can be used interchangeably with CustomerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Active** \
+ * **Pending** \
+ * **Disabled** \
+ * **Warned** \
+ * **Deleted** \
+ * **UnderReview**
+ */
+export type CustomerStatus = string;
+
+/** Known values of {@link InvoiceSectionState} that the service accepts. */
+export enum KnownInvoiceSectionState {
+  /** Other */
+  Other = "Other",
+  /** Active */
+  Active = "Active",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** UnderReview */
+  UnderReview = "UnderReview",
+  /** Warned */
+  Warned = "Warned",
+  /** Restricted */
+  Restricted = "Restricted",
+}
+
+/**
+ * Defines values for InvoiceSectionState. \
+ * {@link KnownInvoiceSectionState} can be used interchangeably with InvoiceSectionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Active** \
+ * **Deleted** \
+ * **Disabled** \
+ * **UnderReview** \
+ * **Warned** \
+ * **Restricted**
+ */
+export type InvoiceSectionState = string;
+
+/** Known values of {@link InvoiceSectionStateReasonCode} that the service accepts. */
+export enum KnownInvoiceSectionStateReasonCode {
+  /** Other */
+  Other = "Other",
+  /** PastDue */
+  PastDue = "PastDue",
+  /** UnusualActivity */
+  UnusualActivity = "UnusualActivity",
+  /** SpendingLimitReached */
+  SpendingLimitReached = "SpendingLimitReached",
+  /** SpendingLimitExpired */
+  SpendingLimitExpired = "SpendingLimitExpired",
+}
+
+/**
+ * Defines values for InvoiceSectionStateReasonCode. \
+ * {@link KnownInvoiceSectionStateReasonCode} can be used interchangeably with InvoiceSectionStateReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **PastDue** \
+ * **UnusualActivity** \
+ * **SpendingLimitReached** \
+ * **SpendingLimitExpired**
+ */
+export type InvoiceSectionStateReasonCode = string;
+
+/** Known values of {@link BillingSubscriptionStatus} that the service accepts. */
+export enum KnownBillingSubscriptionStatus {
+  /** Other */
+  Other = "Other",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Active */
+  Active = "Active",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Warned */
+  Warned = "Warned",
+  /** Expiring */
+  Expiring = "Expiring",
+  /** Expired */
+  Expired = "Expired",
+  /** AutoRenew */
+  AutoRenew = "AutoRenew",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** Suspended */
+  Suspended = "Suspended",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for BillingSubscriptionStatus. \
+ * {@link KnownBillingSubscriptionStatus} can be used interchangeably with BillingSubscriptionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Unknown** \
+ * **Active** \
+ * **Disabled** \
+ * **Deleted** \
+ * **Warned** \
+ * **Expiring** \
+ * **Expired** \
+ * **AutoRenew** \
+ * **Cancelled** \
+ * **Suspended** \
+ * **Failed**
+ */
+export type BillingSubscriptionStatus = string;
+
+/** Known values of {@link SubscriptionStatusReason} that the service accepts. */
+export enum KnownSubscriptionStatusReason {
+  /** None */
+  None = "None",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** PastDue */
+  PastDue = "PastDue",
+  /** SuspiciousActivity */
+  SuspiciousActivity = "SuspiciousActivity",
+  /** Other */
+  Other = "Other",
+  /** Transferred */
+  Transferred = "Transferred",
+  /** PolicyViolation */
+  PolicyViolation = "PolicyViolation",
+  /** SpendingLimitReached */
+  SpendingLimitReached = "SpendingLimitReached",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for SubscriptionStatusReason. \
+ * {@link KnownSubscriptionStatusReason} can be used interchangeably with SubscriptionStatusReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Cancelled** \
+ * **PastDue** \
+ * **SuspiciousActivity** \
+ * **Other** \
+ * **Transferred** \
+ * **PolicyViolation** \
+ * **SpendingLimitReached** \
+ * **Expired**
+ */
+export type SubscriptionStatusReason = string;
+
+/** Known values of {@link SubscriptionBillingType} that the service accepts. */
+export enum KnownSubscriptionBillingType {
+  /** None */
+  None = "None",
+  /** Benefit */
+  Benefit = "Benefit",
+  /** Free */
+  Free = "Free",
+  /** Paid */
+  Paid = "Paid",
+  /** PrePaid */
+  PrePaid = "PrePaid",
+}
+
+/**
+ * Defines values for SubscriptionBillingType. \
+ * {@link KnownSubscriptionBillingType} can be used interchangeably with SubscriptionBillingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Benefit** \
+ * **Free** \
+ * **Paid** \
+ * **PrePaid**
+ */
+export type SubscriptionBillingType = string;
+
+/** Known values of {@link SubscriptionWorkloadType} that the service accepts. */
+export enum KnownSubscriptionWorkloadType {
+  /** None */
+  None = "None",
+  /** Production */
+  Production = "Production",
+  /** DevTest */
+  DevTest = "DevTest",
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for SubscriptionWorkloadType. \
+ * {@link KnownSubscriptionWorkloadType} can be used interchangeably with SubscriptionWorkloadType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Production** \
+ * **DevTest** \
+ * **Internal**
+ */
+export type SubscriptionWorkloadType = string;
+
+/** Known values of {@link BillingRequestStatus} that the service accepts. */
+export enum KnownBillingRequestStatus {
+  /** Other */
+  Other = "Other",
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Declined */
+  Declined = "Declined",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** Completed */
+  Completed = "Completed",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for BillingRequestStatus. \
+ * {@link KnownBillingRequestStatus} can be used interchangeably with BillingRequestStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Pending** \
+ * **Approved** \
+ * **Declined** \
+ * **Cancelled** \
+ * **Completed** \
+ * **Expired**
+ */
+export type BillingRequestStatus = string;
+
+/** Known values of {@link BillingRequestType} that the service accepts. */
+export enum KnownBillingRequestType {
+  /** Other */
+  Other = "Other",
+  /** InvoiceAccess */
+  InvoiceAccess = "InvoiceAccess",
+  /** ProvisioningAccess */
+  ProvisioningAccess = "ProvisioningAccess",
+  /** RoleAssignment */
+  RoleAssignment = "RoleAssignment",
+  /** UpdateBillingPolicy */
+  UpdateBillingPolicy = "UpdateBillingPolicy",
+}
+
+/**
+ * Defines values for BillingRequestType. \
+ * {@link KnownBillingRequestType} can be used interchangeably with BillingRequestType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **InvoiceAccess** \
+ * **ProvisioningAccess** \
+ * **RoleAssignment** \
+ * **UpdateBillingPolicy**
+ */
+export type BillingRequestType = string;
+
+/** Known values of {@link PrincipalType} that the service accepts. */
+export enum KnownPrincipalType {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** None */
+  None = "None",
+  /** User */
+  User = "User",
+  /** Group */
+  Group = "Group",
+  /** DirectoryRole */
+  DirectoryRole = "DirectoryRole",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** Everyone */
+  Everyone = "Everyone",
+}
+
+/**
+ * Defines values for PrincipalType. \
+ * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **None** \
+ * **User** \
+ * **Group** \
+ * **DirectoryRole** \
+ * **ServicePrincipal** \
+ * **Everyone**
+ */
+export type PrincipalType = string;
+
+/** Known values of {@link SavingsPlanTerm} that the service accepts. */
+export enum KnownSavingsPlanTerm {
+  /** P1Y */
+  P1Y = "P1Y",
+  /** P3Y */
+  P3Y = "P3Y",
+  /** P5Y */
+  P5Y = "P5Y",
+}
+
+/**
+ * Defines values for SavingsPlanTerm. \
+ * {@link KnownSavingsPlanTerm} can be used interchangeably with SavingsPlanTerm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1Y** \
+ * **P3Y** \
+ * **P5Y**
+ */
+export type SavingsPlanTerm = string;
+
+/** Known values of {@link BillingPlan} that the service accepts. */
+export enum KnownBillingPlan {
+  /** P1M */
+  P1M = "P1M",
+}
+
+/**
+ * Defines values for BillingPlan. \
+ * {@link KnownBillingPlan} can be used interchangeably with BillingPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1M**
+ */
+export type BillingPlan = string;
+
+/** Known values of {@link PaymentStatus} that the service accepts. */
+export enum KnownPaymentStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Scheduled */
+  Scheduled = "Scheduled",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** Completed */
+  Completed = "Completed",
+  /** Pending */
+  Pending = "Pending",
+}
+
+/**
+ * Defines values for PaymentStatus. \
+ * {@link KnownPaymentStatus} can be used interchangeably with PaymentStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Scheduled** \
+ * **Cancelled** \
+ * **Completed** \
+ * **Pending**
+ */
+export type PaymentStatus = string;
+
+/** Known values of {@link AppliedScopeType} that the service accepts. */
+export enum KnownAppliedScopeType {
+  /** Single */
+  Single = "Single",
+  /** Shared */
+  Shared = "Shared",
+  /** ManagementGroup */
+  ManagementGroup = "ManagementGroup",
+}
+
+/**
+ * Defines values for AppliedScopeType. \
+ * {@link KnownAppliedScopeType} can be used interchangeably with AppliedScopeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Shared** \
+ * **ManagementGroup**
+ */
+export type AppliedScopeType = string;
+
+/** Known values of {@link CommitmentGrain} that the service accepts. */
+export enum KnownCommitmentGrain {
+  /** Hourly */
+  Hourly = "Hourly",
+}
+
+/**
+ * Defines values for CommitmentGrain. \
+ * {@link KnownCommitmentGrain} can be used interchangeably with CommitmentGrain,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hourly**
+ */
+export type CommitmentGrain = string;
 
 /** Known values of {@link AutoRenew} that the service accepts. */
 export enum KnownAutoRenew {
   /** Off */
   Off = "Off",
   /** On */
-  On = "On"
+  On = "On",
 }
 
 /**
@@ -2330,198 +6503,105 @@ export enum KnownAutoRenew {
  */
 export type AutoRenew = string;
 
-/** Known values of {@link ProductStatusType} that the service accepts. */
-export enum KnownProductStatusType {
+/** Known values of {@link SubscriptionEnrollmentAccountStatus} that the service accepts. */
+export enum KnownSubscriptionEnrollmentAccountStatus {
   /** Active */
   Active = "Active",
-  /** Inactive */
-  Inactive = "Inactive",
-  /** PastDue */
-  PastDue = "PastDue",
-  /** Expiring */
-  Expiring = "Expiring",
-  /** Expired */
-  Expired = "Expired",
-  /** Disabled */
-  Disabled = "Disabled",
   /** Cancelled */
   Cancelled = "Cancelled",
-  /** AutoRenew */
-  AutoRenew = "AutoRenew"
+  /** Expired */
+  Expired = "Expired",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** TransferredOut */
+  TransferredOut = "TransferredOut",
+  /** Transferring */
+  Transferring = "Transferring",
+  /** Inactive */
+  Inactive = "Inactive",
 }
 
 /**
- * Defines values for ProductStatusType. \
- * {@link KnownProductStatusType} can be used interchangeably with ProductStatusType,
+ * Defines values for SubscriptionEnrollmentAccountStatus. \
+ * {@link KnownSubscriptionEnrollmentAccountStatus} can be used interchangeably with SubscriptionEnrollmentAccountStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Active** \
- * **Inactive** \
- * **PastDue** \
- * **Expiring** \
- * **Expired** \
- * **Disabled** \
  * **Cancelled** \
- * **AutoRenew**
+ * **Expired** \
+ * **Deleted** \
+ * **TransferredOut** \
+ * **Transferring** \
+ * **Inactive**
  */
-export type ProductStatusType = string;
+export type SubscriptionEnrollmentAccountStatus = string;
 
-/** Known values of {@link BillingFrequency} that the service accepts. */
-export enum KnownBillingFrequency {
-  /** OneTime */
-  OneTime = "OneTime",
-  /** Monthly */
-  Monthly = "Monthly",
-  /** UsageBased */
-  UsageBased = "UsageBased"
+/** Known values of {@link Cancellation} that the service accepts. */
+export enum KnownCancellation {
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+  /** Allowed */
+  Allowed = "Allowed",
 }
 
 /**
- * Defines values for BillingFrequency. \
- * {@link KnownBillingFrequency} can be used interchangeably with BillingFrequency,
+ * Defines values for Cancellation. \
+ * {@link KnownCancellation} can be used interchangeably with Cancellation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **OneTime** \
- * **Monthly** \
- * **UsageBased**
+ * **NotAllowed** \
+ * **Allowed**
  */
-export type BillingFrequency = string;
+export type Cancellation = string;
 
-/** Known values of {@link InvoiceStatus} that the service accepts. */
-export enum KnownInvoiceStatus {
-  /** Due */
-  Due = "Due",
-  /** OverDue */
-  OverDue = "OverDue",
-  /** Paid */
-  Paid = "Paid",
-  /** Void */
-  Void = "Void"
-}
-
-/**
- * Defines values for InvoiceStatus. \
- * {@link KnownInvoiceStatus} can be used interchangeably with InvoiceStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Due** \
- * **OverDue** \
- * **Paid** \
- * **Void**
- */
-export type InvoiceStatus = string;
-
-/** Known values of {@link InvoiceType} that the service accepts. */
-export enum KnownInvoiceType {
-  /** AzureService */
-  AzureService = "AzureService",
-  /** AzureMarketplace */
-  AzureMarketplace = "AzureMarketplace",
-  /** AzureSupport */
-  AzureSupport = "AzureSupport"
-}
-
-/**
- * Defines values for InvoiceType. \
- * {@link KnownInvoiceType} can be used interchangeably with InvoiceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureService** \
- * **AzureMarketplace** \
- * **AzureSupport**
- */
-export type InvoiceType = string;
-
-/** Known values of {@link DocumentType} that the service accepts. */
-export enum KnownDocumentType {
-  /** Invoice */
-  Invoice = "Invoice",
-  /** VoidNote */
-  VoidNote = "VoidNote",
-  /** TaxReceipt */
-  TaxReceipt = "TaxReceipt",
-  /** CreditNote */
-  CreditNote = "CreditNote"
-}
-
-/**
- * Defines values for DocumentType. \
- * {@link KnownDocumentType} can be used interchangeably with DocumentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invoice** \
- * **VoidNote** \
- * **TaxReceipt** \
- * **CreditNote**
- */
-export type DocumentType = string;
-
-/** Known values of {@link DocumentSource} that the service accepts. */
-export enum KnownDocumentSource {
-  /** DRS */
-  DRS = "DRS",
-  /** ENF */
-  ENF = "ENF"
-}
-
-/**
- * Defines values for DocumentSource. \
- * {@link KnownDocumentSource} can be used interchangeably with DocumentSource,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DRS** \
- * **ENF**
- */
-export type DocumentSource = string;
-
-/** Known values of {@link PaymentMethodFamily} that the service accepts. */
-export enum KnownPaymentMethodFamily {
-  /** Credits */
-  Credits = "Credits",
-  /** CheckWire */
-  CheckWire = "CheckWire",
-  /** CreditCard */
-  CreditCard = "CreditCard",
+/** Known values of {@link BillingSubscriptionOperationStatus} that the service accepts. */
+export enum KnownBillingSubscriptionOperationStatus {
+  /** Other */
+  Other = "Other",
   /** None */
-  None = "None"
+  None = "None",
+  /** LockedForUpdate */
+  LockedForUpdate = "LockedForUpdate",
 }
 
 /**
- * Defines values for PaymentMethodFamily. \
- * {@link KnownPaymentMethodFamily} can be used interchangeably with PaymentMethodFamily,
+ * Defines values for BillingSubscriptionOperationStatus. \
+ * {@link KnownBillingSubscriptionOperationStatus} can be used interchangeably with BillingSubscriptionOperationStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Credits** \
- * **CheckWire** \
- * **CreditCard** \
- * **None**
+ * **Other** \
+ * **None** \
+ * **LockedForUpdate**
  */
-export type PaymentMethodFamily = string;
+export type BillingSubscriptionOperationStatus = string;
 
-/** Known values of {@link InvoiceDocumentType} that the service accepts. */
-export enum KnownInvoiceDocumentType {
-  /** Invoice */
-  Invoice = "Invoice",
-  /** CreditNote */
-  CreditNote = "CreditNote"
+/** Known values of {@link CancellationReason} that the service accepts. */
+export enum KnownCancellationReason {
+  /** Other */
+  Other = "Other",
+  /** Compromise */
+  Compromise = "Compromise",
+  /** Dispute */
+  Dispute = "Dispute",
 }
 
 /**
- * Defines values for InvoiceDocumentType. \
- * {@link KnownInvoiceDocumentType} can be used interchangeably with InvoiceDocumentType,
+ * Defines values for CancellationReason. \
+ * {@link KnownCancellationReason} can be used interchangeably with CancellationReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invoice** \
- * **CreditNote**
+ * **Other** \
+ * **Compromise** \
+ * **Dispute**
  */
-export type InvoiceDocumentType = string;
+export type CancellationReason = string;
 
 /** Known values of {@link SubscriptionTransferValidationErrorCode} that the service accepts. */
 export enum KnownSubscriptionTransferValidationErrorCode {
+  /** Other */
+  Other = "Other",
   /** BillingAccountInactive */
   BillingAccountInactive = "BillingAccountInactive",
-  /** CrossBillingAccountNotAllowed */
-  CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
   /** DestinationBillingProfileInactive */
   DestinationBillingProfileInactive = "DestinationBillingProfileInactive",
   /** DestinationBillingProfileNotFound */
@@ -2542,8 +6622,6 @@ export enum KnownSubscriptionTransferValidationErrorCode {
   InvalidSource = "InvalidSource",
   /** MarketplaceNotEnabledOnDestination */
   MarketplaceNotEnabledOnDestination = "MarketplaceNotEnabledOnDestination",
-  /** NotAvailableForDestinationMarket */
-  NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
   /** ProductInactive */
   ProductInactive = "ProductInactive",
   /** ProductNotFound */
@@ -2554,10 +6632,28 @@ export enum KnownSubscriptionTransferValidationErrorCode {
   SourceBillingProfilePastDue = "SourceBillingProfilePastDue",
   /** SourceInvoiceSectionInactive */
   SourceInvoiceSectionInactive = "SourceInvoiceSectionInactive",
+  /** AccountIsLocked */
+  AccountIsLocked = "AccountIsLocked",
+  /** AssetHasCap */
+  AssetHasCap = "AssetHasCap",
+  /** AssetNotActive */
+  AssetNotActive = "AssetNotActive",
+  /** BillingProfilePastDue */
+  BillingProfilePastDue = "BillingProfilePastDue",
+  /** CrossBillingAccountNotAllowed */
+  CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
+  /** NoActiveAzurePlan */
+  NoActiveAzurePlan = "NoActiveAzurePlan",
+  /** None */
+  None = "None",
   /** SubscriptionNotActive */
   SubscriptionNotActive = "SubscriptionNotActive",
+  /** SubscriptionHasReservations */
+  SubscriptionHasReservations = "SubscriptionHasReservations",
   /** SubscriptionTypeNotSupported */
-  SubscriptionTypeNotSupported = "SubscriptionTypeNotSupported"
+  SubscriptionTypeNotSupported = "SubscriptionTypeNotSupported",
+  /** InvoiceSectionIsRestricted */
+  InvoiceSectionIsRestricted = "InvoiceSectionIsRestricted",
 }
 
 /**
@@ -2565,8 +6661,8 @@ export enum KnownSubscriptionTransferValidationErrorCode {
  * {@link KnownSubscriptionTransferValidationErrorCode} can be used interchangeably with SubscriptionTransferValidationErrorCode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **BillingAccountInactive** \
- * **CrossBillingAccountNotAllowed** \
  * **DestinationBillingProfileInactive** \
  * **DestinationBillingProfileNotFound** \
  * **DestinationBillingProfilePastDue** \
@@ -2577,137 +6673,324 @@ export enum KnownSubscriptionTransferValidationErrorCode {
  * **InvalidDestination** \
  * **InvalidSource** \
  * **MarketplaceNotEnabledOnDestination** \
- * **NotAvailableForDestinationMarket** \
  * **ProductInactive** \
  * **ProductNotFound** \
  * **ProductTypeNotSupported** \
  * **SourceBillingProfilePastDue** \
  * **SourceInvoiceSectionInactive** \
+ * **AccountIsLocked** \
+ * **AssetHasCap** \
+ * **AssetNotActive** \
+ * **BillingProfilePastDue** \
+ * **CrossBillingAccountNotAllowed** \
+ * **NoActiveAzurePlan** \
+ * **None** \
  * **SubscriptionNotActive** \
- * **SubscriptionTypeNotSupported**
+ * **SubscriptionHasReservations** \
+ * **SubscriptionTypeNotSupported** \
+ * **InvoiceSectionIsRestricted**
  */
 export type SubscriptionTransferValidationErrorCode = string;
 
-/** Known values of {@link ProductTransferValidationErrorCode} that the service accepts. */
-export enum KnownProductTransferValidationErrorCode {
-  /** InvalidSource */
-  InvalidSource = "InvalidSource",
-  /** ProductNotActive */
-  ProductNotActive = "ProductNotActive",
-  /** InsufficientPermissionOnSource */
-  InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
-  /** InsufficientPermissionOnDestination */
-  InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
-  /** DestinationBillingProfilePastDue */
-  DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
-  /** ProductTypeNotSupported */
-  ProductTypeNotSupported = "ProductTypeNotSupported",
-  /** CrossBillingAccountNotAllowed */
-  CrossBillingAccountNotAllowed = "CrossBillingAccountNotAllowed",
-  /** NotAvailableForDestinationMarket */
-  NotAvailableForDestinationMarket = "NotAvailableForDestinationMarket",
-  /** OneTimePurchaseProductTransferNotAllowed */
-  OneTimePurchaseProductTransferNotAllowed = "OneTimePurchaseProductTransferNotAllowed"
+/** Known values of {@link InvoiceDocumentType} that the service accepts. */
+export enum KnownInvoiceDocumentType {
+  /** Other */
+  Other = "Other",
+  /** Invoice */
+  Invoice = "Invoice",
+  /** VoidNote */
+  VoidNote = "VoidNote",
+  /** TaxReceipt */
+  TaxReceipt = "TaxReceipt",
+  /** CreditNote */
+  CreditNote = "CreditNote",
+  /** Summary */
+  Summary = "Summary",
+  /** Transactions */
+  Transactions = "Transactions",
 }
 
 /**
- * Defines values for ProductTransferValidationErrorCode. \
- * {@link KnownProductTransferValidationErrorCode} can be used interchangeably with ProductTransferValidationErrorCode,
+ * Defines values for InvoiceDocumentType. \
+ * {@link KnownInvoiceDocumentType} can be used interchangeably with InvoiceDocumentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **InvalidSource** \
- * **ProductNotActive** \
- * **InsufficientPermissionOnSource** \
- * **InsufficientPermissionOnDestination** \
- * **DestinationBillingProfilePastDue** \
- * **ProductTypeNotSupported** \
- * **CrossBillingAccountNotAllowed** \
- * **NotAvailableForDestinationMarket** \
- * **OneTimePurchaseProductTransferNotAllowed**
+ * **Other** \
+ * **Invoice** \
+ * **VoidNote** \
+ * **TaxReceipt** \
+ * **CreditNote** \
+ * **Summary** \
+ * **Transactions**
  */
-export type ProductTransferValidationErrorCode = string;
+export type InvoiceDocumentType = string;
 
-/** Known values of {@link TransactionTypeKind} that the service accepts. */
-export enum KnownTransactionTypeKind {
-  /** All */
-  All = "all",
-  /** Reservation */
-  Reservation = "reservation"
+/** Known values of {@link DocumentSource} that the service accepts. */
+export enum KnownDocumentSource {
+  /** Other */
+  Other = "Other",
+  /** DRS */
+  DRS = "DRS",
+  /** ENF */
+  ENF = "ENF",
 }
 
 /**
- * Defines values for TransactionTypeKind. \
- * {@link KnownTransactionTypeKind} can be used interchangeably with TransactionTypeKind,
+ * Defines values for DocumentSource. \
+ * {@link KnownDocumentSource} can be used interchangeably with DocumentSource,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **all** \
- * **reservation**
+ * **Other** \
+ * **DRS** \
+ * **ENF**
  */
-export type TransactionTypeKind = string;
+export type DocumentSource = string;
 
-/** Known values of {@link ReservationType} that the service accepts. */
-export enum KnownReservationType {
-  /** Purchase */
-  Purchase = "Purchase",
-  /** UsageCharge */
-  UsageCharge = "Usage Charge"
+/** Known values of {@link FailedPaymentReason} that the service accepts. */
+export enum KnownFailedPaymentReason {
+  /** Other */
+  Other = "Other",
+  /** BankDeclined */
+  BankDeclined = "BankDeclined",
+  /** CardExpired */
+  CardExpired = "CardExpired",
+  /** IncorrectCardDetails */
+  IncorrectCardDetails = "IncorrectCardDetails",
 }
 
 /**
- * Defines values for ReservationType. \
- * {@link KnownReservationType} can be used interchangeably with ReservationType,
+ * Defines values for FailedPaymentReason. \
+ * {@link KnownFailedPaymentReason} can be used interchangeably with FailedPaymentReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Purchase** \
- * **Usage Charge**
+ * **Other** \
+ * **BankDeclined** \
+ * **CardExpired** \
+ * **IncorrectCardDetails**
  */
-export type ReservationType = string;
+export type FailedPaymentReason = string;
 
-/** Known values of {@link MarketplacePurchasesPolicy} that the service accepts. */
-export enum KnownMarketplacePurchasesPolicy {
-  /** AllAllowed */
-  AllAllowed = "AllAllowed",
-  /** OnlyFreeAllowed */
-  OnlyFreeAllowed = "OnlyFreeAllowed",
-  /** NotAllowed */
-  NotAllowed = "NotAllowed"
+/** Known values of {@link InvoiceType} that the service accepts. */
+export enum KnownInvoiceType {
+  /** Other */
+  Other = "Other",
+  /** AzureServices */
+  AzureServices = "AzureServices",
+  /** AzureMarketplace */
+  AzureMarketplace = "AzureMarketplace",
+  /** AzureSupport */
+  AzureSupport = "AzureSupport",
 }
 
 /**
- * Defines values for MarketplacePurchasesPolicy. \
- * {@link KnownMarketplacePurchasesPolicy} can be used interchangeably with MarketplacePurchasesPolicy,
+ * Defines values for InvoiceType. \
+ * {@link KnownInvoiceType} can be used interchangeably with InvoiceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AllAllowed** \
- * **OnlyFreeAllowed** \
- * **NotAllowed**
+ * **Other** \
+ * **AzureServices** \
+ * **AzureMarketplace** \
+ * **AzureSupport**
  */
-export type MarketplacePurchasesPolicy = string;
+export type InvoiceType = string;
 
-/** Known values of {@link ReservationPurchasesPolicy} that the service accepts. */
-export enum KnownReservationPurchasesPolicy {
+/** Known values of {@link InvoiceStatus} that the service accepts. */
+export enum KnownInvoiceStatus {
+  /** Other */
+  Other = "Other",
+  /** Due */
+  Due = "Due",
+  /** OverDue */
+  OverDue = "OverDue",
+  /** Paid */
+  Paid = "Paid",
+  /** Void */
+  Void = "Void",
+  /** Locked */
+  Locked = "Locked",
+}
+
+/**
+ * Defines values for InvoiceStatus. \
+ * {@link KnownInvoiceStatus} can be used interchangeably with InvoiceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Due** \
+ * **OverDue** \
+ * **Paid** \
+ * **Void** \
+ * **Locked**
+ */
+export type InvoiceStatus = string;
+
+/** Known values of {@link SpecialTaxationType} that the service accepts. */
+export enum KnownSpecialTaxationType {
+  /** SubtotalLevel */
+  SubtotalLevel = "SubtotalLevel",
+  /** InvoiceLevel */
+  InvoiceLevel = "InvoiceLevel",
+}
+
+/**
+ * Defines values for SpecialTaxationType. \
+ * {@link KnownSpecialTaxationType} can be used interchangeably with SpecialTaxationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SubtotalLevel** \
+ * **InvoiceLevel**
+ */
+export type SpecialTaxationType = string;
+
+/** Known values of {@link RefundStatus} that the service accepts. */
+export enum KnownRefundStatus {
+  /** Other */
+  Other = "Other",
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Declined */
+  Declined = "Declined",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** Completed */
+  Completed = "Completed",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for RefundStatus. \
+ * {@link KnownRefundStatus} can be used interchangeably with RefundStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Pending** \
+ * **Approved** \
+ * **Declined** \
+ * **Cancelled** \
+ * **Completed** \
+ * **Expired**
+ */
+export type RefundStatus = string;
+
+/** Known values of {@link RefundReasonCode} that the service accepts. */
+export enum KnownRefundReasonCode {
+  /** Other */
+  Other = "Other",
+  /** AccidentalConversion */
+  AccidentalConversion = "AccidentalConversion",
+  /** UnclearPricing */
+  UnclearPricing = "UnclearPricing",
+  /** AccidentalPurchase */
+  AccidentalPurchase = "AccidentalPurchase",
+  /** ForgotToCancel */
+  ForgotToCancel = "ForgotToCancel",
+  /** UnclearDocumentation */
+  UnclearDocumentation = "UnclearDocumentation",
+}
+
+/**
+ * Defines values for RefundReasonCode. \
+ * {@link KnownRefundReasonCode} can be used interchangeably with RefundReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **AccidentalConversion** \
+ * **UnclearPricing** \
+ * **AccidentalPurchase** \
+ * **ForgotToCancel** \
+ * **UnclearDocumentation**
+ */
+export type RefundReasonCode = string;
+
+/** Known values of {@link DeleteInvoiceSectionEligibilityStatus} that the service accepts. */
+export enum KnownDeleteInvoiceSectionEligibilityStatus {
   /** Allowed */
   Allowed = "Allowed",
   /** NotAllowed */
-  NotAllowed = "NotAllowed"
+  NotAllowed = "NotAllowed",
 }
 
 /**
- * Defines values for ReservationPurchasesPolicy. \
- * {@link KnownReservationPurchasesPolicy} can be used interchangeably with ReservationPurchasesPolicy,
+ * Defines values for DeleteInvoiceSectionEligibilityStatus. \
+ * {@link KnownDeleteInvoiceSectionEligibilityStatus} can be used interchangeably with DeleteInvoiceSectionEligibilityStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Allowed** \
  * **NotAllowed**
  */
-export type ReservationPurchasesPolicy = string;
+export type DeleteInvoiceSectionEligibilityStatus = string;
+
+/** Known values of {@link DeleteInvoiceSectionEligibilityCode} that the service accepts. */
+export enum KnownDeleteInvoiceSectionEligibilityCode {
+  /** Other */
+  Other = "Other",
+  /** LastInvoiceSection */
+  LastInvoiceSection = "LastInvoiceSection",
+  /** ActiveAzurePlans */
+  ActiveAzurePlans = "ActiveAzurePlans",
+  /** ReservedInstances */
+  ReservedInstances = "ReservedInstances",
+  /** ActiveBillingSubscriptions */
+  ActiveBillingSubscriptions = "ActiveBillingSubscriptions",
+}
+
+/**
+ * Defines values for DeleteInvoiceSectionEligibilityCode. \
+ * {@link KnownDeleteInvoiceSectionEligibilityCode} can be used interchangeably with DeleteInvoiceSectionEligibilityCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **LastInvoiceSection** \
+ * **ActiveAzurePlans** \
+ * **ReservedInstances** \
+ * **ActiveBillingSubscriptions**
+ */
+export type DeleteInvoiceSectionEligibilityCode = string;
+
+/** Known values of {@link PaymentMethodStatus} that the service accepts. */
+export enum KnownPaymentMethodStatus {
+  /** Active */
+  Active = "active",
+  /** Inactive */
+  Inactive = "inactive",
+}
+
+/**
+ * Defines values for PaymentMethodStatus. \
+ * {@link KnownPaymentMethodStatus} can be used interchangeably with PaymentMethodStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **active** \
+ * **inactive**
+ */
+export type PaymentMethodStatus = string;
+
+/** Known values of {@link ServiceDefinedResourceName} that the service accepts. */
+export enum KnownServiceDefinedResourceName {
+  /** Default */
+  Default = "default",
+}
+
+/**
+ * Defines values for ServiceDefinedResourceName. \
+ * {@link KnownServiceDefinedResourceName} can be used interchangeably with ServiceDefinedResourceName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type ServiceDefinedResourceName = string;
 
 /** Known values of {@link ViewChargesPolicy} that the service accepts. */
 export enum KnownViewChargesPolicy {
+  /** Other */
+  Other = "Other",
   /** Allowed */
   Allowed = "Allowed",
   /** NotAllowed */
-  NotAllowed = "NotAllowed"
+  NotAllowed = "NotAllowed",
 }
 
 /**
@@ -2715,126 +6998,789 @@ export enum KnownViewChargesPolicy {
  * {@link KnownViewChargesPolicy} can be used interchangeably with ViewChargesPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **Allowed** \
  * **NotAllowed**
  */
 export type ViewChargesPolicy = string;
 
-/** Known values of {@link ViewCharges} that the service accepts. */
-export enum KnownViewCharges {
+/** Known values of {@link PolicyType} that the service accepts. */
+export enum KnownPolicyType {
+  /** Other */
+  Other = "Other",
+  /** UserControlled */
+  UserControlled = "UserControlled",
+  /** SystemControlled */
+  SystemControlled = "SystemControlled",
+}
+
+/**
+ * Defines values for PolicyType. \
+ * {@link KnownPolicyType} can be used interchangeably with PolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **UserControlled** \
+ * **SystemControlled**
+ */
+export type PolicyType = string;
+
+/** Known values of {@link EnrollmentAuthLevelState} that the service accepts. */
+export enum KnownEnrollmentAuthLevelState {
+  /** Other */
+  Other = "Other",
+  /** MicrosoftAccountOnly */
+  MicrosoftAccountOnly = "MicrosoftAccountOnly",
+  /** MixedAccount */
+  MixedAccount = "MixedAccount",
+  /** OrganizationalAccountCrossTenant */
+  OrganizationalAccountCrossTenant = "OrganizationalAccountCrossTenant",
+  /** OrganizationalAccountOnly */
+  OrganizationalAccountOnly = "OrganizationalAccountOnly",
+}
+
+/**
+ * Defines values for EnrollmentAuthLevelState. \
+ * {@link KnownEnrollmentAuthLevelState} can be used interchangeably with EnrollmentAuthLevelState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **MicrosoftAccountOnly** \
+ * **MixedAccount** \
+ * **OrganizationalAccountCrossTenant** \
+ * **OrganizationalAccountOnly**
+ */
+export type EnrollmentAuthLevelState = string;
+
+/** Known values of {@link EnrollmentAccountOwnerViewCharges} that the service accepts. */
+export enum KnownEnrollmentAccountOwnerViewCharges {
+  /** Other */
+  Other = "Other",
+  /** Allowed */
+  Allowed = "Allowed",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+}
+
+/**
+ * Defines values for EnrollmentAccountOwnerViewCharges. \
+ * {@link KnownEnrollmentAccountOwnerViewCharges} can be used interchangeably with EnrollmentAccountOwnerViewCharges,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Allowed** \
+ * **Disabled** \
+ * **NotAllowed**
+ */
+export type EnrollmentAccountOwnerViewCharges = string;
+
+/** Known values of {@link EnrollmentDepartmentAdminViewCharges} that the service accepts. */
+export enum KnownEnrollmentDepartmentAdminViewCharges {
+  /** Other */
+  Other = "Other",
+  /** Allowed */
+  Allowed = "Allowed",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+}
+
+/**
+ * Defines values for EnrollmentDepartmentAdminViewCharges. \
+ * {@link KnownEnrollmentDepartmentAdminViewCharges} can be used interchangeably with EnrollmentDepartmentAdminViewCharges,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Allowed** \
+ * **Disabled** \
+ * **NotAllowed**
+ */
+export type EnrollmentDepartmentAdminViewCharges = string;
+
+/** Known values of {@link InvoiceSectionLabelManagementPolicy} that the service accepts. */
+export enum KnownInvoiceSectionLabelManagementPolicy {
+  /** Other */
+  Other = "Other",
   /** Allowed */
   Allowed = "Allowed",
   /** NotAllowed */
-  NotAllowed = "NotAllowed"
+  NotAllowed = "NotAllowed",
 }
 
 /**
- * Defines values for ViewCharges. \
- * {@link KnownViewCharges} can be used interchangeably with ViewCharges,
+ * Defines values for InvoiceSectionLabelManagementPolicy. \
+ * {@link KnownInvoiceSectionLabelManagementPolicy} can be used interchangeably with InvoiceSectionLabelManagementPolicy,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
  * **Allowed** \
  * **NotAllowed**
  */
-export type ViewCharges = string;
+export type InvoiceSectionLabelManagementPolicy = string;
 
-/** Known values of {@link BillingProfileStatusReasonCode} that the service accepts. */
-export enum KnownBillingProfileStatusReasonCode {
+/** Known values of {@link MarketplacePurchasesPolicy} that the service accepts. */
+export enum KnownMarketplacePurchasesPolicy {
+  /** Other */
+  Other = "Other",
+  /** AllAllowed */
+  AllAllowed = "AllAllowed",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+  /** OnlyFreeAllowed */
+  OnlyFreeAllowed = "OnlyFreeAllowed",
+}
+
+/**
+ * Defines values for MarketplacePurchasesPolicy. \
+ * {@link KnownMarketplacePurchasesPolicy} can be used interchangeably with MarketplacePurchasesPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **AllAllowed** \
+ * **Disabled** \
+ * **NotAllowed** \
+ * **OnlyFreeAllowed**
+ */
+export type MarketplacePurchasesPolicy = string;
+
+/** Known values of {@link ReservationPurchasesPolicy} that the service accepts. */
+export enum KnownReservationPurchasesPolicy {
+  /** Other */
+  Other = "Other",
+  /** Allowed */
+  Allowed = "Allowed",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+}
+
+/**
+ * Defines values for ReservationPurchasesPolicy. \
+ * {@link KnownReservationPurchasesPolicy} can be used interchangeably with ReservationPurchasesPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Allowed** \
+ * **Disabled** \
+ * **NotAllowed**
+ */
+export type ReservationPurchasesPolicy = string;
+
+/** Known values of {@link SavingsPlanPurchasesPolicy} that the service accepts. */
+export enum KnownSavingsPlanPurchasesPolicy {
+  /** Other */
+  Other = "Other",
+  /** Allowed */
+  Allowed = "Allowed",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** NotAllowed */
+  NotAllowed = "NotAllowed",
+}
+
+/**
+ * Defines values for SavingsPlanPurchasesPolicy. \
+ * {@link KnownSavingsPlanPurchasesPolicy} can be used interchangeably with SavingsPlanPurchasesPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **Allowed** \
+ * **Disabled** \
+ * **NotAllowed**
+ */
+export type SavingsPlanPurchasesPolicy = string;
+
+/** Known values of {@link ProductStatus} that the service accepts. */
+export enum KnownProductStatus {
+  /** Other */
+  Other = "Other",
+  /** Active */
+  Active = "Active",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Deleted */
+  Deleted = "Deleted",
   /** PastDue */
   PastDue = "PastDue",
-  /** SpendingLimitReached */
-  SpendingLimitReached = "SpendingLimitReached",
-  /** SpendingLimitExpired */
-  SpendingLimitExpired = "SpendingLimitExpired"
+  /** Expiring */
+  Expiring = "Expiring",
+  /** Expired */
+  Expired = "Expired",
+  /** AutoRenew */
+  AutoRenew = "AutoRenew",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Suspended */
+  Suspended = "Suspended",
 }
 
 /**
- * Defines values for BillingProfileStatusReasonCode. \
- * {@link KnownBillingProfileStatusReasonCode} can be used interchangeably with BillingProfileStatusReasonCode,
+ * Defines values for ProductStatus. \
+ * {@link KnownProductStatus} can be used interchangeably with ProductStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Other** \
+ * **Active** \
+ * **Disabled** \
+ * **Deleted** \
  * **PastDue** \
- * **SpendingLimitReached** \
- * **SpendingLimitExpired**
+ * **Expiring** \
+ * **Expired** \
+ * **AutoRenew** \
+ * **Canceled** \
+ * **Suspended**
  */
-export type BillingProfileStatusReasonCode = string;
+export type ProductStatus = string;
 
-/** Known values of {@link BillingProfileSpendingLimit} that the service accepts. */
-export enum KnownBillingProfileSpendingLimit {
+/** Known values of {@link MoveValidationErrorCode} that the service accepts. */
+export enum KnownMoveValidationErrorCode {
+  /** Other */
+  Other = "Other",
+  /** BillingAccountInactive */
+  BillingAccountInactive = "BillingAccountInactive",
+  /** DestinationBillingProfileInactive */
+  DestinationBillingProfileInactive = "DestinationBillingProfileInactive",
+  /** DestinationBillingProfileNotFound */
+  DestinationBillingProfileNotFound = "DestinationBillingProfileNotFound",
+  /** DestinationBillingProfilePastDue */
+  DestinationBillingProfilePastDue = "DestinationBillingProfilePastDue",
+  /** DestinationInvoiceSectionInactive */
+  DestinationInvoiceSectionInactive = "DestinationInvoiceSectionInactive",
+  /** DestinationInvoiceSectionNotFound */
+  DestinationInvoiceSectionNotFound = "DestinationInvoiceSectionNotFound",
+  /** InsufficientPermissionOnDestination */
+  InsufficientPermissionOnDestination = "InsufficientPermissionOnDestination",
+  /** InsufficientPermissionOnSource */
+  InsufficientPermissionOnSource = "InsufficientPermissionOnSource",
+  /** InvalidDestination */
+  InvalidDestination = "InvalidDestination",
+  /** InvalidSource */
+  InvalidSource = "InvalidSource",
+  /** MarketplaceNotEnabledOnDestination */
+  MarketplaceNotEnabledOnDestination = "MarketplaceNotEnabledOnDestination",
+  /** ProductInactive */
+  ProductInactive = "ProductInactive",
+  /** ProductNotFound */
+  ProductNotFound = "ProductNotFound",
+  /** ProductTypeNotSupported */
+  ProductTypeNotSupported = "ProductTypeNotSupported",
+  /** SourceBillingProfilePastDue */
+  SourceBillingProfilePastDue = "SourceBillingProfilePastDue",
+  /** SourceInvoiceSectionInactive */
+  SourceInvoiceSectionInactive = "SourceInvoiceSectionInactive",
+}
+
+/**
+ * Defines values for MoveValidationErrorCode. \
+ * {@link KnownMoveValidationErrorCode} can be used interchangeably with MoveValidationErrorCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **BillingAccountInactive** \
+ * **DestinationBillingProfileInactive** \
+ * **DestinationBillingProfileNotFound** \
+ * **DestinationBillingProfilePastDue** \
+ * **DestinationInvoiceSectionInactive** \
+ * **DestinationInvoiceSectionNotFound** \
+ * **InsufficientPermissionOnDestination** \
+ * **InsufficientPermissionOnSource** \
+ * **InvalidDestination** \
+ * **InvalidSource** \
+ * **MarketplaceNotEnabledOnDestination** \
+ * **ProductInactive** \
+ * **ProductNotFound** \
+ * **ProductTypeNotSupported** \
+ * **SourceBillingProfilePastDue** \
+ * **SourceInvoiceSectionInactive**
+ */
+export type MoveValidationErrorCode = string;
+
+/** Known values of {@link InstanceFlexibility} that the service accepts. */
+export enum KnownInstanceFlexibility {
+  /** On */
+  On = "On",
   /** Off */
   Off = "Off",
-  /** On */
-  On = "On"
 }
 
 /**
- * Defines values for BillingProfileSpendingLimit. \
- * {@link KnownBillingProfileSpendingLimit} can be used interchangeably with BillingProfileSpendingLimit,
+ * Defines values for InstanceFlexibility. \
+ * {@link KnownInstanceFlexibility} can be used interchangeably with InstanceFlexibility,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Off** \
- * **On**
+ * **On** \
+ * **Off**
  */
-export type BillingProfileSpendingLimit = string;
+export type InstanceFlexibility = string;
 
-/** Known values of {@link Category} that the service accepts. */
-export enum KnownCategory {
-  /** MicrosoftCustomerAgreement */
-  MicrosoftCustomerAgreement = "MicrosoftCustomerAgreement",
-  /** AffiliatePurchaseTerms */
-  AffiliatePurchaseTerms = "AffiliatePurchaseTerms",
+/** Known values of {@link ReservationStatusCode} that the service accepts. */
+export enum KnownReservationStatusCode {
+  /** None */
+  None = "None",
+  /** Pending */
+  Pending = "Pending",
+  /** Processing */
+  Processing = "Processing",
+  /** Active */
+  Active = "Active",
+  /** PurchaseError */
+  PurchaseError = "PurchaseError",
+  /** PaymentInstrumentError */
+  PaymentInstrumentError = "PaymentInstrumentError",
+  /** Split */
+  Split = "Split",
+  /** Merged */
+  Merged = "Merged",
+  /** Expired */
+  Expired = "Expired",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** CapacityError */
+  CapacityError = "CapacityError",
+  /** CapacityRestricted */
+  CapacityRestricted = "CapacityRestricted",
+  /** Exchanged */
+  Exchanged = "Exchanged",
+  /** UnknownError */
+  UnknownError = "UnknownError",
+  /** RiskCheckFailed */
+  RiskCheckFailed = "RiskCheckFailed",
+  /** CreditLineCheckFailed */
+  CreditLineCheckFailed = "CreditLineCheckFailed",
+  /** Warning */
+  Warning = "Warning",
+  /** NoBenefitDueToSubscriptionTransfer */
+  NoBenefitDueToSubscriptionTransfer = "NoBenefitDueToSubscriptionTransfer",
+  /** NoBenefitDueToSubscriptionDeletion */
+  NoBenefitDueToSubscriptionDeletion = "NoBenefitDueToSubscriptionDeletion",
+  /** NoBenefit */
+  NoBenefit = "NoBenefit",
+}
+
+/**
+ * Defines values for ReservationStatusCode. \
+ * {@link KnownReservationStatusCode} can be used interchangeably with ReservationStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Pending** \
+ * **Processing** \
+ * **Active** \
+ * **PurchaseError** \
+ * **PaymentInstrumentError** \
+ * **Split** \
+ * **Merged** \
+ * **Expired** \
+ * **Succeeded** \
+ * **CapacityError** \
+ * **CapacityRestricted** \
+ * **Exchanged** \
+ * **UnknownError** \
+ * **RiskCheckFailed** \
+ * **CreditLineCheckFailed** \
+ * **Warning** \
+ * **NoBenefitDueToSubscriptionTransfer** \
+ * **NoBenefitDueToSubscriptionDeletion** \
+ * **NoBenefit**
+ */
+export type ReservationStatusCode = string;
+
+/** Known values of {@link ReservationBillingPlan} that the service accepts. */
+export enum KnownReservationBillingPlan {
+  /** Upfront */
+  Upfront = "Upfront",
+  /** Monthly */
+  Monthly = "Monthly",
+}
+
+/**
+ * Defines values for ReservationBillingPlan. \
+ * {@link KnownReservationBillingPlan} can be used interchangeably with ReservationBillingPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Upfront** \
+ * **Monthly**
+ */
+export type ReservationBillingPlan = string;
+
+/** Known values of {@link TransactionType} that the service accepts. */
+export enum KnownTransactionType {
   /** Other */
-  Other = "Other"
+  Other = "Other",
+  /** Billed */
+  Billed = "Billed",
+  /** Unbilled */
+  Unbilled = "Unbilled",
 }
 
 /**
- * Defines values for Category. \
- * {@link KnownCategory} can be used interchangeably with Category,
+ * Defines values for TransactionType. \
+ * {@link KnownTransactionType} can be used interchangeably with TransactionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **MicrosoftCustomerAgreement** \
- * **AffiliatePurchaseTerms** \
- * **Other**
+ * **Other** \
+ * **Billed** \
+ * **Unbilled**
  */
-export type Category = string;
+export type TransactionType = string;
 
-/** Known values of {@link AcceptanceMode} that the service accepts. */
-export enum KnownAcceptanceMode {
-  /** ClickToAccept */
-  ClickToAccept = "ClickToAccept",
-  /** ESignEmbedded */
-  ESignEmbedded = "ESignEmbedded",
-  /** ESignOffline */
-  ESignOffline = "ESignOffline"
+/** Known values of {@link CreditType} that the service accepts. */
+export enum KnownCreditType {
+  /** Other */
+  Other = "Other",
+  /** AzureFreeCredit */
+  AzureFreeCredit = "AzureFreeCredit",
+  /** AzureCreditOffer */
+  AzureCreditOffer = "AzureCreditOffer",
+  /** ServiceInterruption */
+  ServiceInterruption = "ServiceInterruption",
+  /** Refund */
+  Refund = "Refund",
 }
 
 /**
- * Defines values for AcceptanceMode. \
- * {@link KnownAcceptanceMode} can be used interchangeably with AcceptanceMode,
+ * Defines values for CreditType. \
+ * {@link KnownCreditType} can be used interchangeably with CreditType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ClickToAccept** \
- * **ESignEmbedded** \
- * **ESignOffline**
+ * **Other** \
+ * **AzureFreeCredit** \
+ * **AzureCreditOffer** \
+ * **ServiceInterruption** \
+ * **Refund**
  */
-export type AcceptanceMode = string;
+export type CreditType = string;
+
+/** Known values of {@link TransactionKind} that the service accepts. */
+export enum KnownTransactionKind {
+  /** Other */
+  Other = "Other",
+  /** All */
+  All = "All",
+  /** Reservation */
+  Reservation = "Reservation",
+}
+
+/**
+ * Defines values for TransactionKind. \
+ * {@link KnownTransactionKind} can be used interchangeably with TransactionKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Other** \
+ * **All** \
+ * **Reservation**
+ */
+export type TransactionKind = string;
+
+/** Known values of {@link TransferStatus} that the service accepts. */
+export enum KnownTransferStatus {
+  /** Expired */
+  Expired = "Expired",
+  /** Pending */
+  Pending = "Pending",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Completed */
+  Completed = "Completed",
+  /** CompletedWithErrors */
+  CompletedWithErrors = "CompletedWithErrors",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Declined */
+  Declined = "Declined",
+}
+
+/**
+ * Defines values for TransferStatus. \
+ * {@link KnownTransferStatus} can be used interchangeably with TransferStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Expired** \
+ * **Pending** \
+ * **InProgress** \
+ * **Completed** \
+ * **CompletedWithErrors** \
+ * **Failed** \
+ * **Canceled** \
+ * **Declined**
+ */
+export type TransferStatus = string;
+
+/** Known values of {@link ProductType} that the service accepts. */
+export enum KnownProductType {
+  /** AzureSubscription */
+  AzureSubscription = "AzureSubscription",
+  /** AzureReservation */
+  AzureReservation = "AzureReservation",
+  /** Department */
+  Department = "Department",
+  /** SavingsPlan */
+  SavingsPlan = "SavingsPlan",
+  /** Saas */
+  Saas = "SAAS",
+}
+
+/**
+ * Defines values for ProductType. \
+ * {@link KnownProductType} can be used interchangeably with ProductType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureSubscription** \
+ * **AzureReservation** \
+ * **Department** \
+ * **SavingsPlan** \
+ * **SAAS**
+ */
+export type ProductType = string;
+
+/** Known values of {@link ProductTransferStatus} that the service accepts. */
+export enum KnownProductTransferStatus {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Completed */
+  Completed = "Completed",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for ProductTransferStatus. \
+ * {@link KnownProductTransferStatus} can be used interchangeably with ProductTransferStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **InProgress** \
+ * **Completed** \
+ * **Failed**
+ */
+export type ProductTransferStatus = string;
+
+/** Known values of {@link InitiatorCustomerType} that the service accepts. */
+export enum KnownInitiatorCustomerType {
+  /** Partner */
+  Partner = "Partner",
+  /** EA */
+  EA = "EA",
+}
+
+/**
+ * Defines values for InitiatorCustomerType. \
+ * {@link KnownInitiatorCustomerType} can be used interchangeably with InitiatorCustomerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Partner** \
+ * **EA**
+ */
+export type InitiatorCustomerType = string;
+
+/** Known values of {@link EligibleProductType} that the service accepts. */
+export enum KnownEligibleProductType {
+  /** DevTestAzureSubscription */
+  DevTestAzureSubscription = "DevTestAzureSubscription",
+  /** StandardAzureSubscription */
+  StandardAzureSubscription = "StandardAzureSubscription",
+  /** AzureReservation */
+  AzureReservation = "AzureReservation",
+}
+
+/**
+ * Defines values for EligibleProductType. \
+ * {@link KnownEligibleProductType} can be used interchangeably with EligibleProductType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DevTestAzureSubscription** \
+ * **StandardAzureSubscription** \
+ * **AzureReservation**
+ */
+export type EligibleProductType = string;
+
+/** Known values of {@link SupportedAccountType} that the service accepts. */
+export enum KnownSupportedAccountType {
+  /** None */
+  None = "None",
+  /** Partner */
+  Partner = "Partner",
+  /** Individual */
+  Individual = "Individual",
+  /** Enterprise */
+  Enterprise = "Enterprise",
+}
+
+/**
+ * Defines values for SupportedAccountType. \
+ * {@link KnownSupportedAccountType} can be used interchangeably with SupportedAccountType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Partner** \
+ * **Individual** \
+ * **Enterprise**
+ */
+export type SupportedAccountType = string;
 
 /** Optional parameters. */
-export interface BillingAccountsListOptionalParams
+export interface AgreementsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AgreementsGetResponse = Agreement;
+
+/** Optional parameters. */
+export interface AgreementsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to expand the soldTo, invoice sections and billing profiles. */
+  /** May be used to expand the participants. */
   expand?: string;
 }
 
-/** Contains response data for the list operation. */
-export type BillingAccountsListResponse = BillingAccountListResult;
+/** Contains response data for the listByBillingAccount operation. */
+export type AgreementsListByBillingAccountResponse = AgreementListResult;
+
+/** Optional parameters. */
+export interface AgreementsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type AgreementsListByBillingAccountNextResponse = AgreementListResult;
+
+/** Optional parameters. */
+export interface AssociatedTenantsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type AssociatedTenantsDeleteResponse = AssociatedTenantsDeleteHeaders;
+
+/** Optional parameters. */
+export interface AssociatedTenantsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AssociatedTenantsGetResponse = AssociatedTenant;
+
+/** Optional parameters. */
+export interface AssociatedTenantsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AssociatedTenantsCreateOrUpdateResponse = AssociatedTenant;
+
+/** Optional parameters. */
+export interface AssociatedTenantsListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to get revoked associated tenants. */
+  includeRevoked?: boolean;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type AssociatedTenantsListByBillingAccountResponse =
+  AssociatedTenantListResult;
+
+/** Optional parameters. */
+export interface AssociatedTenantsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type AssociatedTenantsListByBillingAccountNextResponse =
+  AssociatedTenantListResult;
+
+/** Optional parameters. */
+export interface AvailableBalancesGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type AvailableBalancesGetByBillingAccountResponse = AvailableBalance;
+
+/** Optional parameters. */
+export interface AvailableBalancesGetByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingProfile operation. */
+export type AvailableBalancesGetByBillingProfileResponse = AvailableBalance;
+
+/** Optional parameters. */
+export interface BillingAccountsAddPaymentTermsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the addPaymentTerms operation. */
+export type BillingAccountsAddPaymentTermsResponse = BillingAccount;
+
+/** Optional parameters. */
+export interface BillingAccountsCancelPaymentTermsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the cancelPaymentTerms operation. */
+export type BillingAccountsCancelPaymentTermsResponse = BillingAccount;
+
+/** Optional parameters. */
+export interface BillingAccountsConfirmTransitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the confirmTransition operation. */
+export type BillingAccountsConfirmTransitionResponse = TransitionDetails;
+
+/** Optional parameters. */
+export interface BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+}
+
+/** Contains response data for the listInvoiceSectionsByCreateSubscriptionPermission operation. */
+export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResponse =
+  InvoiceSectionWithCreateSubPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingAccountsValidatePaymentTermsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validatePaymentTerms operation. */
+export type BillingAccountsValidatePaymentTermsResponse =
+  PaymentTermsEligibilityResult;
 
 /** Optional parameters. */
 export interface BillingAccountsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the soldTo, invoice sections and billing profiles. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingAccountsGetResponse = BillingAccount;
@@ -2852,87 +7798,242 @@ export interface BillingAccountsUpdateOptionalParams
 export type BillingAccountsUpdateResponse = BillingAccount;
 
 /** Optional parameters. */
-export interface BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listInvoiceSectionsByCreateSubscriptionPermission operation. */
-export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionResponse = InvoiceSectionListWithCreateSubPermissionResult;
-
-/** Optional parameters. */
-export interface BillingAccountsListNextOptionalParams
+export interface BillingAccountsListOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to expand the soldTo, invoice sections and billing profiles. */
+  /** Expand is allowed for SoldTo and EnrollmentDetails/PONumber. */
   expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** When true, results will include Billing Accounts that the user does not have a direct role assignment on if the user has one of the following AAD roles: Global Administrator, Global Reader, Billing Administrator. */
+  includeAll?: boolean;
+  /** When true, results will include Billing Accounts that are not fully created if the user has one of the following AAD roles: Global Administrator, Global Reader, Billing Administrator. */
+  includeAllWithoutBillingProfiles?: boolean;
+  /** When true, results will include any billing accounts in a deleted state. */
+  includeDeleted?: boolean;
+  /** Includes billing accounts with agreement pending signature that the user has access to. */
+  includePendingAgreement?: boolean;
+  /** Includes the customer's billing account of Microsoft Partner Agreement that the user has access to. */
+  includeResellee?: boolean;
+  /** Must be combined with legalOwnerOID, results will only include Billing Accounts for whom is legally responsible for the Billing Accounts. Optional. */
+  legalOwnerTID?: string;
+  /** Must be combined with legalOwnerTID, results will only include Billing Accounts for whom is legally responsible for the Billing Accounts. Optional. */
+  legalOwnerOID?: string;
 }
 
-/** Contains response data for the listNext operation. */
-export type BillingAccountsListNextResponse = BillingAccountListResult;
+/** Contains response data for the list operation. */
+export type BillingAccountsListResponse = BillingAccountListResult;
 
 /** Optional parameters. */
 export interface BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInvoiceSectionsByCreateSubscriptionPermissionNext operation. */
-export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextResponse = InvoiceSectionListWithCreateSubPermissionResult;
+export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNextResponse =
+  InvoiceSectionWithCreateSubPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingAccountsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BillingAccountsListNextResponse = BillingAccountListResult;
 
 /** Optional parameters. */
 export interface AddressValidateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
-export type AddressValidateResponse = ValidateAddressResponse;
+export type AddressValidateResponse = AddressValidationResponse;
 
 /** Optional parameters. */
-export interface AvailableBalancesGetOptionalParams
+export interface BillingPermissionsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type AvailableBalancesGetResponse = AvailableBalance;
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingPermissionsListByBillingAccountResponse =
+  BillingPermissionListResult;
 
 /** Optional parameters. */
-export interface InstructionsListByBillingProfileOptionalParams
+export interface BillingPermissionsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
-export type InstructionsListByBillingProfileResponse = InstructionListResult;
+export type BillingPermissionsListByBillingProfileResponse =
+  BillingPermissionListResult;
 
 /** Optional parameters. */
-export interface InstructionsGetOptionalParams
+export interface BillingPermissionsCheckAccessByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type InstructionsGetResponse = Instruction;
+/** Contains response data for the checkAccessByBillingProfile operation. */
+export type BillingPermissionsCheckAccessByBillingProfileResponse =
+  CheckAccessResponse[];
 
 /** Optional parameters. */
-export interface InstructionsPutOptionalParams
+export interface BillingPermissionsListByCustomerOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the put operation. */
-export type InstructionsPutResponse = Instruction;
+/** Contains response data for the listByCustomer operation. */
+export type BillingPermissionsListByCustomerResponse =
+  BillingPermissionListResult;
 
 /** Optional parameters. */
-export interface InstructionsListByBillingProfileNextOptionalParams
+export interface BillingPermissionsCheckAccessByCustomerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAccessByCustomer operation. */
+export type BillingPermissionsCheckAccessByCustomerResponse =
+  CheckAccessResponse[];
+
+/** Optional parameters. */
+export interface BillingPermissionsListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type BillingPermissionsListByInvoiceSectionResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsCheckAccessByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAccessByInvoiceSection operation. */
+export type BillingPermissionsCheckAccessByInvoiceSectionResponse =
+  CheckAccessResponse[];
+
+/** Optional parameters. */
+export interface BillingPermissionsCheckAccessByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAccessByBillingAccount operation. */
+export type BillingPermissionsCheckAccessByBillingAccountResponse =
+  CheckAccessResponse[];
+
+/** Optional parameters. */
+export interface BillingPermissionsListByCustomerAtBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerAtBillingAccount operation. */
+export type BillingPermissionsListByCustomerAtBillingAccountResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsListByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartment operation. */
+export type BillingPermissionsListByDepartmentResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsCheckAccessByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAccessByDepartment operation. */
+export type BillingPermissionsCheckAccessByDepartmentResponse =
+  CheckAccessResponse[];
+
+/** Optional parameters. */
+export interface BillingPermissionsListByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccount operation. */
+export type BillingPermissionsListByEnrollmentAccountResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAccessByEnrollmentAccount operation. */
+export type BillingPermissionsCheckAccessByEnrollmentAccountResponse =
+  CheckAccessResponse[];
+
+/** Optional parameters. */
+export interface BillingPermissionsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingPermissionsListByBillingAccountNextResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type InstructionsListByBillingProfileNextResponse = InstructionListResult;
+export type BillingPermissionsListByBillingProfileNextResponse =
+  BillingPermissionListResult;
 
 /** Optional parameters. */
-export interface BillingProfilesListByBillingAccountOptionalParams
+export interface BillingPermissionsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type BillingPermissionsListByCustomerNextResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type BillingPermissionsListByInvoiceSectionNextResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsListByCustomerAtBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerAtBillingAccountNext operation. */
+export type BillingPermissionsListByCustomerAtBillingAccountNextResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsListByDepartmentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartmentNext operation. */
+export type BillingPermissionsListByDepartmentNextResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingPermissionsListByEnrollmentAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccountNext operation. */
+export type BillingPermissionsListByEnrollmentAccountNextResponse =
+  BillingPermissionListResult;
+
+/** Optional parameters. */
+export interface BillingProfilesValidateDeleteEligibilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateDeleteEligibility operation. */
+export type BillingProfilesValidateDeleteEligibilityResponse =
+  DeleteBillingProfileEligibilityResult;
+
+/** Optional parameters. */
+export interface BillingProfilesDeleteOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to expand the invoice sections. */
-  expand?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/** Contains response data for the listByBillingAccount operation. */
-export type BillingProfilesListByBillingAccountResponse = BillingProfileListResult;
+/** Contains response data for the delete operation. */
+export type BillingProfilesDeleteResponse = BillingProfilesDeleteHeaders;
 
 /** Optional parameters. */
 export interface BillingProfilesGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the invoice sections. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingProfilesGetResponse = BillingProfile;
@@ -2950,79 +8051,1562 @@ export interface BillingProfilesCreateOrUpdateOptionalParams
 export type BillingProfilesCreateOrUpdateResponse = BillingProfile;
 
 /** Optional parameters. */
-export interface BillingProfilesListByBillingAccountNextOptionalParams
+export interface BillingProfilesListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to expand the invoice sections. */
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing profiles. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingProfilesListByBillingAccountResponse =
+  BillingProfileListResult;
+
+/** Optional parameters. */
+export interface BillingProfilesListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingProfilesListByBillingAccountNextResponse =
+  BillingProfileListResult;
+
+/** Optional parameters. */
+export interface BillingPropertyGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** A flag that specifies whether or not to include billing country. */
+  includeBillingCountry?: boolean;
+  /** A flag that specifies whether or not to include transition status for billing accounts with agreement type Microsoft Customer Agreement. */
+  includeTransitionStatus?: boolean;
+}
+
+/** Contains response data for the get operation. */
+export type BillingPropertyGetResponse = BillingProperty;
+
+/** Optional parameters. */
+export interface BillingPropertyUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type BillingPropertyUpdateResponse = BillingProperty;
+
+/** Optional parameters. */
+export interface BillingRequestsListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type BillingRequestsListByBillingProfileResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type BillingRequestsListByCustomerResponse = BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type BillingRequestsListByInvoiceSectionResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingRequestsListByBillingAccountResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingRequestsGetResponse = BillingRequest;
+
+/** Optional parameters. */
+export interface BillingRequestsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BillingRequestsCreateOrUpdateResponse = BillingRequest;
+
+/** Optional parameters. */
+export interface BillingRequestsListByUserOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByUser operation. */
+export type BillingRequestsListByUserResponse = BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type BillingRequestsListByBillingProfileNextResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type BillingRequestsListByCustomerNextResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type BillingRequestsListByInvoiceSectionNextResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingRequestsListByBillingAccountNextResponse =
+  BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRequestsListByUserNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByUserNext operation. */
+export type BillingRequestsListByUserNextResponse = BillingRequestListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsDeleteByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsGetByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingProfile operation. */
+export type BillingRoleAssignmentsGetByBillingProfileResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type BillingRoleAssignmentsListByBillingProfileResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createByBillingProfile operation. */
+export type BillingRoleAssignmentsCreateByBillingProfileResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsDeleteByCustomerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsGetByCustomerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByCustomer operation. */
+export type BillingRoleAssignmentsGetByCustomerResponse = BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type BillingRoleAssignmentsListByCustomerResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createByCustomer operation. */
+export type BillingRoleAssignmentsCreateByCustomerResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsResolveByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** Resolves the scope display name for each of the role assignments. */
+  resolveScopeDisplayNames?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resolveByCustomer operation. */
+export type BillingRoleAssignmentsResolveByCustomerResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsGetByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByInvoiceSection operation. */
+export type BillingRoleAssignmentsGetByInvoiceSectionResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type BillingRoleAssignmentsListByInvoiceSectionResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createByInvoiceSection operation. */
+export type BillingRoleAssignmentsCreateByInvoiceSectionResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** Resolves the scope display name for each of the role assignments. */
+  resolveScopeDisplayNames?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resolveByInvoiceSection operation. */
+export type BillingRoleAssignmentsResolveByInvoiceSectionResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsResolveByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** Resolves the scope display name for each of the role assignments. */
+  resolveScopeDisplayNames?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resolveByBillingProfile operation. */
+export type BillingRoleAssignmentsResolveByBillingProfileResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsDeleteByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type BillingRoleAssignmentsGetByBillingAccountResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateByBillingAccount operation. */
+export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingRoleAssignmentsListByBillingAccountResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createByBillingAccount operation. */
+export type BillingRoleAssignmentsCreateByBillingAccountResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsDeleteByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsGetByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByDepartment operation. */
+export type BillingRoleAssignmentsGetByDepartmentResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateByDepartment operation. */
+export type BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartment operation. */
+export type BillingRoleAssignmentsListByDepartmentResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsDeleteByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsGetByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByEnrollmentAccount operation. */
+export type BillingRoleAssignmentsGetByEnrollmentAccountResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateByEnrollmentAccount operation. */
+export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse =
+  BillingRoleAssignment;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccount operation. */
+export type BillingRoleAssignmentsListByEnrollmentAccountResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsResolveByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** Resolves the scope display name for each of the role assignments. */
+  resolveScopeDisplayNames?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resolveByBillingAccount operation. */
+export type BillingRoleAssignmentsResolveByBillingAccountResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type BillingRoleAssignmentsListByBillingProfileNextResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type BillingRoleAssignmentsListByCustomerNextResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type BillingRoleAssignmentsListByInvoiceSectionNextResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingRoleAssignmentsListByBillingAccountNextResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByDepartmentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartmentNext operation. */
+export type BillingRoleAssignmentsListByDepartmentNextResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleAssignmentsListByEnrollmentAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccountNext operation. */
+export type BillingRoleAssignmentsListByEnrollmentAccountNextResponse =
+  BillingRoleAssignmentListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionGetByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingProfile operation. */
+export type BillingRoleDefinitionGetByBillingProfileResponse =
+  BillingRoleDefinition;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type BillingRoleDefinitionListByBillingProfileResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionGetByCustomerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByCustomer operation. */
+export type BillingRoleDefinitionGetByCustomerResponse = BillingRoleDefinition;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByCustomerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomer operation. */
+export type BillingRoleDefinitionListByCustomerResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionGetByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByInvoiceSection operation. */
+export type BillingRoleDefinitionGetByInvoiceSectionResponse =
+  BillingRoleDefinition;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type BillingRoleDefinitionListByInvoiceSectionResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type BillingRoleDefinitionGetByBillingAccountResponse =
+  BillingRoleDefinition;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingRoleDefinitionListByBillingAccountResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionGetByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByDepartment operation. */
+export type BillingRoleDefinitionGetByDepartmentResponse =
+  BillingRoleDefinition;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartment operation. */
+export type BillingRoleDefinitionListByDepartmentResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionGetByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByEnrollmentAccount operation. */
+export type BillingRoleDefinitionGetByEnrollmentAccountResponse =
+  BillingRoleDefinition;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccount operation. */
+export type BillingRoleDefinitionListByEnrollmentAccountResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type BillingRoleDefinitionListByBillingProfileNextResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type BillingRoleDefinitionListByCustomerNextResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type BillingRoleDefinitionListByInvoiceSectionNextResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingRoleDefinitionListByBillingAccountNextResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByDepartmentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartmentNext operation. */
+export type BillingRoleDefinitionListByDepartmentNextResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface BillingRoleDefinitionListByEnrollmentAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccountNext operation. */
+export type BillingRoleDefinitionListByEnrollmentAccountNextResponse =
+  BillingRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface SavingsPlanOrdersGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to expand the planInformation. */
   expand?: string;
 }
 
+/** Contains response data for the getByBillingAccount operation. */
+export type SavingsPlanOrdersGetByBillingAccountResponse =
+  SavingsPlanOrderModel;
+
+/** Optional parameters. */
+export interface SavingsPlanOrdersListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The number of savings plans to skip from the list before returning results */
+  skiptoken?: number;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type SavingsPlanOrdersListByBillingAccountResponse =
+  SavingsPlanOrderModelList;
+
+/** Optional parameters. */
+export interface SavingsPlanOrdersListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listByBillingAccountNext operation. */
-export type BillingProfilesListByBillingAccountNextResponse = BillingProfileListResult;
+export type SavingsPlanOrdersListByBillingAccountNextResponse =
+  SavingsPlanOrderModelList;
+
+/** Optional parameters. */
+export interface SavingsPlansListBySavingsPlanOrderOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySavingsPlanOrder operation. */
+export type SavingsPlansListBySavingsPlanOrderResponse = SavingsPlanModelList;
+
+/** Optional parameters. */
+export interface SavingsPlansListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The number of savings plans to skip from the list before returning results */
+  skiptoken?: number;
+  /** The number of savings plans to return */
+  take?: number;
+  /** The selected provisioning state */
+  selectedState?: string;
+  /** To indicate whether to refresh the roll up counts of the savings plans group by provisioning states */
+  refreshSummary?: string;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type SavingsPlansListByBillingAccountResponse =
+  SavingsPlanModelListResult;
+
+/** Optional parameters. */
+export interface SavingsPlansGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to expand the planInformation. */
+  expand?: string;
+}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type SavingsPlansGetByBillingAccountResponse = SavingsPlanModel;
+
+/** Optional parameters. */
+export interface SavingsPlansUpdateByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateByBillingAccount operation. */
+export type SavingsPlansUpdateByBillingAccountResponse = SavingsPlanModel;
+
+/** Optional parameters. */
+export interface SavingsPlansValidateUpdateByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateUpdateByBillingAccount operation. */
+export type SavingsPlansValidateUpdateByBillingAccountResponse =
+  SavingsPlanValidateResponse;
+
+/** Optional parameters. */
+export interface SavingsPlansListBySavingsPlanOrderNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySavingsPlanOrderNext operation. */
+export type SavingsPlansListBySavingsPlanOrderNextResponse =
+  SavingsPlanModelList;
+
+/** Optional parameters. */
+export interface SavingsPlansListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type SavingsPlansListByBillingAccountNextResponse =
+  SavingsPlanModelListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsGetByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+}
+
+/** Contains response data for the getByBillingProfile operation. */
+export type BillingSubscriptionsGetByBillingProfileResponse =
+  BillingSubscription;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing subscriptions. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type BillingSubscriptionsListByBillingProfileResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing subscriptions. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type BillingSubscriptionsListByCustomerResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing subscriptions. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type BillingSubscriptionsListByInvoiceSectionResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsCancelOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the cancel operation. */
+export type BillingSubscriptionsCancelResponse =
+  BillingSubscriptionsCancelHeaders;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsMergeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the merge operation. */
+export type BillingSubscriptionsMergeResponse = BillingSubscription;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsMoveOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the move operation. */
+export type BillingSubscriptionsMoveResponse = BillingSubscription;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsSplitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the split operation. */
+export type BillingSubscriptionsSplitResponse = BillingSubscription;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsValidateMoveEligibilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateMoveEligibility operation. */
+export type BillingSubscriptionsValidateMoveEligibilityResponse =
+  MoveBillingSubscriptionEligibilityResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type BillingSubscriptionsDeleteResponse =
+  BillingSubscriptionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type BillingSubscriptionsGetResponse = BillingSubscription;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type BillingSubscriptionsUpdateResponse = BillingSubscription;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing subscriptions. */
+  includeDeleted?: boolean;
+  /** Can be used to get tenant-owned billing subscriptions. This field is only applies to Microsoft Online Services Program billing accounts. */
+  includeTenantSubscriptions?: boolean;
+  /** Can be used to get failed billing subscriptions. */
+  includeFailed?: boolean;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingSubscriptionsListByBillingAccountResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing subscriptions. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByCustomerAtBillingAccount operation. */
+export type BillingSubscriptionsListByCustomerAtBillingAccountResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByEnrollmentAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByEnrollmentAccount operation. */
+export type BillingSubscriptionsListByEnrollmentAccountResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type BillingSubscriptionsListByBillingProfileNextResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type BillingSubscriptionsListByCustomerNextResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type BillingSubscriptionsListByInvoiceSectionNextResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingSubscriptionsListByBillingAccountNextResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByCustomerAtBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerAtBillingAccountNext operation. */
+export type BillingSubscriptionsListByCustomerAtBillingAccountNextResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsListByEnrollmentAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnrollmentAccountNext operation. */
+export type BillingSubscriptionsListByEnrollmentAccountNextResponse =
+  BillingSubscriptionListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsAliasesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingSubscriptionsAliasesGetResponse = BillingSubscriptionAlias;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsAliasesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BillingSubscriptionsAliasesCreateOrUpdateResponse =
+  BillingSubscriptionAlias;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsAliasesListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted billing subscriptions. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type BillingSubscriptionsAliasesListByBillingAccountResponse =
+  BillingSubscriptionAliasListResult;
+
+/** Optional parameters. */
+export interface BillingSubscriptionsAliasesListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type BillingSubscriptionsAliasesListByBillingAccountNextResponse =
+  BillingSubscriptionAliasListResult;
+
+/** Optional parameters. */
+export interface CustomersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CustomersGetResponse = Customer;
 
 /** Optional parameters. */
 export interface CustomersListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {
-  /** Used for searching customers by their name. Any customer with name containing the search text will be included in the response */
-  search?: string;
-  /** May be used to filter the list of customers. */
+  /** May be used to expand enabledAzurePlans and resellers */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
 }
 
 /** Contains response data for the listByBillingProfile operation. */
 export type CustomersListByBillingProfileResponse = CustomerListResult;
 
 /** Optional parameters. */
+export interface CustomersGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type CustomersGetByBillingAccountResponse = Customer;
+
+/** Optional parameters. */
 export interface CustomersListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {
-  /** Used for searching customers by their name. Any customer with name containing the search text will be included in the response */
-  search?: string;
-  /** May be used to filter the list of customers. */
+  /** May be used to expand enabledAzurePlans and resellers */
+  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
 }
 
 /** Contains response data for the listByBillingAccount operation. */
 export type CustomersListByBillingAccountResponse = CustomerListResult;
 
 /** Optional parameters. */
-export interface CustomersGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand enabledAzurePlans and resellers */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type CustomersGetResponse = Customer;
-
-/** Optional parameters. */
 export interface CustomersListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Used for searching customers by their name. Any customer with name containing the search text will be included in the response */
-  search?: string;
-  /** May be used to filter the list of customers. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
 export type CustomersListByBillingProfileNextResponse = CustomerListResult;
 
 /** Optional parameters. */
 export interface CustomersListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Used for searching customers by their name. Any customer with name containing the search text will be included in the response */
-  search?: string;
-  /** May be used to filter the list of customers. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type CustomersListByBillingAccountNextResponse = CustomerListResult;
 
 /** Optional parameters. */
-export interface InvoiceSectionsListByBillingProfileOptionalParams
+export interface DepartmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the get operation. */
+export type DepartmentsGetResponse = Department;
+
+/** Optional parameters. */
+export interface DepartmentsListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type DepartmentsListByBillingAccountResponse = DepartmentListResult;
+
+/** Optional parameters. */
+export interface DepartmentsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type DepartmentsListByBillingAccountNextResponse = DepartmentListResult;
+
+/** Optional parameters. */
+export interface EnrollmentAccountsGetByDepartmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByDepartment operation. */
+export type EnrollmentAccountsGetByDepartmentResponse = EnrollmentAccount;
+
+/** Optional parameters. */
+export interface EnrollmentAccountsListByDepartmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByDepartment operation. */
+export type EnrollmentAccountsListByDepartmentResponse =
+  EnrollmentAccountListResult;
+
+/** Optional parameters. */
+export interface EnrollmentAccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EnrollmentAccountsGetResponse = EnrollmentAccount;
+
+/** Optional parameters. */
+export interface EnrollmentAccountsListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type EnrollmentAccountsListByBillingAccountResponse =
+  EnrollmentAccountListResult;
+
+/** Optional parameters. */
+export interface EnrollmentAccountsListByDepartmentNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDepartmentNext operation. */
+export type EnrollmentAccountsListByDepartmentNextResponse =
+  EnrollmentAccountListResult;
+
+/** Optional parameters. */
+export interface EnrollmentAccountsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type EnrollmentAccountsListByBillingAccountNextResponse =
+  EnrollmentAccountListResult;
+
+/** Optional parameters. */
+export interface InvoicesListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
+  periodStartDate?: Date;
+  /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
+  periodEndDate?: Date;
+}
+
 /** Contains response data for the listByBillingProfile operation. */
-export type InvoiceSectionsListByBillingProfileResponse = InvoiceSectionListResult;
+export type InvoicesListByBillingProfileResponse = InvoiceListResult;
+
+/** Optional parameters. */
+export interface InvoicesDownloadDocumentsByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the downloadDocumentsByBillingAccount operation. */
+export type InvoicesDownloadDocumentsByBillingAccountResponse =
+  DocumentDownloadResult;
+
+/** Optional parameters. */
+export interface InvoicesAmendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the amend operation. */
+export type InvoicesAmendResponse = InvoicesAmendHeaders;
+
+/** Optional parameters. */
+export interface InvoicesDownloadByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. */
+  documentName?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the downloadByBillingAccount operation. */
+export type InvoicesDownloadByBillingAccountResponse = DocumentDownloadResult;
+
+/** Optional parameters. */
+export interface InvoicesDownloadSummaryByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the downloadSummaryByBillingAccount operation. */
+export type InvoicesDownloadSummaryByBillingAccountResponse =
+  DocumentDownloadResult;
+
+/** Optional parameters. */
+export interface InvoicesGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type InvoicesGetByBillingAccountResponse = Invoice;
+
+/** Optional parameters. */
+export interface InvoicesListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
+  periodStartDate?: Date;
+  /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
+  periodEndDate?: Date;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type InvoicesListByBillingAccountResponse = InvoiceListResult;
+
+/** Optional parameters. */
+export interface InvoicesDownloadDocumentsByBillingSubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the downloadDocumentsByBillingSubscription operation. */
+export type InvoicesDownloadDocumentsByBillingSubscriptionResponse =
+  DocumentDownloadResult;
+
+/** Optional parameters. */
+export interface InvoicesDownloadByBillingSubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The ID that uniquely identifies an invoice document. This ID may be an identifier for an invoice PDF, a credit note, or a tax receipt. */
+  documentName?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the downloadByBillingSubscription operation. */
+export type InvoicesDownloadByBillingSubscriptionResponse =
+  DocumentDownloadResult;
+
+/** Optional parameters. */
+export interface InvoicesGetByBillingSubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingSubscription operation. */
+export type InvoicesGetByBillingSubscriptionResponse = Invoice;
+
+/** Optional parameters. */
+export interface InvoicesListByBillingSubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** The start date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
+  periodStartDate?: Date;
+  /** The end date of the billing period for which the invoice is generated. The date is in MM-DD-YYYY format. */
+  periodEndDate?: Date;
+}
+
+/** Contains response data for the listByBillingSubscription operation. */
+export type InvoicesListByBillingSubscriptionResponse = InvoiceListResult;
+
+/** Optional parameters. */
+export interface InvoicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InvoicesGetResponse = Invoice;
+
+/** Optional parameters. */
+export interface InvoicesListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type InvoicesListByBillingProfileNextResponse = InvoiceListResult;
+
+/** Optional parameters. */
+export interface InvoicesListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type InvoicesListByBillingAccountNextResponse = InvoiceListResult;
+
+/** Optional parameters. */
+export interface InvoicesListByBillingSubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingSubscriptionNext operation. */
+export type InvoicesListByBillingSubscriptionNextResponse = InvoiceListResult;
+
+/** Optional parameters. */
+export interface InvoiceSectionsValidateDeleteEligibilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateDeleteEligibility operation. */
+export type InvoiceSectionsValidateDeleteEligibilityResponse =
+  DeleteInvoiceSectionEligibilityResult;
+
+/** Optional parameters. */
+export interface InvoiceSectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type InvoiceSectionsDeleteResponse = InvoiceSectionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface InvoiceSectionsGetOptionalParams
@@ -3044,425 +9628,35 @@ export interface InvoiceSectionsCreateOrUpdateOptionalParams
 export type InvoiceSectionsCreateOrUpdateResponse = InvoiceSection;
 
 /** Optional parameters. */
+export interface InvoiceSectionsListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+  /** Can be used to get deleted invoice sections. */
+  includeDeleted?: boolean;
+}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type InvoiceSectionsListByBillingProfileResponse =
+  InvoiceSectionListResult;
+
+/** Optional parameters. */
 export interface InvoiceSectionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type InvoiceSectionsListByBillingProfileNextResponse = InvoiceSectionListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCustomer operation. */
-export type BillingPermissionsListByCustomerResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccount operation. */
-export type BillingPermissionsListByBillingAccountResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByInvoiceSectionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceSections operation. */
-export type BillingPermissionsListByInvoiceSectionsResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfile operation. */
-export type BillingPermissionsListByBillingProfileResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByCustomerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCustomerNext operation. */
-export type BillingPermissionsListByCustomerNextResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccountNext operation. */
-export type BillingPermissionsListByBillingAccountNextResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByInvoiceSectionsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceSectionsNext operation. */
-export type BillingPermissionsListByInvoiceSectionsNextResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingPermissionsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfileNext operation. */
-export type BillingPermissionsListByBillingProfileNextResponse = BillingPermissionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCustomer operation. */
-export type BillingSubscriptionsListByCustomerResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccount operation. */
-export type BillingSubscriptionsListByBillingAccountResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfile operation. */
-export type BillingSubscriptionsListByBillingProfileResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceSection operation. */
-export type BillingSubscriptionsListByInvoiceSectionResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BillingSubscriptionsGetResponse = BillingSubscription;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type BillingSubscriptionsUpdateResponse = BillingSubscription;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsMoveOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the move operation. */
-export type BillingSubscriptionsMoveResponse = BillingSubscription;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsValidateMoveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the validateMove operation. */
-export type BillingSubscriptionsValidateMoveResponse = ValidateSubscriptionTransferEligibilityResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByCustomerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCustomerNext operation. */
-export type BillingSubscriptionsListByCustomerNextResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccountNext operation. */
-export type BillingSubscriptionsListByBillingAccountNextResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfileNext operation. */
-export type BillingSubscriptionsListByBillingProfileNextResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface BillingSubscriptionsListByInvoiceSectionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingSubscriptionsListByInvoiceSectionNextResponse = BillingSubscriptionsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCustomer operation. */
-export type ProductsListByCustomerResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
-
-/** Contains response data for the listByBillingAccount operation. */
-export type ProductsListByBillingAccountResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
-
-/** Contains response data for the listByBillingProfile operation. */
-export type ProductsListByBillingProfileResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
-
-/** Contains response data for the listByInvoiceSection operation. */
-export type ProductsListByInvoiceSectionResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ProductsGetResponse = Product;
-
-/** Optional parameters. */
-export interface ProductsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ProductsUpdateResponse = Product;
-
-/** Optional parameters. */
-export interface ProductsMoveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the move operation. */
-export type ProductsMoveResponse = Product;
-
-/** Optional parameters. */
-export interface ProductsValidateMoveOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the validateMove operation. */
-export type ProductsValidateMoveResponse = ValidateProductTransferEligibilityResult;
-
-/** Optional parameters. */
-export interface ProductsListByCustomerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCustomerNext operation. */
-export type ProductsListByCustomerNextResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
-
-/** Contains response data for the listByBillingAccountNext operation. */
-export type ProductsListByBillingAccountNextResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
-
-/** Contains response data for the listByBillingProfileNext operation. */
-export type ProductsListByBillingProfileNextResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface ProductsListByInvoiceSectionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by product type. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. Tag filter is a key value pair string where key and value are separated by a colon (:). */
-  filter?: string;
-}
-
-/** Contains response data for the listByInvoiceSectionNext operation. */
-export type ProductsListByInvoiceSectionNextResponse = ProductsListResult;
-
-/** Optional parameters. */
-export interface InvoicesListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccount operation. */
-export type InvoicesListByBillingAccountResponse = InvoiceListResult;
-
-/** Optional parameters. */
-export interface InvoicesListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfile operation. */
-export type InvoicesListByBillingProfileResponse = InvoiceListResult;
-
-/** Optional parameters. */
-export interface InvoicesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type InvoicesGetResponse = Invoice;
-
-/** Optional parameters. */
-export interface InvoicesGetByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getById operation. */
-export type InvoicesGetByIdResponse = Invoice;
-
-/** Optional parameters. */
-export interface InvoicesDownloadInvoiceOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the downloadInvoice operation. */
-export type InvoicesDownloadInvoiceResponse = DownloadUrl;
-
-/** Optional parameters. */
-export interface InvoicesDownloadMultipleBillingProfileInvoicesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the downloadMultipleBillingProfileInvoices operation. */
-export type InvoicesDownloadMultipleBillingProfileInvoicesResponse = DownloadUrl;
-
-/** Optional parameters. */
-export interface InvoicesListByBillingSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingSubscription operation. */
-export type InvoicesListByBillingSubscriptionResponse = InvoiceListResult;
-
-/** Optional parameters. */
-export interface InvoicesGetBySubscriptionAndInvoiceIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getBySubscriptionAndInvoiceId operation. */
-export type InvoicesGetBySubscriptionAndInvoiceIdResponse = Invoice;
-
-/** Optional parameters. */
-export interface InvoicesDownloadBillingSubscriptionInvoiceOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the downloadBillingSubscriptionInvoice operation. */
-export type InvoicesDownloadBillingSubscriptionInvoiceResponse = DownloadUrl;
-
-/** Optional parameters. */
-export interface InvoicesDownloadMultipleBillingSubscriptionInvoicesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the downloadMultipleBillingSubscriptionInvoices operation. */
-export type InvoicesDownloadMultipleBillingSubscriptionInvoicesResponse = DownloadUrl;
-
-/** Optional parameters. */
-export interface InvoicesListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccountNext operation. */
-export type InvoicesListByBillingAccountNextResponse = InvoiceListResult;
-
-/** Optional parameters. */
-export interface InvoicesListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfileNext operation. */
-export type InvoicesListByBillingProfileNextResponse = InvoiceListResult;
-
-/** Optional parameters. */
-export interface InvoicesListByBillingSubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingSubscriptionNext operation. */
-export type InvoicesListByBillingSubscriptionNextResponse = InvoiceListResult;
-
-/** Optional parameters. */
-export interface TransactionsListByInvoiceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoice operation. */
-export type TransactionsListByInvoiceResponse = TransactionListResult;
-
-/** Optional parameters. */
-export interface TransactionsListByInvoiceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceNext operation. */
-export type TransactionsListByInvoiceNextResponse = TransactionListResult;
-
-/** Optional parameters. */
-export interface PoliciesGetByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByBillingProfile operation. */
-export type PoliciesGetByBillingProfileResponse = Policy;
-
-/** Optional parameters. */
-export interface PoliciesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type PoliciesUpdateResponse = Policy;
-
-/** Optional parameters. */
-export interface PoliciesGetByCustomerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByCustomer operation. */
-export type PoliciesGetByCustomerResponse = CustomerPolicy;
-
-/** Optional parameters. */
-export interface PoliciesUpdateCustomerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateCustomer operation. */
-export type PoliciesUpdateCustomerResponse = CustomerPolicy;
-
-/** Optional parameters. */
-export interface BillingPropertyGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BillingPropertyGetResponse = BillingProperty;
-
-/** Optional parameters. */
-export interface BillingPropertyUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type BillingPropertyUpdateResponse = BillingProperty;
+export type InvoiceSectionsListByBillingProfileNextResponse =
+  InvoiceSectionListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -3479,193 +9673,319 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface BillingRoleDefinitionsGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByBillingAccount operation. */
-export type BillingRoleDefinitionsGetByBillingAccountResponse = BillingRoleDefinition;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsGetByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByInvoiceSection operation. */
-export type BillingRoleDefinitionsGetByInvoiceSectionResponse = BillingRoleDefinition;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsGetByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByBillingProfile operation. */
-export type BillingRoleDefinitionsGetByBillingProfileResponse = BillingRoleDefinition;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccount operation. */
-export type BillingRoleDefinitionsListByBillingAccountResponse = BillingRoleDefinitionListResult;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsListByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceSection operation. */
-export type BillingRoleDefinitionsListByInvoiceSectionResponse = BillingRoleDefinitionListResult;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsListByBillingProfileOptionalParams
+export interface PaymentMethodsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
-export type BillingRoleDefinitionsListByBillingProfileResponse = BillingRoleDefinitionListResult;
+export type PaymentMethodsListByBillingProfileResponse =
+  PaymentMethodLinksListResult;
 
 /** Optional parameters. */
-export interface BillingRoleDefinitionsListByBillingAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingAccountNext operation. */
-export type BillingRoleDefinitionsListByBillingAccountNextResponse = BillingRoleDefinitionListResult;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsListByInvoiceSectionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingRoleDefinitionsListByInvoiceSectionNextResponse = BillingRoleDefinitionListResult;
-
-/** Optional parameters. */
-export interface BillingRoleDefinitionsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByBillingProfileNext operation. */
-export type BillingRoleDefinitionsListByBillingProfileNextResponse = BillingRoleDefinitionListResult;
-
-/** Optional parameters. */
-export interface BillingRoleAssignmentsGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByBillingAccount operation. */
-export type BillingRoleAssignmentsGetByBillingAccountResponse = BillingRoleAssignment;
-
-/** Optional parameters. */
-export interface BillingRoleAssignmentsDeleteByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the deleteByBillingAccount operation. */
-export type BillingRoleAssignmentsDeleteByBillingAccountResponse = BillingRoleAssignment;
-
-/** Optional parameters. */
-export interface BillingRoleAssignmentsGetByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByInvoiceSection operation. */
-export type BillingRoleAssignmentsGetByInvoiceSectionResponse = BillingRoleAssignment;
-
-/** Optional parameters. */
-export interface BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the deleteByInvoiceSection operation. */
-export type BillingRoleAssignmentsDeleteByInvoiceSectionResponse = BillingRoleAssignment;
-
-/** Optional parameters. */
-export interface BillingRoleAssignmentsGetByBillingProfileOptionalParams
+export interface PaymentMethodsGetByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingProfile operation. */
-export type BillingRoleAssignmentsGetByBillingProfileResponse = BillingRoleAssignment;
+export type PaymentMethodsGetByBillingProfileResponse = PaymentMethodLink;
 
 /** Optional parameters. */
-export interface BillingRoleAssignmentsDeleteByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the deleteByBillingProfile operation. */
-export type BillingRoleAssignmentsDeleteByBillingProfileResponse = BillingRoleAssignment;
-
-/** Optional parameters. */
-export interface BillingRoleAssignmentsListByBillingAccountOptionalParams
+export interface PaymentMethodsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingRoleAssignmentsListByBillingAccountResponse = BillingRoleAssignmentListResult;
+export type PaymentMethodsListByBillingAccountResponse =
+  PaymentMethodsListResult;
 
 /** Optional parameters. */
-export interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams
+export interface PaymentMethodsGetByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByInvoiceSection operation. */
-export type BillingRoleAssignmentsListByInvoiceSectionResponse = BillingRoleAssignmentListResult;
+/** Contains response data for the getByBillingAccount operation. */
+export type PaymentMethodsGetByBillingAccountResponse = PaymentMethod;
 
 /** Optional parameters. */
-export interface BillingRoleAssignmentsListByBillingProfileOptionalParams
+export interface PaymentMethodsListByUserOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByBillingProfile operation. */
-export type BillingRoleAssignmentsListByBillingProfileResponse = BillingRoleAssignmentListResult;
+/** Contains response data for the listByUser operation. */
+export type PaymentMethodsListByUserResponse = PaymentMethodsListResult;
 
 /** Optional parameters. */
-export interface BillingRoleAssignmentsListByBillingAccountNextOptionalParams
+export interface PaymentMethodsDeleteByUserOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByBillingAccountNext operation. */
-export type BillingRoleAssignmentsListByBillingAccountNextResponse = BillingRoleAssignmentListResult;
-
 /** Optional parameters. */
-export interface BillingRoleAssignmentsListByInvoiceSectionNextOptionalParams
+export interface PaymentMethodsGetByUserOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingRoleAssignmentsListByInvoiceSectionNextResponse = BillingRoleAssignmentListResult;
+/** Contains response data for the getByUser operation. */
+export type PaymentMethodsGetByUserResponse = PaymentMethod;
 
 /** Optional parameters. */
-export interface BillingRoleAssignmentsListByBillingProfileNextOptionalParams
+export interface PaymentMethodsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type BillingRoleAssignmentsListByBillingProfileNextResponse = BillingRoleAssignmentListResult;
+export type PaymentMethodsListByBillingProfileNextResponse =
+  PaymentMethodLinksListResult;
 
 /** Optional parameters. */
-export interface AgreementsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the participants. */
-  expand?: string;
-}
+export interface PaymentMethodsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByBillingAccount operation. */
-export type AgreementsListByBillingAccountResponse = AgreementListResult;
+/** Contains response data for the listByBillingAccountNext operation. */
+export type PaymentMethodsListByBillingAccountNextResponse =
+  PaymentMethodsListResult;
 
 /** Optional parameters. */
-export interface AgreementsGetOptionalParams
+export interface PaymentMethodsListByUserNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByUserNext operation. */
+export type PaymentMethodsListByUserNextResponse = PaymentMethodsListResult;
+
+/** Optional parameters. */
+export interface PoliciesGetByCustomerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByCustomer operation. */
+export type PoliciesGetByCustomerResponse = CustomerPolicy;
+
+/** Optional parameters. */
+export interface PoliciesCreateOrUpdateByCustomerOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to expand the participants. */
-  expand?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
+
+/** Contains response data for the createOrUpdateByCustomer operation. */
+export type PoliciesCreateOrUpdateByCustomerResponse = CustomerPolicy;
+
+/** Optional parameters. */
+export interface PoliciesGetByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingProfile operation. */
+export type PoliciesGetByBillingProfileResponse = BillingProfilePolicy;
+
+/** Optional parameters. */
+export interface PoliciesCreateOrUpdateByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateByBillingProfile operation. */
+export type PoliciesCreateOrUpdateByBillingProfileResponse =
+  BillingProfilePolicy;
+
+/** Optional parameters. */
+export interface PoliciesGetByCustomerAtBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByCustomerAtBillingAccount operation. */
+export type PoliciesGetByCustomerAtBillingAccountResponse = CustomerPolicy;
+
+/** Optional parameters. */
+export interface PoliciesCreateOrUpdateByCustomerAtBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateByCustomerAtBillingAccount operation. */
+export type PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse =
+  CustomerPolicy;
+
+/** Optional parameters. */
+export interface PoliciesGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type PoliciesGetByBillingAccountResponse = BillingAccountPolicy;
+
+/** Optional parameters. */
+export interface PoliciesCreateOrUpdateByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateByBillingAccount operation. */
+export type PoliciesCreateOrUpdateByBillingAccountResponse =
+  BillingAccountPolicy;
+
+/** Optional parameters. */
+export interface PoliciesGetBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBySubscription operation. */
+export type PoliciesGetBySubscriptionResponse = SubscriptionPolicy;
+
+/** Optional parameters. */
+export interface ProductsListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type ProductsListByInvoiceSectionResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type ProductsListByBillingProfileResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type ProductsListByCustomerResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsMoveOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the move operation. */
+export type ProductsMoveResponse = Product;
+
+/** Optional parameters. */
+export interface ProductsValidateMoveEligibilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateMoveEligibility operation. */
+export type ProductsValidateMoveEligibilityResponse =
+  MoveProductEligibilityResult;
+
+/** Optional parameters. */
+export interface ProductsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AgreementsGetResponse = Agreement;
+export type ProductsGetResponse = Product;
 
 /** Optional parameters. */
-export interface AgreementsListByBillingAccountNextOptionalParams
+export interface ProductsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ProductsUpdateResponse = Product;
+
+/** Optional parameters. */
+export interface ProductsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to expand the participants. */
-  expand?: string;
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
 }
 
+/** Contains response data for the listByBillingAccount operation. */
+export type ProductsListByBillingAccountResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type ProductsListByInvoiceSectionNextResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type ProductsListByBillingProfileNextResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type ProductsListByCustomerNextResponse = ProductListResult;
+
+/** Optional parameters. */
+export interface ProductsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listByBillingAccountNext operation. */
-export type AgreementsListByBillingAccountNextResponse = AgreementListResult;
+export type ProductsListByBillingAccountNextResponse = ProductListResult;
 
 /** Optional parameters. */
 export interface ReservationsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. */
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skiptoken?: number;
+  /** The number of reservations to return in API response. */
+  take?: number;
   /** The selected provisioning state */
   selectedState?: string;
+  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
+  refreshSummary?: string;
 }
 
 /** Contains response data for the listByBillingAccount operation. */
@@ -3674,112 +9994,364 @@ export type ReservationsListByBillingAccountResponse = ReservationsListResult;
 /** Optional parameters. */
 export interface ReservationsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. */
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning state */
-  refreshSummary?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skiptoken?: number;
+  /** The number of reservations to return in API response. */
+  take?: number;
   /** The selected provisioning state */
   selectedState?: string;
+  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
+  refreshSummary?: string;
 }
 
 /** Contains response data for the listByBillingProfile operation. */
 export type ReservationsListByBillingProfileResponse = ReservationsListResult;
 
 /** Optional parameters. */
-export interface ReservationsListByBillingAccountNextOptionalParams
+export interface ReservationsGetByReservationOrderOptionalParams
   extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. */
-  filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
-  /** The selected provisioning state */
-  selectedState?: string;
+  /** May be used to expand the detail information of some properties. */
+  expand?: string;
 }
 
+/** Contains response data for the getByReservationOrder operation. */
+export type ReservationsGetByReservationOrderResponse = Reservation;
+
+/** Optional parameters. */
+export interface ReservationsUpdateByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateByBillingAccount operation. */
+export type ReservationsUpdateByBillingAccountResponse = Reservation;
+
+/** Optional parameters. */
+export interface ReservationsListByReservationOrderOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByReservationOrder operation. */
+export type ReservationsListByReservationOrderResponse = ReservationList;
+
+/** Optional parameters. */
+export interface ReservationsListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the listByBillingAccountNext operation. */
-export type ReservationsListByBillingAccountNextResponse = ReservationsListResult;
+export type ReservationsListByBillingAccountNextResponse =
+  ReservationsListResult;
 
 /** Optional parameters. */
 export interface ReservationsListByBillingProfileNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. */
-  filter?: string;
-  /** May be used to sort order by reservation properties. */
-  orderby?: string;
-  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning state */
-  refreshSummary?: string;
-  /** The selected provisioning state */
-  selectedState?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type ReservationsListByBillingProfileNextResponse = ReservationsListResult;
+export type ReservationsListByBillingProfileNextResponse =
+  ReservationsListResult;
 
 /** Optional parameters. */
-export interface EnrollmentAccountsListOptionalParams
+export interface ReservationsListByReservationOrderNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type EnrollmentAccountsListResponse = EnrollmentAccountListResult;
+/** Contains response data for the listByReservationOrderNext operation. */
+export type ReservationsListByReservationOrderNextResponse = ReservationList;
 
 /** Optional parameters. */
-export interface EnrollmentAccountsGetOptionalParams
+export interface ReservationOrdersGetByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to expand the detail information of some properties. */
+  expand?: string;
+}
+
+/** Contains response data for the getByBillingAccount operation. */
+export type ReservationOrdersGetByBillingAccountResponse = ReservationOrder;
+
+/** Optional parameters. */
+export interface ReservationOrdersListByBillingAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skiptoken?: number;
+}
+
+/** Contains response data for the listByBillingAccount operation. */
+export type ReservationOrdersListByBillingAccountResponse =
+  ReservationOrderList;
+
+/** Optional parameters. */
+export interface ReservationOrdersListByBillingAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingAccountNext operation. */
+export type ReservationOrdersListByBillingAccountNextResponse =
+  ReservationOrderList;
+
+/** Optional parameters. */
+export interface TransactionsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type TransactionsListByCustomerResponse = TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsListByInvoiceSectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByInvoiceSection operation. */
+export type TransactionsListByInvoiceSectionResponse = TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsListByBillingProfileOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByBillingProfile operation. */
+export type TransactionsListByBillingProfileResponse = TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsListByInvoiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
+  filter?: string;
+  /** The orderby query option allows clients to request resources in a particular order. */
+  orderBy?: string;
+  /** The top query option requests the number of items in the queried collection to be included in the result. The maximum supported value for top is 50. */
+  top?: number;
+  /** The skip query option requests the number of items in the queried collection that are to be skipped and not included in the result. */
+  skip?: number;
+  /** The count query option allows clients to request a count of the matching resources included with the resources in the response. */
+  count?: boolean;
+  /** The search query option allows clients to request items within a collection matching a free-text search expression. search is only supported for string fields. */
+  search?: string;
+}
+
+/** Contains response data for the listByInvoice operation. */
+export type TransactionsListByInvoiceResponse = TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsTransactionsDownloadByInvoiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the transactionsDownloadByInvoice operation. */
+export type TransactionsTransactionsDownloadByInvoiceResponse =
+  DocumentDownloadResult;
+
+/** Optional parameters. */
+export interface TransactionsGetTransactionSummaryByInvoiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter query option allows clients to filter the line items that are aggregated to create the line item summary. */
+  filter?: string;
+  /** The search query option allows clients to filter the line items that are aggregated to create the line item summary. */
+  search?: string;
+}
+
+/** Contains response data for the getTransactionSummaryByInvoice operation. */
+export type TransactionsGetTransactionSummaryByInvoiceResponse =
+  TransactionSummary;
+
+/** Optional parameters. */
+export interface TransactionsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type TransactionsListByCustomerNextResponse = TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsListByInvoiceSectionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceSectionNext operation. */
+export type TransactionsListByInvoiceSectionNextResponse =
+  TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsListByBillingProfileNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByBillingProfileNext operation. */
+export type TransactionsListByBillingProfileNextResponse =
+  TransactionListResult;
+
+/** Optional parameters. */
+export interface TransactionsListByInvoiceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByInvoiceNext operation. */
+export type TransactionsListByInvoiceNextResponse = TransactionListResult;
+
+/** Optional parameters. */
+export interface TransfersGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type EnrollmentAccountsGetResponse = EnrollmentAccountSummary;
+export type TransfersGetResponse = TransferDetails;
 
 /** Optional parameters. */
-export interface EnrollmentAccountsListNextOptionalParams
+export interface TransfersInitiateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the initiate operation. */
+export type TransfersInitiateResponse = TransferDetails;
+
+/** Optional parameters. */
+export interface TransfersCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the cancel operation. */
+export type TransfersCancelResponse = TransferDetails;
+
+/** Optional parameters. */
+export interface TransfersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TransfersListResponse = TransferDetailsListResult;
+
+/** Optional parameters. */
+export interface TransfersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type EnrollmentAccountsListNextResponse = EnrollmentAccountListResult;
+export type TransfersListNextResponse = TransferDetailsListResult;
 
 /** Optional parameters. */
-export interface BillingPeriodsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-  /** May be used to limit the number of results to the most recent N billing periods. */
-  top?: number;
-}
-
-/** Contains response data for the list operation. */
-export type BillingPeriodsListResponse = BillingPeriodsListResult;
-
-/** Optional parameters. */
-export interface BillingPeriodsGetOptionalParams
+export interface PartnerTransfersGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type BillingPeriodsGetResponse = BillingPeriod;
+export type PartnerTransfersGetResponse = PartnerTransferDetails;
 
 /** Optional parameters. */
-export interface BillingPeriodsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to filter billing periods by billingPeriodEndDate. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'. */
-  filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-  /** May be used to limit the number of results to the most recent N billing periods. */
-  top?: number;
-}
+export interface PartnerTransfersInitiateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the initiate operation. */
+export type PartnerTransfersInitiateResponse = PartnerTransferDetails;
+
+/** Optional parameters. */
+export interface PartnerTransfersCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the cancel operation. */
+export type PartnerTransfersCancelResponse = PartnerTransferDetails;
+
+/** Optional parameters. */
+export interface PartnerTransfersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PartnerTransfersListResponse = PartnerTransferDetailsListResult;
+
+/** Optional parameters. */
+export interface PartnerTransfersListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type BillingPeriodsListNextResponse = BillingPeriodsListResult;
+export type PartnerTransfersListNextResponse = PartnerTransferDetailsListResult;
+
+/** Optional parameters. */
+export interface RecipientTransfersAcceptOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the accept operation. */
+export type RecipientTransfersAcceptResponse = RecipientTransferDetails;
+
+/** Optional parameters. */
+export interface RecipientTransfersValidateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validate operation. */
+export type RecipientTransfersValidateResponse = ValidateTransferListResponse;
+
+/** Optional parameters. */
+export interface RecipientTransfersDeclineOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the decline operation. */
+export type RecipientTransfersDeclineResponse = RecipientTransferDetails;
+
+/** Optional parameters. */
+export interface RecipientTransfersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RecipientTransfersGetResponse = RecipientTransferDetails;
+
+/** Optional parameters. */
+export interface RecipientTransfersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RecipientTransfersListResponse = RecipientTransferDetailsListResult;
+
+/** Optional parameters. */
+export interface RecipientTransfersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RecipientTransfersListNextResponse =
+  RecipientTransferDetailsListResult;
 
 /** Optional parameters. */
 export interface BillingManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

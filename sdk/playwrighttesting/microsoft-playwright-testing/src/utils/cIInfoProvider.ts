@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export enum CI_PROVIDERS {
-  GITHUB_ACTIONS = "GitHub Actions",
-  AZURE_DEVOPS = "Azure DevOps",
-  DEFAULT = "Default",
+  GITHUB = "GITHUB",
+  ADO = "ADO",
+  DEFAULT = "DEFAULT",
   // Add more CI providers as needed
 }
 
@@ -27,9 +27,9 @@ export class CIInfoProvider {
 
   static getCIProvider(): string | null {
     if (CIInfoProvider.isGitHubActions()) {
-      return CI_PROVIDERS.GITHUB_ACTIONS;
+      return CI_PROVIDERS.GITHUB;
     } else if (CIInfoProvider.isAzureDevOps()) {
-      return CI_PROVIDERS.AZURE_DEVOPS;
+      return CI_PROVIDERS.ADO;
     } else {
       return CI_PROVIDERS.DEFAULT;
     }
@@ -37,10 +37,10 @@ export class CIInfoProvider {
 
   static getCIInfo(): CIInfo {
     const ciProvider = CIInfoProvider.getCIProvider();
-    if (ciProvider === CI_PROVIDERS.GITHUB_ACTIONS) {
+    if (ciProvider === CI_PROVIDERS.GITHUB) {
       // Logic to get GitHub Actions CIInfo
       return {
-        provider: CI_PROVIDERS.GITHUB_ACTIONS,
+        provider: CI_PROVIDERS.GITHUB,
         repo: process.env["GITHUB_REPOSITORY_ID"] || null,
         branch: this.getGHBranchName() || null,
         author: process.env["GITHUB_ACTOR"] || null,
@@ -54,10 +54,10 @@ export class CIInfoProvider {
           : null,
         jobId: process.env["GITHUB_JOB"] || null,
       };
-    } else if (ciProvider === CI_PROVIDERS.AZURE_DEVOPS) {
+    } else if (ciProvider === CI_PROVIDERS.ADO) {
       // Logic to get Azure DevOps CIInfo
       return {
-        provider: CI_PROVIDERS.AZURE_DEVOPS,
+        provider: CI_PROVIDERS.ADO,
         repo: process.env["BUILD_REPOSITORY_ID"] || null,
         branch: process.env["BUILD_SOURCEBRANCH"] || null,
         author: process.env["BUILD_REQUESTEDFOR"] || null,
