@@ -3,7 +3,7 @@
 ## 21.1.0-beta.2 (2024-09-10)
 Compared with version 21.0.0
     
-**Features**
+### Features Added
 
   - Added operation group LoadBalancers
   - Added operation group Machines
