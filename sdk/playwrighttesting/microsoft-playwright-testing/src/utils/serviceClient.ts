@@ -46,7 +46,7 @@ export class ServiceClient {
         `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(new RegExp("{workspaceId}", "g"), this.envVariables.accountId!)}`,
       );
     } else {
-      this.handleErrorResponse(response, Constants.getTestRun);
+      this.handleErrorResponse(response, Constants.patchTestRun);
     }
     throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
   }
