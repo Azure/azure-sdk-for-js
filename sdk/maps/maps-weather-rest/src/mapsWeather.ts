@@ -19,7 +19,7 @@ import createClient from "./generated/mapsWeatherClient";
  *
  * @example
  * ```ts
- * import MapsWeather from "@azure-rest/maps-Weather";
+ * import MapsWeather from "@azure-rest/maps-weather";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = MapsWeather(credential);
