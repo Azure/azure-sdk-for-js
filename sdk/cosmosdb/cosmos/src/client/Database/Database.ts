@@ -72,6 +72,7 @@ export class Database {
   /** Returns a new {@link Database} instance.
    *
    * Note: the intention is to get this object from {@link CosmosClient} via `client.database(id)`, not to instantiate it yourself.
+   * @internal
    */
   constructor(
     public readonly client: CosmosClient,

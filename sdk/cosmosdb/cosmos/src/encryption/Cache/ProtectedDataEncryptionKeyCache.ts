@@ -42,7 +42,7 @@ export class ProtectedDataEncryptionKeyCache {
           this.protectedDataEncryptionKeyCache.delete(key);
         }
       }
-    }, 10000);
+    }, 60000);
   }
 
   private async createProtectedDataEncryptionKey(

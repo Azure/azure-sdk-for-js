@@ -282,7 +282,7 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
-  // Default TTL for caches related to Encryption
+  // Default TTL for encryption caches in hours
   DefaultEncryptionCacheTimeToLive: 2,
 };
 

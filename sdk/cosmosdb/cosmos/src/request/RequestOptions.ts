@@ -46,11 +46,11 @@ export interface RequestOptions extends SharedOptions {
   disableAutomaticIdGeneration?: boolean;
 
   /**
-   * @hidden
+   * @internal
    * database rid for setting DatabaseRidHeader */
   databaseRid?: string;
   /**
-   * @hidden
-   *  collection rid for setting CollectionRidHeader */
+   * @internal
+   * collection rid for setting CollectionRidHeader */
   containerRid?: string;
 }

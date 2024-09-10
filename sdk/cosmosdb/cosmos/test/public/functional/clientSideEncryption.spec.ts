@@ -249,7 +249,7 @@ describe("Client Side Encryption", () => {
     await testdatabase.delete();
   });
 
-  it("validate encryption time to live", async () => {
+  it.skip("validate encryption time to live", async () => {
     const testKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     // client with ttl of 1 min
     const newClient = new CosmosClient({

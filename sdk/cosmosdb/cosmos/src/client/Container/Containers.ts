@@ -35,6 +35,10 @@ import { EncryptionManager } from "../../encryption/EncryptionManager";
  * do this once on application start up.
  */
 export class Containers {
+  /**
+   * @internal
+   * @param database - The parent {@link Database}.
+   */
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
@@ -185,9 +189,10 @@ export class Containers {
       };
     }
 
-    if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
-      // TODO: add checks for checking partition key paths
-    }
+    // if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
+    //   // TODO: add checks for checking partition key paths. Can we initialize encryption here itself
+    //   for(const path of body.clientEncryptionPolicy.paths) {
+    // }
 
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,

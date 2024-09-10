@@ -153,4 +153,6 @@ export {
   EncryptionAlgorithm,
   EncryptionKeyResolverName,
   EncryptionManager,
+  EncryptionTimeToLive,
+  EncryptionKeyStoreProvider,
 } from "./encryption";

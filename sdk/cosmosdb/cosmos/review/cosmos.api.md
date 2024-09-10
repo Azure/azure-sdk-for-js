@@ -223,8 +223,6 @@ export class ClientContext {
     diagnosticLevel: CosmosDbDiagnosticLevel;
     // (undocumented)
     enableEncryption: boolean;
-    // Warning: (ae-forgotten-export) The symbol "EncryptionKeyStoreProvider" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
     // (undocumented)
@@ -686,7 +684,6 @@ export const Constants: {
 
 // @public
 export class Container {
-    constructor(database: Database, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
@@ -760,7 +757,6 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 
 // @public
 export class Containers {
-    constructor(database: Database, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
@@ -807,7 +803,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     encryptionKeyResolverName?: string;
     // (undocumented)
-    encryptionKeyTimeToLive?: number;
+    encryptionKeyTimeToLive?: EncryptionTimeToLive;
     endpoint: string;
     httpClient?: HttpClient;
     key?: string;
@@ -871,7 +867,6 @@ export interface CreateOperationInput {
 
 // @public
 export class Database {
-    constructor(client: CosmosClient, id: string, clientContext: ClientContext, encryptionManager?: EncryptionManager, _rid?: string);
     // (undocumented)
     readonly client: CosmosClient;
     container(id: string): Container;
@@ -944,7 +939,6 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
 
 // @public
 export class Databases {
-    constructor(client: CosmosClient, clientContext: ClientContext, encryptionManager?: EncryptionManager);
     // (undocumented)
     readonly client: CosmosClient;
     create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
@@ -1113,6 +1107,23 @@ export enum EncryptionKeyResolverName {
     AzureKeyVault = "AZURE_KEY_VAULT"
 }
 
+// @public
+export class EncryptionKeyStoreProvider {
+    constructor(keyEncryptionKeyResolver: EncryptionKeyResolver, providerName: string, cacheTimeToLive: number);
+    // (undocumented)
+    providerName: string;
+    // (undocumented)
+    RsaOaepEncryptionAlgorithm: string;
+    // (undocumented)
+    unwrapKey(encryptionKeyId: string, algorithm: KeyEncryptionKeyAlgorithm, wrappedKey: Buffer): Promise<Buffer>;
+    // (undocumented)
+    unwrappedEncryptionKeyCache: {
+        [key: string]: [Date, Buffer];
+    };
+    // (undocumented)
+    wrapKey(encryptionKeyId: string, algorithm: KeyEncryptionKeyAlgorithm, key: Buffer): Promise<Buffer>;
+}
+
 // @public (undocumented)
 export class EncryptionKeyWrapMetadata {
     constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionKeyAlgorithm);
@@ -1128,9 +1139,9 @@ export class EncryptionKeyWrapMetadata {
 
 // @public
 export class EncryptionManager {
-    constructor(encryptionKeyResolver: EncryptionKeyResolver, encryptionKeyResolverName: string, cacheTimeToLive?: number);
+    constructor(encryptionKeyResolver: EncryptionKeyResolver, encryptionKeyResolverName: string, cacheTimeToLive?: EncryptionTimeToLive);
     // (undocumented)
-    cacheTimeToLive: number;
+    cacheTimeToLive: EncryptionTimeToLive;
     // Warning: (ae-forgotten-export) The symbol "ClientEncryptionKeyPropertiesCache" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -1168,6 +1179,16 @@ export class EncryptionQueryBuilder {
     addObjectParameter(name: string, value: JSONObject, path: string): void;
     // (undocumented)
     addStringParameter(name: string, value: string, path: string): void;
+}
+
+// @public (undocumented)
+export class EncryptionTimeToLive {
+    // (undocumented)
+    static FromHours(hours: number): number;
+    // (undocumented)
+    static FromMinutes(minutes: number): number;
+    // (undocumented)
+    static NoTtl(): number;
 }
 
 // @public (undocumented)
@@ -2111,8 +2132,6 @@ export interface RequestOptions extends SharedOptions {
         condition: string;
     };
     consistencyLevel?: string;
-    containerRid?: string;
-    databaseRid?: string;
     disableAutomaticIdGeneration?: boolean;
     disableRUPerMinuteUsage?: boolean;
     enableScriptLogging?: boolean;

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export class EncryptionTimeToLive {
   static FromMinutes(minutes: number): number {
     return minutes * 60 * 1000;
