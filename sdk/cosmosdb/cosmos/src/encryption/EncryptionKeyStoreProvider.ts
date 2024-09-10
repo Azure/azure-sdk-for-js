@@ -29,12 +29,12 @@ export class EncryptionKeyStoreProvider {
     algorithm: KeyEncryptionKeyAlgorithm,
     key: Buffer,
   ): Promise<Buffer> {
-    const keyEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
+    const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
       encryptionKeyId,
       algorithm,
       key,
     );
-    return keyEncryptionKey;
+    return wrappedEncryptionKey;
   }
 
   public async unwrapKey(
