@@ -207,7 +207,7 @@ function buildNode(obj: any, elementName: string, options: Required<XmlOptions>)
   } else if (typeof obj === "object") {
     let elem: HTMLElement;
     if (obj[XML_ATTRKEY]?.["xmlns"]) {
-      elem = doc.createElementNS(obj[XML_ATTRKEY]["xmlns"], elementName)
+      elem = doc.createElementNS(obj[XML_ATTRKEY]["xmlns"], elementName);
     } else {
       elem = doc.createElement(elementName);
     }
