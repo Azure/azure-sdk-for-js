@@ -148,9 +148,6 @@ export class Constants {
     },
   };
 }
-export const BackoffConstants = {
-  MAX_RETRIES: 10,
-};
 
 export const TestErrorType = {
   Scalable: "Scalable",
