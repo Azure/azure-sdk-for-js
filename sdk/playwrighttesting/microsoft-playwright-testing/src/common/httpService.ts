@@ -12,7 +12,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { reporterLogger } from "./logger";
 
-const HTTP_CALL_TIMEOUT = 30000;
+const HTTP_CALL_TIMEOUT = 70000;
 
 export class HttpService {
   public async callAPI(
