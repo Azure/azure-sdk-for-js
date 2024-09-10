@@ -21,9 +21,7 @@ import {
   retry,
   translate,
 } from "@azure/core-amqp";
-import {
-  Constants as ConstantsExperimental,
-} from "@azure/core-amqp/experimental";
+import * as coreAmqpExperimental from "@azure/core-amqp/experimental";
 import {
   EventData,
   EventDataInternal,
@@ -431,7 +429,7 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
-    srOptions.desired_capabilities = [ConstantsExperimental.geoReplication];
+    srOptions.desired_capabilities = [coreAmqpExperimental.Constants.geoReplication];
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(
