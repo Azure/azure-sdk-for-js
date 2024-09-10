@@ -9,7 +9,6 @@ Ready to get started? Jump into our [quickstart guide](#get-started)!
 - [Quickstart: Run end-to-end tests at scale](https://aka.ms/mpt/quickstart)
 - [Quickstart: Set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
 - [Explore features and benefits](https://aka.ms/mpt/about)
-- [View Microsoft Playwright Testing service demo](https://youtu.be/GenC1jAeTZE)
 - [Documentation](https://aka.ms/mpt/docs) 
 - [Pricing](https://aka.ms/mpt/pricing)
 - [Share feedback](https://aka.ms/mpt/feedback)
@@ -37,7 +36,6 @@ Follow these steps to run your existing Playwright test suite with the service.
     |**Azure Subscription** | Select an Azure subscription where you want to create the workspace. |
     |**Region** | This is where test run data will be stored for your workspace. |
 
-  > [!NOTE]
   > If you don't see this screen, select an existing workspace and go to the next section.
 
 ### Install Microsoft Playwright Testing package
@@ -56,8 +54,7 @@ The service configuration serves to:
 - Add Microsoft Playwright Testing reporting to your config.
 - Override timeouts for service operations, if needed.
 
-> [!NOTE]
-> Make sure your project uses @playwright/test version 1.37 or above.
+> Make sure your project uses @playwright/test version 1.47 or above.
 
 ### Obtain region endpoint
 
@@ -73,7 +70,6 @@ Ensure that the `PLAYWRIGHT_SERVICE_URL` that you obtained in previous step is a
 
 We recommend using `dotenv` module to manage your environment. With `dotenv` you'll be using the `.env` file to define your environment variables.
 
-> [!IMPORTANT]
 > Don't forget to add `.env` file to your `.gitignore` file in order to not leak your secrets.
 
 ```sh
@@ -83,7 +79,7 @@ npm i --save-dev dotenv
 `.env` file
 
 ```nodejs
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
 ```
 
 ### Sign in to Azure
@@ -95,6 +91,9 @@ az login
 ```
 
 **NOTE**: If you are a part of multiple tenants, you will have to login to a particular tenant. Run `az login --tenant=<TENANT_ID>' to sign in to the tenant where the workspace is created. You can find the tenant id through these [steps.](https://learn.microsoft.com/entra/fundamentals/how-to-find-tenant)
+
+**NOTE**: To use Microsoft Playwright Testing in CI pipelines, you need to configure authentication with the service from pipeline, see
+[set up continuous end-to-end testing across different browsers and operating systems](https://aka.ms/mpt/ci)
 
 ### Run the tests
 

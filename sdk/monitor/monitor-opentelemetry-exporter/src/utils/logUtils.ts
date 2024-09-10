@@ -20,7 +20,7 @@ import {
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { Measurements, Properties, Tags } from "../types";
+import { MaxPropertyLengths, Measurements, Properties, Tags } from "../types";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -90,6 +90,15 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     if (!baseData) {
       // Failed to parse log
       return;
+    }
+  }
+  // Truncate properties
+  if (baseData.message) {
+    baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+  }
+  if (properties) {
+    for (const key of Object.keys(properties)) {
+      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
     }
   }
   return {

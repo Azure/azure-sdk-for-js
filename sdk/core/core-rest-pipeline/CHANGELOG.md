@@ -5,6 +5,7 @@
 ### Features Added
 
 - The token cycler of `BearerTokenCredentialPolicy` now checks the `refreshAfterTimestamp` attribute in the `AccessToken` when determining if a token request should be made in the `shouldRefresh` method. #30402
+- Added support for automatic span propagation and HTTP tracing for consumers using Rest Level Clients. [#31019](https://github.com/Azure/azure-sdk-for-js/pull/31019)
 
 ## 1.16.3 (2024-08-01)
 

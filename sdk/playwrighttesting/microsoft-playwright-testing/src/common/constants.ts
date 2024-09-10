@@ -22,8 +22,8 @@ export const ServiceOS = {
  * Authentication types supported on Microsoft Playwright Testing
  */
 export const ServiceAuth = {
-  ENTRA: "ENTRA",
-  TOKEN: "TOKEN",
+  ENTRA_ID: "ENTRA_ID",
+  ACCESS_TOKEN: "ACCESS_TOKEN",
 } as const;
 
 /** @public
@@ -37,10 +37,6 @@ export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_ACCESS_TOKEN: "PLAYWRIGHT_SERVICE_ACCESS_TOKEN",
   PLAYWRIGHT_SERVICE_URL: "PLAYWRIGHT_SERVICE_URL",
   PLAYWRIGHT_SERVICE_REPORTING_URL: "PLAYWRIGHT_SERVICE_REPORTING_URL",
-};
-
-export const InternalServiceEnvironmentVariable = {
-  PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED: "_PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED",
 };
 
 export const DefaultConnectOptionsConstants = {
@@ -87,9 +83,9 @@ export class Constants {
   ];
   // Error messages
   public static readonly CONFLICT_409_ERROR_MESSAGE =
-    "Test run with id {runId} already exists. Please provide a unique run id.";
+    "Test run with id {runId} already exists. Provide a unique run id.";
   public static readonly FORBIDDEN_403_ERROR_MESSAGE =
-    "Reporting is not enabled for your workspace {workspaceId}. Please enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
+    "Reporting is not enabled for your workspace {workspaceId}. Enable the Reporting feature under Feature management settings using the Playwright portal: https://playwright.microsoft.com/workspaces/{workspaceId}/settings/general";
   // API Endpoints
   public static readonly testRunsEndpoint: string = "workspaces/{workspaceId}/test-runs";
   public static readonly testRunsShardEndpoint: string =
@@ -208,7 +204,7 @@ export const TestResultErrorConstants = [
   {
     key: "QuotaLimitError_Scalable",
     message:
-      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded.",
+      "It is possible that the maximum number of concurrent sessions allowed for your workspace has been exceeded. Check the quota at https://aka.ms/mpt/resource-quota.",
     pattern: /browserType.connect: Timeout .* exceeded/i,
     type: TestErrorType.Scalable,
   },
@@ -222,6 +218,8 @@ export const TestResultErrorConstants = [
 
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
+  MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
+  MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
 };
 
 export const MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION = "1.47.0";
