@@ -181,7 +181,8 @@ export const TestResultErrorConstants = [
   },
   {
     key: "InvalidAccessToken_Scalable",
-    message: "The access token provided is invalid. Please check the access token and try again.",
+    message:
+      "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
     pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
     type: TestErrorType.Scalable,
   },
