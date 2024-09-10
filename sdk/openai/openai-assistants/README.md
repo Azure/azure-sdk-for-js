@@ -1,4 +1,6 @@
-# Azure OpenAI Assistants client library for JavaScript
+# Deprecated. Azure OpenAI Assistants client library for JavaScript
+
+**Deprecation notice ⚠️**: The Azure OpenAI Assistants client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/oai/js/asst/migrate) before that date.
 
 The Azure OpenAI Assistants client library for JavaScript is an adaptation of OpenAI's REST APIs that provides an idiomatic interface and rich integration with the rest of the Azure SDK ecosystem. It can connect to Azure OpenAI resources or to the non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure OpenAI development.
 
