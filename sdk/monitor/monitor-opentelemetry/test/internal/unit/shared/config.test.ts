@@ -510,7 +510,7 @@ describe("OpenTelemetry Resource", () => {
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
-      0,
+        0,
       "Wrong TELEMETRY_SDK_VERSION",
     );
     assert.deepStrictEqual(

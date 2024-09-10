@@ -135,14 +135,15 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-      model: string;
-      speed: number;
-      times: { user: number; nice: number; sys: number; idle: number; irq: number };
-    }[]
+        model: string;
+        speed: number;
+        times: { user: number; nice: number; sys: number; idle: number; irq: number };
+      }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
-  private errorTracker: CollectionConfigurationErrorTracker = new CollectionConfigurationErrorTracker();
+  private errorTracker: CollectionConfigurationErrorTracker =
+    new CollectionConfigurationErrorTracker();
   // For tracking of duplicate metric ids in the same configuration.
   private seenMetricIds: Set<string> = new Set();
   private validDerivedMetrics: Map<string, DerivedMetricInfo[]> = new Map();
@@ -173,7 +174,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -478,10 +479,16 @@ export class LiveMetrics {
         span.events.forEach((event: TimedEvent) => {
           event.attributes = event.attributes || {};
           if (event.name === "exception") {
-            const exceptionColumns: ExceptionData = getSpanExceptionColumns(event.attributes, span.attributes);
+            const exceptionColumns: ExceptionData = getSpanExceptionColumns(
+              event.attributes,
+              span.attributes,
+            );
             derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
             this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
-            const exceptionDocument: Exception = getLogDocument(exceptionColumns, event.attributes[SEMATTRS_EXCEPTION_TYPE] as string) as Exception;
+            const exceptionDocument: Exception = getLogDocument(
+              exceptionColumns,
+              event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
+            ) as Exception;
             this.addDocument(exceptionDocument);
             this.totalExceptionCount++;
           }
@@ -501,7 +508,8 @@ export class LiveMetrics {
       if (isExceptionData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
         this.totalExceptionCount++;
-      } else { // trace
+      } else {
+        // trace
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
@@ -719,11 +727,14 @@ export class LiveMetrics {
           data: [],
         };
         if (error instanceof TelemetryTypeError) {
-          configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
         } else if (error instanceof UnexpectedFilterCreateError) {
-          configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.FilterFailureToCreateUnexpected;
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.FilterFailureToCreateUnexpected;
         } else if (error instanceof DuplicateMetricIdError) {
-          configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricDuplicateIds;
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricDuplicateIds;
         }
 
         if (error instanceof Error) {
@@ -737,10 +748,12 @@ export class LiveMetrics {
         this.errorTracker.addValidationError(configError);
       }
     });
-
   }
 
-  private checkMetricFilterAndCreateProjection(derivedMetricInfoList: DerivedMetricInfo[], data: TelemetryData): void {
+  private checkMetricFilterAndCreateProjection(
+    derivedMetricInfoList: DerivedMetricInfo[],
+    data: TelemetryData,
+  ): void {
     derivedMetricInfoList.forEach((derivedMetricInfo: DerivedMetricInfo) => {
       if (Filter.checkMetricFilters(derivedMetricInfo, data)) {
         try {
@@ -753,7 +766,8 @@ export class LiveMetrics {
             data: [],
           };
           if (error instanceof MetricFailureToCreateError) {
-            configError.collectionConfigurationErrorType = KnownCollectionConfigurationErrorType.MetricFailureToCreate;
+            configError.collectionConfigurationErrorType =
+              KnownCollectionConfigurationErrorType.MetricFailureToCreate;
 
             if (error instanceof Error) {
               configError.message = error.message;
@@ -769,5 +783,4 @@ export class LiveMetrics {
       }
     });
   }
-
 }

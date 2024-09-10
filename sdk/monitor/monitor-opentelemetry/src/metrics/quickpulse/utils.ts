@@ -17,7 +17,7 @@ import {
   /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
-  CollectionConfigurationError
+  CollectionConfigurationError,
 } from "../../generated";
 import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
@@ -78,7 +78,6 @@ import { getResourceProvider } from "../../utils/common";
 import { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
 import { DependencyTypes } from "../../../../monitor-opentelemetry-exporter/src/utils/constants/applicationinsights";
-
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
@@ -264,7 +263,10 @@ export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData
   }
 }
 
-export function getSpanExceptionColumns(eventAttributes: Attributes, spanAttributes: Attributes): ExceptionData {
+export function getSpanExceptionColumns(
+  eventAttributes: Attributes,
+  spanAttributes: Attributes,
+): ExceptionData {
   const exceptionData: ExceptionData = {
     Message: eventAttributes[SEMATTRS_EXCEPTION_MESSAGE] as string,
     StackTrace: eventAttributes[SEMATTRS_EXCEPTION_STACKTRACE] as string,
@@ -273,10 +275,8 @@ export function getSpanExceptionColumns(eventAttributes: Attributes, spanAttribu
   return exceptionData;
 }
 
-
 // A slightly modified version of createRequestData from spanUtils in exporter
 function getRequestData(span: ReadableSpan): RequestData {
-
   const requestData: RequestData = {
     Url: "",
     Duration: hrTimeToMilliseconds(span.duration),
@@ -305,7 +305,6 @@ function getRequestData(span: ReadableSpan): RequestData {
 
 // A slightly modified version of createDependencyData from spanUtils in exporter
 function getDependencyData(span: ReadableSpan): DependencyData {
-
   const dependencyData: DependencyData = {
     Target: "",
     Duration: hrTimeToMilliseconds(span.duration),
@@ -444,7 +443,8 @@ export function getLogDocument(data: TelemetryData, exceptionType: string): Trac
       exceptionType: exceptionType,
       properties: mapToKeyValuePairList(data.CustomDimensions),
     };
-  } else { // trace
+  } else {
+    // trace
     return {
       documentType: KnownDocumentType.Trace,
       message: (data as TraceData).Message,
@@ -531,7 +531,6 @@ function mapToKeyValuePairList(map: Map<string, string>): KeyValuePairString[] {
   });
   return list;
 }
-
 
 function getUrl(attributes: Attributes): string {
   if (!attributes) {

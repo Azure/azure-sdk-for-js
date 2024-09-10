@@ -3,10 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { MonitoringDataPoint, PublishResponse } from "../../generated";
-import {
-  DocumentIngress,
-  CollectionConfigurationError
-} from "../../generated";
+import { DocumentIngress, CollectionConfigurationError } from "../../generated";
 
 /**
  * Quickpulse Exporter Options
@@ -79,7 +76,7 @@ export interface DependencyData extends TelemetryData {
   Success: boolean;
   Name: string;
   ResultCode: number;
-  // Dependency type name. Very low cardinality value for logical grouping of dependencies and interpretation of other fields like commandName and resultCode.Examples are SQL, Azure table, and HTTP. 
+  // Dependency type name. Very low cardinality value for logical grouping of dependencies and interpretation of other fields like commandName and resultCode.Examples are SQL, Azure table, and HTTP.
   Type: string;
   // Command initiated by this dependency call. Examples are SQL statement and HTTP URL with all query parameters.
   Data: string;

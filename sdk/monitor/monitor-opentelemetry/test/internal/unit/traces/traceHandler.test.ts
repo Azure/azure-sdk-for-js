@@ -51,7 +51,7 @@ describe("Library/TraceHandler", () => {
     };
     return new Promise((resolve, reject) => {
       const req = http.request(options, (res: any) => {
-        res.on("data", function () { });
+        res.on("data", function () {});
         res.on("end", () => {
           resolve();
         });

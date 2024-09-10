@@ -30,15 +30,9 @@ import {
   ExceptionData,
   TraceData,
 } from "../../../../src/metrics/quickpulse/types";
-import {
-  SpanKind,
-  SpanStatusCode,
-} from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { millisToHrTime } from "@opentelemetry/core";
-import {
-  LogRecord,
-  LoggerProvider,
-} from "@opentelemetry/sdk-logs";
+import { LogRecord, LoggerProvider } from "@opentelemetry/sdk-logs";
 import {
   getLogColumns,
   getSpanColumns,
@@ -49,7 +43,6 @@ import {
 } from "../../../../src/metrics/quickpulse/utils";
 
 describe("Live Metrics filtering - Validator", () => {
-
   it("The validator rejects the invalid telemetry types", () => {
     const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id1",
@@ -67,7 +60,6 @@ describe("Live Metrics filtering - Validator", () => {
     assert.throws(() => Validator.validateTelemetryType(derivedMetricInfo), TelemetryTypeError);
     derivedMetricInfo.telemetryType = "does not exist";
     assert.throws(() => Validator.validateTelemetryType(derivedMetricInfo), TelemetryTypeError);
-
   });
 
   it("The validator rejects CustomMetrics projections and filters (not supported in Otel)", () => {
@@ -82,8 +74,12 @@ describe("Live Metrics filtering - Validator", () => {
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [
-        { fieldName: "CustomMetrics.property", predicate: KnownPredicateType.Equal, comparand: "5" },
-      ]
+        {
+          fieldName: "CustomMetrics.property",
+          predicate: KnownPredicateType.Equal,
+          comparand: "5",
+        },
+      ],
     };
 
     const invalid2: DerivedMetricInfo = {
@@ -95,7 +91,10 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    assert.throws(() => Validator.checkCustomMetricProjection(invalid1), UnexpectedFilterCreateError);
+    assert.throws(
+      () => Validator.checkCustomMetricProjection(invalid1),
+      UnexpectedFilterCreateError,
+    );
     Validator.validateTelemetryType(invalid2); // this shouldn't throw an error as the telemetry type is supported
     assert.throws(() => Validator.validateFilters(invalid2), UnexpectedFilterCreateError);
   });
@@ -104,178 +103,200 @@ describe("Live Metrics filtering - Validator", () => {
     const emptyFilterName: FilterInfo = {
       fieldName: "",
       predicate: KnownPredicateType.Equal,
-      comparand: "blah"
+      comparand: "blah",
     };
 
     const emptyComparand: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Equal,
-      comparand: ""
+      comparand: "",
     };
 
     const invalidAnyFieldEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Equal,
-      comparand: "5"
+      comparand: "5",
     };
 
     const invalidAnyFieldNotEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.NotEqual,
-      comparand: "5"
+      comparand: "5",
     };
 
     const invalidAnyFieldLessThan: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.LessThan,
-      comparand: "5"
+      comparand: "5",
     };
 
     const invalidAnyFieldLessThanOrEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "5"
+      comparand: "5",
     };
 
     const invalidAnyFieldGreaterThan: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.GreaterThan,
-      comparand: "5"
+      comparand: "5",
     };
 
     const invalidAnyFieldGreaterThanOrEqual: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "5"
+      comparand: "5",
     };
 
     const invalidStringFieldPredicate: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.LessThan,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidStringFieldPredicate2: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.GreaterThan,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidStringFieldPredicate3: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidStringFieldPredicate4: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidCustomDimLess: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.LessThan,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidCustomDimGreater: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.GreaterThan,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidCustomDimGreaterThanOrEqual: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidCustomDimLessThanOrEqual: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidNumericFieldPredicate: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Contains,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const invalidNumericFieldPredicate2: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.DoesNotContain,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const invalidNumericFieldComparand: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const invalidDurationComparand: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.NotEqual,
-      comparand: "invalid timestamp"
-    }
+      comparand: "invalid timestamp",
+    };
 
     const unknownFieldName: FilterInfo = {
       fieldName: "unknown field",
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const successLessThan: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.LessThan,
-      comparand: "true"
+      comparand: "true",
     };
 
     const successLessThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "true"
+      comparand: "true",
     };
 
     const successFieldGreaterThan: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.GreaterThan,
-      comparand: "true"
+      comparand: "true",
     };
 
     const successGreaterThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "true"
+      comparand: "true",
     };
 
     const successContains: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Contains,
-      comparand: "true"
+      comparand: "true",
     };
 
     const successNotContain: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.DoesNotContain,
-      comparand: "true"
+      comparand: "true",
     };
 
     const invalidBool: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Equal,
-      comparand: "hi"
+      comparand: "hi",
     };
 
-    const filterInfoList: FilterInfo[] =
-      [emptyFilterName, emptyComparand, invalidAnyFieldEqual, invalidAnyFieldNotEqual, invalidAnyFieldLessThan, invalidAnyFieldLessThanOrEqual,
-        invalidAnyFieldGreaterThan, invalidAnyFieldGreaterThanOrEqual, invalidStringFieldPredicate, invalidStringFieldPredicate2,
-        invalidStringFieldPredicate3, invalidStringFieldPredicate4, invalidCustomDimGreater, invalidCustomDimGreaterThanOrEqual,
-        invalidCustomDimLess, invalidCustomDimLessThanOrEqual, invalidNumericFieldPredicate, invalidNumericFieldPredicate2,
-        invalidNumericFieldComparand, invalidDurationComparand, successLessThan, successLessThanOrEqual, successFieldGreaterThan,
-        successGreaterThanOrEqual, successContains, successNotContain, invalidBool];
+    const filterInfoList: FilterInfo[] = [
+      emptyFilterName,
+      emptyComparand,
+      invalidAnyFieldEqual,
+      invalidAnyFieldNotEqual,
+      invalidAnyFieldLessThan,
+      invalidAnyFieldLessThanOrEqual,
+      invalidAnyFieldGreaterThan,
+      invalidAnyFieldGreaterThanOrEqual,
+      invalidStringFieldPredicate,
+      invalidStringFieldPredicate2,
+      invalidStringFieldPredicate3,
+      invalidStringFieldPredicate4,
+      invalidCustomDimGreater,
+      invalidCustomDimGreaterThanOrEqual,
+      invalidCustomDimLess,
+      invalidCustomDimLessThanOrEqual,
+      invalidNumericFieldPredicate,
+      invalidNumericFieldPredicate2,
+      invalidNumericFieldComparand,
+      invalidDurationComparand,
+      successLessThan,
+      successLessThanOrEqual,
+      successFieldGreaterThan,
+      successGreaterThanOrEqual,
+      successContains,
+      successNotContain,
+      invalidBool,
+    ];
 
     const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
@@ -284,44 +305,52 @@ describe("Live Metrics filtering - Validator", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
-    filterInfoList.forEach(filter => {
+    filterInfoList.forEach((filter) => {
       const conjunctionGroup: FilterConjunctionGroupInfo = {
-        filters: [filter]
+        filters: [filter],
       };
 
       derivedMetricInfo.filterGroups = [conjunctionGroup];
-      assert.throws(() => Validator.validateFilters(derivedMetricInfo), UnexpectedFilterCreateError || TelemetryTypeError);
+      assert.throws(
+        () => Validator.validateFilters(derivedMetricInfo),
+        UnexpectedFilterCreateError || TelemetryTypeError,
+      );
     });
 
     derivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
-    const supportedTelemetryTypes: KnownTelemetryType[] =
-      [KnownTelemetryType.Request, KnownTelemetryType.Dependency, KnownTelemetryType.Exception, KnownTelemetryType.Trace];
+    const supportedTelemetryTypes: KnownTelemetryType[] = [
+      KnownTelemetryType.Request,
+      KnownTelemetryType.Dependency,
+      KnownTelemetryType.Exception,
+      KnownTelemetryType.Trace,
+    ];
 
-    supportedTelemetryTypes.forEach(telemetryType => {
+    supportedTelemetryTypes.forEach((telemetryType) => {
       derivedMetricInfo.telemetryType = telemetryType;
-      assert.throws(() => Validator.validateFilters(derivedMetricInfo), UnexpectedFilterCreateError);
+      assert.throws(
+        () => Validator.validateFilters(derivedMetricInfo),
+        UnexpectedFilterCreateError,
+      );
     });
-
-
   });
 
   it("The validator rejects a derivedMetricInfo if the only filterConjunctionGroupInfo has an invalid filter inside it", () => {
     const invalidFilter: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.NotEqual,
-      comparand: "invalid timestamp"
-    }
+      comparand: "invalid timestamp",
+    };
 
     const validFilter: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
-      comparand: "200"
-    }
+      comparand: "200",
+    };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [validFilter, invalidFilter]
+      filters: [validFilter, invalidFilter],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -331,7 +360,7 @@ describe("Live Metrics filtering - Validator", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     assert.throws(() => Validator.validateFilters(derivedMetricInfo), UnexpectedFilterCreateError);
   });
@@ -340,121 +369,138 @@ describe("Live Metrics filtering - Validator", () => {
     const anyFieldContains: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const anyFieldDoesNotContain: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const stringNotEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.NotEqual,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const stringEquals: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Equal,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const stringContain: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const stringNotContain: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const customDimNotEqual: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.NotEqual,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const customDimEquals: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.Equal,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const customDimContain: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const customDimNotContain: FilterInfo = {
       fieldName: "CustomDimensions.property",
       predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const numericEquals: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const numericNotEqual: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.NotEqual,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const numericLessThan: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.LessThan,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const numericGreaterThan: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.GreaterThan,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const numericLessThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.LessThanOrEqual,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const numericGreaterThanOrEqual: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.GreaterThanOrEqual,
-      comparand: "5"
-    }
+      comparand: "5",
+    };
 
     const durationEquals: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.Equal,
-      comparand: "0.0:0:0.2" // 200 ms in iso 8601 format
-    }
+      comparand: "0.0:0:0.2", // 200 ms in iso 8601 format
+    };
 
     const successEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Equal,
-      comparand: "true"
+      comparand: "true",
     };
 
     const successNotEqual: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.NotEqual,
-      comparand: "false"
+      comparand: "false",
     };
 
-    const filterInfoList: FilterInfo[] = [anyFieldContains, anyFieldDoesNotContain, stringNotEqual, stringEquals,
-      stringContain, stringNotContain, numericEquals, numericNotEqual, numericLessThan, numericLessThanOrEqual,
-      numericGreaterThan, numericGreaterThanOrEqual, customDimContain, customDimNotContain, customDimEquals,
-      customDimNotEqual, durationEquals, successEqual, successNotEqual];
+    const filterInfoList: FilterInfo[] = [
+      anyFieldContains,
+      anyFieldDoesNotContain,
+      stringNotEqual,
+      stringEquals,
+      stringContain,
+      stringNotContain,
+      numericEquals,
+      numericNotEqual,
+      numericLessThan,
+      numericLessThanOrEqual,
+      numericGreaterThan,
+      numericGreaterThanOrEqual,
+      customDimContain,
+      customDimNotContain,
+      customDimEquals,
+      customDimNotEqual,
+      durationEquals,
+      successEqual,
+      successNotEqual,
+    ];
 
     const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
@@ -463,11 +509,11 @@ describe("Live Metrics filtering - Validator", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
-    filterInfoList.forEach(filter => {
+    filterInfoList.forEach((filter) => {
       const conjunctionGroup: FilterConjunctionGroupInfo = {
-        filters: [filter]
+        filters: [filter],
       };
 
       derivedMetricInfo.filterGroups = [conjunctionGroup];
@@ -490,7 +536,6 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
       status: {
         code: SpanStatusCode.OK,
       },
-
     };
 
     const request: RequestData = getSpanColumns(serverSpan) as RequestData;
@@ -500,7 +545,6 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
     assert.equal(request.Success, true);
     assert.equal(request.Name, "GET /");
     assert.equal(request.CustomDimensions.get("customAttribute"), "test");
-
   });
 
   it("Can parse a Span into a DepedencyData", () => {
@@ -528,7 +572,6 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
     assert.equal(dependency.Type, "Http");
     assert.equal(dependency.Data, "http://test.com/");
     assert.equal(dependency.CustomDimensions.get("customAttribute"), "test");
-
   });
 
   it("Can parse a Span into an ExceptionData", () => {
@@ -539,7 +582,7 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
         "exception.stacktrace": "testStackTrace",
         "exception.message": "testExceptionMessage",
         "exception.type": "Error",
-      }
+      },
     };
 
     const clientSpan: any = {
@@ -554,14 +597,16 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
       status: {
         code: SpanStatusCode.ERROR,
       },
-      events: [exceptionEvent]
+      events: [exceptionEvent],
     };
 
-    const exception: ExceptionData = getSpanExceptionColumns(exceptionEvent.attributes, clientSpan.attributes);
+    const exception: ExceptionData = getSpanExceptionColumns(
+      exceptionEvent.attributes,
+      clientSpan.attributes,
+    );
     assert.equal(exception.Message, "testExceptionMessage");
     assert.equal(exception.StackTrace, "testStackTrace");
     assert.equal(exception.CustomDimensions.get("customAttribute"), "test");
-
   });
 
   it("Can parse a Log into an ExceptionData", () => {
@@ -584,7 +629,6 @@ describe("Live Metrics filtering - Conversion of Span/Log to TelemetryData", () 
     assert.equal(exception.Message, "testExceptionMessage");
     assert.equal(exception.StackTrace, "testStackTrace");
     assert.equal(exception.CustomDimensions.get("customAttribute"), "test");
-
   });
 
   it("Can parse a Log into a TraceData", () => {
@@ -611,32 +655,32 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     const anyFieldContainsHi: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const anyFieldNotContains: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.DoesNotContain,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const anyFieldContainsCool: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
-      comparand: "cool"
-    }
+      comparand: "cool",
+    };
 
     const anyFieldForNumeric: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
-      comparand: "200"
-    }
+      comparand: "200",
+    };
 
     const anyFieldForBoolean: FilterInfo = {
       fieldName: "*",
       predicate: KnownPredicateType.Contains,
-      comparand: "true"
-    }
+      comparand: "true",
+    };
 
     const request1: RequestData = {
       Url: "https://test.com/hiThere",
@@ -657,7 +701,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [anyFieldContainsHi]
+      filters: [anyFieldContainsHi],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -667,7 +711,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     // request contains "hi" in multiple fields & filter is contains hi
     // return true
@@ -700,18 +744,17 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     conjunctionGroup.filters = [anyFieldForBoolean];
     derivedMetricInfo.filterGroups = [conjunctionGroup];
     assert.ok(Filter.checkMetricFilters(derivedMetricInfo, request1));
-
   });
 
   it("Can handle CustomDimension filter", () => {
     const customDimFilter: FilterInfo = {
       fieldName: "CustomDimensions.hi",
       predicate: KnownPredicateType.Equal,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [customDimFilter]
+      filters: [customDimFilter],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -721,7 +764,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -763,11 +806,11 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     const filter: FilterInfo = {
       fieldName: KnownRequestColumns.Success,
       predicate: KnownPredicateType.Equal,
-      comparand: "true"
-    }
+      comparand: "true",
+    };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter]
+      filters: [filter],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -777,7 +820,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -822,19 +865,17 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     // Dependency Success filter matches for != predicate
     derivedMetricInfo.filterGroups[0].filters[0].predicate = KnownPredicateType.NotEqual;
     assert.ok(Filter.checkMetricFilters(derivedMetricInfo, dependency));
-
   });
 
   it("Can handle filter on known numeric columns", () => {
-
     const filter: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
-      comparand: "200"
-    }
+      comparand: "200",
+    };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter]
+      filters: [filter],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -844,7 +885,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -927,11 +968,11 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     const filter: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter]
+      filters: [filter],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -941,7 +982,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1028,7 +1069,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1046,17 +1087,17 @@ describe("Live Metrics filtering - Applying valid filters", () => {
     const filter1: FilterInfo = {
       fieldName: KnownRequestColumns.Url,
       predicate: KnownPredicateType.Contains,
-      comparand: "hi"
-    }
+      comparand: "hi",
+    };
 
     const filter2: FilterInfo = {
       fieldName: KnownRequestColumns.ResponseCode,
       predicate: KnownPredicateType.Equal,
-      comparand: "200"
-    }
+      comparand: "200",
+    };
 
     const conjunctionGroup: FilterConjunctionGroupInfo = {
-      filters: [filter1, filter2]
+      filters: [filter1, filter2],
     };
 
     const derivedMetricInfo: DerivedMetricInfo = {
@@ -1066,7 +1107,7 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1096,7 +1137,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const derivedMetricInfoDependency: DerivedMetricInfo = {
       id: "id-for-dependency",
@@ -1105,7 +1146,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const derivedMetricInfoTrace: DerivedMetricInfo = {
       id: "id-for-trace",
@@ -1114,7 +1155,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const derivedMetricInfoException: DerivedMetricInfo = {
       id: "id-for-exception",
@@ -1123,7 +1164,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Count()",
       aggregation: "Sum",
       backEndAggregation: "Sum",
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1194,7 +1235,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Duration",
       aggregation: KnownAggregationType.Avg,
       backEndAggregation: KnownAggregationType.Avg,
-    }
+    };
 
     const requestMin: DerivedMetricInfo = {
       id: "id-for-request-min",
@@ -1203,7 +1244,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Duration",
       aggregation: KnownAggregationType.Min,
       backEndAggregation: KnownAggregationType.Min,
-    }
+    };
 
     const requestMax: DerivedMetricInfo = {
       id: "id-for-request-max",
@@ -1212,7 +1253,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Duration",
       aggregation: KnownAggregationType.Max,
       backEndAggregation: KnownAggregationType.Max,
-    }
+    };
 
     const dependencyAvg: DerivedMetricInfo = {
       id: "id-for-dependency-avg",
@@ -1221,7 +1262,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Duration",
       aggregation: KnownAggregationType.Avg,
       backEndAggregation: KnownAggregationType.Avg,
-    }
+    };
 
     const dependencyMin: DerivedMetricInfo = {
       id: "id-for-dependency-min",
@@ -1230,7 +1271,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Duration",
       aggregation: KnownAggregationType.Min,
       backEndAggregation: KnownAggregationType.Min,
-    }
+    };
 
     const dependencyMax: DerivedMetricInfo = {
       id: "id-for-dependency-max",
@@ -1239,7 +1280,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "Duration",
       aggregation: KnownAggregationType.Max,
       backEndAggregation: KnownAggregationType.Max,
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1323,7 +1364,6 @@ describe("Live Metrics filtering - Metric Projection", () => {
   });
 
   it("CustomDimension", () => {
-
     const avg: DerivedMetricInfo = {
       id: "id-avg",
       telemetryType: KnownTelemetryType.Request,
@@ -1331,7 +1371,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "CustomDimensions.property",
       aggregation: KnownAggregationType.Avg,
       backEndAggregation: KnownAggregationType.Avg,
-    }
+    };
 
     const min: DerivedMetricInfo = {
       id: "id-min",
@@ -1340,7 +1380,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "CustomDimensions.property",
       aggregation: KnownAggregationType.Min,
       backEndAggregation: KnownAggregationType.Min,
-    }
+    };
 
     const max: DerivedMetricInfo = {
       id: "id-max",
@@ -1349,7 +1389,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "CustomDimensions.property",
       aggregation: KnownAggregationType.Max,
       backEndAggregation: KnownAggregationType.Max,
-    }
+    };
 
     const sum: DerivedMetricInfo = {
       id: "id-sum",
@@ -1358,7 +1398,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "CustomDimensions.property",
       aggregation: KnownAggregationType.Sum,
       backEndAggregation: KnownAggregationType.Sum,
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1418,7 +1458,6 @@ describe("Live Metrics filtering - Metric Projection", () => {
     assert.equal(projectionMap.get("id-sum"), 31);
 
     proj.clearProjectionMaps();
-
   });
 
   it("Projection across multiple seconds & projection after config change to no derived metrics", () => {
@@ -1429,7 +1468,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
       projection: "CustomDimensions.property",
       aggregation: KnownAggregationType.Avg,
       backEndAggregation: KnownAggregationType.Avg,
-    }
+    };
 
     const request: RequestData = {
       Url: "https://test.com/hiThere",
@@ -1454,8 +1493,7 @@ describe("Live Metrics filtering - Metric Projection", () => {
 
     proj.clearProjectionMaps();
     assert.equal(proj.getMetricValues().size, 0);
-
-  })
+  });
 });
 
 describe("Live Metrics filtering - documents", () => {
@@ -1514,9 +1552,7 @@ describe("Live Metrics filtering - documents", () => {
     assert.equal(exceptionDoc.exceptionMessage, "Exception Message hi");
     assert.equal(exceptionDoc.exceptionType, "Error");
     assert.equal(exceptionDoc.documentType, KnownDocumentType.Exception);
-
   });
-
 });
 
 describe("Live Metrics filtering - timestamp conversion", () => {
