@@ -1,4 +1,4 @@
-# Azure MapsWeather REST client library for JavaScript
+# Azure Maps Weather REST client library for JavaScript
 
 Azure Maps Weather Client
 
