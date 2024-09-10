@@ -94,6 +94,7 @@ export class Constants {
     "workspaces/{workspaceId}/test-runs/{testRunId}:createArtifactsUploadBaseUri";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
+  public static readonly patchTestRun: string = "patchTestRun";
   public static readonly getTestRun: string = "getTestRun";
   public static readonly patchTestRunShardStart: string = "patchTestRunShardStart";
   public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
@@ -101,6 +102,14 @@ export class Constants {
   public static readonly getStorageUri: string = "getStorageUri";
 
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
+    patchTestRun: {
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
+    },
     getTestRun: {
       400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
