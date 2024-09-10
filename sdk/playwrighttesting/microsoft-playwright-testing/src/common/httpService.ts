@@ -10,8 +10,9 @@ import {
   HttpMethods,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
-import { BackoffConstants } from "./constants";
 import { reporterLogger } from "./logger";
+
+const HTTP_CALL_TIMEOUT = 30000;
 
 export class HttpService {
   public async callAPI(
@@ -26,9 +27,6 @@ export class HttpService {
       loggingOptions: {
         logger: reporterLogger.info,
       },
-      retryOptions: {
-        maxRetries: BackoffConstants.MAX_RETRIES,
-      },
     });
 
     const httpClient = createDefaultHttpClient();
@@ -42,6 +40,7 @@ export class HttpService {
         "x-ms-client-request-id": `${randomUUID()}`,
         "x-correlation-id": correlationId,
       }),
+      timeout: HTTP_CALL_TIMEOUT,
     });
 
     if (data) {
