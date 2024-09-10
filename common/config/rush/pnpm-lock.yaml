@@ -1595,6 +1595,28 @@ packages:
       undici: 5.28.4
     dev: false
 
+  /@azure/identity@4.3.0:
+    resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.16.3
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.9.2
+      '@azure/logger': 1.1.4
+      '@azure/msal-browser': 3.22.0
+      '@azure/msal-node': 2.13.1
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/identity@4.4.1:
     resolution: {integrity: sha512-DwnG4cKFEM7S3T+9u05NstXU/HN0dk45kPOinUyNKsn5VWwpXd9sbPKEg6kgJzGbm1lMuhx9o31PVbCtM5sfBA==}
     engines: {node: '>=18.0.0'}
@@ -8325,6 +8347,14 @@ packages:
       - supports-color
     dev: false
 
+  /nock@14.0.0-beta.7:
+    resolution: {integrity: sha512-+EQMm5W9K8YnBE2Ceg4hnJynaCZmvK8ZlFXQ2fxGwtkOkBUq8GpQLTks2m1jpvse9XDxMDDOHgOWpiznFuh0bA==}
+    engines: {node: '>= 18'}
+    dependencies:
+      json-stringify-safe: 5.0.1
+      propagate: 2.0.1
+    dev: false
+
   /node-abi@3.67.0:
     resolution: {integrity: sha512-bLn/fU/ALVBE9wj+p4Y21ZJWYFjUXLXPi/IewyLZkx3ApxKDNBWCKdReeKOtD8dWpOdDCeMyLh6ZewzcLsG2Nw==}
     engines: {node: '>=10'}
@@ -10472,6 +10502,12 @@ packages:
 
   /typescript@5.5.4:
     resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12793,7 +12829,7 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-FXyG1I9p+Y3rCU9yl503SMPYgEWGc+oPBAPeLF5d5kK4FBin4fJqk0D7LK4ZIYusE4OTricpA3cmmO/fNWdbQQ==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-X3Ss7x7n5lU/x31DmuXnMD7YKFAfvQ5h1JCo6TndLN7/HLsBeuWm3+lXdncF3lJX57YhDKGoTxW2Ubv1ch3pTA==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
@@ -19507,10 +19543,11 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-lISEuGwh1gGt9gvpLkql5Hd4v7rClwG+H6LaDud2BRhwNyKVh+2aCt9iGp+h1rLa9Ph2olqtMCAhcFUiCzeA9w==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-dWe2hawb0kYyiYA3L+10bjZeFM/iYIEbvYa+l33AKo5jib5anyC/SqoyHj/oq4FNNhCkdOB18IJy7OLoFmr9QA==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.7(@types/node@18.19.48)
       '@types/chai': 4.3.19
       '@types/chai-as-promised': 7.1.8
@@ -19535,6 +19572,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       mockdate: 3.0.5
+      nock: 14.0.0-beta.7
       nyc: 17.0.0
       rimraf: 5.0.10
       sinon: 17.0.1
@@ -20794,7 +20832,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.5.4
+      '@_ts/max': /typescript@5.6.2
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.1
       '@eslint/js': 9.9.1
