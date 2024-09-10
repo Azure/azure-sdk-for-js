@@ -1,7 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "./common.js";
+import { PathParameterWithOptions, RequestParameters } from "./common.js";
+
+/**
+ * An object that can be passed as a query parameter, allowing for additional options to be set relating to how the parameter is encoded.
+ */
+interface QueryParameterWithOptions {
+  /**
+   * The value of the query parameter.
+   */
+  value: unknown;
+
+  /**
+   * If set to true, value must be an array. Setting this option to true will cause the array to be encoded as multiple query parameters.
+   * Setting it to false will cause the array values to be encoded as a single query parameter, with each value separated by a comma ','.
+   *
+   * For example, with `explode` set to true, a query parameter named "foo" with value ["a", "b", "c"] will be encoded as foo=a&foo=b&foo=c.
+   * If `explode` was set to false, the same example would instead be encouded as foo=a,b,c.
+   *
+   * Defaults to false.
+   */
+  explode?: boolean;
+}
+
+function isPathParameterWithOptions(x: unknown): x is PathParameterWithOptions {
+  const value = (x as PathParameterWithOptions).value as any;
+  return (
+    value !== undefined && value.toString !== undefined && typeof value.toString === "function"
+  );
+}
+
+const isQueryParameterWithOptions: (x: unknown) => x is QueryParameterWithOptions =
+  isPathParameterWithOptions;
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -14,7 +45,7 @@ import { RequestParameters } from "./common.js";
 export function buildRequestUrl(
   endpoint: string,
   routePath: string,
-  pathParameters: string[],
+  pathParameters: (string | PathParameterWithOptions)[],
   options: RequestParameters = {},
 ): string {
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
@@ -33,42 +64,67 @@ export function buildRequestUrl(
   );
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}) {
+function encodeQueryParamValue(value: string): string {
+  return new URLSearchParams([["", value]]).toString().substring(1);
+}
+
+function getQueryParamValue(key: string, allowReserved: boolean, param: any): string {
+  const value = (Array.isArray(param) ? param : [param])
+    .map((p) => {
+      if (p === null || p === undefined) {
+        return "";
+      }
+
+      if (!p.toString || typeof p.toString !== "function") {
+        throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+      }
+
+      const rawValue = p.toISOString !== undefined ? p.toISOString() : p.toString();
+      return allowReserved ? rawValue : encodeQueryParamValue(rawValue);
+    })
+    .join(",");
+
+  return `${allowReserved ? key : encodeQueryParamValue(key)}=${value}`;
+}
+
+function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
   }
-  let parsedUrl = new URL(url);
+  const parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
+
+  const paramStrings: string[] = [];
   for (const key of Object.keys(queryParams)) {
     const param = queryParams[key] as any;
     if (param === undefined || param === null) {
       continue;
     }
-    if (!param.toString || typeof param.toString !== "function") {
-      throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+
+    const hasMetadata = isQueryParameterWithOptions(param);
+    const rawValue = hasMetadata ? param.value : param;
+    const explode = hasMetadata ? (param.explode ?? false) : false;
+
+    if (explode) {
+      if (!Array.isArray(rawValue)) {
+        throw new Error(
+          `explode can only be set to true for arrays, but query parameter ${key} is not an array`,
+        );
+      }
+
+      for (const item of rawValue) {
+        paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, item));
+      }
+    } else {
+      paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, rawValue));
     }
-    const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
-    parsedUrl.searchParams.append(key, value);
   }
 
-  if (options.skipUrlEncoding) {
-    parsedUrl = skipQueryParameterEncoding(parsedUrl);
+  if (parsedUrl.search !== "") {
+    parsedUrl.search += "&";
   }
+  parsedUrl.search += paramStrings.join("&");
   return parsedUrl.toString();
-}
-
-function skipQueryParameterEncoding(url: URL) {
-  if (!url) {
-    return url;
-  }
-  const searchPieces: string[] = [];
-  for (const [name, value] of url.searchParams) {
-    // QUIRK: searchParams.get retrieves the values decoded
-    searchPieces.push(`${name}=${value}`);
-  }
-  // QUIRK: we have to set search manually as searchParams will encode comma when it shouldn't.
-  url.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
-  return url;
 }
 
 export function buildBaseUrl(endpoint: string, options: RequestParameters): string {
@@ -94,13 +150,17 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
 
 function buildRoutePath(
   routePath: string,
-  pathParameters: string[],
+  pathParameters: (string | PathParameterWithOptions)[],
   options: RequestParameters = {},
-) {
+): string {
   for (const pathParam of pathParameters) {
-    let value = pathParam;
-    if (!options.skipUrlEncoding) {
-      value = encodeURIComponent(pathParam);
+    const allowReserved = isPathParameterWithOptions(pathParam)
+      ? (pathParam.allowReserved ?? false)
+      : false;
+    let value = isPathParameterWithOptions(pathParam) ? pathParam.value : pathParam;
+
+    if (!options.skipUrlEncoding && !allowReserved) {
+      value = encodeURIComponent(value);
     }
 
     routePath = routePath.replace(/\{\w+\}/, value);

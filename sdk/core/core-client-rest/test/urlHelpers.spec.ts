@@ -107,7 +107,7 @@ describe("urlHelpers", () => {
 
     assert.equal(
       result,
-      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`,
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1,begin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend,,`,
     );
     result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {
@@ -167,5 +167,73 @@ describe("urlHelpers", () => {
       skipUrlEncoding: true,
     });
     assert.equal(result, "https://foo%bar.org");
+  });
+
+  it("allows for path parameters with metadata", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo",
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo/");
+  });
+
+  it("allowReserved in path parameter defaults to false", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo/bar",
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo%2Fbar/");
+  });
+
+  it("allowReserved in path parameter allows special characters in path parameters", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo/bar",
+        allowReserved: true,
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo/bar/");
+  });
+
+  it("allows for query parameters with metadata", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: "bar",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar");
+  });
+
+  it("explode defaults to false", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar,baz");
+  });
+
+  it("explode decomposes query parameter array into multiple query parameters", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          explode: true,
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar&foo=baz");
   });
 });
