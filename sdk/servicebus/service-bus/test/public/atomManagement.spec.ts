@@ -74,7 +74,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       );
     });
     // Put the test first
-    describe("Atom management - Authentication", function (): void {
+    describe.only("Atom management - Authentication", function (): void {
       if (isNode) {
         it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
           const host = getFullyQualifiedNamespace();
