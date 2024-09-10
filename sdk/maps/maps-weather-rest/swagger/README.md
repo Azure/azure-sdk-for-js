@@ -24,7 +24,7 @@ source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b9765efcc5ea795d69aeb8826f78101b3a35c615/specification/maps/data-plane/Weather/stable/1.1/weather.json
 package-version: 1.0.0-beta.1
 rest-level-client: true
-# Although maps-weather supports key-credentials and Microsoft Entra ID, maps-weather requires header "ms-x-client-id", which is different from the standard Microsoft Entra ID, so we don't generate Microsoft Entra ID code and implement ourselves.
+# Although maps-weather supports key-credentials and Microsoft Entra ID, maps-weather requires header "x-ms-client-id", which is different from the standard Microsoft Entra ID, so we don't generate Microsoft Entra ID code and implement ourselves.
 # For auth configuration, please refer to: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-configure-authentication
 security: AzureKey
 security-header-name: subscription-key
