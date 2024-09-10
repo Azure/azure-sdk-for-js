@@ -11,9 +11,7 @@ import {
   translate,
   RetryConfig,
 } from "@azure/core-amqp";
-import {
-  Constants as ConstantsExperimental,
-} from "@azure/core-amqp/experimental";
+import { Constants as ConstantsExperimental } from "@azure/core-amqp/experimental";
 import {
   EventContext,
   Receiver as Link,
