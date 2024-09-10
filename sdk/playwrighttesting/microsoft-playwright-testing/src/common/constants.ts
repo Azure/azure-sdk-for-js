@@ -182,22 +182,22 @@ export const TestResultErrorConstants = [
   {
     key: "InvalidAccessToken_Scalable",
     message: "The access token provided is invalid. Please check the access token and try again.",
-    pattern:
-      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
+    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
     type: TestErrorType.Scalable,
   },
   {
     key: "AccessTokenOrUserOrWorkspaceNotFound_Scalable",
-    message: "The data for the user, workspace or access token was not found. Please check the request or create new token and try again.",
-    pattern:
-      /(?=.*browserType\.connect)(?=.*404 Not Found)(?=[\s\S]*NotFound)/i,
+    message:
+      "The data for the user, workspace or access token was not found. Please check the request or create new token and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*404 Not Found)(?=[\s\S]*NotFound)/i,
     type: TestErrorType.Scalable,
   },
   {
     key: "AccessKeyBasedAuthNotSupported_Scalable",
     message:
       "Authentication through service access token is disabled for this workspace. Please use Entra ID to authenticate.",
-    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*AccessKeyBasedAuthNotSupported)/i,
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*AccessKeyBasedAuthNotSupported)/i,
     type: TestErrorType.Scalable,
   },
   {
