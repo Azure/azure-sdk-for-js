@@ -9,7 +9,7 @@ import { AccessToken } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/identity';
-import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
+import { TokenCredential as TokenCredential_3 } from '@azure/core-auth';
 
 // @public
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
@@ -58,7 +58,7 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
 export function createCommunicationAccessKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy;
 
 // @public
-export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential_2): PipelinePolicy;
+export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential_3): PipelinePolicy;
 
 // @public
 export const createIdentifierFromRawId: (rawId: string) => CommunicationIdentifierKind;
@@ -78,6 +78,22 @@ export interface EntraCommunicationTokenCredentialOptions {
     scopes: string[];
     tokenCredential: TokenCredential;
 }
+
+// Warning: (ae-forgotten-export) The symbol "TokenCredential_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export class EntraTokenCredential implements TokenCredential_2 {
+    constructor(options: EntraCommunicationTokenCredentialOptions);
+    // (undocumented)
+    dispose(): void;
+    // (undocumented)
+    getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
+    // (undocumented)
+    getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
+}
+
+// @public (undocumented)
+export const exchangeEntraToken: (resourceEndpoint: string, entraToken: string) => Promise<AccessToken>;
 
 // @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
@@ -197,7 +213,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
 // @public
 export type UrlWithCredential = {
     url: string;
-    credential: TokenCredential_2 | KeyCredential;
+    credential: TokenCredential_3 | KeyCredential;
 };
 
 // (No @packageDocumentation comment for this package)

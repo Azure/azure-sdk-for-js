@@ -4,11 +4,13 @@
 import { AccessToken } from "@azure/core-auth";
 import { TokenCredential } from "@azure/identity";
 import { TokenCredential as AcsTokenCredential, CommunicationGetTokenOptions } from "./communicationTokenCredential";
+import { exchangeEntraToken } from "./entraTokenExchange";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Client, getClient } from "@azure-rest/core-client";
 import { HttpClient, createDefaultHttpClient, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 
-interface ExchangeTokenResponse {
+export interface ExchangeTokenResponse {
+  identity: string,
   accessToken: {
       token: string;
       expiresOn: string;
@@ -70,7 +72,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
     return this.result.acsToken;
   }
 
-  public async getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
+  private async getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     let getTokenOptions = options?.abortSignal ? { abortSignal: options.abortSignal } : undefined;
     const token = await this.options.tokenCredential.getToken(this.options.scopes, getTokenOptions);
 
@@ -104,7 +106,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
       }),
       abortSignal: options?.abortSignal
     });
-    const response = await this.client.pipeline.sendRequest(this.httpClient, request);
+    const response = await exchangeEntraToken(resourceEndpoint, entraToken);
 
     if (response.status != 200 || !response.bodyAsText) {
         throw new Error(`Failed to exchange entra token. Status: ${response.status}, Body: ${response.bodyAsText}`);
