@@ -45,6 +45,8 @@ export class ServiceClient {
       process.stdout.write(
         `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(new RegExp("{workspaceId}", "g"), this.envVariables.accountId!)}`,
       );
+    } else {
+      this.handleErrorResponse(response, Constants.patchTestRun);
     }
     throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
   }
@@ -164,6 +166,6 @@ export class ServiceClient {
   private handleErrorResponse(response: PipelineResponse, action: string) {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
-    process.stdout.write(`\n${errorMessage}`);
+    process.stdout.write(`${errorMessage}\n`);
   }
 }
