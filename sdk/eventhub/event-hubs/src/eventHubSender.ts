@@ -12,7 +12,6 @@ import {
   types,
 } from "rhea-promise";
 import {
-  Constants,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
@@ -22,6 +21,9 @@ import {
   retry,
   translate,
 } from "@azure/core-amqp";
+import {
+  Constants as ConstantsExperimental,
+} from "@azure/core-amqp/experimental";
 import {
   EventData,
   EventDataInternal,
@@ -429,7 +431,7 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
-    srOptions.desired_capabilities = [Constants.geoReplication];
+    srOptions.desired_capabilities = [ConstantsExperimental.geoReplication];
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(

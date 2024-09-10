@@ -12,6 +12,9 @@ import {
   RetryConfig,
 } from "@azure/core-amqp";
 import {
+  Constants as ConstantsExperimental,
+} from "@azure/core-amqp/experimental";
+import {
   EventContext,
   Receiver as Link,
   ReceiverOptions as RheaReceiverOptions,
@@ -530,7 +533,7 @@ function createRheaOptions(
   if (typeof ownerLevel === "number") {
     rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
-  rheaOptions.desired_capabilities = [Constants.geoReplication];
+  rheaOptions.desired_capabilities = [ConstantsExperimental.geoReplication];
   if (options.trackLastEnqueuedEventProperties) {
     rheaOptions.desired_capabilities.push(Constants.enableReceiverRuntimeMetricName);
   }
