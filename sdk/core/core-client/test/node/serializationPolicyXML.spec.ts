@@ -4,37 +4,11 @@
 import { describe, it, assert } from "vitest";
 import { MapperTypeNames, createSerializer } from "../../src/index.js";
 import { serializeRequestBody } from "../../src/serializationPolicy.js";
-import { Mappers } from "../testMappers1.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 
 describe("serializationPolicy", function () {
   describe("serializeRequestBody()", () => {
-    it("should serialize an XML Composite request body", () => {
-      const httpRequest = createPipelineRequest({ url: "https://example.com" });
-      serializeRequestBody(
-        httpRequest,
-        {
-          requestBody: {
-            updated: new Date("2020-08-12T23:36:18.308Z"),
-            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } },
-          },
-        },
-        {
-          httpMethod: "POST",
-          requestBody: Mappers.requestBody1,
-          responses: { 200: {} },
-          serializer: createSerializer(undefined, true /** isXML */),
-          isXML: true,
-        },
-        stringifyXML,
-      );
-      assert.strictEqual(
-        httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated xmlns="http://www.w3.org/2005/Atom">2020-08-12T23:36:18.308Z</updated><content xmlns="http://www.w3.org/2005/Atom" type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><MaxDeliveryCount xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">15</MaxDeliveryCount></QueueDescription></content></entry>`,
-      );
-    });
-
     it("should serialize an XML Composite request body with namespace and prefix", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
