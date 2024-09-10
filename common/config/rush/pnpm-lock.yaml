@@ -10309,7 +10309,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -10327,7 +10327,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -10345,7 +10345,7 @@ packages:
       resolve-import: 2.0.0
       rimraf: 6.0.1
       sync-content: 2.0.1
-      typescript: 5.5.4
+      typescript: 5.6.2
       walk-up-path: 4.0.0
     dev: false
 
@@ -13471,7 +13471,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-MSE9EQsFt80usJvYiYKfr8QgkOTk0uB7i+d1RvEgz0W1HSWx0r+5sI52jjaQo2s2l3Vb9f+p0N+Vn2Os9LhWPg==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-bYk9jhoOSa4Qv3EhhKixMq/9Q3iyEpC7syNtXZRCvyZQsrwgS7GMsKLygYTSXLdGRzMAZ3QMMNJG3wMX4wIt/w==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -13490,10 +13490,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.0
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -23642,7 +23642,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-ykg9DG1Gu7IPionLL0+efdSqVe0OlS1QDWaif5POoetpaaOQyZQIsckMD6LTVTz4F6Ripx1S6M7YCXsYV76lWQ==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-x72Sp3S5RVjaKQusCeOucvpmDoSQlBbAxc08R99hRkZKNQ8QtuUlcn7sBhwSnpQ6M3G/VQtaSgPWqsusfxZbOQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
