@@ -163,7 +163,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 5, // implementation note: need to change
+      invariantVersion: 2, // Not changing this to 5 until we have filtering of documents too
       instance: instance,
       roleName: roleName,
       machineName: machineName,
@@ -216,9 +216,7 @@ export class LiveMetrics {
           configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
-          console.log("ping getting called");
           const response = await this.pingSender.isSubscribed(params);
-          console.log("ping response {}", response);
           this.quickPulseDone(response);
         });
       } catch (error) {
@@ -449,8 +447,6 @@ export class LiveMetrics {
    */
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
-      console.log(span); // implementation note: remove
-
       const columns: RequestData | DependencyData = getSpanColumns(span);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
