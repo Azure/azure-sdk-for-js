@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.13 (2024-09-09)
+## 1.0.0-beta.13 (2024-09-10)
 
 ### Other Changes
 
