@@ -68,7 +68,7 @@ const client = MapsWeather(credential, "<maps-account-client-id>");
 
 #### Using a Subscription Key Credential
 
-You can authenticate with your Azure Maps Subscription Key. Please install the["@azure/core-auth"](https://www.npmjs.com/package/@azure/core-auth)package:
+You can authenticate with your Azure Maps Subscription Key. Please install the ["@azure/core-auth"](https://www.npmjs.com/package/@azure/core-auth) package:
 
 ```bash
 npm install @azure/core-auth
