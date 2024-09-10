@@ -163,7 +163,7 @@ console.log(response.body);
 
 ### Get Windows timezone IDs
 
-You can get a list of Windows Time Zone IDs.
+You can get a list of Windows timezone IDs.
 
 ```javascript
 const response = await client.path("/timezone/enumWindows/{format}", "json").get();
