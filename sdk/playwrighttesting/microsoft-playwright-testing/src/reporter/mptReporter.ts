@@ -368,7 +368,7 @@ class MPTReporter implements Reporter {
     }
     this.storageClient = new StorageClient();
     if (
-      this.envVariables.region !== null &&
+      this.envVariables.region &&
       !Constants.SupportedRegions.includes(this.envVariables.region!) &&
       this.isTokenValid
     ) {
