@@ -10,7 +10,7 @@ export interface EncryptionSqlParameter extends SqlParameter {
 }
 
 /**
- * Represents a builder for adding parameters in query that needs to be encrypted.
+ * Represents a builder class for building encrypted parameters in parametrized query.
  */
 export class EncryptionQueryBuilder {
   private query: string;

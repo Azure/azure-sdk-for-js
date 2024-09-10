@@ -189,10 +189,9 @@ export class Containers {
       };
     }
 
-    // if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
-    //   // TODO: add checks for checking partition key paths. Can we initialize encryption here itself
-    //   for(const path of body.clientEncryptionPolicy.paths) {
-    // }
+    if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
+      // TODO: add checks for checking partition key paths.
+    }
 
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,

@@ -3,7 +3,7 @@
 
 /**
  * Time to live for encryption keys and settings caches in milliseconds.
- * can be set through cosmos client options
+ * This can be set through cosmos client options.
  */
 export class EncryptionTimeToLive {
   /** method to set ttl in minutes. returns ttl in milliseconds */

@@ -8,7 +8,7 @@ import { EncryptionAlgorithm } from "./enums";
  * Represents the client encryption policy associated with a container.
  */
 export class ClientEncryptionPolicy {
-  /** list of paths along with associated settings that needs to be encrypted */
+  /** list of paths that needs to be encrypted along with their encryption settings. */
   public includedPaths: ClientEncryptionIncludedPath[];
   /**
    * Version of the client encryption policy definition.
