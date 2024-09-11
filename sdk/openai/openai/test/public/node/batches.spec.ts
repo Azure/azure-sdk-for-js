@@ -15,7 +15,8 @@ import {
 import { FileObject } from "openai/resources/files.mjs";
 import { assertBatch } from "../utils/asserts.js";
 
-describe("OpenAIAssistants", () => {
+// TODO: Unskip the test when the delete file behavior is updated
+describe.skip("Batches", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
