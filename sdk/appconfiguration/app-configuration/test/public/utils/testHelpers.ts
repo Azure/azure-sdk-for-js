@@ -210,6 +210,7 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err: any) {
+    console.log("running into ", JSON.stringify(err));
     if (!(err instanceof Error)) {
       throw new Error("Error is not recognized");
     }
