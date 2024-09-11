@@ -110,7 +110,7 @@ describe("http request related tests", function () {
   // properly extracting and sending the sync token header (which is
   // why they appear to not do much of anything meaningful with what
   // they send or reply back with).
-  describe("request/reply tests for sync token headers", () => {
+  describe.only("request/reply tests for sync token headers", () => {
     let client: AppConfigurationClient;
     let syncTokens: SyncTokens;
     let scope: nock.Scope;
@@ -125,7 +125,7 @@ describe("http request related tests", function () {
 
       // Use NoOpCredential for nock tests to avoid interception for credential request
       client = new AppConfigurationClient(
-        "https://fakeEndpointString.azconfig.io",
+        "https://localhost",
         new NoOpCredential(),
         {
           syncTokens: syncTokens,
