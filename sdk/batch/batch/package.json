@@ -2,7 +2,7 @@
   "name": "@azure/batch",
   "author": "Microsoft Corporation",
   "description": "BatchServiceClient Library with typescript type definitions for node.js and browser.",
-  "version": "11.1.0",
+  "version": "12.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",
@@ -100,7 +100,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha",
+    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,

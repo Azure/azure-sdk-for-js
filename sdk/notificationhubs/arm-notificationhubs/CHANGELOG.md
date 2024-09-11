@@ -12,7 +12,7 @@
 
 ## 3.0.0-beta.1 (2024-03-18)
     
-**Features**
+### Features Added
 
   - Added operation group PrivateEndpointConnections
   - Added operation Namespaces.beginCreateOrUpdate
@@ -138,7 +138,7 @@
   - Added Enum KnownReplicationRegion
   - Added Enum KnownZoneRedundancyPreference
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Namespaces.beginDelete
   - Removed operation Namespaces.beginDeleteAndWait
@@ -183,7 +183,7 @@
     
 ## 2.1.0 (2022-12-01)
     
-**Features**
+### Features Added
 
   - Added Interface CheckAvailabilityResult
   - Added Interface DebugSendResponse
@@ -197,7 +197,7 @@
     
 ## 2.0.1 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
 

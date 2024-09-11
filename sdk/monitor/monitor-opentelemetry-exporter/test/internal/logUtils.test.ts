@@ -7,7 +7,7 @@ import {
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements } from "../../src/types";
+import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
 import { getInstance } from "../../src/platform";
 import {
   AvailabilityData,
@@ -198,6 +198,49 @@ describe("logUtils.ts", () => {
       };
       const expectedBaseData: Partial<MessageData> = {
         message: `testMessage`,
+        severityLevel: `Verbose`,
+        version: 2,
+        properties: expectedProperties,
+        measurements: expectedMeasurements,
+      };
+
+      const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
+      assertEnvelope(
+        envelope,
+        "Microsoft.ApplicationInsights.Message",
+        100,
+        "MessageData",
+        expectedProperties,
+        expectedMeasurements,
+        expectedBaseData,
+        expectedTime,
+      );
+    });
+
+    it("should truncate properties of a Message Envelope", () => {
+      const data: MessageData = {
+        message: "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1),
+        severityLevel: "Verbose",
+        measurements: { testMeasurement: 1 },
+        version: 2,
+      };
+      testLogRecord.attributes = {
+        "_MS.baseType": "MessageData",
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      testLogRecord.body = data;
+
+      const expectedTime = hrTimeToDate(testLogRecord.hrTime);
+      const expectedProperties = {
+        "extra.attribute": "foo",
+        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      };
+      const expectedMeasurements: Measurements = {
+        testMeasurement: 1,
+      };
+      const expectedBaseData: Partial<MessageData> = {
+        message: "a".repeat(MaxPropertyLengths.FIFTEEN_BIT),
         severityLevel: `Verbose`,
         version: 2,
         properties: expectedProperties,
