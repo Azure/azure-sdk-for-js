@@ -3,9 +3,14 @@
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { coreLogger } from "./logger";
-import { EntraIdAccessTokenConstants, ServiceEnvironmentVariable } from "./constants";
+import {
+  EntraIdAccessTokenConstants,
+  InternalEnvironmentVariables,
+  ServiceEnvironmentVariable,
+} from "./constants";
 import { AccessTokenClaims } from "./types";
 import { parseJwt } from "../utils/utils";
+import { ServiceErrorMessageConstants } from "./messages";
 
 class EntraIdAccessToken {
   public token?: string;
@@ -17,7 +22,7 @@ class EntraIdAccessToken {
     this.setEntraIdAccessTokenFromEnvironment();
   }
 
-  public fetchEntraIdAccessToken = async (): Promise<boolean> => {
+  public fetchEntraIdAccessToken = async (): Promise<void> => {
     try {
       coreLogger.info("Fetching entra id access token");
       const accessToken = await this._credential!.getToken(EntraIdAccessTokenConstants.SCOPE);
@@ -27,7 +32,7 @@ class EntraIdAccessToken {
       if (accessToken.token === this.token) {
         // azure identity library can fetch the same token again from cache. 10 mins before expiry, it allows token refresh
         coreLogger.info("Cached access token is returned, will be retried again.");
-        return false;
+        return;
       }
       this.token = accessToken.token;
       this._expiryTimestamp = accessToken.expiresOnTimestamp;
@@ -37,10 +42,11 @@ class EntraIdAccessToken {
         "Entra id access token expiry:",
         new Date(this._expiryTimestamp).toISOString(),
       );
-      return true;
+      return;
     } catch (err) {
       coreLogger.error(err);
-      return false;
+      process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR] = "true";
+      throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
   };
 

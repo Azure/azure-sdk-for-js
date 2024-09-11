@@ -17,11 +17,10 @@ Key links:
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-  - **Note:** If your application runs on Node.js v8 or lower and you cannot upgrade your Node.js version to latest stable version, then pin your `@azure/identity` dependency to version 1.1.0.
 - Latest versions of Safari, Chrome, Edge, and Firefox.
-  - **Note**: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one that is supported in the browser.
+  - **Note**: Among the different credentials exported in this library, `InteractiveBrowserCredential` is the only one supported in the browser.
 
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+For more information, see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
 ### Install the package
 
@@ -46,7 +45,7 @@ Most of the credential types offered by `@azure/identity` use the [Microsoft Aut
 
 #### When to use something else
 
-The `@azure/identity` credential types are implementations of [@azure/core-auth](https://www.npmjs.com/package/@azure/core-auth)'s `TokenCredential` class. In principle, any object with a `getToken` method that satisfies `getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>` will work as a `TokenCredential`. This means developers can write their own credential types to support authentication cases not covered by `@azure/identity`. To learn more, see [Custom Credentials](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#custom-credentials).
+The `@azure/identity` credential types are implementations of [@azure/core-auth](https://www.npmjs.com/package/@azure/core-auth)'s `TokenCredential` class. In principle, any object with a `getToken` method that satisfies `getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>` works as a `TokenCredential`. This means developers can write their own credential types to support authentication cases not covered by `@azure/identity`. To learn more, see [Custom Credentials](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#custom-credentials).
 
 Though our credential types support many advanced cases, developers may want full control of the authentication protocol. For that use case, we recommend using [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) directly. You can read more through the following links:
 
@@ -58,25 +57,25 @@ For advanced authentication workflows in the browser, we have a section where we
 
 ### Authenticate the client in development environment
 
-While we recommend using managed identity in your Azure-hosted application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
+While we recommend using managed identity in your Azure-hosted application, it's typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools that can be used to perform this authentication in your development environment.
 
 #### Authenticate via the Azure Developer CLI
 
 Developers coding outside of an IDE can also use the [Azure Developer CLI][azure_developer_cli] to authenticate. Applications using the `DefaultAzureCredential` or the `AzureDeveloperCliCredential` can then use this account to authenticate calls in their application when running locally.
 
-To authenticate with the [Azure Developer CLI][azure_developer_cli], users can run the command `azd auth login`. For users running on a system with a default web browser, the Azure Developer CLI will launch the browser to authenticate the user.
+To authenticate with the [Azure Developer CLI][azure_developer_cli], users can run the command `azd auth login`. For users running on a system with a default web browser, the Azure Developer CLI launches the browser to authenticate the user.
 
-For systems without a default web browser, the `azd auth login --use-device-code` command will use the device code authentication flow.
+For systems without a default web browser, the `azd auth login --use-device-code` command uses the device code authentication flow.
 
 #### Authenticate via the Azure CLI
 
 Applications using the `AzureCliCredential`, whether directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
 
-To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the Azure cli will launch the browser to authenticate the user.
+To authenticate with the [Azure CLI][azure_cli], run the command `az login`. For users running on a system with a default web browser, the Azure CLI launches the browser to authenticate the user.
 
 ![Azure CLI Account Sign In][azureclilogin_image]
 
-For systems without a default web browser, the `az login` command will use the device code authentication flow. The user can also force the Azure CLI to use the device code flow rather than launching a browser by specifying the `--use-device-code` argument.
+For systems without a default web browser, the `az login` command uses the device code authentication flow. The user can also force the Azure CLI to use the device code flow rather than launching a browser by specifying the `--use-device-code` argument.
 
 ![Azure CLI Account Device Code Sign In][azureclilogindevicecode_image]
 
@@ -84,11 +83,11 @@ For systems without a default web browser, the `az login` command will use the d
 
 Applications using the `AzurePowerShellCredential`, whether directly or via the `DefaultAzureCredential`, can use the account connected to Azure PowerShell to authenticate calls in the application when running locally.
 
-To authenticate with [Azure PowerShell][azure_powershell] users can run the `Connect-AzAccount` cmdlet. By default, like the Azure CLI, `Connect-AzAccount` will launch the default web browser to authenticate a user account.
+To authenticate with [Azure PowerShell][azure_powershell], run the `Connect-AzAccount` cmdlet. By default, like the Azure CLI, `Connect-AzAccount` launches the default web browser to authenticate a user account.
 
 ![Azure PowerShell Account Sign In][azurepowershelllogin_image]
 
-If interactive authentication cannot be supported in the session, then the `-UseDeviceAuthentication` argument will force the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
+If interactive authentication can't be supported in the session, then the `-UseDeviceAuthentication` argument forces the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
 
 #### Authenticate via Visual Studio Code
 
@@ -110,32 +109,32 @@ If this is your first time using `@azure/identity` or Microsoft Entra ID, read [
 
 ### Credentials
 
-A credential is a class which contains or can obtain the data needed for a service client to authenticate requests. Service clients across the Azure SDK accept credentials when they're constructed. Service clients use those credentials to authenticate requests to the service.
+A credential is a class that contains or can obtain the data needed for a service client to authenticate requests. Service clients across the Azure SDK accept credentials when they're constructed. Service clients use those credentials to authenticate requests to the service.
 
-The Azure Identity library focuses on OAuth authentication with Microsoft Entra ID, and it offers a variety of credential classes capable of acquiring a Microsoft Entra token to authenticate service requests. All of the credential classes in this library are implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts) abstract class, and any of them can be used by to construct service clients capable of authenticating with a TokenCredential.
+The Azure Identity library focuses on OAuth authentication with Microsoft Entra ID, and it offers various credential classes capable of acquiring a Microsoft Entra token to authenticate service requests. All of the credential classes in this library are implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts) abstract class, and any of them can be used by to construct service clients capable of authenticating with a `TokenCredential`.
 
 See [Credential Classes](#credential-classes).
 
 ### DefaultAzureCredential
 
-The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in Azure. This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed with credentials used to authenticate in a development environment.
+`DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in Azure. This is because `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed with credentials used to authenticate in a development environment.
 
 > Note: `DefaultAzureCredential` is intended to simplify getting started with the SDK by handling common scenarios with reasonable default behaviors. Developers who want more control or whose scenario isn't served by the default settings should use other credential types.
 
-If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order:
+If used from Node.js, `DefaultAzureCredential` attempts to authenticate via the following mechanisms in order:
 
 ![DefaultAzureCredential authentication flow][defaultauthflow_image]
 
-1. **Environment** - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
-1. **Workload Identity** - If the application is deployed to Azure Kubernetes Service with Managed Identity enabled, `DefaultAzureCredential` will authenticate with it.
-1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
-1. **Azure CLI** - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
-1. **Azure PowerShell** - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
-1. **Azure Developer CLI** - If the developer has authenticated an account via the Azure Developer CLI `azd auth login` command, the `DefaultAzureCredential` will authenticate with that account.
+1. **Environment** - `DefaultAzureCredential` reads account information specified via [environment variables](#environment-variables) and uses it to authenticate.
+1. **Workload Identity** - If the application is deployed to Azure Kubernetes Service with Managed Identity enabled, `DefaultAzureCredential` authenticates with it.
+1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, `DefaultAzureCredential` authenticates with that account.
+1. **Azure CLI** - If the developer authenticated an account via the Azure CLI `az login` command, `DefaultAzureCredential` authenticates with that account.
+1. **Azure PowerShell** - If the developer authenticated using the Azure PowerShell module `Connect-AzAccount` command, `DefaultAzureCredential` authenticates with that account.
+1. **Azure Developer CLI** - If the developer authenticated an account via the Azure Developer CLI `azd auth login` command, `DefaultAzureCredential` authenticates with that account.
 
 #### Continuation policy
 
-As of version 3.3.0, `DefaultAzureCredential` will attempt to authenticate with all developer credentials until one succeeds, regardless of any errors previous developer credentials experienced. For example, a developer credential may attempt to get a token and fail, so `DefaultAzureCredential` will continue to the next credential in the flow. Deployed service credentials will stop the flow with a thrown exception if they're able to attempt token retrieval, but don't receive one.
+As of version 3.3.0, `DefaultAzureCredential` attempts to authenticate with all developer credentials until one succeeds, regardless of any errors previous developer credentials experienced. For example, a developer credential may attempt to get a token and fail, so `DefaultAzureCredential` continues to the next credential in the flow. Deployed service credentials stop the flow with a thrown exception if they're able to attempt token retrieval, but don't receive one.
 
 This allows for trying all of the developer credentials on your machine while having predictable deployed behavior.
 
@@ -148,15 +147,15 @@ Due to a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500), 
 Azure Identity for JavaScript provides a plugin API that allows us to provide certain functionality through separate _plugin packages_. The `@azure/identity` package exports a top-level function (`useIdentityPlugin`) that can be used to enable a plugin. We provide two plugin packages:
 
 - [`@azure/identity-broker`](https://www.npmjs.com/package/@azure/identity-broker), which provides brokered authentication support through a native broker, such as Web Account Manager.
-- [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow does not need to be repeated as long as a cached token is available.
+- [`@azure/identity-cache-persistence`](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching in Node.js using a native secure storage system provided by your operating system. This plugin allows cached `access_token` values to persist across sessions, meaning that an interactive login flow doesn't need to be repeated as long as a cached token is available.
 
 ## Examples
 
 You can find more examples of using various credentials in [Azure Identity Examples Page](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md)
 
-### Authenticate with the `DefaultAzureCredential`
+### Authenticate with `DefaultAzureCredential`
 
-This example demonstrates authenticating the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library using the `DefaultAzureCredential`.
+This example demonstrates authenticating the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library using `DefaultAzureCredential`.
 
 ```javascript
 // The default credential first checks environment variables for configuration as described above.
@@ -175,13 +174,13 @@ const credential = new DefaultAzureCredential();
 const client = new KeyClient(vaultUrl, credential);
 ```
 
-### Specify a user-assigned managed identity with the `DefaultAzureCredential`
+### Specify a user-assigned managed identity with `DefaultAzureCredential`
 
 A relatively common scenario involves authenticating using a user-assigned managed identity for an Azure resource. Explore the [example on Authenticating a user-assigned managed identity with DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential) to see how this is made a relatively straightforward task that can be configured using environment variables or in code.
 
-### Define a custom authentication flow with the `ChainedTokenCredential`
+### Define a custom authentication flow with `ChainedTokenCredential`
 
-While the `DefaultAzureCredential` is generally the quickest way to get started developing applications for Azure, more advanced users may want to customize the credentials considered when authenticating. The `ChainedTokenCredential` enables users to combine multiple credential instances to define a customized chain of credentials. This example demonstrates creating a `ChainedTokenCredential` which will attempt to authenticate using two differently configured instances of `ClientSecretCredential`, to then authenticate the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys):
+While `DefaultAzureCredential` is generally the quickest way to get started developing applications for Azure, more advanced users may want to customize the credentials considered when authenticating. The `ChainedTokenCredential` enables users to combine multiple credential instances to define a customized chain of credentials. This example demonstrates creating a `ChainedTokenCredential` that attempts to authenticate using two differently configured instances of `ClientSecretCredential`, to then authenticate the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys):
 
 ```typescript
 import { ClientSecretCredential, ChainedTokenCredential } from "@azure/identity";
@@ -251,12 +250,17 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 ## Credential classes
 
-### Authenticate Azure-hosted applications
+### Credential chains
 
 | Credential                                                                                                                                   | Usage                                                                                                                   | Example                                                                                                                                                                               |
 | -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`DefaultAzureCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest)         | Provides a simplified authentication experience to quickly start developing applications run in Azure.                  | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-defaultazurecredential)                      |
 | [`ChainedTokenCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/chainedtokencredential?view=azure-node-latest)         | Allows users to define custom authentication flows composing multiple credentials.                                      | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials)                                            |
+
+### Authenticate Azure-hosted applications
+
+| Credential                                                                                                                                   | Usage                                                                                                                   | Example                                                                                                                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`EnvironmentCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest)           | Authenticates a service principal or user via credential information specified in environment variables.                | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
 | [`ManagedIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest)   | Authenticates the managed identity of an Azure resource.                                                                | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
 | [`WorkloadIdentityCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/workloadidentitycredential?view=azure-node-latest) | Supports [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/aks/workload-identity-overview) on Kubernetes. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-workload-identity)                  |
@@ -305,12 +309,13 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 #### Service principal with certificate
 
-| Variable name                       | Value                                                        |
-| ----------------------------------- | ------------------------------------------------------------ |
-| `AZURE_CLIENT_ID`                   | ID of a Microsoft Entra application                          |
-| `AZURE_TENANT_ID`                   | ID of the application's Microsoft Entra tenant               |
-| `AZURE_CLIENT_CERTIFICATE_PATH`     | path to a PEM-encoded certificate file including private key |
-| `AZURE_CLIENT_CERTIFICATE_PASSWORD` | password of the certificate file, if any                     |
+| Variable name                         | Value                                                        |
+|---------------------------------------|--------------------------------------------------------------|
+| `AZURE_CLIENT_ID`                     | ID of a Microsoft Entra application                          |
+| `AZURE_TENANT_ID`                     | ID of the application's Microsoft Entra tenant               |
+| `AZURE_CLIENT_CERTIFICATE_PATH`       | path to a PEM-encoded certificate file including private key |
+| `AZURE_CLIENT_CERTIFICATE_PASSWORD`   | (optional) password of the certificate file, if any          |
+| `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` | (optional) send certificate chain in x5c header to support subject name / issuer-based authentication |
 
 #### Username and password
 
@@ -321,7 +326,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | `AZURE_USERNAME`  | a username (usually an email address)          |
 | `AZURE_PASSWORD`  | that user's password                           |
 
-Configuration is attempted in the above order. For example, if values for a client secret and certificate are both present, the client secret will be used.
+Configuration is attempted in the preceding order. For example, if values for a client secret and certificate are both present, the client secret is used.
 
 ## Continuous Access Evaluation
 
@@ -335,7 +340,7 @@ Token caching is a feature provided by the Azure Identity library that allows ap
 - Improve resilience and performance.
 - Reduce the number of requests made to Microsoft Entra ID to obtain access tokens.
 
-The Azure Identity library offers both in-memory and persistent disk caching. For more details, see the [token caching documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TOKEN_CACHING.md).
+The Azure Identity library offers both in-memory and persistent disk caching. For more information, see the [token caching documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TOKEN_CACHING.md).
 
 ## Brokered authentication
 
@@ -365,21 +370,12 @@ For other open issues, see the library's [GitHub repository](https://github.com/
 
 ### Provide feedback
 
-If you encounter bugs or have suggestions, please [open an issue](https://github.com/Azure/azure-sdk-for-js/issues).
+If you encounter bugs or have suggestions, [open an issue](https://github.com/Azure/azure-sdk-for-js/issues).
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+To contribute to this library, read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-[1]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/defaultazurecredential.html
-[2]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/managedidentitycredential.html
-[3]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/environmentcredential.html
-[4]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/clientsecretcredential.html
-[5]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/clientcertificatecredential.html
-[6]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/devicecodecredential.html
-[7]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/authorizationcodecredential.html
-[8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
-[9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_developer_cli]: https://learn.microsoft.com/azure/developer/azure-developer-cli
 [azure_powershell]: https://learn.microsoft.com/powershell/azure/

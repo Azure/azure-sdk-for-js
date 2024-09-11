@@ -44,6 +44,7 @@ import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../
 import { Resource } from "@opentelemetry/resources";
 import { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
+import { AnyValue } from "@opentelemetry/api-logs";
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
@@ -253,6 +254,24 @@ export function createResourceMetricEnvelope(
     }
   }
   return;
+}
+
+export function serializeAttribute(value: AnyValue): string {
+  if (typeof value === "object") {
+    if (value instanceof Uint8Array) {
+      return String(value);
+    } else {
+      try {
+        // Should handle Error objects as well
+        return JSON.stringify(value, Object.getOwnPropertyNames(value));
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
+    }
+  }
+  // Return scalar and undefined values
+  return String(value);
 }
 
 export function shouldCreateResourceMetric(): boolean {

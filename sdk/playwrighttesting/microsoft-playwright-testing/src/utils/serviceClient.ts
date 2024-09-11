@@ -32,6 +32,7 @@ export class ServiceClient {
       `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${this.envVariables.runId}?api-version=${Constants.API_VERSION}`,
       JSON.stringify(testRun),
       this.envVariables.accessToken,
+      "application/merge-patch+json",
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
@@ -44,6 +45,8 @@ export class ServiceClient {
       process.stdout.write(
         `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(new RegExp("{workspaceId}", "g"), this.envVariables.accountId!)}`,
       );
+    } else {
+      this.handleErrorResponse(response, Constants.patchTestRun);
     }
     throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
   }
@@ -54,6 +57,7 @@ export class ServiceClient {
       `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!).concat(`/${this.envVariables.runId}?api-version=${Constants.API_VERSION}`)}`,
       null,
       this.envVariables.accessToken,
+      "application/json",
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
@@ -64,13 +68,14 @@ export class ServiceClient {
     throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
   }
 
-  async patchTestRunShardStart(): Promise<Shard> {
-    const patchTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
+  async postTestRunShardStart(): Promise<Shard> {
+    const postTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
     const response: PipelineResponse = await this.httpService.callAPI(
-      "PATCH",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId).replace("{shardId}", this.envVariables.shardId!)}/?api-version=${Constants.API_VERSION}`,
-      JSON.stringify(patchTestRunShardObject),
+      "POST",
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
+      "application/json",
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
@@ -83,24 +88,27 @@ export class ServiceClient {
     );
   }
 
-  async patchTestRunShardEnd(
+  async postTestRunShardEnd(
     result: FullResult,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     shard: Shard,
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
+    workers: number,
   ): Promise<TestRun> {
-    const patchTestRunShardObject = this.reporterUtils.getTestRunShardEndObject(
+    const postTestRunShardObject = this.reporterUtils.getTestRunShardEndObject(
       result,
       shard,
       errorMessages,
       attachmentMetadata,
+      workers,
     );
     const response: PipelineResponse = await this.httpService.callAPI(
-      "PATCH",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId).replace("{shardId}", this.envVariables.shardId!)}/?api-version=${Constants.API_VERSION}`,
-      JSON.stringify(patchTestRunShardObject),
+      "POST",
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
+      "application/json",
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
@@ -123,6 +131,7 @@ export class ServiceClient {
       `${this.getServiceEndpoint()}/${Constants.testResultsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}?api-version=${Constants.API_VERSION}`,
       JSON.stringify(payload),
       this.envVariables.accessToken,
+      "application/json",
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
@@ -133,12 +142,13 @@ export class ServiceClient {
     throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
-  async getStorageUri(): Promise<StorageUri> {
+  async createStorageUri(): Promise<StorageUri> {
     const response: PipelineResponse = await this.httpService.callAPI(
-      "GET",
+      "POST",
       `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}?api-version=${Constants.API_VERSION}`,
       null,
       this.envVariables.accessToken,
+      "application/json",
       this.envVariables.correlationId!,
     );
     if (response.status === 200) {
@@ -156,6 +166,6 @@ export class ServiceClient {
   private handleErrorResponse(response: PipelineResponse, action: string) {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
-    process.stdout.write(`\n${errorMessage}`);
+    process.stdout.write(`${errorMessage}\n`);
   }
 }
