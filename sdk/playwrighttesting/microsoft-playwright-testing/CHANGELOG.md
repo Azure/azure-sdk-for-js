@@ -2,11 +2,16 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+This release updates the Microsoft Playwright Testing library documentation and improves error messages. 
+
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Entra id token rotation handling in reporter
+- Optimized retries if reporting API fails with 5xx error
 
 ### Other Changes
 
