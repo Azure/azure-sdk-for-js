@@ -157,29 +157,29 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         while (reader.pos < end) {
             let tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1: {
+                case 1: {
                     message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.uint32());
                     break;
                 }
-            case 5: {
+                case 5: {
                     message.eventMessage = $root.UpstreamMessage.EventMessage.decode(reader, reader.uint32());
                     break;
                 }
-            case 6: {
+                case 6: {
                     message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.decode(reader, reader.uint32());
                     break;
                 }
-            case 7: {
+                case 7: {
                     message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.decode(reader, reader.uint32());
                     break;
                 }
-            case 8: {
+                case 8: {
                     message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.uint32());
                     break;
                 }
-            default:
-                reader.skipType(tag & 7);
-                break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
             }
         }
         return message;
@@ -433,13 +433,23 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * SendToGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.SendToGroupMessage
+         * @instance
+         */
         Object.defineProperty(SendToGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * SendToGroupMessage _noEcho.
+         * @member {"noEcho"|undefined} _noEcho
+         * @memberof UpstreamMessage.SendToGroupMessage
+         * @instance
+         */
         Object.defineProperty(SendToGroupMessage.prototype, "_noEcho", {
             get: $util.oneOfGetter($oneOfFields = ["noEcho"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -511,25 +521,25 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.group = reader.string();
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                case 3: {
+                    case 3: {
                         message.data = $root.MessageData.decode(reader, reader.uint32());
                         break;
                     }
-                case 4: {
+                    case 4: {
                         message.noEcho = reader.bool();
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -736,7 +746,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * EventMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.EventMessage
+         * @instance
+         */
         Object.defineProperty(EventMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -806,21 +821,21 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.event = reader.string();
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.data = $root.MessageData.decode(reader, reader.uint32());
                         break;
                     }
-                case 3: {
+                    case 3: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -1006,7 +1021,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * JoinGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.JoinGroupMessage
+         * @instance
+         */
         Object.defineProperty(JoinGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -1074,17 +1094,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.group = reader.string();
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -1256,7 +1276,12 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * LeaveGroupMessage _ackId.
+         * @member {"ackId"|undefined} _ackId
+         * @memberof UpstreamMessage.LeaveGroupMessage
+         * @instance
+         */
         Object.defineProperty(LeaveGroupMessage.prototype, "_ackId", {
             get: $util.oneOfGetter($oneOfFields = ["ackId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -1324,17 +1349,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.group = reader.string();
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -1554,13 +1579,13 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.sequenceId = reader.uint64();
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -1810,21 +1835,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         while (reader.pos < end) {
             let tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1: {
+                case 1: {
                     message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.uint32());
                     break;
                 }
-            case 2: {
+                case 2: {
                     message.dataMessage = $root.DownstreamMessage.DataMessage.decode(reader, reader.uint32());
                     break;
                 }
-            case 3: {
+                case 3: {
                     message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.uint32());
                     break;
                 }
-            default:
-                reader.skipType(tag & 7);
-                break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
             }
         }
         return message;
@@ -2029,7 +2054,12 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * AckMessage _error.
+         * @member {"error"|undefined} _error
+         * @memberof DownstreamMessage.AckMessage
+         * @instance
+         */
         Object.defineProperty(AckMessage.prototype, "_error", {
             get: $util.oneOfGetter($oneOfFields = ["error"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -2099,21 +2129,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.success = reader.bool();
                         break;
                     }
-                case 3: {
+                    case 3: {
                         message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.decode(reader, reader.uint32());
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -2360,17 +2390,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 1: {
+                        case 1: {
                             message.name = reader.string();
                             break;
                         }
-                    case 2: {
+                        case 2: {
                             message.message = reader.string();
                             break;
                         }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
                     }
                 }
                 return message;
@@ -2549,13 +2579,23 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         // OneOf field names bound to virtual getters and setters
         let $oneOfFields;
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * DataMessage _group.
+         * @member {"group"|undefined} _group
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
         Object.defineProperty(DataMessage.prototype, "_group", {
             get: $util.oneOfGetter($oneOfFields = ["group"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        // Virtual OneOf for proto3 optional field
+        /**
+         * DataMessage _sequenceId.
+         * @member {"sequenceId"|undefined} _sequenceId
+         * @memberof DownstreamMessage.DataMessage
+         * @instance
+         */
         Object.defineProperty(DataMessage.prototype, "_sequenceId", {
             get: $util.oneOfGetter($oneOfFields = ["sequenceId"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -2627,25 +2667,25 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.from = reader.string();
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.group = reader.string();
                         break;
                     }
-                case 3: {
+                    case 3: {
                         message.data = $root.MessageData.decode(reader, reader.uint32());
                         break;
                     }
-                case 4: {
+                    case 4: {
                         message.sequenceId = reader.uint64();
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -2916,17 +2956,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 1: {
+                    case 1: {
                         message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.uint32());
                         break;
                     }
-                case 2: {
+                    case 2: {
                         message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.decode(reader, reader.uint32());
                         break;
                     }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                 }
             }
             return message;
@@ -3172,21 +3212,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 1: {
+                        case 1: {
                             message.connectionId = reader.string();
                             break;
                         }
-                    case 2: {
+                        case 2: {
                             message.userId = reader.string();
                             break;
                         }
-                    case 3: {
+                        case 3: {
                             message.reconnectionToken = reader.string();
                             break;
                         }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
                     }
                 }
                 return message;
@@ -3400,13 +3440,13 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 2: {
+                        case 2: {
                             message.reason = reader.string();
                             break;
                         }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
                     }
                 }
                 return message;
@@ -3656,25 +3696,25 @@ export const MessageData = $root.MessageData = (() => {
         while (reader.pos < end) {
             let tag = reader.uint32();
             switch (tag >>> 3) {
-            case 1: {
+                case 1: {
                     message.textData = reader.string();
                     break;
                 }
-            case 2: {
+                case 2: {
                     message.binaryData = reader.bytes();
                     break;
                 }
-            case 3: {
+                case 3: {
                     message.protobufData = $root.google.protobuf.Any.decode(reader, reader.uint32());
                     break;
                 }
-            case 4: {
+                case 4: {
                     message.jsonData = reader.string();
                     break;
                 }
-            default:
-                reader.skipType(tag & 7);
-                break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
             }
         }
         return message;
@@ -3955,17 +3995,17 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                    case 1: {
+                        case 1: {
                             message.type_url = reader.string();
                             break;
                         }
-                    case 2: {
+                        case 2: {
                             message.value = reader.bytes();
                             break;
                         }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                        default:
+                            reader.skipType(tag & 7);
+                            break;
                     }
                 }
                 return message;
