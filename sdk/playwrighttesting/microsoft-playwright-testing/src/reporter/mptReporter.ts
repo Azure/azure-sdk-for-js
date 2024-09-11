@@ -201,6 +201,7 @@ class MPTReporter implements Reporter {
   }
 
   private async _onBegin(): Promise<boolean> {
+    process.stdout.write(`\n`);
     try {
       const testRunResponse: TestRun | undefined = await this.serviceClient.patchTestRun(
         this.ciInfo,
@@ -209,7 +210,7 @@ class MPTReporter implements Reporter {
         `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
       );
       process.stdout.write(
-        `\nInitializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
+        `Initializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
       );
       const shardResponse = await this.serviceClient.postTestRunShardStart();
       this.shard = shardResponse;
@@ -368,7 +369,7 @@ class MPTReporter implements Reporter {
     }
     this.storageClient = new StorageClient();
     if (
-      this.envVariables.region !== null &&
+      this.envVariables.region &&
       !Constants.SupportedRegions.includes(this.envVariables.region!) &&
       this.isTokenValid
     ) {

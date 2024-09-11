@@ -8,7 +8,6 @@
 import {
   WebPubSubClient,
   WebPubSubClientCredential,
-  SendToGroupOptions,
   GetClientAccessUrlOptions,
 } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
@@ -44,17 +43,19 @@ async function main() {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
     } else {
-      console.log(`Received message ${e.message.data}`);
+      console.log(`Received message ${JSON.stringify(e.message.data)}`);
     }
   });
 
   client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
-        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`
+        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
+          "base64",
+        )}`,
       );
     } else {
-      console.log(`Received message from ${e.message.group} ${e.message.data}`);
+      console.log(`Received message from ${e.message.group} ${JSON.stringify(e.message.data)}`);
     }
   });
 
@@ -63,14 +64,14 @@ async function main() {
   await client.joinGroup(groupName);
   await client.sendToGroup(groupName, "hello world", "text", {
     fireAndForget: true,
-  } as SendToGroupOptions);
+  });
   await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
   await client.sendToGroup(groupName, "hello json", "json");
   var buf = Buffer.from("aGVsbG9w", "base64");
   await client.sendToGroup(
     groupName,
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
-    "binary"
+    "binary",
   );
   await delay(1000);
   await client.stop();
