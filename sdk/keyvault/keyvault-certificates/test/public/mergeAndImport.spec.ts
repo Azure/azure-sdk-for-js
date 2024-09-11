@@ -92,9 +92,10 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The signed certificate will never be the same, so we can't play it back.
   // This test is only designed to work on NodeJS, since we use child_process to interact with openssl.
-  it.skipIf(!isNodeLike || isPlaybackMode())(
+  it.skipIf(!isNodeLike || isPlaybackMode()).only(
     "can merge a self signed certificate",
     async function (ctx): Promise<void> {
+      console.log("WORKING DIRECTORY:", process.cwd());
       const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
       await client.beginCreateCertificate(
@@ -108,7 +109,7 @@ describe("Certificates client - merge and import certificates", () => {
       );
 
       const certificateOperationPoller = await client.getCertificateOperation(certificateName);
-      const { csr } = await certificateOperationPoller.getOperationState().certificateOperation!;
+      const { csr } = certificateOperationPoller.getOperationState().certificateOperation!;
       const base64Csr = Buffer.from(csr!).toString("base64");
       const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
