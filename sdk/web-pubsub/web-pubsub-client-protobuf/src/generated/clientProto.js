@@ -157,29 +157,29 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         while (reader.pos < end) {
             let tag = reader.uint32();
             switch (tag >>> 3) {
-                case 1: {
+            case 1: {
                     message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.uint32());
                     break;
                 }
-                case 5: {
+            case 5: {
                     message.eventMessage = $root.UpstreamMessage.EventMessage.decode(reader, reader.uint32());
                     break;
                 }
-                case 6: {
+            case 6: {
                     message.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.decode(reader, reader.uint32());
                     break;
                 }
-                case 7: {
+            case 7: {
                     message.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.decode(reader, reader.uint32());
                     break;
                 }
-                case 8: {
+            case 8: {
                     message.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.decode(reader, reader.uint32());
                     break;
                 }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+            default:
+                reader.skipType(tag & 7);
+                break;
             }
         }
         return message;
@@ -521,25 +521,25 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.group = reader.string();
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                    case 3: {
+                case 3: {
                         message.data = $root.MessageData.decode(reader, reader.uint32());
                         break;
                     }
-                    case 4: {
+                case 4: {
                         message.noEcho = reader.bool();
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -821,21 +821,21 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.event = reader.string();
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.data = $root.MessageData.decode(reader, reader.uint32());
                         break;
                     }
-                    case 3: {
+                case 3: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -1094,17 +1094,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.group = reader.string();
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -1349,17 +1349,17 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.group = reader.string();
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -1579,13 +1579,13 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.sequenceId = reader.uint64();
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -1835,21 +1835,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         while (reader.pos < end) {
             let tag = reader.uint32();
             switch (tag >>> 3) {
-                case 1: {
+            case 1: {
                     message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.uint32());
                     break;
                 }
-                case 2: {
+            case 2: {
                     message.dataMessage = $root.DownstreamMessage.DataMessage.decode(reader, reader.uint32());
                     break;
                 }
-                case 3: {
+            case 3: {
                     message.systemMessage = $root.DownstreamMessage.SystemMessage.decode(reader, reader.uint32());
                     break;
                 }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+            default:
+                reader.skipType(tag & 7);
+                break;
             }
         }
         return message;
@@ -2129,21 +2129,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.ackId = reader.uint64();
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.success = reader.bool();
                         break;
                     }
-                    case 3: {
+                case 3: {
                         message.error = $root.DownstreamMessage.AckMessage.ErrorMessage.decode(reader, reader.uint32());
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2390,17 +2390,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1: {
+                    case 1: {
                             message.name = reader.string();
                             break;
                         }
-                        case 2: {
+                    case 2: {
                             message.message = reader.string();
                             break;
                         }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -2667,25 +2667,25 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.from = reader.string();
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.group = reader.string();
                         break;
                     }
-                    case 3: {
+                case 3: {
                         message.data = $root.MessageData.decode(reader, reader.uint32());
                         break;
                     }
-                    case 4: {
+                case 4: {
                         message.sequenceId = reader.uint64();
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2956,17 +2956,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1: {
+                case 1: {
                         message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.uint32());
                         break;
                     }
-                    case 2: {
+                case 2: {
                         message.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.decode(reader, reader.uint32());
                         break;
                     }
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -3212,21 +3212,21 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1: {
+                    case 1: {
                             message.connectionId = reader.string();
                             break;
                         }
-                        case 2: {
+                    case 2: {
                             message.userId = reader.string();
                             break;
                         }
-                        case 3: {
+                    case 3: {
                             message.reconnectionToken = reader.string();
                             break;
                         }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -3440,13 +3440,13 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 2: {
+                    case 2: {
                             message.reason = reader.string();
                             break;
                         }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -3696,25 +3696,25 @@ export const MessageData = $root.MessageData = (() => {
         while (reader.pos < end) {
             let tag = reader.uint32();
             switch (tag >>> 3) {
-                case 1: {
+            case 1: {
                     message.textData = reader.string();
                     break;
                 }
-                case 2: {
+            case 2: {
                     message.binaryData = reader.bytes();
                     break;
                 }
-                case 3: {
+            case 3: {
                     message.protobufData = $root.google.protobuf.Any.decode(reader, reader.uint32());
                     break;
                 }
-                case 4: {
+            case 4: {
                     message.jsonData = reader.string();
                     break;
                 }
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+            default:
+                reader.skipType(tag & 7);
+                break;
             }
         }
         return message;
@@ -3995,17 +3995,17 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1: {
+                    case 1: {
                             message.type_url = reader.string();
                             break;
                         }
-                        case 2: {
+                    case 2: {
                             message.value = reader.bytes();
                             break;
                         }
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
