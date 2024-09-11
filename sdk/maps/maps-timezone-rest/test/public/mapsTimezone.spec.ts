@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
@@ -11,9 +11,7 @@ import { Context } from "mocha";
 import { MapsTimezone, isUnexpected } from "../../src";
 import { IanaIdOutput } from "../../src";
 
-const describeIfNotPlayback = isPlaybackMode() ? describe.skip : describe;
-
-describeIfNotPlayback("Authentication", function () {
+describe("Authentication", function () {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
@@ -41,7 +39,7 @@ describeIfNotPlayback("Authentication", function () {
   });
 });
 
-describeIfNotPlayback("Endpoint can be overwritten", function () {
+describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
@@ -75,7 +73,7 @@ describeIfNotPlayback("Endpoint can be overwritten", function () {
   });
 });
 
-describeIfNotPlayback("MapsTimezone", () => {
+describe("MapsTimezone", () => {
   let recorder: Recorder;
   let client: ReturnType<typeof MapsTimezone>;
 
