@@ -24,7 +24,6 @@ import {
   PrivateLinkResourceOperationsImpl,
   PrivateEndpointConnectionOperationsImpl,
   PoolOperationsImpl,
-  NetworkSecurityPerimeterOperationsImpl,
 } from "./operations";
 import {
   BatchAccountOperations,
@@ -36,7 +35,6 @@ import {
   PrivateLinkResourceOperations,
   PrivateEndpointConnectionOperations,
   PoolOperations,
-  NetworkSecurityPerimeterOperations,
 } from "./operationsInterfaces";
 import { BatchManagementClientOptionalParams } from "./models";
 
@@ -73,7 +71,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-batch/10.0.0`;
+    const packageDetails = `azsdk-js-arm-batch/9.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -127,7 +125,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-07-01";
+    this.apiVersion = options.apiVersion || "2024-02-01";
     this.batchAccountOperations = new BatchAccountOperationsImpl(this);
     this.applicationPackageOperations = new ApplicationPackageOperationsImpl(
       this,
@@ -142,8 +140,6 @@ export class BatchManagementClient extends coreClient.ServiceClient {
     this.privateEndpointConnectionOperations =
       new PrivateEndpointConnectionOperationsImpl(this);
     this.poolOperations = new PoolOperationsImpl(this);
-    this.networkSecurityPerimeterOperations =
-      new NetworkSecurityPerimeterOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -184,5 +180,4 @@ export class BatchManagementClient extends coreClient.ServiceClient {
   privateLinkResourceOperations: PrivateLinkResourceOperations;
   privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
   poolOperations: PoolOperations;
-  networkSecurityPerimeterOperations: NetworkSecurityPerimeterOperations;
 }
