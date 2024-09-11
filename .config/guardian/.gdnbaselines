@@ -6,8 +6,8 @@
   "baselines": {
     "default": {
       "name": "default",
-      "createdDate": "2024-09-11 17:53:06Z",
-      "lastUpdatedDate": "2024-09-11 17:53:06Z"
+      "createdDate": "2024-09-11 17:53:33Z",
+      "lastUpdatedDate": "2024-09-11 17:53:33Z"
     }
   },
   "results": {
@@ -21,9 +21,9 @@
       ],
       "tool": "credscan",
       "ruleId": "CSCAN-GENERAL0060",
-      "createdDate": "2024-09-11 17:53:06Z",
-      "expirationDate": "2025-02-28 18:09:41Z",
-      "justification": "This error is baselined with an expiration date of 180 days from 2024-09-11 18:09:41Z"
+      "createdDate": "2024-09-11 17:53:33Z",
+      "expirationDate": "2025-02-28 18:12:26Z",
+      "justification": "This error is baselined with an expiration date of 180 days from 2024-09-11 18:12:26Z"
     }
   }
 }
