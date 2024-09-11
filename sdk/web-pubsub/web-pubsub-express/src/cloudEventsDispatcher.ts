@@ -204,8 +204,8 @@ function isWebPubSubRequest(req: IncomingMessage): boolean {
 }
 
 function isMqttRequest(req: IncomingMessage): boolean {
-  var subprotocol = utils.getHttpHeader(req, "ce-subprotocol");
-  var physicalConnectionId = utils.getHttpHeader(req, "ce-physicalConnectionId");
+  const subprotocol = utils.getHttpHeader(req, "ce-subprotocol");
+  const physicalConnectionId = utils.getHttpHeader(req, "ce-physicalConnectionId");
   return subprotocol !== undefined && subprotocol.includes("mqtt") && physicalConnectionId !== undefined;
 }
 
