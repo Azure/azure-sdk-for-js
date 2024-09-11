@@ -1,9 +1,9 @@
 
-# Azure MapsTimezone REST client library for JavaScript
+# Azure Maps Timezone REST client library for JavaScript
 
 Azure Maps Timezone Client
 
-**If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library. The REST client provides a lightweight and developer-friendly way to call Azure REST APIs.**
+**If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library. The REST client provides a lightweight and developer-friendly way to call Azure REST APIs.
 
 Key links:
 
@@ -163,7 +163,7 @@ console.log(response.body);
 
 ### Get Windows timezone IDs
 
-You can get a list of Windows Time Zone IDs.
+You can get a list of Windows timezone IDs.
 
 ```javascript
 const response = await client.path("/timezone/enumWindows/{format}", "json").get();

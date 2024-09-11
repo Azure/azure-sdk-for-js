@@ -4,7 +4,6 @@
 
 import { Context } from "mocha";
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
 import { MapsTimezone, MapsTimezoneClient } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
