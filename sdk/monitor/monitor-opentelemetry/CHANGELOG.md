@@ -1,6 +1,9 @@
 # Release History
 
-## 1.7.1 ()
+## 1.7.1 (2024-09-13)
+
+### Bugs Fixed
+- Live Metrics: Do not send documents from past time intervals.
 
 ### Other Changes
 
