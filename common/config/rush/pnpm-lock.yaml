@@ -19149,7 +19149,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-M/la3E8Hmbf4jUjZuJHlcFwh8mj6IwL1DkUhsZPTI8PShkyt62ED0eqkYSjH7Rk3d9eqejzt5ml5kqOD83PVXg==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-mgD83ZxY7EvwRkIDflZnDI+TI/XR0d3NAEg7DDgnTnrqptv/reDMinQMKS4xaaZs/nNIC9rQaSGhUkRwS4A6LA==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -19170,6 +19170,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -23755,7 +23756,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-cGQF+Z00t0R9e/YZbdiNh5tsKt8OcUTukL0XQqT7O9z8S+Yr20Du/H9UPEncOH055//F1GdQBhFAodgymPa1aw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-/qbDiimKPXxVgo/f0UNUYp0Go8bCihidXs97egK/xuen7KFfBY6OXOXu/giA/gTXJjol6h5SKLUe5LGKD7yCMA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
