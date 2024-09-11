@@ -324,10 +324,6 @@ export class CloudEventsDispatcher {
           response.end();
           return true;
         }
-        if (!this.eventHandler?.handleConnect) {
-          response.end();
-          return true;
-        }
         break;
       case EventType.Connected:
         if (!this.eventHandler?.onConnected) {

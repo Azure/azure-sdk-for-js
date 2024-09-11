@@ -53,7 +53,7 @@ export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
     failWithMqttResponse(response: MqttConnectEventErrorResponse): void;
     setState(name: string, value: unknown): void;
-    success(response?: ConnectResponse): void;
+    success(response?: ConnectResponse | MqttConnectResponse): void;
 }
 
 // @public

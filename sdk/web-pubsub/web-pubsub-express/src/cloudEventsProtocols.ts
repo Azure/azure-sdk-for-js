@@ -307,7 +307,7 @@ export interface ConnectResponseHandler {
    * Return success response to the service.
    * @param response - The response for the connect event.
    */
-  success(response?: ConnectResponse): void;
+  success(response?: ConnectResponse | MqttConnectResponse): void;
   /**
    * Return failed response and the service will reject the client WebSocket connection.
    * @param code - Code can be 400 user error, 401 unauthorized and 500 server error.
