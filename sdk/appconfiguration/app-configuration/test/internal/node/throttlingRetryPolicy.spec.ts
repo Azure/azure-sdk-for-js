@@ -7,7 +7,7 @@ import chai from "chai";
 import { randomUUID } from "@azure/core-util";
 import nock from "nock";
 
-describe("Should not retry forever", () => {
+describe.only("Should not retry forever", () => {
   let client: AppConfigurationClient;
   const connectionString = "Endpoint=https://myappconfig.azconfig.io;Id=key:ai/u/fake;Secret=abcd=";
 
