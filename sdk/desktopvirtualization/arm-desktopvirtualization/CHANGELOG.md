@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0 (2024-09-11)
+## 1.2.0 (2024-09-11)
     
 ### Features Added
 
@@ -54,9 +54,6 @@
   - Added Enum KnownFailHealthCheckOnStagingFailure
   - Added Enum KnownPackageTimestamped
   - Added Enum KnownProvisioningState
-
-### Breaking Changes
-
   - Interface ApplicationGroup no longer has parameter systemData
   - Interface HostPool no longer has parameter systemData
   - Interface PrivateEndpointConnectionWithSystemData no longer has parameter systemData

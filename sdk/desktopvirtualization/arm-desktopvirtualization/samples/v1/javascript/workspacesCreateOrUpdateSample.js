@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a workspace.
  *
  * @summary Create or update a workspace.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Workspace_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Workspace_Create.json
  */
 async function workspaceCreate() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function workspaceCreate() {
   const result = await client.workspaces.createOrUpdate(
     resourceGroupName,
     workspaceName,
-    workspace
+    workspace,
   );
   console.log(result);
 }

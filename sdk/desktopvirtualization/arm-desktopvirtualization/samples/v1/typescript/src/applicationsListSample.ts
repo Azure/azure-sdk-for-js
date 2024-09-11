@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ApplicationsListOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List applications.
  *
  * @summary List applications.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Application_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Application_List.json
  */
 async function applicationsList() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function applicationsList() {
   const options: ApplicationsListOptionalParams = {
     pageSize,
     isDescending,
-    initialSkip
+    initialSkip,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function applicationsList() {
   for await (let item of client.applications.list(
     resourceGroupName,
     applicationGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
