@@ -64,10 +64,6 @@ export function buildRequestUrl(
   );
 }
 
-function encodeQueryParamValue(value: string): string {
-  return new URLSearchParams([["", value]]).toString().substring(1);
-}
-
 function getQueryParamValue(key: string, allowReserved: boolean, param: any): string {
   const value = (Array.isArray(param) ? param : [param])
     .map((p) => {
@@ -80,11 +76,11 @@ function getQueryParamValue(key: string, allowReserved: boolean, param: any): st
       }
 
       const rawValue = p.toISOString !== undefined ? p.toISOString() : p.toString();
-      return allowReserved ? rawValue : encodeQueryParamValue(rawValue);
+      return allowReserved ? rawValue : encodeURIComponent(rawValue);
     })
     .join(",");
 
-  return `${allowReserved ? key : encodeQueryParamValue(key)}=${value}`;
+  return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
 }
 
 function appendQueryParams(url: string, options: RequestParameters = {}): string {

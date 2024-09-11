@@ -107,7 +107,7 @@ describe("urlHelpers", () => {
 
     assert.equal(
       result,
-      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1,begin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend,,`,
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1,begin!*%27()%3B%3A%40%20%26%3D%2B%24%2C%2F%3F%23%5B%5Dend,,`,
     );
     result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {
@@ -131,7 +131,7 @@ describe("urlHelpers", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       queryParameters: { foo: " aaaa", bar: "b= " },
     });
-    assert.equal(result, `https://example.org/foo?foo=+aaaa&bar=b%3D+`);
+    assert.equal(result, `https://example.org/foo?foo=%20aaaa&bar=b%3D%20`);
   });
 
   it("should encode url when skip encoding path parameter", () => {
