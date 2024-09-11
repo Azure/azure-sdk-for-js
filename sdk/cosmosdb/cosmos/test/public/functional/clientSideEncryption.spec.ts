@@ -249,7 +249,7 @@ describe("Client Side Encryption", () => {
     await testdatabase.delete();
   });
 
-  it.skip("validate encryption time to live", async () => {
+  it("validate encryption time to live", async () => {
     const testKeyResolver = new MockKeyVaultEncryptionKeyResolver();
     // client with ttl of 1 min
     const newClient = new CosmosClient({
@@ -258,7 +258,7 @@ describe("Client Side Encryption", () => {
       enableEncryption: true,
       keyEncryptionKeyResolver: testKeyResolver,
       encryptionKeyResolverName: testKeyVault,
-      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(1),
+      encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(0.1),
     });
     const newDatabase = newClient.database(database.id);
     const newContainer = newDatabase.container(encryptionContainer.id);
@@ -267,8 +267,8 @@ describe("Client Side Encryption", () => {
     }
     // expecting just one unwrap, since the key should be cached for 1 min
     assert.ok(testKeyResolver.unwrapKeyCallsCount["tempmetadata1"] === 1);
-    // wait for 2 min to ensure that cache is cleared
-    await new Promise((resolve) => setTimeout(resolve, EncryptionTimeToLive.FromMinutes(1)));
+    // wait for 30 seconds to ensure that cache is cleared
+    await new Promise((resolve) => setTimeout(resolve, 30000));
 
     for (let i = 0; i < 2; i++) {
       await testCreateItem(newContainer);

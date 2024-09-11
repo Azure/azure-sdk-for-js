@@ -269,6 +269,10 @@ export class CosmosClient {
    */
   public dispose(): void {
     clearTimeout(this.endpointRefresher);
+    if (this.clientContext.enableEncryption) {
+      clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
+      clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
+    }
   }
 
   private async backgroundRefreshEndpointList(

@@ -4,10 +4,13 @@
 import { randomBytes } from "crypto";
 import { ProtectedDataEncryptionKey } from "../EncryptionKey/ProtectedDataEncryptionKey";
 import { KeyEncryptionKey } from "../KeyEncryptionKey";
+import { Constants } from "../../common";
 
 export class ProtectedDataEncryptionKeyCache {
   // key is JSON.stringify([encryptionKeyId, keyEncryptionKey.name, keyEncryptionKey.path, encryptedValue.toString("hex")])
   private protectedDataEncryptionKeyCache: Map<string, [Date, ProtectedDataEncryptionKey]>;
+  // interval for clear cache to run
+  cacheRefresher: NodeJS.Timeout;
 
   constructor(private cacheTimeToLive: number) {
     this.protectedDataEncryptionKeyCache = new Map<string, [Date, ProtectedDataEncryptionKey]>();
@@ -32,7 +35,7 @@ export class ProtectedDataEncryptionKeyCache {
   }
 
   public async clearCacheOnTtlExpiry(): Promise<void> {
-    setInterval(() => {
+    this.cacheRefresher = setInterval(() => {
       const now = new Date();
       for (const key of this.protectedDataEncryptionKeyCache.keys()) {
         if (
@@ -42,7 +45,7 @@ export class ProtectedDataEncryptionKeyCache {
           this.protectedDataEncryptionKeyCache.delete(key);
         }
       }
-    }, 60000);
+    }, Constants.EncryptionCacheRefreshInterval);
   }
 
   private async createProtectedDataEncryptionKey(

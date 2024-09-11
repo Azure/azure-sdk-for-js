@@ -661,6 +661,7 @@ export const Constants: {
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
     DefaultEncryptionCacheTimeToLive: number;
+    EncryptionCacheRefreshInterval: number;
 };
 
 // @public
@@ -1074,23 +1075,6 @@ export interface EncryptionKeyResolver {
 // @public
 export enum EncryptionKeyResolverName {
     AzureKeyVault = "AZURE_KEY_VAULT"
-}
-
-// @public
-export class EncryptionKeyStoreProvider {
-    constructor(keyEncryptionKeyResolver: EncryptionKeyResolver, providerName: string, cacheTimeToLive: number);
-    // (undocumented)
-    providerName: string;
-    // (undocumented)
-    RsaOaepEncryptionAlgorithm: string;
-    // (undocumented)
-    unwrapKey(encryptionKeyId: string, algorithm: KeyEncryptionKeyAlgorithm, wrappedKey: Buffer): Promise<Buffer>;
-    // (undocumented)
-    unwrappedEncryptionKeyCache: {
-        [key: string]: [Date, Buffer];
-    };
-    // (undocumented)
-    wrapKey(encryptionKeyId: string, algorithm: KeyEncryptionKeyAlgorithm, key: Buffer): Promise<Buffer>;
 }
 
 // @public

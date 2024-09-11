@@ -284,6 +284,8 @@ export const Constants = {
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
   // Default TTL for encryption caches in hours
   DefaultEncryptionCacheTimeToLive: 2,
+  // Timeout to clear encryption related cache
+  EncryptionCacheRefreshInterval: 30000, // 30 seconds
 };
 
 /**
