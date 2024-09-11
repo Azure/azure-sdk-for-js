@@ -56,7 +56,7 @@
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
     "@azure/maps-common": "~1.0.0-beta.3",
-    "@azure/core-util": "~1.9.3"
+    "@azure/core-util": "~1.9.2"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -99,5 +99,5 @@
     "constantPaths": [
       { "path": "swagger/README.md", "prefix": "package-version" }
     ]
-  },
+  }
 }
