@@ -12790,7 +12790,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-kNrzoL47czZfse/wMT9M2wrbcHh7fwdrnHeynfmXlVx9jqr2HvrG//F8n2hcl+jMMAmpdRkI6MK5Hd6b0F2I7Q==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-e1bxbHVMRvAMm1/q/4vHxIeo7WxHybb6VY723ppAQHFL1GmX3DYprDPcCQM8QOUklQ0sTtOFFlXI3UC0Uqd7uA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -14111,7 +14111,7 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-KO7SOu5mwyQwRnZp5ptYmnZ6oHUIMHsxwKWASnilMZuqST0RRWg3B35U9fhFA/ELowa5fUc+LpnDczPD58r+LQ==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-B/GEUYNd9+8Fie0Q135MCEgLJOaA+RTQSEe/pzAgO4U+1lc4oLDMsWJFugqBYvoRbqtTkGsniqme+SJK05DuAA==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
@@ -14130,6 +14130,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
