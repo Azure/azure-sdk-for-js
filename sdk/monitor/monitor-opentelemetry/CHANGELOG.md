@@ -6,6 +6,7 @@
 
 - Update the relative path used in the OTel instrumentation patcher to work with webpack.
 - Update OTel dependencies.
+- Update enableTraceBasedSamplingForLogs config default value to false.
 
 ## 1.7.0 (2024-08-14)
 
