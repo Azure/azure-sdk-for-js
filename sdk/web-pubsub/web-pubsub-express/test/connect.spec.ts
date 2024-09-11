@@ -228,7 +228,7 @@ describe("Can handle connect event", function () {
       },
     });
     const process = dispatcher.handleRequest(req, res);
-    mockBody(req, JSON.stringify(MOCK_MQTT_REQUEST_BODY));
+    mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
