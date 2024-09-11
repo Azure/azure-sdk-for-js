@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy";
 import {
   assertThrowsRestError,
@@ -127,11 +124,9 @@ describe("http request related tests", function () {
       syncTokens = new SyncTokens();
 
       // Use NoOpCredential for nock tests to avoid interception for credential request
-      client =
-        createAppConfigurationClientForTests({
-          syncTokens: syncTokens,
-          testCredential: new NoOpCredential(),
-        } as InternalAppConfigurationClientOptions) || this.skip();
+      client = new AppConfigurationClient("fakeEndpoint", new NoOpCredential(), {
+        syncTokens: syncTokens,
+      } as InternalAppConfigurationClientOptions);
 
       nock.recorder.clear();
       nock.restore();
