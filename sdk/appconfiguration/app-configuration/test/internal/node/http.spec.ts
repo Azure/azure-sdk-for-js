@@ -125,7 +125,7 @@ describe("http request related tests", function () {
 
       // Use NoOpCredential for nock tests to avoid interception for credential request
       client = new AppConfigurationClient(
-        "https://localhost",
+        "https://example.com",
         new NoOpCredential(),
         {
           syncTokens: syncTokens,
