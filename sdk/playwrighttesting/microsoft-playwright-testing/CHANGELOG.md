@@ -10,7 +10,7 @@ This release updates the Microsoft Playwright Testing library documentation and 
 
 ### Bugs Fixed
 
-- Entra id token rotation handling in reporter
+- Improved handling of Entra ID token expiry so that test runs don't fail intermittently.
 - Optimized retries if reporting API fails with 5xx error
 
 ### Other Changes
