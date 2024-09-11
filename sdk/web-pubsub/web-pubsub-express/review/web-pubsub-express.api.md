@@ -90,7 +90,6 @@ export interface MqttConnectProperties {
 
 // @public
 export interface MqttConnectRequest extends ConnectRequest {
-    // (undocumented)
     mqtt: MqttConnectProperties;
 }
 

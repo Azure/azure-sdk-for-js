@@ -155,6 +155,9 @@ export interface ConnectRequest {
  * Request for the MQTT connect event.
  */
 export interface MqttConnectRequest extends ConnectRequest {
+  /**
+   * The MQTT specific properties in the MQTT connect event request.
+   */
     mqtt: MqttConnectProperties;
 }
 
