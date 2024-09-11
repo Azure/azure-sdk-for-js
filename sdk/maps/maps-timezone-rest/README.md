@@ -177,7 +177,7 @@ console.log(response.body);
 
 ### Get IANA timezone IDs
 
-You can get a list of IANA Time Zone IDs.
+You can get a list of IANA timezone IDs.
 
 ```javascript
 const response = await client.path("/timezone/enumIana/{format}", "json").get();
@@ -205,7 +205,7 @@ console.log(response.body.Version);
 
 ### Convert Windows timezone to IANA
 
-You can convert a Windows Time Zone ID to a corresponding IANA ID.
+You can convert a Windows timezone ID to a corresponding IANA ID.
 
 ```javascript
 const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
