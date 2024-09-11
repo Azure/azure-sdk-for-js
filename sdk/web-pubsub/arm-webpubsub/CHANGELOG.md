@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0 (2024-09-11)
+## 1.2.0 (2024-09-11)
     
 ### Features Added
 
@@ -49,9 +49,6 @@
   - Interface WebPubSubResource has a new optional parameter resourceStopped
   - Interface WebPubSubResource has a new optional parameter socketIO
   - Added Enum KnownServiceKind
-
-### Breaking Changes
-
   - Interface CustomCertificate no longer has parameter systemData
   - Interface CustomDomain no longer has parameter systemData
   - Interface PrivateEndpointConnection no longer has parameter systemData
