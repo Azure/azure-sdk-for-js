@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
+import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
+
 /**
  * Response of the connect event.
  */
@@ -24,10 +27,41 @@ export interface ConnectResponse {
 }
 
 /**
- * Response of the connect event.
+ * Success respones of the connect event.
  */
 export interface MqttConnectResponse extends ConnectResponse {
+  /**
+   * The MQTT specific properties in a successful MQTT connection event response.
+   */
   mqtt?: MqttConnectResponseProperties;
+}
+
+/**
+ * Response of an MQTT connection failure.
+ */
+export interface MqttConnectEventErrorResponse {
+  /**
+   * The properties of the MQTT connection failure response.
+   */
+  mqtt: MqttConnectEventErrorResponseProperties; 
+}
+
+/**
+ * The properties of an MQTT connection failure response.
+ */
+export interface MqttConnectEventErrorResponseProperties {
+  /**
+   * The MQTT connect return code.
+   */
+  code: MqttV311ConnectReturnCode | MqttV500ConnectReasonCode;
+  /**
+   * The reason string for the connection failure.
+   */
+  reason?: string;
+  /**
+   * The user properties in the response.
+   */
+  userProperties?: MqttUserProperty[];
 }
 
 /**
@@ -117,6 +151,9 @@ export interface ConnectRequest {
   clientCertificates?: Certificate[];
 }
 
+/**
+ * Request for the MQTT connect event.
+ */
 export interface MqttConnectRequest extends ConnectRequest {
     mqtt: MqttConnectProperties;
 }
@@ -140,7 +177,7 @@ export interface MqttConnectProperties {
   /**
    * The user properties in the MQTT CONNECT packet.
    */
-  userProperties: string;
+  userProperties: MqttUserProperty[];
 }
 
 /**
@@ -274,29 +311,11 @@ export interface ConnectResponseHandler {
    * @param detail - The detail of the error.
    */
   fail(code: 400 | 401 | 500, detail?: string): void;
-}
-
-/**
- * The handler to set MQTT connect event response
- */
-export interface MqttConnectResponseHandler {
   /**
-   * Set the state of the connection
-   * @param name - The name of the state
-   * @param value - The value of the state
+   * Return failed response with MQTT response properties and the service will reject the client WebSocket connection.
+   * @param response - The response for the connect event which contains MQTT response properties.
    */
-  setState(name: string, value: unknown): void;
-  /**
-   * Return success response to the service.
-   * @param response - The response for the MQTT connect event.
-   */
-  success(response?: MqttConnectResponse): void;
-  /**
-   * Return failed response and the service will reject the client WebSocket connection.
-   * @param code - Code can be 400 user error, 401 unauthorized and 500 server error.
-   * @param detail - The detail of the error.
-   */
-  fail(code: 400 | 401 | 500, detail?: string): void;
+  failWithMqttResponse(response: MqttConnectEventErrorResponse): void;
 }
 
 /**
@@ -336,11 +355,6 @@ export interface WebPubSubEventHandlerOptions {
    * Handle 'connect' event, the service waits for the response to proceed.
    */
   handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
-
-  /**
-   * Handle MQTT 'connect' event, the service waits for the response to proceed.
-   */
-  handleMqttConnect?: (connectRequest: MqttConnectRequest, connectResponse: MqttConnectResponseHandler) => void;
 
   /**
    * Handle user events, the service waits for the response to proceed.

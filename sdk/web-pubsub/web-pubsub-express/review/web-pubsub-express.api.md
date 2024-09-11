@@ -51,6 +51,7 @@ export interface ConnectResponse {
 // @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
+    failWithMqttResponse(response: MqttConnectEventErrorResponse): void;
     setState(name: string, value: unknown): void;
     success(response?: ConnectResponse): void;
 }
@@ -59,6 +60,18 @@ export interface ConnectResponseHandler {
 export interface DisconnectedRequest {
     context: ConnectionContext;
     reason?: string;
+}
+
+// @public
+export interface MqttConnectEventErrorResponse {
+    mqtt: MqttConnectEventErrorResponseProperties;
+}
+
+// @public
+export interface MqttConnectEventErrorResponseProperties {
+    code: MqttV311ConnectReturnCode | MqttV500ConnectReasonCode;
+    reason?: string;
+    userProperties?: MqttUserProperty[];
 }
 
 // @public
@@ -72,7 +85,7 @@ export interface MqttConnectProperties {
     password: string;
     protocolVersion: string;
     username: string;
-    userProperties: string;
+    userProperties: MqttUserProperty[];
 }
 
 // @public
@@ -83,15 +96,7 @@ export interface MqttConnectRequest extends ConnectRequest {
 
 // @public
 export interface MqttConnectResponse extends ConnectResponse {
-    // (undocumented)
     mqtt?: MqttConnectResponseProperties;
-}
-
-// @public
-export interface MqttConnectResponseHandler {
-    fail(code: 400 | 401 | 500, detail?: string): void;
-    setState(name: string, value: unknown): void;
-    success(response?: MqttConnectResponse): void;
 }
 
 // @public
@@ -103,6 +108,40 @@ export interface MqttConnectResponseProperties {
 export interface MqttUserProperty {
     name: string;
     value: string;
+}
+
+// @public
+export enum MqttV311ConnectReturnCode {
+    BadUsernameOrPassword = 4,
+    IdentifierRejected = 2,
+    NotAuthorized = 5,
+    ServerUnavailable = 3,
+    UnacceptableProtocolVersion = 1
+}
+
+// @public
+export enum MqttV500ConnectReasonCode {
+    BadAuthenticationMethod = 140,
+    BadUserNameOrPassword = 134,
+    Banned = 138,
+    ClientIdentifierNotValid = 133,
+    ConnectionRateExceeded = 159,
+    ImplementationSpecificError = 131,
+    MalformedPacket = 129,
+    NotAuthorized = 135,
+    PacketTooLarge = 149,
+    PayloadFormatInvalid = 153,
+    ProtocolError = 130,
+    QosNotSupported = 155,
+    QuotaExceeded = 151,
+    RetainNotSupported = 154,
+    ServerBusy = 137,
+    ServerMoved = 157,
+    ServerUnavailable = 136,
+    TopicNameInvalid = 144,
+    UnspecifiedError = 128,
+    UnsupportedProtocolVersion = 132,
+    UseAnotherServer = 156
 }
 
 // @public
@@ -138,7 +177,6 @@ export class WebPubSubEventHandler {
 export interface WebPubSubEventHandlerOptions {
     allowedEndpoints?: string[];
     handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
-    handleMqttConnect?: (connectRequest: MqttConnectRequest, connectResponse: MqttConnectResponseHandler) => void;
     handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => void;
     onConnected?: (connectedRequest: ConnectedRequest) => void;
     onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
