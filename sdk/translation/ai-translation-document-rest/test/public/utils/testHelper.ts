@@ -10,7 +10,7 @@ import {
   StorageInputType,
   StorageSource,
   TargetInput,
-} from "../../../src/models";
+} from "../../../src";
 import { TestDocument, createTestDocument } from "./TestDocument";
 
 export function createSourceInput(

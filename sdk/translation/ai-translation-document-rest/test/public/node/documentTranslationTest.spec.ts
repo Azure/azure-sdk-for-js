@@ -12,7 +12,7 @@ import {
   TranslationStatusOutput,
   getLongRunningPoller,
   isUnexpected,
-} from "../.././../src";
+} from "../../../src";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,
