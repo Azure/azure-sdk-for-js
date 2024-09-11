@@ -107,10 +107,10 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
+      model: string;
+      speed: number;
+      times: { user: number; nice: number; sys: number; idle: number; irq: number };
+    }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
 
@@ -139,7 +139,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -368,7 +368,9 @@ export class LiveMetrics {
   }
 
   public getDocuments(): DocumentIngress[] {
-    return this.documents;
+    const result: DocumentIngress[] = this.documents;
+    this.documents = [];
+    return result;
   }
 
   private addDocument(document: DocumentIngress): void {
