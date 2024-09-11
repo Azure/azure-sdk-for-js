@@ -284,7 +284,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -715,7 +715,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -1046,27 +1046,27 @@ const getDetectorOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
-{
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.accountName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.accountName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1128,24 +1128,24 @@ const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
-{
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.accountName1,
-    Parameters.nextLink,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.accountName1,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
