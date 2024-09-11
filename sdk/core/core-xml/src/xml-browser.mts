@@ -171,7 +171,8 @@ export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
-    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    serializer.serializeToString(dom).replace(/ xmlns=""/g, "")
   );
 }
 
