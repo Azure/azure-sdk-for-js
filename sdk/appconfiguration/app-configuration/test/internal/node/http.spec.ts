@@ -124,9 +124,13 @@ describe("http request related tests", function () {
       syncTokens = new SyncTokens();
 
       // Use NoOpCredential for nock tests to avoid interception for credential request
-      client = new AppConfigurationClient('https://fakeEndpointString.azconfig.io', new NoOpCredential(), {
-        syncTokens: syncTokens,
-      } as InternalAppConfigurationClientOptions);
+      client = new AppConfigurationClient(
+        "https://fakeEndpointString.azconfig.io",
+        new NoOpCredential(),
+        {
+          syncTokens: syncTokens,
+        } as InternalAppConfigurationClientOptions,
+      );
 
       nock.recorder.clear();
       nock.restore();
