@@ -70,13 +70,13 @@ export enum MqttV500ConnectReasonCode {
    * 0x8A - Banned
    * Description: This Client has been banned by administrative action. Contact the server administrator.
    */
-  Banned = 0x8A,
+  Banned = 0x8a,
 
   /**
    * 0x8C - Bad authentication method
    * Description: The authentication method is not supported or does not match the authentication method currently in use.
    */
-  BadAuthenticationMethod = 0x8C,
+  BadAuthenticationMethod = 0x8c,
 
   /**
    * 0x90 - Topic Name invalid
@@ -106,29 +106,29 @@ export enum MqttV500ConnectReasonCode {
    * 0x9A - Retain not supported
    * Description: The Server does not support retained messages, and Will Retain was set to 1.
    */
-  RetainNotSupported = 0x9A,
+  RetainNotSupported = 0x9a,
 
   /**
    * 0x9B - QoS not supported
    * Description: The Server does not support the QoS set in Will QoS.
    */
-  QosNotSupported = 0x9B,
+  QosNotSupported = 0x9b,
 
   /**
    * 0x9C - Use another server
    * Description: The Client should temporarily use another server.
    */
-  UseAnotherServer = 0x9C,
+  UseAnotherServer = 0x9c,
 
   /**
    * 0x9D - Server moved
    * Description: The Client should permanently use another server.
    */
-  ServerMoved = 0x9D,
+  ServerMoved = 0x9d,
 
   /**
    * 0x9F - Connection rate exceeded
    * Description: The connection rate limit has been exceeded.
    */
-  ConnectionRateExceeded = 0x9F
+  ConnectionRateExceeded = 0x9f,
 }
