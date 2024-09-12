@@ -14,7 +14,11 @@ export {
   TokenCredential,
   GetTokenOptions,
   AccessToken,
+  HttpMethods,
   isTokenCredential,
+  isBearerToken,
+  isPopToken,
+  computeTokenType,
 } from "./tokenCredential.js";
 
 export { TracingContext } from "./tracing.js";
