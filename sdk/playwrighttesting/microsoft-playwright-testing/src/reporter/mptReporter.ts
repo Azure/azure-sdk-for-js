@@ -98,10 +98,7 @@ class MPTReporter implements Reporter {
   };
 
   private _isInformationMessagePresent = (key: string): boolean => {
-    if (this.processedErrorMessageKeys.includes(key)) {
-      return true;
-    }
-    return false;
+    return this.processedErrorMessageKeys.includes(key);
   };
 
   /**
