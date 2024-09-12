@@ -318,8 +318,10 @@ class ReporterUtils {
   };
 
   public static isTimeGreaterThanCurrentPlus10Minutes(isoString: string): boolean {
+    // Convert UTC to local
+    const localTimeString = new Date(isoString).toLocaleString();
     // Parse ISO 8601 string into a timestamp
-    const timestampFromIsoString: number = Date.parse(isoString);
+    const timestampFromIsoString: number = Date.parse(localTimeString);
     // Calculate the current timestamp plus 10 minutes
     const currentTimestampPlus10Minutes: number = Date.now() + 10 * 60 * 1000;
     // Compare the timestamps
