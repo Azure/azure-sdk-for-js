@@ -89,9 +89,17 @@ class MPTReporter implements Reporter {
     }
   }
 
-  private _addInformationalMessage(message: string): void {
+  private _addInformationalMessage = (message: string): void => {
     this.informationalMessages.push(message);
-  }
+  };
+
+  private _isInformationMessagePresent = (key: string): boolean => {
+    if (this.processedErrorMessageKeys.includes(key)) {
+      return true;
+    }
+    this.processedErrorMessageKeys.push(key);
+    return false;
+  };
 
   /**
    * @public
@@ -109,10 +117,8 @@ class MPTReporter implements Reporter {
       this.serviceClient = new ServiceClient(
         this.envVariables,
         this.reporterUtils,
-        (message: string) => {
-          this.informationalMessages.push(message);
-        },
-        this.processedErrorMessageKeys,
+        this._addInformationalMessage,
+        this._isInformationMessagePresent,
       );
       this.promiseOnBegin = this._onBegin();
     }

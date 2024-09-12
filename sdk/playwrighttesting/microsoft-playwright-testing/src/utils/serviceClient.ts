@@ -18,15 +18,19 @@ export class ServiceClient {
   private readonly envVariables: EnvironmentVariables;
   private readonly reporterUtils: ReporterUtils;
   private readonly addInformationalMessage: (errorMessage: string) => void;
-  private processedErrorMessageKeys: string[] = [];
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(envVariables: EnvironmentVariables,reporterUtils: ReporterUtils,addErrorInformation: (errorMessage: string) => void,processedErrorMessageKeys: string[],
+  private isInformationMessagePresent: (key: string) => boolean;
+  /* eslint-disable */
+  constructor(
+    envVariables: EnvironmentVariables,
+    reporterUtils: ReporterUtils,
+    addErrorInformation: (errorMessage: string) => void,
+    isInformationMessagePresent: (key: string) => boolean,
   ) {
     this.httpService = new HttpService();
     this.envVariables = envVariables;
     this.reporterUtils = reporterUtils;
     this.addInformationalMessage = addErrorInformation;
-    this.processedErrorMessageKeys = processedErrorMessageKeys;
+    this.isInformationMessagePresent = isInformationMessagePresent;
   }
 
   async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
@@ -83,7 +87,6 @@ export class ServiceClient {
 
   async postTestRunShardEnd(
     result: FullResult,
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     shard: Shard,
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
@@ -114,7 +117,6 @@ export class ServiceClient {
     );
   }
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   async postTestResults(testResults: TestResult[]): Promise<void> {
     const payload: any = {
       value: testResults,
@@ -159,12 +161,9 @@ export class ServiceClient {
   private handleErrorResponse(response: PipelineResponse, action: string) {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
-    if (this.processedErrorMessageKeys.includes(statusCode.toString())) {
-      return;
+    if (!this.isInformationMessagePresent(statusCode.toString())) {
+      this.addInformationalMessage(errorMessage);
     }
-    if (!errorMessage) return;
-    this.processedErrorMessageKeys.push(statusCode.toString());
-    this.addInformationalMessage(errorMessage);
     process.stdout.write(`${errorMessage}\n`);
   }
 }
