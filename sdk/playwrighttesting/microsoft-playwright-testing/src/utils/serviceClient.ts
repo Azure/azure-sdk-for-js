@@ -17,15 +17,19 @@ export class ServiceClient {
   private httpService: HttpService;
   private readonly envVariables: EnvironmentVariables;
   private readonly reporterUtils: ReporterUtils;
-
+  private readonly addInformationalMessage: (errorMessage: string) => void;
+  private processedErrorMessageKeys: string[] = [];
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(envVariables: EnvironmentVariables, reporterUtils: ReporterUtils) {
+  constructor(envVariables: EnvironmentVariables,reporterUtils: ReporterUtils,addErrorInformation: (errorMessage: string) => void,processedErrorMessageKeys: string[],
+  ) {
     this.httpService = new HttpService();
     this.envVariables = envVariables;
     this.reporterUtils = reporterUtils;
+    this.addInformationalMessage = addErrorInformation;
+    this.processedErrorMessageKeys = processedErrorMessageKeys;
   }
 
-  async patchTestRun(ciInfo: CIInfo, informationalMessages: string[]): Promise<TestRun> {
+  async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = await this.reporterUtils.getTestRunObject(ciInfo);
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
@@ -42,22 +46,22 @@ export class ServiceClient {
         "{runId}",
         this.envVariables.runId,
       );
-      informationalMessages.push(errorMessage);
+      this.addInformationalMessage(errorMessage);
       process.stdout.write(`\n${errorMessage}`);
     } else if (response.status === 403) {
       const errorMessage = Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(
         new RegExp("{workspaceId}", "g"),
         this.envVariables.accountId!,
       );
-      informationalMessages.push(errorMessage);
+      this.addInformationalMessage(errorMessage);
       process.stdout.write(`\n${errorMessage}`);
     } else {
-      this.handleErrorResponse(response, Constants.patchTestRun, informationalMessages);
+      this.handleErrorResponse(response, Constants.patchTestRun);
     }
     throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
   }
 
-  async postTestRunShardStart(informationalMessages: string[]): Promise<Shard> {
+  async postTestRunShardStart(): Promise<Shard> {
     const postTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
@@ -70,7 +74,7 @@ export class ServiceClient {
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as Shard;
     }
-    this.handleErrorResponse(response, Constants.patchTestRunShardStart, informationalMessages);
+    this.handleErrorResponse(response, Constants.patchTestRunShardStart);
 
     throw new Error(
       `Received status ${response.status} from service from PATCH TestRun Shard Start call.`,
@@ -84,7 +88,6 @@ export class ServiceClient {
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
     workers: number,
-    informationalMessages: string[],
   ): Promise<TestRun> {
     const postTestRunShardObject = this.reporterUtils.getTestRunShardEndObject(
       result,
@@ -104,7 +107,7 @@ export class ServiceClient {
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
     }
-    this.handleErrorResponse(response, Constants.patchTestRunShardEnd, informationalMessages);
+    this.handleErrorResponse(response, Constants.patchTestRunShardEnd);
 
     throw new Error(
       `Received status ${response.status} from service from PATCH TestRun Shard End call.`,
@@ -112,7 +115,7 @@ export class ServiceClient {
   }
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  async postTestResults(testResults: TestResult[], informationalMessages: string[]): Promise<void> {
+  async postTestResults(testResults: TestResult[]): Promise<void> {
     const payload: any = {
       value: testResults,
     };
@@ -127,12 +130,12 @@ export class ServiceClient {
     if (response.status === 200) {
       return;
     }
-    this.handleErrorResponse(response, Constants.postTestResults, informationalMessages);
+    this.handleErrorResponse(response, Constants.postTestResults);
 
     throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
-  async createStorageUri(informationalMessages: string[]): Promise<StorageUri> {
+  async createStorageUri(): Promise<StorageUri> {
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
       `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}?api-version=${Constants.API_VERSION}`,
@@ -144,7 +147,7 @@ export class ServiceClient {
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as StorageUri;
     }
-    this.handleErrorResponse(response, Constants.getStorageUri, informationalMessages);
+    this.handleErrorResponse(response, Constants.getStorageUri);
 
     throw new Error(`Received status ${response.status} from service from GET StorageUri call.`);
   }
@@ -153,14 +156,15 @@ export class ServiceClient {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
   }
 
-  private handleErrorResponse(
-    response: PipelineResponse,
-    action: string,
-    informationalMessages: string[],
-  ) {
+  private handleErrorResponse(response: PipelineResponse, action: string) {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
-    informationalMessages.push(errorMessage);
+    if (this.processedErrorMessageKeys.includes(statusCode.toString())) {
+      return;
+    }
+    if (!errorMessage) return;
+    this.processedErrorMessageKeys.push(statusCode.toString());
+    this.addInformationalMessage(errorMessage);
     process.stdout.write(`${errorMessage}\n`);
   }
 }
