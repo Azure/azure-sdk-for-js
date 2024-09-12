@@ -8,7 +8,7 @@ import { NotificationHubsMessageResponse } from "../models/notificationDetails.j
 import { sendNotificationInternal } from "./internal/_sendNotification.js";
 
 /**
- * Sends push notifications to devices that match the given tags or tag expression.
+ * Sends push notifications to all devices with a broadcast send.
  * @param context - The Notification Hubs client.
  * @param notification - The notification to send to the matching devices.
  * @param options - Options for the notification including whether to enable test send.
