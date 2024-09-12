@@ -65,26 +65,22 @@ export interface GetTokenOptions {
    */
   proofOfPossessionOptions?: {
     /**
-     * Indicates whether to enable Proof of Possession (PoP) for the requested token.
-     */
-    isEnabled?: boolean;
-    /**
-     * The nonce value required for PoP token requests. 
+     * The nonce value required for PoP token requests.
      * This is typically retrieved from the WWW-Authenticate header of a 401 challenge response.
      * This is used in combination with {@link resourceRequestUri} and {@link resourceRequestMethod} to generate the PoP token.
      */
-    nonce?: string
+    nonce: string;
     /**
      * The HTTP method of the request.
      * This is used in combination with {@link resourceRequestUri} and {@link nonce} to generate the PoP token.
      */
-    resourceRequestMethod?: HttpMethods;
+    resourceRequestMethod: HttpMethods;
     /**
-     * The URI of the request. 
+     * The URI of the request.
      * This is used in combination with {@link resourceRequestMethod} and {@link nonce} to generate the PoP token.
      */
-    resourceRequestUri?: string;
-  }
+    resourceRequestUri: string;
+  };
 }
 
 /**
@@ -107,7 +103,34 @@ export interface AccessToken {
   refreshAfterTimestamp?: number;
 
   /** Type of token - Bearer or PoP */
-  tokenType: string;
+  tokenType?: string;
+}
+
+/**
+ * @param accessToken
+ * @returns Whether a token is bearer type or not
+ */
+export function isBearerToken(accessToken: AccessToken): boolean {
+  return !accessToken.tokenType || accessToken.tokenType === "Bearer";
+}
+
+/**
+ * @param accessToken
+ * @returns Whether a token is Pop token or not
+ */
+export function isPopToken(accessToken: AccessToken): boolean {
+  return accessToken.tokenType === "pop";
+}
+
+/**
+ * Computes Token type "Bearer" or "Pop".
+ * Used for authentication headers.
+ * @param accessToken
+ * @returns token type
+ */
+export function computeTokenType(accessToken: AccessToken): string {
+  if (isPopToken(accessToken)) return "pop";
+  return "Bearer";
 }
 
 /**
