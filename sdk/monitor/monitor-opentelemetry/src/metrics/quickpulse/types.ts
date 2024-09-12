@@ -90,3 +90,13 @@ export interface ExceptionData extends TelemetryData {
 export interface TraceData extends TelemetryData {
   Message: string;
 }
+
+// copied from exporter constants
+export enum DependencyTypes {
+  InProc = "InProc",
+  QueueMessage = "Queue Message",
+  Sql = "SQL",
+  Http = "Http",
+  Grpc = "GRPC",
+  Wcf = "WCF Service",
+}

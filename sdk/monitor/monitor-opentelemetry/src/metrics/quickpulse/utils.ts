@@ -72,12 +72,12 @@ import {
   ExceptionData,
   TraceData,
   TelemetryData,
+  DependencyTypes,
 } from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
 import { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
-import { DependencyTypes } from "../../../../monitor-opentelemetry-exporter/src/utils/constants/applicationinsights";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
