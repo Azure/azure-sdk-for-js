@@ -73,8 +73,8 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
       );
     });
-    // Put the test first
-    describe.only("Atom management - Authentication", function (): void {
+
+    describe("Atom management - Authentication", function (): void {
       if (isNode) {
         it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
           const host = getFullyQualifiedNamespace();
