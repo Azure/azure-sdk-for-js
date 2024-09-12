@@ -102,6 +102,84 @@ app.listen(3000, () =>
 );
 ```
 
+### Handle the `connect` request for mqtt and assign `<userId>` and `<mqtt>` properties
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    if (req.context.kind === ConnectionContextKind.Mqtt) { // return mqtt response when request is of MQTT kind
+      res.success({
+        userId: "user1",
+        mqtt: { userProperties: [{ name: "a", value: "b" }] },
+      });
+    } else {
+      res.success({
+        userId: "user1",
+      });
+    }
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connect` request and reject the connection if auth failed
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    // auth the connection and reject the connection if auth failed
+    res.fail(401, "Unauthorized");
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connect` request for mqtt and reject the connection if auth failed
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    // auth the connection and reject the connection if auth failed
+    if (req.context.kind === ConnectionContextKind.Mqtt) { // return mqtt error response when request is of MQTT kind
+      res.failWithMqttResponse({ mqtt: { code: MqttV500ConnectReasonCode.NotAuthorized } });
+    } else {
+      res.fail(401, "Unauthorized");
+    }
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
 ### Only allow specified endpoints
 
 ```js
