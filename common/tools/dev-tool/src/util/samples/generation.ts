@@ -270,6 +270,15 @@ export async function createReadme(
   });
 }
 
+function isBetaVersion(version: string): boolean {
+  return /-beta/.test(version);
+}
+
+export function getSamplesVersionFolder(projectInfo: ProjectInfo): string {
+  const majorVersion = projectInfo.version.split(".")[0];
+  return `v${majorVersion}${isBetaVersion(projectInfo.version) ? "-beta" : ""}`;
+}
+
 /**
  * Create a filesystem tree factory representing a camera-ready samples
  * tree.
@@ -288,9 +297,7 @@ export async function makeSamplesFactory(
     hadError = true;
   };
 
-  const isBeta = /-beta/.test(projectInfo.version);
-  const majorVersion = projectInfo.version.split(".")[0];
-  const versionFolder = `v${majorVersion}${isBeta ? "-beta" : ""}`;
+  const versionFolder = getSamplesVersionFolder(projectInfo);
 
   const repoRoot = await resolveRoot();
 
@@ -299,7 +306,7 @@ export async function makeSamplesFactory(
   const finalSourcePath = sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE);
 
   const info = await makeSampleGenerationInfo(projectInfo, finalSourcePath, versionFolder, onError);
-  info.isBeta = isBeta;
+  info.isBeta = isBetaVersion(projectInfo.version);
 
   // Ambient declarations ().d.ts files) are excluded from the compile graph in the transpiler. We will still copy them
   // into typescript/src so that they will be availabled for transpilation.

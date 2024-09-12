@@ -8,6 +8,8 @@ import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
 import { getSampleConfiguration } from "../../util/samples/configuration";
+import { run } from "../../util/run";
+import { getSamplesVersionFolder } from "../../util/samples/generation";
 
 const log = createPrinter("run-samples");
 
@@ -18,40 +20,11 @@ export const commandInfo = makeCommandInfo(
   "execute a sample or all samples within a directory",
 );
 
-/**
- * Run a single sample file, accumulating any thrown errors into `accumulatedErrors`
- *
- * @param name the file to run
- * @param accumulatedErrors an array to push truncated errors onto as tuples of [fileName, error]
- */
-async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
-  log("Running", name);
-  try {
-    if (/.*[\\/]samples(-dev)?[\\/].*/.exec(name)) {
-      // This is an un-prepared sample, so just require it and it will run.
-      await import(name);
-    } else if (!/.*[\\/]dist-samples[\\/].*/.exec(name)) {
-      // This is not an unprepared or a prepared sample
-      log.error("Skipped. This file is not in any samples folder.");
-    } else {
-      const { main: sampleMain } = await import(name);
-      await sampleMain();
-    }
-  } catch (err: unknown) {
-    const truncatedError: string = (err as Error).toString().split("\n")[0].slice(0, 100);
-    accumulatedErrors.push([path.basename(name), truncatedError]);
-    log.warn(`Error in ${name}:`);
-    log.warn(err);
-  }
-}
-
 export default leafCommand(commandInfo, async (options) => {
-  if (options.args.length === 0) {
-    log.error("at least one argument is required");
-    return false;
-  }
+  const filter = options.args[0];
 
-  const { packageJson, path: packageLocation } = await resolveProject(process.cwd());
+  const projectInfo = await resolveProject(process.cwd());
+  const { packageJson, path: packageLocation } = projectInfo;
 
   log.debug("Resolving samples metadata to:", packageLocation);
 
@@ -68,41 +41,42 @@ export default leafCommand(commandInfo, async (options) => {
     log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
   }
 
-  const samples = options.args.map((dir) => path.resolve(dir));
+  const tsSamplesLocation = path.resolve(
+    packageLocation,
+    "samples",
+    getSamplesVersionFolder(projectInfo),
+    "typescript",
+  );
+  const samplesPackageJsonPath = path.resolve(tsSamplesLocation, "package.json");
+  const originalPackageJson = fs.readFileSync(samplesPackageJsonPath);
 
-  const errors: Array<[string, string]> = [];
+  log.info("Installing sample dependencies");
+  await run(["npm", "install", packageLocation], { cwd: tsSamplesLocation, stdio: "inherit" });
+  await run(["npm", "install"], { cwd: tsSamplesLocation, stdio: "inherit" });
 
-  for (const sample of samples) {
-    const stats = await fs.stat(sample);
-    if (stats.isFile()) {
-      // We don't consider the skips if the file was _explicitly_ asked for
-      runSingle(sample, errors);
-    } else if (stats.isDirectory()) {
-      for await (const fileName of findMatchingFiles(
-        sample,
-        (name, entry) => entry.isFile() && /\.[jt]s$/.exec(name) !== null,
-        {
-          ignore: IGNORE,
-          skips,
-        },
-      )) {
-        await runSingle(fileName, errors);
-      }
-    } else {
-      log.warn(`Sample ${sample} is neither a file nor a directory.`);
-      log.warn("Continuing ...");
-      errors.push([path.basename(sample), "Neither a file nor a directory"]);
+  log.info("Building TypeScript samples");
+  await run(["npm", "run", "build"], { cwd: tsSamplesLocation, stdio: "inherit" });
+
+  log.info("Running samples");
+
+  const distFolder = path.resolve(tsSamplesLocation, "dist");
+  for await (const filename of findMatchingFiles(
+    distFolder,
+    (name, entry) => entry.isFile() && !!new RegExp(filter ?? "").exec(name),
+    {
+      skips,
+      ignore: IGNORE,
+    },
+  )) {
+    log.info("Running sample:", filename);
+    try {
+      await run(["node", filename], { stdio: "inherit" });
+    } catch (e) {
+      log.error("Sample failed:", filename);
     }
   }
 
-  if (errors.length > 0) {
-    log.error("Errors occurred in the following files:");
-    for (const [fileName, error] of errors) {
-      log.error("  -", fileName, "(", error, ")");
-    }
-
-    return false;
-  }
+  await fs.writeFile(samplesPackageJsonPath, originalPackageJson);
 
   return true;
 });
