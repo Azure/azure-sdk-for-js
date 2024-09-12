@@ -276,7 +276,6 @@ jobs:
           env:
             TEST_MODE: "live"
             AZURE_CLIENT_ID: "fake-client-id"
-            AZURE_LOG_LEVEL: "verbose"
             SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
@@ -310,7 +309,6 @@ jobs:
           workingDirectory: $(PackagePath)
           env:
             AZURE_CLIENT_ID: "fake-client-id"
-            AZURE_LOG_LEVEL: "verbose"
             TEST_MODE: "live"
             ${{ insert }}: ${{ parameters.EnvVars }}
           condition: and(succeeded(),eq(variables['TestType'],'sample'))
