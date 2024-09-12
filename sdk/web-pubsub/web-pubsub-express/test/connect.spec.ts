@@ -68,7 +68,7 @@ function mockBody(req: IncomingMessage, body: string): void {
 
 const MOCK_MQTT_REQUEST_BODY = {
   mqtt: {
-    protocolVersion: "4",
+    protocolVersion: 4,
     username: "username",
     password: "password",
     userProperties: [

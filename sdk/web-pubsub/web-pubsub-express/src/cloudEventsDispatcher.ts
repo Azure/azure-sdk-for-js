@@ -16,12 +16,13 @@ import type {
   UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
-  MqttConnectionContext,
   MqttConnectRequest,
   MqttConnectEventErrorResponse,
+  MqttConnectionContextProperties,
 } from "./cloudEventsProtocols.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
+import { ConnectionContextKind } from "./enum/connectionContextKind.js";
 
 enum EventType {
   Connect,
@@ -104,11 +105,8 @@ function getUserEventResponseHandler(
   return handler;
 }
 
-function getContext(
-  request: IncomingMessage,
-  origin: string,
-): ConnectionContext | MqttConnectionContext {
-  const baseContext = {
+function getContext(request: IncomingMessage, origin: string): ConnectionContext {
+  const baseContext: ConnectionContext = {
     signature: utils.getHttpHeader(request, "ce-signature")!,
     userId: utils.getHttpHeader(request, "ce-userid"),
     hub: utils.getHttpHeader(request, "ce-hub")!,
@@ -116,16 +114,21 @@ function getContext(
     eventName: utils.getHttpHeader(request, "ce-eventname")!,
     origin: origin,
     states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
+    kind: ConnectionContextKind.Default,
   };
 
   if (isMqttRequest(request)) {
+    const mqttProperties: MqttConnectionContextProperties = {
+      physicalConnectionId: utils.getHttpHeader(request, "ce-physicalConnectionId")!,
+      sessionId: utils.getHttpHeader(request, "ce-sessionId"),
+    };
     return {
       ...baseContext,
-      sessionId: utils.getHttpHeader(request, "ce-sessionId"),
-      physicalConnectionId: utils.getHttpHeader(request, "ce-physicalConnectionId")!,
-    } as MqttConnectionContext;
+      kind: ConnectionContextKind.Mqtt,
+      mqtt: mqttProperties,
+    };
   } else {
-    return baseContext as ConnectionContext;
+    return baseContext;
   }
 }
 
@@ -212,7 +215,9 @@ function isMqttRequest(req: IncomingMessage): boolean {
   const subprotocol = utils.getHttpHeader(req, "ce-subprotocol");
   const physicalConnectionId = utils.getHttpHeader(req, "ce-physicalConnectionId");
   return (
-    subprotocol !== undefined && subprotocol.includes("mqtt") && physicalConnectionId !== undefined
+    subprotocol !== undefined &&
+    subprotocol.toLowerCase().includes("mqtt") &&
+    physicalConnectionId !== undefined
   );
 }
 
@@ -251,9 +256,10 @@ async function readUserEventRequest(
   }
 }
 
-async function readSystemEventRequest<
-  T extends { context: ConnectionContext | MqttConnectionContext },
->(request: IncomingMessage, origin: string): Promise<T> {
+async function readSystemEventRequest<T extends { context: ConnectionContext }>(
+  request: IncomingMessage,
+  origin: string,
+): Promise<T> {
   const body = (await utils.readRequestBody(request)).toString();
   const parsedRequest = JSON.parse(body) as T;
   parsedRequest.context = getContext(request, origin);

@@ -21,6 +21,8 @@ export interface ConnectionContext {
     connectionId: string;
     eventName: string;
     hub: string;
+    kind: ConnectionContextKind;
+    mqtt?: MqttConnectionContextProperties;
     origin: string;
     signature: string;
     states: Record<string, any>;
@@ -29,10 +31,16 @@ export interface ConnectionContext {
 }
 
 // @public
+export enum ConnectionContextKind {
+    Default = "default",
+    Mqtt = "mqtt"
+}
+
+// @public
 export interface ConnectRequest {
     claims?: Record<string, string[]>;
     clientCertificates?: Certificate[];
-    context: ConnectionContext | MqttConnectionContext;
+    context: ConnectionContext;
     headers?: Record<string, string[]>;
     queries?: Record<string, string[]>;
     // @deprecated
@@ -75,17 +83,17 @@ export interface MqttConnectEventErrorResponseProperties {
 }
 
 // @public
-export interface MqttConnectionContext extends ConnectionContext {
+export interface MqttConnectionContextProperties {
     physicalConnectionId: string;
     sessionId?: string;
 }
 
 // @public
 export interface MqttConnectProperties {
-    password: string;
-    protocolVersion: string;
-    username: string;
-    userProperties: MqttUserProperty[];
+    password?: string;
+    protocolVersion: number;
+    username?: string;
+    userProperties?: MqttUserProperty[];
 }
 
 // @public
@@ -100,7 +108,7 @@ export interface MqttConnectResponse extends ConnectResponse {
 
 // @public
 export interface MqttConnectResponseProperties {
-    userProperties: MqttUserProperty[];
+    userProperties?: MqttUserProperty[];
 }
 
 // @public
