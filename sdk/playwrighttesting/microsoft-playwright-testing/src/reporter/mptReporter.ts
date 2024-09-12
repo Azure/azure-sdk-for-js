@@ -130,7 +130,9 @@ class MPTReporter implements Reporter {
       if (this.testResultBatch.size >= Constants.TEST_BATCH_SIZE) {
         const currResultBatch: MPTTestResult[] = [...this.testResultBatch];
         if (this.isTestRunStartSuccess) {
-          this._testEndPromises.push(this.serviceClient.postTestResults(currResultBatch));
+          this._testEndPromises.push(
+            this.serviceClient.postTestResults(currResultBatch, this.informationalMessages),
+          );
           reporterLogger.info(`\nAdded test results batch for upload.`);
           this.testResultBatch.clear();
         }
@@ -182,6 +184,7 @@ class MPTReporter implements Reporter {
             this.errorMessages,
             this.uploadMetadata,
             this.numWorkers,
+            this.informationalMessages,
           );
           reporterLogger.info(`\nTest run successfully uploaded.`);
 
@@ -205,6 +208,7 @@ class MPTReporter implements Reporter {
     try {
       const testRunResponse: TestRun | undefined = await this.serviceClient.patchTestRun(
         this.ciInfo,
+        this.informationalMessages,
       );
       reporterLogger.info(
         `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
@@ -212,7 +216,9 @@ class MPTReporter implements Reporter {
       process.stdout.write(
         `Initializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
       );
-      const shardResponse = await this.serviceClient.postTestRunShardStart();
+      const shardResponse = await this.serviceClient.postTestRunShardStart(
+        this.informationalMessages,
+      );
       this.shard = shardResponse;
       // Set test report link as environment variable. If/else to check if environment variable defined or not.
       if (
@@ -277,7 +283,10 @@ class MPTReporter implements Reporter {
     try {
       // Upload the remaining test results
       if (this.testResultBatch.size > 0) {
-        await this.serviceClient.postTestResults([...this.testResultBatch]);
+        await this.serviceClient.postTestResults(
+          [...this.testResultBatch],
+          this.informationalMessages,
+        );
         reporterLogger.info(`\nUploaded test results batch successfully.`);
         this.testResultBatch.clear();
       }
@@ -306,7 +315,7 @@ class MPTReporter implements Reporter {
           !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
         ) {
           // Renew the sas uri
-          this.sasUri = await this.serviceClient.createStorageUri();
+          this.sasUri = await this.serviceClient.createStorageUri(this.informationalMessages);
           reporterLogger.info(
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
@@ -319,7 +328,7 @@ class MPTReporter implements Reporter {
         !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
       ) {
         // Renew the sas uri
-        this.sasUri = await this.serviceClient.createStorageUri();
+        this.sasUri = await this.serviceClient.createStorageUri(this.informationalMessages);
       }
       this.storageClient.uploadBuffer(
         this.sasUri.uri,
