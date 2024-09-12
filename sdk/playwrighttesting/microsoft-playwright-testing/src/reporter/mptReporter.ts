@@ -93,11 +93,14 @@ class MPTReporter implements Reporter {
     this.informationalMessages.push(message);
   };
 
+  private _addKeyToInformationMessage = (key: string): void => {
+    this.processedErrorMessageKeys.push(key);
+  };
+
   private _isInformationMessagePresent = (key: string): boolean => {
     if (this.processedErrorMessageKeys.includes(key)) {
       return true;
     }
-    this.processedErrorMessageKeys.push(key);
     return false;
   };
 
@@ -119,6 +122,7 @@ class MPTReporter implements Reporter {
         this.reporterUtils,
         this._addInformationalMessage,
         this._isInformationMessagePresent,
+        this._addKeyToInformationMessage,
       );
       this.promiseOnBegin = this._onBegin();
     }

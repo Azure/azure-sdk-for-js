@@ -19,18 +19,21 @@ export class ServiceClient {
   private readonly reporterUtils: ReporterUtils;
   private readonly addInformationalMessage: (errorMessage: string) => void;
   private isInformationMessagePresent: (key: string) => boolean;
+  private addKeyToInformationMessage: (key: string) => void;
   /* eslint-disable */
   constructor(
     envVariables: EnvironmentVariables,
     reporterUtils: ReporterUtils,
     addErrorInformation: (errorMessage: string) => void,
     isInformationMessagePresent: (key: string) => boolean,
+    addKeyToInformationMessage: (key: string) => void,
   ) {
     this.httpService = new HttpService();
     this.envVariables = envVariables;
     this.reporterUtils = reporterUtils;
     this.addInformationalMessage = addErrorInformation;
     this.isInformationMessagePresent = isInformationMessagePresent;
+    this.addKeyToInformationMessage = addKeyToInformationMessage;
   }
 
   async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
@@ -162,6 +165,7 @@ export class ServiceClient {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
     if (!this.isInformationMessagePresent(statusCode.toString())) {
+      this.addKeyToInformationMessage(statusCode.toString());
       this.addInformationalMessage(errorMessage);
     }
     process.stdout.write(`${errorMessage}\n`);
