@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 /* eslint-disable no-underscore-dangle*/
+
 import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";

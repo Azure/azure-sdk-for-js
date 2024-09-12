@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import * as path from "path";
@@ -511,7 +511,7 @@ describe("OpenTelemetry Resource", () => {
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
-        0,
+      0,
       "Wrong TELEMETRY_SDK_VERSION",
     );
     assert.deepStrictEqual(

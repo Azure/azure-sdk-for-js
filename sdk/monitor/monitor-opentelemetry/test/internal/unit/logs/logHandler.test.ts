@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 /* eslint-disable no-underscore-dangle*/
+
 import * as assert from "assert";
 import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";

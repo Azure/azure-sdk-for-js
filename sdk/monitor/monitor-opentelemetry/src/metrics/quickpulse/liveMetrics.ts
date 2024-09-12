@@ -135,10 +135,10 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
+      model: string;
+      speed: number;
+      times: { user: number; nice: number; sys: number; idle: number; irq: number };
+    }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
@@ -174,7 +174,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -417,7 +417,6 @@ export class LiveMetrics {
 
   public getDocuments(): DocumentIngress[] {
     const result: DocumentIngress[] = this.documents;
-    // fixing a bug where documents from previous time interval being sent in the current time interval.
     this.documents = [];
     return result;
   }

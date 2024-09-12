@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-require-imports */
+
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { Context as AzureFnV3Context } from "@azure/functions-old";
