@@ -17,12 +17,24 @@ export class ServiceClient {
   private httpService: HttpService;
   private readonly envVariables: EnvironmentVariables;
   private readonly reporterUtils: ReporterUtils;
-
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(envVariables: EnvironmentVariables, reporterUtils: ReporterUtils) {
+  private readonly addInformationalMessage: (errorMessage: string) => void;
+  private isInformationMessagePresent: (key: string) => boolean;
+  private addKeyToInformationMessage: (key: string) => void;
+  constructor(
+    /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
+    envVariables: EnvironmentVariables,
+    reporterUtils: ReporterUtils,
+    /* eslint-enable @azure/azure-sdk/ts-use-interface-parameters */
+    addErrorInformation: (errorMessage: string) => void,
+    isInformationMessagePresent: (key: string) => boolean,
+    addKeyToInformationMessage: (key: string) => void,
+  ) {
     this.httpService = new HttpService();
     this.envVariables = envVariables;
     this.reporterUtils = reporterUtils;
+    this.addInformationalMessage = addErrorInformation;
+    this.isInformationMessagePresent = isInformationMessagePresent;
+    this.addKeyToInformationMessage = addKeyToInformationMessage;
   }
 
   async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
@@ -38,34 +50,23 @@ export class ServiceClient {
     if (response.status === 200) {
       return JSON.parse(response.bodyAsText!) as TestRun;
     } else if (response.status === 409) {
-      process.stdout.write(
-        `\n${Constants.CONFLICT_409_ERROR_MESSAGE.replace("{runId}", this.envVariables.runId)}`,
+      const errorMessage = Constants.CONFLICT_409_ERROR_MESSAGE.replace(
+        "{runId}",
+        this.envVariables.runId,
       );
+      this.addInformationalMessage(errorMessage);
+      process.stdout.write(`\n${errorMessage}`);
     } else if (response.status === 403) {
-      process.stdout.write(
-        `\n${Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(new RegExp("{workspaceId}", "g"), this.envVariables.accountId!)}`,
+      const errorMessage = Constants.FORBIDDEN_403_ERROR_MESSAGE.replace(
+        new RegExp("{workspaceId}", "g"),
+        this.envVariables.accountId!,
       );
+      this.addInformationalMessage(errorMessage);
+      process.stdout.write(`\n${errorMessage}`);
     } else {
       this.handleErrorResponse(response, Constants.patchTestRun);
     }
     throw new Error(`Received status ${response.status} from service from PATCH TestRun call.`);
-  }
-
-  async getTestRun(): Promise<TestRun> {
-    const response: PipelineResponse = await this.httpService.callAPI(
-      "GET",
-      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!).concat(`/${this.envVariables.runId}?api-version=${Constants.API_VERSION}`)}`,
-      null,
-      this.envVariables.accessToken,
-      "application/json",
-      this.envVariables.correlationId!,
-    );
-    if (response.status === 200) {
-      return JSON.parse(response.bodyAsText!) as TestRun;
-    }
-    this.handleErrorResponse(response, Constants.getTestRun);
-
-    throw new Error(`Received status ${response.status} from service from GET TestRun call.`);
   }
 
   async postTestRunShardStart(): Promise<Shard> {
@@ -163,9 +164,13 @@ export class ServiceClient {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
   }
 
-  private handleErrorResponse(response: PipelineResponse, action: string) {
+  private handleErrorResponse(response: PipelineResponse, action: string): void {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
+    if (!this.isInformationMessagePresent(statusCode.toString())) {
+      this.addKeyToInformationMessage(statusCode.toString());
+      this.addInformationalMessage(errorMessage);
+    }
     process.stdout.write(`${errorMessage}\n`);
   }
 }

@@ -58,7 +58,7 @@ export class Constants {
   public static readonly TEST_TYPE = "WebTest";
   public static readonly TEST_SDK_LANGUAGE = "JAVASCRIPT";
   // Placeholder version
-  public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.1";
+  public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.2";
   public static readonly DEFAULT_DASHBOARD_ENDPOINT = "https://playwright.microsoft.com";
   public static readonly DEFAULT_SERVICE_ENDPOINT =
     "https://{region}.reporting.api.playwright-test.io";
@@ -175,7 +175,7 @@ export const TestResultErrorConstants = [
     message: `You do not have the required permissions to run tests. This could be because:
 
     a. You do not have the required roles on the workspace. Only Owner and Contributor roles can run tests. Contact the service administrator.
-    b. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal and login using the command 'az login --tenant <TENANT_ID>'.
+    b. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal (https://aka.ms/mpt/find-tenant-id) and login using the command 'az login --tenant <TENANT_ID>'.
     `,
     pattern:
       /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*CheckAccess API call with non successful response)/i,
@@ -185,14 +185,29 @@ export const TestResultErrorConstants = [
     key: "InvalidWorkspace_Scalable",
     message: "The specified workspace does not exist. Please verify your workspace settings.",
     pattern:
-      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*InvalidAccountOrSubscriptionState)/i,
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccountOrSubscriptionState)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "InvalidAccessToken_Scalable",
+    message:
+      "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
+    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "AccessTokenOrUserOrWorkspaceNotFound_Scalable",
+    message:
+      "The data for the user, workspace or access token was not found. Please check the request or create new token and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*404 Not Found)(?=[\s\S]*NotFound)/i,
     type: TestErrorType.Scalable,
   },
   {
     key: "AccessKeyBasedAuthNotSupported_Scalable",
     message:
       "Authentication through service access token is disabled for this workspace. Please use Entra ID to authenticate.",
-    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*AccessKeyBasedAuthNotSupported)/i,
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*AccessKeyBasedAuthNotSupported)/i,
     type: TestErrorType.Scalable,
   },
   {

@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.9.3",
+  "version": "1.10.0",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",

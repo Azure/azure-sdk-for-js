@@ -4,7 +4,9 @@
 import { randomUUID } from "crypto";
 
 export class EnvironmentVariables {
-  accessToken: string;
+  get accessToken(): string {
+    return process.env["PLAYWRIGHT_SERVICE_ACCESS_TOKEN"]!;
+  }
   runId: string;
   accountId: string | undefined;
   userId: string | undefined;
@@ -13,7 +15,6 @@ export class EnvironmentVariables {
   shardId: string | undefined;
   region: string | undefined;
   constructor() {
-    this.accessToken = process.env["PLAYWRIGHT_SERVICE_ACCESS_TOKEN"]!;
     this.runId = process.env["PLAYWRIGHT_SERVICE_RUN_ID"]!;
     this.correlationId = randomUUID();
   }
