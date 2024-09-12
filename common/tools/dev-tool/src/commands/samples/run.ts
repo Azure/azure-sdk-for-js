@@ -51,11 +51,15 @@ export default leafCommand(commandInfo, async (options) => {
   const originalPackageJson = fs.readFileSync(samplesPackageJsonPath);
 
   log.info("Installing sample dependencies");
-  await run(["pnpm", "install", packageLocation], { cwd: tsSamplesLocation, stdio: "inherit" });
-  await run(["pnpm", "install"], { cwd: tsSamplesLocation, stdio: "inherit" });
+  await run(["npm", "install", packageLocation], {
+    cwd: tsSamplesLocation,
+    stdio: "inherit",
+    shell: true,
+  });
+  await run(["npm", "install"], { cwd: tsSamplesLocation, stdio: "inherit", shell: true });
 
   log.info("Building TypeScript samples");
-  await run(["pnpm", "run", "build"], { cwd: tsSamplesLocation, stdio: "inherit" });
+  await run(["npm", "run", "build"], { cwd: tsSamplesLocation, stdio: "inherit", shell: true });
 
   log.info("Running samples");
 
@@ -70,7 +74,7 @@ export default leafCommand(commandInfo, async (options) => {
   )) {
     log.info("Running sample:", filename);
     try {
-      await run(["node", filename], { stdio: "inherit" });
+      await run(["node", filename], { stdio: "inherit", shell: true });
     } catch (e) {
       log.error("Sample failed:", filename);
     }
