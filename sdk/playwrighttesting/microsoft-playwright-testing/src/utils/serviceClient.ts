@@ -164,8 +164,7 @@ export class ServiceClient {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  private handleErrorResponse(response: PipelineResponse, action: string) {
+  private handleErrorResponse(response: PipelineResponse, action: string): void {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
     if (!this.isInformationMessagePresent(statusCode.toString())) {
