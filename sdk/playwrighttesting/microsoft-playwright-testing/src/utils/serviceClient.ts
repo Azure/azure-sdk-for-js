@@ -21,10 +21,10 @@ export class ServiceClient {
   private isInformationMessagePresent: (key: string) => boolean;
   private addKeyToInformationMessage: (key: string) => void;
   constructor(
-    /* eslint-disable */
+    /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
     envVariables: EnvironmentVariables,
     reporterUtils: ReporterUtils,
-    /* eslint-enable */
+    /* eslint-enable @azure/azure-sdk/ts-use-interface-parameters */
     addErrorInformation: (errorMessage: string) => void,
     isInformationMessagePresent: (key: string) => boolean,
     addKeyToInformationMessage: (key: string) => void,
