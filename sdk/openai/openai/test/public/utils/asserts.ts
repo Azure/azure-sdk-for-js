@@ -225,7 +225,8 @@ function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOut
 
 function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
   assert.isBoolean(val.filtered);
-  assertNonEmptyArray(val.details, assertContentFilterBlocklistIdResult);
+  // TODO: Update the corresponding types once the Swagger is updated
+  ifDefined(val.details, (details) => { assertNonEmptyArray(details, assertContentFilterBlocklistIdResult)});
 }
 
 function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
