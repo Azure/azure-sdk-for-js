@@ -43,7 +43,7 @@ export interface MqttConnectEventErrorResponse {
   /**
    * The properties of the MQTT connection failure response.
    */
-  mqtt: MqttConnectEventErrorResponseProperties; 
+  mqtt: MqttConnectEventErrorResponseProperties;
 }
 
 /**
@@ -158,7 +158,7 @@ export interface MqttConnectRequest extends ConnectRequest {
   /**
    * The MQTT specific properties in the MQTT connect event request.
    */
-    mqtt: MqttConnectProperties;
+  mqtt: MqttConnectProperties;
 }
 
 /**

@@ -60,7 +60,7 @@ function getConnectResponseHandler(
     failWithMqttResponse(res: MqttConnectEventErrorResponse) {
       response.statusCode = getStatusCodeFromMqttConnectCode(res.mqtt.code);
       response.end(JSON.stringify(res));
-    }
+    },
   };
 
   return handler;
@@ -104,7 +104,10 @@ function getUserEventResponseHandler(
   return handler;
 }
 
-function getContext(request: IncomingMessage, origin: string): ConnectionContext | MqttConnectionContext {
+function getContext(
+  request: IncomingMessage,
+  origin: string,
+): ConnectionContext | MqttConnectionContext {
   const baseContext = {
     signature: utils.getHttpHeader(request, "ce-signature")!,
     userId: utils.getHttpHeader(request, "ce-userid"),
@@ -152,51 +155,53 @@ function tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
   }
 }
 
-function getStatusCodeFromMqttConnectCode(mqttConnectCode: MqttV311ConnectReturnCode | MqttV500ConnectReasonCode): number {
-    if (mqttConnectCode < 0x80) {
-        switch (mqttConnectCode) {
-            case MqttV311ConnectReturnCode.UnacceptableProtocolVersion:
-            case MqttV311ConnectReturnCode.IdentifierRejected:
-                return 400; // BadRequest
-            case MqttV311ConnectReturnCode.ServerUnavailable:
-                return 503; // ServiceUnavailable
-            case MqttV311ConnectReturnCode.BadUsernameOrPassword:
-            case MqttV311ConnectReturnCode.NotAuthorized:
-                return 401; // Unauthorized
-            default:
-                throw new RangeError(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
-        }
-    } else {
-        switch (mqttConnectCode) {
-            case MqttV500ConnectReasonCode.NotAuthorized:
-            case MqttV500ConnectReasonCode.BadUserNameOrPassword:
-                return 401; // Unauthorized
-            case MqttV500ConnectReasonCode.ClientIdentifierNotValid:
-            case MqttV500ConnectReasonCode.MalformedPacket:
-            case MqttV500ConnectReasonCode.UnsupportedProtocolVersion:
-            case MqttV500ConnectReasonCode.BadAuthenticationMethod:
-            case MqttV500ConnectReasonCode.TopicNameInvalid:
-            case MqttV500ConnectReasonCode.PayloadFormatInvalid:
-            case MqttV500ConnectReasonCode.ImplementationSpecificError:
-            case MqttV500ConnectReasonCode.PacketTooLarge:
-            case MqttV500ConnectReasonCode.RetainNotSupported:
-            case MqttV500ConnectReasonCode.QosNotSupported:
-                return 400; // BadRequest
-            case MqttV500ConnectReasonCode.QuotaExceeded:
-            case MqttV500ConnectReasonCode.ConnectionRateExceeded:
-                return 429; // TooManyRequests
-            case MqttV500ConnectReasonCode.Banned:
-                return 403; // Forbidden
-            case MqttV500ConnectReasonCode.UseAnotherServer:
-            case MqttV500ConnectReasonCode.ServerMoved:
-            case MqttV500ConnectReasonCode.ServerUnavailable:
-            case MqttV500ConnectReasonCode.ServerBusy:
-            case MqttV500ConnectReasonCode.UnspecifiedError:
-                return 500; // InternalServerError
-            default:
-                throw new RangeError(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
-        }
+function getStatusCodeFromMqttConnectCode(
+  mqttConnectCode: MqttV311ConnectReturnCode | MqttV500ConnectReasonCode,
+): number {
+  if (mqttConnectCode < 0x80) {
+    switch (mqttConnectCode) {
+      case MqttV311ConnectReturnCode.UnacceptableProtocolVersion:
+      case MqttV311ConnectReturnCode.IdentifierRejected:
+        return 400; // BadRequest
+      case MqttV311ConnectReturnCode.ServerUnavailable:
+        return 503; // ServiceUnavailable
+      case MqttV311ConnectReturnCode.BadUsernameOrPassword:
+      case MqttV311ConnectReturnCode.NotAuthorized:
+        return 401; // Unauthorized
+      default:
+        throw new RangeError(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
     }
+  } else {
+    switch (mqttConnectCode) {
+      case MqttV500ConnectReasonCode.NotAuthorized:
+      case MqttV500ConnectReasonCode.BadUserNameOrPassword:
+        return 401; // Unauthorized
+      case MqttV500ConnectReasonCode.ClientIdentifierNotValid:
+      case MqttV500ConnectReasonCode.MalformedPacket:
+      case MqttV500ConnectReasonCode.UnsupportedProtocolVersion:
+      case MqttV500ConnectReasonCode.BadAuthenticationMethod:
+      case MqttV500ConnectReasonCode.TopicNameInvalid:
+      case MqttV500ConnectReasonCode.PayloadFormatInvalid:
+      case MqttV500ConnectReasonCode.ImplementationSpecificError:
+      case MqttV500ConnectReasonCode.PacketTooLarge:
+      case MqttV500ConnectReasonCode.RetainNotSupported:
+      case MqttV500ConnectReasonCode.QosNotSupported:
+        return 400; // BadRequest
+      case MqttV500ConnectReasonCode.QuotaExceeded:
+      case MqttV500ConnectReasonCode.ConnectionRateExceeded:
+        return 429; // TooManyRequests
+      case MqttV500ConnectReasonCode.Banned:
+        return 403; // Forbidden
+      case MqttV500ConnectReasonCode.UseAnotherServer:
+      case MqttV500ConnectReasonCode.ServerMoved:
+      case MqttV500ConnectReasonCode.ServerUnavailable:
+      case MqttV500ConnectReasonCode.ServerBusy:
+      case MqttV500ConnectReasonCode.UnspecifiedError:
+        return 500; // InternalServerError
+      default:
+        throw new RangeError(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
+    }
+  }
 }
 
 function isWebPubSubRequest(req: IncomingMessage): boolean {
@@ -206,7 +211,9 @@ function isWebPubSubRequest(req: IncomingMessage): boolean {
 function isMqttRequest(req: IncomingMessage): boolean {
   const subprotocol = utils.getHttpHeader(req, "ce-subprotocol");
   const physicalConnectionId = utils.getHttpHeader(req, "ce-physicalConnectionId");
-  return subprotocol !== undefined && subprotocol.includes("mqtt") && physicalConnectionId !== undefined;
+  return (
+    subprotocol !== undefined && subprotocol.includes("mqtt") && physicalConnectionId !== undefined
+  );
 }
 
 async function readUserEventRequest(
@@ -244,10 +251,9 @@ async function readUserEventRequest(
   }
 }
 
-async function readSystemEventRequest<T extends { context: ConnectionContext | MqttConnectionContext }>(
-  request: IncomingMessage,
-  origin: string,
-): Promise<T> {
+async function readSystemEventRequest<
+  T extends { context: ConnectionContext | MqttConnectionContext },
+>(request: IncomingMessage, origin: string): Promise<T> {
   const body = (await utils.readRequestBody(request)).toString();
   const parsedRequest = JSON.parse(body) as T;
   parsedRequest.context = getContext(request, origin);
@@ -350,8 +356,8 @@ export class CloudEventsDispatcher {
 
     switch (eventType) {
       case EventType.Connect: {
-        const connectRequest = isMqttRequest(request) 
-          ? await readSystemEventRequest<MqttConnectRequest>(request, origin) 
+        const connectRequest = isMqttRequest(request)
+          ? await readSystemEventRequest<MqttConnectRequest>(request, origin)
           : await readSystemEventRequest<ConnectRequest>(request, origin);
         // service passes out query property, assign it to queries
         connectRequest.queries = connectRequest.query;

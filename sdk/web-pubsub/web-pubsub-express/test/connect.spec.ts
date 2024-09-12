@@ -67,53 +67,49 @@ function mockBody(req: IncomingMessage, body: string): void {
 }
 
 const MOCK_MQTT_REQUEST_BODY = {
-  "mqtt": {
-    "protocolVersion": "4",
-    "username": "username",
-    "password": "password",
-    "userProperties": [
+  mqtt: {
+    protocolVersion: "4",
+    username: "username",
+    password: "password",
+    userProperties: [
       {
-        "name": "a",
-        "value": "b"
-      }
-    ]
+        name: "a",
+        value: "b",
+      },
+    ],
   },
-  "claims": {
-    "iat": ["1723005952"],
-    "exp": ["1726605954"],
-    "aud": ["ws://localhost:8080/clients/mqtt/hubs/simplechat"],
+  claims: {
+    iat: ["1723005952"],
+    exp: ["1726605954"],
+    aud: ["ws://localhost:8080/clients/mqtt/hubs/simplechat"],
     "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": [
       "webpubsub.sendToGroup",
-      "webpubsub.joinLeaveGroup"
+      "webpubsub.joinLeaveGroup",
     ],
     "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": ["user1"],
-    "role": [
-      "webpubsub.sendToGroup",
-      "webpubsub.joinLeaveGroup"
-    ],
-    "nameid": ["user1"]
+    role: ["webpubsub.sendToGroup", "webpubsub.joinLeaveGroup"],
+    nameid: ["user1"],
   },
-  "query": {
-    "access_token": ["REDATED"]
+  query: {
+    access_token: ["REDATED"],
   },
-  "headers": {
-    "Connection": ["Upgrade"],
-    "Host": ["localhost:8080"],
-    "Upgrade": ["websocket"],
+  headers: {
+    Connection: ["Upgrade"],
+    Host: ["localhost:8080"],
+    Upgrade: ["websocket"],
     "Sec-WebSocket-Version": ["13"],
     "Sec-WebSocket-Key": ["REDATED"],
     "Sec-WebSocket-Extensions": ["permessage-deflate; client_max_window_bits"],
-    "Sec-WebSocket-Protocol": ["mqtt"]
+    "Sec-WebSocket-Protocol": ["mqtt"],
   },
-  "subprotocols": ["mqtt"],
-  "clientCertificates": [
+  subprotocols: ["mqtt"],
+  clientCertificates: [
     {
-      "thumbprint": "thumbprint",
-      "content": "certificate content"
-    }
-  ]
-}
-
+      thumbprint: "thumbprint",
+      content: "certificate content",
+    },
+  ],
+};
 
 describe("Can handle connect event", function () {
   let req: IncomingMessage;
@@ -213,7 +209,7 @@ describe("Can handle connect event", function () {
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
     // Verify response body
-    expect(endSpy).toBeCalledWith("{\"mqtt\":{\"code\":4,\"reason\":\"Bad username or password\"}}");
+    expect(endSpy).toBeCalledWith('{"mqtt":{"code":4,"reason":"Bad username or password"}}');
     assert.equal(401, res.statusCode, "should be error");
   });
 
@@ -248,7 +244,7 @@ describe("Can handle connect event", function () {
                 value: "vic",
               },
             ],
-          }
+          },
         });
       },
     });
@@ -258,7 +254,9 @@ describe("Can handle connect event", function () {
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
     // Verify response body
-    expect(endSpy).toBeCalledWith("{\"subprotocol\":\"mqtt\",\"mqtt\":{\"userProperties\":[{\"name\":\"userId\",\"value\":\"vic\"}]}}");
+    expect(endSpy).toBeCalledWith(
+      '{"subprotocol":"mqtt","mqtt":{"userProperties":[{"name":"userId","value":"vic"}]}}',
+    );
     assert.equal(200, res.statusCode, "should be success");
   });
 
