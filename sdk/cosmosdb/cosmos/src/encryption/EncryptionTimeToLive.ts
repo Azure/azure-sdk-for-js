@@ -12,15 +12,15 @@ import { ErrorResponse } from "../request/ErrorResponse";
 export class EncryptionTimeToLive {
   /** method to set ttl in minutes. returns ttl in milliseconds */
   static FromMinutes(minutes: number): number {
-    if (minutes < 0) {
-      throw new ErrorResponse("TTL cannot be negative");
+    if (minutes < 0 || !Number.isInteger(minutes)) {
+      throw new ErrorResponse("Encryption Time To Live must be a positive integer.");
     }
     return minutes * 60 * 1000;
   }
   /** method to set ttl in hours. returns ttl in milliseconds */
   static FromHours(hours: number): number {
-    if (hours < 0) {
-      throw new ErrorResponse("TTL cannot be negative");
+    if (hours < 0 || !Number.isInteger(hours)) {
+      throw new ErrorResponse("Encryption Time To Live must be a positive integer");
     }
     return hours * 60 * 60 * 1000;
   }

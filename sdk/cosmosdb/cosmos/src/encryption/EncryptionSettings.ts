@@ -6,7 +6,7 @@ import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 import { EncryptionType } from "./enums";
 
 export class EncryptionSettings {
-  public id: string;
+  public id: string; // databaseRid + '/' + containerRid
 
   public containerRid: string;
 
@@ -14,6 +14,7 @@ export class EncryptionSettings {
 
   public pathsToEncrypt: string[] = [];
 
+  // key is property path
   private encryptionSettingForProperties: { [key: string]: EncryptionSettingForProperty } = {};
 
   // getContainerRid
