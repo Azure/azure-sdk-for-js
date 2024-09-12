@@ -20,10 +20,11 @@ export class ServiceClient {
   private readonly addInformationalMessage: (errorMessage: string) => void;
   private isInformationMessagePresent: (key: string) => boolean;
   private addKeyToInformationMessage: (key: string) => void;
-  /* eslint-disable */
   constructor(
+    /* eslint-disable */
     envVariables: EnvironmentVariables,
     reporterUtils: ReporterUtils,
+    /* eslint-enable */
     addErrorInformation: (errorMessage: string) => void,
     isInformationMessagePresent: (key: string) => boolean,
     addKeyToInformationMessage: (key: string) => void,
@@ -90,6 +91,7 @@ export class ServiceClient {
 
   async postTestRunShardEnd(
     result: FullResult,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     shard: Shard,
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
@@ -120,6 +122,7 @@ export class ServiceClient {
     );
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   async postTestResults(testResults: TestResult[]): Promise<void> {
     const payload: any = {
       value: testResults,
@@ -161,6 +164,7 @@ export class ServiceClient {
     return process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]!;
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   private handleErrorResponse(response: PipelineResponse, action: string) {
     const statusCode = response.status;
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
