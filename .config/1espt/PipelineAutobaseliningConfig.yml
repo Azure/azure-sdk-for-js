@@ -2451,3 +2451,10 @@ pipelines:
           lastModifiedDate: 2024-09-12
         armory:
           lastModifiedDate: 2024-09-12
+  692:
+    retail:
+      source:
+        credscan:
+          lastModifiedDate: 2024-09-12
+        armory:
+          lastModifiedDate: 2024-09-12
