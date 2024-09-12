@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.2 (2024-09-12)
 
 This release updates the Microsoft Playwright Testing library documentation and improves error messages. 
