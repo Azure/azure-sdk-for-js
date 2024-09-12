@@ -11,7 +11,7 @@ export interface AccessToken {
     expiresOnTimestamp: number;
     refreshAfterTimestamp?: number;
     token: string;
-    tokenType: string;
+    tokenType?: string;
 }
 
 // @public
@@ -37,15 +37,17 @@ export class AzureSASCredential implements SASCredential {
 }
 
 // @public
+export function computeTokenType(accessToken: AccessToken): string;
+
+// @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     claims?: string;
     enableCae?: boolean;
     proofOfPossessionOptions?: {
-        isEnabled?: boolean;
-        nonce?: string;
-        resourceRequestMethod?: HttpMethods;
-        resourceRequestUri?: string;
+        nonce: string;
+        resourceRequestMethod: HttpMethods;
+        resourceRequestUri: string;
     };
     requestOptions?: {
         timeout?: number;
@@ -57,10 +59,19 @@ export interface GetTokenOptions {
 }
 
 // @public
+export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
+
+// @public (undocumented)
+export function isBearerToken(accessToken: AccessToken): boolean;
+
+// @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
 // @public
 export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;
+
+// @public (undocumented)
+export function isPopToken(accessToken: AccessToken): boolean;
 
 // @public
 export function isSASCredential(credential: unknown): credential is SASCredential;
@@ -95,10 +106,6 @@ export interface TracingContext {
     getValue(key: symbol): unknown;
     setValue(key: symbol, value: unknown): TracingContext;
 }
-
-// Warnings were encountered during analysis:
-//
-// src/tokenCredential.ts:81:5 - (ae-forgotten-export) The symbol "HttpMethods" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
