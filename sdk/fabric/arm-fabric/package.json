@@ -11,7 +11,6 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -142,28 +141,6 @@
         "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
-      }
-    },
-    "./api": {
-      "browser": {
-        "source": "./src/api/index.ts",
-        "types": "./dist/browser/api/index.d.ts",
-        "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "source": "./src/api/index.ts",
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
-      "import": {
-        "source": "./src/api/index.ts",
-        "types": "./dist/esm/api/index.d.ts",
-        "default": "./dist/esm/api/index.js"
-      },
-      "require": {
-        "source": "./src/api/index.ts",
-        "types": "./dist/commonjs/api/index.d.ts",
-        "default": "./dist/commonjs/api/index.js"
       }
     },
     "./models": {
