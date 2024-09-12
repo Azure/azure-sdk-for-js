@@ -1,8 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
+import {
+  BroadcastSendNotificationOptions,
+  DirectSendNotificationOptions,
+  SendNotificationOptions,
+} from "../models/options.js";
 import { objectHasProperty } from "@azure/core-util";
+
+/**
+ * Determines whether the options are of type SendNotificationOptions.
+ * @param options - The options to test if SendNotificationOptions.
+ * @returns true if SendNotificationOptions otherwise false.
+ */
+export function isBroadcastSendNotificationOptions(
+  options: unknown,
+): options is BroadcastSendNotificationOptions {
+  return objectHasProperty(options, "enableTestSend");
+}
 
 /**
  * Determines whether the options are of type SendNotificationOptions.

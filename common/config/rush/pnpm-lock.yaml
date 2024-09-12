@@ -10689,6 +10689,17 @@ packages:
       fsevents: 2.3.3
     dev: false
 
+  /tsx@4.19.1:
+    resolution: {integrity: sha512-0flMz1lh74BR4wOvBjuh9olbnwqCPc35OOlfyzHba0Dc+QNUeWX/Gq2YTbnwcWPO3BMd8fkzRVrHcsR+a7z7rA==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    dependencies:
+      esbuild: 0.23.1
+      get-tsconfig: 4.8.0
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: false
+
   /tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
     dependencies:
@@ -22938,7 +22949,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-+e2HyuiiVOagxBxCfpK6Gh1UBUV4xvlvaWdXooe0k+zAyc+nXPYddrSlFaK3t+Tbtx8oyFqOgiZ5eOKrLVo2dw==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-qacmbDzaqCWZl0BfsFyUaIVuuGwKe2cOVVmgqBwS8EGp3DmUIipFHFbT1xOeAK4BOFRt0aVTyHabQNLE+reZXQ==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -22952,6 +22963,7 @@ packages:
       rimraf: 5.0.10
       tshy: 2.0.1
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.5.4
       vitest: 2.0.5(@types/node@18.19.50)(@vitest/browser@2.0.5)
     transitivePeerDependencies:

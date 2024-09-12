@@ -249,6 +249,11 @@ export interface BaiduTemplateRegistrationDescriptionCommon extends BaiduRegistr
 }
 
 // @public
+export interface BroadcastSendNotificationOptions extends OperationOptions {
+    enableTestSend?: boolean;
+}
+
+// @public
 export interface BrowserInstallation extends BrowserInstallationCommon {
     platform: "browser";
 }
@@ -962,13 +967,12 @@ export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate"
 
 // @public
 export interface ScheduleNotificationOptions extends OperationOptions {
-    tagExpression?: string;
+    tagExpression: string;
 }
 
 // @public
-export interface SendNotificationOptions extends OperationOptions {
-    enableTestSend?: boolean;
-    tagExpression?: string;
+export interface SendNotificationOptions extends BroadcastSendNotificationOptions {
+    tagExpression: string;
 }
 
 // @public
