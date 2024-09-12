@@ -38,6 +38,10 @@
 - Improved error messages for `AzurePipelinesCredential` for Authentication Failed scenarios. [#30387](https://github.com/Azure/azure-sdk-for-js/pull/30387)
 - Improved token parsing for `AzurePowerShellCredential` even with warning messages. [#30508](https://github.com/Azure/azure-sdk-for-js/pull/30508)
 
+### Other Changes
+
+- `ManagedIdentityCredential` migrated to use [MSAL](https://www.npmjs.com/package/@azure/msal-node) for handling the majority of the managed identity implementation. [#30172](https://github.com/Azure/azure-sdk-for-js/pull/30172)
+
 ## 4.5.0-beta.1 (2024-07-17)
 
 ### Other Changes
