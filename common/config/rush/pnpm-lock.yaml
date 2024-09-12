@@ -17563,7 +17563,7 @@ packages:
     dev: false
 
   file:projects/arm-privatedns.tgz:
-    resolution: {integrity: sha512-te0zKXvLfbSL2nhRF7iu5i35dD8AnHcZkDr+aPyhTviHCpVna0zsrBUZ/McCYQZzNImcXICQy0vXG0Kv0oPHtA==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-RRSD8IHUtEEiJpow9A8ixQ5mJ4/a62hMPlHiqyA82zWrX2HGcm/N4EpSEeoW6I0gAlpX4PUxkiHtJr5dfevNmQ==, tarball: file:projects/arm-privatedns.tgz}
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
@@ -17584,6 +17584,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
+      tsx: 4.19.0
       typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:

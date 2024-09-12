@@ -1,15 +1,14 @@
 # Release History
-
-## 3.2.1 (Unreleased)
-
+    
+## 3.3.0 (2024-09-12)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias ResolutionPolicy
+  - Interface VirtualNetworkLink has a new optional parameter resolutionPolicy
+  - Added Enum KnownResolutionPolicy
+    
+    
 ## 3.2.0 (2023-05-10)
     
 ### Features Added
@@ -34,7 +33,7 @@
   - Added Interface VirtualNetworkLink
     
     
-## 3.0.1 (2022-04-28)
+### 3.0.1 (2022-04-28)
 
 ### Features Added
 
@@ -48,4 +47,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

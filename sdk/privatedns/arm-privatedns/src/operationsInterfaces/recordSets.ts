@@ -18,7 +18,7 @@ import {
   RecordSetsUpdateResponse,
   RecordSetsDeleteOptionalParams,
   RecordSetsGetOptionalParams,
-  RecordSetsGetResponse
+  RecordSetsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams
+    options?: RecordSetsListByTypeOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
    * Lists all record sets in a Private DNS zone.
@@ -46,7 +46,7 @@ export interface RecordSets {
   list(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: RecordSetsListOptionalParams
+    options?: RecordSetsListOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet>;
   /**
    * Creates or updates a record set within a Private DNS zone.
@@ -64,7 +64,7 @@ export interface RecordSets {
     recordType: RecordType,
     relativeRecordSetName: string,
     parameters: RecordSet,
-    options?: RecordSetsCreateOrUpdateOptionalParams
+    options?: RecordSetsCreateOrUpdateOptionalParams,
   ): Promise<RecordSetsCreateOrUpdateResponse>;
   /**
    * Updates a record set within a Private DNS zone.
@@ -81,7 +81,7 @@ export interface RecordSets {
     recordType: RecordType,
     relativeRecordSetName: string,
     parameters: RecordSet,
-    options?: RecordSetsUpdateOptionalParams
+    options?: RecordSetsUpdateOptionalParams,
   ): Promise<RecordSetsUpdateResponse>;
   /**
    * Deletes a record set from a Private DNS zone. This operation cannot be undone.
@@ -97,7 +97,7 @@ export interface RecordSets {
     privateZoneName: string,
     recordType: RecordType,
     relativeRecordSetName: string,
-    options?: RecordSetsDeleteOptionalParams
+    options?: RecordSetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a record set.
@@ -112,6 +112,6 @@ export interface RecordSets {
     privateZoneName: string,
     recordType: RecordType,
     relativeRecordSetName: string,
-    options?: RecordSetsGetOptionalParams
+    options?: RecordSetsGetOptionalParams,
   ): Promise<RecordSetsGetResponse>;
 }

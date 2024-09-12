@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all record sets in a Private DNS zone.
  *
  * @summary Lists all record sets in a Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/RecordSetALLList.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetALLList.json
  */
 async function getPrivateDnsZoneAllRecordSets() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getPrivateDnsZoneAllRecordSets() {
   const resArray = new Array();
   for await (let item of client.recordSets.list(
     resourceGroupName,
-    privateZoneName
+    privateZoneName,
   )) {
     resArray.push(item);
   }
