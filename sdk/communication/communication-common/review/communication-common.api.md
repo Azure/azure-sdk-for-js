@@ -88,12 +88,7 @@ export class EntraTokenCredential implements TokenCredential_2 {
     dispose(): void;
     // (undocumented)
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
-    // (undocumented)
-    getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
-
-// @public (undocumented)
-export const exchangeEntraToken: (resourceEndpoint: string, entraToken: string) => Promise<AccessToken>;
 
 // @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
