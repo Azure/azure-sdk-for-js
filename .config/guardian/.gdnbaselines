@@ -6,24 +6,24 @@
   "baselines": {
     "default": {
       "name": "default",
-      "createdDate": "2024-09-11 13:15:07Z",
-      "lastUpdatedDate": "2024-09-11 13:15:07Z"
+      "createdDate": "2024-09-13 00:02:47Z",
+      "lastUpdatedDate": "2024-09-13 00:02:47Z"
     }
   },
   "results": {
-    "b2f9d1dcd2c12443a998ec07b5d936eff209f4e7716fe8d05a93fbdfcf233d26": {
-      "signature": "b2f9d1dcd2c12443a998ec07b5d936eff209f4e7716fe8d05a93fbdfcf233d26",
+    "2a38961ffbfde05b95dbf416edbab960490b997393516f57fade1deaee4976a6": {
+      "signature": "2a38961ffbfde05b95dbf416edbab960490b997393516f57fade1deaee4976a6",
       "alternativeSignatures": [],
-      "target": "sdk/batch/batch/test/batchClient.spec.ts",
-      "line": 572,
+      "target": "sdk/batch/arm-batch/test/fakeTestSecrets.ts",
+      "line": 7,
       "memberOf": [
         "default"
       ],
       "tool": "credscan",
       "ruleId": "CSCAN-GENERAL0060",
-      "createdDate": "2024-09-11 13:15:07Z",
-      "expirationDate": "2025-03-01 05:17:07Z",
-      "justification": "This error is baselined with an expiration date of 180 days from 2024-09-12 05:17:07Z"
+      "createdDate": "2024-09-13 00:02:47Z",
+      "expirationDate": "2025-03-02 00:13:11Z",
+      "justification": "This error is baselined with an expiration date of 180 days from 2024-09-13 00:13:11Z"
     }
   }
 }
