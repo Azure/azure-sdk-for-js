@@ -465,9 +465,16 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
       }
     }
-
+    if (options.proofOfPossessionOptions) {
+      (silentRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
+      (silentRequest as any).authenticationScheme = "pop";
+      (silentRequest as any).resourceRequestMethod =
+        options.proofOfPossessionOptions.resourceRequestMethod;
+      (silentRequest as any).resourceRequestUri =
+        options.proofOfPossessionOptions.resourceRequestUri;
+    }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest);
+    return app.acquireTokenSilent(silentRequest as any);
   }
 
   /**
@@ -803,9 +810,16 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       } else {
         msalLogger.verbose("Attempting broker authentication without the default broker account");
       }
-
+      if (options.proofOfPossessionOptions) {
+        (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
+        (interactiveRequest as any).authenticationScheme = "pop";
+        (interactiveRequest as any).resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        (interactiveRequest as any).resourceRequestUri =
+          options.proofOfPossessionOptions.resourceRequestUri;
+      }
       try {
-        return await app.acquireTokenInteractive(interactiveRequest);
+        return await app.acquireTokenInteractive(interactiveRequest as any);
       } catch (e: any) {
         msalLogger.verbose(`Failed to authenticate through the broker: ${e.message}`);
         // If we tried to use the default broker account and failed, fall back to interactive authentication
