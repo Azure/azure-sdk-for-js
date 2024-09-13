@@ -26,6 +26,7 @@ import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult"
 import { TestRun, TestRunConfig } from "../model/testRun";
 import { CIInfo, CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
+import { StorageUri } from "../model/storageUri";
 
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
@@ -318,23 +319,28 @@ class ReporterUtils {
     },
   };
 
-  public static isTimeGreaterThanCurrentPlus10Minutes(sasUri: string): boolean {
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  public static isTimeGreaterThanCurrentPlus10Minutes(sasUri: StorageUri): boolean {
     try {
-      const url = new URL(sasUri);
+      const url = new URL(sasUri.uri);
       const params = new URLSearchParams(url.search);
       const expiryTime = params.get("se"); // 'se' is the query parameter for the expiry time
-      reporterLogger.info(`\nExpiryTimeFromSasUri: ${expiryTime}`);
       if (expiryTime) {
         const timestampFromIsoString = new Date(expiryTime).getTime();
         const currentTimestampPlus10Minutes = Date.now() + 10 * 60 * 1000;
-        reporterLogger.info(
-          `\nSasUriValidTillTime: ${timestampFromIsoString}, CurrentTime: ${currentTimestampPlus10Minutes}`,
-        );
-        return timestampFromIsoString > currentTimestampPlus10Minutes;
+        const isSasValidityGreaterThanCurrentTimePlus10Minutes =
+          timestampFromIsoString > currentTimestampPlus10Minutes;
+        if (!isSasValidityGreaterThanCurrentTimePlus10Minutes) {
+          reporterLogger.info(
+            `Sas rotation required because close to expiry, SasUriValidTillTime: ${timestampFromIsoString}, CurrentTime: ${currentTimestampPlus10Minutes}`,
+          );
+        }
+        return isSasValidityGreaterThanCurrentTimePlus10Minutes;
       }
+      reporterLogger.error(`Sas rotation required because expiry param not found.`);
       return false;
     } catch (error) {
-      reporterLogger.info(`\n${error}.`);
+      reporterLogger.error(`Sas rotation required because of ${error}.`);
       return false;
     }
   }
@@ -344,7 +350,7 @@ class ReporterUtils {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err) {
+    } catch (error) {
       return 0;
     }
   }
