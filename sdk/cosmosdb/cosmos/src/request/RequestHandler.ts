@@ -82,7 +82,8 @@ async function httpRequest(
     pipelineRequest.agent = requestContext.requestAgent;
   } else {
     const parsedUrl = new URL(url);
-    pipelineRequest.agent = parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
+    pipelineRequest.agent = parsedUrl.protocol === "http:" ? defaultHttpAgent : defaultHttpsAgent;
+    pipelineRequest.allowInsecureConnection = parsedUrl.protocol === "http:";
   }
 
   const startTimeUTCInMs = getCurrentTimestampInMs();
@@ -130,12 +131,12 @@ async function httpRequest(
     const errorResponse: ErrorResponse = new ErrorResponse(result.message);
     logger.warning(
       response.status +
-        " " +
-        requestContext.endpoint +
-        " " +
-        requestContext.path +
-        " " +
-        result.message,
+      " " +
+      requestContext.endpoint +
+      " " +
+      requestContext.path +
+      " " +
+      result.message,
     );
 
     errorResponse.code = response.status;
