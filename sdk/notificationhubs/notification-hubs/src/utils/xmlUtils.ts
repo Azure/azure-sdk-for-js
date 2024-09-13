@@ -117,8 +117,7 @@ export async function parseXMLError(bodyText: string): Promise<string | undefine
     ) {
       return xmlError["Error"]["Detail"];
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err) {
+  } catch {
     // nothing to do
   }
 

@@ -9,9 +9,9 @@ import {
 import { objectHasProperty } from "@azure/core-util";
 
 /**
- * Determines whether the options are of type SendNotificationOptions.
- * @param options - The options to test if SendNotificationOptions.
- * @returns true if SendNotificationOptions otherwise false.
+ * Determines whether the options are of type BroadcastSendNotificationOptions.
+ * @param options - The options to test if BroadcastSendNotificationOptions.
+ * @returns true if BroadcastSendNotificationOptions otherwise false.
  */
 export function isBroadcastSendNotificationOptions(
   options: unknown,
