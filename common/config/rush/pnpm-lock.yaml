@@ -1339,6 +1339,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@33.3.0:
+    resolution: {integrity: sha512-aaO08HA/+/JhOpdGMwxRx1rhVC611vMHAA6SWMuC0xoPjSa5Vvveskv8Odg/XRYwtiwRehpdsYNsF4Lgq4U6Pg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.7.2
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.16.3
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-recoveryservices@5.4.0:
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
     engines: {node: '>=14.0.0'}
@@ -16591,10 +16606,11 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-adVauKE8Rcf9RYJsAdyxRIoda3tOEidsxWudyXfNfyRCLi7/RtJvW9x3OJVO1GPMxZDdBqVW9CVXjvT45ZcrOg==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-n64MRHoEJ+cyGo4XXjGj4+QKWdE6lldGC228Igqjq0Vw+/TJrNRc/+TAezTUbThlTnyyXQY/mKRua5iowCjPxw==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 33.3.0
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.8(@types/node@18.19.50)
       '@types/node': 18.19.50
@@ -16808,7 +16824,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-jzVX655DGAScA32dW/iYkMYwrm1AYinRpn1bkwNuX6gBHyPTH8Vp6GIu+68bsZeJDDgq2yySBfqUMmtWgYFl3Q==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-fqHtZnW+Uo3Vyv6YJDCK8NDzrkQ8e5KbJDHXwqP8I2GVWL2KB0bMY05joo7wdt/QCB8sB5fKqyZ/A//7Lno2zg==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -16827,10 +16843,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.4.5)
+      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.0
-      typescript: 5.4.5
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
