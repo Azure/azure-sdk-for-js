@@ -274,6 +274,7 @@ class ReporterUtils {
 
       // Check if the payload has an 'aud' claim
       return "aud" in payloadObject;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
@@ -317,19 +318,32 @@ class ReporterUtils {
     },
   };
 
-  public static isTimeGreaterThanCurrentPlus10Minutes(isoString: string): boolean {
-    // Parse ISO 8601 string into a timestamp
-    const timestampFromIsoString: number = Date.parse(isoString);
-    // Calculate the current timestamp plus 10 minutes
-    const currentTimestampPlus10Minutes: number = Date.now() + 10 * 60 * 1000;
-    // Compare the timestamps
-    return timestampFromIsoString > currentTimestampPlus10Minutes;
+  public static isTimeGreaterThanCurrentPlus10Minutes(sasUri: string): boolean {
+    try {
+      const url = new URL(sasUri);
+      const params = new URLSearchParams(url.search);
+      const expiryTime = params.get("se"); // 'se' is the query parameter for the expiry time
+      reporterLogger.error(`\nExpiryTimeFromSasUri: ${expiryTime}`);
+      if (expiryTime) {
+        const timestampFromIsoString = new Date(expiryTime).getTime();
+        const currentTimestampPlus10Minutes = Date.now() + 10 * 60 * 1000;
+        reporterLogger.error(
+          `\nSasUriValidTillTime: ${timestampFromIsoString}, CurrentTime: ${currentTimestampPlus10Minutes}`,
+        );
+        return timestampFromIsoString > currentTimestampPlus10Minutes;
+      }
+      return false;
+    } catch (error) {
+      reporterLogger.error(`\n${error}.`);
+      return false;
+    }
   }
 
   public static getFileSize(attachmentPath: string): number {
     try {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       return 0;
     }
@@ -435,6 +449,7 @@ class ReporterUtils {
       if (obj.tag && Array.isArray(obj.tag)) {
         tags = tags.concat(obj.tag);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Ignore parsing errors
     }
