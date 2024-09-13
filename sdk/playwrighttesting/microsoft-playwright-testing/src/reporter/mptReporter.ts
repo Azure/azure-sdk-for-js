@@ -317,7 +317,7 @@ class MPTReporter implements Reporter {
         )}`;
         if (
           this.sasUri === undefined ||
-          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
+          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
         ) {
           // Renew the sas uri
           this.sasUri = await this.serviceClient.createStorageUri();
@@ -330,7 +330,7 @@ class MPTReporter implements Reporter {
       const rawTestResult = this.testRawResults.get(testExecutionId);
       if (
         this.sasUri === undefined ||
-        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
+        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
       ) {
         // Renew the sas uri
         this.sasUri = await this.serviceClient.createStorageUri();
