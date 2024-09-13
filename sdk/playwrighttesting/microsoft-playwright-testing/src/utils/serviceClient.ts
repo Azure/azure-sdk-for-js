@@ -139,8 +139,6 @@ export class ServiceClient {
       return;
     }
     this.handleErrorResponse(response, Constants.postTestResults);
-
-    throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
   async createStorageUri(): Promise<StorageUri> {
