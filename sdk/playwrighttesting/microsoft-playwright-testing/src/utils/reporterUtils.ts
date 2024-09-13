@@ -323,18 +323,18 @@ class ReporterUtils {
       const url = new URL(sasUri);
       const params = new URLSearchParams(url.search);
       const expiryTime = params.get("se"); // 'se' is the query parameter for the expiry time
-      reporterLogger.error(`\nExpiryTimeFromSasUri: ${expiryTime}`);
+      reporterLogger.info(`\nExpiryTimeFromSasUri: ${expiryTime}`);
       if (expiryTime) {
         const timestampFromIsoString = new Date(expiryTime).getTime();
         const currentTimestampPlus10Minutes = Date.now() + 10 * 60 * 1000;
-        reporterLogger.error(
+        reporterLogger.info(
           `\nSasUriValidTillTime: ${timestampFromIsoString}, CurrentTime: ${currentTimestampPlus10Minutes}`,
         );
         return timestampFromIsoString > currentTimestampPlus10Minutes;
       }
       return false;
     } catch (error) {
-      reporterLogger.error(`\n${error}.`);
+      reporterLogger.info(`\n${error}.`);
       return false;
     }
   }
