@@ -8,7 +8,6 @@ import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
   AnalyzeResultOperation,
-  ContentType,
   GeneratedClient,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
@@ -425,11 +424,19 @@ export class DocumentAnalysisClient {
       (abortSignal) => {
         const [contentType, analyzeRequest] = toAnalyzeRequest(input);
 
-        return this._restClient.documentModels.analyzeDocument(initialModelId, contentType as any, {
-          ...options,
-          abortSignal,
-          analyzeRequest,
-        });
+        if (contentType === "application/json") {
+          return this._restClient.documentModels.analyzeDocument(initialModelId, contentType, {
+            ...options,
+            abortSignal,
+            analyzeRequest,
+          });
+        } else {
+          return this._restClient.documentModels.analyzeDocument(initialModelId, contentType, {
+            ...options,
+            abortSignal,
+            analyzeRequest,
+          });
+        }
       },
       {
         initialModelId,
@@ -557,15 +564,27 @@ export class DocumentAnalysisClient {
       async (abortSignal) => {
         const [contentType, classifyRequest] = toAnalyzeRequest(input);
 
-        return this._restClient.documentClassifiers.classifyDocument(
-          classifierId,
-          contentType as any,
-          {
-            ...options,
-            abortSignal,
-            classifyRequest,
-          },
-        );
+        if (contentType === "application/json") {
+          return this._restClient.documentClassifiers.classifyDocument(
+            classifierId,
+            contentType as any,
+            {
+              ...options,
+              abortSignal,
+              classifyRequest,
+            },
+          );          
+        } else {
+          return this._restClient.documentClassifiers.classifyDocument(
+            classifierId,
+            contentType as any,
+            {
+              ...options,
+              abortSignal,
+              classifyRequest,
+            },
+          );          
+        }
       },
       {
         initialModelId: classifierId,
@@ -749,7 +768,7 @@ export class DocumentAnalysisClient {
  */
 function toAnalyzeRequest(
   input: DocumentSource,
-): ["application/json", AnalyzeDocumentRequest] | [ContentType, FormRecognizerRequestBody] {
+): ["application/json", AnalyzeDocumentRequest] | ["application/octet-stream", FormRecognizerRequestBody] {
   switch (input.kind) {
     case "body":
       return ["application/octet-stream", input.body];
