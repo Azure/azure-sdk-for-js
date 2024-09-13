@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Replica, _ReplicaListResult } from "../../models/models.js";
 import { DocumentDBContext as Client } from "../index.js";

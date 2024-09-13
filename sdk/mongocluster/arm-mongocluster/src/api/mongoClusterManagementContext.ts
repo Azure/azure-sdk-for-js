@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
 import { ClientOptions, Client, getClient } from "@azure-rest/core-client";

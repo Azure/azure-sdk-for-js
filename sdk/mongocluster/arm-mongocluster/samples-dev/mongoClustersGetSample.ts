@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";

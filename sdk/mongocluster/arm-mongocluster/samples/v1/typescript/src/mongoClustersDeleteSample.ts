@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -14,8 +14,7 @@ async function deletesAMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.delete("TestResourceGroup", "myMongoCluster");
-  console.log(result);
+  await client.mongoClusters.delete("TestResourceGroup", "myMongoCluster");
 }
 
 async function main() {

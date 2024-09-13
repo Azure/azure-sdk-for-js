@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MongoClusterManagementClient } from "@azure/arm-mongocluster";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -14,11 +14,10 @@ async function promotesAReplicaMongoClusterResourceToAPrimaryRole() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.promote("TestGroup", "myMongoCluster", {
+  await client.mongoClusters.promote("TestGroup", "myMongoCluster", {
     promoteOption: "Forced",
     mode: "Switchover",
   });
-  console.log(result);
 }
 
 async function main() {
