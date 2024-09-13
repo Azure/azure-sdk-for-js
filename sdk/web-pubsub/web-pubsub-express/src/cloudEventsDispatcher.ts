@@ -19,6 +19,7 @@ import type {
   MqttConnectRequest,
   MqttConnectEventErrorResponse,
   MqttConnectionContextProperties,
+  ConnectEventErrorResponse,
 } from "./cloudEventsProtocols.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
@@ -58,9 +59,14 @@ function getConnectResponseHandler(
       response.statusCode = code;
       response.end(detail ?? "");
     },
-    failWithMqttResponse(res: MqttConnectEventErrorResponse) {
-      response.statusCode = getStatusCodeFromMqttConnectCode(res.mqtt.code);
-      response.end(JSON.stringify(res));
+    failWith(res: ConnectEventErrorResponse | MqttConnectEventErrorResponse) {
+      if ("mqtt" in res) {
+        response.statusCode = getStatusCodeFromMqttConnectCode(res.mqtt.code);
+        response.end(JSON.stringify(res));
+      } else {
+        response.statusCode = res.code;
+        response.end(JSON.stringify(res));
+      }
     },
   };
 

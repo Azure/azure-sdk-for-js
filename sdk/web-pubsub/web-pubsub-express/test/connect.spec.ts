@@ -195,7 +195,7 @@ describe("Can handle connect event", function () {
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleConnect: async (_, response) => {
-        response.failWithMqttResponse({
+        response.failWith({
           mqtt: {
             code: MqttV311ConnectReturnCode.BadUsernameOrPassword,
             reason: "Bad username or password",

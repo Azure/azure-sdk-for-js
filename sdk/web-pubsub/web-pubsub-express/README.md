@@ -141,6 +141,8 @@ const handler = new WebPubSubEventHandler("chat", {
   handleConnect: (req, res) => {
     // auth the connection and reject the connection if auth failed
     res.fail(401, "Unauthorized");
+    // Or you can use the following to return a detailed error response
+    // res.failWith({ code: 401, detail: "Unauthorized" });
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
 });
@@ -163,9 +165,9 @@ const handler = new WebPubSubEventHandler("chat", {
   handleConnect: (req, res) => {
     // auth the connection and reject the connection if auth failed
     if (req.context.kind === ConnectionContextKind.Mqtt) { // return mqtt error response when request is of MQTT kind
-      res.failWithMqttResponse({ mqtt: { code: MqttV500ConnectReasonCode.NotAuthorized } });
+      res.failWith({ mqtt: { code: MqttV500ConnectReasonCode.NotAuthorized } });
     } else {
-      res.fail(401, "Unauthorized");
+      res.failWith({ code: 401, detail: "Unauthorized" });
     }
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]

@@ -17,6 +17,12 @@ export interface ConnectedRequest {
 }
 
 // @public
+export interface ConnectEventErrorResponse {
+    code: number;
+    detail?: string;
+}
+
+// @public
 export interface ConnectionContext {
     connectionId: string;
     eventName: string;
@@ -59,7 +65,7 @@ export interface ConnectResponse {
 // @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
-    failWithMqttResponse(response: MqttConnectEventErrorResponse): void;
+    failWith(response: ConnectEventErrorResponse | MqttConnectEventErrorResponse): void;
     setState(name: string, value: unknown): void;
     success(response?: ConnectResponse | MqttConnectResponse): void;
 }
