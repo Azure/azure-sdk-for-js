@@ -41,7 +41,7 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
           proofOfPossessionOptions: {
             resourceRequestMethod: "GET",
             resourceRequestUri: "https://graph.microsoft.com/v1.0/me",
-            nonce: "gf",
+            nonce: "uhkgf",
           },
         });
         assert.exists(accessToken.token);
