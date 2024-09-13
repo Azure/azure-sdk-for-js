@@ -37,7 +37,13 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
       const credential = new InteractiveBrowserCredential(interactiveBrowserCredentialOptions);
 
       try {
-        const accessToken = await credential.getToken(scope, {});
+        const accessToken = await credential.getToken(scope, {
+          proofOfPossessionOptions: {
+            resourceRequestMethod: "GET",
+            resourceRequestUri: "https://graph.microsoft.com/v1.0/me",
+            nonce: "gf",
+          },
+        });
         assert.exists(accessToken.token);
         console.log(accessToken?.tokenType);
       } catch (e) {
