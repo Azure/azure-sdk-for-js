@@ -32,11 +32,6 @@ export interface ConnectionString {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
@@ -114,7 +109,9 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownCreateMode {
     Default = "Default",
-    PointInTimeRestore = "PointInTimeRestore"
+    GeoReplica = "GeoReplica",
+    PointInTimeRestore = "PointInTimeRestore",
+    Replica = "Replica"
 }
 
 // @public
@@ -141,6 +138,11 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownPreviewFeature {
+    GeoReplicas = "GeoReplicas"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -156,9 +158,36 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownPromoteMode {
+    Switchover = "Switchover"
+}
+
+// @public
+export enum KnownPromoteOption {
+    Forced = "Forced"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownReplicationRole {
+    AsyncReplica = "AsyncReplica",
+    GeoAsyncReplica = "GeoAsyncReplica",
+    Primary = "Primary"
+}
+
+// @public
+export enum KnownReplicationState {
+    Active = "Active",
+    Broken = "Broken",
+    Catchup = "Catchup",
+    Provisioning = "Provisioning",
+    Reconfiguring = "Reconfiguring",
+    Updating = "Updating"
 }
 
 // @public
@@ -186,12 +215,22 @@ export interface MongoClusterProperties {
     readonly connectionString?: string;
     createMode?: CreateMode;
     readonly earliestRestoreTime?: string;
+    readonly infrastructureVersion?: string;
     nodeGroupSpecs?: NodeGroupSpec[];
+    previewFeatures?: PreviewFeature[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+    readonly replica?: ReplicationProperties;
+    replicaParameters?: MongoClusterReplicaParameters;
     restoreParameters?: MongoClusterRestoreParameters;
     serverVersion?: string;
+}
+
+// @public
+export interface MongoClusterReplicaParameters {
+    sourceLocation: string;
+    sourceResourceId: string;
 }
 
 // @public
@@ -231,6 +270,11 @@ export interface MongoClustersListOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface MongoClustersPromoteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type MongoClusterStatus = string;
 
 // @public
@@ -249,6 +293,7 @@ export interface MongoClusterUpdateProperties {
     administratorLogin?: string;
     administratorLoginPassword?: string;
     nodeGroupSpecs?: NodeGroupSpec[];
+    previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
     serverVersion?: string;
 }
@@ -290,16 +335,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
+export type PreviewFeature = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -372,6 +408,18 @@ export interface PrivateLinksListByMongoClusterOptionalParams extends OperationO
 }
 
 // @public
+export type PromoteMode = string;
+
+// @public
+export type PromoteOption = string;
+
+// @public
+export interface PromoteReplicaRequest {
+    mode?: PromoteMode;
+    promoteOption: PromoteOption;
+}
+
+// @public
 export type ProvisioningState = string | ResourceProvisioningState | "InProgress" | "Updating" | "Dropping";
 
 // @public
@@ -380,6 +428,28 @@ export interface ProxyResource extends Resource {
 
 // @public
 export type PublicNetworkAccess = string;
+
+// @public
+export interface Replica extends ProxyResource {
+    properties?: MongoClusterProperties;
+}
+
+// @public
+export interface ReplicasListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProperties {
+    readonly replicationState?: ReplicationState;
+    readonly role?: ReplicationRole;
+    readonly sourceResourceId?: string;
+}
+
+// @public
+export type ReplicationRole = string;
+
+// @public
+export type ReplicationState = string;
 
 // @public
 export interface Resource {
@@ -409,7 +479,7 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
-export type Versions = "2024-03-01-preview";
+export type Versions = "2024-03-01-preview" | "2024-06-01-preview" | "2024-07-01";
 
 // (No @packageDocumentation comment for this package)
 

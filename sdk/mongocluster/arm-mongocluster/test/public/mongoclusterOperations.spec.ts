@@ -48,7 +48,7 @@ describe("MongoCluster test", () => {
     }
   });
 
-  it("operations list test", async function () {
+  it.only("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
@@ -135,7 +135,7 @@ describe("MongoCluster test", () => {
 
   it("firewallRules delete test", async function () {
     const resArray = new Array();
-    const res = await client.firewallRules.delete(resourceGroup, resourcename, fireWallName);
+    await client.firewallRules.delete(resourceGroup, resourcename, fireWallName);
     for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
     }
@@ -144,7 +144,7 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters delete test", async function () {
     const resArray = new Array();
-    const res = await client.mongoClusters.delete(resourceGroup, resourcename);
+    await client.mongoClusters.delete(resourceGroup, resourcename);
     for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

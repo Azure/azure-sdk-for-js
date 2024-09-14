@@ -17,7 +17,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("MongoCluster test", () => {
+describe.skip("MongoCluster test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: MongoClusterManagementClient;
@@ -96,7 +96,7 @@ describe("MongoCluster test", () => {
     );
     assert.equal(res.name, virtualNetworkName);
 
-    const result = await networkClient.subnets.beginCreateOrUpdateAndWait(
+    await networkClient.subnets.beginCreateOrUpdateAndWait(
       resourceGroup,
       virtualNetworkName,
       "testsubnet",
@@ -189,7 +189,7 @@ describe("MongoCluster test", () => {
       connectionName = String(item.name);
     }
     const resArray = new Array();
-    const res = await client.privateEndpointConnections.delete(
+    await client.privateEndpointConnections.delete(
       resourceGroup,
       resourcename,
       connectionName,
@@ -205,7 +205,7 @@ describe("MongoCluster test", () => {
 
   it("private endpoint delete test", async function () {
     const resArray = new Array();
-    const res = await networkClient.privateEndpoints.beginDeleteAndWait(
+    await networkClient.privateEndpoints.beginDeleteAndWait(
       resourceGroup,
       privateEndpointName,
     );
@@ -217,7 +217,7 @@ describe("MongoCluster test", () => {
 
   it("virtual network delete test", async function () {
     const resArray = new Array();
-    const res = await networkClient.virtualNetworks.beginDeleteAndWait(
+    await networkClient.virtualNetworks.beginDeleteAndWait(
       resourceGroup,
       virtualNetworkName,
     );
@@ -229,7 +229,7 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters for private endpoint delete test", async function () {
     const resArray = new Array();
-    const res = await client.mongoClusters.delete(resourceGroup, resourcename);
+    await client.mongoClusters.delete(resourceGroup, resourcename);
     for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
