@@ -52,7 +52,7 @@ node dist/discoTemplateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SUBSCRIPTIONID="<subscriptionid>" RESOURCEGROUPNAME="<resourcegroupname>" WORKSPACENAME="<workspacename>" REGION="<region>" PARTIAL_NAME="<partial name>" node dist/discoTemplateSample.js
+npx cross-env SUBSCRIPTION_ID="<subscription id>" RESOURCE_GROUP_NAME="<resource group name>" WORKSPACE_NAME="<workspace name>" REGION="<region>" PARTIAL_NAME="<partial name>" node dist/discoTemplateSample.js
 ```
 
 ## Next Steps

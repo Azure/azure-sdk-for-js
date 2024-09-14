@@ -48,12 +48,15 @@ async function main() {
   const external_id_mapping = JSON.parse(process.env.MAPPING);
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
+    endpoint +
+    "/subscriptions/" +
+    subscription_id +
+    "/resourceGroups/" +
+    resource_group +
+    "/workspaces/" +
     workspace_name,
     credential,
-    {}
+    {},
   );
 
   // Using the client, we can update each asset and append the tracking id of the update to our update ID list,

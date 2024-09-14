@@ -34,10 +34,7 @@ async function main() {
   const discovery_group_description = "This is a sample description for a discovery group";
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
     {}
   );
