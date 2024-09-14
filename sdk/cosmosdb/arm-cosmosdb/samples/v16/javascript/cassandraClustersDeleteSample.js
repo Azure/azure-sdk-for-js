@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a managed Cassandra cluster.
  *
  * @summary Deletes a managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBManagedCassandraClusterDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-08-15/examples/CosmosDBManagedCassandraClusterDelete.json
  */
 async function cosmosDbManagedCassandraClusterDelete() {
   const subscriptionId =
