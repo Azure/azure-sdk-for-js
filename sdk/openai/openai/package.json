@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "A companion library to openai for Azure OpenAI.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -103,7 +103,6 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
-    "@azure-rest/core-client": "^1.0.0",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
@@ -129,6 +128,7 @@
     "vitest": "^2.0.4"
   },
   "dependencies": {
+    "@azure-rest/core-client": "^2.2.0",
     "tslib": "^2.6.3"
   },
   "//sampleConfiguration": {

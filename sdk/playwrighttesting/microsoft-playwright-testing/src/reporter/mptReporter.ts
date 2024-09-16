@@ -12,7 +12,7 @@ import type {
 import { reporterLogger } from "../common/logger";
 import {
   Constants,
-  InternalServiceEnvironmentVariable,
+  InternalEnvironmentVariables,
   TestResultErrorConstants,
 } from "../common/constants";
 import { EnvironmentVariables } from "../common/environmentVariables";
@@ -43,7 +43,7 @@ import { ServiceErrorMessageConstants } from "../common/messages";
  * import { defineConfig } from "@playwright/test";
  *
  * export default defineConfig({
- *  reporter: [["@azure/microsoft-playwright-testing"]]
+ *  reporter: [["@azure/microsoft-playwright-testing/reporter"]]
  * });
  * ```
  */
@@ -89,9 +89,17 @@ class MPTReporter implements Reporter {
     }
   }
 
-  private _addInformationalMessage(message: string): void {
+  private _addInformationalMessage = (message: string): void => {
     this.informationalMessages.push(message);
-  }
+  };
+
+  private _addKeyToInformationMessage = (key: string): void => {
+    this.processedErrorMessageKeys.push(key);
+  };
+
+  private _isInformationMessagePresent = (key: string): boolean => {
+    return this.processedErrorMessageKeys.includes(key);
+  };
 
   /**
    * @public
@@ -106,7 +114,13 @@ class MPTReporter implements Reporter {
     this.initializeMPTReporter();
     this.reporterUtils = new ReporterUtils(this.envVariables, config, suite);
     if (this.isTokenValid && this.isRegionValid) {
-      this.serviceClient = new ServiceClient(this.envVariables, this.reporterUtils);
+      this.serviceClient = new ServiceClient(
+        this.envVariables,
+        this.reporterUtils,
+        this._addInformationalMessage,
+        this._isInformationMessagePresent,
+        this._addKeyToInformationMessage,
+      );
       this.promiseOnBegin = this._onBegin();
     }
   }
@@ -176,11 +190,12 @@ class MPTReporter implements Reporter {
           return values;
         });
         try {
-          await this.serviceClient.patchTestRunShardEnd(
+          await this.serviceClient.postTestRunShardEnd(
             result,
             this.shard,
             this.errorMessages,
             this.uploadMetadata,
+            this.numWorkers,
           );
           reporterLogger.info(`\nTest run successfully uploaded.`);
 
@@ -200,6 +215,7 @@ class MPTReporter implements Reporter {
   }
 
   private async _onBegin(): Promise<boolean> {
+    process.stdout.write(`\n`);
     try {
       const testRunResponse: TestRun | undefined = await this.serviceClient.patchTestRun(
         this.ciInfo,
@@ -208,9 +224,9 @@ class MPTReporter implements Reporter {
         `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
       );
       process.stdout.write(
-        `\nInitializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
+        `Initializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
       );
-      const shardResponse = await this.serviceClient.patchTestRunShardStart();
+      const shardResponse = await this.serviceClient.postTestRunShardStart();
       this.shard = shardResponse;
       // Set test report link as environment variable. If/else to check if environment variable defined or not.
       if (
@@ -301,10 +317,10 @@ class MPTReporter implements Reporter {
         )}`;
         if (
           this.sasUri === undefined ||
-          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
+          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
         ) {
           // Renew the sas uri
-          this.sasUri = await this.serviceClient.getStorageUri();
+          this.sasUri = await this.serviceClient.createStorageUri();
           reporterLogger.info(
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
@@ -314,10 +330,10 @@ class MPTReporter implements Reporter {
       const rawTestResult = this.testRawResults.get(testExecutionId);
       if (
         this.sasUri === undefined ||
-        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
+        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
       ) {
         // Renew the sas uri
-        this.sasUri = await this.serviceClient.getStorageUri();
+        this.sasUri = await this.serviceClient.createStorageUri();
       }
       this.storageClient.uploadBuffer(
         this.sasUri.uri,
@@ -332,6 +348,10 @@ class MPTReporter implements Reporter {
 
   private initializeMPTReporter(): void {
     this.envVariables = new EnvironmentVariables();
+    if (process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR] === "true") {
+      this.isTokenValid = false;
+      return;
+    }
     if (!process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]) {
       process.stdout.write("\nReporting service url not found.");
       this.isTokenValid = false;
@@ -363,7 +383,7 @@ class MPTReporter implements Reporter {
     }
     this.storageClient = new StorageClient();
     if (
-      this.envVariables.region !== null &&
+      this.envVariables.region &&
       !Constants.SupportedRegions.includes(this.envVariables.region!) &&
       this.isTokenValid
     ) {
@@ -388,9 +408,7 @@ class MPTReporter implements Reporter {
 
   private processTestResult(result: TestResult): void {
     if (
-      process.env[
-        InternalServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_CLOUD_HOSTED_BROWSER_USED
-      ] &&
+      process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] &&
       result.status !== "passed"
     ) {
       result.errors.forEach((error) => {

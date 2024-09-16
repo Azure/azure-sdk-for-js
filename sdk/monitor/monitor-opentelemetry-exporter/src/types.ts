@@ -71,3 +71,14 @@ export enum BreezePerformanceCounterNames {
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
 }
+
+/**
+ * Property Max Lengths
+ * @internal
+ */
+export enum MaxPropertyLengths {
+  NINE_BIT = 512,
+  TEN_BIT = 1024,
+  THIRTEEN_BIT = 8192,
+  FIFTEEN_BIT = 32768,
+}

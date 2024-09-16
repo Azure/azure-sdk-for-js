@@ -290,6 +290,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %Cognitive - Content Safety
 # AzureSdkOwners: @xirzec
 
+# PRLabel: %Operator Nexus - Network Cloud
+# ServiceLabel: %Operator Nexus - Network Cloud
+/sdk/networkcloud/ @Azure/azure-sdk-write-networkcloud
+
 # PRLabel: %Search
 /sdk/search/ @dgetu @Azure/azsdk-search
 

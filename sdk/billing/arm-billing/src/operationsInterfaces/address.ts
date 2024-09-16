@@ -9,7 +9,7 @@
 import {
   AddressDetails,
   AddressValidateOptionalParams,
-  AddressValidateResponse
+  AddressValidateResponse,
 } from "../models";
 
 /** Interface representing a Address. */
@@ -17,11 +17,11 @@ export interface Address {
   /**
    * Validates an address. Use the operation to validate an address before using it as soldTo or a billTo
    * address.
-   * @param address Address details.
+   * @param parameters Address details.
    * @param options The options parameters.
    */
   validate(
-    address: AddressDetails,
-    options?: AddressValidateOptionalParams
+    parameters: AddressDetails,
+    options?: AddressValidateOptionalParams,
   ): Promise<AddressValidateResponse>;
 }

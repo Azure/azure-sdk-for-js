@@ -1,10 +1,17 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
 
+- Added `scheduledBroadcastNotification` to send a scheduled broadcast notification.
+- Added `sendBroadcastNotification` to send a broadcast notification.
+- Moved to `@azure/core-lro` v3 for long running operations.
+
 ### Breaking Changes
+
+- Moving from `@azure/core-lro` v2 to v3 for long running operations.  For APIs such as `beginSubmitNotificationHubJob`, this is a breaking change as it uses the new `PollerLike` interface instead of the old `SimplePollerLike` interface.  See the [Polling API](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md#poller-api) migration guide for more information.
+- Sending broadcast notifications are now separated into `sendBroadcastNotification` for immediate sends and `scheduleBroadcastNotification` for scheduled sends.  The `sendNotification` method now only supports direct sends and tag based sends, and the `scheduleNotification` method now only supports scheduled tag based sends.
 
 ### Bugs Fixed
 
