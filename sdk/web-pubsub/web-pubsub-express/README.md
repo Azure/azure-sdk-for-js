@@ -85,7 +85,7 @@ const express = require("express");
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
   handleConnect: (req, res) => {
-    // Authorize the connection and set the userId of the connection
+    // auth the connection and set the userId of the connection
     res.success({
       userId: "<userId>"
     });
@@ -109,7 +109,7 @@ const express = require("express");
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
   handleConnect: (req, res) => {
-    // Authorize the connection and reject the connection if auth failed
+    // auth the connection and reject the connection if auth failed
     res.fail(401, "Unauthorized");
     // Or you can use the following to return a detailed error response
     // res.failWith({ code: 401, detail: "Unauthorized" });
