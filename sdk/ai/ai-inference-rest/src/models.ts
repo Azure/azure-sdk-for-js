@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /** An abstract representation of a chat message as provided in a request. */
 export interface ChatRequestMessageParent {
