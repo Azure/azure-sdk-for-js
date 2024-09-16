@@ -51,6 +51,7 @@ class MPTReporter implements Reporter {
   private isTokenValid: boolean = true;
   private enableGitHubSummary = true;
   private isRegionValid: boolean = true;
+  private isSameWorkspace: boolean = true;
   private shard!: Shard;
   private isTestRunStartSuccess: boolean = false;
   private ciInfo: CIInfo = CIInfoProvider.getCIInfo();
@@ -113,7 +114,7 @@ class MPTReporter implements Reporter {
     if (!this.enableResultPublish) return;
     this.initializeMPTReporter();
     this.reporterUtils = new ReporterUtils(this.envVariables, config, suite);
-    if (this.isTokenValid && this.isRegionValid) {
+    if (this.isTokenValid && this.isRegionValid && this.isSameWorkspace) {
       this.serviceClient = new ServiceClient(
         this.envVariables,
         this.reporterUtils,
@@ -393,6 +394,18 @@ class MPTReporter implements Reporter {
         )}`,
       );
       this.isRegionValid = false;
+    }
+    if (
+      this.envVariables.accountId &&
+      !ReporterUtils.validateWorkspace(this.envVariables.accountId)
+    ) {
+      this.isSameWorkspace = false;
+      const errorMessage = Constants.workspaceMismatchError.message;
+      const errorKey = Constants.workspaceMismatchError.key;
+      if (!this._isInformationMessagePresent(errorKey)) {
+        this._addKeyToInformationMessage(errorKey);
+        this._addInformationalMessage(errorMessage);
+      }
     }
     if (this.envVariables.runId === undefined || this.envVariables.runId === "") {
       this.envVariables.runId = ReporterUtils.getRunId(this.ciInfo);
