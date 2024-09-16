@@ -12,6 +12,7 @@ import { TestRun } from "../model/testRun";
 import { CIInfo } from "./cIInfoProvider";
 import ReporterUtils from "./reporterUtils";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
+import { reporterLogger } from "../common/logger";
 
 export class ServiceClient {
   private httpService: HttpService;
@@ -124,23 +125,25 @@ export class ServiceClient {
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   async postTestResults(testResults: TestResult[]): Promise<void> {
-    const payload: any = {
-      value: testResults,
-    };
-    const response: PipelineResponse = await this.httpService.callAPI(
-      "POST",
-      `${this.getServiceEndpoint()}/${Constants.testResultsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}?api-version=${Constants.API_VERSION}`,
-      JSON.stringify(payload),
-      this.envVariables.accessToken,
-      "application/json",
-      this.envVariables.correlationId!,
-    );
-    if (response.status === 200) {
-      return;
+    try {
+      const payload: any = {
+        value: testResults,
+      };
+      const response: PipelineResponse = await this.httpService.callAPI(
+        "POST",
+        `${this.getServiceEndpoint()}/${Constants.testResultsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}?api-version=${Constants.API_VERSION}`,
+        JSON.stringify(payload),
+        this.envVariables.accessToken,
+        "application/json",
+        this.envVariables.correlationId!,
+      );
+      if (response.status === 200) {
+        return;
+      }
+      this.handleErrorResponse(response, Constants.postTestResults);
+    } catch (error) {
+      reporterLogger.error(`Error occurred while posting test results: ${error}`);
     }
-    this.handleErrorResponse(response, Constants.postTestResults);
-
-    throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
   async createStorageUri(): Promise<StorageUri> {
