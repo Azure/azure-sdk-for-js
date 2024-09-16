@@ -2,10 +2,15 @@
 // Licensed under the MIT License.
 
 import { AppConfigurationClient } from "../../../src";
-import { createHttpHeaders, HttpClient, PipelineRequest, RestError, SendRequest } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  RestError,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import chai from "chai";
 import { randomUUID } from "@azure/core-util";
-import nock from "nock";
 import { NoOpCredential } from "@azure-tools/test-credential";
 
 describe("Should not retry forever", () => {
@@ -14,12 +19,6 @@ describe("Should not retry forever", () => {
 
   beforeEach(() => {
     client = new AppConfigurationClient(connectionString, { retryOptions: { maxRetries: 3 } });
-  });
-
-  afterEach(async function () {
-    nock.restore();
-    nock.cleanAll();
-    nock.enableNetConnect();
   });
 
   it("simulate the service throttling - honors the abort signal passed", async () => {
@@ -37,7 +36,7 @@ describe("Should not retry forever", () => {
           status: 429,
         }),
       };
-    })
+    });
     const key = randomUUID();
     const numberOfSettings = 200;
     const promises = [];
@@ -71,7 +70,7 @@ describe("Should not retry forever", () => {
     client = createMockAppConfigurationClient(async (request: PipelineRequest) => {
       return {
         headers: createHttpHeaders({
-          "Retry-After": "10", 
+          "Retry-After": "10",
         }),
         request,
         status: 429,
@@ -82,7 +81,7 @@ describe("Should not retry forever", () => {
           status: 429,
         }),
       };
-    })
+    });
 
     try {
       await client.addConfigurationSetting({
@@ -106,16 +105,12 @@ describe("Should not retry forever", () => {
 
 function createMockAppConfigurationClient(sendRequest: SendRequest): AppConfigurationClient {
   const fakeHttpClient: HttpClient = {
-    sendRequest
+    sendRequest,
   };
 
   // Use NoOpCredential to avoid interception for credential request
-  return new AppConfigurationClient(
-    "https://example.com",
-    new NoOpCredential(),
-    {
-      httpClient: fakeHttpClient,
-      retryOptions: { maxRetries: 3 }
-    },
-  );
+  return new AppConfigurationClient("https://example.com", new NoOpCredential(), {
+    httpClient: fakeHttpClient,
+    retryOptions: { maxRetries: 3 },
+  });
 }

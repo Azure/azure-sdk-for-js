@@ -13,7 +13,12 @@ import { InternalAppConfigurationClientOptions } from "../../../src/appConfigura
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { createHttpHeaders, HttpClient, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 describe("http request related tests", function () {
   describe("unit tests", () => {
@@ -136,7 +141,11 @@ describe("http request related tests", function () {
 
     it("addConfigurationSetting", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "addConfigurationSetting=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "addConfigurationSetting=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       await client.addConfigurationSetting({
@@ -148,7 +157,11 @@ describe("http request related tests", function () {
 
     it("getConfigurationSetting", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "getConfigurationSetting=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "getConfigurationSetting=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       await client.getConfigurationSetting({
@@ -160,7 +173,11 @@ describe("http request related tests", function () {
 
     it("setConfigurationSetting", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "setConfigurationSetting=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "setConfigurationSetting=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       await client.setConfigurationSetting({
@@ -172,7 +189,11 @@ describe("http request related tests", function () {
 
     it("deleteConfigurationSetting", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "deleteConfigurationSetting=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "deleteConfigurationSetting=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       await client.deleteConfigurationSetting({
@@ -184,7 +205,11 @@ describe("http request related tests", function () {
 
     it("listConfigurationSetting", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "listConfigurationSetting=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "listConfigurationSetting=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       const iterator = client.listConfigurationSettings({
@@ -197,7 +222,11 @@ describe("http request related tests", function () {
 
     it("listRevisions", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "listRevisions=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "listRevisions=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       const iterator = client.listRevisions({
@@ -210,7 +239,11 @@ describe("http request related tests", function () {
 
     it("setReadOnly (clear and set)", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "setReadOnly=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "setReadOnly=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       await client.setReadOnly(
@@ -224,7 +257,11 @@ describe("http request related tests", function () {
 
       syncTokens.addSyncTokenFromHeaderValue(undefined); // clear out any previous sync tokens
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
-        return { headers: createHttpHeaders({ "sync-token": "clearReadOnly=value;sn=1" }), status: 200, request };
+        return {
+          headers: createHttpHeaders({ "sync-token": "clearReadOnly=value;sn=1" }),
+          status: 200,
+          request,
+        };
       });
 
       await client.setReadOnly(
@@ -279,18 +316,17 @@ function splitAndSort(syncTokens: string | undefined): string {
   return syncTokens.split(",").sort().join(",");
 }
 
-function createMockSyncTokenClient(syncTokens: SyncTokens, sendRequest: SendRequest): AppConfigurationClient {
+function createMockSyncTokenClient(
+  syncTokens: SyncTokens,
+  sendRequest: SendRequest,
+): AppConfigurationClient {
   const fakeHttpClient: HttpClient = {
-    sendRequest
+    sendRequest,
   };
 
   // Use NoOpCredential to avoid interception for credential request
-  return new AppConfigurationClient(
-    "https://example.com",
-    new NoOpCredential(),
-    {
-      syncTokens: syncTokens,
-      httpClient: fakeHttpClient,
-    } as InternalAppConfigurationClientOptions,
-  );
+  return new AppConfigurationClient("https://example.com", new NoOpCredential(), {
+    syncTokens: syncTokens,
+    httpClient: fakeHttpClient,
+  } as InternalAppConfigurationClientOptions);
 }
