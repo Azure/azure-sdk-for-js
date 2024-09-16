@@ -109,6 +109,10 @@
 # ServiceLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/ @miguhern
 
+# PRLabel: %Communication - Toll Free Verification
+# ServiceLabel: %Communication - Toll Free Verification
+/sdk/communication/communication-toll-free-verification/ @miguhern
+
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
 /sdk/communication/communication-common/ @AikoBB @maximrytych-ms @mjafferi-msft
