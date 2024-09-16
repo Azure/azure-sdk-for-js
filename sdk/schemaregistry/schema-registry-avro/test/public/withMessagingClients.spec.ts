@@ -21,7 +21,7 @@ import { assertError } from "./utils/assertError.js";
 import { createEventHubsClient } from "./clients/eventHubs.js";
 import { createMockedMessagingClient } from "./clients/mocked.js";
 import { createTestSerializer } from "./utils/mockedSerializer.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { testGroup } from "./utils/dummies.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient.js";

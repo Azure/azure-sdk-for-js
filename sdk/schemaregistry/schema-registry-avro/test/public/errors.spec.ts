@@ -65,14 +65,17 @@ describe("Error scenarios", function () {
           namespace: "my.example",
           fields: [{ name: "count", type: "int" }],
         });
-        await expect(serializerNoAutoReg.serialize({ count: 42 }, schema)).rejects.toThrow(/not found/);
+        await expect(serializerNoAutoReg.serialize({ count: 42 }, schema)).rejects.toThrow(
+          /not found/,
+        );
       });
       it("schema to deserialize with is not found", async function () {
         await expect(
           serializerNoAutoReg.deserialize({
             data: Uint8Array.from([0]),
             contentType: `avro/binary+${uuid()}`,
-          })).rejects.toThrow(/does not exist/);
+          }),
+        ).rejects.toThrow(/does not exist/);
       });
     });
 
@@ -283,191 +286,585 @@ describe("Error scenarios", function () {
           serializer.deserialize({
             data: Buffer.alloc(1),
             contentType: "application/json+1234",
-          })).rejects.toThrow(/application\/json.*avro\/binary/);
-    });
-    it("a schema with non-avro format", async function () {
-      await expect(
-        registry.registerSchema({
-          name: "_",
-          definition: "_",
-          format: "notavro",
-          groupName: testGroup,
-        })).rejects.toThrow(/Invalid schema type for PUT request.*notavro/);
-    });
-    it("not JSON schema", async function () {
-      await assertError(serializer.serialize(null, ""), {
-        causeMessage: /Unexpected end of JSON input/,
+          }),
+        ).rejects.toThrow(/application\/json.*avro\/binary/);
+      });
+      it("a schema with non-avro format", async function () {
+        await expect(
+          registry.registerSchema({
+            name: "_",
+            definition: "_",
+            format: "notavro",
+            groupName: testGroup,
+          }),
+        ).rejects.toThrow(/Invalid schema type for PUT request.*notavro/);
+      });
+      it("not JSON schema", async function () {
+        await assertError(serializer.serialize(null, ""), {
+          causeMessage: /Unexpected end of JSON input/,
+        });
+      });
+      it("null schema", async function () {
+        await assertError(
+          /**
+           * The type checking will prevent this from happening but I am including
+           * it for completeness.
+           */
+          serializer.serialize(null, null as any),
+          {
+            causeMessage: /invalid type: null/,
+          },
+        );
+      });
+      it("schema without a name", async function () {
+        /**
+         * The serializer expects a record schema as the top-level schema
+         */
+        await assertError(
+          serializer.serialize(
+            null,
+            JSON.stringify({
+              type: "array",
+              items: "int",
+            }),
+          ),
+          {
+            message: /Schema must have a name/,
+          },
+        );
+      });
+      it("enum schema without symbols", async function () {
+        await assertError(
+          serializer.serialize(
+            null,
+            JSON.stringify({
+              type: "record",
+              name: "foo",
+              fields: [
+                {
+                  name: "enum",
+                  type: {
+                    type: "enum",
+                  },
+                },
+              ],
+            }),
+          ),
+          {
+            causeMessage: /invalid enum symbols: undefined/,
+          },
+        );
+      });
+      it("fixed schema without size", async function () {
+        await assertError(
+          serializer.serialize(
+            null,
+            JSON.stringify({
+              type: "record",
+              name: "foo",
+              fields: [
+                {
+                  name: "fixed",
+                  type: {
+                    type: "fixed",
+                  },
+                },
+              ],
+            }),
+          ),
+          {
+            causeMessage: /invalid fixed size/,
+          },
+        );
+      });
+      it("array schema without items", async function () {
+        await assertError(
+          serializer.serialize(
+            null,
+            JSON.stringify({
+              type: "record",
+              name: "foo",
+              fields: [
+                {
+                  name: "array",
+                  type: {
+                    type: "array",
+                  },
+                },
+              ],
+            }),
+          ),
+          {
+            causeMessage: /missing array items: {"type":"array"}/,
+          },
+        );
+      });
+      it("map schema without values", async function () {
+        await assertError(
+          serializer.serialize(
+            null,
+            JSON.stringify({
+              type: "record",
+              name: "foo",
+              fields: [
+                {
+                  name: "map",
+                  type: {
+                    type: "map",
+                  },
+                },
+              ],
+            }),
+          ),
+          {
+            causeMessage: /missing map values: {"type":"map"}/,
+          },
+        );
+      });
+      it("record schema without fields", async function () {
+        await assertError(
+          serializer.serialize(
+            null,
+            JSON.stringify({
+              type: "record",
+              name: "foo",
+            }),
+          ),
+          {
+            causeMessage: /non-array record fields: undefined/,
+          },
+        );
       });
     });
-    it("null schema", async function () {
-      await assertError(
-        /**
-         * The type checking will prevent this from happening but I am including
-         * it for completeness.
-         */
-        serializer.serialize(null, null as any),
-        {
-          causeMessage: /invalid type: null/,
-        },
-      );
+  });
+  describe("Unserialized value validation", function () {
+    afterEach(async function () {
+      schemaList.push("validation.User");
+      await removeSchemas(schemaList, pipeline, client);
     });
-    it("schema without a name", async function () {
+
+    it("schema is still registered if serialization fails", async function ({ skip }) {
       /**
-       * The serializer expects a record schema as the top-level schema
+       * This test checks for service calls using the onResponse callback but
+       * onResponse is not implemented in the mocked registry because it will
+       * add very little value so the test is skipped in playback mode.
        */
+      if (!isLiveMode()) {
+        skip();
+      }
+      let ran = false;
+      const unusedRegistry = createTestRegistry({
+        registerSchemaOptions: {
+          onResponse: () => {
+            ran = true;
+          },
+        },
+        recorder,
+      });
+      const customSerializer = await createTestSerializer({
+        registry: unusedRegistry,
+        serializerOptions: {
+          autoRegisterSchemas: true,
+          groupName: testGroup,
+        },
+        recorder,
+      });
       await assertError(
-        serializer.serialize(
-          null,
+        customSerializer.serialize(
+          {
+            field: 1,
+          },
           JSON.stringify({
-            type: "array",
-            items: "int",
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "null",
+              },
+            ],
           }),
         ),
         {
-          message: /Schema must have a name/,
+          causeMessage: /invalid "null": 1/,
+        },
+      );
+      assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
+    });
+    it("null", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: 1,
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "null",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "null": 1/,
         },
       );
     });
-    it("enum schema without symbols", async function () {
+    it("boolean", async function () {
       await assertError(
         serializer.serialize(
-          null,
+          {
+            field: 1,
+          },
           JSON.stringify({
             type: "record",
-            name: "foo",
+            name: "User",
+            namespace: "validation",
             fields: [
               {
-                name: "enum",
+                name: "field",
+                type: "boolean",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "boolean": 1/,
+        },
+      );
+    });
+    it("int", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: null,
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "int",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "int": null/,
+        },
+      );
+    });
+    it("long", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: 9007199254740991,
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "long",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "long": 9007199254740991/,
+        },
+      );
+    });
+    it("long with logical DateTime type", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            time: new Date("Wed Sep 13 275760 11:38:05 GMT-0800 (PST)"),
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [{ name: "time", type: { type: "long", logicalType: "timestamp-millis" } }],
+          }),
+        ),
+        {
+          causeMessage: /invalid "long": null/,
+        },
+      );
+    });
+    it("float", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: "",
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "float",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "float": ""/,
+        },
+      );
+    });
+    it("double", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: "",
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "double",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "double": ""/,
+        },
+      );
+    });
+    it("string", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: 1,
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "string",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "string": 1/,
+        },
+      );
+    });
+    it("bytes", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: 1,
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "bytes",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "bytes": 1/,
+        },
+      );
+    });
+    it("union", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: 1,
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: ["null", "string"],
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid \["null","string"\]: 1/,
+        },
+      );
+    });
+    it("enum", async function () {
+      await assertError(
+        serializer.serialize(
+          {
+            field: "x",
+          },
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
                 type: {
                   type: "enum",
+                  name: "foo",
+                  symbols: ["A", "B"],
                 },
               },
             ],
           }),
         ),
         {
-          causeMessage: /invalid enum symbols: undefined/,
+          causeMessage:
+            /invalid {"name":"validation.foo","type":"enum","symbols":\["A","B"\]}: "x"/,
         },
       );
     });
-    it("fixed schema without size", async function () {
+    it("fixed", async function () {
       await assertError(
         serializer.serialize(
-          null,
+          {
+            field: "x",
+          },
           JSON.stringify({
             type: "record",
-            name: "foo",
+            name: "User",
+            namespace: "validation",
             fields: [
               {
-                name: "fixed",
+                name: "field",
                 type: {
                   type: "fixed",
+                  name: "foo",
+                  size: 16,
                 },
               },
             ],
           }),
         ),
         {
-          causeMessage: /invalid fixed size/,
+          causeMessage: /invalid {"name":"validation.foo","type":"fixed","size":16}: "x"/,
         },
       );
     });
-    it("array schema without items", async function () {
+    it("map", async function () {
       await assertError(
         serializer.serialize(
-          null,
+          {
+            field: "x",
+          },
           JSON.stringify({
             type: "record",
-            name: "foo",
+            name: "User",
+            namespace: "validation",
             fields: [
               {
-                name: "array",
-                type: {
-                  type: "array",
-                },
-              },
-            ],
-          }),
-        ),
-        {
-          causeMessage: /missing array items: {"type":"array"}/,
-        },
-      );
-    });
-    it("map schema without values", async function () {
-      await assertError(
-        serializer.serialize(
-          null,
-          JSON.stringify({
-            type: "record",
-            name: "foo",
-            fields: [
-              {
-                name: "map",
+                name: "field",
                 type: {
                   type: "map",
+                  /**
+                   * Map keys are assumed to be strings.
+                   */
+                  values: "long",
+                  default: {},
                 },
               },
             ],
           }),
         ),
         {
-          causeMessage: /missing map values: {"type":"map"}/,
+          causeMessage: /invalid {"type":"map","values":"long"}: "x"/,
         },
       );
     });
-    it("record schema without fields", async function () {
+    it("array", async function () {
       await assertError(
         serializer.serialize(
-          null,
+          {
+            field: "x",
+          },
           JSON.stringify({
             type: "record",
-            name: "foo",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: {
+                  type: "array",
+                  /**
+                   * Map keys are assumed to be strings.
+                   */
+                  items: "long",
+                  default: [],
+                },
+              },
+            ],
           }),
         ),
         {
-          causeMessage: /non-array record fields: undefined/,
+          causeMessage: /invalid {"type":"array","items":"long"}: "x"/,
+        },
+      );
+    });
+    it("record", async function () {
+      await assertError(
+        serializer.serialize(
+          "x",
+          JSON.stringify({
+            type: "record",
+            name: "User",
+            namespace: "validation",
+            fields: [
+              {
+                name: "field",
+                type: "int",
+              },
+            ],
+          }),
+        ),
+        {
+          causeMessage: /invalid "int": undefined/,
         },
       );
     });
   });
-});
-describe("Unserialized value validation", function () {
-  afterEach(async function () {
-    schemaList.push("validation.User");
-    await removeSchemas(schemaList, pipeline, client);
-  });
+  describe("Serialized value validation", function () {
+    afterEach(async function () {
+      schemaList.push("validation.User");
+      await removeSchemas(schemaList, pipeline, client);
+    });
 
-  it("schema is still registered if serialization fails", async function ({ skip }) {
-    /**
-     * This test checks for service calls using the onResponse callback but
-     * onResponse is not implemented in the mocked registry because it will
-     * add very little value so the test is skipped in playback mode.
-     */
-    if (!isLiveMode()) {
-      skip();
-    }
-    let ran = false;
-    const unusedRegistry = createTestRegistry({
-      registerSchemaOptions: {
-        onResponse: () => {
-          ran = true;
-        },
-      },
-      recorder,
-    });
-    const customSerializer = await createTestSerializer({
-      registry: unusedRegistry,
-      serializerOptions: {
-        autoRegisterSchemas: true,
-        groupName: testGroup,
-      },
-      recorder,
-    });
-    await assertError(
-      customSerializer.serialize(
+    it("record", async function () {
+      const serializedValue = await serializer.serialize(
         {
-          field: 1,
+          field1: 1,
+          field2: "x",
         },
         JSON.stringify({
           type: "record",
@@ -475,92 +872,30 @@ describe("Unserialized value validation", function () {
           namespace: "validation",
           fields: [
             {
-              name: "field",
-              type: "null",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "null": 1/,
-      },
-    );
-    assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
-  });
-  it("null", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: 1,
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "null",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "null": 1/,
-      },
-    );
-  });
-  it("boolean", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: 1,
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "boolean",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "boolean": 1/,
-      },
-    );
-  });
-  it("int", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: null,
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
+              name: "field1",
               type: "int",
             },
+            {
+              name: "field2",
+              type: "string",
+            },
           ],
         }),
-      ),
-      {
-        causeMessage: /invalid "int": null/,
-      },
-    );
-  });
-  it("long", async function () {
-    await assertError(
-      serializer.serialize(
+      );
+      assert.deepEqual(serializedValue.data, Uint8Array.from([2, 2, 120]));
+      serializedValue.data = Buffer.from([2, 2]);
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: /truncated buffer/,
+      });
+      serializedValue.data = Buffer.from([2, 2, 120, 5]);
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: /trailing data/,
+      });
+    });
+    it("long", async function () {
+      const serializedValue = await serializer.serialize(
         {
-          field: 9007199254740991,
+          field: 9007199254740990,
         },
         JSON.stringify({
           type: "record",
@@ -573,127 +908,20 @@ describe("Unserialized value validation", function () {
             },
           ],
         }),
-      ),
-      {
-        causeMessage: /invalid "long": 9007199254740991/,
-      },
-    );
-  });
-  it("long with logical DateTime type", async function () {
-    await assertError(
-      serializer.serialize(
+      );
+      assert.deepEqual(
+        serializedValue.data,
+        Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31]),
+      );
+      serializedValue.data = Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 32]);
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: /potential precision loss/,
+      });
+    });
+    it("union", async function () {
+      const serializedValue = await serializer.serialize(
         {
-          time: new Date("Wed Sep 13 275760 11:38:05 GMT-0800 (PST)"),
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [{ name: "time", type: { type: "long", logicalType: "timestamp-millis" } }],
-        }),
-      ),
-      {
-        causeMessage: /invalid "long": null/,
-      },
-    );
-  });
-  it("float", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: "",
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "float",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "float": ""/,
-      },
-    );
-  });
-  it("double", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: "",
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "double",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "double": ""/,
-      },
-    );
-  });
-  it("string", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: 1,
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "string",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "string": 1/,
-      },
-    );
-  });
-  it("bytes", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: 1,
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "bytes",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "bytes": 1/,
-      },
-    );
-  });
-  it("union", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: 1,
+          field: "x",
         },
         JSON.stringify({
           type: "record",
@@ -706,17 +934,17 @@ describe("Unserialized value validation", function () {
             },
           ],
         }),
-      ),
-      {
-        causeMessage: /invalid \["null","string"\]: 1/,
-      },
-    );
-  });
-  it("enum", async function () {
-    await assertError(
-      serializer.serialize(
+      );
+      assert.deepEqual(serializedValue.data, Uint8Array.from([2, 2, 120]));
+      serializedValue.data = Uint8Array.from([5, 2, 120]);
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: /invalid union index: -3/,
+      });
+    });
+    it("enum", async function () {
+      const serializedValue = await serializer.serialize(
         {
-          field: "x",
+          field: "A",
         },
         JSON.stringify({
           type: "record",
@@ -733,270 +961,47 @@ describe("Unserialized value validation", function () {
             },
           ],
         }),
-      ),
-      {
-        causeMessage:
-          /invalid {"name":"validation.foo","type":"enum","symbols":\["A","B"\]}: "x"/,
-      },
-    );
+      );
+      assert.deepEqual(serializedValue.data, Uint8Array.from([0]));
+      serializedValue.data = Uint8Array.from([10]);
+      await assertError(serializer.deserialize(serializedValue), {
+        causeMessage: /invalid validation.foo enum index: 5/,
+      });
+    });
   });
-  it("fixed", async function () {
-    await assertError(
-      serializer.serialize(
+
+  describe("Deserialized value validation", function () {
+    afterEach(async function () {
+      await removeSchemas(schemaList, pipeline, client);
+    });
+
+    it("long with logical DateTime type", async function () {
+      const schema = await registry.registerSchema({
+        name: testSchemaName,
+        groupName: testGroup,
+        definition: JSON.stringify({
+          type: "record",
+          name: "AvroUser",
+          namespace: "com.azure.schemaregistry.samples",
+          fields: [
+            { name: "amount", type: "int" },
+            { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
+          ],
+        }),
+        format: "avro",
+      });
+      // This represents a date that cannot be serialized in JS
+      await assertError(
+        serializer.deserialize({
+          data: Buffer.from([20, -112, -11, -100, -128, -69, -126, -39, 30]),
+          contentType: `avro/binary+${schema.id}`,
+        }),
         {
-          field: "x",
+          causeMessage: /Invalid date/,
         },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: {
-                type: "fixed",
-                name: "foo",
-                size: 16,
-              },
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid {"name":"validation.foo","type":"fixed","size":16}: "x"/,
-      },
-    );
-  });
-  it("map", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: "x",
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: {
-                type: "map",
-                /**
-                 * Map keys are assumed to be strings.
-                 */
-                values: "long",
-                default: {},
-              },
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid {"type":"map","values":"long"}: "x"/,
-      },
-    );
-  });
-  it("array", async function () {
-    await assertError(
-      serializer.serialize(
-        {
-          field: "x",
-        },
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: {
-                type: "array",
-                /**
-                 * Map keys are assumed to be strings.
-                 */
-                items: "long",
-                default: [],
-              },
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid {"type":"array","items":"long"}: "x"/,
-      },
-    );
-  });
-  it("record", async function () {
-    await assertError(
-      serializer.serialize(
-        "x",
-        JSON.stringify({
-          type: "record",
-          name: "User",
-          namespace: "validation",
-          fields: [
-            {
-              name: "field",
-              type: "int",
-            },
-          ],
-        }),
-      ),
-      {
-        causeMessage: /invalid "int": undefined/,
-      },
-    );
-  });
-});
-describe("Serialized value validation", function () {
-  afterEach(async function () {
-    schemaList.push("validation.User");
-    await removeSchemas(schemaList, pipeline, client);
-  });
+      );
 
-  it("record", async function () {
-    const serializedValue = await serializer.serialize(
-      {
-        field1: 1,
-        field2: "x",
-      },
-      JSON.stringify({
-        type: "record",
-        name: "User",
-        namespace: "validation",
-        fields: [
-          {
-            name: "field1",
-            type: "int",
-          },
-          {
-            name: "field2",
-            type: "string",
-          },
-        ],
-      }),
-    );
-    assert.deepEqual(serializedValue.data, Uint8Array.from([2, 2, 120]));
-    serializedValue.data = Buffer.from([2, 2]);
-    await assertError(serializer.deserialize(serializedValue), {
-      causeMessage: /truncated buffer/,
-    });
-    serializedValue.data = Buffer.from([2, 2, 120, 5]);
-    await assertError(serializer.deserialize(serializedValue), {
-      causeMessage: /trailing data/,
+      schemaList.push(testSchemaName);
     });
   });
-  it("long", async function () {
-    const serializedValue = await serializer.serialize(
-      {
-        field: 9007199254740990,
-      },
-      JSON.stringify({
-        type: "record",
-        name: "User",
-        namespace: "validation",
-        fields: [
-          {
-            name: "field",
-            type: "long",
-          },
-        ],
-      }),
-    );
-    assert.deepEqual(
-      serializedValue.data,
-      Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 31]),
-    );
-    serializedValue.data = Uint8Array.from([252, 255, 255, 255, 255, 255, 255, 32]);
-    await assertError(serializer.deserialize(serializedValue), {
-      causeMessage: /potential precision loss/,
-    });
-  });
-  it("union", async function () {
-    const serializedValue = await serializer.serialize(
-      {
-        field: "x",
-      },
-      JSON.stringify({
-        type: "record",
-        name: "User",
-        namespace: "validation",
-        fields: [
-          {
-            name: "field",
-            type: ["null", "string"],
-          },
-        ],
-      }),
-    );
-    assert.deepEqual(serializedValue.data, Uint8Array.from([2, 2, 120]));
-    serializedValue.data = Uint8Array.from([5, 2, 120]);
-    await assertError(serializer.deserialize(serializedValue), {
-      causeMessage: /invalid union index: -3/,
-    });
-  });
-  it("enum", async function () {
-    const serializedValue = await serializer.serialize(
-      {
-        field: "A",
-      },
-      JSON.stringify({
-        type: "record",
-        name: "User",
-        namespace: "validation",
-        fields: [
-          {
-            name: "field",
-            type: {
-              type: "enum",
-              name: "foo",
-              symbols: ["A", "B"],
-            },
-          },
-        ],
-      }),
-    );
-    assert.deepEqual(serializedValue.data, Uint8Array.from([0]));
-    serializedValue.data = Uint8Array.from([10]);
-    await assertError(serializer.deserialize(serializedValue), {
-      causeMessage: /invalid validation.foo enum index: 5/,
-    });
-  });
-});
-
-describe("Deserialized value validation", function () {
-  afterEach(async function () {
-    await removeSchemas(schemaList, pipeline, client);
-  });
-
-  it("long with logical DateTime type", async function () {
-    const schema = await registry.registerSchema({
-      name: testSchemaName,
-      groupName: testGroup,
-      definition: JSON.stringify({
-        type: "record",
-        name: "AvroUser",
-        namespace: "com.azure.schemaregistry.samples",
-        fields: [
-          { name: "amount", type: "int" },
-          { name: "time", type: { type: "long", logicalType: "timestamp-millis" } },
-        ],
-      }),
-      format: "avro",
-    });
-    // This represents a date that cannot be serialized in JS
-    await assertError(
-      serializer.deserialize({
-        data: Buffer.from([20, -112, -11, -100, -128, -69, -126, -39, 30]),
-        contentType: `avro/binary+${schema.id}`,
-      }),
-      {
-        causeMessage: /Invalid date/,
-      },
-    );
-
-    schemaList.push(testSchemaName);
-  });
-});
 });

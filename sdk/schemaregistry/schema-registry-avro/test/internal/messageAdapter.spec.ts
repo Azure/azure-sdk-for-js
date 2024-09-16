@@ -9,7 +9,7 @@ import {
 } from "@azure/event-hubs";
 import { AssertEqualKeys } from "../utils/utils.js";
 import { MessageAdapter } from "../../src/models.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert } from "vitest";
 
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {

@@ -19,7 +19,6 @@ import { SchemaRegistry } from "@azure/schema-registry";
 import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, expect } from "vitest";
 
-
 describe("AvroSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
   let recorder: Recorder;
@@ -197,11 +196,12 @@ describe("AvroSerializer", async function () {
       serializer.deserialize({
         data,
         contentType: `avro/binary+${uuid()}`,
-      })).rejects.toThrow(/Schema id .* does not exist/);
+      }),
+    ).rejects.toThrow(/Schema id .* does not exist/);
   });
 
   /** TODO: unskip when we can access internal cache */
-  it.skip("cache size growth is bounded", async function ({skip}) {
+  it.skip("cache size growth is bounded", async function ({ skip }) {
     /**
      * This test is very expensive to run in live because it registers too many
      * schemas but the standard-tier resource allows for up to 25 schemas only
