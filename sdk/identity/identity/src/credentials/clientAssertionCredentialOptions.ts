@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { AuthorityValidationOptions } from "./authorityValidationOptions";
+import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
@@ -9,4 +10,5 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  */
 export interface ClientAssertionCredentialOptions
   extends MultiTenantTokenCredentialOptions,
+    CredentialPersistenceOptions,
     AuthorityValidationOptions {}
