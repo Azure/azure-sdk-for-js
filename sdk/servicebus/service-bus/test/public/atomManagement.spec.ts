@@ -3,7 +3,6 @@
 
 import { isNode } from "@azure/core-util";
 import { PageSettings } from "@azure/core-paging";
-import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
@@ -81,11 +80,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           const endpoint = `sb://${host}/`;
           const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
             host,
-            new DefaultAzureCredential({
-              // Work around Msi credential issue in live test pipeline by failing
-              // its token retrieval
-              managedIdentityClientId: "fakeMsiClientId",
-            }),
+            createTestCredential(),
           );
 
           should.equal(
