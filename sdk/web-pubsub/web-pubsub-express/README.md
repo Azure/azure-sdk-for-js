@@ -85,10 +85,78 @@ const express = require("express");
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
   handleConnect: (req, res) => {
-    // auth the connection and set the userId of the connection
+    // Authorize the connection and set the userId of the connection
     res.success({
       userId: "<userId>"
     });
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connect` request and reject the connection if auth failed
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    // Authorize the connection and reject the connection if auth failed
+    res.fail(401, "Unauthorized");
+    // Or you can use the following to return a detailed error response
+    // res.failWith({ code: 401, detail: "Unauthorized" });
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connected` request
+
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  onConnected: (connectedRequest) => {
+    // Your onConnected logic goes here
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `onDisconnected` request
+
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  onDisconnected: (connectedRequest) => {
+    // Your onDisconnected logic goes here
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
 });
@@ -119,30 +187,6 @@ const handler = new WebPubSubEventHandler("chat", {
         userId: "user1",
       });
     }
-  },
-  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
-});
-
-const app = express();
-
-app.use(handler.getMiddleware());
-
-app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
-);
-```
-
-### Handle the `connect` request and reject the connection if auth failed
-```js
-const express = require("express");
-
-const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat", {
-  handleConnect: (req, res) => {
-    // auth the connection and reject the connection if auth failed
-    res.fail(401, "Unauthorized");
-    // Or you can use the following to return a detailed error response
-    // res.failWith({ code: 401, detail: "Unauthorized" });
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
 });
