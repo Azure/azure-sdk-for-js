@@ -383,7 +383,7 @@ const result = await sendNotification(context, notification);
 
 #### Broadcast Send
 
-Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendNotification` method.
+Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendBroadcastNotification` method.
 
 ```typescript
 import {
@@ -403,7 +403,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await client.sendNotification(message);
+const result = await client.sendBroadcastNotification(message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -417,7 +417,7 @@ if (result.notificationId) {
 Using the modular approach, the code would be as follows:
 
 ```typescript
-import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
+import { createClientContext, sendBroadcastNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs/models";
 
 const context = createClientContext(connectionString, hubName);
@@ -432,7 +432,7 @@ const message = createAppleNotification({
   },
 });
 
-const result = await sendNotification(context, message);
+const result = await sendBroadcastNotification(context, message);
 
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
@@ -591,7 +591,7 @@ if (result.notificationId) {
 
 #### Scheduled Send
 
-Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleBroadcastNotification` method to send to devices with tags or a general broadcast.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
+Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleNotification` method to send to devices with tags or a general broadcast with `scheduleBroadcastNotification`.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
 
 ```typescript
 import {
@@ -671,7 +671,7 @@ We also need to provide polyfill for `TextEncoder` API and async iterator API. P
 
 Azure Notification Hubs has a complete guide to troubleshooting problems with dropped notifications in the [Diagnose dropped notifications in Azure Notification Hubs Guide](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer).
 
-[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` method with the `enableTestSend` option:
+[Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` and `sendBroadcastNotification` methods with the `enableTestSend` option:
 
 ```typescript
 // Using the client
