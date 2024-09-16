@@ -14,19 +14,19 @@
  *    to read from corresponding event hubs
  */
 
-import { AvroSerializer, MessageAdapter } from "../../src";
+import { AvroSerializer, MessageAdapter } from "../../src/index.js";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { MessagingTestClient } from "./clients/models";
-import { assert } from "chai";
-import { assertError } from "./utils/assertError";
-import { createEventHubsClient } from "./clients/eventHubs";
-import { createMockedMessagingClient } from "./clients/mocked";
-import { createTestSerializer } from "./utils/mockedSerializer";
+import { MessagingTestClient } from "./clients/models.js";
+import { assertError } from "./utils/assertError.js";
+import { createEventHubsClient } from "./clients/eventHubs.js";
+import { createMockedMessagingClient } from "./clients/mocked.js";
+import { createTestSerializer } from "./utils/mockedSerializer.js";
 import { matrix } from "@azure-tools/test-utils";
-import { testGroup } from "./utils/dummies";
+import { testGroup } from "./utils/dummies.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient";
+import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient.js";
 import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -163,13 +163,13 @@ describe("With messaging clients", function () {
         }
       }
 
-      before(async function () {
+      beforeAll(async function () {
         httpClient = createDefaultHttpClient();
         pipeline = createPipelineWithCredential();
       });
 
-      beforeEach(async function () {
-        recorder = new Recorder(this.currentTest);
+      beforeEach(async function (ctx) {
+        recorder = new Recorder(ctx);
         serializer = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: true,
