@@ -2,13 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use tool calls with chat completions.
+ * Demonstrates how to use tool calls with chat completions with telemetry.
  *
  * @summary Get chat completions with function call.
  */
 
-import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import { context, trace } from "@opentelemetry/api";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -16,6 +20,19 @@ dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<APPLICATIONINSIGHTS_CONNECTION_STRING>";
+
+const provider = new NodeTracerProvider();
+if (connectionString) {
+  const exporter = new AzureMonitorTraceExporter({ connectionString });
+  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+}
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.register();
+
+registerInstrumentations({
+  instrumentations: [createAzureSdkInstrumentation()],
+});
 
 
 const getCurrentWeather = {
@@ -92,6 +109,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
 }
 
 
+import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
 
 export async function main() {
   const credential = new DefaultAzureCredential();
@@ -105,58 +123,66 @@ export async function main() {
 
   let toolCallAnswer = "";
   let awaitingToolCallAnswer = true;
-  while (awaitingToolCallAnswer) {
-    const response = await client.path("/chat/completions").post({
-      body: {
-        messages,
-        tools: [
-          {
-            type: "function",
-            function: getCurrentWeather,
-          },
-        ]
+
+  const tracer = trace.getTracer('sample', '0.1.0');
+
+  await tracer.startActiveSpan('main', async (span) => {
+    while (awaitingToolCallAnswer) {
+
+      const response = await client.path("/chat/completions").post({
+        body: {
+          messages,
+          tools: [
+            {
+              type: "function",
+              function: getCurrentWeather,
+            },
+          ]
+        },
+        tracingOptions: { tracingContext: context.active() }
+      });
+
+      if (isUnexpected(response)) {
+        throw response.body.error;
       }
-    });
 
-    if (isUnexpected(response)) {
-      throw response.body.error;
-    }
+      const stream = response.body;
+      if (!stream) {
+        throw new Error("The response stream is undefined");
+      }
 
-    const stream = response.body;
-    if (!stream) {
-      throw new Error("The response stream is undefined");
-    }
+      if (response.status !== "200") {
+        throw new Error(`Failed to get chat completions.`);
+      }
 
-    if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions.`);
-    }
-
-    const functionArray: Array<any> = [];
+      const functionArray: Array<any> = [];
 
 
+      for (const choice of response.body.choices) {
+        const toolCallArray = choice.message?.tool_calls;
 
-    for (const choice of response.body.choices) {
-      const toolCallArray = choice.message?.tool_calls;
-
-      if (toolCallArray) {
-        if (toolCallArray[0].function?.name) {
-          // Include original response from assistant requesting tool call in chat history
-          choice.message.role = "assistant";
-          messages.push(choice.message);
+        if (toolCallArray) {
+          if (toolCallArray[0].function?.name) {
+            // Include original response from assistant requesting tool call in chat history
+            choice.message.role = "assistant";
+            messages.push(choice.message);
+          }
+          updateToolCalls(toolCallArray, functionArray);
         }
-        updateToolCalls(toolCallArray, functionArray);
-      }
-      if (choice.finish_reason == "tool_calls") {
-        const messageArray = handleToolCalls(functionArray);
-        messages.push(...messageArray);
-      } else {
-        if (choice.message?.content && choice.message.content != '') {
-          toolCallAnswer += choice.message?.content;
-          awaitingToolCallAnswer = false;
+        if (choice.finish_reason == "tool_calls") {
+          const messageArray = handleToolCalls(functionArray);
+          messages.push(...messageArray);
+        } else {
+          if (choice.message?.content && choice.message.content != '') {
+            toolCallAnswer += choice.message?.content;
+            awaitingToolCallAnswer = false;
+          }
         }
       }
     }
-  }
+
+    span.end();
+  });
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);

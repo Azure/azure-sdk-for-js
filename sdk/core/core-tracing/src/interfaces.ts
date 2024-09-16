@@ -7,8 +7,8 @@
  */
 export type Resolved<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
   ? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the first argument
-    ? Resolved<V> // recursively unwrap the value
-    : never // the argument to `then` was not callable
+  ? Resolved<V> // recursively unwrap the value
+  : never // the argument to `then` was not callable
   : T; // non-object or non-thenable
 
 /**
@@ -100,6 +100,46 @@ export interface TracingClient {
    * @returns The set of headers to add to a request.
    */
   createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+
+  /**
+  * This method will create a span, call the methodToTrace, and end the span.
+  * @param name - name of the span.
+  * @param args - arguments for onStartTracing and onEndTracing.  Generally, you should pass in `arguments` reserve word.
+  * @param methodToTrace - function pointer of the implementation.
+  * @param onStartTracing - callback function to set attributes and events before calling methodTotrace.
+  * @param onEndTracing - callback function to set attributes, events, and status before ending the span.
+  * @param options - options to set on the span.
+  * @param spanKind - kind of span that can be set to "client" | "server" | "producer" | "consumer" | "internal".
+  * @returns - return back the return from methodToTrace.
+  */
+  trace<Arguments, Return>(
+    name: string,
+    args: Arguments,
+    methodToTrace: () => Return,
+    onStartTracing?: (span: TracingSpan, args: Arguments) => void,
+    onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void,
+    options?: OperationTracingOptions,
+    spanKind?: TracingSpanKind): Return;
+
+  /**
+  * This method will create a span, call the methodToTrace, and end the span.
+  * @param name - name of the span.
+  * @param args - arguments of the method to be traced.  Generally, you should pass in `arguments` reserve word.
+  * @param methodToTrace - function pointer of the implementation.
+  * @param onStartTracing - callback function to set attributes and events before calling methodTotrace.
+  * @param onEndTracing - callback function to set attributes, events, and status before ending the span.
+  * @param options - options to set on the span.
+  * @param spanKind - kind of span that can be set to "client" | "server" | "producer" | "consumer" | "internal".
+  * @returns - return back the return from methodToTrace.
+  */
+  traceAsync<Arguments, ResolvedReturn, PromiseReturn extends Promise<ResolvedReturn> | PromiseLike<ResolvedReturn>>(
+    name: string,
+    args: Arguments,
+    methodToTrace: () => PromiseReturn,
+    onStartTracing?: (span: TracingSpan, args: Arguments) => void,
+    onEndTracing?: (span: TracingSpan, args: Arguments, rt?: ResolvedReturn, error?: unknown) => void,
+    options?: OperationTracingOptions,
+    spanKind?: TracingSpanKind): PromiseReturn;
 }
 
 /**
@@ -192,6 +232,11 @@ export interface InstrumenterSpanOptions extends TracingSpanOptions {
 }
 
 /**
+ * Status representing an unknow operation status that can be sent to {@link TracingSpan.setStatus}
+ */
+export type SpanStatusUnset = { status: "unset" };
+
+/**
  * Status representing a successful operation that can be sent to {@link TracingSpan.setStatus}
  */
 export type SpanStatusSuccess = { status: "success" };
@@ -206,7 +251,7 @@ export type SpanStatusError = { status: "error"; error?: Error | string };
  *
  * By default, all spans will be created with status "unset".
  */
-export type SpanStatus = SpanStatusSuccess | SpanStatusError;
+export type SpanStatus = SpanStatusSuccess | SpanStatusError | SpanStatusUnset;
 
 /**
  * Represents an implementation agnostic tracing span.
@@ -248,6 +293,16 @@ export interface TracingSpan {
    * Depending on the span implementation, this may return false if the span is not being sampled.
    */
   isRecording(): boolean;
+
+  /**
+   * Adds an event to the Span.
+   *
+   * @param name the name of the event.
+   * @param [attributesOrStartTime] the attributes that will be added; these are
+   *     associated with this event. Can be also a start time
+   * @param [startTime] start time of the event.
+   */
+  addEvent(name: string, attributesOrStartTime?: unknown, startTime?: unknown): void;
 }
 
 /** An immutable context bag of tracing values for the current operation. */

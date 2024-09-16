@@ -110,4 +110,9 @@ export class MockTracingSpan implements TracingSpan {
   parentSpan(): MockTracingSpan | undefined {
     return this.tracingContext?.getValue(spanKey) as MockTracingSpan;
   }
+
+  addEvent(_name: string, _attributesOrStartTime?: unknown, _startTime?: unknown) {
+
+  }
+
 }

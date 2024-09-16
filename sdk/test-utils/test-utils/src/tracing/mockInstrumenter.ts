@@ -97,6 +97,10 @@ export class MockInstrumenter implements Instrumenter {
     return {};
   }
 
+  addEvent(_name: string, _attributesOrStartTime?: unknown, _startTime?: unknown) {
+    return;
+  }
+
   /**
    * Gets the currently active context.
    *

@@ -57,6 +57,10 @@ class MockSpan implements TracingSpan {
   getAttribute(name: string): unknown {
     return this.spanAttributes[name];
   }
+
+  addEvent(_name: string, _attributesOrStartTime?: unknown, _startTime?: unknown): void {
+    throw new Error("Method not implemented.");
+  }
 }
 
 const noopTracingContext: TracingContext = {

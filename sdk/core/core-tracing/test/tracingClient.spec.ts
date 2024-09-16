@@ -195,4 +195,188 @@ describe("TracingClient", () => {
       });
     });
   });
+
+  describe("trace", () => {
+    const mockSpan = createDefaultTracingSpan();
+    beforeEach(() => {
+      instrumenter.startSpan = () => {
+        return {
+          span: mockSpan,
+          tracingContext: context,
+        };
+      };
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("handle child functions", () => {
+      const endSpy = vi.spyOn(mockSpan, "end")
+      mockSpan.isRecording = () => true;
+      const arg = 1;
+      const returnInMethodToTrace = "return";
+      const methodToTrace = () => returnInMethodToTrace;
+      let argInOnStartTracing: number | undefined;
+      let argInOnEndTracing: number | undefined;
+      let returnInOnEndTracing: unknown;
+      let spanInOnStartTracing: TracingSpan | undefined;
+      let spanInOnEndTracing: TracingSpan | undefined;
+      let errorInOnEndTracing: unknown;
+
+      const onStartTracing = (span: TracingSpan, args: number) => {
+        spanInOnStartTracing = span;
+        argInOnStartTracing = args;
+      };
+      const onEndTracing = (span: TracingSpan, args: number, rt?: string, error?: unknown) => {
+        spanInOnEndTracing = span;
+        argInOnEndTracing = args;
+        returnInOnEndTracing = rt;
+        errorInOnEndTracing = error;
+      };
+      const rt = client.trace("name", arg, methodToTrace, onStartTracing, onEndTracing);
+      assert.isDefined(spanInOnStartTracing);
+      assert.isDefined(spanInOnEndTracing);
+      assert.equal(returnInMethodToTrace, rt);
+      assert.equal(returnInOnEndTracing, rt);
+      assert.equal(argInOnStartTracing, arg);
+      assert.equal(argInOnEndTracing, arg);
+      assert.isUndefined(errorInOnEndTracing);
+      expect(endSpy).toHaveBeenCalledOnce();
+    });
+
+    it("handle no child functions", () => {
+      mockSpan.isRecording = () => true;
+      const arg = 1;
+      const returnInMethodToTrace = "return";
+      const methodToTrace = () => returnInMethodToTrace;
+      const rt = client.trace("name", arg, methodToTrace, undefined, undefined);
+      assert.equal(rt, returnInMethodToTrace);
+    });
+
+    it("handle exception", () => {
+      mockSpan.isRecording = () => true;
+      const arg = 1;
+      const err = new Error("error");
+      const methodToTrace = () => { throw err };
+      let argInOnStartTracing: number | undefined;
+      let argInOnEndTracing: number | undefined;
+      let returnInOnEndTracing: unknown;
+      let spanInOnStartTracing: TracingSpan | undefined;
+      let spanInOnEndTracing: TracingSpan | undefined;
+      let errorInOnEndTracing: unknown;
+
+      const onStartTracing = (span: TracingSpan, args: number) => {
+        spanInOnStartTracing = span;
+        argInOnStartTracing = args;
+      };
+      const onEndTracing = (span: TracingSpan, args: number, rt?: string, error?: unknown) => {
+        spanInOnEndTracing = span;
+        argInOnEndTracing = args;
+        returnInOnEndTracing = rt;
+        errorInOnEndTracing = error;
+      };
+      assert.throw(() => { client.trace("name", arg, methodToTrace, onStartTracing, onEndTracing) }, undefined, undefined, "error");
+      assert.isDefined(spanInOnStartTracing);
+      assert.isDefined(spanInOnEndTracing);
+      assert.isUndefined(returnInOnEndTracing);
+      assert.equal(errorInOnEndTracing, err);
+      assert.equal(argInOnStartTracing, arg);
+      assert.equal(argInOnEndTracing, arg);
+    });
+
+  });
+
+  describe("traceAsync", () => {
+    const mockSpan = createDefaultTracingSpan();
+    beforeEach(() => {
+      instrumenter.startSpan = () => {
+        return {
+          span: mockSpan,
+          tracingContext: context,
+        };
+      };
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("handle child functions", async () => {
+      const endSpy = vi.spyOn(mockSpan, "end")
+      mockSpan.isRecording = () => true;
+      const arg = 1;
+      const returnInMethodToTrace = "return";
+      const methodToTrace = async () => Promise.resolve(returnInMethodToTrace);
+      let argInOnStartTracing: number | undefined;
+      let argInOnEndTracing: number | undefined;
+      let returnInOnEndTracing: unknown;
+      let spanInOnStartTracing: TracingSpan | undefined;
+      let spanInOnEndTracing: TracingSpan | undefined;
+      let errorInOnEndTracing: unknown;
+
+      const onStartTracing = (span: TracingSpan, args: number) => {
+        spanInOnStartTracing = span;
+        argInOnStartTracing = args;
+      };
+      const onEndTracing = (span: TracingSpan, args: number, rt?: string, error?: unknown) => {
+        spanInOnEndTracing = span;
+        argInOnEndTracing = args;
+        returnInOnEndTracing = rt;
+        errorInOnEndTracing = error;
+      };
+      const rt = await client.traceAsync("name", arg, methodToTrace, onStartTracing, onEndTracing);
+      assert.isDefined(spanInOnStartTracing);
+      assert.isDefined(spanInOnEndTracing);
+      assert.equal(returnInMethodToTrace, rt);
+      assert.equal(returnInOnEndTracing, rt);
+      assert.equal(argInOnStartTracing, arg);
+      assert.equal(argInOnEndTracing, arg);
+      assert.isUndefined(errorInOnEndTracing);
+      expect(endSpy).toHaveBeenCalledOnce();
+    });
+
+    it("handle no child functions", async () => {
+      mockSpan.isRecording = () => true;
+      const arg = 1;
+      const returnInMethodToTrace = "return";
+      const methodToTrace = () => Promise.resolve(returnInMethodToTrace);
+      const rt = await client.trace("name", arg, methodToTrace, undefined, undefined);
+      assert.equal(rt, returnInMethodToTrace);
+    });
+
+    it("handle exception", async () => {
+      mockSpan.isRecording = () => true;
+      const arg = 1;
+      const err = new Error("error");
+      const methodToTrace = async () => { return Promise.reject(err) };
+      let argInOnStartTracing: number | undefined;
+      let argInOnEndTracing: number | undefined;
+      let returnInOnEndTracing: unknown;
+      let spanInOnStartTracing: TracingSpan | undefined;
+      let spanInOnEndTracing: TracingSpan | undefined;
+      let errorInOnEndTracing: unknown;
+
+      const onStartTracing = (span: TracingSpan, args: number) => {
+        spanInOnStartTracing = span;
+        argInOnStartTracing = args;
+      };
+      const onEndTracing = (span: TracingSpan, args: number, rt?: string, error?: unknown) => {
+        spanInOnEndTracing = span;
+        argInOnEndTracing = args;
+        returnInOnEndTracing = rt;
+        errorInOnEndTracing = error;
+      };
+      const rt = await client.traceAsync("name", arg, methodToTrace, onStartTracing, onEndTracing).then(() => { }, (error) => { return error });
+      assert.equal(rt, err);
+      assert.isDefined(spanInOnStartTracing);
+      assert.isDefined(spanInOnEndTracing);
+      assert.isUndefined(returnInOnEndTracing);
+      assert.equal(errorInOnEndTracing, err);
+      assert.equal(argInOnStartTracing, arg);
+      assert.equal(argInOnEndTracing, arg);
+    });
+
+  });
+
 });

@@ -44,8 +44,10 @@ export type Resolved<T> = T extends {
     then(onfulfilled: infer F): any;
 } ? F extends (value: infer V) => any ? Resolved<V> : never : T;
 
+// Warning: (ae-forgotten-export) The symbol "SpanStatusUnset" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type SpanStatus = SpanStatusSuccess | SpanStatusError;
+export type SpanStatus = SpanStatusSuccess | SpanStatusError | SpanStatusUnset;
 
 // @public
 export type SpanStatusError = {
@@ -68,6 +70,8 @@ export interface TracingClient {
         span: TracingSpan;
         updatedOptions: OptionsWithTracingContext<Options>;
     };
+    trace<Arguments, Return>(name: string, args: Arguments, methodToTrace: () => Return, onStartTracing?: (span: TracingSpan, args: Arguments) => void, onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void, options?: OperationTracingOptions, spanKind?: TracingSpanKind): Return;
+    traceAsync<Arguments, ResolvedReturn, PromiseReturn extends Promise<ResolvedReturn> | PromiseLike<ResolvedReturn>>(name: string, args: Arguments, methodToTrace: () => PromiseReturn, onStartTracing?: (span: TracingSpan, args: Arguments) => void, onEndTracing?: (span: TracingSpan, args: Arguments, rt?: ResolvedReturn, error?: unknown) => void, options?: OperationTracingOptions, spanKind?: TracingSpanKind): PromiseReturn;
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     withSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
@@ -90,6 +94,7 @@ export interface TracingContext {
 
 // @public
 export interface TracingSpan {
+    addEvent(name: string, attributesOrStartTime?: unknown, startTime?: unknown): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;
