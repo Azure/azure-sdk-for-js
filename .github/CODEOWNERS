@@ -75,7 +75,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern
+/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -107,11 +107,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern
+/sdk/communication/communication-short-codes/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Toll Free Verification
 # ServiceLabel: %Communication - Toll Free Verification
-/sdk/communication/communication-toll-free-verification/ @miguhern
+/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
