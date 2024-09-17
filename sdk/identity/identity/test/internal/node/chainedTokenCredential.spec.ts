@@ -18,8 +18,8 @@ describe("ChainedTokenCredential", function () {
   it("Logs the expected successful message", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       new TestMockCredential(
-        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" })
-      )
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
 
     const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
@@ -30,11 +30,11 @@ describe("ChainedTokenCredential", function () {
 
     assert.equal(
       infoSpy.getCalls()[0].args.join(" "),
-      "ChainedTokenCredential => getToken() => Result for TestMockCredential: SUCCESS. Scopes: <scope>."
+      "ChainedTokenCredential => getToken() => Result for TestMockCredential: SUCCESS. Scopes: <scope>.",
     );
     assert.equal(
       getTokenInfoSpy.getCalls()[0].args[0],
-      "Result for TestMockCredential: SUCCESS. Scopes: <scope>."
+      "Result for TestMockCredential: SUCCESS. Scopes: <scope>.",
     );
 
     infoSpy.restore();
@@ -50,8 +50,8 @@ describe("ChainedTokenCredential", function () {
 
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(
-        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" })
-      )
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
 
     const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
@@ -62,11 +62,11 @@ describe("ChainedTokenCredential", function () {
 
     assert.equal(
       infoSpy.getCalls()[0].args.join(" "),
-      "ChainedTokenCredential => getToken() => Result for Object: SUCCESS. Scopes: <scope>."
+      "ChainedTokenCredential => getToken() => Result for Object: SUCCESS. Scopes: <scope>.",
     );
     assert.equal(
       getTokenInfoSpy.getCalls()[0].args[0],
-      "Result for Object: SUCCESS. Scopes: <scope>."
+      "Result for Object: SUCCESS. Scopes: <scope>.",
     );
 
     infoSpy.restore();

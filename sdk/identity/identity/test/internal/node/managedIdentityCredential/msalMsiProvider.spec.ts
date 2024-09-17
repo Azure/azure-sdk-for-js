@@ -37,28 +37,28 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       it("throws when both clientId and resourceId are provided", function () {
         assert.throws(
           () => new MsalMsiProvider("id", { resourceId: "id" }),
-          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
         );
       });
 
       it("throws when both clientId and resourceId are provided via options", function () {
         assert.throws(
           () => new MsalMsiProvider({ clientId: "id", resourceId: "id" }),
-          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
         );
       });
 
       it("throws when both clientId and objectId are provided", function () {
         assert.throws(
           () => new MsalMsiProvider("id", { objectId: "id" }),
-          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
         );
       });
 
       it("throws when both resourceId and objectId are provided via options", function () {
         assert.throws(
           () => new MsalMsiProvider({ resourceId: "id", objectId: "id" }),
-          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
         );
       });
     });
@@ -94,7 +94,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         assert.strictEqual(token.token, validAuthenticationResult.accessToken);
         assert.strictEqual(
           token.expiresOnTimestamp,
-          validAuthenticationResult.expiresOn?.getTime()
+          validAuthenticationResult.expiresOn?.getTime(),
         );
       });
 
@@ -118,7 +118,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       describe("when using IMDS", function () {
         it("probes the IMDS endpoint", async function () {
           Sinon.stub(ManagedIdentityApplication.prototype, "getManagedIdentitySource").returns(
-            "DefaultToImds"
+            "DefaultToImds",
           );
           acquireTokenStub.resolves(validAuthenticationResult as AuthenticationResult);
 
@@ -151,7 +151,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         acquireTokenStub.rejects(
           new RestError("A socket operation was attempted to an unreachable network", {
             statusCode: 403,
-          })
+          }),
         );
         const provider = new MsalMsiProvider();
         await assert.isRejected(provider.getToken("scope"), /Network unreachable/);
