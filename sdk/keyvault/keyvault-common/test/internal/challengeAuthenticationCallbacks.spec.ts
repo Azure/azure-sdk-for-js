@@ -106,8 +106,10 @@ describe("Challenge based authentication tests", function () {
 
       await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: (scopes, getAccessTokenOptions) => {
-          expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
-          expect(getAccessTokenOptions.claims).to.equal(`{"claim":"fooo"}`);
+          expect(scopes.length).to.equal(0);
+          expect(getAccessTokenOptions.claims).to.equal(
+            `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
+          );
           expect(getAccessTokenOptions.enableCae).toBeTruthy();
           called = true;
           return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
@@ -115,7 +117,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="https://vault.azure.net" error="insufficient_claims" claims="eyJjbGFpbSI6ImZvb28ifQ=="`,
+            "WWW-Authenticate": `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
           }),
           request,
           status: 401,
@@ -352,5 +354,14 @@ describe("Challenge based authentication tests", function () {
         tenantId: "9999",
       });
     });
+
+    it("should handle Base64-encoded claims", () => {
+      const header = `Bearer claims="SGVsbG8=", error="insufficient_claims"`;
+      const parsed = parseWWWAuthenticateHeader(header);
+      expect(parsed).to.deep.equal({
+        claims: "SGVsbG8=",
+        error: "insufficient_claims",
+      })
+    })
   });
 });
