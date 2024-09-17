@@ -8,59 +8,54 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import "@azure/openai/types";
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 export async function main() {
-  console.log("== Streaming Chat Completions Sample ==");
+  console.log("== Get completions Sample ==");
 
-  const scope = "https://cognitiveservices.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-07-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.chat.completions.create({
-    messages: [
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const deploymentId = "gpt-35-turbo";
+  const events = await client.streamChatCompletions(
+    deploymentId,
+    [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
       { role: "user", content: "Can you help me?" },
       { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
       { role: "user", content: "What's the best way to train a parrot?" },
     ],
-    model: "",
-    max_tokens: 128,
-    stream: true,
-  });
+    { maxTokens: 128 },
+  );
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(`Chunk: ${choice.delta?.content}`);
-      const filterResults = choice.content_filter_results;
-      if (!filterResults) {
-        continue;
+      console.log(choice.message);
+      if (!choice.contentFilterResults) {
+        console.log("No content filter is found");
+        return;
       }
-      if (filterResults.error) {
+      if (choice.contentFilterResults.error) {
         console.log(
-          `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
+          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`,
         );
       } else {
-        const { hate, sexual, self_harm, violence } = filterResults;
+        const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
+        console.log(`Hate category is filtered: ${hate?.filtered} with ${hate?.severity} severity`);
         console.log(
-          `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
+          `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`,
         );
         console.log(
-          `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
+          `Self-harm category is filtered: ${selfHarm?.filtered} with ${selfHarm?.severity} severity`,
         );
         console.log(
-          `\tSelf-harm category is filtered: ${self_harm?.filtered}, with ${self_harm?.severity} severity`,
-        );
-        console.log(
-          `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
+          `Violence category is filtered: ${violence?.filtered} with ${violence?.severity} severity`,
         );
       }
     }

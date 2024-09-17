@@ -1,28 +1,15 @@
 
-const SpeechSDK = require("microsoft-cognitiveservices-speech-sdk");
-
-async function azureADTokenProvider() {
-  const response = await fetch("/api/auth", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return response.json();
-}
-
-export async function sendTextViaAzureSpeechSDK(input) {
-    const { sendTextFunc, promptInput, statusDiv } = input;
-    const { token, region } = await azureADTokenProvider();
-    const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(token, region);
+export function sendTextViaAzureSpeechSDK(sendTextFunc, promptInput, speechKey, speechRegion) {
+    const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
     const audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
     const recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
 
-    recognizer.recognized = async (s, e) => {
+    recognizer.recognized = (s, e) => {
       if (!!e && !!e.result && !!e.result.text) {
         statusDiv.innerHTML = "Sending input prompt to ChatGPT";
         promptInput.innerHTML = e.result.text;
-        await sendTextFunc(e.result.text);
+        
+        sendTextFunc(e.result.text);
       }
     };
 
@@ -60,10 +47,8 @@ export async function sendTextViaAzureSpeechSDK(input) {
     return stopChatViaAzureSpeechSDK;
 }
 
-export async function speakTextViaAzureSpeechSDK(input) {
-  const { text, statusDiv } = input;
-  const { token, region } = await azureADTokenProvider();
-  const speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(token, region);
+export function speakTextViaAzureSpeechSDK(text, speechKey, speechRegion) {
+  const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKey, speechRegion);
   const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
   let synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
   synthesizer.speakTextAsync(

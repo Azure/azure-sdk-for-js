@@ -8,33 +8,31 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
-  const scope = "https://cognitiveservices.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-07-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.chat.completions.create({
-    messages: [
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const deploymentId = "gpt-35-turbo";
+  const events = await client.streamChatCompletions(
+    deploymentId,
+    [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
       { role: "user", content: "Can you help me?" },
       { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
       { role: "user", content: "What's the best way to train a parrot?" },
     ],
-    model: "",
-    max_tokens: 128,
-    stream: true,
-  });
+    { maxTokens: 128 },
+  );
 
   for await (const event of events) {
     for (const choice of event.choices) {

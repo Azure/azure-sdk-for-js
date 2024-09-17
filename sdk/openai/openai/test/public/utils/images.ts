@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { PipelineResponse } from "@azure/core-rest-pipeline";
 

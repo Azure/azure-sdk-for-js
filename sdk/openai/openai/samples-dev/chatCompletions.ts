@@ -8,31 +8,27 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai";
-import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+// You will need to set these environment variables or edit the following values
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 export async function main() {
   console.log("== Chat Completions Sample ==");
 
-  const scope = "https://cognitiveservices.azure.com/.default";
-  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-07-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const result = await client.chat.completions.create({
-    messages: [
-      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-      { role: "user", content: "Can you help me?" },
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-      { role: "user", content: "What's the best way to train a parrot?" },
-    ],
-    model: "",
-  });
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const deploymentId = "gpt-35-turbo";
+  const result = await client.getChatCompletions(deploymentId, [
+    { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+    { role: "user", content: "Can you help me?" },
+    { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+    { role: "user", content: "What's the best way to train a parrot?" },
+  ]);
 
   for (const choice of result.choices) {
     console.log(choice.message);

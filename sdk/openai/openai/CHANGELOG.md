@@ -1,36 +1,10 @@
 # Release History
 
-## 2.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.13 (2024-09-17)
 
 ### Other Changes
 
-## 2.0.0-beta.2 (2024-09-09)
-
-### Features Added
-
-- Adds `CompletionChoice` interface with content filter result.
-- Updates the `license` property to be optional in `ContentFilterCitedDetectionResultOutput`.
-- Updates `custom_blocklists` type in `ContentFilterResultsForChoiceOutput` to `ContentFilterDetailedResults`.
-
-### Bugs Fixed
-
-- Add `@azure-rest/core-client` as a dependency so TypeScript users don't have to import it manually in their code.
-
-## 2.0.0-beta.1 (2024-07-22)
-
-### Features Added
-
-- Adds subpath `@azure/openai/types` which exports types for Azure On Your Data and Azure content filtering. Checkout the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples) for examples of how to import it.
-
-### Breaking Changes
-
-- `OpenAIClient` has been deleted. Follow the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/MIGRATION.md) to use `AzureOpenAI` from the official [OpenAI client library for JavaScript](https://www.npmjs.com/package/openai) instead.
+- Deprecation notice: The Azure OpenAI client library for JavaScript beta will be retired on January 14th, 2025. Please migrate to the stable OpenAI SDK for JavaScript using the [migration guide](https://aka.ms/oai/js/migrate) before that date.
 
 ## 1.0.0-beta.12 (2024-04-01)
 
