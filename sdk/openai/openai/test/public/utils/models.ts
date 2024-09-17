@@ -14,9 +14,3 @@ export const visionModelsToSkip = [
 ];
 
 export const ttsModelsToSkip = [{ name: "whisper", version: "001" }];
-
-export const whisperModelsToSkip = [
-  { name: "gpt-4", version: "0613" },
-  { name: "gpt-4", version: "turbo-2024-04-09" },
-  { name: "gpt-4", version: "1106-Preview" },
-];

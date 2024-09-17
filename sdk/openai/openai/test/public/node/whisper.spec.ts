@@ -16,7 +16,6 @@ import {
 } from "../utils/utils.js";
 import { assertAudioResult } from "../utils/asserts.js";
 import { AudioResultFormat } from "../utils/audioTypes.js";
-import { whisperModelsToSkip } from "../utils/models.js";
 
 describe("OpenAI", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -39,7 +38,6 @@ describe("OpenAI", function () {
               return client.audio.transcriptions.create({ model: "", file }, maxRetriesOption);
             },
             (audio) => assertAudioResult("json", audio),
-            whisperModelsToSkip,
           );
         });
       });
@@ -54,7 +52,6 @@ describe("OpenAI", function () {
               return client.audio.translations.create({ model: "", file }, maxRetriesOption);
             },
             (audio) => assertAudioResult("json", audio),
-            whisperModelsToSkip,
           );
         });
       });
@@ -82,7 +79,6 @@ describe("OpenAI", function () {
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                whisperModelsToSkip,
               );
             });
           });
@@ -104,7 +100,6 @@ describe("OpenAI", function () {
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                whisperModelsToSkip,
               );
             });
           });
