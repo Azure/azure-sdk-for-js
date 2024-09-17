@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, expect } from "vitest";
+import { assert } from "vitest";
 
 export async function assertError<T>(
   p: Promise<T>,
@@ -15,13 +15,13 @@ export async function assertError<T>(
     await p;
     assert.fail(`Expected promise to error, but resolved successfully`);
   } catch (e) {
-    expect(e).toBeInstanceOf(Error);
+    assert.instanceOf(e, Error);
     const error = e as any;
     if (message) {
-      expect(error.message).toMatch(message);
+      assert.match(error.message, message);
     }
     if (causeMessage && error.cause) {
-      expect((error.cause as Error).message).toMatch(causeMessage);
+      assert.match((error.cause as Error).message, causeMessage);
     }
   }
 }

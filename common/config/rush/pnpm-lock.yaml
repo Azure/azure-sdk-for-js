@@ -23963,7 +23963,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-mvjpRBn7uK7Wrcfhj9UJk2B/dBD9UD5umQeAI2UjZGK6jQUS7qK91tMrqBoFgw2WOWiCgtopGOAk1NxPG5E2Lg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-xv6ASfw+3OHQhcONTWmvd0VjHSAr5yF0jXirxaWdXJmB8Jp9eVxAkgsQhALXvheQWILujLC2SW/zruxf7vURkg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -23973,6 +23973,7 @@ packages:
       '@azure/identity': 4.4.1
       '@azure/schema-registry': 1.2.0
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.21.3)
       '@types/chai': 4.3.19
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.8
@@ -24021,6 +24022,7 @@ packages:
       - less
       - lightningcss
       - msw
+      - rollup
       - safaridriver
       - sass
       - sass-embedded
