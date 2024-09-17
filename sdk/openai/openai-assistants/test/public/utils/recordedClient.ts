@@ -24,6 +24,7 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: ["AZSDK3430", "AZSDK3479", "AZSDK3402", "AZSDK3493"],
 };
 
 export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";
