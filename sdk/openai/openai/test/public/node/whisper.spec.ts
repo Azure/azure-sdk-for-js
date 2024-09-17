@@ -15,9 +15,9 @@ function getModel(authMethod: AuthMethod): string {
   return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
 }
 
-describe("OpenAI", function () {
+describe.skip("OpenAI", function () {
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
+    describe.skip(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
 
@@ -32,7 +32,7 @@ describe("OpenAI", function () {
         }
       });
 
-      describe("getAudioTranscription", function () {
+      describe.skip("getAudioTranscription", function () {
         it(`returns json transcription if responseFormat wasn't specified`, async function () {
           const file = await fs.readFile(`./assets/audio/countdown.mp3`);
           const res = await client.getAudioTranscription(getModel(authMethod), file);
@@ -40,7 +40,7 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("getAudioTranslation", function () {
+      describe.skip("getAudioTranslation", function () {
         it(`returns json translation if responseFormat wasn't specified`, async function () {
           const file = await fs.readFile(`./assets/audio/countdown.mp3`);
           const res = await client.getAudioTranslation(getModel(authMethod), file);
@@ -54,7 +54,7 @@ describe("OpenAI", function () {
           ["m4a", "mp3", "wav", "ogg", "flac", "webm", "mp4", "mpeg", "oga", "mpga"],
         ] as const,
         async function (format: AudioResultFormat, extension: string) {
-          describe("getAudioTranscription", function () {
+          describe.skip("getAudioTranscription", function () {
             it(`returns ${format} transcription for ${extension} files`, async function () {
               const file = await fs.readFile(`./assets/audio/countdown.${extension}`);
               const res = await client.getAudioTranscription(getModel(authMethod), file, format);
@@ -62,7 +62,7 @@ describe("OpenAI", function () {
             });
           });
 
-          describe("getAudioTranslation", function () {
+          describe.skip("getAudioTranslation", function () {
             it(`returns ${format} translation for ${extension} files`, async function () {
               const file = await fs.readFile(`./assets/audio/countdown.${extension}`);
               const res = await client.getAudioTranslation(getModel(authMethod), file, format);

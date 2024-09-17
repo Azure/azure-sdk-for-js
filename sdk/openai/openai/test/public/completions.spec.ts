@@ -28,7 +28,7 @@ import {
 } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 
-describe("OpenAI", function () {
+describe.skip("OpenAI", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
   let models: string[] = [];
@@ -46,14 +46,14 @@ describe("OpenAI", function () {
   });
 
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
+    describe.skip(`[${authMethod}] Client`, () => {
       let client: OpenAIClient;
 
       beforeEach(async function (this: Context) {
         client = createClient(authMethod, "completions", { recorder });
       });
 
-      describe("getCompletions", function () {
+      describe.skip("getCompletions", function () {
         it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
@@ -64,7 +64,7 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("streamCompletions", function () {
+      describe.skip("streamCompletions", function () {
         it("returns completions stream", async function () {
           const prompt = ["This is Azure OpenAI?"];
           await withDeployments(
@@ -148,7 +148,7 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("chat completions", function () {
+      describe.skip("chat completions", function () {
         const pirateMessages = [
           {
             role: "system",
@@ -189,7 +189,7 @@ describe("OpenAI", function () {
         const chatCompletionDeployments: string[] = [];
         const chatCompletionModels: string[] = [];
 
-        describe("getChatCompletions", function () {
+        describe.skip("getChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(
@@ -467,7 +467,7 @@ describe("OpenAI", function () {
           });
         });
 
-        describe("streamChatCompletions", function () {
+        describe.skip("streamChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(

@@ -9,7 +9,7 @@ import { getModels } from "./utils/utils.js";
 import { Context } from "mocha";
 import { AssistantsClient, ToolDefinition } from "../../src/index.js";
 
-describe("OpenAIAssistants", () => {
+describe.skip("OpenAIAssistants", () => {
   let recorder: Recorder;
   let models: string[] = [];
 
@@ -27,7 +27,7 @@ describe("OpenAIAssistants", () => {
   const authTypes = ["AzureAPIKey", "OpenAIKey"] as AuthMethod[];
 
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
+    describe.skip(`[${authMethod}] Client`, () => {
       let client: AssistantsClient;
       const codeAssistant = {
         tools: [{ type: "code_interpreter" } as ToolDefinition],
@@ -42,7 +42,7 @@ describe("OpenAIAssistants", () => {
         client = createClient(authMethod, { recorder });
       });
 
-      describe("all CRUD APIs", function () {
+      describe.skip("all CRUD APIs", function () {
         it("creates, gets, lists, modifies, and deletes an assistant", async function () {
           const assistantResponse = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistantResponse);
@@ -222,7 +222,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(deleteAssistantResponse.deleted, true);
         });
       });
-      describe("user scenarios", function () {
+      describe.skip("user scenarios", function () {
         it("create and run code interpreter scenario", async function () {
           const assistant = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistant);

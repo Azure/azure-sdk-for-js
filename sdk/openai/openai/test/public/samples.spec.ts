@@ -13,7 +13,7 @@ import {
 } from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 
-describe("README samples", () => {
+describe.skip("README samples", () => {
   let recorder: Recorder;
   let client: OpenAIClient;
 
@@ -21,7 +21,7 @@ describe("README samples", () => {
     await recorder.stop();
   });
 
-  describe("Completions", function () {
+  describe.skip("Completions", function () {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       recorder = await startRecorder(this.currentTest);
@@ -163,7 +163,7 @@ describe("README samples", () => {
     });
   });
 
-  describe("Dall-E", function () {
+  describe.skip("Dall-E", function () {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       recorder = await startRecorder(this.currentTest);

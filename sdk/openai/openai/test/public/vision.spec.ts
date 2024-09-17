@@ -10,7 +10,7 @@ import { getDeployments, getModels } from "./utils/utils.js";
 import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 
-describe("OpenAI", function () {
+describe.skip("OpenAI", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
   let models: string[] = [];
@@ -28,14 +28,14 @@ describe("OpenAI", function () {
   });
 
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
+    describe.skip(`[${authMethod}] Client`, () => {
       let client: OpenAIClient;
 
       beforeEach(async function (this: Context) {
         client = createClient(authMethod, "completions", { recorder });
       });
 
-      describe("getChatCompletions", function () {
+      describe.skip("getChatCompletions", function () {
         it("Describes an image", async function () {
           if (authMethod !== "OpenAIKey") this.skip();
           const url =

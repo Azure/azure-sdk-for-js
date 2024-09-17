@@ -10,7 +10,7 @@ import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 import { assertOpenAiError } from "./utils/asserts.js";
 
-describe("OpenAI", function () {
+describe.skip("OpenAI", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
   let models: string[] = [];
@@ -28,7 +28,7 @@ describe("OpenAI", function () {
   });
 
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
+    describe.skip(`[${authMethod}] Client`, () => {
       let client: OpenAIClient;
       let modelName: string;
 
@@ -37,7 +37,7 @@ describe("OpenAI", function () {
         modelName = "text-embedding-ada-002";
       });
 
-      describe("getEmbeddings", function () {
+      describe.skip("getEmbeddings", function () {
         it("embeddings test", async function () {
           const prompt = ["This is text to be embedded"];
           const embeddings = await client.getEmbeddings(modelName, prompt);

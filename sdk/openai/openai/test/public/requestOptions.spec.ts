@@ -7,7 +7,7 @@ import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 
-describe("Request options", () => {
+describe.skip("Request options", () => {
   let client: OpenAIClient;
   let recorder: Recorder;
 

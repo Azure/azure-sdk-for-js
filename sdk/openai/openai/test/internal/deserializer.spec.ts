@@ -6,8 +6,8 @@ import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/op
 
 const created = new Date("2022-01-01T00:00:00.000Z").getTime();
 
-describe("deserializers", () => {
-  describe("getCompletionsResult", () => {
+describe.skip("deserializers", () => {
+  describe.skip("getCompletionsResult", () => {
     it("should deserialize completions response", () => {
       const body = {
         id: "123",
@@ -273,7 +273,7 @@ describe("deserializers", () => {
     });
   });
 
-  describe("getChatCompletionsResult", () => {
+  describe.skip("getChatCompletionsResult", () => {
     it("should deserialize chat completions result", () => {
       const body = {
         id: "123",

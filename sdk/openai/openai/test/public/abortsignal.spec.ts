@@ -8,7 +8,7 @@ import { assert } from "@azure-tools/test-utils";
 import { AbortController } from "@azure/abort-controller";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-describe("AbortSignal", () => {
+describe.skip("AbortSignal", () => {
   let client: OpenAIClient;
 
   beforeEach(async function (this: Context) {

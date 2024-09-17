@@ -14,9 +14,6 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint/",
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
   OPENAI_API_KEY: "openai_api_key",
   AZURE_API_KEY: "azure_api_key",
