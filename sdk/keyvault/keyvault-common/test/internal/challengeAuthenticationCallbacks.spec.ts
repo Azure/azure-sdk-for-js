@@ -89,6 +89,45 @@ describe("Challenge based authentication tests", function () {
 
       expect(options.request.headers.get("authorization")).toBeUndefined();
     });
+
+    it("Handles insufficient claims", async () => {
+      const options: AuthorizeRequestOptions = {
+        getAccessToken: () => {
+          return Promise.resolve({ token: "access_token", expiresOnTimestamp: 1000 });
+        },
+        request: createPipelineRequest({
+          url: "https://foo.bar",
+          headers: createHttpHeaders({}),
+        }),
+        scopes: [],
+      };
+
+      let called = false;
+
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: (scopes, getAccessTokenOptions) => {
+          expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
+          expect(getAccessTokenOptions.claims).to.equal(`{"claim":"fooo"}`);
+          expect(getAccessTokenOptions.enableCae).toBeTruthy();
+          called = true;
+          return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net" error="insufficient_claims" claims="eyJjbGFpbSI6ImZvb28ifQ=="`,
+          }),
+          request,
+          status: 401,
+        },
+        scopes: [],
+      });
+
+      await challengeCallbacks.authorizeRequest!(options);
+
+      expect(options.request.headers.get("authorization")).toEqual("Bearer access_token");
+      expect(called).toBeTruthy();
+    });
   });
 
   describe("authorizeRequestOnChallenge", () => {

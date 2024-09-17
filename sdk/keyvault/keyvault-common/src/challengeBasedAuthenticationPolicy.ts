@@ -11,6 +11,7 @@ import {
 import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import { GetTokenOptions } from "@azure/core-auth";
+import { logger } from "./logger.js";
 
 /**
  * @internal
@@ -154,8 +155,19 @@ export function createKeyVaultChallengeCallbacks(
       verifyChallengeResource(scope, request);
     }
 
+    const { error, claims: base64EncodedClaims } = parsedChallenge;
+    let claims: string | undefined = undefined;
+    if (error) {
+      logger.verbose("Received error in WWW-Authenticate header:", error);
+      if (error === "insufficient_claims" && base64EncodedClaims) {
+        claims = atob(base64EncodedClaims);
+      }
+    }
+
     const accessToken = await getAccessToken([scope], {
       ...getTokenOptions,
+      enableCae: claims !== undefined,
+      claims,
       tenantId: parsedChallenge.tenantId,
     });
 

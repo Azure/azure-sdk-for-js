@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support for Continuous Access Evaluation (CAE).
+
 ### Breaking Changes
 
 ### Bugs Fixed
