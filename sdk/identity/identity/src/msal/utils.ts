@@ -57,9 +57,11 @@ export function ensureValidMsalToken(
 
 /**
  * Returns the authority host from either the options bag or the AZURE_AUTHORITY_HOST environment variable.
+ *
+ * Defaults to {@link DefaultAuthorityHost}.
  * @internal
  */
-export function getAuthorityHost(options?: { authorityHost?: string }): string | undefined {
+export function getAuthorityHost(options?: { authorityHost?: string }): string {
   let authorityHost = options?.authorityHost;
 
   if (!authorityHost && isNodeLike) {
