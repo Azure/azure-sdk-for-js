@@ -147,11 +147,7 @@ export function createKeyVaultChallengeCallbacks(
       ? parsedChallenge.resource + "/.default"
       : parsedChallenge.scope;
 
-    if (!scope) {
-      throw new Error("Missing scope.");
-    }
-
-    if (!disableChallengeResourceVerification) {
+    if (scope && !disableChallengeResourceVerification) {
       verifyChallengeResource(scope, request);
     }
 
@@ -164,7 +160,9 @@ export function createKeyVaultChallengeCallbacks(
       }
     }
 
-    const accessToken = await getAccessToken([scope], {
+    const scopes = scope ? [scope] : [];
+
+    const accessToken = await getAccessToken(scopes, {
       ...getTokenOptions,
       enableCae: claims !== undefined,
       claims,
@@ -179,7 +177,7 @@ export function createKeyVaultChallengeCallbacks(
 
     challengeState = {
       status: "complete",
-      scopes: [scope],
+      scopes,
     };
 
     return true;
