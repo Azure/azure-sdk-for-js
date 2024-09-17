@@ -90,18 +90,7 @@ describe("Challenge based authentication tests", function () {
       expect(options.request.headers.get("authorization")).toBeUndefined();
     });
 
-    it("Handles insufficient claims", async () => {
-      const options: AuthorizeRequestOptions = {
-        getAccessToken: () => {
-          return Promise.resolve({ token: "access_token", expiresOnTimestamp: 1000 });
-        },
-        request: createPipelineRequest({
-          url: "https://foo.bar",
-          headers: createHttpHeaders({}),
-        }),
-        scopes: [],
-      };
-
+    it("Handles CAE challenge", async () => {
       let called = false;
 
       // First, respond with a normal challenge
