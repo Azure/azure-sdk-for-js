@@ -69,7 +69,7 @@ export class LegacyMsiProvider {
 
   constructor(
     clientIdOrOptions?: string | ManagedIdentityCredentialOptions,
-    options?: TokenCredentialOptions
+    options?: TokenCredentialOptions,
   ) {
     let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
@@ -83,7 +83,7 @@ export class LegacyMsiProvider {
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
       throw new Error(
-        `ManagedIdentityCredential - Client Id and Resource Id can't be provided at the same time.`
+        `ManagedIdentityCredential - Client Id and Resource Id can't be provided at the same time.`,
       );
     }
     if (_options?.retryOptions?.maxRetries !== undefined) {
@@ -123,7 +123,7 @@ export class LegacyMsiProvider {
 
   private async cachedAvailableMSI(
     scopes: string | string[],
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): Promise<MSI> {
     if (this.cachedMSI) {
       return this.cachedMSI;
@@ -159,11 +159,11 @@ export class LegacyMsiProvider {
 
   private async authenticateManagedIdentity(
     scopes: string | string[],
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): Promise<MSIToken | null> {
     const { span, updatedOptions } = tracingClient.startSpan(
       `ManagedIdentityCredential.authenticateManagedIdentity`,
-      getTokenOptions
+      getTokenOptions,
     );
 
     try {
@@ -177,7 +177,7 @@ export class LegacyMsiProvider {
           resourceId: this.resourceId,
           retryConfig: this.msiRetryConfig,
         },
-        updatedOptions
+        updatedOptions,
       );
     } catch (err: any) {
       span.setStatus({
@@ -201,12 +201,12 @@ export class LegacyMsiProvider {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
     const { span, updatedOptions } = tracingClient.startSpan(
       `ManagedIdentityCredential.getToken`,
-      options
+      options,
     );
     try {
       // isEndpointAvailable can be true, false, or null,
@@ -240,7 +240,7 @@ export class LegacyMsiProvider {
           // It also means that the endpoint answered with either 200 or 201 (see the sendTokenRequest method),
           // yet we had no access token. For this reason, we'll throw once with a specific message:
           const error = new CredentialUnavailableError(
-            "The managed identity endpoint was reached, yet no tokens were received."
+            "The managed identity endpoint was reached, yet no tokens were received.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -254,7 +254,7 @@ export class LegacyMsiProvider {
         // We've previously determined that the endpoint was unavailable,
         // either because it was unreachable or permanently unable to authenticate.
         const error = new CredentialUnavailableError(
-          "The managed identity endpoint is not currently available"
+          "The managed identity endpoint is not currently available",
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
@@ -284,7 +284,7 @@ export class LegacyMsiProvider {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`
+          `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -295,7 +295,7 @@ export class LegacyMsiProvider {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          `ManagedIdentityCredential: Unavailable. No managed identity endpoint found. Message: ${err.message}`
+          `ManagedIdentityCredential: Unavailable. No managed identity endpoint found. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -305,7 +305,7 @@ export class LegacyMsiProvider {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
+          `ManagedIdentityCredential: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
         );
       }
 
@@ -314,7 +314,7 @@ export class LegacyMsiProvider {
       if (err.statusCode === 403 || err.code === 403) {
         if (err.message.includes("unreachable")) {
           const error = new CredentialUnavailableError(
-            `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`
+            `ManagedIdentityCredential: Unavailable. Network unreachable. Message: ${err.message}`,
           );
 
           logger.getToken.info(formatError(scopes, error));
@@ -326,7 +326,7 @@ export class LegacyMsiProvider {
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
         throw new CredentialUnavailableError(
-          `ManagedIdentityCredential: Authentication failed. Message ${err.message}`
+          `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
         );
       }
 
@@ -349,7 +349,7 @@ export class LegacyMsiProvider {
   private handleResult(
     scopes: string | string[],
     result?: MsalResult,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): AccessToken {
     this.ensureValidMsalToken(scopes, result, getTokenOptions);
     logger.getToken.info(formatSuccess(scopes));
@@ -367,7 +367,7 @@ export class LegacyMsiProvider {
   private ensureValidMsalToken(
     scopes: string | string[],
     msalToken?: MsalToken,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): asserts msalToken is ValidMsalToken {
     const error = (message: string): Error => {
       logger.getToken.info(message);
@@ -393,20 +393,20 @@ export class LegacyMsiProvider {
       this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters) => {
         logger.info(
           `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
-            appTokenProviderParameters
-          )}`
+            appTokenProviderParameters,
+          )}`,
         );
         const getTokenOptions: GetTokenOptions = {
           ...appTokenProviderParameters,
         };
         logger.info(
           `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
-            appTokenProviderParameters.scopes
-          )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
+            appTokenProviderParameters.scopes,
+          )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`,
         );
         const resultToken = await this.authenticateManagedIdentity(
           appTokenProviderParameters.scopes,
-          getTokenOptions
+          getTokenOptions,
         );
 
         if (resultToken) {
@@ -425,7 +425,7 @@ export class LegacyMsiProvider {
           };
         } else {
           logger.info(
-            `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+            `SetAppTokenProvider token has "no_access_token_returned" as the saved token`,
           );
           return {
             accessToken: "no_access_token_returned",
