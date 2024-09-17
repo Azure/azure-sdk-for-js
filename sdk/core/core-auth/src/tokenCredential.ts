@@ -107,7 +107,7 @@ export interface AccessToken {
 }
 
 /**
- * @param accessToken
+ * @param accessToken - Access token
  * @returns Whether a token is bearer type or not
  */
 export function isBearerToken(accessToken: AccessToken): boolean {
@@ -115,7 +115,7 @@ export function isBearerToken(accessToken: AccessToken): boolean {
 }
 
 /**
- * @param accessToken
+ * @param accessToken - Access token
  * @returns Whether a token is Pop token or not
  */
 export function isPopToken(accessToken: AccessToken): boolean {
@@ -125,7 +125,7 @@ export function isPopToken(accessToken: AccessToken): boolean {
 /**
  * Computes Token type "Bearer" or "Pop".
  * Used for authentication headers.
- * @param accessToken
+ * @param accessToken - Access token
  * @returns token type
  */
 export function computeTokenType(accessToken: AccessToken): string {
