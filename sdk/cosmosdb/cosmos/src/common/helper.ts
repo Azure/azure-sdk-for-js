@@ -370,7 +370,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
 }
 
 /**
- * returns copy of object to avoid encryption of original object passed
+ * utility function to return copy of object to avoid encryption of original object passed
  * in the CRUD methods.
  * @hidden
  */

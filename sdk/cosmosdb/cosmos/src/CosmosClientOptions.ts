@@ -8,7 +8,7 @@ import { PluginConfig } from "./plugins/Plugin";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { EncryptionKeyResolver } from "./encryption";
+import { EncryptionKeyResolver, EncryptionTimeToLive } from "./encryption";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -59,9 +59,15 @@ export interface CosmosClientOptions {
   /** A custom string to append to the default SDK user agent. */
   userAgentSuffix?: string;
   diagnosticLevel?: CosmosDbDiagnosticLevel;
+  /** boolean flag to support operations involving client side encryption */
   enableEncryption?: boolean;
+  /** resolver that allows interaction with key encryption keys. */
   keyEncryptionKeyResolver?: EncryptionKeyResolver;
-  encryptionKeyTimeToLive?: number;
+  /** time for which encryption keys and settings will be cached. Default is 2 hour */
+  encryptionKeyTimeToLive?: EncryptionTimeToLive;
+  /** name of the resolver to use for client side encryption.
+   * Currently only AzureKeyVault implementation is supported.
+   */
   encryptionKeyResolverName?: string;
   /** @internal */
   plugins?: PluginConfig[];

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID } from "@azure/core-util";
+import { Suite } from "mocha";
 import {
   CosmosClient,
   EncryptionKeyWrapMetadata,
@@ -62,7 +63,8 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
-describe("Client Side Encryption", () => {
+describe("Client Side Encryption", function (this: Suite) {
+  this.timeout(process.env.MOCHA_TIMEOUT || 150000);
   before(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
@@ -267,8 +269,8 @@ describe("Client Side Encryption", () => {
     }
     // expecting just one unwrap, since the key should be cached for 1 min
     assert.ok(testKeyResolver.unwrapKeyCallsCount["tempmetadata1"] === 1);
-    // wait for 2 min to ensure that cache is cleared
-    await new Promise((resolve) => setTimeout(resolve, EncryptionTimeToLive.FromMinutes(1)));
+    // wait for some to ensure that cache is cleared
+    await new Promise((resolve) => setTimeout(resolve, 120000));
 
     for (let i = 0; i < 2; i++) {
       await testCreateItem(newContainer);

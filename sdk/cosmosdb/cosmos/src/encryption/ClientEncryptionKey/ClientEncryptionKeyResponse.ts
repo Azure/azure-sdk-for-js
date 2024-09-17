@@ -21,5 +21,6 @@ export class ClientEncryptionKeyResponse extends ResourceResponse<
     super(resource, headers, statusCode, diagnostics);
     this.clientEncryptionKeyProperties = clientEncryptionKeyProperties;
   }
+  /** Properties of the client encryption key */
   public readonly clientEncryptionKeyProperties: ClientEncryptionKeyProperties;
 }

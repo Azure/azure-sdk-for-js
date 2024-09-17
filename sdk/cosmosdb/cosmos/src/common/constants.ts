@@ -282,8 +282,10 @@ export const Constants = {
   // Changefeed AllVersionsAndDeletesMode formatting version
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
-  // Default TTL for caches related to Encryption
+  // Default TTL for encryption caches in hours
   DefaultEncryptionCacheTimeToLive: 2,
+  // Timeout to clear encryption related cache
+  EncryptionCacheRefreshInterval: 60000, // 1 minute
 };
 
 /**
@@ -303,6 +305,7 @@ export enum ResourceType {
   item = "docs",
   pkranges = "pkranges",
   partitionkey = "partitionKey",
+  /** resource representing client encryption keys to encrypt/decrypt data */
   clientencryptionkey = "clientencryptionkeys",
 }
 

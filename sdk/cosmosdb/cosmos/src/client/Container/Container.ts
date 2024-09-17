@@ -39,11 +39,8 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
-import {
-  EncryptionProcessor,
-  EncryptionSettingForProperty,
-  EncryptionManager,
-} from "../../encryption";
+import { EncryptionProcessor, EncryptionSettingForProperty } from "../../encryption";
+import { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -121,7 +118,7 @@ export class Container {
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
    * @param id - The id of the given container.
-   * @hidden
+   * @internal
    */
   constructor(
     public readonly database: Database,
