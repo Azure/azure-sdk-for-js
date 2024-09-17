@@ -53,7 +53,7 @@ Once created, the Notification Hub can be configured using the [Azure Portal or 
 
 This SDK for JavaScript offers two ways of interacting with Azure Notification Hubs, either through the class-based approach, or with a modular design approach.  The class-based approach is consistent across all packages to create a client and then interact with the methods on the client.
 
-```javascript snippet:importing_classical
+```ts snippet:importing_classical
 import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -63,6 +63,7 @@ const installation = createAppleInstallation({
   tags: ["likes_javascript"],
 });
 const result = await client.createOrUpdateInstallation(installation);
+
 ```
 
 The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.
@@ -76,7 +77,7 @@ The following subpaths are exposed:
 
 The above code snippet then becomes the following:
 
-```javascript snippet:importing_modular
+```ts snippet:importing_modular
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 import { createAppleInstallation } from "@azure/notification-hubs";
 
@@ -87,6 +88,7 @@ const installation = createAppleInstallation({
   tags: ["likes_javascript"],
 });
 const result = await createOrUpdateInstallation(context, installation);
+
 ```
 
 ### Authenticate the client
@@ -97,18 +99,20 @@ Listen allows for a client to register itself via the Registration and Installat
 
 A new `NotificationHubsClient` client can be created using the constructor with the connection string and Notification Hub name.
 
-```javascript snippet:authenticating_classical
+```ts snippet:authenticating_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 ```
 
 Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/api"` subpath.
 
-```javascript snippet:authenticating_modular
+```ts snippet:authenticating_modular
 import { createClientContext } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 ```
 
 ## Key concepts
@@ -133,7 +137,7 @@ Installations are a newer and native JSON approach to device management that con
 
 Installations can be created through the `createOrUpdateInstallation` method such as the following:
 
-```javascript snippet:createOrUpdateInstallation_classical
+```ts snippet:createOrUpdateInstallation_classical
 import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -144,11 +148,12 @@ const installation = createAppleInstallation({
   tags: ["likes_hockey", "likes_football"],
 });
 const response = await client.createOrUpdateInstallation(installation);
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:createOrUpdateInstallation_modular
+```ts snippet:createOrUpdateInstallation_modular
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 import { createAppleInstallation } from "@azure/notification-hubs";
 
@@ -160,54 +165,60 @@ const installation = createAppleInstallation({
   tags: ["likes_hockey", "likes_football"],
 });
 const response = await createOrUpdateInstallation(context, installation);
+
 ```
 
 An update to an installation can be made through the JSON Patch schema such as adding a tag and a user ID using the `updateInstallation` method.
 
-```javascript snippet:updateInstallation_classical
-import { NotificationHubsClient } from "@azure/notification-hubs";
+```ts snippet:updateInstallation_classical
+import { NotificationHubsClient, JsonPatch } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 const installationId = "<unique installation ID>";
-const updates = [
+const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
   { op: "add", path: "/userId", value: "bob@contoso.com" },
 ];
 const installation = await client.updateInstallation(installationId, updates);
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:updateInstallation_modular
+```ts snippet:updateInstallation_modular
 import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
+import { JsonPatch } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
 const installationId = "<unique installation ID>";
-const updates = [
+const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
   { op: "add", path: "/userId", value: "bob@contoso.com" },
 ];
 const installation = await updateInstallation(context, installationId, updates);
+
 ```
 
 To retrieve an existing installation, use the `getInstallation` method with your existing unique installation ID.
 
-```javascript snippet:getInstallation_classical
+```ts snippet:getInstallation_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 const installationId = "<unique installation ID>";
 const installation = client.getInstallation(installationId);
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:getInstallation_modular
+```ts snippet:getInstallation_modular
 import { createClientContext, getInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
 const installationId = "<unique installation ID>";
 const installation = getInstallation(context, installationId);
+
 ```
 
 #### Registrations API
@@ -216,7 +227,7 @@ A registration is associated with a PNS just as the installation above, with the
 
 An installation may be created in one of two ways, first by getting a registration ID from the server using `getInstallationId` and then `createOrUpdateRegistration` or via the `createRegistration` method.
 
-```javascript snippet:createRegistration_classical
+```ts snippet:createRegistration_classical
 import {
   NotificationHubsClient,
   createAppleRegistrationDescription,
@@ -228,11 +239,12 @@ const registration = createAppleRegistrationDescription({
   tags: ["likes_hockey", "likes_football"],
 });
 const updatedRegistration = await client.createRegistration(registration);
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:createRegistration_modular
+```ts snippet:createRegistration_modular
 import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
 import { createAppleRegistrationDescription } from "@azure/notification-hubs";
 
@@ -242,11 +254,12 @@ const registration = createAppleRegistrationDescription({
   tags: ["likes_hockey", "likes_football"],
 });
 const updatedRegistration = await createRegistration(context, registration);
+
 ```
 
 Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates.  Querying for an existing registration can be done with the `getRegistration` method.
 
-```javascript snippet:updateRegistration_classical
+```ts snippet:updateRegistration_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -258,11 +271,12 @@ if (registration.tags) {
   registration.tags = ["likes_sports"];
 }
 const updatedRegistration = await client.updateRegistration(registration);
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:updateRegistration_modular
+```ts snippet:updateRegistration_modular
 import {
   createClientContext,
   getRegistration,
@@ -278,11 +292,12 @@ if (registration.tags) {
   registration.tags = ["likes_sports"];
 }
 const updatedRegistration = await updateRegistration(context, registration);
+
 ```
 
 Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations`, `listRegistrationsByChannel` and `listRegistrationsByTag` method.  All methods support limiting via the `top` option and support asynchronous paging.
 
-```javascript snippet:listRegistrationsByTag_classical
+```ts snippet:listRegistrationsByTag_classical
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -294,11 +309,12 @@ for await (const pages of registrations.byPage()) {
     console.log(JSON.stringify(item, null, 2));
   }
 }
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:listRegistrationsByTag_modular
+```ts snippet:listRegistrationsByTag_modular
 import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
@@ -310,6 +326,7 @@ for await (const pages of registrations.byPage()) {
     console.log(JSON.stringify(item, null, 2));
   }
 }
+
 ```
 
 ### Send Operations
@@ -320,7 +337,7 @@ For debugging purposes, the `enableTestSend` options can be set to `true` which 
 
 Raw JSON or XML strings can be sent to the send or scheduled send methods, or the notification builders can be used which helps construct messages per PNS such as APNs, Firebase, Baidu, ADM and WNS.  These builders will build the native message format so there is no guessing about which fields are available for each PNS.
 
-```javascript snippet:createAppleNotificationBody
+```ts snippet:createAppleNotificationBody
 import { createAppleNotificationBody, createAppleNotification } from "@azure/notification-hubs";
 
 const apnsBody = createAppleNotificationBody({
@@ -336,13 +353,14 @@ const apnsBody = createAppleNotificationBody({
 const notification = createAppleNotification({
   body: apnsBody,
 });
+
 ```
 
 #### Broadcast Send
 
 Notification Hubs can be used to send notifications to all registered devices per platform using broadcast send through the `sendBroadcastNotification` method.
 
-```javascript snippet:sendBroadcastNotification_classical
+```ts snippet:sendBroadcastNotification_classical
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -361,11 +379,12 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:sendBroadcastNotification_modular
+```ts snippet:sendBroadcastNotification_modular
 import { createClientContext, sendBroadcastNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs";
 
@@ -385,13 +404,14 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
+
 ```
 
 #### Direct Send
 
 To send directly a device, the user can send using the platform provided unique identifier such as APNs device token by calling the `sendNotification` method with a `deviceHandle` parameter.
 
-```javascript snippet:directSend_classical
+```ts snippet:directSend_classical
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -411,11 +431,12 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:directSend_modular
+```ts snippet:directSend_modular
 import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs";
 
@@ -436,6 +457,7 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
+
 ```
 
 #### Audience Send
@@ -444,17 +466,18 @@ In addition to targeting a single device, a user can target multiple devices usi
 
 If you wish to create a tag expression from an array of tags, there is a Tag Expression Builder available with the `createTagExpression` method which is exposed at the top level import or `@azure/notification-hubs/models/tagExpressionBuilder` modular import which creates an "or tag expression" from the tags.
 
-```javascript snippet:createTagExpression
+```ts snippet:createTagExpression
 import { createTagExpression } from "@azure/notification-hubs";
 
 const tags = ["likes_football", "likes_hockey"];
 const tagExpression = createTagExpression(tags);
 console.log(tagExpression);
+
 ```
 
 Tag expression messages can be sent using the following code:
 
-```javascript snippet:sendNotification_classical
+```ts snippet:sendNotification_classical
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -474,11 +497,12 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:sendNotification_modular
+```ts snippet:sendNotification_modular
 import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs";
 
@@ -499,13 +523,14 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
+
 ```
 
 #### Scheduled Send
 
 Push notifications can be scheduled up to seven days in advance with Standard SKU namespaces and above using the `scheduleNotification` method to send to devices with tags or a general broadcast with `scheduleBroadcastNotification`.  This returns a notification ID which can be then used to cancel if necessary via the `cancelScheduledNotification` method.
 
-```javascript snippet:scheduledSendNotification_classical
+```ts snippet:scheduledSendNotification_classical
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -525,11 +550,12 @@ console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
 // Can be used to cancel via the cancelScheduledSend method
 console.log(`Notification ID: ${result.notificationId}`);
+
 ```
 
 Using the modular approach, the code would be as follows:
 
-```javascript snippet:scheduledSendNotification_modular
+```ts snippet:scheduledSendNotification_modular
 import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs";
 
@@ -550,6 +576,7 @@ console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
 // Can be used to cancel via the cancelScheduledSend method
 console.log(`Notification ID: ${result.notificationId}`);
+
 ```
 
 ## Troubleshooting
@@ -566,7 +593,7 @@ Azure Notification Hubs has a complete guide to troubleshooting problems with dr
 
 [Test send](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-fixer#enabletestsend-property) is supported supported in the `sendNotification` and `sendBroadcastNotification` methods with the `enableTestSend` option:
 
-```javascript snippet:testSend_classical
+```ts snippet:testSend_classical
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
@@ -583,9 +610,10 @@ const result = await client.sendNotification(notification, {
   tagExpression,
   enableTestSend: true,
 });
+
 ```
 
-```javascript snippet:testSend_modular
+```ts snippet:testSend_modular
 import { createClientContext, sendNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs";
 
@@ -603,16 +631,18 @@ const result = await sendNotification(context, notification, {
   tagExpression,
   enableTestSend: true,
 });
+
 ```
 
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript snippet:logging
+```ts snippet:logging
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
+
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).

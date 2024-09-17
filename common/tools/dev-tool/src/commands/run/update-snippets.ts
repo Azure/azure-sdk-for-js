@@ -1,6 +1,6 @@
-import fs from "fs/promises";
-import { EOL } from "os";
-import path from "path";
+import fs from "node:fs/promises";
+import { EOL } from "node:os";
+import path from "node:path";
 import ts from "typescript";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
