@@ -4,10 +4,17 @@
 import { ErrorResponse } from "../request";
 import { ClientEncryptionIncludedPath } from "./ClientEncryptionIncludedPath";
 import { EncryptionAlgorithm } from "./enums";
-
+/**
+ * Represents the client encryption policy associated with a container.
+ */
 export class ClientEncryptionPolicy {
+  /** list of paths that needs to be encrypted along with their encryption settings. */
   public includedPaths: ClientEncryptionIncludedPath[];
-
+  /**
+   * Version of the client encryption policy definition.
+   * The supported versions are 1 and 2. Default is 1.
+   * Id and partition key paths encryption are only supported in version 2.
+   */
   public policyFormatVersion: number;
 
   constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number) {
@@ -53,12 +60,8 @@ export class ClientEncryptionPolicy {
     if (includedPath.encryptionAlgorithm !== EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256) {
       throw new ErrorResponse("Invalid encryption algorithm in ClientEncryptionIncludedPath.");
     }
-    // TODO: add check for checking encryption type
     if (includedPath.path[0] !== "/") {
       throw new ErrorResponse("Path in ClientEncryptionIncludedPath needs to start with '/'.");
     }
-    // TODO: place further checks for path
   }
-
-  // TODO: add checks for checking partition key paths
 }

@@ -29,7 +29,7 @@ import { EncryptionManager } from "../../encryption/EncryptionManager";
  */
 export class Databases {
   /**
-   * @hidden
+   * @internal
    * @param client - The parent {@link CosmosClient} for the Database.
    */
   constructor(

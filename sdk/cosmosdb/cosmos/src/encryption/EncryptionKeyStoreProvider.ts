@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Constants } from "../common";
 import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import { KeyEncryptionKeyAlgorithm } from "./enums";
 /**
@@ -8,6 +9,8 @@ import { KeyEncryptionKeyAlgorithm } from "./enums";
  */
 export class EncryptionKeyStoreProvider {
   public RsaOaepEncryptionAlgorithm: string = "RSA-OAEP";
+  // interval for clear cache to run
+  cacheRefresher: NodeJS.Timeout;
 
   // cache to store the unwrapped encryption key. Key is the path of the encryption key
   public unwrappedEncryptionKeyCache: { [key: string]: [Date, Buffer] };
@@ -29,12 +32,12 @@ export class EncryptionKeyStoreProvider {
     algorithm: KeyEncryptionKeyAlgorithm,
     key: Buffer,
   ): Promise<Buffer> {
-    const keyEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
+    const wrappedEncryptionKey = await this.keyEncryptionKeyResolver.wrapKey(
       encryptionKeyId,
       algorithm,
       key,
     );
-    return keyEncryptionKey;
+    return wrappedEncryptionKey;
   }
 
   public async unwrapKey(
@@ -57,7 +60,7 @@ export class EncryptionKeyStoreProvider {
   }
 
   private async clearCacheOnTtlExpiry(): Promise<void> {
-    setInterval(() => {
+    this.cacheRefresher = setInterval(() => {
       const now = new Date();
       for (const key in this.unwrappedEncryptionKeyCache) {
         if (
@@ -67,6 +70,6 @@ export class EncryptionKeyStoreProvider {
           delete this.unwrappedEncryptionKeyCache[key];
         }
       }
-    }, 10000);
+    }, Constants.EncryptionCacheRefreshInterval);
   }
 }

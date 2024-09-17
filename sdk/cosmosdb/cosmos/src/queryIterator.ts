@@ -53,7 +53,7 @@ export class QueryIterator<T> {
 
   private encryptionProcessor: EncryptionProcessor;
   /**
-   * @hidden
+   * @internal
    */
   constructor(
     private clientContext: ClientContext,

@@ -55,8 +55,8 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
-  public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
 
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
@@ -227,9 +227,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-        requestId +
-        " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+      requestId +
+      " started" +
+      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();
