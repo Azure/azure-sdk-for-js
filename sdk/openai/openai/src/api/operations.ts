@@ -100,7 +100,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
   inputOptions?: GetAudioTranscriptionOptions,
 ): Promise<AudioResult<Format>> {
   const options =
-    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+    inputOptions ?? (typeof formatOrOptions === "string" ? {} : (formatOrOptions ?? {}));
   const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const { body, status } = await context
@@ -166,7 +166,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
   inputOptions?: GetAudioTranslationOptions,
 ): Promise<AudioResult<Format>> {
   const options =
-    inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+    inputOptions ?? (typeof formatOrOptions === "string" ? {} : (formatOrOptions ?? {}));
   const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const { body, status } = await context

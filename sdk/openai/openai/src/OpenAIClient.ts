@@ -192,7 +192,7 @@ export class OpenAIClient {
     inputOptions?: GetAudioTranslationOptions,
   ): Promise<AudioResult<Format>> {
     const options =
-      inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+      inputOptions ?? (typeof formatOrOptions === "string" ? {} : (formatOrOptions ?? {}));
     const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
     this.setModel(deploymentName, options);
     if (response_format === undefined) {
@@ -237,7 +237,7 @@ export class OpenAIClient {
     inputOptions?: GetAudioTranscriptionOptions,
   ): Promise<AudioResult<Format>> {
     const options =
-      inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+      inputOptions ?? (typeof formatOrOptions === "string" ? {} : (formatOrOptions ?? {}));
     const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
     this.setModel(deploymentName, options);
     if (response_format === undefined) {
