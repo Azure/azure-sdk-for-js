@@ -11,7 +11,6 @@ import {
 import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import { GetTokenOptions } from "@azure/core-auth";
-import { logger } from "./logger.js";
 
 /**
  * @internal
@@ -143,44 +142,65 @@ export function createKeyVaultChallengeCallbacks(
     }
     const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
-    const scope = parsedChallenge.resource
-      ? parsedChallenge.resource + "/.default"
-      : parsedChallenge.scope;
-
-    if (scope && !disableChallengeResourceVerification) {
-      verifyChallengeResource(scope, request);
-    }
-
-    const { error, claims: base64EncodedClaims } = parsedChallenge;
-    let claims: string | undefined = undefined;
-    if (error) {
-      logger.verbose("Received error in WWW-Authenticate header:", error);
-      if (error === "insufficient_claims" && base64EncodedClaims) {
-        claims = atob(base64EncodedClaims);
+    if (parsedChallenge.error && parsedChallenge.error === "insufficient_claims") {
+      // Handle CAE challenge
+      if (challengeState.status !== "complete") {
+        throw new Error(
+          "Received a CAE challenge, but the initial authorization was not completed.",
+        );
       }
+
+      const base64EncodedClaims = parsedChallenge.claims;
+      if (!base64EncodedClaims) {
+        throw new Error("Received a CAE challenge, but no claims were provided.");
+      }
+
+      const claims = atob(base64EncodedClaims);
+      const scopes = challengeState.scopes;
+
+      const accessToken = await getAccessToken(scopes, {
+        ...getTokenOptions,
+        claims,
+        enableCae: true,
+      });
+
+      if (!accessToken) {
+        return false;
+      }
+
+      request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+      return true;
+    } else {
+      const scope = parsedChallenge.resource
+        ? parsedChallenge.resource + "/.default"
+        : parsedChallenge.scope;
+
+      if (!scope) {
+        throw new Error("Missing scope.");
+      }
+
+      if (!disableChallengeResourceVerification) {
+        verifyChallengeResource(scope, request);
+      }
+
+      const accessToken = await getAccessToken([scope], {
+        ...getTokenOptions,
+        tenantId: parsedChallenge.tenantId,
+      });
+
+      if (!accessToken) {
+        return false;
+      }
+
+      request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+
+      challengeState = {
+        status: "complete",
+        scopes: [scope],
+      };
+
+      return true;
     }
-
-    const scopes = scope ? [scope] : [];
-
-    const accessToken = await getAccessToken(scopes, {
-      ...getTokenOptions,
-      enableCae: claims !== undefined,
-      claims,
-      tenantId: parsedChallenge.tenantId,
-    });
-
-    if (!accessToken) {
-      return false;
-    }
-
-    request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-
-    challengeState = {
-      status: "complete",
-      scopes,
-    };
-
-    return true;
   }
 
   return {

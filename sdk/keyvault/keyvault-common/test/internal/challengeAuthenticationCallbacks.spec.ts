@@ -104,13 +104,31 @@ describe("Challenge based authentication tests", function () {
 
       let called = false;
 
+      // First, respond with a normal challenge
       await challengeCallbacks.authorizeRequestOnChallenge!({
-        getAccessToken: (scopes, getAccessTokenOptions) => {
-          expect(scopes.length).to.equal(0);
-          expect(getAccessTokenOptions.claims).to.equal(
+        getAccessToken: (scopes) => {
+          expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
+          return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+          }),
+          request,
+          status: 401,
+        },
+        scopes: [],
+      });
+
+      // Then, a CAE challenge should come back
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: (scopes, getTokenOptions) => {
+          expect(getTokenOptions.claims).toEqual(
             `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
           );
-          expect(getAccessTokenOptions.enableCae).toBeTruthy();
+          expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
+          expect(getTokenOptions.enableCae).toBeTruthy();
           called = true;
           return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
         },
@@ -125,9 +143,6 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      await challengeCallbacks.authorizeRequest!(options);
-
-      expect(options.request.headers.get("authorization")).toEqual("Bearer access_token");
       expect(called).toBeTruthy();
     });
   });
@@ -361,7 +376,7 @@ describe("Challenge based authentication tests", function () {
       expect(parsed).to.deep.equal({
         claims: "SGVsbG8=",
         error: "insufficient_claims",
-      })
-    })
+      });
+    });
   });
 });
