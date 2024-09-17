@@ -206,6 +206,7 @@ export class Items {
       query: encryptionSqlQuerySpec.query,
       parameters: [],
     };
+    // returns copy to avoid encryption of original parameters passed
     encryptionParameters = copyObject(encryptionParameters);
     for (const parameter of encryptionParameters) {
       const value = await this.container.encryptionProcessor.encryptQueryParameter(
@@ -400,6 +401,7 @@ export class Items {
           await this.container.initializeEncryption();
         }
         this.container.encryptionProcessor.containerRid = this.container._rid;
+        // returns copy to avoid encryption of original body passed
         body = copyObject(body);
         body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
         options.containerRid = this.container._rid;
@@ -499,6 +501,7 @@ export class Items {
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
       if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original body passed
         body = copyObject(body);
         options = options || {};
         if (!this.container.isEncryptionInitialized) {
@@ -603,6 +606,7 @@ export class Items {
       );
 
       if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original operations body passed
         operations = copyObject(operations);
         options = options || {};
         if (!this.container.isEncryptionInitialized) {
@@ -872,6 +876,7 @@ export class Items {
       }
 
       if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original operations body passed
         operations = copyObject(operations);
         options = options || {};
         if (!this.container.isEncryptionInitialized) {

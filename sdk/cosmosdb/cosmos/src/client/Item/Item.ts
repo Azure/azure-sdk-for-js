@@ -184,6 +184,7 @@ export class Item {
       let id = getIdFromLink(this.url);
 
       if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original body passed
         body = copyObject(body);
         options = options || {};
         if (!this.container.isEncryptionInitialized) {
@@ -331,6 +332,7 @@ export class Item {
         }
         this.container.encryptionProcessor.containerRid = this.container._rid;
         options.containerRid = this.container._rid;
+        // returns copy to avoid encryption of original body passed
         body = copyObject(body);
         const operations = Array.isArray(body) ? body : body.operations;
         diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);

@@ -44,11 +44,11 @@ export interface RequestOptions extends SharedOptions {
   contentResponseOnWriteEnabled?: boolean;
 
   /**
-   * @hidden
+   * @internal
    * database rid for setting DatabaseRidHeader */
   databaseRid?: string;
   /**
-   * @hidden
-   *  collection rid for setting CollectionRidHeader */
+   * @internal
+   * collection rid for setting CollectionRidHeader */
   containerRid?: string;
 }

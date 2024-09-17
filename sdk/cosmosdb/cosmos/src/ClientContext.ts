@@ -38,7 +38,6 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
-import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -54,8 +53,8 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** boolean flag to support operations with client-side encryption */
   public enableEncryption: boolean = false;
-  public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
 
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,

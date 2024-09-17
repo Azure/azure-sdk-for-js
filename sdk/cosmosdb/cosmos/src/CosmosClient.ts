@@ -9,11 +9,9 @@ import { getUserAgent } from "./common/platform";
 import type { CosmosClientOptions } from "./CosmosClientOptions";
 import type { ClientConfigDiagnostic } from "./CosmosDiagnostics";
 import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics";
-import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import type { DatabaseAccount } from "./documents";
-import { defaultConnectionPolicy } from "./documents";
-import { EncryptionManager } from "./encryption";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
+import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
+import { EncryptionManager } from "./encryption/EncryptionManager";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import type { RequestOptions } from "./request";
 import { ResourceResponse } from "./request";
@@ -272,6 +270,10 @@ export class CosmosClient {
    */
   public dispose(): void {
     clearTimeout(this.endpointRefresher);
+    if (this.clientContext.enableEncryption) {
+      clearTimeout(this.encryptionManager.encryptionKeyStoreProvider.cacheRefresher);
+      clearTimeout(this.encryptionManager.protectedDataEncryptionKeyCache.cacheRefresher);
+    }
   }
 
   private async backgroundRefreshEndpointList(

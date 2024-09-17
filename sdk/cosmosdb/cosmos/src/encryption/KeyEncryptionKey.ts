@@ -4,7 +4,8 @@
 import { KeyEncryptionKeyAlgorithm } from "./enums/KeyEncryptionKeyAlgorithm";
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
 /**
- * A wrapper class containing the info about the client encryption key and key store provider to wrap and unwrap the key.
+ * A wrapper class containing the info about the key-protecting key stored in an external key provider
+ * and provides interface to wrap and unwrap the key.
  */
 export class KeyEncryptionKey {
   private encryptionAlgorithm: KeyEncryptionKeyAlgorithm;
