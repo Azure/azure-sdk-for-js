@@ -354,15 +354,6 @@ class ReporterUtils {
       return 0;
     }
   }
-  public static validateWorkspace(tokenWorkspace: string): boolean {
-    try {
-      const result = ReporterUtils.populateValuesFromServiceUrl();
-      return result!.accountId === tokenWorkspace;
-    } catch (error) {
-      reporterLogger.error(error);
-      return false;
-    }
-  }
   public redactAccessToken(info: string | undefined): string {
     if (!info || ReporterUtils.isNullOrEmpty(this.envVariables.accessToken)) {
       return "";

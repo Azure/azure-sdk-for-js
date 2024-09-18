@@ -12,4 +12,6 @@ export const ServiceErrorMessageConstants = {
   INVALID_GLOBAL_FUNCTION: "file must export a single function",
   INVALID_PLAYWRIGHT_VERSION_ERROR:
     "The Playwright version you are using is not supported. See the list of supported versions at https://aka.ms/mpt/supported-versions.",
+  WORKSPACE_MISMATCH_ERROR:
+    "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
 };

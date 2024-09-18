@@ -20,6 +20,7 @@ import { execSync } from "child_process";
 export const exitWithFailureMessage = (message: string): never => {
   console.log();
   console.error(message);
+  // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 };
 
@@ -66,6 +67,7 @@ export const validateServiceUrl = (): void => {
 export const validateMptPAT = (): void => {
   try {
     const accessToken = getAccessToken();
+    const result = ReporterUtils.populateValuesFromServiceUrl();
     if (!accessToken) {
       exitWithFailureMessage(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
@@ -75,6 +77,9 @@ export const validateMptPAT = (): void => {
     }
     if (Date.now() >= claims.exp! * 1000) {
       exitWithFailureMessage(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
+    }
+    if (result!.accountId !== claims!.aid) {
+      exitWithFailureMessage(ServiceErrorMessageConstants.WORKSPACE_MISMATCH_ERROR);
     }
   } catch (err) {
     coreLogger.error(err);

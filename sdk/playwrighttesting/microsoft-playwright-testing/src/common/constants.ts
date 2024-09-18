@@ -100,11 +100,6 @@ export class Constants {
   public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
   public static readonly postTestResults: string = "postTestResults";
   public static readonly getStorageUri: string = "getStorageUri";
-  public static readonly workspaceMismatchError = {
-    key: "InvalidAccessToken",
-    message:
-      "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
-  };
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
     patchTestRun: {
       400: "The request made to the server is invalid. Please check the request parameters and try again.",
