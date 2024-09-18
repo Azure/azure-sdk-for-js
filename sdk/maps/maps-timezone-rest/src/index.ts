@@ -4,4 +4,4 @@
 import MapsTimezone from "./MapsTimezone";
 
 export * from "./generated";
-export { MapsTimezone };
+export default MapsTimezone;
