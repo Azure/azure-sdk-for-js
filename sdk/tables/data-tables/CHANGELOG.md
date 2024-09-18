@@ -1,8 +1,10 @@
 # Release History
 
-## 13.2.3 (Unreleased)
+## 13.3.0 (Unreleased)
 
 ### Features Added
+
+- Added support for Managed Identity credentials when targeting a Cosmos endpoint.
 
 ### Breaking Changes
 
