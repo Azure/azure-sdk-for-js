@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { MapsTimezone, isUnexpected } from "../../src";
+import MapsTimezone, { isUnexpected } from "@azure-rest/maps-timezone";
 
 /**
  * @summary How to get the list of Windows Timezone IDs.
