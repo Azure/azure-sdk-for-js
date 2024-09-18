@@ -48,9 +48,9 @@ export class MockTracingSpan implements TracingSpan {
   attributes: Record<string, unknown> = {};
 
   /**
- * All attributes recorded on the span.
- */
-  events: Map<string, { name: string, attributesOrStartTime?: unknown, _startTime?: unknown }> = new Map();
+   * All events recorded on the span.
+   */
+  events: Map<string, Array<unknown>> = new Map();
 
   /**
    * Value indictating wheher {@link TracingSpan.end} was called.
@@ -116,7 +116,10 @@ export class MockTracingSpan implements TracingSpan {
     return this.tracingContext?.getValue(spanKey) as MockTracingSpan;
   }
 
-  addEvent(_name: string, _attributesOrStartTime?: unknown, _startTime?: unknown): void {
-    this.events.set(_name, { name: _name, attributesOrStartTime: _attributesOrStartTime, _startTime: _startTime });
+  addEvent(name: string, attributes?: Record<string, undefined>, startTime?: Date): void {
+    if (!this.events.has(name)) {
+      this.events.set(name, []);
+    }
+    this.events.get(name)?.push({ attributes, startTime });
   }
 }

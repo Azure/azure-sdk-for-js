@@ -44,10 +44,8 @@ export type Resolved<T> = T extends {
     then(onfulfilled: infer F): any;
 } ? F extends (value: infer V) => any ? Resolved<V> : never : T;
 
-// Warning: (ae-forgotten-export) The symbol "SpanStatusUnset" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type SpanStatus = SpanStatusSuccess | SpanStatusError | SpanStatusUnset;
+export type SpanStatus = SpanStatusSuccess | SpanStatusError;
 
 // @public
 export type SpanStatusError = {
@@ -92,7 +90,7 @@ export interface TracingContext {
 
 // @public
 export interface TracingSpan {
-    addEvent(name: string, attributesOrStartTime?: unknown, startTime?: unknown): void;
+    addEvent(name: string, attributes?: Record<string, unknown>, startTime?: Date): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;

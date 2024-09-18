@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Span, AttributeValue, SpanStatusCode, SpanAttributes, TimeInput } from "@opentelemetry/api";
+import { Span, AttributeValue, SpanStatusCode, Attributes } from "@opentelemetry/api";
 import { SpanStatus, TracingSpan } from "@azure/core-tracing";
 
 export class OpenTelemetrySpanWrapper implements TracingSpan {
@@ -30,8 +30,8 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
     }
   }
 
-  addEvent(name: string, attributesOrStartTime?: unknown, startTime?: unknown): void {
-    this._span.addEvent(name, attributesOrStartTime as SpanAttributes | TimeInput, startTime as TimeInput);
+  addEvent(name: string, attributes?: Record<string, unknown>, startTime?: Date): void {
+    this._span.addEvent(name, attributes as Attributes, startTime);
   }
 
   end(): void {

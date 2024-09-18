@@ -322,7 +322,7 @@ function addResponseChatMessageEvent(span: TracingSpan, response: PathUncheckedR
 }
 
 export const tracingPolicy: PipelinePolicy = {
-  name: "tracingPolicy",
+  name: "tracingPolicyAI",
   async sendRequest(pipelineRequest, next) {
     const url = new URL(pipelineRequest.url);
 

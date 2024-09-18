@@ -6,7 +6,6 @@ import { logger } from "./logger.js";
 import { TokenCredential, KeyCredential, isKeyCredential } from "@azure/core-auth";
 import { ModelClient } from "./clientDefinitions.js";
 import { tracingPolicy } from "./trace.js";
-import { tracingPolicyName } from "@azure/core-rest-pipeline";
 
 /** The optional parameters for the client */
 export interface ModelClientOptions extends ClientOptions {
@@ -64,7 +63,7 @@ export default function createClient(
     },
   });
 
-  client.pipeline.removePolicy({ name: tracingPolicyName }); // or keep it, up to you
+  // client.pipeline.removePolicy({ name: tracingPolicyName }); // or remove it, up to you
   client.pipeline.addPolicy(tracingPolicy, { afterPhase: "Retry" });
   if (isKeyCredential(credentials)) {
     client.pipeline.addPolicy({
