@@ -76,7 +76,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { SmsClient } from "@azure/communication-sms";
 
 const endpoint = "https://<resource-name>.communication.azure.com";
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new SmsClient(endpoint, credential);
 ```
 

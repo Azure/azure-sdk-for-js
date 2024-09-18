@@ -47,8 +47,8 @@
     "integration-test:browser": "tshy && dev-tool run build-test && dev-tool run test:vitest --browser",
     "integration-test:node": "dev-tool run test:vitest",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
-    "lint": "eslint README.md package.json api-extractor.json src test --ext .ts,.javascript,.js",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
@@ -102,12 +102,12 @@
     "@vitest/coverage-istanbul": "^1.5.3",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "eslint": "^8.56.0",
+    "eslint": "^9.9.0",
     "loupe": "^3.1.0",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "source-map-support": "^0.5.9",
-    "tshy": "^1.17.0",
+    "tshy": "^2.0.0",
     "typescript": "~5.5.3",
     "vitest": "^1.5.3"
   },
@@ -130,22 +130,18 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }

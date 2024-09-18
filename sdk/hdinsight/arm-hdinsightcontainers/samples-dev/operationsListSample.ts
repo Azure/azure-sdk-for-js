@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns list of operations.
  *
  * @summary Returns list of operations.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/GetOperations.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/GetOperations.json
  */
 async function listOperations() {
   const subscriptionId =

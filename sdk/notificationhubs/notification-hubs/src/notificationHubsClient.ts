@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
+  BroadcastSendNotificationOptions,
   DirectSendNotificationOptions,
   EntityOperationOptions,
   NotificationHubsClientOptions,
@@ -39,7 +40,9 @@ import { listNotificationHubJobs as listNotificationHubJobsMethod } from "./api/
 import { listRegistrationsByChannel as listRegistrationsByChannelMethod } from "./api/listRegistrationsByChannel.js";
 import { listRegistrationsByTag as listRegistrationsByTagMethod } from "./api/listRegistrationsByTag.js";
 import { listRegistrations as listRegistrationsMethod } from "./api/listRegistrations.js";
+import { scheduleBroadcastNotification as scheduleBroadcastNotificationMethod } from "./api/scheduleBroadcastNotification.js";
 import { scheduleNotification as scheduleNotificationMethod } from "./api/scheduleNotification.js";
+import { sendBroadcastNotification as sendBroadcastNotificationMethod } from "./api/sendBroadcastNotification.js";
 import { sendNotification as sendNotificationMethod } from "./api/sendNotification.js";
 import { submitNotificationHubJob as submitNotificationHubJobMethod } from "./api/submitNotificationHubJob.js";
 import { updateInstallation as updateInstallationMethod } from "./api/updateInstallation.js";
@@ -231,6 +234,19 @@ export class NotificationHubsClient {
   }
 
   /**
+   * Sends push notifications to devices all devices.
+   * @param notification - The notification to send to all devices.
+   * @param options - Options for the notification including whether to enable test send.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  sendBroadcastNotification(
+    notification: Notification,
+    options: BroadcastSendNotificationOptions = {},
+  ): Promise<NotificationHubsMessageResponse> {
+    return sendBroadcastNotificationMethod(this._client, notification, options);
+  }
+
+  /**
    * Sends push notifications to devices that match the given tags or tag expression.
    * @param notification - The notification to send to the matching devices.
    * @param options - Options for the notification including tags, device handles and whether to enable test send.
@@ -238,9 +254,25 @@ export class NotificationHubsClient {
    */
   sendNotification(
     notification: Notification,
-    options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false },
+    options: DirectSendNotificationOptions | SendNotificationOptions,
   ): Promise<NotificationHubsMessageResponse> {
     return sendNotificationMethod(this._client, notification, options);
+  }
+
+  /**
+   * Schedules a push notification to all devices at the specified time.
+   * NOTE: This is only available in Standard SKU Azure Notification Hubs.
+   * @param scheduledTime - The Date to send the push notification.
+   * @param notification - The notification to send to the matching devices.
+   * @param options - The operation options.
+   * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
+   */
+  scheduleBroadcastNotification(
+    scheduledTime: Date,
+    notification: Notification,
+    options: OperationOptions = {},
+  ): Promise<NotificationHubsMessageResponse> {
+    return scheduleBroadcastNotificationMethod(this._client, scheduledTime, notification, options);
   }
 
   /**
@@ -254,7 +286,7 @@ export class NotificationHubsClient {
   scheduleNotification(
     scheduledTime: Date,
     notification: Notification,
-    options: ScheduleNotificationOptions = {},
+    options: ScheduleNotificationOptions,
   ): Promise<NotificationHubsMessageResponse> {
     return scheduleNotificationMethod(this._client, scheduledTime, notification, options);
   }

@@ -153,55 +153,54 @@ export const StorageBlobCreatedEventData: coreClient.CompositeMapper = {
     modelProperties: {
       api: {
         serializedName: "api",
-        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
-        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
-        required: true,
         type: {
           name: "String"
         }
       },
       eTag: {
         serializedName: "eTag",
-        required: true,
         type: {
           name: "String"
         }
       },
       contentType: {
         serializedName: "contentType",
-        required: true,
         type: {
           name: "String"
         }
       },
       contentLength: {
         serializedName: "contentLength",
-        required: true,
         type: {
           name: "Number"
         }
       },
       contentOffset: {
         serializedName: "contentOffset",
-        required: true,
         type: {
           name: "Number"
         }
       },
       blobType: {
         serializedName: "blobType",
+        type: {
+          name: "String"
+        }
+      },
+      accessTier: {
+        serializedName: "accessTier",
         required: true,
         type: {
           name: "String"
@@ -209,28 +208,24 @@ export const StorageBlobCreatedEventData: coreClient.CompositeMapper = {
       },
       url: {
         serializedName: "url",
-        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
-        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
-        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
-        required: true,
         type: {
           name: "any"
         }
@@ -645,41 +640,49 @@ export const StorageBlobTierChangedEventData: coreClient.CompositeMapper = {
     modelProperties: {
       api: {
         serializedName: "api",
-        required: true,
         type: {
           name: "String"
         }
       },
       clientRequestId: {
         serializedName: "clientRequestId",
-        required: true,
         type: {
           name: "String"
         }
       },
       requestId: {
         serializedName: "requestId",
-        required: true,
         type: {
           name: "String"
         }
       },
       contentType: {
         serializedName: "contentType",
-        required: true,
         type: {
           name: "String"
         }
       },
       contentLength: {
         serializedName: "contentLength",
-        required: true,
         type: {
           name: "Number"
         }
       },
       blobType: {
         serializedName: "blobType",
+        type: {
+          name: "String"
+        }
+      },
+      accessTier: {
+        serializedName: "accessTier",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      previousTier: {
+        serializedName: "previousTier",
         required: true,
         type: {
           name: "String"
@@ -687,28 +690,24 @@ export const StorageBlobTierChangedEventData: coreClient.CompositeMapper = {
       },
       url: {
         serializedName: "url",
-        required: true,
         type: {
           name: "String"
         }
       },
       sequencer: {
         serializedName: "sequencer",
-        required: true,
         type: {
           name: "String"
         }
       },
       identity: {
         serializedName: "identity",
-        required: true,
         type: {
           name: "String"
         }
       },
       storageDiagnostics: {
         serializedName: "storageDiagnostics",
-        required: true,
         type: {
           name: "any"
         }

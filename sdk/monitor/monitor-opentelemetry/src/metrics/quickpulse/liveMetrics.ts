@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import * as os from "os";
 import {
   MeterProvider,
@@ -144,10 +144,14 @@ export class LiveMetrics {
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
+      credential: this.config.azureMonitorExporterOptions.credential,
+      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
     });
     const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
+      credential: this.config.azureMonitorExporterOptions.credential,
+      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
@@ -364,7 +368,9 @@ export class LiveMetrics {
   }
 
   public getDocuments(): DocumentIngress[] {
-    return this.documents;
+    const result: DocumentIngress[] = this.documents;
+    this.documents = [];
+    return result;
   }
 
   private addDocument(document: DocumentIngress): void {

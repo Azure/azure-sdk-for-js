@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "stream";

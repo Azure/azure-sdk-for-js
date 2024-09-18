@@ -17,6 +17,8 @@ const { Buffer } = require("buffer");
 const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
 const rheaPromise = require("rhea-promise");
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
 const WebSocket = require("ws");
 
 // Load the .env file if it exists
@@ -31,8 +33,11 @@ function isAmqpError(err) {
 }
 
 const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
-const iotHubConnectionString =
-  process.env["IOTHUB_CONNECTION_STRING"] || "<your iot hub connection string>";
+// IoT Hub connection string is stored in Key Vault.
+const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
+// IoT Hub connection string name in Key Vault.
+const iotHubConnectionStringName =
+  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
@@ -127,6 +132,12 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
 
 async function main() {
   console.log(`Running iothubConnectionString sample`);
+
+  const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
+  const { value: iotHubConnectionString } = await kvClient.getSecret(iotHubConnectionStringName);
+  if (!iotHubConnectionString) {
+    throw new Error(`Failed to retrieve the IotHub connection string from Key Vault.`);
+  }
 
   const eventHubsConnectionString =
     await convertIotHubToEventHubsConnectionString(iotHubConnectionString);

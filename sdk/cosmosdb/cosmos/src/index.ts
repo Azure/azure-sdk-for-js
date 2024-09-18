@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export { DEFAULT_PARTITION_KEY_PATH } from "./common/partitionKeys";
 export { StatusCodes, StatusCodesType, PartitionKeyRangePropertiesNames } from "./common";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";

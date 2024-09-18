@@ -26,7 +26,7 @@ import {
   EventHubsCreateOrUpdateResponse,
   EventHubsDeleteOptionalParams,
   EventHubsGetOptionalParams,
-  EventHubsGetResponse
+  EventHubsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsListAuthorizationRulesOptionalParams
+    options?: EventHubsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule>;
   /**
    * Gets all the Event Hubs in a Namespace.
@@ -54,7 +54,7 @@ export interface EventHubs {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
+    options?: EventHubsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<Eventhub>;
   /**
    * Creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the
@@ -72,7 +72,7 @@ export interface EventHubs {
     eventHubName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: EventHubsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: EventHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<EventHubsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Gets an AuthorizationRule for an Event Hub by rule name.
@@ -87,7 +87,7 @@ export interface EventHubs {
     namespaceName: string,
     eventHubName: string,
     authorizationRuleName: string,
-    options?: EventHubsGetAuthorizationRuleOptionalParams
+    options?: EventHubsGetAuthorizationRuleOptionalParams,
   ): Promise<EventHubsGetAuthorizationRuleResponse>;
   /**
    * Deletes an Event Hub AuthorizationRule.
@@ -102,7 +102,7 @@ export interface EventHubs {
     namespaceName: string,
     eventHubName: string,
     authorizationRuleName: string,
-    options?: EventHubsDeleteAuthorizationRuleOptionalParams
+    options?: EventHubsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets the ACS and SAS connection strings for the Event Hub.
@@ -117,7 +117,7 @@ export interface EventHubs {
     namespaceName: string,
     eventHubName: string,
     authorizationRuleName: string,
-    options?: EventHubsListKeysOptionalParams
+    options?: EventHubsListKeysOptionalParams,
   ): Promise<EventHubsListKeysResponse>;
   /**
    * Regenerates the ACS and SAS connection strings for the Event Hub.
@@ -135,7 +135,7 @@ export interface EventHubs {
     eventHubName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: EventHubsRegenerateKeysOptionalParams
+    options?: EventHubsRegenerateKeysOptionalParams,
   ): Promise<EventHubsRegenerateKeysResponse>;
   /**
    * Creates or updates a new Event Hub as a nested resource within a Namespace.
@@ -150,7 +150,7 @@ export interface EventHubs {
     namespaceName: string,
     eventHubName: string,
     parameters: Eventhub,
-    options?: EventHubsCreateOrUpdateOptionalParams
+    options?: EventHubsCreateOrUpdateOptionalParams,
   ): Promise<EventHubsCreateOrUpdateResponse>;
   /**
    * Deletes an Event Hub from the specified Namespace and resource group.
@@ -163,7 +163,7 @@ export interface EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsDeleteOptionalParams
+    options?: EventHubsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets an Event Hubs description for the specified Event Hub.
@@ -176,6 +176,6 @@ export interface EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsGetOptionalParams
+    options?: EventHubsGetOptionalParams,
   ): Promise<EventHubsGetResponse>;
 }

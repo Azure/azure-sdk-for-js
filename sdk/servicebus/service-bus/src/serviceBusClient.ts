@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ConnectionConfig } from "@azure/core-amqp";
 import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";

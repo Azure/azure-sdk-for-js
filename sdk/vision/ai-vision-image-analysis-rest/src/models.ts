@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** An object holding the publicly reachable URL of an image to analyze. */
 export interface ImageUrl {

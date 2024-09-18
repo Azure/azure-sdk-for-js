@@ -1,6 +1,6 @@
 # Release History
 
-## 21.1.1 (Unreleased)
+## 21.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,13 @@
 
 ### Other Changes
 
+## 21.2.0 (2024-08-12)
+    
+### Features Added
+
+  - Interface Replication has a new optional parameter replicationId
+    
+    
 ## 21.1.0 (2024-07-17)
     
 ### Features Added

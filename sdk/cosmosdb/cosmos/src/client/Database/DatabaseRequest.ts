@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { DatabaseDefinition } from "./DatabaseDefinition";
 
 export interface DatabaseRequest extends DatabaseDefinition {

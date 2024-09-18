@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { parseEventHubConnectionString } from "../../src/index.js";
 import { should, assert } from "../utils/chai.js";
 import { afterAll, beforeAll, beforeEach, describe, it, vi } from "vitest";
+import { createConsumer, createProducer } from "../utils/clients.js";
 import {
-  createConsumer,
-  createProducer,
-  getConnectionStringWithKey,
   getConnectionStringWithSAS,
   getSasTokenFromConnectionStringWithKey,
-  isMock,
-} from "../utils/clients.js";
+} from "../utils/sas.js";
+import { getConnectionStringWithKey, isMock } from "../utils/vars.js";
 
 const TEST_FAILURE = "test failure";
 
-describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via", function () {
+describe.skipIf(isMock())("Authentication via", function () {
   let connectionString: string;
 
   beforeAll(async function () {
@@ -32,11 +30,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
     let sharedAccessKey: string;
 
     beforeAll(async function () {
-      const curConnectionString = getConnectionStringWithKey();
-      if (!curConnectionString) {
-        assert.fail("Connection string is not available in the environment.");
-      }
-      connectionString = curConnectionString;
+      connectionString = getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
       if (!t1 || !t2) {
@@ -191,11 +185,7 @@ describe.skipIf(!getConnectionStringWithKey() || isMock())("Authentication via",
     let sharedAccessSignature: string;
 
     beforeEach(async function () {
-      const curConnectionString = await getConnectionStringWithSAS();
-      if (!curConnectionString) {
-        assert.fail("Connection string is not available in the environment.");
-      }
-      connectionString = curConnectionString;
+      connectionString = await getConnectionStringWithSAS();
       const { sharedAccessSignature: t } = parseEventHubConnectionString(connectionString);
       if (!t) {
         assert.fail("Failed to parse connection string.");

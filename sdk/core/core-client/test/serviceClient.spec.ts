@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import {
@@ -22,6 +22,7 @@ import {
   HttpClient,
   PipelinePolicy,
   PipelineRequest,
+  PipelineResponse,
   RestError,
   SendRequest,
   createEmptyPipeline,
@@ -1489,7 +1490,8 @@ describe("ServiceClient", function () {
 
   it("should insert policies in the correct pipeline position", async function () {
     const pipeline = createEmptyPipeline();
-    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
+    const sendRequest = (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> =>
+      next(request);
     const retryPolicy: PipelinePolicy = {
       name: "retry",
       sendRequest,

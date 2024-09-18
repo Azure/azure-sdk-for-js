@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { context, diag } from "@opentelemetry/api";
 import {
   AggregationTemporality,
@@ -37,8 +37,8 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.sender = new QuickpulseSender({
       endpointUrl: options.endpointUrl,
       instrumentationKey: options.instrumentationKey,
-      aadAudience: options.aadAudience,
       credential: options.credential,
+      credentialScopes: options.credentialScopes,
     });
     this.postCallback = options.postCallback;
     this.getDocumentsFn = options.getDocumentsFn;
@@ -51,6 +51,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    * @param metrics - Resource metrics to export.
    * @param resultCallback - Result callback.
    */
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async export(
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void,

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TableEntity, TransactionAction } from "@azure/data-tables";
 import { randomUUID } from "@azure/core-util";

@@ -26,7 +26,7 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-eventgrid/5.5.2`;
+    const packageDetails = `azsdk-js-eventgrid/5.6.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

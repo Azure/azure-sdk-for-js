@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -12,7 +12,7 @@ import {
   TranslationStatusOutput,
   getLongRunningPoller,
   isUnexpected,
-} from "../.././../src";
+} from "../../../src";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,

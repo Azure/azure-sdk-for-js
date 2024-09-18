@@ -25,10 +25,7 @@ async function groupQuotasGetRequestForCompute() {
   const groupQuotaName = "groupquota1";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.groupQuotas.get(
-    managementGroupId,
-    groupQuotaName,
-  );
+  const result = await client.groupQuotas.get(managementGroupId, groupQuotaName);
   console.log(result);
 }
 

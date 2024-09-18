@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createReceiver, PartitionReceiver } from "../../src/partitionReceiver.js";
 import { EventHubSender } from "../../src/eventHubSender.js";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a disk access resource
  *
  * @summary Creates or updates a disk access resource
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskAccessExamples/DiskAccess_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskAccessExamples/DiskAccess_Create.json
  */
 async function createADiskAccessResource() {
   const subscriptionId =

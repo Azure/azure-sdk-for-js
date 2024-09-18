@@ -936,6 +936,7 @@ export const WindowsConfiguration: coreClient.CompositeMapper = {
       },
       enableVMAgentPlatformUpdates: {
         serializedName: "enableVMAgentPlatformUpdates",
+        readOnly: true,
         type: {
           name: "Boolean",
         },
@@ -2556,6 +2557,48 @@ export const ResilientVMDeletionPolicy: coreClient.CompositeMapper = {
         serializedName: "enabled",
         type: {
           name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const SkuProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SkuProfile",
+    modelProperties: {
+      vmSizes: {
+        serializedName: "vmSizes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuProfileVMSize",
+            },
+          },
+        },
+      },
+      allocationStrategy: {
+        serializedName: "allocationStrategy",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SkuProfileVMSize: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SkuProfileVMSize",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
         },
       },
     },
@@ -13523,6 +13566,19 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
           className: "ResiliencyPolicy",
         },
       },
+      zonalPlatformFaultDomainAlignMode: {
+        serializedName: "properties.zonalPlatformFaultDomainAlignMode",
+        type: {
+          name: "String",
+        },
+      },
+      skuProfile: {
+        serializedName: "properties.skuProfile",
+        type: {
+          name: "Composite",
+          className: "SkuProfile",
+        },
+      },
     },
   },
 };
@@ -14106,6 +14162,13 @@ export const AvailabilitySet: coreClient.CompositeMapper = {
               className: "InstanceViewStatus",
             },
           },
+        },
+      },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
         },
       },
     },
@@ -15618,6 +15681,17 @@ export const VirtualMachineScaleSetUpdate: coreClient.CompositeMapper = {
           className: "VirtualMachineScaleSetIdentity",
         },
       },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
       upgradePolicy: {
         serializedName: "properties.upgradePolicy",
         type: {
@@ -15697,6 +15771,19 @@ export const VirtualMachineScaleSetUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResiliencyPolicy",
+        },
+      },
+      zonalPlatformFaultDomainAlignMode: {
+        serializedName: "properties.zonalPlatformFaultDomainAlignMode",
+        type: {
+          name: "String",
+        },
+      },
+      skuProfile: {
+        serializedName: "properties.skuProfile",
+        type: {
+          name: "Composite",
+          className: "SkuProfile",
         },
       },
     },
@@ -16047,6 +16134,13 @@ export const AvailabilitySetUpdate: coreClient.CompositeMapper = {
               className: "InstanceViewStatus",
             },
           },
+        },
+      },
+      scheduledEventsPolicy: {
+        serializedName: "properties.scheduledEventsPolicy",
+        type: {
+          name: "Composite",
+          className: "ScheduledEventsPolicy",
         },
       },
     },
@@ -16982,6 +17076,13 @@ export const DiskRestorePoint: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DiskSecurityProfile",
+        },
+      },
+      logicalSectorSize: {
+        serializedName: "properties.logicalSectorSize",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import url from "url";
 import { RestError, redirectPolicyName } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
@@ -29,7 +29,7 @@ export class QuickpulseSender {
     endpointUrl: string;
     instrumentationKey: string;
     credential?: TokenCredential;
-    aadAudience?: string;
+    credentialScopes?: string | string[];
   }) {
     // Build endpoint using provided configuration or default values
     this.endpointUrl = options.endpointUrl;
@@ -42,8 +42,8 @@ export class QuickpulseSender {
     if (options.credential) {
       this.quickpulseClientOptions.credential = options.credential;
       // Add credentialScopes
-      if (options.aadAudience) {
-        this.quickpulseClientOptions.credentialScopes = [options.aadAudience];
+      if (options.credentialScopes) {
+        this.quickpulseClientOptions.credentialScopes = options.credentialScopes;
       } else {
         // Default
         this.quickpulseClientOptions.credentialScopes = [applicationInsightsResource];

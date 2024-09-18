@@ -21,6 +21,9 @@ import {
   AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
+  AgentPoolDeleteMachinesParameter,
+  AgentPoolsDeleteMachinesOptionalParams,
+  AgentPoolsDeleteMachinesResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
   AgentPoolsGetAvailableAgentPoolVersionsResponse,
   AgentPoolsUpgradeNodeImageVersionOptionalParams,
@@ -43,7 +46,7 @@ export interface AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -63,7 +66,7 @@ export interface AgentPools {
   /**
    * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
    * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, a 409 error code is returned.
+   * completes before cancellation can take place, an error is returned.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
@@ -167,6 +170,41 @@ export interface AgentPools {
     agentPoolName: string,
     options?: AgentPoolsGetUpgradeProfileOptionalParams,
   ): Promise<AgentPoolsGetUpgradeProfileResponse>;
+  /**
+   * Deletes specific machines in an agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param machines A list of machines from the agent pool to be deleted.
+   * @param options The options parameters.
+   */
+  beginDeleteMachines(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    machines: AgentPoolDeleteMachinesParameter,
+    options?: AgentPoolsDeleteMachinesOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteMachinesResponse>,
+      AgentPoolsDeleteMachinesResponse
+    >
+  >;
+  /**
+   * Deletes specific machines in an agent pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param machines A list of machines from the agent pool to be deleted.
+   * @param options The options parameters.
+   */
+  beginDeleteMachinesAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    machines: AgentPoolDeleteMachinesParameter,
+    options?: AgentPoolsDeleteMachinesOptionalParams,
+  ): Promise<AgentPoolsDeleteMachinesResponse>;
   /**
    * See [supported Kubernetes
    * versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about

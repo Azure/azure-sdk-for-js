@@ -1,25 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
- * chat completion.
- */
-export interface ChatCompletionsToolCallOutputParent {
+/** A function tool call requested by the AI model. */
+export interface ChatCompletionsToolCallOutput {
   /** The ID of the tool call. */
   id: string;
-  type: string;
-}
-
-/**
- * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
- * a function invocation needed for a subsequent chat completions request to resolve.
- */
-export interface ChatCompletionsFunctionToolCallOutput
-  extends ChatCompletionsToolCallOutputParent {
-  /** The type of tool call, in this case always 'function'. */
+  /** The type of tool call. Currently, only `function` is supported. */
   type: "function";
-  /** The details of the function invocation requested by the tool call. */
+  /** The details of the function call requested by the AI model. */
   function: FunctionCallOutput;
 }
 
@@ -91,7 +79,11 @@ export interface ChatChoiceOutput {
 
 /** A representation of a chat message as received in a response. */
 export interface ChatResponseMessageOutput {
-  /** The chat role associated with the message. */
+  /**
+   * The chat role associated with the message.
+   *
+   * Possible values: "system", "user", "assistant", "tool"
+   */
   role: ChatRoleOutput;
   /** The content of the message. */
   content: string | null;
@@ -106,7 +98,11 @@ export interface ChatResponseMessageOutput {
 export interface ModelInfoOutput {
   /** The name of the AI model. For example: `Phi21` */
   model_name: string;
-  /** The type of the AI model. A Unique identifier for the profile. */
+  /**
+   * The type of the AI model. A Unique identifier for the profile.
+   *
+   * Possible values: "embeddings", "image_generation", "text_generation", "image_embeddings", "audio_generation", "chat"
+   */
   model_type: ModelTypeOutput;
   /** The model provider name. For example: `Microsoft Research` */
   model_provider_name: string;
@@ -118,8 +114,6 @@ export interface ModelInfoOutput {
  * recommendations, and other similar scenarios.
  */
 export interface EmbeddingsResultOutput {
-  /** Unique identifier for the embeddings result. */
-  id: string;
   /** Embedding values for the prompts submitted in the request. */
   data: Array<EmbeddingItemOutput>;
   /** Usage counts for tokens input using the embeddings API. */
@@ -131,10 +125,10 @@ export interface EmbeddingsResultOutput {
 /** Representation of a single embeddings relatedness comparison. */
 export interface EmbeddingItemOutput {
   /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
+   * List of embedding values for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input. Or a base64 encoded string of the embedding vector.
    */
-  embedding: number[];
+  embedding: string | number[];
   /** Index of the prompt to which the EmbeddingItem corresponds. */
   index: number;
 }
@@ -150,13 +144,6 @@ export interface EmbeddingsUsageOutput {
   total_tokens: number;
 }
 
-/**
- * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
- * chat completion.
- */
-export type ChatCompletionsToolCallOutput =
-  | ChatCompletionsToolCallOutputParent
-  | ChatCompletionsFunctionToolCallOutput;
 /** Alias for ChatRoleOutput */
 export type ChatRoleOutput = string;
 /** Alias for CompletionsFinishReasonOutput */

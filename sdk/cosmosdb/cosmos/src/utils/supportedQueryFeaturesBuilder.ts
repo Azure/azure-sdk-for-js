@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 import { QueryFeature } from "../common";
+import { disableListAndSetAggregate } from "./envUtils";
 
 export function supportedQueryFeaturesBuilder(disableNonStreamingOrderByQuery?: boolean): string {
-  const disableListAndSetAggregate = process.env.DISABLE_LIST_AND_SET_AGGREGATE === "true";
   if (disableNonStreamingOrderByQuery && disableListAndSetAggregate) {
     return Object.keys(QueryFeature)
       .filter(

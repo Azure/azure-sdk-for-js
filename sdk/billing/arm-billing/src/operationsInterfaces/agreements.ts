@@ -11,7 +11,7 @@ import {
   Agreement,
   AgreementsListByBillingAccountOptionalParams,
   AgreementsGetOptionalParams,
-  AgreementsGetResponse
+  AgreementsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface Agreements {
    */
   listByBillingAccount(
     billingAccountName: string,
-    options?: AgreementsListByBillingAccountOptionalParams
+    options?: AgreementsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Agreement>;
   /**
    * Gets an agreement by ID.
@@ -35,6 +35,6 @@ export interface Agreements {
   get(
     billingAccountName: string,
     agreementName: string,
-    options?: AgreementsGetOptionalParams
+    options?: AgreementsGetOptionalParams,
   ): Promise<AgreementsGetResponse>;
 }

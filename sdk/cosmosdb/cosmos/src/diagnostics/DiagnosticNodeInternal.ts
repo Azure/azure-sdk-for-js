@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 import { ErrorResponse, RequestContext } from "../request";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Buffer } from "buffer";
 import { EventData, EventDataBatch } from "../../src/index.js";

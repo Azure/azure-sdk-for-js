@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Grants access to a disk.
  *
  * @summary Grants access to a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_BeginGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_BeginGetAccess.json
  */
 async function getASasOnAManagedDisk() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function getASasOnAManagedDisk() {
  * This sample demonstrates how to Grants access to a disk.
  *
  * @summary Grants access to a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
 async function getSasOnManagedDiskAndVMGuestState() {
   const subscriptionId =

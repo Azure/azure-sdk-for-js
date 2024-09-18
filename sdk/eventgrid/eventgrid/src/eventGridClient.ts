@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isTokenCredential, KeyCredential, SASCredential } from "@azure/core-auth";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";

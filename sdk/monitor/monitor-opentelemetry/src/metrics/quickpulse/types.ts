@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
 import { MonitoringDataPoint, PublishResponse } from "../../generated";
@@ -13,7 +13,7 @@ export interface QuickpulseExporterOptions {
 
   instrumentationKey: string;
 
-  aadAudience?: string;
+  credentialScopes?: string | string[];
   /**
    * Token Credential
    */

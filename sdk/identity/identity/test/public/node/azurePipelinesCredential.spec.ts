@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";

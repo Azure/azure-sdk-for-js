@@ -77,6 +77,8 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
+      - ${{ parameters.PreSteps }}
+
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
         - template: /eng/common/TestResources/build-test-resource-config.yml
           parameters:
@@ -154,8 +156,6 @@ jobs:
         workingDirectory: $(PackageTestPath)
         condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
-      - ${{ parameters.PreSteps }}
-
       - pwsh: |
           npm install
           node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
@@ -185,6 +185,7 @@ jobs:
           displayName: "Start browser credential relay"
           condition: and(succeeded(), eq(variables['TestType'], 'browser'))
           env:
+            SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             TEST_MODE: "live"
             ${{ insert }}: ${{ parameters.EnvVars }}
 
@@ -335,12 +336,11 @@ jobs:
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
 
-      - task: PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@2
         displayName: "Publish NodeJs Code Coverage to DevOps"
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
         inputs:
-          codeCoverageTool: Cobertura
           summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
 
       - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml

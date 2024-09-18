@@ -99,16 +99,15 @@ If you prefer to setup your own environment instead, make sure you have these pr
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 
-To build packages managed by Rush:
+To build all packages:
 
 4. Install and link all dependencies (`rush update`)
 5. Build the code base (`rush rebuild`)
 
-To build packages not managed by Rush:
+To build specific package(s), use `-t` rush command-line option:
 
-4. Navigate to the package directory as described in our [repository structure](https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md)
-5. Install the package dependencies (`npm install`)
-6. Build the package (`npm run build`)
+6. Install and link all dependencies (`rush update`)
+7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package folder, `rush build -t .`
 
 ## Development Workflows
 
@@ -271,7 +270,15 @@ Our libraries follow the [TypeScript SDK design guidelines](https://azure.github
 
 You can run the plugin by excuting `rushx lint` inside your package directory.
 
-If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the [internal configuration file](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/.eslintrc.internal.json) instead. For example: `"lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json package.json src test --ext .ts"`
+If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the an internal config from `eslint-plugin-azure-sdk` instead. For example: `"lint": "eslint src test"` with the following eslint.config.mjs
+
+```javascript
+import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
+
+export default [
+  ...azsdkEslint.configs.internal,
+];
+```
 
 ## Onboarding a new library
 

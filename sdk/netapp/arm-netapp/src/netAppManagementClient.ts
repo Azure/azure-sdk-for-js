@@ -88,7 +88,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/21.1.1`;
+    const packageDetails = `azsdk-js-arm-netapp/21.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -142,7 +142,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-11-01";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.operations = new OperationsImpl(this);
     this.netAppResource = new NetAppResourceImpl(this);
     this.netAppResourceQuotaLimits = new NetAppResourceQuotaLimitsImpl(this);

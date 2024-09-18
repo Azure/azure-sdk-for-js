@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";

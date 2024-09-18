@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Revert a volume to the snapshot specified in the body
  *
  * @summary Revert a volume to the snapshot specified in the body
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Volumes_Revert.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Volumes_Revert.json
  */
 async function volumesRevert() {
   const subscriptionId =

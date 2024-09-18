@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Delivery, ReceiverOptions, Source } from "rhea-promise";
 import { translateServiceBusError } from "../serviceBusError";

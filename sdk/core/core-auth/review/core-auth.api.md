@@ -9,6 +9,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 // @public
 export interface AccessToken {
     expiresOnTimestamp: number;
+    refreshAfterTimestamp?: number;
     token: string;
 }
 

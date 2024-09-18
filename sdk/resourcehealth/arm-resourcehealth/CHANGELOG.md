@@ -12,7 +12,7 @@
 
 ## 4.1.0-beta.1 (2023-10-17)
     
-**Features**
+### Features Added
 
   - Added Type Alias EventSubTypeValues
   - Interface Event_2 has a new optional parameter argQuery
@@ -30,7 +30,7 @@
     
 ## 4.0.0 (2023-05-12)
     
-**Features**
+### Features Added
 
   - Added operation group EventOperations
   - Added operation group EventsOperations
@@ -135,7 +135,7 @@
   - Added Enum KnownReasonTypeValues
   - Added Enum KnownScenario
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation EmergingIssues.get has a new signature
   - Interface AvailabilityStatusProperties no longer has parameter recentlyResolvedState
@@ -143,7 +143,7 @@
     
 ## 3.2.0 (2023-02-01)
     
-**Features**
+### Features Added
 
   - Interface AvailabilityStatusesListByResourceGroupNextOptionalParams no longer has parameter expand
   - Interface AvailabilityStatusesListByResourceGroupNextOptionalParams no longer has parameter filter
@@ -159,13 +159,13 @@
     
 ## 3.1.0 (2022-07-14)
     
-**Features**
+### Features Added
 
   - Added Interface EmergingIssuesGetResult
     
 ## 3.0.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
 

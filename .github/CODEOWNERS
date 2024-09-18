@@ -75,7 +75,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern
+/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -95,7 +95,7 @@
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
@@ -107,7 +107,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern
+/sdk/communication/communication-short-codes/ @miguhern @whisper6284
+
+# PRLabel: %Communication - Toll Free Verification
+# ServiceLabel: %Communication - Toll Free Verification
+/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -220,7 +224,7 @@
 
 # PRLabel: %WebPubSub
 # ServiceLabel: %WebPubSub
-/sdk/web-pubsub/ @vicancy
+/sdk/web-pubsub/ @vicancy @chenkennt @zackliu
 
 # PRLabel: %EngSys
 /sdk/template/ @ckairen @mikeharder @weshaggard @benbp
@@ -290,6 +294,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %Cognitive - Content Safety
 # AzureSdkOwners: @xirzec
 
+# PRLabel: %Operator Nexus - Network Cloud
+# ServiceLabel: %Operator Nexus - Network Cloud
+/sdk/networkcloud/ @Azure/azure-sdk-write-networkcloud
+
 # PRLabel: %Search
 /sdk/search/ @dgetu @Azure/azsdk-search
 
@@ -307,6 +315,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %Maps
 # ServiceLabel: %Maps
 /sdk/maps/ @dubiety @andykao1213
+
+# PRLabel: %Microsoft Playwright Testing
+# ServiceLabel: %Microsoft Playwright Testing
+/sdk/playwrighttesting/ @Sid200026 @puagarwa @ShreyaAnand
 
 # API review files
 /sdk/**/review/*api.md @bterlson @Azure/azure-sdk-for-js-core
@@ -566,7 +578,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
+/sdk/healthdataaiservices/ @GrahamMThomas
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -1586,3 +1598,8 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 /eng/emitter-package-lock.json @qiaozha @MaryGao
 /eng/emitter-package.json @qiaozha @MaryGao
+
+# Make sure to not check in anymore test-resources.json files
+# and review bicep scripts for any exposed secrets
+/sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+/sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core

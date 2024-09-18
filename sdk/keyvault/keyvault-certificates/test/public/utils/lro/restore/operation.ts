@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-client";
-import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src";
+import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src/index.js";
 
 /**
  * Options sent to the beginRestoreCertificateBackup method.
@@ -93,6 +93,7 @@ async function cancel(this: RestoreCertificateBackupPollOperation): Promise<neve
 /**
  * Serializes the create certificate's poll operation
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function toString(this: RestoreCertificateBackupPollOperation): string {
   return JSON.stringify({
     state: this.state,

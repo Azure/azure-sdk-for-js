@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 import {
   OnBehalfOfCredentialAssertionOptions,
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
 } from "./onBehalfOfCredentialOptions";
+import { credentialLogger, formatError } from "../util/logging";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
-import { credentialLogger, formatError } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+
 import { CertificateParts } from "../msal/types";
 import { ClientCertificatePEMCertificatePath } from "./clientCertificateCredential";
-import { readFile } from "node:fs/promises";
+import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { CredentialUnavailableError } from "../errors";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 import { createHash } from "node:crypto";
+import { ensureScopes } from "../util/scopeUtils";
+import { readFile } from "node:fs/promises";
+import { tracingClient } from "../util/tracing";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
@@ -130,14 +132,27 @@ export class OnBehalfOfCredential implements TokenCredential {
       userAssertionToken,
       additionallyAllowedTenants: additionallyAllowedTenantIds,
     } = options;
-    if (
-      !tenantId ||
-      !clientId ||
-      !(clientSecret || certificatePath || getAssertion) ||
-      !userAssertionToken
-    ) {
-      throw new Error(
-        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath or getAssertion) and userAssertionToken are required parameters.`,
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: tenantId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
+      );
+    }
+
+    if (!clientId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: clientId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
+      );
+    }
+
+    if (!clientSecret && !certificatePath && !getAssertion) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: You must provide one of clientSecret, certificatePath, or a getAssertion callback but none were provided. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
+      );
+    }
+
+    if (!userAssertionToken) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: userAssertionToken is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
     this.certificatePath = certificatePath;

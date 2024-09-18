@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.3 (Unreleased)
+## 2.1.4 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,13 @@
 
 ### Bugs Fixed
 
-- Fixes a bug when running in NodeJS where we attempt to close the underlying socket despite it being set to null when the stream has been consumed [BUG [#30414](https://github.com/Azure/azure-sdk-for-js/issues/30414)].
-
 ### Other Changes
+
+## 2.1.3 (2024-08-13)
+
+### Bugs Fixed
+
+- Fixes a bug when running in NodeJS where we attempt to close the underlying socket despite it being set to null when the stream has been consumed [BUG [#30414](https://github.com/Azure/azure-sdk-for-js/issues/30414)].
 
 ## 2.1.2 (2024-04-09)
 

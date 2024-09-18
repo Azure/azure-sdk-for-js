@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
