@@ -50,7 +50,7 @@ export class ConfigurationClient {
    * Creates an instance of a ConfigurationClient.
    *
    * Example usage:
-   * ```js snippet:new_configurationclient
+   * ```ts snippet:new_configurationclient
    * import { ConfigurationClient } from "@azure/template";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
@@ -58,6 +58,7 @@ export class ConfigurationClient {
    *   process.env.ENDPOINT ?? "<app configuration endpoint>",
    *   new DefaultAzureCredential(),
    * );
+   *
    * ```
    * @param endpointUrl - the URL to the App Configuration endpoint
    * @param credential - used to authenticate requests to the service

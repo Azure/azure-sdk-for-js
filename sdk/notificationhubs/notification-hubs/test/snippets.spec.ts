@@ -36,7 +36,6 @@ describe("snippets", function () {
       tags: ["likes_javascript"],
     });
 
-    // @ts-ignore
     const result = await client.createOrUpdateInstallation(installation);
   });
 
@@ -49,17 +48,14 @@ describe("snippets", function () {
       tags: ["likes_javascript"],
     });
 
-    // @ts-ignore
     const result = await createOrUpdateInstallation(context, installation);
   });
 
   it("authenticating_classical", async function () {
-    // @ts-ignore
     const client = new NotificationHubsClient("<connection string>", "<hub name>");
   });
 
   it("authenticating_modular", async function () {
-    // @ts-ignore
     const context = createClientContext("<connection string>", "<hub name>");
   });
 
@@ -73,7 +69,6 @@ describe("snippets", function () {
       tags: ["likes_hockey", "likes_football"],
     });
 
-    // @ts-ignore
     const response = await client.createOrUpdateInstallation(installation);
   });
 
@@ -87,7 +82,6 @@ describe("snippets", function () {
       tags: ["likes_hockey", "likes_football"],
     });
 
-    // @ts-ignore
     const response = await createOrUpdateInstallation(context, installation);
   });
 
@@ -101,7 +95,6 @@ describe("snippets", function () {
       { op: "add", path: "/userId", value: "bob@contoso.com" },
     ];
 
-    // @ts-ignore
     const installation = await client.updateInstallation(installationId, updates);
   });
 
@@ -115,7 +108,6 @@ describe("snippets", function () {
       { op: "add", path: "/userId", value: "bob@contoso.com" },
     ];
 
-    // @ts-ignore
     const installation = await updateInstallation(context, installationId, updates);
   });
 
@@ -124,7 +116,6 @@ describe("snippets", function () {
 
     const installationId = "<unique installation ID>";
 
-    // @ts-ignore
     const installation = client.getInstallation(installationId);
   });
 
@@ -133,7 +124,6 @@ describe("snippets", function () {
 
     const installationId = "<unique installation ID>";
 
-    // @ts-ignore
     const installation = getInstallation(context, installationId);
   });
 
@@ -145,7 +135,6 @@ describe("snippets", function () {
       tags: ["likes_hockey", "likes_football"],
     });
 
-    // @ts-ignore
     const updatedRegistration = await client.createRegistration(registration);
   });
 
@@ -157,7 +146,6 @@ describe("snippets", function () {
       tags: ["likes_hockey", "likes_football"],
     });
 
-    // @ts-ignore
     const updatedRegistration = await createRegistration(context, registration);
   });
 
@@ -174,7 +162,6 @@ describe("snippets", function () {
       registration.tags = ["likes_sports"];
     }
 
-    // @ts-ignore
     const updatedRegistration = await client.updateRegistration(registration);
   });
 
@@ -191,7 +178,6 @@ describe("snippets", function () {
       registration.tags = ["likes_sports"];
     }
 
-    // @ts-ignore
     const updatedRegistration = await updateRegistration(context, registration);
   });
 
@@ -235,7 +221,7 @@ describe("snippets", function () {
     });
 
     // Send the message using the modular approach
-    // @ts-ignore
+
     const notification = createAppleNotification({
       body: apnsBody,
     });
@@ -463,7 +449,6 @@ describe("snippets", function () {
       },
     });
 
-    // @ts-ignore
     const result = await client.sendNotification(notification, {
       tagExpression,
       enableTestSend: true,
@@ -484,7 +469,6 @@ describe("snippets", function () {
       },
     });
 
-    // @ts-ignore
     const result = await sendNotification(context, notification, {
       tagExpression,
       enableTestSend: true,
