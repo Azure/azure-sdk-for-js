@@ -25,6 +25,7 @@
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "tsx",
     "extract-api": "tshy && dev-tool run extract-api",
+    "extract-snippets": "tshy && dev-tool run typecheck ./test/snippets.spec.ts && dev-tool run update-snippets",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser -- -c vitest.browser.int.config.ts",
     "integration-test:node": "dev-tool run test:vitest -- -c vitest.int.config.ts",
