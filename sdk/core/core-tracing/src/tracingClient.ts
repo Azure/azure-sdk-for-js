@@ -9,13 +9,10 @@ import {
   TracingClientOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanKind,
   TracingSpanOptions,
 } from "./interfaces.js";
 import { getInstrumenter } from "./instrumenter.js";
 import { knownContextKeys } from "./tracingContext.js";
-import { createClientLogger } from "@azure/logger";
-import { getErrorMessage } from "@azure/core-util";
 
 /**
  * Creates a new tracing client.
@@ -25,8 +22,6 @@ import { getErrorMessage } from "@azure/core-util";
  */
 export function createTracingClient(options: TracingClientOptions): TracingClient {
   const { namespace, packageName, packageVersion } = options;
-
-  const logger = createClientLogger(namespace);
 
   function startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
@@ -116,136 +111,133 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     return getInstrumenter().createRequestHeaders(tracingContext);
   }
 
-  /**
-  * This method will create a span, call the methodToTrace, and end the span.
-  * @param name - name of the span.
-  * @param args - arguments of the method to be traced.  Generally, you should pass in `arguments` reserve word.
-  * @param methodToTrace - function pointer of the implementation.
-  * @param onStartTracing - callback function to set attributes and events before calling methodTotrace.
-  * @param onEndTracing - callback function to set attributes, events, and status before ending the span.
-  * @returns - return back the return from methodToTrace.
-  */
-  function trace<Arguments, Return>(
-    name: string,
-    args: Arguments,
-    methodToTrace: () => Return,
-    onStartTracing?: (span: TracingSpan, args: Arguments) => void,
-    onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void,
-    options?: OperationTracingOptions,
-    spanKind?: TracingSpanKind): Return {
+  // /**
+  // * This method will create a span, call the methodToTrace, and end the span.
+  // * @param name - name of the span.
+  // * @param args - arguments of the method to be traced.  Generally, you should pass in `arguments` reserve word.
+  // * @param methodToTrace - function pointer of the implementation.
+  // * @param onStartTracing - callback function to set attributes and events before calling methodTotrace.
+  // * @param onEndTracing - callback function to set attributes, events, and status before ending the span.
+  // * @returns - return back the return from methodToTrace.
+  // */
+  // function trace<Arguments, Return>(
+  //   name: string,
+  //   args: Arguments,
+  //   methodToTrace: () => Return,
+  //   onStartTracing?: (span: TracingSpan, args: Arguments) => void,
+  //   onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void,
+  //   options?: OperationTracingOptions,
+  //   spanKind?: TracingSpanKind): Return {
 
-    const { span, tracingContext } = tryCreateSpan(name, { spanKind }, options) ?? {};
+  //   const { span, tracingContext } = tryCreateSpan(name, { spanKind }, options) ?? {};
 
+  //   if (!span || !tracingContext) {
+  //     return methodToTrace();
+  //   }
 
-    if (!span || !tracingContext) {
-      return methodToTrace();
-    }
+  //   if (onStartTracing) {
+  //     onStartTracing(span, args);
+  //   }
 
-    if (onStartTracing) {
-      onStartTracing(span, args);
-    }
+  //   try {
+  //     const returnObj = withContext(tracingContext, methodToTrace)
+  //     tryProcessReturn(span, args, returnObj, undefined, onEndTracing);
 
-    try {
-      const returnObj = withContext(tracingContext, methodToTrace)
-      tryProcessReturn(span, args, returnObj, undefined, onEndTracing);
+  //     return returnObj;
+  //   } catch (err: any) {
+  //     tryProcessReturn(span, args, undefined, err, onEndTracing);
+  //     throw err;
+  //   }
+  // }
 
-      return returnObj;
-    } catch (err: any) {
-      tryProcessReturn(span, args, undefined, err, onEndTracing);
-      throw err;
-    }
-  }
+  // /**
+  // * This method will create a span, call the methodToTrace, and end the span.
+  // * @param name - name of the span.
+  // * @param args - arguments of the method to be traced.  Generally, you should pass in `arguments` reserve word.
+  // * @param methodToTrace - function pointer of the implementation.
+  // * @param onStartTracing - callback function to set attributes and events before calling methodTotrace.
+  // * @param onEndTracing - callback function to set attributes, events, and status before ending the span.
+  // * @returns - return back the return from methodToTrace.
+  // */
+  // function traceAsync<Arguments, ResolvedReturn, PromiseReturn extends Promise<ResolvedReturn> | PromiseLike<ResolvedReturn>>(
+  //   name: string,
+  //   args: Arguments,
+  //   methodToTrace: () => PromiseReturn,
+  //   onStartTracing?: (span: TracingSpan, args: Arguments) => void,
+  //   onEndTracing?: (span: TracingSpan, args: Arguments, rt?: ResolvedReturn, error?: unknown) => void,
+  //   options?: OperationTracingOptions,
+  //   spanKind?: TracingSpanKind): PromiseReturn {
 
-  /**
-  * This method will create a span, call the methodToTrace, and end the span.
-  * @param name - name of the span.
-  * @param args - arguments of the method to be traced.  Generally, you should pass in `arguments` reserve word.
-  * @param methodToTrace - function pointer of the implementation.
-  * @param onStartTracing - callback function to set attributes and events before calling methodTotrace.
-  * @param onEndTracing - callback function to set attributes, events, and status before ending the span.
-  * @returns - return back the return from methodToTrace.
-  */
-  function traceAsync<Arguments, ResolvedReturn, PromiseReturn extends Promise<ResolvedReturn> | PromiseLike<ResolvedReturn>>(
-    name: string,
-    args: Arguments,
-    methodToTrace: () => PromiseReturn,
-    onStartTracing?: (span: TracingSpan, args: Arguments) => void,
-    onEndTracing?: (span: TracingSpan, args: Arguments, rt?: ResolvedReturn, error?: unknown) => void,
-    options?: OperationTracingOptions,
-    spanKind?: TracingSpanKind): PromiseReturn {
+  //   const { span, tracingContext } = tryCreateSpan(name, { spanKind }, options) ?? {};
 
-    const { span, tracingContext } = tryCreateSpan(name, { spanKind }, options) ?? {};
+  //   if (!span || !tracingContext) {
+  //     return methodToTrace();
+  //   }
 
-    if (!span || !tracingContext) {
-      return methodToTrace();
-    }
+  //   if (options) {
+  //     options.tracingContext = tracingContext;
+  //   }
+  //   if (onStartTracing) {
+  //     onStartTracing(span, args);
+  //   }
 
-    if (options) {
-      options.tracingContext = tracingContext;
-    }
-    if (onStartTracing) {
-      onStartTracing(span, args);
-    }
+  //   try {
+  //     return withContext(tracingContext, methodToTrace).
+  //       then((response) => {
+  //         tryProcessReturn(span, args, response, undefined, onEndTracing);
+  //         return response;
+  //       }, (error) => {
+  //         tryProcessReturn(span, args, undefined, error, onEndTracing);
+  //         throw error;
+  //       }) as PromiseReturn;
+  //   } catch (err) {
+  //     tryProcessReturn(span, args, undefined, err, onEndTracing);
+  //     throw err;
+  //   }
+  // }
 
-    try {
-      return withContext(tracingContext, methodToTrace).
-        then((response) => {
-          tryProcessReturn(span, args, response, undefined, onEndTracing);
-          return response;
-        }, (error) => {
-          tryProcessReturn(span, args, undefined, error, onEndTracing);
-          throw error;
-        }) as PromiseReturn;
-    } catch (err) {
-      tryProcessReturn(span, args, undefined, err, onEndTracing);
-      throw err;
-    }
-  }
+  // function tryCreateSpan(
+  //   spanName: string,
+  //   spanAttributes: Record<string, unknown>,
+  //   tracingOptions?: OperationTracingOptions
+  // ): { span: TracingSpan; tracingContext: TracingContext } | undefined {
+  //   try {
+  //     const { span, updatedOptions } = startSpan(
+  //       spanName,
+  //       { tracingOptions },
+  //       {
+  //         spanAttributes,
+  //       },
+  //     );
 
-  function tryCreateSpan(
-    spanName: string,
-    spanAttributes: Record<string, unknown>,
-    tracingOptions?: OperationTracingOptions
-  ): { span: TracingSpan; tracingContext: TracingContext } | undefined {
-    try {
-      const { span, updatedOptions } = startSpan(
-        spanName,
-        { tracingOptions },
-        {
-          spanAttributes,
-        },
-      );
+  //     // If the span is not recording, don't do any more work.
+  //     if (!span.isRecording()) {
+  //       span.end();
+  //       return undefined;
+  //     }
 
-      // If the span is not recording, don't do any more work.
-      if (!span.isRecording()) {
-        span.end();
-        return undefined;
-      }
+  //     return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
+  //   } catch (e: any) {
+  //     logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
+  //     return undefined;
+  //   }
+  // }
 
-
-      return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
-    } catch (e: any) {
-      logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
-      return undefined;
-    }
-  }
-
-  function tryProcessReturn<Arguments, Return>(
-    span: TracingSpan,
-    args: Arguments,
-    rt?: Return,
-    error?: unknown,
-    onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void) {
-    try {
-      if (onEndTracing) {
-        onEndTracing(span, args, rt, error);
-      }
-      span.end();
-    } catch (e: any) {
-      logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
-    }
-  }
-
+  // function tryProcessReturn<Arguments, Return>(
+  //   span: TracingSpan,
+  //   args: Arguments,
+  //   rt?: Return,
+  //   error?: unknown,
+  //   onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void) {
+  //   try {
+  //     if (onEndTracing) {
+  //       onEndTracing(span, args, rt, error);
+  //     }
+  //     span.end();
+  //   } catch (e: any) {
+  //     logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
+  //   }
+  // }
 
   return {
     startSpan,
@@ -253,7 +245,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     withContext,
     parseTraceparentHeader,
     createRequestHeaders,
-    trace,
-    traceAsync
+    // trace,
+    // traceAsync
   };
 }

@@ -10,16 +10,17 @@ import {
   HttpBrowserStreamResponse,
   HttpNodeStreamResponse,
   RequestParameters,
-  StreamableMethod
+  StreamableMethod,
 } from "./common.js";
 import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
 
-type TracerCallback = (
-  routePath: string,
-  url: string,
-  args: RequestParameters,
-  methodToTrace: () => StreamableMethod) => StreamableMethod;
+// type TracerCallback = (
+//   routePath: string,
+//   url: string,
+//   args: RequestParameters,
+//   methodToTrace: () => StreamableMethod,
+// ) => StreamableMethod;
 
 /**
  * Creates a client with a default pipeline
@@ -38,13 +39,11 @@ export function getClient(
   endpoint: string,
   credentials?: TokenCredential | KeyCredential,
   options?: ClientOptions,
-  tracer?: TracerCallback,
 ): Client;
 export function getClient(
   endpoint: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
   clientOptions: ClientOptions = {},
-  tracer?: TracerCallback,
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
   if (credentialsOrPipelineOptions) {
@@ -82,7 +81,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       post: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -94,7 +92,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       put: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -106,7 +103,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -118,7 +114,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -130,7 +125,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       head: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -142,7 +136,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       options: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -154,7 +147,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
       trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -166,7 +158,6 @@ export function getClient(
           requestOptions,
           allowInsecureConnection,
           httpClient,
-          tracer
         );
       },
     };
@@ -187,7 +178,6 @@ function buildOperation(
   options: RequestParameters,
   allowInsecureConnection?: boolean,
   httpClient?: HttpClient,
-  tracer?: TracerCallback,
 ): StreamableMethod {
   allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
 
@@ -221,10 +211,11 @@ function buildOperation(
     },
   });
 
-  options = { ...options, tracingOptions: { tracingContext: options.tracingOptions?.tracingContext } };
-  return tracer ?
-    tracer(path, url, options, operation) :
-    operation();
+  options = {
+    ...options,
+    tracingOptions: { tracingContext: options.tracingOptions?.tracingContext },
+  };
+  return operation();
 }
 
 function isCredential(

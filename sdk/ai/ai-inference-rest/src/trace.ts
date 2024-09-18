@@ -2,23 +2,31 @@
 // Licensed under the MIT license.
 
 import { PathUncheckedResponse, RequestParameters, StreamableMethod } from "@azure-rest/core-client";
-import { createTracingClient, SpanStatus, TracingClient, TracingSpan } from "@azure/core-tracing";
+import { createTracingClient, TracingClient, TracingSpan } from "@azure/core-tracing";
 import { GetChatCompletionsBodyParam, GetEmbeddingsBodyParam, GetImageEmbeddingsBodyParam } from "./parameters.js";
 import { ChatRequestAssistantMessage, ChatRequestMessage, ChatRequestSystemMessage, ChatRequestToolMessage } from "./models.js";
 import { ChatChoiceOutput, ChatCompletionsToolCallOutput } from "./outputModels.js";
 import { getErrorMessage, isError } from "@azure/core-util";
 import { logger } from "./logger.js";
 import { isUnexpected } from "./isUnexpected.js";
+import { PipelinePolicy, PipelineRequest } from "@azure/core-rest-pipeline";
 
+type AITracingClient = TracingClient & { traceAsync: any };
 
 const INFERENCE_GEN_AI_SYSTEM_NAME = "az.ai.inference";
 const isContentRecordingEnabled = () => Boolean(process.env["AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED"]);
 
-function tryCreateTracingClient(): TracingClient | undefined {
+function tryCreateTracingClient(): AITracingClient | undefined {
   try {
-    return createTracingClient({
+    const client = createTracingClient({
       namespace: "Microsoft.CognitiveServices", packageName: "ai-inference-rest", packageVersion: "1.0.0"
     });
+    return {
+      ...client,
+      async traceAsync (/*name, [request, operationName, url], methodToTrace, onStartTracing, onEndTracing, tracingOptions*/) {
+        throw new Error("Not implemented");
+      }
+    }
   } catch (e: unknown) {
     logger.warning(`Error when creating the TracingClient: ${getErrorMessage(e)}`);
     return undefined;
@@ -27,7 +35,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
 
 
 
-const traceClient = tryCreateTracingClient();
+const traceClient: AITracingClient | undefined = tryCreateTracingClient();
 
 type RequestParameterWithBodyType = RequestParameters & GetImageEmbeddingsBodyParam &
   GetEmbeddingsBodyParam &
@@ -89,7 +97,7 @@ const getOperationName = (path: string) => {
   }
 }
 
-function onStartTracing(span: TracingSpan, [request, operationName, url]: [RequestParameters, string, string]) {
+export function onStartTracing(span: TracingSpan, [request, operationName, url]: [RequestParameters, string, string]) {
 
   const urlObj = new URL(url);
   const port = urlObj.port || (urlObj.protocol === 'https:' ? 443 : 80);
@@ -116,21 +124,19 @@ function onStartTracing(span: TracingSpan, [request, operationName, url]: [Reque
   }
 }
 
-function onEndTracing(span: TracingSpan, _: [RequestParameters, string, string], response?: PathUncheckedResponse, error?: unknown) {
-  let status: SpanStatus = { status: "unset" };
+export function onEndTracing(span: TracingSpan, _: [RequestParameters, string, string], response?: PathUncheckedResponse, error?: unknown) {
   if (error) {
-    status = {
+    span.setStatus({
       status: "error",
       error: isError(error) ? error : undefined
-    };
+    })
   }
   if (response) {
     let body = response.body;
     if (isUnexpected(response)) {
-      status = {
-        status: "error",
-        error: body.error ?? body.message // message is not in the schema of the response, but it can present if there is crediential error
-      };
+      span.setStatus({
+        status: "error", error: body.error ?? body.messages
+      });
     }
     span.setAttribute(TracingAttributesEnum.Response_Id, body.id);
     span.setAttribute(TracingAttributesEnum.Response_Model, body.model);
@@ -140,7 +146,6 @@ function onEndTracing(span: TracingSpan, _: [RequestParameters, string, string],
     }
     addResponseChatMessageEvent(span, response);
   }
-  span.setStatus(status);
 }
 
 /*
@@ -248,4 +253,34 @@ function addResponseChatMessageEvent(span: TracingSpan, response: PathUncheckedR
 
     span.addEvent("gen_ai.choice", attributes);
   });
+}
+
+
+export const tracingPolicy: PipelinePolicy = {
+  name: "tracingPolicy",
+  async sendRequest(request, next) {
+    // Add your custom tracing logic here
+    const { span, updatedOptions } = traceClient!.startSpan(generateSpanName(request), request); // or use withSpan
+    request.tracingOptions = updatedOptions.tracingOptions;
+    onStartTracing(span, [request as any, generateSpanName(request), request.url]);
+
+    // Use the actual values that you expect, I'm just faking it here
+    const onEndTracingArgs = [] as unknown as Parameters<typeof onEndTracing>;
+
+    try {
+      const result = await next(request);
+      onEndTracing(...onEndTracingArgs);
+      return result
+    } catch (err) {
+      onEndTracing(...onEndTracingArgs);
+      throw err;
+    } finally {
+      onEndTracing(...onEndTracingArgs);
+      span.end();
+    }
+  },
+};
+
+function generateSpanName(request: PipelineRequest) {
+  return `${request.method} ${request.url}`;
 }

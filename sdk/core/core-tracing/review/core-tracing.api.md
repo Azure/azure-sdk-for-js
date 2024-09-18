@@ -70,8 +70,6 @@ export interface TracingClient {
         span: TracingSpan;
         updatedOptions: OptionsWithTracingContext<Options>;
     };
-    trace<Arguments, Return>(name: string, args: Arguments, methodToTrace: () => Return, onStartTracing?: (span: TracingSpan, args: Arguments) => void, onEndTracing?: (span: TracingSpan, args: Arguments, rt?: Return, error?: unknown) => void, options?: OperationTracingOptions, spanKind?: TracingSpanKind): Return;
-    traceAsync<Arguments, ResolvedReturn, PromiseReturn extends Promise<ResolvedReturn> | PromiseLike<ResolvedReturn>>(name: string, args: Arguments, methodToTrace: () => PromiseReturn, onStartTracing?: (span: TracingSpan, args: Arguments) => void, onEndTracing?: (span: TracingSpan, args: Arguments, rt?: ResolvedReturn, error?: unknown) => void, options?: OperationTracingOptions, spanKind?: TracingSpanKind): PromiseReturn;
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     withSpan<Options extends {
         tracingOptions?: OperationTracingOptions;

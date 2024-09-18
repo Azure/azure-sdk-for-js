@@ -9,7 +9,7 @@ import {
   isKeyCredential,
 } from "@azure/core-auth";
 import { ModelClient } from "./clientDefinitions.js";
-import { traceInference } from "./trace.js";
+import { tracingPolicy } from "./trace.js";
 
 /** The optional parameters for the client */
 export interface ModelClientOptions extends ClientOptions {
@@ -48,7 +48,7 @@ export default function createClient(
     },
   };
 
-  const client = getClient(endpointUrl, credentials, options, traceInference) as ModelClient;
+  const client = getClient(endpointUrl, credentials, options) as ModelClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
@@ -65,6 +65,9 @@ export default function createClient(
       return next(req);
     },
   });
+
+  client.pipeline.removePolicy({ name: "TracingPolicy"}) // or keep it, up to you
+  client.pipeline.addPolicy(tracingPolicy, { afterPhase: "Retry"});
   if (isKeyCredential(credentials)) {
     client.pipeline.addPolicy({
       name: "customKeyCredentialPolicy",
