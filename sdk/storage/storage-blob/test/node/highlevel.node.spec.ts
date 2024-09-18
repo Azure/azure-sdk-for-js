@@ -329,6 +329,14 @@ describe("Highlevel", () => {
       customerProvidedKey: Test_CPK_INFO,
     });
 
+    try {
+      await blockBlobClient.download(0);
+      assert.fail("Downloading without CPK should fail.");
+    } catch (err) {
+      assert.deepEqual((err as any).statusCode, 409);
+      assert.deepEqual((err as any).details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+
     const downloadResponse = await blockBlobClient.download(0, undefined, {
       customerProvidedKey: Test_CPK_INFO,
     });
