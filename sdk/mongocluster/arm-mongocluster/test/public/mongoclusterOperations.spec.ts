@@ -48,7 +48,7 @@ describe("MongoCluster test", () => {
     }
   });
 
-  it.only("operations list test", async function () {
+  it("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
