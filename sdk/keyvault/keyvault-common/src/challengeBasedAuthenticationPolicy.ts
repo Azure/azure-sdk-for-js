@@ -35,6 +35,7 @@ type ChallengeState =
   | {
       status: "complete";
       scopes: string[];
+      tenantId?: string;
     };
 
 /**
@@ -112,7 +113,11 @@ export function createKeyVaultChallengeCallbacks(
       case "started":
         break; // Retry, we should not overwrite the original body
       case "complete": {
-        const token = await getAccessToken(challengeState.scopes, requestOptions);
+        const token = await getAccessToken(challengeState.scopes, {
+          ...requestOptions,
+          tenantId: challengeState.tenantId,
+          enableCae: true,
+        });
         if (token) {
           request.headers.set("authorization", `Bearer ${token.token}`);
         }
@@ -156,11 +161,11 @@ export function createKeyVaultChallengeCallbacks(
       }
 
       const claims = atob(base64EncodedClaims);
-      const scopes = challengeState.scopes;
 
-      const accessToken = await getAccessToken(scopes, {
+      const accessToken = await getAccessToken(challengeState.scopes, {
         ...getTokenOptions,
         claims,
+        tenantId: challengeState.tenantId,
         enableCae: true,
       });
 
@@ -174,6 +179,7 @@ export function createKeyVaultChallengeCallbacks(
       const scope = parsedChallenge.resource
         ? parsedChallenge.resource + "/.default"
         : parsedChallenge.scope;
+      const tenantId = parsedChallenge.tenantId;
 
       if (!scope) {
         throw new Error("Missing scope.");
@@ -185,7 +191,8 @@ export function createKeyVaultChallengeCallbacks(
 
       const accessToken = await getAccessToken([scope], {
         ...getTokenOptions,
-        tenantId: parsedChallenge.tenantId,
+        tenantId,
+        enableCae: true,
       });
 
       if (!accessToken) {
@@ -197,6 +204,7 @@ export function createKeyVaultChallengeCallbacks(
       challengeState = {
         status: "complete",
         scopes: [scope],
+        tenantId,
       };
 
       return true;

@@ -102,7 +102,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer resource="https://vault.azure.net"`,
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
           }),
           request,
           status: 401,
@@ -117,6 +117,7 @@ describe("Challenge based authentication tests", function () {
             `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
           );
           expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
+          expect(getTokenOptions.tenantId).toEqual("testTenantId");
           expect(getTokenOptions.enableCae).toBeTruthy();
           called = true;
           return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
