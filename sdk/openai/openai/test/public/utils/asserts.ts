@@ -188,7 +188,8 @@ function assertContentFilterCitedDetectionResult(
 
 function assertContentFilterResultsForPromptItem(cfr: ContentFilterResultsForPromptOutput): void {
   assert.isNumber(cfr.prompt_index);
-  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results);
+  // TODO: Remove this check once the service confirms the expected behavior
+  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results ?? (cfr as any).content_filter_result);
 }
 
 function assertContentFilterResultDetailsForPrompt(
@@ -240,7 +241,9 @@ function assertChoice(
 ): void {
   const stream = options.stream;
   if (stream) {
-    assertMessage((choice as ChatCompletionChunk.Choice).delta, options);
+    const delta = (choice as ChatCompletionChunk.Choice).delta;
+    // TODO: Relevant issue https://github.com/openai/openai-python/issues/1677
+    ifDefined(delta, (delta) => { assertMessage(delta, options) });
     assert.isFalse("message" in choice);
   } else {
     assertMessage((choice as ChatCompletion.Choice).message, options);
@@ -430,7 +433,7 @@ export function assertEmbeddings(
 }
 
 function assertMessage(
-  message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta | undefined,
+  message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta,
   { functions, stream }: ChatCompletionTestOptions = {},
 ): void {
   assert.isDefined(message);

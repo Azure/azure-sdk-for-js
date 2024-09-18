@@ -22975,12 +22975,13 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-XWR16e+8J78etH7+Koi7RTCxYvCjbGcBXPd+Jk6FCfeZhSQmR1s/X7oyFoLRKj29fCaSmstugpF/YCI63F7kwg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-AbbtJr9DjdXo6OJ66qFMl3FM/luKD0Q5YkiZENvY7uNELzbCWr8CvaNJEjJ/FubNSJu6L96colTiMZbBtwc36Q==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.8(@types/node@18.19.50)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.21.2)
       '@types/node': 18.19.50
       '@vitest/browser': 2.0.5(playwright@1.47.0)(typescript@5.4.5)(vitest@2.0.5)
       '@vitest/coverage-istanbul': 2.0.5(vitest@2.0.5)
@@ -23004,6 +23005,7 @@ packages:
       - jsdom
       - less
       - lightningcss
+      - rollup
       - safaridriver
       - sass
       - sass-embedded
