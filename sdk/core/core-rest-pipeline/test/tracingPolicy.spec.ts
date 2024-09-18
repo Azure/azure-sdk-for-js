@@ -58,7 +58,7 @@ class MockSpan implements TracingSpan {
     return this.spanAttributes[name];
   }
 
-  addEvent(_name: string, _attributesOrStartTime?: unknown, _startTime?: unknown): void {
+  addEvent(): void {
     throw new Error("Method not implemented.");
   }
 }

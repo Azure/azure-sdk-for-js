@@ -63,7 +63,7 @@ export default function createClient(
     },
   });
 
-  // client.pipeline.removePolicy({ name: tracingPolicyName }); // or remove it, up to you
+  // client.pipeline.removePolicy({ name: tracingPolicyName }); // remove the default tracing policy if you'd like (you'll lose the HTTP spans)
   client.pipeline.addPolicy(tracingPolicy, { afterPhase: "Retry" });
   if (isKeyCredential(credentials)) {
     client.pipeline.addPolicy({
