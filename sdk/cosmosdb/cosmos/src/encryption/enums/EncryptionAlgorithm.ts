@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Encryption Algorithms supported for data encryption */
 export enum EncryptionAlgorithm {

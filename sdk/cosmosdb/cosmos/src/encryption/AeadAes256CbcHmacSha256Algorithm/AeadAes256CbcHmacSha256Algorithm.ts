@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EncryptionType } from "../enums";
 import { createCipheriv, randomBytes, createHmac, createDecipheriv } from "crypto";
@@ -48,26 +48,24 @@ export class AeadAes256CbcHmacSha256Algorithm {
     if (cipherTextBuffer[0] !== this.algoVersion) {
       throw new Error("Invalid cipher text version");
     }
-    let authTagStartIndex = 1;
-    let authTagLength = this.keySizeInBytes;
-    let ivStartIndex = authTagStartIndex + authTagLength;
-    let ivLength = this.blockSizeInBytes;
-    let cipherTextStartIndex = ivStartIndex + ivLength;
-    let cipherTextLength = cipherTextBuffer.length - cipherTextStartIndex;
+    const authTagStartIndex = 1;
+    const authTagLength = this.keySizeInBytes;
+    const ivStartIndex = authTagStartIndex + authTagLength;
+    const ivLength = this.blockSizeInBytes;
+    const cipherTextStartIndex = ivStartIndex + ivLength;
+    const cipherTextLength = cipherTextBuffer.length - cipherTextStartIndex;
 
-    let authenticationTag = cipherTextBuffer.slice(
+    const authenticationTag = cipherTextBuffer.slice(
       authTagStartIndex,
       authTagStartIndex + authTagLength,
     );
-    let iv = cipherTextBuffer.slice(ivStartIndex, ivStartIndex + ivLength);
-    let cipherText = cipherTextBuffer.slice(
+    const iv = cipherTextBuffer.slice(ivStartIndex, ivStartIndex + ivLength);
+    const cipherText = cipherTextBuffer.slice(
       cipherTextStartIndex,
       cipherTextStartIndex + cipherTextLength,
     );
 
     this.validateAuthenticationTag(authenticationTag, iv, cipherText);
-
-    let result: Buffer;
 
     const decipher = createDecipheriv(
       "aes-256-cbc",
@@ -75,7 +73,7 @@ export class AeadAes256CbcHmacSha256Algorithm {
       iv,
     );
     const decrypted = decipher.update(cipherText);
-    result = Buffer.concat([decrypted, decipher.final()]);
+    const result = Buffer.concat([decrypted, decipher.final()]);
     return result;
   }
 

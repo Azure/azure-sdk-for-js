@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class ProtectedDataEncryptionKeyCache {}
 
 export function randomBytes(_size: number): Promise<string> {

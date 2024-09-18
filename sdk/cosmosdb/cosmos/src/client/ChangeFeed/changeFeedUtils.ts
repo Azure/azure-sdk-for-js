@@ -16,6 +16,7 @@ import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { EncryptionProcessor } from "../../encryption";
 import { ChangeFeedMode } from "./ChangeFeedMode";
+import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 
 /**
  * @hidden
@@ -161,7 +162,7 @@ export function getEffectivePartitionKeyForMultiHashPartitioning(
  * @hidden
  */
 export async function decryptChangeFeedResponse(
-  result: any,
+  result: ChangeFeedIteratorResponse<any>,
   diagnosticNode: DiagnosticNodeInternal,
   changeFeedMode: ChangeFeedMode,
   encryptionProcessor: EncryptionProcessor,

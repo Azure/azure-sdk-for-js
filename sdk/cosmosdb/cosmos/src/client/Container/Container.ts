@@ -435,10 +435,10 @@ export class Container {
         const { resource: databaseDefinition } = await this.database.read();
         this.database._rid = databaseDefinition._rid;
 
-        const key = this.database._rid + "/" + this._rid;
+        const encryptionSettingKey = this.database._rid + "/" + this._rid;
 
         await this.encryptionManager.encryptionSettingsCache.createAndSetEncryptionSettings(
-          key,
+          encryptionSettingKey,
           this._rid,
           partitionKeyPaths,
           clientEncryptionPolicy,
@@ -469,14 +469,14 @@ export class Container {
    * So, when the container being referenced here gets recreated we would end up with a stale encryption settings and container Rid and this would result in BadRequest (and a substatus 1024).
    * This would allow us to refresh the encryption settings and Container Rid, on the premise that the container recreated could possibly be configured with a new encryption policy.
    */
-  async throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void> {
+  async throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: ErrorResponse): Promise<void> {
     const key = this.database._rid + "/" + this._rid;
     const encryptionSetting =
       this.encryptionManager.encryptionSettingsCache.getEncryptionSettings(key);
     const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
-    const isPartitionKeyMismatch = subStatusCode == SubStatusCodes.PartitionKeyMismatch;
+    const isPartitionKeyMismatch = Number(subStatusCode) === SubStatusCodes.PartitionKeyMismatch;
     const isIncorrectContainerRidSubstatus =
-      subStatusCode == SubStatusCodes.IncorrectContainerRidSubstatus;
+      Number(subStatusCode) === SubStatusCodes.IncorrectContainerRidSubstatus;
     if (
       errorResponse.code === StatusCodes.BadRequest &&
       (isPartitionKeyMismatch || isIncorrectContainerRidSubstatus)

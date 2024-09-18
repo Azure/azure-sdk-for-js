@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EncryptionSettings } from "./EncryptionSettings";
 import { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
@@ -21,6 +21,7 @@ import {
 import { ErrorResponse, RequestOptions } from "../request";
 import { withDiagnostics } from "../utils/diagnostics";
 import { EncryptionManager } from "./EncryptionManager";
+import { JSONValue } from "../queryExecutionContext";
 
 export class EncryptionProcessor {
   constructor(
@@ -78,7 +79,7 @@ export class EncryptionProcessor {
     return true;
   }
 
-  async encryptProperty(path: string, value: any): Promise<any> {
+  async encryptProperty(path: string, value: JSONValue): Promise<any> {
     path = extractPath(path);
     const encryptionSettings = await this.getEncryptionSetting();
     if (!encryptionSettings) return value;
@@ -132,10 +133,10 @@ export class EncryptionProcessor {
 
   async encryptQueryParameter(
     path: string,
-    value: any,
+    value: JSONValue,
     isValueId: boolean,
     type?: TypeMarker,
-  ): Promise<string> {
+  ): Promise<JSONValue> {
     if (value === null) {
       return value;
     }
