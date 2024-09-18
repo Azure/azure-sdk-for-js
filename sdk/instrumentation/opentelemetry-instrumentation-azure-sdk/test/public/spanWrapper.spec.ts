@@ -69,6 +69,31 @@ describe("OpenTelemetrySpanWrapper", () => {
     });
   });
 
+  describe("#addEvent", () => {
+    it("records events on the span", () => {
+      span.addEvent("test", { key: "value" }, new Date(2024, 1, 1));
+
+      const otSpan = getExportedSpan(span);
+      assert.lengthOf(otSpan.events, 1);
+      const event = otSpan.events[0];
+      assert.equal(event.name, "test");
+      assert.deepEqual(event.attributes, { key: "value" });
+      assert.equal(
+        event.time[0],
+        new Date(2024, 1, 1).getTime() / 1000 /** Millseconds to seconds */,
+      );
+    });
+
+    it("drops invalid attributes", () => {
+      span.addEvent("test", { key: { key1: 5 } }); // objects are not valid
+
+      const otSpan = getExportedSpan(span);
+      assert.lengthOf(otSpan.events, 1);
+      const event = otSpan.events[0];
+      assert.deepEqual(event.attributes, {});
+    });
+  });
+
   describe("#recordException", () => {
     it("sets the error on the wrapped span", () => {
       const error = new Error("test");

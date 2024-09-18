@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 import { InstrumenterSpanOptions, TracingSpanKind, TracingSpanLink } from "@azure/core-tracing";
-import { Attributes, AttributeValue, Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
+import { Attributes, Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
+import { isAttributeValue } from "@opentelemetry/core";
+import { logger } from "./logger";
 
 /**
  * Converts our TracingSpanKind to the corresponding OpenTelemetry SpanKind.
@@ -54,16 +56,21 @@ function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
  * @param spanAttributes - The set of attributes to convert.
  * @returns An {@link SpanAttributes} to set on a span.
  */
-function toOpenTelemetrySpanAttributes(
-  spanAttributes: { [key: string]: unknown } | undefined,
+export function toOpenTelemetrySpanAttributes(
+  spanAttributes: { [key: string]: unknown } | undefined = {},
 ): Attributes {
-  const attributes: ReturnType<typeof toOpenTelemetrySpanAttributes> = {};
-  for (const key in spanAttributes) {
-    // Any non-nullish value is allowed.
-    if (spanAttributes[key] !== null && spanAttributes[key] !== undefined) {
-      attributes[key] = spanAttributes[key] as AttributeValue;
+  const attributes: Attributes = {};
+
+  for (const [k, v] of Object.entries(spanAttributes)) {
+    if (isAttributeValue(v)) {
+      attributes[k] = v;
+    } else {
+      logger.warning(
+        `Dropping attribute "${k}" because it is not a valid OpenTelemetry attribute.`,
+      );
     }
   }
+
   return attributes;
 }
 

@@ -3,6 +3,7 @@
 
 import { Span, AttributeValue, SpanStatusCode } from "@opentelemetry/api";
 import { SpanStatus, TracingSpan } from "@azure/core-tracing";
+import { toOpenTelemetrySpanAttributes } from "./transformations";
 
 export class OpenTelemetrySpanWrapper implements TracingSpan {
   private _span: Span;
@@ -40,6 +41,10 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
 
   isRecording(): boolean {
     return this._span.isRecording();
+  }
+
+  addEvent(name: string, attributes?: Record<string, unknown>, startTime?: Date): void {
+    this._span.addEvent(name, toOpenTelemetrySpanAttributes(attributes), startTime);
   }
 
   /**
