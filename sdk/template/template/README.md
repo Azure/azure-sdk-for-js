@@ -75,7 +75,7 @@ Create a section for each top-level service concept you want to explain.
 
 Create several code examples for how someone would use your library to accomplish a common task with the service.
 
-```javascript snippet:new_configurationclient
+```ts snippet:new_configurationclient
 import { ConfigurationClient } from "@azure/template";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -91,7 +91,7 @@ const client = new ConfigurationClient(
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript snippet:setloglevel
+```ts snippet:setloglevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("verbose");
