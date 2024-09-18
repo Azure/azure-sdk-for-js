@@ -3,13 +3,10 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import {
-  TokenCredential,
-  KeyCredential,
-  isKeyCredential,
-} from "@azure/core-auth";
+import { TokenCredential, KeyCredential, isKeyCredential } from "@azure/core-auth";
 import { ModelClient } from "./clientDefinitions.js";
 import { tracingPolicy } from "./trace.js";
+import { tracingPolicyName } from "@azure/core-rest-pipeline";
 
 /** The optional parameters for the client */
 export interface ModelClientOptions extends ClientOptions {
@@ -58,16 +55,17 @@ export default function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-          }api-version=${apiVersion}`;
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
       }
 
       return next(req);
     },
   });
 
-  client.pipeline.removePolicy({ name: "TracingPolicy"}) // or keep it, up to you
-  client.pipeline.addPolicy(tracingPolicy, { afterPhase: "Retry"});
+  client.pipeline.removePolicy({ name: tracingPolicyName }); // or keep it, up to you
+  client.pipeline.addPolicy(tracingPolicy, { afterPhase: "Retry" });
   if (isKeyCredential(credentials)) {
     client.pipeline.addPolicy({
       name: "customKeyCredentialPolicy",
@@ -77,7 +75,6 @@ export default function createClient(
       },
     });
   }
-
 
   return client;
 }

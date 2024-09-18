@@ -5,8 +5,24 @@ import { createRecorder, createModelClient } from "./utils/recordedClient.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { context, SpanAttributes } from "@opentelemetry/api";
-import { ChatCompletionsOutput, ChatRequestMessage, ChatRequestToolMessage, GetChatCompletions200Response, GetChatCompletionsDefaultResponse, isUnexpected, ModelClient } from "../../src/index.js";
-import { Instrumenter, InstrumenterSpanOptions, SpanStatus, TracingContext, TracingSpan, TracingSpanOptions, useInstrumenter } from "@azure/core-tracing";
+import {
+  ChatCompletionsOutput,
+  ChatRequestMessage,
+  ChatRequestToolMessage,
+  GetChatCompletions200Response,
+  GetChatCompletionsDefaultResponse,
+  isUnexpected,
+  ModelClient,
+} from "../../src/index.js";
+import {
+  Instrumenter,
+  InstrumenterSpanOptions,
+  SpanStatus,
+  TracingContext,
+  TracingSpan,
+  TracingSpanOptions,
+  useInstrumenter,
+} from "@azure/core-tracing";
 import { trace } from "@opentelemetry/api";
 
 describe("tracing test suite", () => {
@@ -86,7 +102,10 @@ describe("tracing test suite", () => {
     return messageArray;
   };
 
-  async function callPost(): Promise<{ messages: ChatRequestMessage[], response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse | undefined }> {
+  async function callPost(): Promise<{
+    messages: ChatRequestMessage[];
+    response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse | undefined;
+  }> {
     let toolCallAnswer = "";
     let awaitingToolCallAnswer = true;
     const messages: ChatRequestMessage[] = [
@@ -100,7 +119,7 @@ describe("tracing test suite", () => {
         tool_calls: [
           {
             function: {
-              arguments: "{\"location\":\"Boston, MA\"}",
+              arguments: '{"location":"Boston, MA"}',
               name: "get_current_weather",
             },
             id: "call_YZo4xi315MOSB4pt450S2nyR",
@@ -187,17 +206,19 @@ describe("tracing test suite", () => {
     assert.isNotNull(client.pipeline);
   });
 
-  it("tracing should work", async function () {
+  it.only("tracing should work", async function () {
     env["AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED"] = "true";
 
     const { messages, response } = await callPost();
 
     assert.isDefined(response);
+    const createdSpan = [...instrumenter.createdSpans.values()][0];
 
-    const createdSpan = instrumenter.createdSpans.get("chat");
     if (!createdSpan) {
       assert.fail("expected span to be created");
     }
+
+    console.log(JSON.stringify(createdSpan, null, 2));
 
     const mockSpan = createdSpan;
     assert.isTrue(mockSpan.endCalled, "expected span to be ended");
@@ -207,10 +228,22 @@ describe("tracing test suite", () => {
     assert.equal(mockSpan.getAttribute("server.port"), 443);
     assert.equal(mockSpan.getAttribute("gen_ai.operation.name"), "chat");
     assert.equal(mockSpan.getAttribute("gen_ai.system"), "az.ai.inference");
-    assert.equal(mockSpan.getAttribute("gen_ai.response.id"), (response?.body as ChatCompletionsOutput).id);
-    assert.equal(mockSpan.getAttribute("gen_ai.response.model"), (response?.body as ChatCompletionsOutput).model);
-    assert.equal(mockSpan.getAttribute("gen_ai.usage.input_tokens"), (response?.body as ChatCompletionsOutput).usage.prompt_tokens);
-    assert.equal(mockSpan.getAttribute("gen_ai.usage.output_tokens"), (response?.body as ChatCompletionsOutput).usage.completion_tokens);
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.response.id"),
+      (response?.body as ChatCompletionsOutput).id,
+    );
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.response.model"),
+      (response?.body as ChatCompletionsOutput).model,
+    );
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.usage.input_tokens"),
+      (response?.body as ChatCompletionsOutput).usage.prompt_tokens,
+    );
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.usage.output_tokens"),
+      (response?.body as ChatCompletionsOutput).usage.completion_tokens,
+    );
     assert.equal(mockSpan.events.size, 4);
 
     const userMessageEvent = mockSpan.events.get("gen_ai.user.message");
@@ -219,37 +252,96 @@ describe("tracing test suite", () => {
       name: "gen_ai.user.message",
       attributesOrStartTime: {
         "gen_ai.system": "az.ai.inference",
-        "gen_ai.event.content": "{\"content\":\"What's the weather like in Boston?\"}",
+        "gen_ai.event.content": '{"content":"What\'s the weather like in Boston?"}',
       },
       startTime: undefined,
     });
-    const tooCallId = (messages.find((msg) => msg.role == "tool") as ChatRequestToolMessage).tool_call_id;
+    const tooCallId = (messages.find((msg) => msg.role == "tool") as ChatRequestToolMessage)
+      .tool_call_id;
 
     const assistantMessageEvent = mockSpan.events.get("gen_ai.assistant.message");
     assert.isDefined(tooCallId);
 
     assert.isDefined(assistantMessageEvent);
     assert.equal(assistantMessageEvent?.name, "gen_ai.assistant.message");
-    assert.equal((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"], "az.ai.inference");
-    assert.equal(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls.length, 1);
-    assert.equal(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls[0].id, tooCallId);
-    assert.isNotEmpty(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls[0].function.name);
-    assert.isNotEmpty(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls[0].function.arguments);
+    assert.equal(
+      (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"],
+      "az.ai.inference",
+    );
+    assert.equal(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls.length,
+      1,
+    );
+    assert.equal(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls[0].id,
+      tooCallId,
+    );
+    assert.isNotEmpty(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls[0].function.name,
+    );
+    assert.isNotEmpty(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls[0].function.arguments,
+    );
 
     const toolMessageEvent = mockSpan.events.get("gen_ai.tool.message");
     assert.isDefined(toolMessageEvent);
     assert.isDefined(toolMessageEvent?.name, "gen_ai.tool.message");
-    assert.equal((toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"], "az.ai.inference");
-    assert.equal(JSON.parse((toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).id, tooCallId);
-    assert.isNotEmpty(JSON.parse((toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).content);
+    assert.equal(
+      (toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"],
+      "az.ai.inference",
+    );
+    assert.equal(
+      JSON.parse(
+        (toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).id,
+      tooCallId,
+    );
+    assert.isNotEmpty(
+      JSON.parse(
+        (toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).content,
+    );
 
     const choiceEvent = mockSpan.events.get("gen_ai.choice");
     assert.isDefined(choiceEvent);
     assert.equal(choiceEvent?.name, "gen_ai.choice");
-    assert.equal((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"], "az.ai.inference");
-    assert.equal(JSON.parse((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).finish_reason, "stop");
-    assert.equal(JSON.parse((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).index, 0);
-    assert.isNotEmpty(JSON.parse((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).message.content);
+    assert.equal(
+      (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"],
+      "az.ai.inference",
+    );
+    assert.equal(
+      JSON.parse(
+        (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).finish_reason,
+      "stop",
+    );
+    assert.equal(
+      JSON.parse(
+        (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).index,
+      0,
+    );
+    assert.isNotEmpty(
+      JSON.parse(
+        (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).message.content,
+    );
   });
 
   it("tracing with CONTENT_RECORDING_ENABLED false", async function () {
@@ -272,10 +364,22 @@ describe("tracing test suite", () => {
     assert.equal(mockSpan.getAttribute("server.port"), 443);
     assert.equal(mockSpan.getAttribute("gen_ai.operation.name"), "chat");
     assert.equal(mockSpan.getAttribute("gen_ai.system"), "az.ai.inference");
-    assert.equal(mockSpan.getAttribute("gen_ai.response.id"), (response?.body as ChatCompletionsOutput).id);
-    assert.equal(mockSpan.getAttribute("gen_ai.response.model"), (response?.body as ChatCompletionsOutput).model);
-    assert.equal(mockSpan.getAttribute("gen_ai.usage.input_tokens"), (response?.body as ChatCompletionsOutput).usage.prompt_tokens);
-    assert.equal(mockSpan.getAttribute("gen_ai.usage.output_tokens"), (response?.body as ChatCompletionsOutput).usage.completion_tokens);
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.response.id"),
+      (response?.body as ChatCompletionsOutput).id,
+    );
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.response.model"),
+      (response?.body as ChatCompletionsOutput).model,
+    );
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.usage.input_tokens"),
+      (response?.body as ChatCompletionsOutput).usage.prompt_tokens,
+    );
+    assert.equal(
+      mockSpan.getAttribute("gen_ai.usage.output_tokens"),
+      (response?.body as ChatCompletionsOutput).usage.completion_tokens,
+    );
     assert.equal(mockSpan.events.size, 4);
 
     const userMessageEvent = mockSpan.events.get("gen_ai.user.message");
@@ -284,37 +388,96 @@ describe("tracing test suite", () => {
       name: "gen_ai.user.message",
       attributesOrStartTime: {
         "gen_ai.system": "az.ai.inference",
-        "gen_ai.event.content": "{\"content\":\"\"}",
+        "gen_ai.event.content": '{"content":""}',
       },
       startTime: undefined,
     });
-    const tooCallId = (messages.find((msg) => msg.role == "tool") as ChatRequestToolMessage).tool_call_id;
+    const tooCallId = (messages.find((msg) => msg.role == "tool") as ChatRequestToolMessage)
+      .tool_call_id;
 
     const assistantMessageEvent = mockSpan.events.get("gen_ai.assistant.message");
     assert.isDefined(tooCallId);
 
     assert.isDefined(assistantMessageEvent);
     assert.equal(assistantMessageEvent?.name, "gen_ai.assistant.message");
-    assert.equal((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"], "az.ai.inference");
-    assert.equal(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls.length, 1);
-    assert.equal(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls[0].id, tooCallId);
-    assert.isEmpty(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls[0].function.name);
-    assert.isEmpty(JSON.parse((assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).tool_calls[0].function.arguments);
+    assert.equal(
+      (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"],
+      "az.ai.inference",
+    );
+    assert.equal(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls.length,
+      1,
+    );
+    assert.equal(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls[0].id,
+      tooCallId,
+    );
+    assert.isEmpty(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls[0].function.name,
+    );
+    assert.isEmpty(
+      JSON.parse(
+        (assistantMessageEvent?.attributesOrStartTime as SpanAttributes)[
+          "gen_ai.event.content"
+        ] as any,
+      ).tool_calls[0].function.arguments,
+    );
 
     const toolMessageEvent = mockSpan.events.get("gen_ai.tool.message");
     assert.isDefined(toolMessageEvent);
     assert.isDefined(toolMessageEvent?.name, "gen_ai.tool.message");
-    assert.equal((toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"], "az.ai.inference");
-    assert.equal(JSON.parse((toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).id, tooCallId);
-    assert.isEmpty(JSON.parse((toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).content);
+    assert.equal(
+      (toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"],
+      "az.ai.inference",
+    );
+    assert.equal(
+      JSON.parse(
+        (toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).id,
+      tooCallId,
+    );
+    assert.isEmpty(
+      JSON.parse(
+        (toolMessageEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).content,
+    );
 
     const choiceEvent = mockSpan.events.get("gen_ai.choice");
     assert.isDefined(choiceEvent);
     assert.equal(choiceEvent?.name, "gen_ai.choice");
-    assert.equal((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"], "az.ai.inference");
-    assert.equal(JSON.parse((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).finish_reason, "stop");
-    assert.equal(JSON.parse((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).index, 0);
-    assert.isEmpty(JSON.parse((choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any).message.content);
+    assert.equal(
+      (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.system"],
+      "az.ai.inference",
+    );
+    assert.equal(
+      JSON.parse(
+        (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).finish_reason,
+      "stop",
+    );
+    assert.equal(
+      JSON.parse(
+        (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).index,
+      0,
+    );
+    assert.isEmpty(
+      JSON.parse(
+        (choiceEvent?.attributesOrStartTime as SpanAttributes)["gen_ai.event.content"] as any,
+      ).message.content,
+    );
   });
 
   it("tracing with errors", async function () {
@@ -323,15 +486,18 @@ describe("tracing test suite", () => {
     const tracer = trace.getTracer("sample", "0.1.0");
 
     await tracer.startActiveSpan("main", async (span) => {
-      return client.path("/chat/completions").post({
-        body: {
-          messages: [{ role: "user", content: "" }],
-        },
-        tracingOptions: { tracingContext: context.active() },
-      }).then((response) => {
-        span.end();
-        return response;
-      });
+      return client
+        .path("/chat/completions")
+        .post({
+          body: {
+            messages: [{ role: "user", content: "" }],
+          },
+          tracingOptions: { tracingContext: context.active() },
+        })
+        .then((response) => {
+          span.end();
+          return response;
+        });
     });
 
     const createdSpan = instrumenter.createdSpans.get("chat");
@@ -347,13 +513,20 @@ describe("tracing test suite", () => {
     assert.equal(mockSpan.getAttribute("server.port"), 443);
     assert.equal(mockSpan.getAttribute("gen_ai.operation.name"), "chat");
     assert.equal(mockSpan.getAttribute("gen_ai.system"), "az.ai.inference");
-    assert.deepEqual(mockSpan.status, { status: "error", error: "Unauthorized. Access token is missing, invalid, audience is incorrect (https://cognitiveservices.azure.com), or have expired." });
+    assert.deepEqual(mockSpan.status, {
+      status: "error",
+      error:
+        "Unauthorized. Access token is missing, invalid, audience is incorrect (https://cognitiveservices.azure.com), or have expired.",
+    });
   });
 });
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};
-  events = new Map<string, { name: string, attributesOrStartTime?: unknown, startTime?: unknown }>();
+  events = new Map<
+    string,
+    { name: string; attributesOrStartTime?: unknown; startTime?: unknown }
+  >();
   endCalled: boolean = false;
   status?: SpanStatus;
   exceptions: Array<Error | string> = [];
@@ -406,7 +579,7 @@ const noopTracingContext: TracingContext = {
 };
 
 class MockInstrumenter implements Instrumenter {
-  createdSpans = new Map<string, MockSpan>;
+  createdSpans = new Map<string, MockSpan>();
   staticSpan: MockSpan | undefined;
 
   setStaticSpan(span: MockSpan): void {

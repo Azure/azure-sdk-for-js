@@ -88,10 +88,8 @@ export interface FullOperationResponse extends PipelineResponse {
 // @public
 export function getClient(endpoint: string, options?: ClientOptions): Client;
 
-// Warning: (ae-forgotten-export) The symbol "TracerCallback" needs to be exported by the entry point index.d.ts
-//
 // @public
-export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions, tracer?: TracerCallback): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
 export type HttpBrowserStreamResponse = HttpResponse & {

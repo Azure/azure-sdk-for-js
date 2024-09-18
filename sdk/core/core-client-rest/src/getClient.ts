@@ -15,13 +15,6 @@ import {
 import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
 
-// type TracerCallback = (
-//   routePath: string,
-//   url: string,
-//   args: RequestParameters,
-//   methodToTrace: () => StreamableMethod,
-// ) => StreamableMethod;
-
 /**
  * Creates a client with a default pipeline
  * @param endpoint - Base endpoint for the client
@@ -33,7 +26,6 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
  * @param endpoint - Base endpoint for the client
  * @param credentials - Credentials to authenticate the requests
  * @param options - Client options
- * @param tracer - wrapper method around operations for telemetry
  */
 export function getClient(
   endpoint: string,
@@ -71,12 +63,12 @@ export function getClient(
   const client = (path: string, ...args: Array<any>) => {
     const getUrl = (requestOptions: RequestParameters) =>
       buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
+
     return {
       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
         return buildOperation(
           "GET",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -87,7 +79,6 @@ export function getClient(
         return buildOperation(
           "POST",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -98,7 +89,6 @@ export function getClient(
         return buildOperation(
           "PUT",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -109,7 +99,6 @@ export function getClient(
         return buildOperation(
           "PATCH",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -120,7 +109,6 @@ export function getClient(
         return buildOperation(
           "DELETE",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -131,7 +119,6 @@ export function getClient(
         return buildOperation(
           "HEAD",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -142,7 +129,6 @@ export function getClient(
         return buildOperation(
           "OPTIONS",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -153,7 +139,6 @@ export function getClient(
         return buildOperation(
           "TRACE",
           getUrl(requestOptions),
-          path,
           pipeline,
           requestOptions,
           allowInsecureConnection,
@@ -173,15 +158,13 @@ export function getClient(
 function buildOperation(
   method: HttpMethods,
   url: string,
-  path: string,
   pipeline: Pipeline,
   options: RequestParameters,
   allowInsecureConnection?: boolean,
   httpClient?: HttpClient,
 ): StreamableMethod {
   allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
-
-  const operation: () => StreamableMethod = () => ({
+  return {
     then: function (onFulfilled, onrejected) {
       return sendRequest(
         method,
@@ -209,13 +192,7 @@ function buildOperation(
         httpClient,
       ) as Promise<HttpNodeStreamResponse>;
     },
-  });
-
-  options = {
-    ...options,
-    tracingOptions: { tracingContext: options.tracingOptions?.tracingContext },
   };
-  return operation();
 }
 
 function isCredential(
