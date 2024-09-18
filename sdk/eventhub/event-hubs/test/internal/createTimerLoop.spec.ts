@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, vi, beforeAll, afterAll } from "vitest";
 import { assert } from "../utils/chai.js";

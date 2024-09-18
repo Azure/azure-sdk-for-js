@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 import { BodyTypes, defaultDataTransformer } from "./dataTransformer.js";

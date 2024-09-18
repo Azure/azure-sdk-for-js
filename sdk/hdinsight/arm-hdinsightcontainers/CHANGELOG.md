@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,107 @@
 
 ### Other Changes
 
+## 1.0.0-beta.3 (2024-08-23)
+Compared with version 1.0.0-beta.2
+    
+### Features Added
+
+  - Added operation group ClusterLibraries
+  - Added operation group ClusterPoolUpgradeHistories
+  - Added operation group ClusterUpgradeHistories
+  - Added operation Clusters.beginUpgradeManualRollback
+  - Added operation Clusters.beginUpgradeManualRollbackAndWait
+  - Added Interface ClusterAksPatchUpgradeHistoryProperties
+  - Added Interface ClusterAvailableInPlaceUpgradeProperties
+  - Added Interface ClusterAvailableUpgradePatchVersionUpgradeProperties
+  - Added Interface ClusterHotfixUpgradeHistoryProperties
+  - Added Interface ClusterHotfixUpgradeRollbackHistoryProperties
+  - Added Interface ClusterInPlaceUpgradeHistoryProperties
+  - Added Interface ClusterInPlaceUpgradeProperties
+  - Added Interface ClusterLibrariesListNextOptionalParams
+  - Added Interface ClusterLibrariesListOptionalParams
+  - Added Interface ClusterLibrariesManageLibrariesHeaders
+  - Added Interface ClusterLibrariesManageLibrariesOptionalParams
+  - Added Interface ClusterLibrary
+  - Added Interface ClusterLibraryList
+  - Added Interface ClusterLibraryManagementOperation
+  - Added Interface ClusterLibraryManagementOperationProperties
+  - Added Interface ClusterLibraryProperties
+  - Added Interface ClusterPatchVersionUpgradeHistoryProperties
+  - Added Interface ClusterPatchVersionUpgradeProperties
+  - Added Interface ClusterPatchVersionUpgradeRollbackHistoryProperties
+  - Added Interface ClusterPoolAksPatchUpgradeHistoryProperties
+  - Added Interface ClusterPoolNodeOsUpgradeHistoryProperties
+  - Added Interface ClusterPoolUpgradeHistoriesListNextOptionalParams
+  - Added Interface ClusterPoolUpgradeHistoriesListOptionalParams
+  - Added Interface ClusterPoolUpgradeHistory
+  - Added Interface ClusterPoolUpgradeHistoryListResult
+  - Added Interface ClusterPoolUpgradeHistoryProperties
+  - Added Interface ClustersUpgradeManualRollbackHeaders
+  - Added Interface ClustersUpgradeManualRollbackOptionalParams
+  - Added Interface ClusterUpgradeHistoriesListNextOptionalParams
+  - Added Interface ClusterUpgradeHistoriesListOptionalParams
+  - Added Interface ClusterUpgradeHistory
+  - Added Interface ClusterUpgradeHistoryListResult
+  - Added Interface ClusterUpgradeHistoryProperties
+  - Added Interface ClusterUpgradeRollback
+  - Added Interface ClusterUpgradeRollbackProperties
+  - Added Interface IpTag
+  - Added Interface ManagedIdentityProfile
+  - Added Interface ManagedIdentitySpec
+  - Added Interface MavenLibraryProperties
+  - Added Interface PyPiLibraryProperties
+  - Added Type Alias Category
+  - Added Type Alias ClusterAvailableInPlaceUpgradePropertiesUnion
+  - Added Type Alias ClusterInPlaceUpgradeHistoryPropertiesUnion
+  - Added Type Alias ClusterInPlaceUpgradePropertiesUnion
+  - Added Type Alias ClusterLibrariesListNextResponse
+  - Added Type Alias ClusterLibrariesListResponse
+  - Added Type Alias ClusterLibrariesManageLibrariesResponse
+  - Added Type Alias ClusterLibraryPropertiesUnion
+  - Added Type Alias ClusterPoolUpgradeHistoriesListNextResponse
+  - Added Type Alias ClusterPoolUpgradeHistoriesListResponse
+  - Added Type Alias ClusterPoolUpgradeHistoryPropertiesUnion
+  - Added Type Alias ClusterPoolUpgradeHistoryType
+  - Added Type Alias ClusterPoolUpgradeHistoryUpgradeResultType
+  - Added Type Alias ClustersUpgradeManualRollbackResponse
+  - Added Type Alias ClusterUpgradeHistoriesListNextResponse
+  - Added Type Alias ClusterUpgradeHistoriesListResponse
+  - Added Type Alias ClusterUpgradeHistoryPropertiesUnion
+  - Added Type Alias ClusterUpgradeHistorySeverityType
+  - Added Type Alias ClusterUpgradeHistoryType
+  - Added Type Alias ClusterUpgradeHistoryUpgradeResultType
+  - Added Type Alias LibraryManagementAction
+  - Added Type Alias ManagedIdentityType
+  - Added Type Alias Status
+  - Added Type Alias Type
+  - Interface ClusterPoolComputeProfile has a new optional parameter availabilityZones
+  - Interface ClusterPoolProfile has a new optional parameter publicIpTag
+  - Interface ClusterProfile has a new optional parameter managedIdentityProfile
+  - Interface ComputeProfile has a new optional parameter availabilityZones
+  - Interface SshProfile has a new optional parameter vmSize
+  - Interface UpdatableClusterProfile has a new optional parameter secretsProfile
+  - Interface UpdatableClusterProfile has a new optional parameter trinoProfile
+  - Type of parameter upgradeType of interface ClusterAvailableUpgradeProperties is changed from "AKSPatchUpgrade" | "HotfixUpgrade" to "AKSPatchUpgrade" | "ClusterAvailableInPlaceUpgradeProperties" | "HotfixUpgrade" | "PatchVersionUpgrade"
+  - Type of parameter upgradeType of interface ClusterUpgradeProperties is changed from "AKSPatchUpgrade" | "HotfixUpgrade" to "AKSPatchUpgrade" | "ClusterInPlaceUpgradeProperties" | "HotfixUpgrade" | "PatchVersionUpgrade"
+  - Added Enum KnownCategory
+  - Added Enum KnownClusterPoolUpgradeHistoryType
+  - Added Enum KnownClusterPoolUpgradeHistoryUpgradeResultType
+  - Added Enum KnownClusterUpgradeHistorySeverityType
+  - Added Enum KnownClusterUpgradeHistoryType
+  - Added Enum KnownClusterUpgradeHistoryUpgradeResultType
+  - Added Enum KnownLibraryManagementAction
+  - Added Enum KnownManagedIdentityType
+  - Added Enum KnownStatus
+  - Added Enum KnownType
+  - Enum KnownClusterAvailableUpgradeType has a new value PatchVersionUpgrade
+  - Enum KnownClusterUpgradeType has a new value PatchVersionUpgrade
+
+### Breaking Changes
+
+  - Interface KafkaProfile no longer has parameter clusterIdentity
+    
+    
 ## 1.0.0-beta.2 (2024-04-03)
     
 ### Features Added

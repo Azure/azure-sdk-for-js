@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   type TracingClient,
@@ -54,7 +54,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!tracingClient || !request.tracingOptions?.tracingContext) {
+      if (!tracingClient) {
         return next(request);
       }
 

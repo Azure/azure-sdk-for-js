@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a cluster.
  *
  * @summary Deletes a cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/DeleteCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/DeleteCluster.json
  */
 async function hdInsightClustersDelete() {
   const subscriptionId =

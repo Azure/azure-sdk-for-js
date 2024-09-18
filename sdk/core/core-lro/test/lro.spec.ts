@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   ImplementationName,
@@ -727,6 +727,75 @@ matrix(
                   },
                 ],
                 resourceLocationConfig: "azure-async-operation",
+              });
+              assert.equal(result.statusCode, 200);
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle POST with final-state-via: operation-location", async () => {
+              const path = "/post/final-state-via";
+              const locationPath = `/LROPostFinalStateViaOperationLocation/location`;
+              const operationLocationPath = `/LROPostFinalStateViaOperationLocation/asyncOperationUrl`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "POST",
+                    status: 202,
+                    path,
+                    body: "",
+                    headers: {
+                      Location: locationPath,
+                      [headerName]: operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded", "id": "100"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: locationPath,
+                    status: 400,
+                  },
+                ],
+                resourceLocationConfig: "operation-location",
+              });
+              assert.equal(result.statusCode, 200);
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle POST with final-state-via: location", async () => {
+              const path = "/post/final-state-via";
+              const locationPath = `/LROPostFinalStateViaOperationLocation/location`;
+              const operationLocationPath = `/LROPostFinalStateViaOperationLocation/asyncOperationUrl`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "POST",
+                    status: 202,
+                    path,
+                    body: "",
+                    headers: {
+                      Location: locationPath,
+                      [headerName]: operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: locationPath,
+                    status: 200,
+                    body: `{ "id": "100" }`,
+                  },
+                ],
+                resourceLocationConfig: "location",
               });
               assert.equal(result.statusCode, 200);
               assert.equal(result.id, "100");

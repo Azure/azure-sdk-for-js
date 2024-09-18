@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AnonymousCredential, StoragePipelineOptions } from "../../src";
 import { BlobServiceClient } from "../../src";

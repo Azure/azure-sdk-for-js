@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";

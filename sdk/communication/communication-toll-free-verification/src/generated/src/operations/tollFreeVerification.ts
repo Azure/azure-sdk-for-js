@@ -43,7 +43,7 @@ import {
   TollFreeVerificationGetCampaignBriefAttachmentResponse,
   TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse,
   TollFreeVerificationGetAllCampaignBriefSummariesNextResponse,
-  TollFreeVerificationGetCampaignBriefAttachmentsNextResponse
+  TollFreeVerificationGetCampaignBriefAttachmentsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,11 +66,11 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    */
   public listAllCampaignBriefsByCountryCode(
     countryCode: string,
-    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
   ): PagedAsyncIterableIterator<CampaignBrief> {
     const iter = this.getAllCampaignBriefsByCountryCodePagingAll(
       countryCode,
-      options
+      options,
     );
     return {
       next() {
@@ -86,23 +86,23 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
         return this.getAllCampaignBriefsByCountryCodePagingPage(
           countryCode,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *getAllCampaignBriefsByCountryCodePagingPage(
     countryCode: string,
     options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CampaignBrief[]> {
     let result: TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._getAllCampaignBriefsByCountryCode(
         countryCode,
-        options
+        options,
       );
       let page = result.campaignBriefs || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       result = await this._getAllCampaignBriefsByCountryCodeNext(
         countryCode,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.campaignBriefs || [];
@@ -124,11 +124,11 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 
   private async *getAllCampaignBriefsByCountryCodePagingAll(
     countryCode: string,
-    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
   ): AsyncIterableIterator<CampaignBrief> {
     for await (const page of this.getAllCampaignBriefsByCountryCodePagingPage(
       countryCode,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,7 +139,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    * @param options The options parameters.
    */
   public listAllCampaignBriefSummaries(
-    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
   ): PagedAsyncIterableIterator<CampaignBriefSummary> {
     const iter = this.getAllCampaignBriefSummariesPagingAll(options);
     return {
@@ -154,13 +154,13 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getAllCampaignBriefSummariesPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getAllCampaignBriefSummariesPagingPage(
     options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CampaignBriefSummary[]> {
     let result: TollFreeVerificationGetAllCampaignBriefSummariesResponse;
     let continuationToken = settings?.continuationToken;
@@ -174,7 +174,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     while (continuationToken) {
       result = await this._getAllCampaignBriefSummariesNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.campaignBriefSummaries || [];
@@ -184,10 +184,10 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   }
 
   private async *getAllCampaignBriefSummariesPagingAll(
-    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
   ): AsyncIterableIterator<CampaignBriefSummary> {
     for await (const page of this.getAllCampaignBriefSummariesPagingPage(
-      options
+      options,
     )) {
       yield* page;
     }
@@ -202,12 +202,12 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   public listCampaignBriefAttachments(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   ): PagedAsyncIterableIterator<CampaignBriefAttachment> {
     const iter = this.getCampaignBriefAttachmentsPagingAll(
       countryCode,
       campaignBriefId,
-      options
+      options,
     );
     return {
       next() {
@@ -224,9 +224,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
           countryCode,
           campaignBriefId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -234,7 +234,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     countryCode: string,
     campaignBriefId: string,
     options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CampaignBriefAttachment[]> {
     let result: TollFreeVerificationGetCampaignBriefAttachmentsResponse;
     let continuationToken = settings?.continuationToken;
@@ -242,7 +242,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       result = await this._getCampaignBriefAttachments(
         countryCode,
         campaignBriefId,
-        options
+        options,
       );
       let page = result.attachments || [];
       continuationToken = result.nextLink;
@@ -254,7 +254,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
         countryCode,
         campaignBriefId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.attachments || [];
@@ -266,12 +266,12 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   private async *getCampaignBriefAttachmentsPagingAll(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   ): AsyncIterableIterator<CampaignBriefAttachment> {
     for await (const page of this.getCampaignBriefAttachmentsPagingPage(
       countryCode,
       campaignBriefId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -286,7 +286,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   async upsertCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationUpsertCampaignBriefOptionalParams
+    options?: TollFreeVerificationUpsertCampaignBriefOptionalParams,
   ): Promise<TollFreeVerificationUpsertCampaignBriefResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.upsertCampaignBrief",
@@ -294,9 +294,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, options },
-          upsertCampaignBriefOperationSpec
+          upsertCampaignBriefOperationSpec,
         ) as Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
-      }
+      },
     );
   }
 
@@ -309,7 +309,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   async deleteCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationDeleteCampaignBriefOptionalParams
+    options?: TollFreeVerificationDeleteCampaignBriefOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.deleteCampaignBrief",
@@ -317,9 +317,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, options },
-          deleteCampaignBriefOperationSpec
+          deleteCampaignBriefOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -332,7 +332,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   async getCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefOptionalParams,
   ): Promise<TollFreeVerificationGetCampaignBriefResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.getCampaignBrief",
@@ -340,9 +340,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, options },
-          getCampaignBriefOperationSpec
+          getCampaignBriefOperationSpec,
         ) as Promise<TollFreeVerificationGetCampaignBriefResponse>;
-      }
+      },
     );
   }
 
@@ -355,7 +355,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   async submitCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationSubmitCampaignBriefOptionalParams
+    options?: TollFreeVerificationSubmitCampaignBriefOptionalParams,
   ): Promise<TollFreeVerificationSubmitCampaignBriefResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.submitCampaignBrief",
@@ -363,9 +363,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, options },
-          submitCampaignBriefOperationSpec
+          submitCampaignBriefOperationSpec,
         ) as Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
-      }
+      },
     );
   }
 
@@ -376,7 +376,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    */
   private async _getAllCampaignBriefsByCountryCode(
     countryCode: string,
-    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
   ): Promise<TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient._getAllCampaignBriefsByCountryCode",
@@ -384,11 +384,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, options },
-          getAllCampaignBriefsByCountryCodeOperationSpec
-        ) as Promise<
-          TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse
-        >;
-      }
+          getAllCampaignBriefsByCountryCodeOperationSpec,
+        ) as Promise<TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse>;
+      },
     );
   }
 
@@ -397,7 +395,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    * @param options The options parameters.
    */
   private async _getAllCampaignBriefSummaries(
-    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
   ): Promise<TollFreeVerificationGetAllCampaignBriefSummariesResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient._getAllCampaignBriefSummaries",
@@ -405,9 +403,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getAllCampaignBriefSummariesOperationSpec
+          getAllCampaignBriefSummariesOperationSpec,
         ) as Promise<TollFreeVerificationGetAllCampaignBriefSummariesResponse>;
-      }
+      },
     );
   }
 
@@ -435,10 +433,8 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     fileName: string,
     fileType: FileType,
     fileContentBase64: string,
-    options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
-  ): Promise<
-    TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse
-  > {
+    options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
+  ): Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.createOrReplaceCampaignBriefAttachment",
       options ?? {},
@@ -453,13 +449,11 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
             fileName,
             fileType,
             fileContentBase64,
-            options
+            options,
           },
-          createOrReplaceCampaignBriefAttachmentOperationSpec
-        ) as Promise<
-          TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse
-        >;
-      }
+          createOrReplaceCampaignBriefAttachmentOperationSpec,
+        ) as Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse>;
+      },
     );
   }
 
@@ -474,7 +468,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
+    options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.deleteCampaignBriefAttachment",
@@ -482,9 +476,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, attachmentId, options },
-          deleteCampaignBriefAttachmentOperationSpec
+          deleteCampaignBriefAttachmentOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -499,7 +493,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
   ): Promise<TollFreeVerificationGetCampaignBriefAttachmentResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient.getCampaignBriefAttachment",
@@ -507,9 +501,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, attachmentId, options },
-          getCampaignBriefAttachmentOperationSpec
+          getCampaignBriefAttachmentOperationSpec,
         ) as Promise<TollFreeVerificationGetCampaignBriefAttachmentResponse>;
-      }
+      },
     );
   }
 
@@ -522,7 +516,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   private async _getCampaignBriefAttachments(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   ): Promise<TollFreeVerificationGetCampaignBriefAttachmentsResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient._getCampaignBriefAttachments",
@@ -530,9 +524,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, options },
-          getCampaignBriefAttachmentsOperationSpec
+          getCampaignBriefAttachmentsOperationSpec,
         ) as Promise<TollFreeVerificationGetCampaignBriefAttachmentsResponse>;
-      }
+      },
     );
   }
 
@@ -546,21 +540,17 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   private async _getAllCampaignBriefsByCountryCodeNext(
     countryCode: string,
     nextLink: string,
-    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextOptionalParams
-  ): Promise<
-    TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse
-  > {
+    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextOptionalParams,
+  ): Promise<TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient._getAllCampaignBriefsByCountryCodeNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, nextLink, options },
-          getAllCampaignBriefsByCountryCodeNextOperationSpec
-        ) as Promise<
-          TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse
-        >;
-      }
+          getAllCampaignBriefsByCountryCodeNextOperationSpec,
+        ) as Promise<TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse>;
+      },
     );
   }
 
@@ -572,7 +562,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
    */
   private async _getAllCampaignBriefSummariesNext(
     nextLink: string,
-    options?: TollFreeVerificationGetAllCampaignBriefSummariesNextOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesNextOptionalParams,
   ): Promise<TollFreeVerificationGetAllCampaignBriefSummariesNextResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient._getAllCampaignBriefSummariesNext",
@@ -580,11 +570,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getAllCampaignBriefSummariesNextOperationSpec
-        ) as Promise<
-          TollFreeVerificationGetAllCampaignBriefSummariesNextResponse
-        >;
-      }
+          getAllCampaignBriefSummariesNextOperationSpec,
+        ) as Promise<TollFreeVerificationGetAllCampaignBriefSummariesNextResponse>;
+      },
     );
   }
 
@@ -600,7 +588,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     countryCode: string,
     campaignBriefId: string,
     nextLink: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams,
   ): Promise<TollFreeVerificationGetCampaignBriefAttachmentsNextResponse> {
     return tracingClient.withSpan(
       "TollFreeVerificationClient._getCampaignBriefAttachmentsNext",
@@ -608,11 +596,9 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
       async (options) => {
         return this.client.sendOperationRequest(
           { countryCode, campaignBriefId, nextLink, options },
-          getCampaignBriefAttachmentsNextOperationSpec
-        ) as Promise<
-          TollFreeVerificationGetCampaignBriefAttachmentsNextResponse
-        >;
-      }
+          getCampaignBriefAttachmentsNextOperationSpec,
+        ) as Promise<TollFreeVerificationGetCampaignBriefAttachmentsNextResponse>;
+      },
     );
   }
 }
@@ -620,275 +606,271 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const upsertCampaignBriefOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBrief
+      bodyMapper: Mappers.CampaignBrief,
     },
     201: {
-      bodyMapper: Mappers.CampaignBrief
+      bodyMapper: Mappers.CampaignBrief,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
-    Parameters.campaignBriefId
+    Parameters.campaignBriefId,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteCampaignBriefOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
-    Parameters.campaignBriefId
+    Parameters.campaignBriefId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCampaignBriefOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBrief
+      bodyMapper: Mappers.CampaignBrief,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
-    Parameters.campaignBriefId
+    Parameters.campaignBriefId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const submitCampaignBriefOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/:submit",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/:submit",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBrief
+      bodyMapper: Mappers.CampaignBrief,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
-    Parameters.campaignBriefId
+    Parameters.campaignBriefId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getAllCampaignBriefsByCountryCodeOperationSpec: coreClient.OperationSpec = {
-  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CampaignBriefs
+const getAllCampaignBriefsByCountryCodeOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CampaignBriefs,
+      },
+      default: {
+        bodyMapper: Mappers.CommunicationErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
-  urlParameters: [Parameters.endpoint, Parameters.countryCode],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
+    urlParameters: [Parameters.endpoint, Parameters.countryCode],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const getAllCampaignBriefSummariesOperationSpec: coreClient.OperationSpec = {
   path: "/tollfreeVerification/campaignBriefs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBriefSummaries
+      bodyMapper: Mappers.CampaignBriefSummaries,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOrReplaceCampaignBriefAttachmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CampaignBriefAttachment
+const createOrReplaceCampaignBriefAttachmentOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}",
+    httpMethod: "PUT",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CampaignBriefAttachment,
+      },
+      201: {
+        bodyMapper: Mappers.CampaignBriefAttachment,
+      },
+      default: {
+        bodyMapper: Mappers.CommunicationErrorResponse,
+      },
     },
-    201: {
-      bodyMapper: Mappers.CampaignBriefAttachment
+    requestBody: {
+      parameterPath: {
+        id: ["id"],
+        typeParam: ["typeParam"],
+        fileName: ["fileName"],
+        fileSizeInBytes: ["options", "fileSizeInBytes"],
+        fileType: ["fileType"],
+        fileContentBase64: ["fileContentBase64"],
+      },
+      mapper: { ...Mappers.CampaignBriefAttachment, required: true },
     },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      id: ["id"],
-      typeParam: ["typeParam"],
-      fileName: ["fileName"],
-      fileSizeInBytes: ["options", "fileSizeInBytes"],
-      fileType: ["fileType"],
-      fileContentBase64: ["fileContentBase64"]
-    },
-    mapper: { ...Mappers.CampaignBriefAttachment, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.countryCode,
-    Parameters.campaignBriefId,
-    Parameters.attachmentId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
-  mediaType: "json",
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.endpoint,
+      Parameters.countryCode,
+      Parameters.campaignBriefId,
+      Parameters.attachmentId,
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType1],
+    mediaType: "json",
+    serializer,
+  };
 const deleteCampaignBriefAttachmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
     Parameters.campaignBriefId,
-    Parameters.attachmentId
+    Parameters.attachmentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCampaignBriefAttachmentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments/{attachmentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBriefAttachment
+      bodyMapper: Mappers.CampaignBriefAttachment,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
     Parameters.campaignBriefId,
-    Parameters.attachmentId
+    Parameters.attachmentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCampaignBriefAttachmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments",
+  path: "/tollfreeVerification/countries/{countryCode}/campaignBriefs/{campaignBriefId}/attachments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBriefAttachments
+      bodyMapper: Mappers.CampaignBriefAttachments,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
-    Parameters.campaignBriefId
+    Parameters.campaignBriefId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getAllCampaignBriefsByCountryCodeNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CampaignBriefs
+const getAllCampaignBriefsByCountryCodeNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CampaignBriefs,
+      },
+      default: {
+        bodyMapper: Mappers.CommunicationErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.countryCode,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAllCampaignBriefSummariesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CampaignBriefSummaries
+    urlParameters: [
+      Parameters.endpoint,
+      Parameters.countryCode,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getAllCampaignBriefSummariesNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.CampaignBriefSummaries,
+      },
+      default: {
+        bodyMapper: Mappers.CommunicationErrorResponse,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [Parameters.endpoint, Parameters.nextLink],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const getCampaignBriefAttachmentsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CampaignBriefAttachments
+      bodyMapper: Mappers.CampaignBriefAttachments,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
     Parameters.campaignBriefId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

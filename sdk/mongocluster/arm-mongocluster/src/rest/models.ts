@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Represents a mongo cluster resource. */
 export interface MongoCluster extends TrackedResource {

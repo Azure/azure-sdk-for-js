@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { afterEach, assert, describe, it, vi } from "vitest";
 import { calculateRetryDelay, delay } from "../../src/index.js";

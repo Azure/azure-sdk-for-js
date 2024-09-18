@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, use } from "chai";
 import { AzureCommunicationTokenCredential } from "../../src";

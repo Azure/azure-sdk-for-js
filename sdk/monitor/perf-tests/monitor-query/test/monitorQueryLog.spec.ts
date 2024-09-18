@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PerfTest } from "@azure-tools/test-perf";
 import { LogsQueryClient } from "@azure/monitor-query";

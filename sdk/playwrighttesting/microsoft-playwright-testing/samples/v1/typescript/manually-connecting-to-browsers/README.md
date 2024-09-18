@@ -13,7 +13,7 @@ This guide will walk you through the steps to integrate your Playwright project,
 
 Make sure you have set up your Playwright Testing workspace by following these steps:
 
-- [Create a workspace]<!--(https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md#create-a-workspace)-->
+- [Create a workspace](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md#create-a-workspace)
 
 ### Install Microsoft Playwright Testing package
 
@@ -31,8 +31,7 @@ The service configuration serves to:
 - Add Microsoft Playwright Testing reporting to your config.
 - Override timeouts for service operations, if needed.
 
-> [!NOTE]
-> Make sure your project uses @playwright/test version 1.37 or above.
+> Make sure your project uses @playwright/test version 1.47 or above.
 
 ### Obtain region endpoint
 
@@ -48,7 +47,6 @@ Ensure that the `PLAYWRIGHT_SERVICE_URL` that you obtained in previous step is a
 
 We recommend using `dotenv` module to manage your environment. With `dotenv` you'll be using the `.env` file to define your environment variables.
 
-> [!IMPORTANT]
 > Don't forget to add `.env` file to your `.gitignore` file in order to not leak your secrets.
 
 ```sh
@@ -58,7 +56,7 @@ npm i --save-dev dotenv
 `.env` file
 
 ```sh
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
 ```
 
 ### Configure browsers to be launched on the service

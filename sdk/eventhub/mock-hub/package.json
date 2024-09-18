@@ -67,7 +67,7 @@
     "@vitest/coverage-istanbul": "^2.0.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "playwright": "^1.45.3",
     "rimraf": "^6.0.1",
     "tshy": "^2.0.0",

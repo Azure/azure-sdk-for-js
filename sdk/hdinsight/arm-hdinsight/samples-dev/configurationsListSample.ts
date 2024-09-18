@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all configuration information for an HDI cluster.
  *
  * @summary Gets all configuration information for an HDI cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Configurations_List.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Configurations_List.json
  */
 async function getAllConfigurationInformation() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getAllConfigurationInformation() {
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.configurations.list(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

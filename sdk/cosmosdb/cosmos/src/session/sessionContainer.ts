@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import atob from "../utils/atob";
 import { Constants, getContainerLink, OperationType, ResourceType, trimSlashes } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext";

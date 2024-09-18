@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
@@ -37,7 +37,7 @@ export const gunzipAsync = promisify(zlib.gunzip);
 export const deflateAsync = promisify(zlib.deflate);
 export const inflateAsync = promisify(zlib.inflate);
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const getBrotliCompressAsync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompress === "function") {
@@ -46,7 +46,7 @@ export const getBrotliCompressAsync = (zlibObject: any): Function | null => {
   return null;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const getBrotliCompressSync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliCompressSync === "function") {
@@ -56,7 +56,7 @@ export const getBrotliCompressSync = (zlibObject: any): Function | null => {
   return null;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const getBrotliDecompressAsync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompress === "function") {
@@ -65,7 +65,7 @@ export const getBrotliDecompressAsync = (zlibObject: any): Function | null => {
   return null;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export const getBrotliDecompressSync = (zlibObject: any): Function | null => {
   const isMajorVer = isBrotliSupported();
   if (isMajorVer && typeof zlibObject.brotliDecompressSync === "function") {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
 import { MockTracingSpan, MockInstrumenter } from "../../src/index.js";

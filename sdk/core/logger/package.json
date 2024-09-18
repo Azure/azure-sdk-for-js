@@ -89,7 +89,7 @@
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.3.1",
-    "eslint": "^8.56.0",
+    "eslint": "^9.9.0",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import eslint from "@eslint/js";
 import typescriptEslint from "typescript-eslint";
@@ -18,7 +18,7 @@ import rootConfig from "./azure-sdk-base";
 function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
   return typescriptEslint.config(
     {
-      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
     {
       languageOptions: {
@@ -102,7 +102,7 @@ export default (plugin: FlatConfig.Plugin) => ({
   "azure-sdk-base": rootConfig,
   internal: typescriptEslint.config(
     {
-      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
     {
       languageOptions: {

@@ -50,7 +50,7 @@ describe("HDInsightOnAks test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new HDInsightContainersManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
