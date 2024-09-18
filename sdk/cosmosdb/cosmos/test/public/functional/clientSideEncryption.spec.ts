@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
 import { Suite } from "mocha";
@@ -472,13 +472,13 @@ describe("Client Side Encryption", function (this: Suite) {
     });
     const testdatabase = client.database(database.id);
     const testcontainer = testdatabase.container(encryptionContainer.id);
-    let testDoc = TestDoc.create();
+    const testDoc = TestDoc.create();
     testDoc.sensitive_ArrayFormat = null;
     testDoc.sensitive_StringFormat = null;
     testDoc.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 =
       null;
 
-    let createResponse = await testcontainer.items.create(testDoc);
+    const createResponse = await testcontainer.items.create(testDoc);
     assert.equal(StatusCodes.Created, createResponse.statusCode);
     verifyExpectedDocResponse(testDoc, createResponse.resource);
 
@@ -953,13 +953,13 @@ describe("Client Side Encryption", function (this: Suite) {
           EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
         ),
     );
-    let clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    let policy = new ClientEncryptionPolicy(paths, 2);
     let containerProperties = {
       id: "StringPKEncContainer",
       partitionKey: {
         paths: ["/id"],
       },
-      clientEncryptionPolicy: clientEncryptionPolicy,
+      clientEncryptionPolicy: policy,
     };
     let testcontainer = (await database.containers.create(containerProperties)).container;
     await testcontainer.initializeEncryption();
@@ -982,13 +982,13 @@ describe("Client Side Encryption", function (this: Suite) {
           EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
         ),
     );
-    clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    policy = new ClientEncryptionPolicy(paths, 2);
     containerProperties = {
       id: "FloatPKEncContainer",
       partitionKey: {
         paths: ["/sensitive_FloatFormat"],
       },
-      clientEncryptionPolicy: clientEncryptionPolicy,
+      clientEncryptionPolicy: policy,
     };
     testcontainer = (await database.containers.create(containerProperties)).container;
     await testcontainer.initializeEncryption();
@@ -1012,13 +1012,13 @@ describe("Client Side Encryption", function (this: Suite) {
           EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
         ),
     );
-    clientEncryptionPolicy = new ClientEncryptionPolicy(paths, 2);
+    policy = new ClientEncryptionPolicy(paths, 2);
     containerProperties = {
       id: "BoolPKEncContainer",
       partitionKey: {
         paths: ["/sensitive_BoolFormat"],
       },
-      clientEncryptionPolicy: clientEncryptionPolicy,
+      clientEncryptionPolicy: policy,
     };
     testcontainer = (await database.containers.create(containerProperties)).container;
     await testcontainer.initializeEncryption();

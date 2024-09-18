@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { SqlQuerySpec, SqlParameter, JSONArray, JSONObject } from "../queryExecutionContext";
 import { TypeMarker } from "./enums/TypeMarker";
