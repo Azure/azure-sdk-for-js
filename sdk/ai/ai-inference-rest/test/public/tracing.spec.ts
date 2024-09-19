@@ -206,7 +206,7 @@ describe("tracing test suite", () => {
     assert.isNotNull(client.pipeline);
   });
 
-  it.only("tracing should work", async function () {
+  it("tracing should work", async function () {
     env["AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED"] = "true";
 
     const { response } = await callPost();
