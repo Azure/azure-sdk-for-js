@@ -238,24 +238,19 @@ export function firewallRulesDelete(
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _firewallRulesDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _firewallRulesDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          mongoClusterName,
-          firewallRuleName,
-          options,
-        ),
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _firewallRulesDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _firewallRulesDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        mongoClusterName,
+        firewallRuleName,
+        options,
+      ),
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _firewallRulesListByMongoClusterSend(

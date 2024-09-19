@@ -17,23 +17,14 @@ export interface ReplicasOperations {
   ) => PagedAsyncIterableIterator<Replica>;
 }
 
-export function getReplicas(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getReplicas(context: DocumentDBContext, subscriptionId: string) {
   return {
     listByParent: (
       resourceGroupName: string,
       mongoClusterName: string,
       options?: ReplicasListByParentOptionalParams,
     ) =>
-      replicasListByParent(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        mongoClusterName,
-        options,
-      ),
+      replicasListByParent(context, subscriptionId, resourceGroupName, mongoClusterName, options),
   };
 }
 

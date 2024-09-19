@@ -283,9 +283,7 @@ export interface NodeGroupSpec {
   nodeCount?: number;
 }
 
-export function nodeGroupSpecSerializer(
-  item: NodeGroupSpec,
-): Record<string, unknown> {
+export function nodeGroupSpecSerializer(item: NodeGroupSpec): Record<string, unknown> {
   return {
     sku: item["sku"],
     diskSizeGB: item["diskSizeGB"],
@@ -335,10 +333,9 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item.privateEndpoint
       ? item.privateEndpoint
       : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState:
-      privateLinkServiceConnectionStateSerializer(
-        item.privateLinkServiceConnectionState,
-      ),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item.privateLinkServiceConnectionState,
+    ),
   };
 }
 
@@ -575,9 +572,7 @@ export interface FirewallRule extends ProxyResource {
   properties?: FirewallRuleProperties;
 }
 
-export function firewallRuleSerializer(
-  item: FirewallRule,
-): Record<string, unknown> {
+export function firewallRuleSerializer(item: FirewallRule): Record<string, unknown> {
   return {
     properties: !item.properties
       ? item.properties
@@ -620,9 +615,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): Record<string, unknown> {
+export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -635,9 +628,7 @@ export interface MongoCluster extends TrackedResource {
   properties?: MongoClusterProperties;
 }
 
-export function mongoClusterSerializer(
-  item: MongoCluster,
-): Record<string, unknown> {
+export function mongoClusterSerializer(item: MongoCluster): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -655,9 +646,7 @@ export interface MongoClusterUpdate {
   properties?: MongoClusterUpdateProperties;
 }
 
-export function mongoClusterUpdateSerializer(
-  item: MongoClusterUpdate,
-): Record<string, unknown> {
+export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
@@ -882,10 +871,7 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 /** The available API versions. */
-export type Versions =
-  | "2024-03-01-preview"
-  | "2024-06-01-preview"
-  | "2024-07-01";
+export type Versions = "2024-03-01-preview" | "2024-06-01-preview" | "2024-07-01";
 /** Alias for ProvisioningState */
 export type ProvisioningState =
   | string

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PrivateLinkResource,
-  _PrivateLinkResourceListResult,
-} from "../../models/models.js";
+import { PrivateLinkResource, _PrivateLinkResourceListResult } from "../../models/models.js";
 import { DocumentDBContext as Client } from "../index.js";
 import {
   StreamableMethod,

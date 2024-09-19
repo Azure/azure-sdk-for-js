@@ -8,8 +8,7 @@ import { logger } from "../logger.js";
 export interface DocumentDBContext extends Client {}
 
 /** Optional parameters for the client. */
-export interface MongoClusterManagementClientOptionalParams
-  extends ClientOptions {
+export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   apiVersion?: string;
 }
@@ -19,13 +18,10 @@ export function createMongoClusterManagement(
   credential: TokenCredential,
   options: MongoClusterManagementClientOptionalParams = {},
 ): DocumentDBContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api`
-    : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

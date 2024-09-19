@@ -50,10 +50,7 @@ export interface FirewallRulesOperations {
   ) => PagedAsyncIterableIterator<FirewallRule>;
 }
 
-export function getFirewallRules(
-  context: DocumentDBContext,
-  subscriptionId: string,
-) {
+export function getFirewallRules(context: DocumentDBContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

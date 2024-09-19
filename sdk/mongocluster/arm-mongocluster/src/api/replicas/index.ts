@@ -70,26 +70,19 @@ export async function _replicasListByParentDeserialize(
                 ? undefined
                 : {
                     pointInTimeUTC:
-                      p.properties?.restoreParameters?.["pointInTimeUTC"] !==
-                      undefined
-                        ? new Date(
-                            p.properties?.restoreParameters?.["pointInTimeUTC"],
-                          )
+                      p.properties?.restoreParameters?.["pointInTimeUTC"] !== undefined
+                        ? new Date(p.properties?.restoreParameters?.["pointInTimeUTC"])
                         : undefined,
-                    sourceResourceId:
-                      p.properties?.restoreParameters?.["sourceResourceId"],
+                    sourceResourceId: p.properties?.restoreParameters?.["sourceResourceId"],
                   },
               replicaParameters: !p.properties?.replicaParameters
                 ? undefined
                 : {
-                    sourceResourceId:
-                      p.properties?.replicaParameters?.["sourceResourceId"],
-                    sourceLocation:
-                      p.properties?.replicaParameters?.["sourceLocation"],
+                    sourceResourceId: p.properties?.replicaParameters?.["sourceResourceId"],
+                    sourceLocation: p.properties?.replicaParameters?.["sourceLocation"],
                   },
               administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword:
-                p.properties?.["administratorLoginPassword"],
+              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
               earliestRestoreTime: p.properties?.["earliestRestoreTime"],
@@ -111,71 +104,56 @@ export async function _replicasListByParentDeserialize(
               privateEndpointConnections:
                 p.properties?.["privateEndpointConnections"] === undefined
                   ? p.properties?.["privateEndpointConnections"]
-                  : p.properties?.["privateEndpointConnections"].map(
-                      (p: any) => {
-                        return {
-                          id: p["id"],
-                          name: p["name"],
-                          type: p["type"],
-                          systemData: !p.systemData
-                            ? undefined
-                            : {
-                                createdBy: p.systemData?.["createdBy"],
-                                createdByType: p.systemData?.["createdByType"],
-                                createdAt:
-                                  p.systemData?.["createdAt"] !== undefined
-                                    ? new Date(p.systemData?.["createdAt"])
-                                    : undefined,
-                                lastModifiedBy:
-                                  p.systemData?.["lastModifiedBy"],
-                                lastModifiedByType:
-                                  p.systemData?.["lastModifiedByType"],
-                                lastModifiedAt:
-                                  p.systemData?.["lastModifiedAt"] !== undefined
-                                    ? new Date(p.systemData?.["lastModifiedAt"])
-                                    : undefined,
+                  : p.properties?.["privateEndpointConnections"].map((p: any) => {
+                      return {
+                        id: p["id"],
+                        name: p["name"],
+                        type: p["type"],
+                        systemData: !p.systemData
+                          ? undefined
+                          : {
+                              createdBy: p.systemData?.["createdBy"],
+                              createdByType: p.systemData?.["createdByType"],
+                              createdAt:
+                                p.systemData?.["createdAt"] !== undefined
+                                  ? new Date(p.systemData?.["createdAt"])
+                                  : undefined,
+                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+                              lastModifiedAt:
+                                p.systemData?.["lastModifiedAt"] !== undefined
+                                  ? new Date(p.systemData?.["lastModifiedAt"])
+                                  : undefined,
+                            },
+                        properties: !p.properties
+                          ? undefined
+                          : {
+                              groupIds: p.properties?.["groupIds"],
+                              privateEndpoint: !p.properties?.privateEndpoint
+                                ? undefined
+                                : {
+                                    id: p.properties?.privateEndpoint?.["id"],
+                                  },
+                              privateLinkServiceConnectionState: {
+                                status: p.properties?.privateLinkServiceConnectionState["status"],
+                                description:
+                                  p.properties?.privateLinkServiceConnectionState["description"],
+                                actionsRequired:
+                                  p.properties?.privateLinkServiceConnectionState[
+                                    "actionsRequired"
+                                  ],
                               },
-                          properties: !p.properties
-                            ? undefined
-                            : {
-                                groupIds: p.properties?.["groupIds"],
-                                privateEndpoint: !p.properties?.privateEndpoint
-                                  ? undefined
-                                  : {
-                                      id: p.properties?.privateEndpoint?.["id"],
-                                    },
-                                privateLinkServiceConnectionState: {
-                                  status:
-                                    p.properties
-                                      ?.privateLinkServiceConnectionState[
-                                      "status"
-                                    ],
-                                  description:
-                                    p.properties
-                                      ?.privateLinkServiceConnectionState[
-                                      "description"
-                                    ],
-                                  actionsRequired:
-                                    p.properties
-                                      ?.privateLinkServiceConnectionState[
-                                      "actionsRequired"
-                                    ],
-                                },
-                                provisioningState:
-                                  p.properties?.["provisioningState"],
-                              },
-                        };
-                      },
-                    ),
+                              provisioningState: p.properties?.["provisioningState"],
+                            },
+                      };
+                    }),
               previewFeatures: p.properties?.["previewFeatures"],
               replica: !p.properties?.replica
                 ? undefined
                 : {
-                    sourceResourceId:
-                      p.properties?.replica?.["sourceResourceId"],
+                    sourceResourceId: p.properties?.replica?.["sourceResourceId"],
                     role: p.properties?.replica?.["role"],
-                    replicationState:
-                      p.properties?.replica?.["replicationState"],
+                    replicationState: p.properties?.replica?.["replicationState"],
                   },
               infrastructureVersion: p.properties?.["infrastructureVersion"],
             },

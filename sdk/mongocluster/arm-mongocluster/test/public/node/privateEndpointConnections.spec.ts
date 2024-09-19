@@ -189,11 +189,7 @@ describe("MongoCluster test", () => {
       connectionName = String(item.name);
     }
     const resArray = new Array();
-    await client.privateEndpointConnections.delete(
-      resourceGroup,
-      resourcename,
-      connectionName,
-    );
+    await client.privateEndpointConnections.delete(resourceGroup, resourcename, connectionName);
     for await (let item of client.privateEndpointConnections.listByMongoCluster(
       resourceGroup,
       resourcename,
@@ -205,10 +201,7 @@ describe("MongoCluster test", () => {
 
   it("private endpoint delete test", async function () {
     const resArray = new Array();
-    await networkClient.privateEndpoints.beginDeleteAndWait(
-      resourceGroup,
-      privateEndpointName,
-    );
+    await networkClient.privateEndpoints.beginDeleteAndWait(resourceGroup, privateEndpointName);
     for await (let item of networkClient.privateEndpoints.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -217,10 +210,7 @@ describe("MongoCluster test", () => {
 
   it("virtual network delete test", async function () {
     const resArray = new Array();
-    await networkClient.virtualNetworks.beginDeleteAndWait(
-      resourceGroup,
-      virtualNetworkName,
-    );
+    await networkClient.virtualNetworks.beginDeleteAndWait(resourceGroup, virtualNetworkName);
     for await (let item of networkClient.virtualNetworks.list(resourceGroup)) {
       resArray.push(item);
     }

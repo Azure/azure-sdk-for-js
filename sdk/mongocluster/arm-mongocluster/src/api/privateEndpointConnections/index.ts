@@ -83,16 +83,9 @@ export async function _privateEndpointConnectionsListByMongoClusterDeserialize(
                 ? undefined
                 : { id: p.properties?.privateEndpoint?.["id"] },
               privateLinkServiceConnectionState: {
-                status:
-                  p.properties?.privateLinkServiceConnectionState["status"],
-                description:
-                  p.properties?.privateLinkServiceConnectionState[
-                    "description"
-                  ],
-                actionsRequired:
-                  p.properties?.privateLinkServiceConnectionState[
-                    "actionsRequired"
-                  ],
+                status: p.properties?.privateLinkServiceConnectionState["status"],
+                description: p.properties?.privateLinkServiceConnectionState["description"],
+                actionsRequired: p.properties?.privateLinkServiceConnectionState["actionsRequired"],
               },
               provisioningState: p.properties?.["provisioningState"],
             },
@@ -183,18 +176,10 @@ export async function _privateEndpointConnectionsGetDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
-            description:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "description"
-              ],
+            status: result.body.properties?.privateLinkServiceConnectionState["status"],
+            description: result.body.properties?.privateLinkServiceConnectionState["description"],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "actionsRequired"
-              ],
+              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
           },
           provisioningState: result.body.properties?.["provisioningState"],
         },
@@ -286,18 +271,10 @@ export async function _privateEndpointConnectionsCreateDeserialize(
             ? undefined
             : { id: result.body.properties?.privateEndpoint?.["id"] },
           privateLinkServiceConnectionState: {
-            status:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "status"
-              ],
-            description:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "description"
-              ],
+            status: result.body.properties?.privateLinkServiceConnectionState["status"],
+            description: result.body.properties?.privateLinkServiceConnectionState["description"],
             actionsRequired:
-              result.body.properties?.privateLinkServiceConnectionState[
-                "actionsRequired"
-              ],
+              result.body.properties?.privateLinkServiceConnectionState["actionsRequired"],
           },
           provisioningState: result.body.properties?.["provisioningState"],
         },
