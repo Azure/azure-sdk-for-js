@@ -337,11 +337,13 @@ export class CloudEventsDispatcher {
     if (hub?.toUpperCase() !== this.hub.toUpperCase()) {
       return false;
     }
+
+    const isMqtt = isMqttRequest(request);
     // No need to read body if handler is not specified
     switch (eventType) {
       case EventType.Connect:
         if (!this.eventHandler?.handleConnect) {
-          if (isMqttRequest(request)) response.statusCode = 204;
+          if (isMqtt) response.statusCode = 204;
           response.end();
           return true;
         }
@@ -371,7 +373,7 @@ export class CloudEventsDispatcher {
 
     switch (eventType) {
       case EventType.Connect: {
-        const connectRequest = isMqttRequest(request)
+        const connectRequest = isMqtt
           ? await readSystemEventRequest<MqttConnectRequest>(request, origin)
           : await readSystemEventRequest<ConnectRequest>(request, origin);
         // service passes out query property, assign it to queries
