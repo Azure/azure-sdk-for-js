@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * The kind of connection context.
+ * The protocol of Web PubSub Client.
  */
-export enum ConnectionContextKind {
+export enum WebPubSubClientProtocol {
   /**
-   * Default connection context.
+   * Default Client Protocol.
    */
   Default = "default",
   /**
-   * MQTT connection context.
+   * MQTT Client Protocol.
    */
   Mqtt = "mqtt",
 }

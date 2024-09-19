@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContextKind } from "./enum/connectionContextKind.js";
+import { WebPubSubClientProtocol } from "./enum/webPubSubClientProtocol.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
 
@@ -116,9 +116,9 @@ export interface ConnectionContext {
    */
   states: Record<string, any>;
   /**
-   * The kind of the connection context.
+   * The type of client protocol.
    */
-  kind: ConnectionContextKind;
+  clientProtocol: WebPubSubClientProtocol;
   /**
    * The MQTT properties that the client WebSocket connection has when it connects (For MQTT connection only).
    */

@@ -219,7 +219,7 @@ describe("Can handle connect event", function () {
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleConnect: async (_, response) => {
-        response.success();
+        response.success({ userId: "user1" });
       },
     });
     const process = dispatcher.handleRequest(req, res);
@@ -327,7 +327,7 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(204, res.statusCode, "should be success");
   });
 
   it("Invalid state header gets ignored", async function () {
@@ -344,6 +344,6 @@ describe("Can handle connect event", function () {
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
-    assert.equal(200, res.statusCode, "should be success");
+    assert.equal(204, res.statusCode, "should be success");
   });
 });

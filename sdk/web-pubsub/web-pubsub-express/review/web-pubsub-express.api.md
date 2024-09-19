@@ -24,22 +24,16 @@ export interface ConnectEventErrorResponse {
 
 // @public
 export interface ConnectionContext {
+    clientProtocol: WebPubSubClientProtocol;
     connectionId: string;
     eventName: string;
     hub: string;
-    kind: ConnectionContextKind;
     mqtt?: MqttConnectionContextProperties;
     origin: string;
     signature: string;
     states: Record<string, any>;
     subprotocol?: string;
     userId?: string;
-}
-
-// @public
-export enum ConnectionContextKind {
-    Default = "default",
-    Mqtt = "mqtt"
 }
 
 // @public
@@ -177,6 +171,12 @@ export interface UserEventResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
     setState(name: string, value: unknown): void;
     success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
+}
+
+// @public
+export enum WebPubSubClientProtocol {
+    Default = "default",
+    Mqtt = "mqtt"
 }
 
 // @public

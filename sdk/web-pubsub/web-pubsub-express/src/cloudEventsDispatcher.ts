@@ -23,7 +23,7 @@ import type {
 } from "./cloudEventsProtocols.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
-import { ConnectionContextKind } from "./enum/connectionContextKind.js";
+import { WebPubSubClientProtocol } from "./enum/webPubSubClientProtocol.js";
 
 enum EventType {
   Connect,
@@ -44,13 +44,14 @@ function getConnectResponseHandler(
       modified = true;
     },
     success(res?: ConnectResponse): void {
-      response.statusCode = 200;
       if (modified) {
         response.setHeader("ce-connectionState", utils.toBase64JsonString(states));
       }
       if (res === undefined) {
+        response.statusCode = 204;
         response.end();
       } else {
+        response.statusCode = 200;
         response.setHeader("Content-Type", "application/json; charset=utf-8");
         response.end(JSON.stringify(res));
       }
@@ -120,7 +121,7 @@ function getContext(request: IncomingMessage, origin: string): ConnectionContext
     eventName: utils.getHttpHeader(request, "ce-eventname")!,
     origin: origin,
     states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
-    kind: ConnectionContextKind.Default,
+    clientProtocol: WebPubSubClientProtocol.Default,
   };
 
   if (isMqttRequest(request)) {
@@ -130,7 +131,7 @@ function getContext(request: IncomingMessage, origin: string): ConnectionContext
     };
     return {
       ...baseContext,
-      kind: ConnectionContextKind.Mqtt,
+      clientProtocol: WebPubSubClientProtocol.Mqtt,
       mqtt: mqttProperties,
     };
   } else {
