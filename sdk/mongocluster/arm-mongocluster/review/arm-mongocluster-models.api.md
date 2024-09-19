@@ -478,9 +478,6 @@ export interface TrackedResource extends Resource {
     tags?: Record<string, string>;
 }
 
-// @public
-export type Versions = "2024-03-01-preview" | "2024-06-01-preview" | "2024-07-01";
-
 // (No @packageDocumentation comment for this package)
 
 ```

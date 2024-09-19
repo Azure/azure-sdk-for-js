@@ -77,7 +77,6 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
   ProvisioningState,
   OperationsListOptionalParams,
   MongoClustersGetOptionalParams,
