@@ -177,7 +177,7 @@ export class ClientAssertionCredential implements TokenCredential {
 }
 
 // @public
-export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
 
 // @public

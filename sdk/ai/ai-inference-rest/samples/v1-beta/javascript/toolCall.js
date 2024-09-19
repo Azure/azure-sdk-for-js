@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to define and call functions with chat completions.
  *
- * @summary get chat completions with functions.
+ * @summary Get chat completions with function call.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,
