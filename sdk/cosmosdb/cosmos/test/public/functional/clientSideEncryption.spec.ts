@@ -64,7 +64,6 @@ let clientEncryptionPolicy: ClientEncryptionPolicy;
 const testKeyVault = "TESTKEYSTORE_VAULT" as EncryptionKeyResolverName;
 
 describe("Client Side Encryption", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 150000);
   before(async () => {
     await removeAllDatabases();
     testKeyEncryptionKeyResolver = new MockKeyVaultEncryptionKeyResolver();
@@ -1203,6 +1202,7 @@ describe("Client Side Encryption", function (this: Suite) {
     } else {
       assert.fail("previous not found in response");
     }
+    newClient.dispose();
   });
 
   it("encryption validate policy refresh post container delete with patch", async () => {
@@ -2136,6 +2136,7 @@ describe("Client Side Encryption", function (this: Suite) {
     } catch (err) {
       assert.equal(StatusCodes.Forbidden, err.code);
     }
+    restrictedClient.dispose();
   });
 
   it("key encryption key revoke test", async () => {
@@ -2266,6 +2267,7 @@ describe("Client Side Encryption", function (this: Suite) {
     assert.ok(unwrapCount > 1);
     const testKeyResolver2 = new MockKeyVaultEncryptionKeyResolver();
     // default cache ttl is 2 hrs
+    newClient.dispose();
     newClient = new CosmosClient({
       endpoint: endpoint,
       key: masterKey,
