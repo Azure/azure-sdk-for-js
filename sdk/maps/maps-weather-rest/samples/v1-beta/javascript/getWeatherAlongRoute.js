@@ -13,10 +13,9 @@ async function main() {
     const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
     const client = MapsWeather(credential, mapsClientId);
 
-    const response = await client.path("/weather/tropical/storms/{format}", "json").get({
+    const response = await client.path("/weather/route/{format}", "json").get({
         queryParameters: {
-            year: 2022,
-            basinId: "NP"
+            query: "47.641268,-122.125679,0:47.641268,-122.125679,2",
         }
     });
 

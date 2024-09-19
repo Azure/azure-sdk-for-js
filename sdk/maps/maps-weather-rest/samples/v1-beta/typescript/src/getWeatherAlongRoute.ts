@@ -15,7 +15,7 @@ async function main(): Promise<void> {
 
     const response = await client.path("/weather/route/{format}", "json").get({
         queryParameters: {
-            query: "47.641268,-122.125679:47.6062,-122.3321"
+            query: "47.641268,-122.125679,0:47.641268,-122.125679,2",
         }
     });
 
