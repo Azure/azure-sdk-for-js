@@ -209,6 +209,20 @@ export type SpanStatusError = { status: "error"; error?: Error | string };
 export type SpanStatus = SpanStatusSuccess | SpanStatusError;
 
 /**
+ * Represents options you can pass to {@link TracingSpan.addEvent}.
+ */
+export interface AddEventOptions {
+  /**
+   * A set of attributes to attach to the event.
+   */
+  attributes?: Record<string, unknown>;
+  /**
+   * The start time of the event.
+   */
+  startTime?: Date;
+}
+
+/**
  * Represents an implementation agnostic tracing span.
  */
 export interface TracingSpan {
@@ -252,7 +266,7 @@ export interface TracingSpan {
   /**
    * Adds an event to the span.
    */
-  addEvent?(name: string, attributes?: Record<string, unknown>, startTime?: Date): void;
+  addEvent?(name: string, options?: AddEventOptions): void;
 }
 
 /** An immutable context bag of tracing values for the current operation. */

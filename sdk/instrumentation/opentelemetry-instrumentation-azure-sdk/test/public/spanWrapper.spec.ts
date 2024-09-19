@@ -71,7 +71,10 @@ describe("OpenTelemetrySpanWrapper", () => {
 
   describe("#addEvent", () => {
     it("records events on the span", () => {
-      span.addEvent("test", { key: "value" }, new Date(2024, 1, 1));
+      span.addEvent("test", {
+        startTime: new Date(2024, 1, 1),
+        attributes: { key: "value" },
+      });
 
       const otSpan = getExportedSpan(span);
       assert.lengthOf(otSpan.events, 1);
@@ -85,7 +88,9 @@ describe("OpenTelemetrySpanWrapper", () => {
     });
 
     it("drops invalid attributes", () => {
-      span.addEvent("test", { key: { key1: 5 } }); // objects are not valid per the spec
+      span.addEvent("test", {
+        attributes: { key: { key1: 5 } }, // objects are not valid per the spec
+      });
 
       const otSpan = getExportedSpan(span);
       assert.lengthOf(otSpan.events, 1);
