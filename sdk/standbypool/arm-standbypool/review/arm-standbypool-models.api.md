@@ -331,9 +331,6 @@ export interface TrackedResource extends Resource {
 }
 
 // @public
-export type Versions = "2023-12-01-preview" | "2024-03-01-preview" | "2024-03-01";
-
-// @public
 export interface VirtualMachineInstanceCountSummary {
     instanceCountsByState: PoolResourceStateCount[];
     zone?: number;

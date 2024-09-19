@@ -60,7 +60,7 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource { }
 
 /** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
 export interface StandbyContainerGroupPoolRuntimeViewResource
@@ -305,8 +305,8 @@ export function standbyContainerGroupPoolResourceUpdateSerializer(
     properties: !item.properties
       ? item.properties
       : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
-          item.properties,
-        ),
+        item.properties,
+      ),
   };
 }
 
@@ -325,8 +325,8 @@ export function standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
       : standbyContainerGroupPoolElasticityProfileSerializer(
-          item.elasticityProfile,
-        ),
+        item.elasticityProfile,
+      ),
     containerGroupProperties: !item.containerGroupProperties
       ? item.containerGroupProperties
       : containerGroupPropertiesSerializer(item.containerGroupProperties),
@@ -440,8 +440,8 @@ export function standbyVirtualMachinePoolResourcePropertiesSerializer(
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
       : standbyVirtualMachinePoolElasticityProfileSerializer(
-          item.elasticityProfile,
-        ),
+        item.elasticityProfile,
+      ),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -498,8 +498,8 @@ export function standbyVirtualMachinePoolResourceUpdateSerializer(
     properties: !item.properties
       ? item.properties
       : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
-          item.properties,
-        ),
+        item.properties,
+      ),
   };
 }
 
@@ -520,8 +520,8 @@ export function standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
       : standbyVirtualMachinePoolElasticityProfileSerializer(
-          item.elasticityProfile,
-        ),
+        item.elasticityProfile,
+      ),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -604,10 +604,5 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-/** Supported API Versions for Microsoft.StandbyPool */
-export type Versions =
-  | "2023-12-01-preview"
-  | "2024-03-01-preview"
-  | "2024-03-01";
 /** Alias for ProvisioningState */
 export type ProvisioningState = string | ResourceProvisioningState | "Deleting";
