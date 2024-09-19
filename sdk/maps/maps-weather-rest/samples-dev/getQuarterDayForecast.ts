@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../src/mapsWeather";
-import { isUnexpected } from "../src/generated";
+import MapsWeather, { isUnexpected } from "@azure-rest/maps-weather";
+
 
 /**
  * @summary Get quarter-day weather forecasts for the next 1 to 15 days, providing details for morning, afternoon, evening, and night.

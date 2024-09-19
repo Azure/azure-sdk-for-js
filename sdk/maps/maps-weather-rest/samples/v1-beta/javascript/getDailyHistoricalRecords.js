@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsWeather = require("../src/mapsWeather").default;
+const MapsWeather = require("@azure-rest/maps-weather").default,
+    { isUnexpected } = require("@azure-rest/maps-weather");
 
 /**
  * @summary Get historical daily record weather data, including record temperatures, precipitation, and snowfall at a location.

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsWeather = require("../src/mapsWeather").default;
+const MapsWeather = require("@azure-rest/maps-weather").default,
+    { isUnexpected } = require("@azure-rest/maps-weather");
 
 /**
  * @summary Get minute-by-minute weather forecast data for up to 120 minutes, providing information such as precipitation type and intensity.

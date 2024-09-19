@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../src/mapsWeather";
-import { isUnexpected } from "../src/generated";
+import MapsWeather, { isUnexpected } from "@azure-rest/maps-weather";
+
 
 /**
  * @summary Get historical daily normals for a location, based on a 30-year average of temperatures and precipitation.

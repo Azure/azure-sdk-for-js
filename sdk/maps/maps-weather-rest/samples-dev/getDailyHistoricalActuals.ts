@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../src/mapsWeather";
-import { isUnexpected } from "../src/generated";
+import MapsWeather, { isUnexpected } from "@azure-rest/maps-weather";
+
 
 /**
  * @summary Get historical weather data for the last 1 to 31 days, including actual observed temperatures, precipitation, and snow depth.

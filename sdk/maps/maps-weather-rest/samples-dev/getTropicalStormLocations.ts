@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../src/mapsWeather";
-import { isUnexpected } from "../src/generated";
+import MapsWeather, { isUnexpected } from "@azure-rest/maps-weather";
+
 
 /**
  * @summary Get the location of tropical storms including wind details and geometry for individual government-issued storms.

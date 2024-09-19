@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../src/mapsWeather";
-import { isUnexpected } from "../src/generated";
+import MapsWeather, { isUnexpected } from "@azure-rest/maps-weather";
+
 
 /**
  * @summary Get current weather conditions including temperature, wind, and precipitation for a given location, with options for past 6 or 24 hours.

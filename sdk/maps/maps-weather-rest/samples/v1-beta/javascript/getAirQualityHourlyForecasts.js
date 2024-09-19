@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsWeather = require("../src/mapsWeather").default;
-
+const MapsWeather = require("@azure-rest/maps-weather").default,
+    { isUnexpected } = require("@azure-rest/maps-weather");
 /**
  * @summary Get hourly air quality forecasts for up to 96 hours, including pollutant levels and air quality index.
  */

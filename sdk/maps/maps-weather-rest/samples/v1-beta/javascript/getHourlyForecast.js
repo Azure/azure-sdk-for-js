@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsWeather = require("../src/mapsWeather").default;
+const MapsWeather = require("@azure-rest/maps-weather").default;
 
 /**
  * @summary Get hourly weather forecast data for the next 1 to 240 hours, providing detailed information like temperature, wind, and UV index.

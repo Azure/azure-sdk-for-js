@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsWeather = require("../src/mapsWeather").default;
+const MapsWeather = require("@azure-rest/maps-weather").default,
+    { isUnexpected } = require("@azure-rest/maps-weather");
 
 /**
  * @summary Get a list of active tropical storms, including details like basin, year of origin, and storm name.

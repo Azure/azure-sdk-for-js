@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsWeather from "../src/mapsWeather";
+import MapsWeather from "@azure-rest/maps-weather";
+
 
 /**
  * @summary Get hourly weather forecast data for the next 1 to 240 hours, providing detailed information like temperature, wind, and UV index.

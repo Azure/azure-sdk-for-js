@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsWeather = require("../src/mapsWeather").default;
+const MapsWeather = require("@azure-rest/maps-weather").default,
+    { isUnexpected } = require("@azure-rest/maps-weather");
 
 /**
  * @summary Get current weather conditions including temperature, wind, and precipitation for a given location, with options for past 6 or 24 hours.
