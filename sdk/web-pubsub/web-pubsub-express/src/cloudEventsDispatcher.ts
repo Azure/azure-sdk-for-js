@@ -179,7 +179,8 @@ function getStatusCodeFromMqttConnectCode(
       case MqttV311ConnectReturnCode.NotAuthorized:
         return 401; // Unauthorized
       default:
-        throw new RangeError(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
+        logger.warning(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
+        return 500; // InternalServerError
     }
   } else {
     switch (mqttConnectCode) {
@@ -209,7 +210,8 @@ function getStatusCodeFromMqttConnectCode(
       case MqttV500ConnectReasonCode.UnspecifiedError:
         return 500; // InternalServerError
       default:
-        throw new RangeError(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
+        logger.warning(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
+        return 500; // InternalServerError
     }
   }
 }
