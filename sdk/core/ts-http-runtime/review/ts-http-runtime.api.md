@@ -789,6 +789,7 @@ export interface TracingPolicyOptions {
 
 // @public
 export interface TracingSpan {
+    addEvent?(name: string, attributes?: Record<string, unknown>, startTime?: Date): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;
