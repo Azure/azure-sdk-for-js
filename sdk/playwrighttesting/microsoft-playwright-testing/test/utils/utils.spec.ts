@@ -163,6 +163,36 @@ describe("Service Utils", () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
+  it("Should exit with an error message if the MPT PAT and service URL are from different workspaces", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    sandbox
+      .stub(utils, "parseJwt")
+      .returns({ aid: "eastasia_c24330dd-9249-4ae8-9ba9-b5766060427c" });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+    expect(() => validateMptPAT()).to.throw();
+    expect(exitStub.calledWith(1)).to.be.true;
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+
+  it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    sandbox
+      .stub(utils, "parseJwt")
+      .returns({ aid: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+
+    expect(() => validateMptPAT()).not.to.throw();
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+
   it("should return entra access token (not close to expiry)", async () => {
     const tokenMock = "test";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;

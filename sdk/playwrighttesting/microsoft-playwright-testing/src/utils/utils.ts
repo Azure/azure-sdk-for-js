@@ -30,6 +30,22 @@ export const base64UrlDecode = (base64Url: string): string => {
   return buffer.toString("utf-8");
 };
 
+export const populateValuesFromServiceUrl = (): { region: string; accountId: string } | null => {
+  // Service URL format: wss://<region>.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+  const url = process.env["PLAYWRIGHT_SERVICE_URL"]!;
+  if (!ReporterUtils.isNullOrEmpty(url)) {
+    const parts = url.split("/");
+
+    if (parts.length > 2) {
+      const subdomainParts = parts[2]!.split(".");
+      const region = subdomainParts.length > 0 ? subdomainParts[0] : null;
+      const accountId = parts[4];
+
+      return { region: region!, accountId: accountId! };
+    }
+  }
+  return null;
+};
 export const parseJwt = <T = JwtPayload>(token: string): T => {
   const parts = token.split(".");
   if (parts.length !== 3) {
@@ -67,7 +83,7 @@ export const validateServiceUrl = (): void => {
 export const validateMptPAT = (): void => {
   try {
     const accessToken = getAccessToken();
-    const result = ReporterUtils.populateValuesFromServiceUrl();
+    const result = populateValuesFromServiceUrl();
     if (!accessToken) {
       exitWithFailureMessage(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }

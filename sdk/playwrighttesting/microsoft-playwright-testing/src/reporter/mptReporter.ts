@@ -29,7 +29,7 @@ import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
 import { MPTReporterConfig } from "../common/types";
 import { ServiceErrorMessageConstants } from "../common/messages";
-import { validateMptPAT } from "../utils/utils";
+import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
 
 /**
  * @public
@@ -363,7 +363,7 @@ class MPTReporter implements Reporter {
       process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR}`);
       this.isTokenValid = false;
     } else if (ReporterUtils.hasAudienceClaim(this.envVariables.accessToken)) {
-      const result = ReporterUtils.populateValuesFromServiceUrl();
+      const result = populateValuesFromServiceUrl();
       this.envVariables.region = result!.region;
       this.envVariables.accountId = result!.accountId;
       const entraTokenDetails: EntraTokenDetails = ReporterUtils.getTokenDetails<EntraTokenDetails>(
