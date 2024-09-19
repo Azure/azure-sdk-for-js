@@ -188,8 +188,7 @@ function assertContentFilterCitedDetectionResult(
 
 function assertContentFilterResultsForPromptItem(cfr: ContentFilterResultsForPromptOutput): void {
   assert.isNumber(cfr.prompt_index);
-  // TODO: Remove this check once the service confirms the expected behavior
-  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results ?? (cfr as any).content_filter_result);
+  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results);
 }
 
 function assertContentFilterResultDetailsForPrompt(
