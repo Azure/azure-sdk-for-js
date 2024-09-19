@@ -226,7 +226,9 @@ function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOut
 function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
   assert.isBoolean(val.filtered);
   // TODO: Update the corresponding types once the Swagger is updated
-  ifDefined(val.details, (details) => { assertNonEmptyArray(details, assertContentFilterBlocklistIdResult)});
+  ifDefined(val.details, (details) => {
+    assertNonEmptyArray(details, assertContentFilterBlocklistIdResult);
+  });
 }
 
 function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
@@ -242,7 +244,9 @@ function assertChoice(
   if (stream) {
     const delta = (choice as ChatCompletionChunk.Choice).delta;
     // TODO: Relevant issue https://github.com/openai/openai-python/issues/1677
-    ifDefined(delta, (delta) => { assertMessage(delta, options) });
+    ifDefined(delta, (delta) => {
+      assertMessage(delta, options);
+    });
     assert.isFalse("message" in choice);
   } else {
     assertMessage((choice as ChatCompletion.Choice).message, options);
