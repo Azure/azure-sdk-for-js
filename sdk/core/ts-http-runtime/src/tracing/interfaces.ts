@@ -248,6 +248,11 @@ export interface TracingSpan {
    * Depending on the span implementation, this may return false if the span is not being sampled.
    */
   isRecording(): boolean;
+
+  /**
+   * Adds an event to the span.
+   */
+  addEvent?(name: string, attributes?: Record<string, unknown>, startTime?: Date): void;
 }
 
 /** An immutable context bag of tracing values for the current operation. */
