@@ -949,8 +949,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-/** The available API versions. */
-export type Versions = "2024-03-01-preview" | "2024-06-01-preview" | "2024-07-01";
 /** Alias for ProvisioningState */
 export type ProvisioningState =
   | string
