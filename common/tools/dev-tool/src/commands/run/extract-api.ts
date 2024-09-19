@@ -22,15 +22,6 @@ import { resolveProject } from "../../util/resolveProject";
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
-  {
-    "subpath-doc-model": {
-      shortName: "sdc",
-      kind: "boolean",
-      default: true,
-      description:
-        "When true, generates api.json docModel files for each subpath export. Otherwise only generates for the main entry point. Markdown files are always generated for each subpath export.",
-    },
-  },
 );
 
 const log = createPrinter("extract-api");
@@ -64,7 +55,7 @@ interface ExportEntry {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildExportConfiguration(packageJson: any, options: any): ExportEntry[] | undefined {
+function buildExportConfiguration(packageJson: any): ExportEntry[] | undefined {
   const exports = packageJson["exports"];
   if (!exports) {
     return undefined;
@@ -81,7 +72,7 @@ function buildExportConfiguration(packageJson: any, options: any): ExportEntry[]
           .replace(/^\.\//, "") // remove leading "./"
           .replace(/\//g, "-"), // replace slashes with hyphens
 
-        generateDocModel: exportPath === "." || options["subpath-doc-model"],
+        generateDocModel: exportPath === ".",
         // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
         mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
         suppressForgottenExportErrors: exportPath !== ".",
@@ -130,7 +121,7 @@ async function loadApiJson(fullPath: string): Promise<ApiJson> {
   return JSON.parse((await readFile(fullPath)).toString("utf-8")) as ApiJson;
 }
 
-export default leafCommand(commandInfo, async (options) => {
+export default leafCommand(commandInfo, async (_options) => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
   const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
@@ -153,7 +144,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   let succeed = true;
   // sub path exports extraction
-  const exports = buildExportConfiguration(packageJson, options);
+  const exports = buildExportConfiguration(packageJson);
   if (exports !== undefined) {
     log.info("Detected subpath exports, extracting markdown for each subpath.");
     for (const exportEntry of exports) {
