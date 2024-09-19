@@ -85,7 +85,7 @@ describe("OpenTelemetrySpanWrapper", () => {
     });
 
     it("drops invalid attributes", () => {
-      span.addEvent("test", { key: { key1: 5 } }); // objects are not valid
+      span.addEvent("test", { key: { key1: 5 } }); // objects are not valid per the spec
 
       const otSpan = getExportedSpan(span);
       assert.lengthOf(otSpan.events, 1);

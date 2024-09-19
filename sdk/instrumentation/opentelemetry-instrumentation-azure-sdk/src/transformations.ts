@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import { InstrumenterSpanOptions, TracingSpanKind, TracingSpanLink } from "@azure/core-tracing";
-import { Attributes, Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
-import { isAttributeValue } from "@opentelemetry/core";
-import { logger } from "./logger";
+import { Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
+import { sanitizeAttributes } from "@opentelemetry/core";
 
 /**
  * Converts our TracingSpanKind to the corresponding OpenTelemetry SpanKind.
@@ -43,35 +42,11 @@ function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
     if (spanContext) {
       acc.push({
         context: spanContext,
-        attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes),
+        attributes: sanitizeAttributes(tracingSpanLink.attributes),
       });
     }
     return acc;
   }, [] as Link[]);
-}
-
-/**
- * Converts core-tracing's span attributes to OpenTelemetry attributes.
- *
- * @param spanAttributes - The set of attributes to convert.
- * @returns An {@link SpanAttributes} to set on a span.
- */
-export function toOpenTelemetrySpanAttributes(
-  spanAttributes: { [key: string]: unknown } | undefined = {},
-): Attributes {
-  const attributes: Attributes = {};
-
-  for (const [k, v] of Object.entries(spanAttributes)) {
-    if (isAttributeValue(v)) {
-      attributes[k] = v;
-    } else {
-      logger.warning(
-        `Dropping attribute "${k}" because it is not a valid OpenTelemetry attribute.`,
-      );
-    }
-  }
-
-  return attributes;
 }
 
 /**
@@ -83,7 +58,7 @@ export function toOpenTelemetrySpanAttributes(
 export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOptions {
   const { spanAttributes, spanLinks, spanKind } = spanOptions || {};
 
-  const attributes: Attributes = toOpenTelemetrySpanAttributes(spanAttributes);
+  const attributes = sanitizeAttributes(spanAttributes);
   const kind = toOpenTelemetrySpanKind(spanKind);
   const links = toOpenTelemetryLinks(spanLinks);
 
