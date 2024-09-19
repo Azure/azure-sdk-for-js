@@ -97,13 +97,14 @@ export function isUnexpected(response: TimezoneGetIanaVersion200Response | Timez
 export function isUnexpected(response: TimezoneConvertWindowsTimezoneToIana200Response | TimezoneConvertWindowsTimezoneToIanaDefaultResponse): response is TimezoneConvertWindowsTimezoneToIanaDefaultResponse;
 
 // @public
-export function MapsTimezone(credential: AzureKeyCredential, options?: ClientOptions): MapsTimezoneClient;
+function MapsTimezone(credential: AzureKeyCredential, options?: ClientOptions): MapsTimezoneClient;
 
 // @public
-export function MapsTimezone(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsTimezoneClient;
+function MapsTimezone(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsTimezoneClient;
 
 // @public
-export function MapsTimezone(credential: AzureSASCredential, options?: ClientOptions): MapsTimezoneClient;
+function MapsTimezone(credential: AzureSASCredential, options?: ClientOptions): MapsTimezoneClient;
+export default MapsTimezone;
 
 // @public (undocumented)
 export type MapsTimezoneClient = Client & {
