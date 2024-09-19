@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for Managed Identity credentials when targeting a Cosmos endpoint.
+- Added support for Entra ID credentials when targeting a Cosmos endpoint.
 
 ### Breaking Changes
 
