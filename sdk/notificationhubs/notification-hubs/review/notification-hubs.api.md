@@ -250,6 +250,11 @@ export interface BaiduTemplateRegistrationDescriptionCommon extends BaiduRegistr
 }
 
 // @public
+export interface BroadcastSendNotificationOptions extends OperationOptions {
+    enableTestSend?: boolean;
+}
+
+// @public
 export interface BrowserInstallation extends BrowserInstallationCommon {
     platform: "browser";
 }
@@ -902,8 +907,10 @@ export class NotificationHubsClient {
     listRegistrations(options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByChannel(channel: RegistrationChannel, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleNotification(scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
-    sendNotification(notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleNotification(scheduledTime: Date, notification: Notification, options: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendBroadcastNotification(notification: Notification, options?: BroadcastSendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendNotification(notification: Notification, options: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -990,13 +997,12 @@ export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate"
 
 // @public
 export interface ScheduleNotificationOptions extends OperationOptions {
-    tagExpression?: string;
+    tagExpression: string;
 }
 
 // @public
-export interface SendNotificationOptions extends OperationOptions {
-    enableTestSend?: boolean;
-    tagExpression?: string;
+export interface SendNotificationOptions extends BroadcastSendNotificationOptions {
+    tagExpression: string;
 }
 
 // @public
