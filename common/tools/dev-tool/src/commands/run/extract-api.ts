@@ -18,8 +18,8 @@ import archiver from "archiver";
 import { createPrinter } from "../../util/printer";
 import path from "path";
 import { readFile } from "fs-extra";
-import { readdir } from "node:fs/promises";
-import { resolveProject } from "../../util/resolveProject";
+import { readdir, stat, writeFile } from "node:fs/promises";
+import { ProjectInfo, resolveProject } from "../../util/resolveProject";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
@@ -28,7 +28,7 @@ export const commandInfo = makeCommandInfo(
     "subpath-doc-model": {
       shortName: "sdc",
       kind: "boolean",
-      default: false,
+      default: true,
       description:
         "When true, generates api.json docModel files for each subpath export. Otherwise only generates for the main entry point. Markdown files are always generated for each subpath export.",
     },
@@ -121,6 +121,15 @@ function extractApi(
     );
     return false;
   }
+}
+
+interface ApiJson {
+  metadata: Record<string, unknown>;
+  members: { kind: string; name: string }[];
+}
+
+async function loadApiJson(fullPath: string): Promise<ApiJson> {
+  return JSON.parse((await readFile(fullPath)).toString("utf-8")) as ApiJson;
 }
 
 export default leafCommand(commandInfo, async (options) => {
@@ -221,11 +230,27 @@ export default leafCommand(commandInfo, async (options) => {
     // normal extraction
     succeed = extractApi(extractorConfigObject, apiExtractorJsonPath, packageJsonPath);
   }
-
-  // Add api.json files to zip archive
-  const unscopedPackageName = projectInfo.name.split("/")[1];
   const reportTempDir = path.join(projectInfo.path, "temp");
   const files = (await readdir(reportTempDir)).filter((f) => f.endsWith("api.json"));
+  const unscopedPackageName = projectInfo.name.split("/")[1];
+
+  const augmentedApiJsonPath = await buildMergedApiJson(
+    unscopedPackageName,
+    reportTempDir,
+    exports,
+    packageJson["dependencies"],
+  );
+
+  files.push(path.basename(augmentedApiJsonPath));
+
+  // TODO: zip may not be needed if the single augmented one has all the information we need.
+  // Add *api.json files to zip archive
+  zipApiJsonFiles(reportTempDir, unscopedPackageName, files);
+
+  return succeed;
+});
+
+function zipApiJsonFiles(reportTempDir: string, unscopedPackageName: string, files: string[]) {
   const output = createWriteStream(path.join(reportTempDir, `${unscopedPackageName}.zip`));
   const zip = archiver("zip");
 
@@ -243,6 +268,39 @@ export default leafCommand(commandInfo, async (options) => {
     zip.append(createReadStream(path.join(reportTempDir, file)), { name: file });
   }
   zip.finalize();
+}
 
-  return succeed;
-});
+/**
+ *
+ * @returns the full path of -augmented.api.json file.
+ */
+async function buildMergedApiJson(
+  unscopedPackageName: string,
+  reportTempDir: string,
+  exports: ExportEntry[] | undefined,
+  dependencies: Record<string, string>,
+) {
+  const mainApiJsonPath = path.join(reportTempDir, `${unscopedPackageName}.api.json`);
+
+  const apiJson = await loadApiJson(mainApiJsonPath);
+  apiJson.metadata.dependencies = dependencies;
+  for (const subpath of exports?.filter((p) => p.baseName !== ".") ?? []) {
+    log.debug(`loading api package for "${subpath.baseName}"`);
+    const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
+    try {
+      await stat(p);
+    } catch {
+      // file does not exist
+      continue;
+    }
+    const subpathApiJson = await loadApiJson(p);
+    const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
+    entryPoint.name = subpath.baseName;
+    apiJson.members.push(entryPoint);
+  }
+
+  const augmentedApiJsonPath = mainApiJsonPath.replace(".api.json", `.augmented.api.json`);
+  log.debug(`writing merged api to ${augmentedApiJsonPath}`);
+  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  return augmentedApiJsonPath;
+}
