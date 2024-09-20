@@ -189,6 +189,25 @@ describe("Can handle connect event", function () {
     assert.equal(400, res.statusCode, "should be error");
   });
 
+  it("Should response with mqtt error when handler returns error and request is mqtt", async function () {
+    const endSpy = vi.spyOn(res, "end");
+    buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleConnect: async (_, response) => {
+        response.fail(400);
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify(MOCK_MQTT_REQUEST_BODY));
+    const result = await process;
+    assert.isTrue(result, "should handle");
+    expect(endSpy).toBeCalledTimes(1);
+    // Verify response body
+    expect(endSpy).toBeCalledWith('{"mqtt":{"code":4}}');
+    assert.equal(400, res.statusCode, "should be error");
+  });
+
   it("Should response with correct status code and body when handler returns mqtt error", async function () {
     const endSpy = vi.spyOn(res, "end");
     buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
@@ -204,12 +223,31 @@ describe("Can handle connect event", function () {
       },
     });
     const process = dispatcher.handleRequest(req, res);
-    mockBody(req, JSON.stringify({}));
+    mockBody(req, JSON.stringify(MOCK_MQTT_REQUEST_BODY));
     const result = await process;
     assert.isTrue(result, "should handle");
     expect(endSpy).toBeCalledTimes(1);
     // Verify response body
     expect(endSpy).toBeCalledWith('{"mqtt":{"code":4,"reason":"Bad username or password"}}');
+    assert.equal(401, res.statusCode, "should be error");
+  });
+
+  it("Should respond with correct mqtt response and body when handler returns default error but request is mqtt", async function () {
+    const endSpy = vi.spyOn(res, "end");
+    buildMqttRequest(req, "hub", "conn1", "physicalConnectionId");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleConnect: async (_, response) => {
+        response.failWith({ code: 401, detail: "Auth failed" });
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify(MOCK_MQTT_REQUEST_BODY));
+    const result = await process;
+    assert.isTrue(result, "should handle");
+    expect(endSpy).toBeCalledTimes(1);
+    // Verify response body
+    expect(endSpy).toBeCalledWith('{"mqtt":{"code":5,"reason":"Auth failed"}}');
     assert.equal(401, res.statusCode, "should be error");
   });
 

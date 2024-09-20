@@ -18,7 +18,7 @@ export interface ConnectedRequest {
 
 // @public
 export interface ConnectEventErrorResponse {
-    code: number;
+    code: 400 | 401 | 500;
     detail?: string;
 }
 

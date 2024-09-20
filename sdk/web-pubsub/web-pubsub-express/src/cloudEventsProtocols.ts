@@ -44,7 +44,7 @@ export interface ConnectEventErrorResponse {
   /**
    * The error code.
    */
-  code: number;
+  code: 400 | 401 | 500;
   /**
    * The error detail.
    */
@@ -339,7 +339,7 @@ export interface ConnectResponseHandler {
   fail(code: 400 | 401 | 500, detail?: string): void;
   /**
    * Return failed response with MQTT response properties and the service will reject the client WebSocket connection.
-   * @param response - The response for the connect event which contains MQTT response properties.
+   * @param response - The response for the connect event which contains either default WebPubSub or MQTT response properties.
    */
   failWith(response: ConnectEventErrorResponse | MqttConnectEventErrorResponse): void;
 }

@@ -57,16 +57,14 @@ function getConnectResponseHandler(
       }
     },
     fail(code: 400 | 401 | 500, detail?: string): void {
-      response.statusCode = code;
-      response.end(detail ?? "");
+      handleConnectErrorResponse(connectRequest, response, code, detail);
     },
     failWith(res: ConnectEventErrorResponse | MqttConnectEventErrorResponse) {
       if ("mqtt" in res) {
         response.statusCode = getStatusCodeFromMqttConnectCode(res.mqtt.code);
         response.end(JSON.stringify(res));
       } else {
-        response.statusCode = res.code;
-        response.end(JSON.stringify(res));
+        handleConnectErrorResponse(connectRequest, response, res.code, res.detail);
       }
     },
   };
@@ -213,6 +211,64 @@ function getStatusCodeFromMqttConnectCode(
         logger.warning(`Invalid MQTT connect return code: ${mqttConnectCode}.`);
         return 500; // InternalServerError
     }
+  }
+}
+
+function getMqttConnectCodeFromStatusCode(
+  statusCode: 400 | 401 | 500,
+  protocolVersion: number,
+): MqttV311ConnectReturnCode | MqttV500ConnectReasonCode {
+  if (protocolVersion === 4) {
+    switch (statusCode) {
+      case 400:
+        return MqttV311ConnectReturnCode.BadUsernameOrPassword;
+      case 401:
+        return MqttV311ConnectReturnCode.NotAuthorized;
+      case 500:
+        return MqttV311ConnectReturnCode.ServerUnavailable;
+      default:
+        logger.warning(`Unsupported HTTP Status Code: ${statusCode}.`);
+        return MqttV311ConnectReturnCode.ServerUnavailable;
+    }
+  } else if (protocolVersion === 5) {
+    switch (statusCode) {
+      case 400:
+        return MqttV500ConnectReasonCode.BadUserNameOrPassword;
+      case 401:
+        return MqttV500ConnectReasonCode.NotAuthorized;
+      case 500:
+        return MqttV500ConnectReasonCode.UnspecifiedError;
+      default:
+        logger.warning(`Unsupported HTTP Status Code: ${statusCode}.`);
+        return MqttV500ConnectReasonCode.UnspecifiedError;
+    }
+  } else {
+    logger.warning(`Invalid MQTT protocol version: ${protocolVersion}.`);
+    return MqttV311ConnectReturnCode.UnacceptableProtocolVersion;
+  }
+}
+
+function handleConnectErrorResponse(
+  connectRequest: ConnectRequest,
+  response: ServerResponse,
+  code: 400 | 401 | 500,
+  detail?: string,
+): void {
+  const isMqttReq = connectRequest.context.clientProtocol === WebPubSubClientProtocol.Mqtt;
+  if (isMqttReq) {
+    console.log("mqtt req ", connectRequest);
+    const protocolVersion = (connectRequest as MqttConnectRequest).mqtt.protocolVersion;
+    const mqttErrorResponse: MqttConnectEventErrorResponse = {
+      mqtt: {
+        code: getMqttConnectCodeFromStatusCode(code, protocolVersion),
+        reason: detail,
+      },
+    };
+    response.statusCode = code;
+    response.end(JSON.stringify(mqttErrorResponse));
+  } else {
+    response.statusCode = code;
+    response.end(detail ?? "");
   }
 }
 
