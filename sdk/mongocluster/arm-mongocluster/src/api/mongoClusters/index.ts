@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getLongRunningPoller } from "../pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";

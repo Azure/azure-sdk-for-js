@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AckMessage,
@@ -19,8 +19,7 @@ import {
   MessageData,
   UpstreamMessage,
   google,
-} from "./generated/clientProto";
-
+} from "./generated/clientProto.js";
 import Long from "long";
 
 /**

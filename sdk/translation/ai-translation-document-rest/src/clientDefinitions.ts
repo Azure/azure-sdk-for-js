@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 import {
@@ -61,7 +64,7 @@ export interface StartTranslation {
    * must be unique.
    */
   post(
-    options?: StartTranslationParameters,
+    options: StartTranslationParameters,
   ): StreamableMethod<StartTranslation202Response | StartTranslationDefaultResponse>;
   /**
    * Returns a list of batch requests submitted and the status for each

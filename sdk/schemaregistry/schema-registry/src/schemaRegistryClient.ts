@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
@@ -12,15 +11,54 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models";
+import { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
 import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
-import { TokenCredential } from "@azure/core-auth";
+  registerSchema,
+  getSchemaProperties,
+  getSchemaById,
+  getSchemaByVersion,
+} from "./operations";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
+import { TokenCredential } from "@azure/core-auth";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
+
+/**
+ * Initialize a new instance of `SchemaRegistryClient`
+ * @param fullyQualifiedNamespace - The Schema Registry service endpoint, for example 'my-namespace.servicebus.windows.net'.
+ * @param credentials - uniquely identify client credential
+ * @param options - the parameter for all optional parameters
+ */
+export default function createClient(
+  fullyQualifiedNamespace: string,
+  credentials: TokenCredential,
+  options: ClientOptions = {},
+): SchemaRegistryContext {
+  const baseUrl = options.baseUrl ?? `${fullyQualifiedNamespace}`;
+  options.apiVersion = options.apiVersion ?? "2023-07-01";
+  const userAgentInfo = `azsdk-js-schema-registry/${SDK_VERSION}`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
+    ...options,
+    userAgentOptions: {
+      userAgentPrefix,
+    },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? [DEFAULT_SCOPE],
+    },
+  };
+
+  const client = getClient(baseUrl, credentials, options) as SchemaRegistryContext;
+
+  return client;
+}
 
 /**
  * Client for Azure Schema Registry service.
@@ -30,7 +68,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   readonly fullyQualifiedNamespace: string;
 
   /** Underlying autorest generated client. */
-  private readonly _client: GeneratedSchemaRegistryClient;
+  private readonly _client: SchemaRegistryContext;
 
   /** The tracing client */
   private readonly _tracing: TracingClient;
@@ -48,31 +86,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {},
   ) {
-    this.fullyQualifiedNamespace = fullyQualifiedNamespace;
-
-    const internalPipelineOptions: InternalPipelineOptions = {
-      ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-        },
-      },
-    };
-
-    this._client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
-      endpoint: this.fullyQualifiedNamespace,
-      apiVersion: options.apiVersion,
-      ...internalPipelineOptions,
-    });
-
     this._tracing = createTracingClient({
       namespace: "Microsoft.EventHub",
       packageName: "@azure/schema-registry",
       packageVersion: SDK_VERSION,
     });
-
-    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
-    this._client.pipeline.addPolicy(authPolicy);
+    this._client = createClient(fullyQualifiedNamespace, credential, { ...options });
+    this.fullyQualifiedNamespace = fullyQualifiedNamespace;
   }
 
   /**
@@ -89,14 +109,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: RegisterSchemaOptions = {},
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this._tracing.withSpan(
       "SchemaRegistryClient.registerSchema",
       options,
-      (updatedOptions) =>
-        this._client.schema
-          .register(groupName, schemaName, buildContentType(format), schemaContent, updatedOptions)
-          .then(convertSchemaIdResponse(format)),
+      (updatedOptions) => registerSchema(this._client, schema, updatedOptions),
     );
   }
 
@@ -111,20 +127,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: GetSchemaPropertiesOptions = {},
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaProperties",
       options,
-      (updatedOptions) =>
-        this._client.schema
-          .queryIdByContent(
-            groupName,
-            schemaName,
-            buildContentType(format),
-            schemaContent,
-            updatedOptions,
-          )
-          .then(convertSchemaIdResponse(format)),
+      (updatedOptions) => getSchemaProperties(this._client, schema, updatedOptions),
     );
   }
 
@@ -160,7 +166,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
     throw e;
   }
    * ```
-   *
+   * @remarks 
+   * 
+   * If the client uses an older API version that does not support the format of the schema, 
+   * the schema format may return the value in the content type header. Please upgrade to the client using
+   * the latest API version so that it can return the correct schema format.
+   * 
    * @param schemaDescription - schema version.
    * @returns Schema with given ID.
    */
@@ -181,22 +192,17 @@ export class SchemaRegistryClient implements SchemaRegistry {
       return this._tracing.withSpan(
         "SchemaRegistryClient.getSchema",
         groupNameOrOptions ?? {},
-        (updatedOptions) =>
-          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse),
+        (updatedOptions) => getSchemaById(this._client, nameOrId, updatedOptions),
       );
     }
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.getSchemaByVersion",
-      options,
-      (updatedOptions) =>
-        this._client.schema
-          .getSchemaVersion(
-            groupNameOrOptions as string,
-            nameOrId,
-            version as number,
-            updatedOptions,
-          )
-          .then(convertSchemaResponse),
+    return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
+      getSchemaByVersion(
+        this._client,
+        groupNameOrOptions as string,
+        nameOrId,
+        version as number,
+        updatedOptions,
+      ),
     );
   }
 }

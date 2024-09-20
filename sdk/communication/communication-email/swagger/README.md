@@ -26,7 +26,7 @@ use-extension:
 
 ## Customizations for Email Client Generator
 
-See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
+See the [AutoRest samples](https://github.com/Azure/autorest/tree/main/Samples/3b-custom-transformations)
 for more about how we're customizing things.
 
 ### Remove "To" from the required properties

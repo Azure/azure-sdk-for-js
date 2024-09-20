@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { context } from "@opentelemetry/api";
 import { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";

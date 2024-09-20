@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
@@ -35,6 +35,9 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret
+  ],
 };
 
 export type CreateClientMode =

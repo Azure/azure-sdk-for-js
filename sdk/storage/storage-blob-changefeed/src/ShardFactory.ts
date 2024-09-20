@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ChunkFactory } from "./ChunkFactory";
 import { ShardCursor } from "./models/ChangeFeedCursor";

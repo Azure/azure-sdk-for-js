@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CertificateClient, KeyVaultCertificate } from "../../../src/index.js";
 import { PollerLike, PollOperationState } from "@azure/core-lro";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { StoredProcedures, StoredProcedure } from "../StoredProcedure";
 import { Trigger, Triggers } from "../Trigger";
 import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";

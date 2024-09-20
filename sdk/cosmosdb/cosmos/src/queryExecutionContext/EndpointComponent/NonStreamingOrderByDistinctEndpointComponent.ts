@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { QueryInfo, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";

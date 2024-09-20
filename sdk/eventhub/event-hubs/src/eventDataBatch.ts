@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData.js";

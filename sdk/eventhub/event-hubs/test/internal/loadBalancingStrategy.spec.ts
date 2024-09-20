@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";

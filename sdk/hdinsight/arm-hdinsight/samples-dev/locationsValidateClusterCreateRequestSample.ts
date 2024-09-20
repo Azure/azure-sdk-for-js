@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterCreateRequestValidationParameters,
-  HDInsightManagementClient
+  HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Validate the cluster create request spec is valid or not.
  *
  * @summary Validate the cluster create request spec is valid or not.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Locations_ValidateClusterCreateRequest.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_ValidateClusterCreateRequest.json
  */
 async function getTheSubscriptionUsagesForSpecificLocation() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -38,10 +38,10 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "spark"
+        kind: "spark",
       },
       clusterVersion: "4.0",
       computeProfile: {
@@ -55,12 +55,12 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 2,
-            virtualNetworkProfile: {}
+            virtualNetworkProfile: {},
           },
           {
             name: "workernode",
@@ -70,12 +70,12 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 4,
-            virtualNetworkProfile: {}
+            virtualNetworkProfile: {},
           },
           {
             name: "zookeepernode",
@@ -86,14 +86,14 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 3,
-            virtualNetworkProfile: {}
-          }
-        ]
+            virtualNetworkProfile: {},
+          },
+        ],
       },
       minSupportedTlsVersion: "1.2",
       osType: "Linux",
@@ -106,20 +106,20 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
             isDefault: true,
             key: "*******",
             resourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storagename"
-          }
-        ]
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storagename",
+          },
+        ],
       },
-      tier: "Standard"
+      tier: "Standard",
     },
     tags: {},
-    tenantId: "00000000-0000-0000-0000-000000000000"
+    tenantId: "00000000-0000-0000-0000-000000000000",
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.locations.validateClusterCreateRequest(
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import CustomWidgetBlobService, { Config } from "./CustomWidgetBlobService.js";
 import { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";

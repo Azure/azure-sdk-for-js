@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
 import { CloudEvent as CloudEventWireModel } from "./cadl-generated/models";

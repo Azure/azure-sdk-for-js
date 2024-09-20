@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Model:       prebuilt-idDocument
 // Description: Extract key information from passports and ID cards.
