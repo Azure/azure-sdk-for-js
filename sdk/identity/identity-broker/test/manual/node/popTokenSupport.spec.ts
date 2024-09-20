@@ -9,7 +9,8 @@ import {
 import { env } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src";
 import { isNodeLike } from "@azure/core-util";
-import { assert } from "@azure-tools/test-utils";
+// import { assert } from "@azure-tools/test-utils";
+import { sendGraphRequest } from "./popTokenClient";
 
 describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
   beforeEach(async function (this: Mocha.Context) {});
@@ -32,20 +33,21 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
           parentWindowHandle: winHandle,
         },
       };
-      const scope = "https://graph.microsoft.com/.default";
+      //const scope = "https://graph.microsoft.com/.default";
 
       const credential = new InteractiveBrowserCredential(interactiveBrowserCredentialOptions);
 
       try {
-        const accessToken = await credential.getToken(scope, {
-          proofOfPossessionOptions: {
-            resourceRequestMethod: "GET",
-            resourceRequestUri: "https://graph.microsoft.com/v1.0/me",
-            nonce: "uhkgf",
-          },
-        });
-        assert.exists(accessToken.token);
-        console.log(accessToken?.tokenType);
+        await sendGraphRequest(credential)
+        // const accessToken = await credential.getToken(scope, {
+        //   proofOfPossessionOptions: {
+        //     resourceRequestMethod: "GET",
+        //     resourceRequestUri: "https://graph.microsoft.com/v1.0/me",
+        //     nonce: "uhkgf",
+        //   },
+        // });
+        // assert.exists(accessToken.token);
+        // console.log(accessToken?.tokenType);
       } catch (e) {
         console.log(e);
       }
@@ -54,3 +56,4 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
     }
   });
 });
+

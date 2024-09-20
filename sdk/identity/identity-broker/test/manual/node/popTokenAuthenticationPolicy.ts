@@ -9,7 +9,7 @@ import type {
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { createTokenCycler } from "./popTokenCycler.js";
+import { createTokenCycler } from "./popTokenCycler";
 
 /**
  * The programmatic identifier of the popTokenAuthenticationPolicy.
@@ -114,6 +114,7 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
     abortSignal: request.abortSignal,
     tracingOptions: request.tracingOptions,
   };
+
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
   if (accessToken) {
@@ -201,12 +202,13 @@ export function popTokenAuthenticationPolicy(
         getChallenge(response)
       ) {
         // processes challenge
+        // TODO: parse the challenge and get the nonce
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
           response,
           getAccessToken,
-          logger,
+          logger
         });
 
         if (shouldSendRequest) {
