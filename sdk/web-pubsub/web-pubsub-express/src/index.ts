@@ -6,4 +6,3 @@ export * from "./cloudEventsProtocols.js";
 
 export { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 export { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
-export { WebPubSubClientProtocol } from "./enum/webPubSubClientProtocol.js";

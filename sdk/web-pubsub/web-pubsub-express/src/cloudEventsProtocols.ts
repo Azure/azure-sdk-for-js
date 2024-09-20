@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubClientProtocol } from "./enum/webPubSubClientProtocol.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
 
@@ -78,6 +77,11 @@ export interface MqttConnectEventErrorResponseProperties {
    */
   userProperties?: MqttUserProperty[];
 }
+
+/**
+ * The protocol of Web PubSub Client.
+ */
+export type WebPubSubClientProtocol = "default" | "mqtt";
 
 /**
  * The connection context representing the client WebSocket connection.

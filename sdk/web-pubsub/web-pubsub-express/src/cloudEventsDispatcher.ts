@@ -23,7 +23,6 @@ import type {
 } from "./cloudEventsProtocols.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
-import { WebPubSubClientProtocol } from "./enum/webPubSubClientProtocol.js";
 
 enum EventType {
   Connect,
@@ -119,7 +118,7 @@ function getContext(request: IncomingMessage, origin: string): ConnectionContext
     eventName: utils.getHttpHeader(request, "ce-eventname")!,
     origin: origin,
     states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
-    clientProtocol: WebPubSubClientProtocol.Default,
+    clientProtocol: "default",
   };
 
   if (isMqttRequest(request)) {
@@ -129,7 +128,7 @@ function getContext(request: IncomingMessage, origin: string): ConnectionContext
     };
     return {
       ...baseContext,
-      clientProtocol: WebPubSubClientProtocol.Mqtt,
+      clientProtocol: "mqtt",
       mqtt: mqttProperties,
     };
   } else {
@@ -254,7 +253,7 @@ function handleConnectErrorResponse(
   code: 400 | 401 | 500,
   detail?: string,
 ): void {
-  const isMqttReq = connectRequest.context.clientProtocol === WebPubSubClientProtocol.Mqtt;
+  const isMqttReq = connectRequest.context.clientProtocol === "mqtt";
   if (isMqttReq) {
     console.log("mqtt req ", connectRequest);
     const protocolVersion = (connectRequest as MqttConnectRequest).mqtt.protocolVersion;

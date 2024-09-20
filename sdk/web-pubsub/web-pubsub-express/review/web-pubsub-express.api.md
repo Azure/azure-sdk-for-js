@@ -174,10 +174,7 @@ export interface UserEventResponseHandler {
 }
 
 // @public
-export enum WebPubSubClientProtocol {
-    Default = "default",
-    Mqtt = "mqtt"
-}
+export type WebPubSubClientProtocol = "default" | "mqtt";
 
 // @public
 export class WebPubSubEventHandler {
