@@ -11,7 +11,6 @@ import {
   defaultLoggerCallback,
   ensureValidMsalToken,
   getAuthority,
-  getAuthorityHost,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
@@ -270,7 +269,10 @@ export function generateMsalConfiguration(
   );
 
   // TODO: move and reuse getIdentityClientAuthorityHost
-  const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
+  const authority = getAuthority(
+    resolvedTenant,
+    msalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
+  );
 
   const httpClient = new IdentityClient({
     ...msalClientOptions.tokenCredentialOptions,
@@ -465,16 +467,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         silentRequest.tokenQueryParameters["msal_request_type"] = "consumer_passthrough";
       }
     }
-    if (options.proofOfPossessionOptions) {
+
+    if(options.proofOfPossessionOptions){
       (silentRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
       (silentRequest as any).authenticationScheme = "pop";
-      (silentRequest as any).resourceRequestMethod =
-        options.proofOfPossessionOptions.resourceRequestMethod;
-      (silentRequest as any).resourceRequestUri =
-        options.proofOfPossessionOptions.resourceRequestUri;
+      (silentRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
+      (silentRequest as any).resourceRequestUri = options.proofOfPossessionOptions;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest as any);
+    return app.acquireTokenSilent(silentRequest);
   }
 
   /**
@@ -483,7 +484,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   function calculateRequestAuthority(options?: GetTokenOptions): string | undefined {
     if (options?.tenantId) {
-      return getAuthority(options.tenantId, getAuthorityHost(createMsalClientOptions));
+      return getAuthority(options.tenantId, createMsalClientOptions.authorityHost);
     }
     return state.msalConfig.auth.authority;
   }
@@ -539,7 +540,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       token: response.accessToken,
       expiresOnTimestamp: response.expiresOn.getTime(),
       refreshAfterTimestamp: response.refreshOn?.getTime(),
-      tokenType: "Bearer",
     };
   }
 
@@ -567,7 +567,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: "Bearer",
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -600,7 +599,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: "Bearer",
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -631,7 +629,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: "Bearer",
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -763,7 +760,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: "Bearer",
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -810,16 +806,23 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       } else {
         msalLogger.verbose("Attempting broker authentication without the default broker account");
       }
-      if (options.proofOfPossessionOptions) {
+      /**
+       *    authenticationScheme?: AuthenticationScheme;
+    claims?: string;
+    shrClaims?: string;
+    shrNonce?: string;
+    shrOptions?: ShrOptions;
+    resourceRequestMethod?: string;
+    resourceRequestUri?: string;
+       */
+      if(options.proofOfPossessionOptions){
         (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
         (interactiveRequest as any).authenticationScheme = "pop";
-        (interactiveRequest as any).resourceRequestMethod =
-          options.proofOfPossessionOptions.resourceRequestMethod;
-        (interactiveRequest as any).resourceRequestUri =
-          options.proofOfPossessionOptions.resourceRequestUri;
+        (interactiveRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
+        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions;
       }
       try {
-        return await app.acquireTokenInteractive(interactiveRequest as any);
+        return await app.acquireTokenInteractive(interactiveRequest);
       } catch (e: any) {
         msalLogger.verbose(`Failed to authenticate through the broker: ${e.message}`);
         // If we tried to use the default broker account and failed, fall back to interactive authentication
@@ -851,7 +854,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (state.pluginConfiguration.broker.isEnabled) {
         return getBrokeredToken(state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false);
       }
-
+      if(options.proofOfPossessionOptions){
+        (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
+        (interactiveRequest as any).authenticationScheme = "pop";
+        (interactiveRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
+        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions;
+      }
       return app.acquireTokenInteractive(interactiveRequest);
     });
   }

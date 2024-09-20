@@ -28,7 +28,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' --exclude 'test/snippets.spec.ts' 'test/**/**/*.spec.ts'",
-    "update-snippets": "dev-tool run update-snippets"
+    "update-snippets": "dev-tool run update-snippets",
+    "unit-test:manual": "dev-tool run test:node-ts-input -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'"
   },
   "files": [
     "dist/",

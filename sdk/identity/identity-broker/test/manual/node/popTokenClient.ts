@@ -9,19 +9,27 @@ export interface PopTokenClientOptions extends CommonClientOptions {}
 
 import {
   createEmptyPipeline,
-  bearerTokenAuthenticationPolicy,
   createPipelineRequest,
   createDefaultHttpClient,
 } from "@azure/core-rest-pipeline";
 import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy";
+import { TokenCredential } from "@azure/core-auth";
+import { authorizeRequestOnClaimChallenge } from "./authRequestPopChallenge";
 
-async function sendGraphRequest() {
+export async function sendGraphRequest(credential: TokenCredential) {
   const pipeline = createEmptyPipeline();
   // how to create pop policy?
-  pipeline.addPolicy(popTokenAuthenticationPolicy());
+  pipeline.addPolicy(popTokenAuthenticationPolicy({
+    credential,
+    "scopes": "https://graph.microsoft.com/.default",
+    challengeCallbacks: {
+      authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+    },
+
+  }));
 
   const req = createPipelineRequest({
-    url: "https://graph...",
+    url: "https://graph.microsoft.com/v1.0/me",
   });
 
   const client = createDefaultHttpClient();
