@@ -15,7 +15,6 @@
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "update-snippets": "dev-tool run update-snippets",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -28,7 +27,8 @@
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude \"test/**/browser/**/*.spec.ts\" --exclude \"test/snippets.spec.ts\"  \"test/**/**/*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
