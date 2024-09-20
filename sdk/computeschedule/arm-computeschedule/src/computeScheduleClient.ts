@@ -3,10 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getScheduledActionsOperations,
   ScheduledActionsOperations,
@@ -40,10 +37,7 @@ export class ComputeScheduleClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.scheduledActions = getScheduledActionsOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.scheduledActions = getScheduledActionsOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

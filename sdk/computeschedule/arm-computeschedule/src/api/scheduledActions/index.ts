@@ -59,9 +59,7 @@ export function _scheduledActionsVirtualMachinesSubmitDeallocateSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         schedule: scheduleSerializer(requestBody.schedule),
-        executionParameters: executionParametersSerializer(
-          requestBody.executionParameters,
-        ),
+        executionParameters: executionParametersSerializer(requestBody.executionParameters),
         resources: resourcesSerializer(requestBody.resources),
         correlationid: requestBody["correlationid"],
       },
@@ -102,20 +100,15 @@ export async function _scheduledActionsVirtualMachinesSubmitDeallocateDeserializ
                     resourceOperationError: !p.operation?.resourceOperationError
                       ? undefined
                       : {
-                          errorCode:
-                            p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails:
-                            p.operation?.resourceOperationError?.[
-                              "errorDetails"
-                            ],
+                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                         },
                     completedAt: p.operation?.["completedAt"],
                     retryPolicy: !p.operation?.retryPolicy
                       ? undefined
                       : {
                           retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes:
-                            p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                         },
                   },
             };
@@ -162,9 +155,7 @@ export function _scheduledActionsVirtualMachinesSubmitHibernateSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         schedule: scheduleSerializer(requestBody.schedule),
-        executionParameters: executionParametersSerializer(
-          requestBody.executionParameters,
-        ),
+        executionParameters: executionParametersSerializer(requestBody.executionParameters),
         resources: resourcesSerializer(requestBody.resources),
         correlationid: requestBody["correlationid"],
       },
@@ -205,20 +196,15 @@ export async function _scheduledActionsVirtualMachinesSubmitHibernateDeserialize
                     resourceOperationError: !p.operation?.resourceOperationError
                       ? undefined
                       : {
-                          errorCode:
-                            p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails:
-                            p.operation?.resourceOperationError?.[
-                              "errorDetails"
-                            ],
+                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                         },
                     completedAt: p.operation?.["completedAt"],
                     retryPolicy: !p.operation?.retryPolicy
                       ? undefined
                       : {
                           retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes:
-                            p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                         },
                   },
             };
@@ -265,9 +251,7 @@ export function _scheduledActionsVirtualMachinesSubmitStartSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         schedule: scheduleSerializer(requestBody.schedule),
-        executionParameters: executionParametersSerializer(
-          requestBody.executionParameters,
-        ),
+        executionParameters: executionParametersSerializer(requestBody.executionParameters),
         resources: resourcesSerializer(requestBody.resources),
         correlationid: requestBody["correlationid"],
       },
@@ -308,20 +292,15 @@ export async function _scheduledActionsVirtualMachinesSubmitStartDeserialize(
                     resourceOperationError: !p.operation?.resourceOperationError
                       ? undefined
                       : {
-                          errorCode:
-                            p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails:
-                            p.operation?.resourceOperationError?.[
-                              "errorDetails"
-                            ],
+                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                         },
                     completedAt: p.operation?.["completedAt"],
                     retryPolicy: !p.operation?.retryPolicy
                       ? undefined
                       : {
                           retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes:
-                            p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                         },
                   },
             };
@@ -367,9 +346,7 @@ export function _scheduledActionsVirtualMachinesExecuteDeallocateSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        executionParameters: executionParametersSerializer(
-          requestBody.executionParameters,
-        ),
+        executionParameters: executionParametersSerializer(requestBody.executionParameters),
         resources: resourcesSerializer(requestBody.resources),
         correlationid: requestBody["correlationid"],
       },
@@ -410,20 +387,15 @@ export async function _scheduledActionsVirtualMachinesExecuteDeallocateDeseriali
                     resourceOperationError: !p.operation?.resourceOperationError
                       ? undefined
                       : {
-                          errorCode:
-                            p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails:
-                            p.operation?.resourceOperationError?.[
-                              "errorDetails"
-                            ],
+                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                         },
                     completedAt: p.operation?.["completedAt"],
                     retryPolicy: !p.operation?.retryPolicy
                       ? undefined
                       : {
                           retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes:
-                            p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                         },
                   },
             };
@@ -469,9 +441,7 @@ export function _scheduledActionsVirtualMachinesExecuteHibernateSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        executionParameters: executionParametersSerializer(
-          requestBody.executionParameters,
-        ),
+        executionParameters: executionParametersSerializer(requestBody.executionParameters),
         resources: resourcesSerializer(requestBody.resources),
         correlationid: requestBody["correlationid"],
       },
@@ -512,20 +482,15 @@ export async function _scheduledActionsVirtualMachinesExecuteHibernateDeserializ
                     resourceOperationError: !p.operation?.resourceOperationError
                       ? undefined
                       : {
-                          errorCode:
-                            p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails:
-                            p.operation?.resourceOperationError?.[
-                              "errorDetails"
-                            ],
+                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                         },
                     completedAt: p.operation?.["completedAt"],
                     retryPolicy: !p.operation?.retryPolicy
                       ? undefined
                       : {
                           retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes:
-                            p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                         },
                   },
             };
@@ -571,9 +536,7 @@ export function _scheduledActionsVirtualMachinesExecuteStartSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        executionParameters: executionParametersSerializer(
-          requestBody.executionParameters,
-        ),
+        executionParameters: executionParametersSerializer(requestBody.executionParameters),
         resources: resourcesSerializer(requestBody.resources),
         correlationid: requestBody["correlationid"],
       },
@@ -614,20 +577,15 @@ export async function _scheduledActionsVirtualMachinesExecuteStartDeserialize(
                     resourceOperationError: !p.operation?.resourceOperationError
                       ? undefined
                       : {
-                          errorCode:
-                            p.operation?.resourceOperationError?.["errorCode"],
-                          errorDetails:
-                            p.operation?.resourceOperationError?.[
-                              "errorDetails"
-                            ],
+                          errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                          errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                         },
                     completedAt: p.operation?.["completedAt"],
                     retryPolicy: !p.operation?.retryPolicy
                       ? undefined
                       : {
                           retryCount: p.operation?.retryPolicy?.["retryCount"],
-                          retryWindowInMinutes:
-                            p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                          retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                         },
                   },
             };
@@ -707,18 +665,15 @@ export async function _scheduledActionsVirtualMachinesGetOperationStatusDeserial
               resourceOperationError: !p.operation?.resourceOperationError
                 ? undefined
                 : {
-                    errorCode:
-                      p.operation?.resourceOperationError?.["errorCode"],
-                    errorDetails:
-                      p.operation?.resourceOperationError?.["errorDetails"],
+                    errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                    errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                   },
               completedAt: p.operation?.["completedAt"],
               retryPolicy: !p.operation?.retryPolicy
                 ? undefined
                 : {
                     retryCount: p.operation?.retryPolicy?.["retryCount"],
-                    retryWindowInMinutes:
-                      p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                    retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                   },
             },
       };
@@ -798,18 +753,15 @@ export async function _scheduledActionsVirtualMachinesCancelOperationsDeserializ
               resourceOperationError: !p.operation?.resourceOperationError
                 ? undefined
                 : {
-                    errorCode:
-                      p.operation?.resourceOperationError?.["errorCode"],
-                    errorDetails:
-                      p.operation?.resourceOperationError?.["errorDetails"],
+                    errorCode: p.operation?.resourceOperationError?.["errorCode"],
+                    errorDetails: p.operation?.resourceOperationError?.["errorDetails"],
                   },
               completedAt: p.operation?.["completedAt"],
               retryPolicy: !p.operation?.retryPolicy
                 ? undefined
                 : {
                     retryCount: p.operation?.retryPolicy?.["retryCount"],
-                    retryWindowInMinutes:
-                      p.operation?.retryPolicy?.["retryWindowInMinutes"],
+                    retryWindowInMinutes: p.operation?.retryPolicy?.["retryWindowInMinutes"],
                   },
             },
       };

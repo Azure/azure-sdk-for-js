@@ -18,9 +18,7 @@ export function submitDeallocateRequestSerializer(
 ): Record<string, unknown> {
   return {
     schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(
-      item.executionParameters,
-    ),
+    executionParameters: executionParametersSerializer(item.executionParameters),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -73,14 +71,10 @@ export interface ExecutionParameters {
   retryPolicy?: RetryPolicy;
 }
 
-export function executionParametersSerializer(
-  item: ExecutionParameters,
-): Record<string, unknown> {
+export function executionParametersSerializer(item: ExecutionParameters): Record<string, unknown> {
   return {
     optimizationPreference: item["optimizationPreference"],
-    retryPolicy: !item.retryPolicy
-      ? item.retryPolicy
-      : retryPolicySerializer(item.retryPolicy),
+    retryPolicy: !item.retryPolicy ? item.retryPolicy : retryPolicySerializer(item.retryPolicy),
   };
 }
 
@@ -113,9 +107,7 @@ export interface RetryPolicy {
   retryWindowInMinutes?: number;
 }
 
-export function retryPolicySerializer(
-  item: RetryPolicy,
-): Record<string, unknown> {
+export function retryPolicySerializer(item: RetryPolicy): Record<string, unknown> {
   return {
     retryCount: item["retryCount"],
     retryWindowInMinutes: item["retryWindowInMinutes"],
@@ -300,9 +292,7 @@ export function submitHibernateRequestSerializer(
 ): Record<string, unknown> {
   return {
     schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(
-      item.executionParameters,
-    ),
+    executionParameters: executionParametersSerializer(item.executionParameters),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -332,14 +322,10 @@ export interface SubmitStartRequest {
   correlationid: string;
 }
 
-export function submitStartRequestSerializer(
-  item: SubmitStartRequest,
-): Record<string, unknown> {
+export function submitStartRequestSerializer(item: SubmitStartRequest): Record<string, unknown> {
   return {
     schedule: scheduleSerializer(item.schedule),
-    executionParameters: executionParametersSerializer(
-      item.executionParameters,
-    ),
+    executionParameters: executionParametersSerializer(item.executionParameters),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -371,9 +357,7 @@ export function executeDeallocateRequestSerializer(
   item: ExecuteDeallocateRequest,
 ): Record<string, unknown> {
   return {
-    executionParameters: executionParametersSerializer(
-      item.executionParameters,
-    ),
+    executionParameters: executionParametersSerializer(item.executionParameters),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -393,9 +377,7 @@ export function executeHibernateRequestSerializer(
   item: ExecuteHibernateRequest,
 ): Record<string, unknown> {
   return {
-    executionParameters: executionParametersSerializer(
-      item.executionParameters,
-    ),
+    executionParameters: executionParametersSerializer(item.executionParameters),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -411,13 +393,9 @@ export interface ExecuteStartRequest {
   correlationid: string;
 }
 
-export function executeStartRequestSerializer(
-  item: ExecuteStartRequest,
-): Record<string, unknown> {
+export function executeStartRequestSerializer(item: ExecuteStartRequest): Record<string, unknown> {
   return {
-    executionParameters: executionParametersSerializer(
-      item.executionParameters,
-    ),
+    executionParameters: executionParametersSerializer(item.executionParameters),
     resources: resourcesSerializer(item.resources),
     correlationid: item["correlationid"],
   };
@@ -588,5 +566,3 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-/** ComputeSchedule API versions */
-export type Versions = "2024-08-15-preview";

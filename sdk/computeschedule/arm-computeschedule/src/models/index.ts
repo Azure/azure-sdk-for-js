@@ -43,7 +43,6 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
 } from "./models.js";
 export {
   OperationsListOptionalParams,
