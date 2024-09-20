@@ -4,11 +4,15 @@
 
 ### Features Added
 
+- Added support for customer provided key in BlockBlobClient.uploadStream().
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
 
 ## 12.25.0-beta.1 (2024-08-09)
 

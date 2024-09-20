@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
+
 ## 12.24.0-beta.1 (2024-08-09)
 
 ### Features Added
