@@ -19,6 +19,7 @@ export interface EmailAddress {
 
 // @public
 export interface EmailAttachment {
+    contentId?: string;
     contentInBase64: string;
     contentType: string;
     name: string;
