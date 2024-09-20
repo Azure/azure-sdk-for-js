@@ -15,7 +15,7 @@
     "clean": "rimraf --glob dist dist-esm types \"*.tgz\" \"*.log\"",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "extract-snippets": "dev-tool run update-snippets",
+    "update-snippets": "dev-tool run update-snippets",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
