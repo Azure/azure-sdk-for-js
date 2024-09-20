@@ -4,7 +4,7 @@
   "sdk-type": "client",
   "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
   "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/identity-broker/src/index.js",
   "types": "./types/identity-broker.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
