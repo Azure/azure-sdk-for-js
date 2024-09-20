@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for customer provided key in BlockBlobClient.uploadStream().
+
 ### Breaking Changes
 
 ### Bugs Fixed
