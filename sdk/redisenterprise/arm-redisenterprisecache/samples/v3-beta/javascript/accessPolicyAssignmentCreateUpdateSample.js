@@ -13,34 +13,36 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Flushes all the keys in this database and also from its linked databases.
+ * This sample demonstrates how to Creates/Updates a particular access policy assignment for a database
  *
- * @summary Flushes all the keys in this database and also from its linked databases.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2023-11-01/examples/RedisEnterpriseDatabasesFlush.json
+ * @summary Creates/Updates a particular access policy assignment for a database
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
  */
-async function howToFlushAllTheKeysInTheDatabase() {
-  const subscriptionId = process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+async function redisEnterpriseAccessPolicyAssignmentCreateUpdate() {
+  const subscriptionId =
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
   const databaseName = "default";
+  const accessPolicyAssignmentName = "defaultTestEntraApp1";
   const parameters = {
-    ids: [
-      "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Cache/redisEnterprise/cache2/databases/default",
-    ],
+    accessPolicyName: "default",
+    user: { objectId: "6497c918-11ad-41e7-1b0f-7c518a87d0b0" },
   };
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginFlushAndWait(
+  const result = await client.accessPolicyAssignmentOperations.beginCreateUpdateAndWait(
     resourceGroupName,
     clusterName,
     databaseName,
+    accessPolicyAssignmentName,
     parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  howToFlushAllTheKeysInTheDatabase();
+  redisEnterpriseAccessPolicyAssignmentCreateUpdate();
 }
 
 main().catch(console.error);

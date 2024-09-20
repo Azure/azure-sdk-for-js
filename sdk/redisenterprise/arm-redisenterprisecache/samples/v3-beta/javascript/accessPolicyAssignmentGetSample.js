@@ -13,30 +13,31 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Regenerates the RedisEnterprise database's access keys.
+ * This sample demonstrates how to Gets information about access policy assignment for database.
  *
- * @summary Regenerates the RedisEnterprise database's access keys.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2023-11-01/examples/RedisEnterpriseDatabasesRegenerateKey.json
+ * @summary Gets information about access policy assignment for database.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentGet.json
  */
-async function redisEnterpriseDatabasesRegenerateKey() {
-  const subscriptionId = process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+async function redisEnterpriseAccessPolicyAssignmentGet() {
+  const subscriptionId =
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
   const databaseName = "default";
-  const parameters = { keyType: "Primary" };
+  const accessPolicyAssignmentName = "accessPolicyAssignmentName1";
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginRegenerateKeyAndWait(
+  const result = await client.accessPolicyAssignmentOperations.get(
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters,
+    accessPolicyAssignmentName,
   );
   console.log(result);
 }
 
 async function main() {
-  redisEnterpriseDatabasesRegenerateKey();
+  redisEnterpriseAccessPolicyAssignmentGet();
 }
 
 main().catch(console.error);
