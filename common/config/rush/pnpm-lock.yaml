@@ -4588,6 +4588,39 @@ packages:
       vitest: 1.6.0(@types/node@18.19.50)(@vitest/browser@1.6.0)
     dev: false
 
+  /@vitest/browser@2.1.1(playwright@1.47.1)(typescript@5.5.4)(vitest@2.1.1):
+    resolution: {integrity: sha512-wLKqohwlZI24xMIEZAPwv9SVliv1avaIBeE0ou471D++BRPhiw2mubKBczFFIDHXuSL7UXb8/JQK9Ui6ttW9bQ==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 2.1.1
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.1(msw@2.4.7)
+      '@vitest/utils': 2.1.1
+      magic-string: 0.30.11
+      msw: 2.4.7(typescript@5.5.4)
+      playwright: 1.47.1
+      sirv: 2.0.4
+      tinyrainbow: 1.2.0
+      vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    dev: false
+
   /@vitest/browser@2.1.1(playwright@1.47.1)(typescript@5.6.2)(vitest@2.1.1):
     resolution: {integrity: sha512-wLKqohwlZI24xMIEZAPwv9SVliv1avaIBeE0ou471D++BRPhiw2mubKBczFFIDHXuSL7UXb8/JQK9Ui6ttW9bQ==}
     peerDependencies:
@@ -8607,6 +8640,37 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: false
 
+  /msw@2.4.7(typescript@5.5.4):
+    resolution: {integrity: sha512-lLfwzRjTQhaYaoJq600wCFAmjLQnI7JI2VnUDmqj6icZbxgClwJqaJW2/++kkeQvKKoI8rG8NRFMutoG8+LT7w==}
+    engines: {node: '>=18'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      typescript: '>= 4.8.x'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.0
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 3.2.0
+      '@mswjs/interceptors': 0.35.6
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      chalk: 4.1.2
+      graphql: 16.9.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      strict-event-emitter: 0.5.1
+      type-fest: 4.26.1
+      typescript: 5.5.4
+      yargs: 17.7.2
+    dev: false
+
   /msw@2.4.7(typescript@5.6.2):
     resolution: {integrity: sha512-lLfwzRjTQhaYaoJq600wCFAmjLQnI7JI2VnUDmqj6icZbxgClwJqaJW2/++kkeQvKKoI8rG8NRFMutoG8+LT7w==}
     engines: {node: '>=18'}
@@ -10927,6 +10991,12 @@ packages:
 
   /typescript@5.4.2:
     resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -23128,13 +23198,13 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-sJRI5KzHwxKw67qBQ6TTPYjHwCWLYYKUi9TzUeV0YFnkT2kZ5dxWC4OxlZ5KKzup7/9yY5k9kiDtpDB83k6XMQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-qacmbDzaqCWZl0BfsFyUaIVuuGwKe2cOVVmgqBwS8EGp3DmUIipFHFbT1xOeAK4BOFRt0aVTyHabQNLE+reZXQ==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
       '@types/node': 18.19.50
-      '@vitest/browser': 2.1.1(playwright@1.47.1)(typescript@5.6.2)(vitest@2.1.1)
+      '@vitest/browser': 2.1.1(playwright@1.47.1)(typescript@5.5.4)(vitest@2.1.1)
       '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       dotenv: 16.4.5
       eslint: 9.10.0
@@ -23143,7 +23213,7 @@ packages:
       tshy: 2.0.1
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.2
+      typescript: 5.5.4
       vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23212,7 +23282,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-19duHrRPklF2g69bZB8aB+cW4ep3l3ASN3tRipL2zrHUt0+e3+G6KULOxj5YQNyR0DDKwRmqaoGSTr0ArJy3kw==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-micYqYdS28ldR3rNvKUud3F9dYcl1yW+GlumpMlyBCMTJR8ZK/Vjev6aUcPJehWHWMSAz5Wu4w2nnuYkXv39AA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -24933,7 +25003,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-bkBIFyWn/uDsBFcO6qAyMOIGAm2q30NS42IRWqeZESzlnvuirTZPY8RlUbi4Qq6ZJACVo1kwOhAlMImb3dRUrA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-3aPILnGX7gENZHVdETsHDe0OeBIuHlFtje2CcJj9HW5wOzI5OhuIsBHhItzf9n2eYR/jqzwNndECV4VhkK/3vw==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -24952,7 +25022,7 @@ packages:
       source-map-support: 0.5.21
       tshy: 2.0.1
       tslib: 2.7.0
-      typescript: 5.6.2
+      typescript: 5.5.4
       vitest: 1.6.0(@types/node@18.19.50)(@vitest/browser@1.6.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
