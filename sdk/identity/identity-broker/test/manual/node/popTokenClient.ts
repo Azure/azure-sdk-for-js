@@ -29,7 +29,8 @@ export async function sendGraphRequest(credential: TokenCredential) {
   }));
 
   const req = createPipelineRequest({
-    url: "https://graph.microsoft.com/v1.0/me",
+    //url: "https://graph.microsoft.com/v1.0/me",
+    url: "https://graph.microsoft.com/v1.0/users/kaghiya@microsoft.com"
   });
 
   const client = createDefaultHttpClient();
