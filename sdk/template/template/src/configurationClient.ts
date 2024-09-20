@@ -58,7 +58,6 @@ export class ConfigurationClient {
    *   process.env.ENDPOINT ?? "<app configuration endpoint>",
    *   new DefaultAzureCredential(),
    * );
-   *
    * ```
    * @param endpointUrl - the URL to the App Configuration endpoint
    * @param credential - used to authenticate requests to the service

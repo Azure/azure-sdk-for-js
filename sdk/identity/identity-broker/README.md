@@ -13,7 +13,6 @@ import { useIdentityPlugin } from "@azure/identity";
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 
 useIdentityPlugin(nativeBrokerPlugin);
-
 ```
 
 ### Prerequisites
@@ -68,7 +67,6 @@ const credential = new InteractiveBrowserCredential({
     parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
   },
 });
-
 ```
 
 After calling `useIdentityPlugin`, the native broker plugin is registered to the `@azure/identity` package and will be available on the `InteractiveBrowserCredential` that supports WAM broker authentication. This credential has `brokerOptions` in the constructor options.
@@ -92,7 +90,6 @@ const credential = new InteractiveBrowserCredential({
 const scope = "https://graph.microsoft.com/.default";
 // Print out part of the access token
 console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
-
 ```
 
 For a complete example of using an Electron app for retrieving a window handle, see [this sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/typescript/src/index.ts).
@@ -117,7 +114,6 @@ const credential = new InteractiveBrowserCredential({
 const scope = "https://graph.microsoft.com/.default";
 // Print out part of the access token
 console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
-
 ```
 
 ## Troubleshooting
@@ -132,7 +128,6 @@ Enabling logging may help uncover useful information about failures. In order to
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
-
 ```
 
 ## Next steps

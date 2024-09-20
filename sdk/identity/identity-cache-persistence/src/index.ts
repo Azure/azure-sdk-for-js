@@ -29,7 +29,6 @@ import { createPersistenceCachePlugin } from "./provider";
  * const scope = "https://graph.microsoft.com/.default";
  * // Print out part of the access token
  * console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
- *
  * ```
  */
 

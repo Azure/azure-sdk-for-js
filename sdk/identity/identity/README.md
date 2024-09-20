@@ -167,7 +167,6 @@ const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
 const credential = new DefaultAzureCredential();
 // Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
-
 ```
 
 ### Specify a user-assigned managed identity with `DefaultAzureCredential`
@@ -196,7 +195,6 @@ const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, a
 const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
 // The chain can be used anywhere a credential is required
 const client = new KeyClient(vaultUrl, credentialChain);
-
 ```
 
 ## Managed identity support
@@ -228,7 +226,6 @@ const credential = new ClientSecretCredential(
     authorityHost: AzureAuthorityHosts.AzureGovernment,
   },
 );
-
 ```
 
 As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud or when the deployed environment needs to define the target cloud:
@@ -250,7 +247,6 @@ const credential = new ClientSecretCredential(
     authorityHost: "https://login.partner.microsoftonline.cn",
   },
 );
-
 ```
 
 Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration. Similarly, `VisualStudioCodeCredential` accepts an `authorityHost` argument but defaults to the `authorityHost` matching Visual Studio Code's **Azure: Cloud** setting.

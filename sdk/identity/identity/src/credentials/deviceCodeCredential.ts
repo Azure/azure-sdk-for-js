@@ -58,7 +58,6 @@ export class DeviceCodeCredential implements TokenCredential {
    *     console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
    *   },
    * });
-   *
    * ```
    *
    * @param options - Options for configuring the client which makes the authentication requests.

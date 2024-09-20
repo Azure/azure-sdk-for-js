@@ -41,7 +41,6 @@ const pluginContext: AzurePluginContext = {
  *     enabled: true,
  *   },
  * });
- *
  * ```
  *
  * @param plugin - the plugin to register

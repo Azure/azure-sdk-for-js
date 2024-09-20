@@ -26,7 +26,6 @@ export interface CredentialPersistenceOptions {
    *     enabled: true,
    *   },
    * });
-   *
    * ```
    */
 

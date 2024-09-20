@@ -24,7 +24,6 @@ import { NativeBrokerPlugin } from "@azure/msal-node-extensions";
  *     parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
  *   },
  * });
- *
  * ```
  */
 

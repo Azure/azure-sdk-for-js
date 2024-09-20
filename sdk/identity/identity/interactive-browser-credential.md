@@ -21,7 +21,6 @@ const credential = new InteractiveBrowserCredential({
   // You may provide a redirectUri based on the redirectUri configured in your Microsoft Entra application:
   redirectUri: "http://localhost:8080/",
 });
-
 ```
 
 ## For browsers
@@ -41,7 +40,6 @@ const credential = new InteractiveBrowserCredential({
   // You may provide a redirectUri based on the redirectUri configured in your Microsoft Entra application:
   redirectUri: "http://localhost:8080/",
 });
-
 ```
 
 Microsoft Entra enterprise applications configured with redirect URIs for `Web` environments are no longer supported by the Authorization Code Flow. You will have to configure your Microsoft Entra application to use Single Page Application redirect URis (type `spa`).

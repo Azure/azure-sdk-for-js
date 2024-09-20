@@ -63,7 +63,6 @@ const installation = createAppleInstallation({
   tags: ["likes_javascript"],
 });
 const result = await client.createOrUpdateInstallation(installation);
-
 ```
 
 The modular approach allows the developer to pick and choose which functions to import as each method is exposed individually.  This approach uses subpath-exports with ES-Modules to expose the methods via direct imports.  With the individual exports, this creates a better tree-shaking experience and smaller bundle sizes that the developer can take advantage of.
@@ -88,7 +87,6 @@ const installation = createAppleInstallation({
   tags: ["likes_javascript"],
 });
 const result = await createOrUpdateInstallation(context, installation);
-
 ```
 
 ### Authenticate the client
@@ -103,7 +101,6 @@ A new `NotificationHubsClient` client can be created using the constructor with 
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
-
 ```
 
 Using the modular approach, the `createClientContext` can be imported via the `"@azure/notification-hubs/api"` subpath.
@@ -112,7 +109,6 @@ Using the modular approach, the `createClientContext` can be imported via the `"
 import { createClientContext } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
-
 ```
 
 ## Key concepts
@@ -148,7 +144,6 @@ const installation = createAppleInstallation({
   tags: ["likes_hockey", "likes_football"],
 });
 const response = await client.createOrUpdateInstallation(installation);
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -165,7 +160,6 @@ const installation = createAppleInstallation({
   tags: ["likes_hockey", "likes_football"],
 });
 const response = await createOrUpdateInstallation(context, installation);
-
 ```
 
 An update to an installation can be made through the JSON Patch schema such as adding a tag and a user ID using the `updateInstallation` method.
@@ -180,7 +174,6 @@ const updates: JsonPatch[] = [
   { op: "add", path: "/userId", value: "bob@contoso.com" },
 ];
 const installation = await client.updateInstallation(installationId, updates);
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -196,7 +189,6 @@ const updates: JsonPatch[] = [
   { op: "add", path: "/userId", value: "bob@contoso.com" },
 ];
 const installation = await updateInstallation(context, installationId, updates);
-
 ```
 
 To retrieve an existing installation, use the `getInstallation` method with your existing unique installation ID.
@@ -207,7 +199,6 @@ import { NotificationHubsClient } from "@azure/notification-hubs";
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
 const installationId = "<unique installation ID>";
 const installation = client.getInstallation(installationId);
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -218,7 +209,6 @@ import { createClientContext, getInstallation } from "@azure/notification-hubs/a
 const context = createClientContext("<connection string>", "<hub name>");
 const installationId = "<unique installation ID>";
 const installation = getInstallation(context, installationId);
-
 ```
 
 #### Registrations API
@@ -239,7 +229,6 @@ const registration = createAppleRegistrationDescription({
   tags: ["likes_hockey", "likes_football"],
 });
 const updatedRegistration = await client.createRegistration(registration);
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -254,7 +243,6 @@ const registration = createAppleRegistrationDescription({
   tags: ["likes_hockey", "likes_football"],
 });
 const updatedRegistration = await createRegistration(context, registration);
-
 ```
 
 Updates can be done via the `updateRegistration` method but unlike installations, does not support incremental updates.  Querying for an existing registration can be done with the `getRegistration` method.
@@ -271,7 +259,6 @@ if (registration.tags) {
   registration.tags = ["likes_sports"];
 }
 const updatedRegistration = await client.updateRegistration(registration);
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -292,7 +279,6 @@ if (registration.tags) {
   registration.tags = ["likes_sports"];
 }
 const updatedRegistration = await updateRegistration(context, registration);
-
 ```
 
 Registrations, unlike installations, can be queried to get all registrations, matching registrations to a condition, or by tags.  Registrations can be queried using the `listRegistrations`, `listRegistrationsByChannel` and `listRegistrationsByTag` method.  All methods support limiting via the `top` option and support asynchronous paging.
@@ -309,7 +295,6 @@ for await (const pages of registrations.byPage()) {
     console.log(JSON.stringify(item, null, 2));
   }
 }
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -326,7 +311,6 @@ for await (const pages of registrations.byPage()) {
     console.log(JSON.stringify(item, null, 2));
   }
 }
-
 ```
 
 ### Send Operations
@@ -353,7 +337,6 @@ const apnsBody = createAppleNotificationBody({
 const notification = createAppleNotification({
   body: apnsBody,
 });
-
 ```
 
 #### Broadcast Send
@@ -379,7 +362,6 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -404,7 +386,6 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
-
 ```
 
 #### Direct Send
@@ -431,7 +412,6 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -457,7 +437,6 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
-
 ```
 
 #### Audience Send
@@ -472,7 +451,6 @@ import { createTagExpression } from "@azure/notification-hubs";
 const tags = ["likes_football", "likes_hockey"];
 const tagExpression = createTagExpression(tags);
 console.log(tagExpression);
-
 ```
 
 Tag expression messages can be sent using the following code:
@@ -497,7 +475,6 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -523,7 +500,6 @@ console.log(`Correlation ID: ${result.correlationId}`);
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
 }
-
 ```
 
 #### Scheduled Send
@@ -550,7 +526,6 @@ console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
 // Can be used to cancel via the cancelScheduledSend method
 console.log(`Notification ID: ${result.notificationId}`);
-
 ```
 
 Using the modular approach, the code would be as follows:
@@ -576,7 +551,6 @@ console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
 // Can be used to cancel via the cancelScheduledSend method
 console.log(`Notification ID: ${result.notificationId}`);
-
 ```
 
 ## Troubleshooting
@@ -610,7 +584,6 @@ const result = await client.sendNotification(notification, {
   tagExpression,
   enableTestSend: true,
 });
-
 ```
 
 ```ts snippet:testSend_modular
@@ -631,7 +604,6 @@ const result = await sendNotification(context, notification, {
   tagExpression,
   enableTestSend: true,
 });
-
 ```
 
 ### Logging
@@ -642,7 +614,6 @@ Enabling logging may help uncover useful information about failures. In order to
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
-
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).

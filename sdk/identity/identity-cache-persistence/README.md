@@ -36,7 +36,6 @@ import { useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
 useIdentityPlugin(cachePersistencePlugin);
-
 ```
 
 After calling `useIdentityPlugin`, the persistent token cache plugin is registered to the `@azure/identity` package and will be available on all credentials that support persistent token caching (those that have `tokenCachePersistenceOptions` in their constructor options).
@@ -57,7 +56,6 @@ const credential = new DeviceCodeCredential({
 const scope = "https://graph.microsoft.com/.default";
 // Print out part of the access token
 console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
-
 ```
 
 ## Troubleshooting
@@ -70,7 +68,6 @@ Enabling logging may help uncover useful information about failures. In order to
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
-
 ```
 
 ## Next steps

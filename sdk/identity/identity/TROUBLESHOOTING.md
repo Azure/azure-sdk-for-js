@@ -58,7 +58,6 @@ try {
 } catch (error) {
   console.log("Microsoft Entra ID service response with error", error);
 }
-
 ```
 
 ### AuthenticationRequiredError
@@ -81,7 +80,6 @@ try {
 } catch (error) {
   console.log("Authentication Failed", error);
 }
-
 ```
 
 ### CredentialUnavailableError
@@ -116,14 +114,12 @@ import { setLogLevel } from "@azure/logger";
 
 // set up the log level to enable the logger
 setLogLevel("info");
-
 ```
 
 Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
 
 ```ts snippet:troubleshooting_dotenv
 dotenv.config({ path: ".env" });
-
 ```
 
 Consider a scenario in which you have the following environment variables set up either in your environment or _.env_ file:
@@ -157,7 +153,6 @@ setLogLevel("info");
 const credential = new DefaultAzureCredential({
   loggingOptions: { allowLoggingAccountIdentifiers: true },
 });
-
 ```
 
 Once that credential authenticates, the following message will appear in the logs (with the real information instead of `HIDDEN`):
@@ -180,7 +175,6 @@ setLogLevel("info");
 const credential = new DefaultAzureCredential({
   loggingOptions: { enableUnsafeSupportLogging: true },
 });
-
 ```
 
 ## Permission issues

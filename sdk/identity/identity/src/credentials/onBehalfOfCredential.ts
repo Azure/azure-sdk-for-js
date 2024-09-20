@@ -60,7 +60,6 @@ export class OnBehalfOfCredential implements TokenCredential {
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
    * await client.getKey("key-name");
-   *
    * ```
    *
    * @param options - Optional parameters, generally common across credentials.
@@ -89,7 +88,6 @@ export class OnBehalfOfCredential implements TokenCredential {
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
    * await client.getKey("key-name");
-   *
    * ```
    *
    * @param options - Optional parameters, generally common across credentials.
@@ -121,7 +119,6 @@ export class OnBehalfOfCredential implements TokenCredential {
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
    * await client.getKey("key-name");
-   *
    * ```
    *
    * @param options - Optional parameters, generally common across credentials.

@@ -37,7 +37,6 @@ export interface GetBearerTokenProviderOptions {
  * // usage
  * const request = createPipelineRequest({ url: "https://example.com" });
  * request.headers.set("Authorization", `Bearer ${token}`);
- *
  * ```
  *
  * @param credential - The credential used to authenticate the request.

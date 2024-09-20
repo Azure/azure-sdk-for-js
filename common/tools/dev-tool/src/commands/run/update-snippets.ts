@@ -481,6 +481,9 @@ async function replaceSnippetsWithNew(
       snippet = await snippetDefinition.typescriptSourceText;
     }
 
+    // Remove the last item which is always empty
+    snippet = snippet.slice(0, -1);
+
     // The original length of the line.
     const originalLineLength = location.lineRange[1] - location.lineRange[0] - 1;
 

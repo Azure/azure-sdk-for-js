@@ -83,7 +83,6 @@ const client = new ConfigurationClient(
   process.env.ENDPOINT ?? "<app configuration endpoint>",
   new DefaultAzureCredential(),
 );
-
 ```
 
 ## Troubleshooting
@@ -96,7 +95,6 @@ Enabling logging may help uncover useful information about failures. In order to
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("verbose");
-
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
