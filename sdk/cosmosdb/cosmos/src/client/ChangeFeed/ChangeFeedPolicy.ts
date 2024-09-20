@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ChangeFeedRetentionTimeSpan } from "./ChangeFeedRetentionTimeSpan";
 /**
  * Represents the change feed policy configuration for a container in the Azure Cosmos DB service.

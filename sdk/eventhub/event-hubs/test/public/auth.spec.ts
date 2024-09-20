@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { parseEventHubConnectionString } from "../../src/index.js";

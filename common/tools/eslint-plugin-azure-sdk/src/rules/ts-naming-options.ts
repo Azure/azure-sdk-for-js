@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to require client method option parameter type names to be suffixed with Options and prefixed with the class name if it is a class constructor and prefixed with the method name otherwise.

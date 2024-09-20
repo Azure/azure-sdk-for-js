@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 

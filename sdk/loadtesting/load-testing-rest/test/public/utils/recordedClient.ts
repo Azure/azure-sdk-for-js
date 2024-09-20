@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import AzureLoadTesting, { AzureLoadTestingClient } from "../../../src";
 import { Context } from "mocha";
 import { Recorder, env, RecorderStartOptions } from "@azure-tools/test-recorder";

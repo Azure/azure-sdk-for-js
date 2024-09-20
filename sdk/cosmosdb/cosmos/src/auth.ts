@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { generateHeaders } from "./utils/headers";
 import {
   Constants,

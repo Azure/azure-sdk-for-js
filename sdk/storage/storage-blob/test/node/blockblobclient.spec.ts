@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import * as zlib from "zlib";
@@ -803,7 +803,8 @@ describe("syncUploadFromURL", () => {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
   }).timeout(10 * 60 * 1000);
 
-  it("large content with timeout", async function () {
+  // TODO: should enable this case when service is ready
+  it.skip("large content with timeout", async function () {
     if (!isLiveMode()) {
       this.skip();
     }

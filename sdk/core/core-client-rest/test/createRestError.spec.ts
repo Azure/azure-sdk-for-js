@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRestError } from "../src/restError.js";
 import { PipelineRequest } from "@azure/core-rest-pipeline";

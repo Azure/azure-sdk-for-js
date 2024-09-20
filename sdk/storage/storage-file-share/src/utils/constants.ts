@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export const SDK_VERSION: string = "12.25.0-beta.2";
 export const SERVICE_VERSION: string = "2024-11-04";

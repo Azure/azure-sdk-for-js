@@ -5,7 +5,8 @@
     "outDir": "./dist-esm",
     "paths": {
       "@azure/search-documents": ["./src/index"]
-    }
+    },
+    "skipLibCheck": true,
   },
   "include": ["samples-dev/**/*.ts", "src/**/*.ts", "test/**/*.ts"]
 }

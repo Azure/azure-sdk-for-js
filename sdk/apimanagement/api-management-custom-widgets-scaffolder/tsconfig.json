@@ -2,7 +2,8 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "module": "NodeNext",
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true,
   },
   "exclude": ["./src/templates/**"],
   "include": [

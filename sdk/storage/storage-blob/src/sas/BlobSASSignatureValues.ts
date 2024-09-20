@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions";
 import { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
 export const logger = createClientLogger("developer-devcenter");

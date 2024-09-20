@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";

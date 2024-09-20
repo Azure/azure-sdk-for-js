@@ -12,7 +12,7 @@
 
 ## 6.1.0 (2023-09-06)
     
-**Features**
+### Features Added
 
   - Added Interface PostBuildDefinition
   - Added Interface SubstituteFromDefinition
@@ -26,7 +26,7 @@
     
 ## 6.0.0 (2023-05-11)
     
-**Features**
+### Features Added
 
   - Added Interface AzureBlobDefinition
   - Added Interface AzureBlobPatchDefinition
@@ -42,14 +42,14 @@
   - Interface FluxConfigurationPatch has a new optional parameter azureBlob
   - Enum KnownSourceKindType has a new value AzureBlob
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Extension no longer has parameter installedVersion
     
     
 ## 5.1.0 (2022-11-28)
     
-**Features**
+### Features Added
 
   - Added Interface Extension
   - Added Interface FluxConfiguration

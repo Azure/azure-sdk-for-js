@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Ensuring the plugin is properly structured
@@ -77,15 +77,6 @@ const testRule = (ruleName: string, rules: any): void => {
           const description = docs.description;
           it("description should be a string", (): void => {
             assert.isString(description, "description is not a string");
-          });
-        });
-        describe("recommended", (): void => {
-          it("recommended should be a member of docs", (): void => {
-            assert.property(docs, "recommended", "recommended is not a member of docs");
-          });
-          const recommended = docs.recommended;
-          it("recommended should be 'recommended'", (): void => {
-            assert.strictEqual(recommended, "recommended");
           });
         });
         describe("url", (): void => {

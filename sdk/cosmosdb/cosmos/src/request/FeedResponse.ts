@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Constants } from "../common";
 import { CosmosHeaders, getRequestChargeIfAny } from "../queryExecutionContext/headerUtils";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics";

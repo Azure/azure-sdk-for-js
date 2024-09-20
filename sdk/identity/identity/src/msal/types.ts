@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
@@ -45,6 +45,7 @@ export interface MsalResult {
   account: MsalAccountInfo | null;
   accessToken: string;
   expiresOn: Date | null;
+  refreshOn?: Date | null;
 }
 
 /**

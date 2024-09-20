@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 declare global {
@@ -88,6 +88,7 @@ export { AbortError } from "./abort-controller/AbortError.js";
 export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential.js";
 export { KeyCredential, isKeyCredential } from "./auth/keyCredential.js";
 export {
+  AddEventOptions,
   Instrumenter,
   InstrumenterSpanOptions,
   OperationTracingOptions,

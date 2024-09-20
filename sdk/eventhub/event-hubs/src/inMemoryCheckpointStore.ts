@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CheckpointStore, PartitionOwnership } from "./eventProcessor.js";
 import { Checkpoint } from "./partitionProcessor.js";

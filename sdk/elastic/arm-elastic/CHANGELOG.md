@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.3 (2023-05-15)
     
-**Features**
+### Features Added
 
   - Added operation group ElasticVersions
   - Added Interface ElasticVersionListFormat
@@ -26,7 +26,7 @@
   - Interface MonitorProperties has a new optional parameter generateApiKey
   - Interface UserApiKeyResponse has a new optional parameter properties
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation Organizations.getApiKey has a new signature
   - Interface ElasticMonitorResource no longer has parameter generateApiKey
@@ -35,7 +35,7 @@
     
 ## 1.0.0-beta.2 (2023-04-03)
     
-**Features**
+### Features Added
 
   - Added operation group Organizations
   - Added Interface MarketplaceSaaSInfo
@@ -48,7 +48,7 @@
   - Interface DeploymentInfoResponse has a new optional parameter marketplaceSaasInfo
   - Interface ElasticMonitorResource has a new optional parameter generateApiKey
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownApiVersionParameter
     

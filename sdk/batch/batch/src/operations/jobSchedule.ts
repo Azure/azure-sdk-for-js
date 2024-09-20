@@ -399,7 +399,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout32
+    Parameters.timeout32,
+    Parameters.force0
   ],
   headerParameters: [
     Parameters.acceptLanguage,
@@ -616,7 +617,8 @@ const terminateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.timeout38
+    Parameters.timeout38,
+    Parameters.force1
   ],
   headerParameters: [
     Parameters.acceptLanguage,

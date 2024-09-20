@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { JsonWebKey } from "../generated/models";
 import { pemFromBase64 } from "../utils/helpers";
