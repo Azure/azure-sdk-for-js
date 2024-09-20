@@ -157,21 +157,17 @@ You can find more examples of using various credentials in [Azure Identity Examp
 
 This example demonstrates authenticating the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library using `DefaultAzureCredential`.
 
-```javascript
-// The default credential first checks environment variables for configuration as described above.
-// If environment configuration is incomplete, it will try managed identity.
-
-// Azure Key Vault service to use
+```ts snippet:defaultazurecredential_authenticate
+import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
-// Azure authentication library to access Azure Key Vault
-import { DefaultAzureCredential } from "@azure/identity";
-
+// Configure vault URL
+const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
-
 // Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
+
 ```
 
 ### Specify a user-assigned managed identity with `DefaultAzureCredential`
@@ -182,18 +178,25 @@ A relatively common scenario involves authenticating using a user-assigned manag
 
 While `DefaultAzureCredential` is generally the quickest way to get started developing applications for Azure, more advanced users may want to customize the credentials considered when authenticating. The `ChainedTokenCredential` enables users to combine multiple credential instances to define a customized chain of credentials. This example demonstrates creating a `ChainedTokenCredential` that attempts to authenticate using two differently configured instances of `ClientSecretCredential`, to then authenticate the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys):
 
-```typescript
+```ts snippet:chaintedtokencredential_authenticate
 import { ClientSecretCredential, ChainedTokenCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
 
+// Configure variables
+const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
+const tenantId = "<tenant-id>";
+const clientId = "<client-id>";
+const clientSecret = "<client-secret>";
+const anotherClientId = "<another-client-id>";
+const anotherSecret = "<another-client-secret>";
 // When an access token is requested, the chain will try each
 // credential in order, stopping when one provides a token
 const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
 const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
-
 // The chain can be used anywhere a credential is required
-import { KeyClient } from "@azure/keyvault-keys";
 const client = new KeyClient(vaultUrl, credentialChain);
+
 ```
 
 ## Managed identity support
@@ -214,16 +217,18 @@ For examples of how to use managed identity for authentication, see [the example
 
 Credentials default to authenticating to the Microsoft Entra endpoint for Azure Public Cloud. To access resources in other clouds, such as Azure Government or a private cloud, configure credentials with the `authorityHost` argument in the constructor. The [`AzureAuthorityHosts`][authority_hosts] enum defines authorities for well-known clouds. For the US Government cloud, you could instantiate a credential this way:
 
-```typescript
-import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+```ts snippet:cloudconfiguration_authenticate
+import { ClientSecretCredential, AzureAuthorityHosts } from "@azure/identity";
+
 const credential = new ClientSecretCredential(
   "<YOUR_TENANT_ID>",
   "<YOUR_CLIENT_ID>",
   "<YOUR_CLIENT_SECRET>",
   {
     authorityHost: AzureAuthorityHosts.AzureGovernment,
-  }
+  },
 );
+
 ```
 
 As an alternative to specifying the `authorityHost` argument, you can also set the `AZURE_AUTHORITY_HOST` environment variable to the URL of your cloud's authority. This approach is useful when configuring multiple credentials to authenticate to the same cloud or when the deployed environment needs to define the target cloud:
@@ -234,16 +239,18 @@ AZURE_AUTHORITY_HOST=https://login.partner.microsoftonline.cn
 
 The `AzureAuthorityHosts` enum defines authorities for well-known clouds for your convenience; however, if the authority for your cloud isn't listed in `AzureAuthorityHosts`, you may pass any valid authority URL as a string argument. For example:
 
-```typescript
-import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+```ts snippet:cloudconfiguration_authorityhost
+import { ClientSecretCredential } from "@azure/identity";
+
 const credential = new ClientSecretCredential(
   "<YOUR_TENANT_ID>",
   "<YOUR_CLIENT_ID>",
   "<YOUR_CLIENT_SECRET>",
   {
     authorityHost: "https://login.partner.microsoftonline.cn",
-  }
+  },
 );
+
 ```
 
 Not all credentials require this configuration. Credentials that authenticate through a development tool, such as `AzureCliCredential`, use that tool's configuration. Similarly, `VisualStudioCodeCredential` accepts an `authorityHost` argument but defaults to the `authorityHost` matching Visual Studio Code's **Azure: Cloud** setting.

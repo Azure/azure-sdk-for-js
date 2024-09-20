@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { EOL } from "node:os";
 import path from "node:path";
 import ts from "typescript";
@@ -56,7 +57,9 @@ async function* getAllSnippetFiles(dir: string): AsyncIterable<string> {
 
   yield* findMatchingFiles(path.join(dir, "test"), (name) => name.endsWith(".ts"));
 
-  yield* findMatchingFiles(path.join(dir, "samples-dev"), (name) => name.endsWith(".ts"));
+  if (existsSync(path.join(dir, "samples-dev"))) {
+    yield* findMatchingFiles(path.join(dir, "samples-dev"), (name) => name.endsWith(".ts"));
+  }
 }
 
 /**

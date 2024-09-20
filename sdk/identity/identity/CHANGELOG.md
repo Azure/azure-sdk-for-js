@@ -1,5 +1,7 @@
 # Release History
 
+<!-- dev-tool snippets ignore -->
+
 ## 4.5.0-beta.3 (Unreleased)
 
 ### Features Added
