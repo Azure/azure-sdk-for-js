@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// Models that do not support function call
 export const functionCallModelsToSkip = [
   { name: "gpt-35-turbo", version: "0301" },
   { name: "gpt-35-turbo-16k", version: "0613" },
@@ -13,6 +14,7 @@ export const visionModelsToSkip = [
   { name: "gpt-4o-mini", version: "2024-07-18" },
 ];
 
+// TODO: Remove this when "500 Backend returned unexpected response" disappear
 export const ttsModelsToSkip = [{ name: "whisper", version: "001" }];
 
 // TODO: Remove this when "completion_tokens" is consistently returned
