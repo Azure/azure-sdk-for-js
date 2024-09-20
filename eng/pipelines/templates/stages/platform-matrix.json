@@ -6,7 +6,8 @@
     "Agent": {
       "windows-2022": {
         "OSVmImage": "env:WINDOWSVMIMAGE",
-        "Pool": "env:WINDOWSPOOL"
+        "Pool": "env:WINDOWSPOOL",
+        "1ES.ImageVersionOverride": "latest"
       },
       "ubuntu-20.04": {
         "OSVmImage": "env:LINUXVMIMAGE",
