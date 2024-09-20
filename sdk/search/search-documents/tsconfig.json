@@ -6,7 +6,7 @@
     "paths": {
       "@azure/search-documents": ["./src/index"]
     },
-    "skipLibCheck": true,
+    "skipLibCheck": true
   },
   "include": ["samples-dev/**/*.ts", "src/**/*.ts", "test/**/*.ts"]
 }
