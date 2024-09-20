@@ -114,6 +114,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
+    const processExitStub = sandbox.stub(process, "exit");
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10000 });
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
@@ -122,6 +123,7 @@ describe("getServiceConfig", () => {
     });
     expect(config.globalSetup).to.be.undefined;
     expect(config.globalTeardown).to.be.undefined;
+    processExitStub.restore();
   });
 
   it("should return service config with service connect options", () => {

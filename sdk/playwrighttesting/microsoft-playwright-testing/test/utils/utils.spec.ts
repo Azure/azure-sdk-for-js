@@ -155,11 +155,12 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if MPT PAT is valid", () => {
+    const processExitStub = sandbox.stub(process, "exit");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10 });
 
     expect(() => validateMptPAT()).not.to.throw();
-
+    processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
@@ -180,6 +181,7 @@ describe("Service Utils", () => {
   });
 
   it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
+    const processExitStub = sandbox.stub(process, "exit");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox
       .stub(utils, "parseJwt")
@@ -189,7 +191,7 @@ describe("Service Utils", () => {
       .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
 
     expect(() => validateMptPAT()).not.to.throw();
-
+    processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
