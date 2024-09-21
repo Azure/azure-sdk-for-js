@@ -78,7 +78,7 @@ export interface ChallengeCallbacks {
    * If this method returns true, the underlying request will be sent once again.
    * The request may be modified before being sent.
    */
-  authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
+  authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<any>;
 }
 
 /**
@@ -179,7 +179,7 @@ export function popTokenAuthenticationPolicy(
           "pop token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
-
+      
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
@@ -195,14 +195,14 @@ export function popTokenAuthenticationPolicy(
         error = err;
         response = err.response;
       }
-
+      console.log("first response")
+      console.dir(response)
       if (
         callbacks.authorizeRequestOnChallenge &&
         response?.status === 401 &&
         getChallenge(response)
       ) {
-        // processes challenge
-        // TODO: parse the challenge and get the nonce
+ 
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
@@ -211,8 +211,12 @@ export function popTokenAuthenticationPolicy(
           logger
         });
 
-        if (shouldSendRequest) {
-          return next(request);
+        if ((shouldSendRequest as any).isPossible) {
+          const res2 = await next((shouldSendRequest as any).request)
+          console.log("Response 2")
+          console.log(res2.request.headers.get("Authenticate"))
+          console.log((shouldSendRequest as any).request.headers.get("Authenticate"))
+          return res2;
         }
       }
 

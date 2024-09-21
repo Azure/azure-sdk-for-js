@@ -14,7 +14,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy";
 import { TokenCredential } from "@azure/core-auth";
-import { authorizeRequestOnClaimChallenge } from "./authRequestPopChallenge";
+import { authorizeRequestOnPopTokenChallenge } from "./authRequestPopTokenChallenge";
 
 export async function sendGraphRequest(credential: TokenCredential) {
   const pipeline = createEmptyPipeline();
@@ -23,21 +23,17 @@ export async function sendGraphRequest(credential: TokenCredential) {
     credential,
     "scopes": "https://graph.microsoft.com/.default",
     challengeCallbacks: {
-      authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+      authorizeRequestOnChallenge: authorizeRequestOnPopTokenChallenge
     },
 
   }));
 
   const req = createPipelineRequest({
-    //url: "https://graph.microsoft.com/v1.0/me",
     url: "https://graph.microsoft.com/v1.0/users/kaghiya@microsoft.com"
   });
 
   const client = createDefaultHttpClient();
-
   const result = await pipeline.sendRequest(client, req);
-
-  // assert something on the result
-  result.status;
-  result.bodyAsText;
+  console.log(result.status);
+  console.log(result.bodyAsText);
 }
