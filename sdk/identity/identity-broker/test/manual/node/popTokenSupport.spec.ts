@@ -38,7 +38,7 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
       const credential = new InteractiveBrowserCredential(interactiveBrowserCredentialOptions);
 
       try {
-        await sendGraphRequest(credential)
+         await sendGraphRequest(credential)
         // const accessToken = await credential.getToken(scope, {
         //   proofOfPossessionOptions: {
         //     resourceRequestMethod: "GET",
@@ -47,7 +47,7 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
         //   },
         // });
         // assert.exists(accessToken.token);
-        // console.log(accessToken?.tokenType);
+        // assert.equal(accessToken.tokenType, "pop");
       } catch (e) {
         console.log(e);
       }
