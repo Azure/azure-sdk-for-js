@@ -1,19 +1,18 @@
 # Release History
 
-## 4.5.0-beta.3 (Unreleased)
+<!-- dev-tool snippets ignore -->
+## 4.5.0-beta.3 (2024-09-18)
 
 ### Features Added
 
 - Added support for the field `refreshAfterTimestamp` in `AccessToken` [#30402](https://github.com/Azure/azure-sdk-for-js/pull/30402)
 - Added support for providing an object ID to `ManagedIdentityCredential`. [#30771](https://github.com/Azure/azure-sdk-for-js/pull/30771)
-
-### Breaking Changes
+- Added support for token cache persistence via the `CredentialTokenPersistence` options to the `ClientAssertionCredential`. [#31129](https://github.com/Azure/azure-sdk-for-js/pull/31129)
 
 ### Bugs Fixed
 
 - `ManagedIdentityCredential` now throws an error when attempting to pass a user-assigned Managed Identity in a CloudShell environment instead of silently ignoring it. [#30955](https://github.com/Azure/azure-sdk-for-js/pull/30955)
-
-### Other Changes
+- Fixed an issue where cross-tenant federation did not read the AZURE_AUTHORITY_HOST environment in all scenarios. [#31134](https://github.com/Azure/azure-sdk-for-js/pull/31134)
 
 ## 4.5.0-beta.2 (2024-08-13)
 
