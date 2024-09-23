@@ -179,7 +179,8 @@ export function popTokenAuthenticationPolicy(
           "pop token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
-      
+      console.log("within the send request - request url", request.url);
+      console.log("within the send request - request method", request.method);
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
@@ -195,27 +196,33 @@ export function popTokenAuthenticationPolicy(
         error = err;
         response = err.response;
       }
-      console.log("first response")
-      console.dir(response)
+      console.log("first response");
+      console.dir(response);
       if (
         callbacks.authorizeRequestOnChallenge &&
         response?.status === 401 &&
         getChallenge(response)
       ) {
- 
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
           response,
           getAccessToken,
-          logger
+          logger,
         });
-
+        console.log(
+          "within the send request - should request url",
+          (shouldSendRequest as any).request.url
+        );
+        console.log(
+          "within the send request - ahould request method",
+          (shouldSendRequest as any).request.method
+        );
         if ((shouldSendRequest as any).isPossible) {
-          const res2 = await next((shouldSendRequest as any).request)
-          console.log("Response 2")
-          console.log(res2.request.headers.get("Authenticate"))
-          console.log((shouldSendRequest as any).request.headers.get("Authenticate"))
+          const res2 = await next((shouldSendRequest as any).request);
+          console.log("Response 2");
+          console.log(res2.request.headers.get("Authenticate"));
+          console.log((shouldSendRequest as any).request.headers.get("Authenticate"));
           return res2;
         }
       }
