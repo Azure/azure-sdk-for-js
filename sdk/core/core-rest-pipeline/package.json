@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
@@ -93,7 +93,7 @@
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.8.0",
     "@azure/core-tracing": "^1.0.1",
-    "@azure/core-util": "^1.9.0",
+    "@azure/core-util": "^1.10.0",
     "@azure/logger": "^1.0.0",
     "http-proxy-agent": "^7.0.0",
     "https-proxy-agent": "^7.0.0",
@@ -111,7 +111,7 @@
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
   "tshy": {

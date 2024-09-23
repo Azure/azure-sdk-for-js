@@ -78,10 +78,16 @@ export interface NotificationHubsClientContext {
 }
 
 // @public
-export function scheduleNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+export function scheduleBroadcastNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
-export function sendNotification(context: NotificationHubsClientContext, notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+export function scheduleNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+
+// @public
+export function sendBroadcastNotification(context: NotificationHubsClientContext, notification: Notification, options?: BroadcastSendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+
+// @public
+export function sendNotification(context: NotificationHubsClientContext, notification: Notification, options: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
 export function submitNotificationHubJob(context: NotificationHubsClientContext, job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;

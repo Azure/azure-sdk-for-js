@@ -21,13 +21,13 @@ async function main() {
 
   // let's create the setting
   await client.addConfigurationSetting({
-    key: "sample key",
+    key: "listLabelsSample",
     value: "sample value",
     label: "production",
   });
 
   await client.addConfigurationSetting({
-    key: "sample key",
+    key: "listLabelsSample",
     value: "sample value",
     label: "developmentA",
     tags: {
@@ -36,7 +36,7 @@ async function main() {
   });
 
   await client.addConfigurationSetting({
-    key: "sample key",
+    key: "listLabelsSample",
     value: "value",
     label: "developmentB",
     tags: {
@@ -90,7 +90,7 @@ async function main() {
     }
   }
 
-  cleanupSampleValues(["sample key"], client);
+  cleanupSampleValues(["listLabelsSample"], client);
 }
 
 async function cleanupSampleValues(keys, client) {
