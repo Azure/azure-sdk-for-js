@@ -17,7 +17,7 @@ import { v4 as uuid } from "uuid";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-import { describe, it, assert, beforeEach, afterEach, beforeAll, expect } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 
 describe("AvroSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
@@ -27,12 +27,9 @@ describe("AvroSerializer", async function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  beforeAll(async function () {
+  beforeEach(async function (ctx) {
     client = createDefaultHttpClient();
     pipeline = createPipelineWithCredential();
-  });
-
-  beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     noAutoRegisterOptions = {

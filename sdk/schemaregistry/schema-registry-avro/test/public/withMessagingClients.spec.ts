@@ -26,7 +26,7 @@ import { testGroup } from "./utils/dummies.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient.js";
 import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /**
  * An interface to group different bits needed by the tests for each messaging service
@@ -163,12 +163,9 @@ describe("With messaging clients", function () {
         }
       }
 
-      beforeAll(async function () {
+      beforeEach(async function (ctx) {
         httpClient = createDefaultHttpClient();
         pipeline = createPipelineWithCredential();
-      });
-
-      beforeEach(async function (ctx) {
         recorder = new Recorder(ctx);
         serializer = await createTestSerializer({
           serializerOptions: {

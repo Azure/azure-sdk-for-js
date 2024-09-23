@@ -24,11 +24,9 @@ describe("Error scenarios", function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  beforeAll(async function () {
+  beforeEach(async function (ctx) {
     client = createDefaultHttpClient();
     pipeline = createPipelineWithCredential();
-  });
-  beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
