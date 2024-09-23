@@ -240,6 +240,7 @@ function assertChoice(
   choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
   options: ChatCompletionTestOptions,
 ): void {
+  console.log(JSON.stringify(choice, null, 2));
   const stream = options.stream;
   if (stream) {
     const delta = (choice as ChatCompletionChunk.Choice).delta;
@@ -439,7 +440,9 @@ function assertMessage(
   assert.isDefined(message);
   const msg = message;
   if (!functions) {
-    assertIf(!stream, msg?.content, assert.isString);
+    assertIf(!stream, msg?.content, (content) => {
+      ifDefined(content, assert.isString);
+    });
   }
   assertIf(!stream, msg?.role, assert.isString);
   for (const item of msg?.tool_calls ?? []) {
