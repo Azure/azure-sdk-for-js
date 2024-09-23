@@ -5,33 +5,24 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it } from "vitest";
 import OpenAI, { AzureOpenAI, toFile } from "openai";
 import { createClient } from "../utils/createClient.js";
-import {
-  APIVersion,
-  DeploymentInfo,
-  getDeployments,
-  maxRetriesOption,
-  withDeployments,
-} from "../utils/utils.js";
-import { FileObject } from "openai/resources/files.mjs";
+import { APIVersion, DeploymentInfo, getDeployments, withDeployments } from "../utils/utils.js";
 import { assertBatch } from "../utils/asserts.js";
 
-// TODO: Unskip the test when the delete file behavior is updated
-describe.skip("Batches", () => {
+describe("Batches", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
-      let file: FileObject;
       let deployments: DeploymentInfo[] = [];
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "completions", maxRetriesOption);
+        client = createClient(apiVersion, "vision");
         deployments = await getDeployments("vision");
       });
 
       describe("all CRUD APIs", function () {
         async function createBatchFile(deploymentName: string) {
           const inputObject = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deploymentName}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
-          file = await client.files.create({
+          let file = await client.files.create({
             file: await toFile(Buffer.from(inputObject), "batch.jsonl"),
             purpose: "batch",
           });
@@ -46,7 +37,7 @@ describe.skip("Batches", () => {
           await withDeployments(
             deployments,
             async (deploymentName) => {
-              file = await createBatchFile(deploymentName);
+              const file = await createBatchFile(deploymentName);
               // Create a batch file
               const batch = await client.batches.create({
                 endpoint: "/v1/chat/completions",
@@ -59,12 +50,14 @@ describe.skip("Batches", () => {
               const retrievedBatch = await client.batches.retrieve(batch.id);
               assertBatch(retrievedBatch);
 
+              // Can only cancel batch if it is in one of the following states
+              if (["validating", "in_progress", "finalizing"].includes(retrievedBatch.status)) {
+                const cancelledBatch = await client.batches.cancel(batch.id);
+                assertBatch(cancelledBatch);
+              }
               await client.files.del(file.id);
-              return client.batches.cancel(batch.id);
             },
-            (batch) => {
-              assertBatch(batch);
-            },
+            () => {},
           );
         });
 
