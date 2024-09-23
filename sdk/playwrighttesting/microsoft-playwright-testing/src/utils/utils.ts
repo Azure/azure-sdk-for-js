@@ -4,6 +4,7 @@
 import type { JwtPayload, VersionInfo } from "../common/types";
 import {
   API_VERSION,
+  Constants,
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
@@ -80,7 +81,9 @@ export const validateServiceUrl = (): void => {
   }
 };
 
-export const validateMptPAT = (): void => {
+export const validateMptPAT = (
+  handleFailure?: (error: { key: string; message: string }) => void,
+): void => {
   try {
     const accessToken = getAccessToken();
     const result = populateValuesFromServiceUrl();
@@ -95,7 +98,7 @@ export const validateMptPAT = (): void => {
       exitWithFailureMessage(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
     }
     if (result!.accountId !== claims!.aid) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.WORKSPACE_MISMATCH_ERROR);
+      handleFailure?.(Constants.WORKSPACE_MISMATCH_ERROR);
     }
   } catch (err) {
     coreLogger.error(err);

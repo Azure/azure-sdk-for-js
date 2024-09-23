@@ -73,6 +73,11 @@ export class Constants {
   public static readonly ERROR_MESSAGES_MAX_LENGTH = 100;
   public static readonly API_VERSION = "2024-09-01-preview";
   public static readonly NON_RETRYABLE_STATUS_CODES = [400, 403, 404, 405, 409];
+  public static readonly WORKSPACE_MISMATCH_ERROR = {
+    key: "InvalidAccessToken",
+    message:
+      "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
+  };
   public static readonly SupportedRegions: string[] = [
     "eastus",
     "eastasia",

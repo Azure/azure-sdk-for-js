@@ -101,7 +101,13 @@ class MPTReporter implements Reporter {
   private _isInformationMessagePresent = (key: string): boolean => {
     return this.processedErrorMessageKeys.includes(key);
   };
-
+  private _reporterFailureHandler = (error: { key: string; message: string }): void => {
+    if (!this._isInformationMessagePresent(error.key)) {
+      this._addKeyToInformationMessage(error.key);
+      this._addInformationalMessage(error.message);
+    }
+    this.isTokenValid = false;
+  };
   /**
    * @public
    *
@@ -377,11 +383,11 @@ class MPTReporter implements Reporter {
         this.envVariables.accessToken,
         TokenType.MPT,
       );
+      validateMptPAT(this._reporterFailureHandler);
       this.envVariables.accountId = mptTokenDetails.aid;
       this.envVariables.userId = mptTokenDetails.oid;
       this.envVariables.userName = mptTokenDetails.userName;
       this.envVariables.region = ReporterUtils.getRegionFromAccountID(this.envVariables.accountId!);
-      validateMptPAT();
     }
     this.storageClient = new StorageClient();
     if (

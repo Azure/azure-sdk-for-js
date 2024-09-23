@@ -18,6 +18,7 @@ import {
   exitWithFailureMessage,
   fetchOrValidateAccessToken,
   emitReportingUrl,
+  populateValuesFromServiceUrl,
 } from "../../src/utils/utils";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";
@@ -194,7 +195,15 @@ describe("Service Utils", () => {
     processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
-
+  it("should not exit the process if workspace URL is mismatched", () => {
+    const exitStub = sandbox.stub(process, "exit");
+    process.env["PLAYWRIGHT_SERVICE_URL"] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.deep.equal({ region: "eastus", accountId: "wrong-id" });
+    expect(exitStub.notCalled).to.be.true;
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
   it("should return entra access token (not close to expiry)", async () => {
     const tokenMock = "test";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
@@ -445,5 +454,29 @@ describe("Service Utils", () => {
     const version = utils.getPlaywrightVersion();
     expect(version).to.equal(mockVersion);
     expect(process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]).to.equal(mockVersion);
+  });
+
+  it("should return region and accountId from a valid service URL", () => {
+    process.env["PLAYWRIGHT_SERVICE_URL"] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
+
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
+
+  it("should return null for an invalid service URL", () => {
+    process.env["PLAYWRIGHT_SERVICE_URL"] = "invalid-url";
+
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.be.null;
+
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
+
+  it("should return null if PLAYWRIGHT_SERVICE_URL is not set", () => {
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.be.null;
   });
 });
