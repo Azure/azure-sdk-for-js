@@ -368,7 +368,9 @@ export class LiveMetrics {
   }
 
   public getDocuments(): DocumentIngress[] {
-    return this.documents;
+    const result: DocumentIngress[] = this.documents;
+    this.documents = [];
+    return result;
   }
 
   private addDocument(document: DocumentIngress): void {

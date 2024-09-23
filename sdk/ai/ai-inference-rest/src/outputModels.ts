@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /** A function tool call requested by the AI model. */
 export interface ChatCompletionsToolCallOutput {
