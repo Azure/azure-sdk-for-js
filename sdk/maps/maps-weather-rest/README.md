@@ -207,4 +207,5 @@ For contributing to this library, please read the [contributing guide](https://g
 [azure_portal]: https://portal.azure.com
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.maps/new-azmapsaccount
 [azure_cli]: https://docs.microsoft.com/cli/azure
+[az_map_az_cli]: https://docs.microsoft.com/cli/azure/maps/account?view=azure-cli-latest#az_maps_account_create
 [az_map_auth]: https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication
