@@ -17,9 +17,9 @@ import type {
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
   MqttConnectRequest,
-  MqttConnectEventErrorResponse,
+  MqttConnectErrorResponse,
   MqttConnectionContextProperties,
-  ConnectEventErrorResponse,
+  ConnectErrorResponse,
 } from "./cloudEventsProtocols.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
@@ -58,7 +58,7 @@ function getConnectResponseHandler(
     fail(code: 400 | 401 | 500, detail?: string): void {
       handleConnectErrorResponse(connectRequest, response, code, detail);
     },
-    failWith(res: ConnectEventErrorResponse | MqttConnectEventErrorResponse) {
+    failWith(res: ConnectErrorResponse | MqttConnectErrorResponse) {
       if ("mqtt" in res) {
         response.statusCode = getStatusCodeFromMqttConnectCode(res.mqtt.code);
         response.end(JSON.stringify(res));
@@ -257,7 +257,7 @@ function handleConnectErrorResponse(
   if (isMqttReq) {
     console.log("mqtt req ", connectRequest);
     const protocolVersion = (connectRequest as MqttConnectRequest).mqtt.protocolVersion;
-    const mqttErrorResponse: MqttConnectEventErrorResponse = {
+    const mqttErrorResponse: MqttConnectErrorResponse = {
       mqtt: {
         code: getMqttConnectCodeFromStatusCode(code, protocolVersion),
         reason: detail,

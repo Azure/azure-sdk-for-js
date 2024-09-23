@@ -17,7 +17,7 @@ export interface ConnectedRequest {
 }
 
 // @public
-export interface ConnectEventErrorResponse {
+export interface ConnectErrorResponse {
     code: 400 | 401 | 500;
     detail?: string;
 }
@@ -59,7 +59,7 @@ export interface ConnectResponse {
 // @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
-    failWith(response: ConnectEventErrorResponse | MqttConnectEventErrorResponse): void;
+    failWith(response: ConnectErrorResponse | MqttConnectErrorResponse): void;
     setState(name: string, value: unknown): void;
     success(response?: ConnectResponse | MqttConnectResponse): void;
 }
@@ -71,12 +71,12 @@ export interface DisconnectedRequest {
 }
 
 // @public
-export interface MqttConnectEventErrorResponse {
-    mqtt: MqttConnectEventErrorResponseProperties;
+export interface MqttConnectErrorResponse {
+    mqtt: MqttConnectErrorResponseProperties;
 }
 
 // @public
-export interface MqttConnectEventErrorResponseProperties {
+export interface MqttConnectErrorResponseProperties {
     code: MqttV311ConnectReturnCode | MqttV500ConnectReasonCode;
     reason?: string;
     userProperties?: MqttUserProperty[];

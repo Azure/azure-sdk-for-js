@@ -39,7 +39,7 @@ export interface MqttConnectResponse extends ConnectResponse {
 /**
  * Response of a failed connect event.
  */
-export interface ConnectEventErrorResponse {
+export interface ConnectErrorResponse {
   /**
    * The error code.
    */
@@ -53,17 +53,17 @@ export interface ConnectEventErrorResponse {
 /**
  * Response of an MQTT connection failure.
  */
-export interface MqttConnectEventErrorResponse {
+export interface MqttConnectErrorResponse {
   /**
    * The properties of the MQTT connection failure response.
    */
-  mqtt: MqttConnectEventErrorResponseProperties;
+  mqtt: MqttConnectErrorResponseProperties;
 }
 
 /**
  * The properties of an MQTT connection failure response.
  */
-export interface MqttConnectEventErrorResponseProperties {
+export interface MqttConnectErrorResponseProperties {
   /**
    * The MQTT connect return code.
    */
@@ -345,7 +345,7 @@ export interface ConnectResponseHandler {
    * Return failed response with MQTT response properties and the service will reject the client WebSocket connection.
    * @param response - The response for the connect event which contains either default WebPubSub or MQTT response properties.
    */
-  failWith(response: ConnectEventErrorResponse | MqttConnectEventErrorResponse): void;
+  failWith(response: ConnectErrorResponse | MqttConnectErrorResponse): void;
 }
 
 /**
