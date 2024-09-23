@@ -13,12 +13,9 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
 import { createFcmV1RegistrationDescription } from "@azure/notification-hubs/models";
-
-// Load the .env file if it exists
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

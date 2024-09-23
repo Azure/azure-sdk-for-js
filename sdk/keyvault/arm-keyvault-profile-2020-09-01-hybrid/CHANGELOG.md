@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-21)
     
-**Features**
+### Features Added
 
   - Added Interface PrivateEndpointConnection
   - Added Interface PrivateLinkResource

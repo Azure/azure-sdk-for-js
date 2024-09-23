@@ -19,8 +19,7 @@ import {
   MessageData,
   UpstreamMessage,
   google,
-} from "./generated/clientProto";
-
+} from "./generated/clientProto.js";
 import Long from "long";
 
 /**

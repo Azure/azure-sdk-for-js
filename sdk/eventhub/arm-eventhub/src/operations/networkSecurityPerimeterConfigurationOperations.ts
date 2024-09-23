@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
   NetworkSecurityPerimeterConfigurationListOptionalParams,
-  NetworkSecurityPerimeterConfigurationListResponse
+  NetworkSecurityPerimeterConfigurationListResponse,
 } from "../models";
 
 /** Class containing NetworkSecurityPerimeterConfigurationOperations operations. */
 export class NetworkSecurityPerimeterConfigurationOperationsImpl
-  implements NetworkSecurityPerimeterConfigurationOperations {
+  implements NetworkSecurityPerimeterConfigurationOperations
+{
   private readonly client: EventHubManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class NetworkSecurityPerimeterConfigurationOperationsImpl
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NetworkSecurityPerimeterConfigurationListOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationListOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class NetworkSecurityPerimeterConfigurationOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkSecurityPerimeterConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkSecurityPerimeterConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationList
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

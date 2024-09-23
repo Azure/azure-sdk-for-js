@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceAuth } from "../common/constants";
+import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
@@ -72,7 +72,7 @@ const getServiceConfig = (
   emitReportingUrl();
 
   const globalFunctions: any = {};
-  if (options?.defaultAuth === ServiceAuth.TOKEN && getAccessToken()) {
+  if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT();
   } else {
@@ -84,6 +84,10 @@ const getServiceConfig = (
     return {
       ...globalFunctions,
     };
+  }
+  if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
+    process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
+    console.log("\nRunning tests using Microsoft Playwright Testing service.");
   }
 
   return {
@@ -117,7 +121,6 @@ const getServiceConfig = (
  * ```
  * import playwright, { test, expect, BrowserType } from "@playwright/test";
  * import { getConnectOptions } from "@azure/microsoft-playwright-testing";
- * import playwrightConfig from "./playwright.config";
  *
  * test('has title', async ({ browserName }) => {
  *  const { wsEndpoint, options } = await getConnectOptions();
@@ -128,14 +131,14 @@ const getServiceConfig = (
  *  await page.goto('https://playwright.dev/');
  *  await expect(page).toHaveTitle(/Playwright/);
  *
- * 	await page.close();
+ *  await page.close();
  *  await context.close();
  *  await browser.close();
  * });
  * ```
  */
 const getConnectOptions = async (
-  options?: Omit<PlaywrightServiceAdditionalOptions, "defaultAuthenticationMechanism">,
+  options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">,
 ): Promise<BrowserConnectOptions> => {
   const playwrightServiceConfig = new PlaywrightServiceConfig();
   playwrightServiceConfig.setOptions(options);

@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.6 (2023-02-03)
     
-**Features**
+### Features Added
 
   - Interface BookmarkRelationsListNextOptionalParams no longer has parameter filter
   - Interface BookmarkRelationsListNextOptionalParams no longer has parameter orderby
@@ -53,7 +53,7 @@
     
 ## 1.0.0-beta.5 (2022-09-27)
     
-**Features**
+### Features Added
 
   - Added operation group FileImports
   - Added Interface AutomationRuleBooleanCondition
@@ -100,7 +100,7 @@
   - Enum KnownConditionType has a new value Boolean
   - Enum KnownConditionType has a new value PropertyArray
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AADDataConnector has a new required parameter kind
   - Interface AatpDataConnector has a new required parameter kind
@@ -171,7 +171,7 @@
     
 ## 1.0.0-beta.4 (2022-07-11)
     
-**Features**
+### Features Added
 
   - Added operation group SecurityMLAnalyticsSettings
   - Added Interface AADCheckRequirements
@@ -423,7 +423,7 @@
   - Enum KnownTriggersOn has a new value Alerts
   - Enum KnownTriggersWhen has a new value Updated
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed Enum KnownEnum12
   - Removed Enum KnownProvisioningState
@@ -432,14 +432,14 @@
     
 ## 1.0.0-beta.3 (2022-05-16)
     
-**Features**
+### Features Added
 
   - Added Type Alias ProvisioningState
   - Type Alias Watchlist has a new parameter sasUri
   - Type Alias Watchlist has a new parameter provisioningState
   - Added Enum KnownProvisioningState
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type Alias WatchlistItem no longer has parameter itemsKeyValue
   - Type Alias WatchlistItem no longer has parameter entityMapping
@@ -447,7 +447,7 @@
     
 ## 1.0.0-beta.2 (2022-03-17)
     
-**Features**
+### Features Added
 
   - Added operation Incidents.runPlaybook
   - Added Interface AutomationRulePropertyValuesCondition
@@ -583,7 +583,7 @@
   - Enum KnownKind has a new value AzureFunction
   - Enum KnownKind has a new value LogicAppsCustomConnector
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation AutomationRules.createOrUpdate has a new signature
   - Operation ThreatIntelligenceIndicator.create has a new signature

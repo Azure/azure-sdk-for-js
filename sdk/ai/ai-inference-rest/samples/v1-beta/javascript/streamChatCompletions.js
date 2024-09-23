@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to list chat completions for a chat context.
  *
- * @summary list chat completions.
+ * @summary List chat completions.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default;
