@@ -14,10 +14,7 @@ async function standbyContainerGroupPoolsGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
-  const result = await client.standbyContainerGroupPools.get(
-    "rgstandbypool",
-    "pool",
-  );
+  const result = await client.standbyContainerGroupPools.get("rgstandbypool", "pool");
   console.log(result);
 }
 

@@ -67,10 +67,7 @@ export interface StandbyVirtualMachinePoolsOperations {
   ) => PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource>;
 }
 
-export function getStandbyVirtualMachinePools(
-  context: StandbyPoolContext,
-  subscriptionId: string,
-) {
+export function getStandbyVirtualMachinePools(context: StandbyPoolContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
@@ -134,14 +131,8 @@ export function getStandbyVirtualMachinePools(
         resourceGroupName,
         options,
       ),
-    listBySubscription: (
-      options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
-    ) =>
-      standbyVirtualMachinePoolsListBySubscription(
-        context,
-        subscriptionId,
-        options,
-      ),
+    listBySubscription: (options?: StandbyVirtualMachinePoolsListBySubscriptionOptionalParams) =>
+      standbyVirtualMachinePoolsListBySubscription(context, subscriptionId, options),
   };
 }
 

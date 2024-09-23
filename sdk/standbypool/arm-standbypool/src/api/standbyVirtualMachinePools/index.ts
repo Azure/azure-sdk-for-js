@@ -84,14 +84,8 @@ export async function _standbyVirtualMachinePoolsGetDeserialize(
           elasticityProfile: !result.body.properties?.elasticityProfile
             ? undefined
             : {
-                maxReadyCapacity:
-                  result.body.properties?.elasticityProfile?.[
-                    "maxReadyCapacity"
-                  ],
-                minReadyCapacity:
-                  result.body.properties?.elasticityProfile?.[
-                    "minReadyCapacity"
-                  ],
+                maxReadyCapacity: result.body.properties?.elasticityProfile?.["maxReadyCapacity"],
+                minReadyCapacity: result.body.properties?.elasticityProfile?.["minReadyCapacity"],
               },
           virtualMachineState: result.body.properties?.["virtualMachineState"],
           attachedVirtualMachineScaleSetId:
@@ -139,15 +133,11 @@ export function _standbyVirtualMachinePoolsCreateOrUpdateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
-          : standbyVirtualMachinePoolResourcePropertiesSerializer(
-              resource.properties,
-            ),
+          : standbyVirtualMachinePoolResourcePropertiesSerializer(resource.properties),
       },
     });
 }
@@ -188,14 +178,8 @@ export async function _standbyVirtualMachinePoolsCreateOrUpdateDeserialize(
           elasticityProfile: !result.body.properties?.elasticityProfile
             ? undefined
             : {
-                maxReadyCapacity:
-                  result.body.properties?.elasticityProfile?.[
-                    "maxReadyCapacity"
-                  ],
-                minReadyCapacity:
-                  result.body.properties?.elasticityProfile?.[
-                    "minReadyCapacity"
-                  ],
+                maxReadyCapacity: result.body.properties?.elasticityProfile?.["maxReadyCapacity"],
+                minReadyCapacity: result.body.properties?.elasticityProfile?.["minReadyCapacity"],
               },
           virtualMachineState: result.body.properties?.["virtualMachineState"],
           attachedVirtualMachineScaleSetId:
@@ -321,14 +305,10 @@ export function _standbyVirtualMachinePoolsUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
           ? properties.properties
-          : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
-              properties.properties,
-            ),
+          : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(properties.properties),
       },
     });
 }
@@ -369,14 +349,8 @@ export async function _standbyVirtualMachinePoolsUpdateDeserialize(
           elasticityProfile: !result.body.properties?.elasticityProfile
             ? undefined
             : {
-                maxReadyCapacity:
-                  result.body.properties?.elasticityProfile?.[
-                    "maxReadyCapacity"
-                  ],
-                minReadyCapacity:
-                  result.body.properties?.elasticityProfile?.[
-                    "minReadyCapacity"
-                  ],
+                maxReadyCapacity: result.body.properties?.elasticityProfile?.["maxReadyCapacity"],
+                minReadyCapacity: result.body.properties?.elasticityProfile?.["minReadyCapacity"],
               },
           virtualMachineState: result.body.properties?.["virtualMachineState"],
           attachedVirtualMachineScaleSetId:
@@ -463,14 +437,11 @@ export async function _standbyVirtualMachinePoolsListByResourceGroupDeserialize(
               elasticityProfile: !p.properties?.elasticityProfile
                 ? undefined
                 : {
-                    maxReadyCapacity:
-                      p.properties?.elasticityProfile?.["maxReadyCapacity"],
-                    minReadyCapacity:
-                      p.properties?.elasticityProfile?.["minReadyCapacity"],
+                    maxReadyCapacity: p.properties?.elasticityProfile?.["maxReadyCapacity"],
+                    minReadyCapacity: p.properties?.elasticityProfile?.["minReadyCapacity"],
                   },
               virtualMachineState: p.properties?.["virtualMachineState"],
-              attachedVirtualMachineScaleSetId:
-                p.properties?.["attachedVirtualMachineScaleSetId"],
+              attachedVirtualMachineScaleSetId: p.properties?.["attachedVirtualMachineScaleSetId"],
               provisioningState: p.properties?.["provisioningState"],
             },
       };
@@ -556,14 +527,11 @@ export async function _standbyVirtualMachinePoolsListBySubscriptionDeserialize(
               elasticityProfile: !p.properties?.elasticityProfile
                 ? undefined
                 : {
-                    maxReadyCapacity:
-                      p.properties?.elasticityProfile?.["maxReadyCapacity"],
-                    minReadyCapacity:
-                      p.properties?.elasticityProfile?.["minReadyCapacity"],
+                    maxReadyCapacity: p.properties?.elasticityProfile?.["maxReadyCapacity"],
+                    minReadyCapacity: p.properties?.elasticityProfile?.["minReadyCapacity"],
                   },
               virtualMachineState: p.properties?.["virtualMachineState"],
-              attachedVirtualMachineScaleSetId:
-                p.properties?.["attachedVirtualMachineScaleSetId"],
+              attachedVirtualMachineScaleSetId: p.properties?.["attachedVirtualMachineScaleSetId"],
               provisioningState: p.properties?.["provisioningState"],
             },
       };
@@ -582,12 +550,7 @@ export function standbyVirtualMachinePoolsListBySubscription(
 ): PagedAsyncIterableIterator<StandbyVirtualMachinePoolResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _standbyVirtualMachinePoolsListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _standbyVirtualMachinePoolsListBySubscriptionSend(context, subscriptionId, options),
     _standbyVirtualMachinePoolsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

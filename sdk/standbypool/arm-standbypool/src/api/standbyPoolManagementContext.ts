@@ -8,8 +8,7 @@ import { logger } from "../logger.js";
 export interface StandbyPoolContext extends Client {}
 
 /** Optional parameters for the client. */
-export interface StandbyPoolManagementClientOptionalParams
-  extends ClientOptions {
+export interface StandbyPoolManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   apiVersion?: string;
 }
@@ -18,13 +17,10 @@ export function createStandbyPoolManagement(
   credential: TokenCredential,
   options: StandbyPoolManagementClientOptionalParams = {},
 ): StandbyPoolContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api`
-    : "azsdk-js-api";
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },

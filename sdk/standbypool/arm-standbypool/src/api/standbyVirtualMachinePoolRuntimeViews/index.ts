@@ -73,16 +73,12 @@ export async function _standbyVirtualMachinePoolRuntimeViewsGetDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          instanceCountSummary: result.body.properties?.[
-            "instanceCountSummary"
-          ].map((p: any) => {
+          instanceCountSummary: result.body.properties?.["instanceCountSummary"].map((p: any) => {
             return {
               zone: p["zone"],
-              instanceCountsByState: p["instanceCountsByState"].map(
-                (p: any) => {
-                  return { state: p["state"], count: p["count"] };
-                },
-              ),
+              instanceCountsByState: p["instanceCountsByState"].map((p: any) => {
+                return { state: p["state"], count: p["count"] };
+              }),
             };
           }),
           provisioningState: result.body.properties?.["provisioningState"],
@@ -164,18 +160,14 @@ export async function _standbyVirtualMachinePoolRuntimeViewsListByStandbyPoolDes
         properties: !p.properties
           ? undefined
           : {
-              instanceCountSummary: p.properties?.["instanceCountSummary"].map(
-                (p: any) => {
-                  return {
-                    zone: p["zone"],
-                    instanceCountsByState: p["instanceCountsByState"].map(
-                      (p: any) => {
-                        return { state: p["state"], count: p["count"] };
-                      },
-                    ),
-                  };
-                },
-              ),
+              instanceCountSummary: p.properties?.["instanceCountSummary"].map((p: any) => {
+                return {
+                  zone: p["zone"],
+                  instanceCountsByState: p["instanceCountsByState"].map((p: any) => {
+                    return { state: p["state"], count: p["count"] };
+                  }),
+                };
+              }),
               provisioningState: p.properties?.["provisioningState"],
             },
       };

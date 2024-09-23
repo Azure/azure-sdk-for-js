@@ -82,26 +82,19 @@ export async function _standbyContainerGroupPoolsGetDeserialize(
       ? undefined
       : {
           elasticityProfile: {
-            maxReadyCapacity:
-              result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy:
-              result.body.properties?.elasticityProfile["refillPolicy"],
+            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
+            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
           },
           containerGroupProperties: {
             containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties
-                .containerGroupProfile["id"],
+              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
               revision:
-                result.body.properties?.containerGroupProperties
-                  .containerGroupProfile["revision"],
+                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
             },
             subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] ===
-              undefined
+              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
                 ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties[
-                    "subnetIds"
-                  ].map((p: any) => {
+                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
                     return { id: p["id"] };
                   }),
           },
@@ -148,15 +141,11 @@ export function _standbyContainerGroupPoolsCreateOrUpdateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
-          : standbyContainerGroupPoolResourcePropertiesSerializer(
-              resource.properties,
-            ),
+          : standbyContainerGroupPoolResourcePropertiesSerializer(resource.properties),
       },
     });
 }
@@ -195,26 +184,19 @@ export async function _standbyContainerGroupPoolsCreateOrUpdateDeserialize(
       ? undefined
       : {
           elasticityProfile: {
-            maxReadyCapacity:
-              result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy:
-              result.body.properties?.elasticityProfile["refillPolicy"],
+            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
+            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
           },
           containerGroupProperties: {
             containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties
-                .containerGroupProfile["id"],
+              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
               revision:
-                result.body.properties?.containerGroupProperties
-                  .containerGroupProfile["revision"],
+                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
             },
             subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] ===
-              undefined
+              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
                 ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties[
-                    "subnetIds"
-                  ].map((p: any) => {
+                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
                     return { id: p["id"] };
                   }),
           },
@@ -339,14 +321,10 @@ export function _standbyContainerGroupPoolsUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
           ? properties.properties
-          : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
-              properties.properties,
-            ),
+          : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(properties.properties),
       },
     });
 }
@@ -385,26 +363,19 @@ export async function _standbyContainerGroupPoolsUpdateDeserialize(
       ? undefined
       : {
           elasticityProfile: {
-            maxReadyCapacity:
-              result.body.properties?.elasticityProfile["maxReadyCapacity"],
-            refillPolicy:
-              result.body.properties?.elasticityProfile["refillPolicy"],
+            maxReadyCapacity: result.body.properties?.elasticityProfile["maxReadyCapacity"],
+            refillPolicy: result.body.properties?.elasticityProfile["refillPolicy"],
           },
           containerGroupProperties: {
             containerGroupProfile: {
-              id: result.body.properties?.containerGroupProperties
-                .containerGroupProfile["id"],
+              id: result.body.properties?.containerGroupProperties.containerGroupProfile["id"],
               revision:
-                result.body.properties?.containerGroupProperties
-                  .containerGroupProfile["revision"],
+                result.body.properties?.containerGroupProperties.containerGroupProfile["revision"],
             },
             subnetIds:
-              result.body.properties?.containerGroupProperties["subnetIds"] ===
-              undefined
+              result.body.properties?.containerGroupProperties["subnetIds"] === undefined
                 ? result.body.properties?.containerGroupProperties["subnetIds"]
-                : result.body.properties?.containerGroupProperties[
-                    "subnetIds"
-                  ].map((p: any) => {
+                : result.body.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
                     return { id: p["id"] };
                   }),
           },
@@ -488,27 +459,21 @@ export async function _standbyContainerGroupPoolsListByResourceGroupDeserialize(
           ? undefined
           : {
               elasticityProfile: {
-                maxReadyCapacity:
-                  p.properties?.elasticityProfile["maxReadyCapacity"],
+                maxReadyCapacity: p.properties?.elasticityProfile["maxReadyCapacity"],
                 refillPolicy: p.properties?.elasticityProfile["refillPolicy"],
               },
               containerGroupProperties: {
                 containerGroupProfile: {
-                  id: p.properties?.containerGroupProperties
-                    .containerGroupProfile["id"],
+                  id: p.properties?.containerGroupProperties.containerGroupProfile["id"],
                   revision:
-                    p.properties?.containerGroupProperties
-                      .containerGroupProfile["revision"],
+                    p.properties?.containerGroupProperties.containerGroupProfile["revision"],
                 },
                 subnetIds:
-                  p.properties?.containerGroupProperties["subnetIds"] ===
-                  undefined
+                  p.properties?.containerGroupProperties["subnetIds"] === undefined
                     ? p.properties?.containerGroupProperties["subnetIds"]
-                    : p.properties?.containerGroupProperties["subnetIds"].map(
-                        (p: any) => {
-                          return { id: p["id"] };
-                        },
-                      ),
+                    : p.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
+                        return { id: p["id"] };
+                      }),
               },
               provisioningState: p.properties?.["provisioningState"],
             },
@@ -593,27 +558,21 @@ export async function _standbyContainerGroupPoolsListBySubscriptionDeserialize(
           ? undefined
           : {
               elasticityProfile: {
-                maxReadyCapacity:
-                  p.properties?.elasticityProfile["maxReadyCapacity"],
+                maxReadyCapacity: p.properties?.elasticityProfile["maxReadyCapacity"],
                 refillPolicy: p.properties?.elasticityProfile["refillPolicy"],
               },
               containerGroupProperties: {
                 containerGroupProfile: {
-                  id: p.properties?.containerGroupProperties
-                    .containerGroupProfile["id"],
+                  id: p.properties?.containerGroupProperties.containerGroupProfile["id"],
                   revision:
-                    p.properties?.containerGroupProperties
-                      .containerGroupProfile["revision"],
+                    p.properties?.containerGroupProperties.containerGroupProfile["revision"],
                 },
                 subnetIds:
-                  p.properties?.containerGroupProperties["subnetIds"] ===
-                  undefined
+                  p.properties?.containerGroupProperties["subnetIds"] === undefined
                     ? p.properties?.containerGroupProperties["subnetIds"]
-                    : p.properties?.containerGroupProperties["subnetIds"].map(
-                        (p: any) => {
-                          return { id: p["id"] };
-                        },
-                      ),
+                    : p.properties?.containerGroupProperties["subnetIds"].map((p: any) => {
+                        return { id: p["id"] };
+                      }),
               },
               provisioningState: p.properties?.["provisioningState"],
             },
@@ -633,12 +592,7 @@ export function standbyContainerGroupPoolsListBySubscription(
 ): PagedAsyncIterableIterator<StandbyContainerGroupPoolResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _standbyContainerGroupPoolsListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _standbyContainerGroupPoolsListBySubscriptionSend(context, subscriptionId, options),
     _standbyContainerGroupPoolsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

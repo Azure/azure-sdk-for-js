@@ -20,7 +20,6 @@ describe("StandbyPool test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StandbyPoolManagementClient;
-  let resourceGroup: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -33,7 +32,6 @@ describe("StandbyPool test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    resourceGroup = "myjstest";
   });
 
   afterEach(async function () {

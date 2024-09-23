@@ -71,8 +71,7 @@ export async function _standbyVirtualMachinesGetDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          virtualMachineResourceId:
-            result.body.properties?.["virtualMachineResourceId"],
+          virtualMachineResourceId: result.body.properties?.["virtualMachineResourceId"],
           provisioningState: result.body.properties?.["provisioningState"],
         },
   };
@@ -150,8 +149,7 @@ export async function _standbyVirtualMachinesListByStandbyVirtualMachinePoolReso
         properties: !p.properties
           ? undefined
           : {
-              virtualMachineResourceId:
-                p.properties?.["virtualMachineResourceId"],
+              virtualMachineResourceId: p.properties?.["virtualMachineResourceId"],
               provisioningState: p.properties?.["provisioningState"],
             },
       };

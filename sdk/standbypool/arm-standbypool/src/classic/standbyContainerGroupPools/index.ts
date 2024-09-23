@@ -67,10 +67,7 @@ export interface StandbyContainerGroupPoolsOperations {
   ) => PagedAsyncIterableIterator<StandbyContainerGroupPoolResource>;
 }
 
-export function getStandbyContainerGroupPools(
-  context: StandbyPoolContext,
-  subscriptionId: string,
-) {
+export function getStandbyContainerGroupPools(context: StandbyPoolContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
@@ -134,14 +131,8 @@ export function getStandbyContainerGroupPools(
         resourceGroupName,
         options,
       ),
-    listBySubscription: (
-      options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams,
-    ) =>
-      standbyContainerGroupPoolsListBySubscription(
-        context,
-        subscriptionId,
-        options,
-      ),
+    listBySubscription: (options?: StandbyContainerGroupPoolsListBySubscriptionOptionalParams) =>
+      standbyContainerGroupPoolsListBySubscription(context, subscriptionId, options),
   };
 }
 

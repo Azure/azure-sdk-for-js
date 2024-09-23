@@ -14,27 +14,23 @@ async function standbyContainerGroupPoolsUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
-  const result = await client.standbyContainerGroupPools.update(
-    "rgstandbypool",
-    "pool",
-    {
-      tags: {},
-      properties: {
-        elasticityProfile: { maxReadyCapacity: 1743, refillPolicy: "always" },
-        containerGroupProperties: {
-          containerGroupProfile: {
-            id: "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.ContainerInstance/containerGroupProfiles/cgProfile",
-            revision: 2,
-          },
-          subnetIds: [
-            {
-              id: "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.Network/virtualNetworks/cgSubnet/subnets/cgSubnet",
-            },
-          ],
+  const result = await client.standbyContainerGroupPools.update("rgstandbypool", "pool", {
+    tags: {},
+    properties: {
+      elasticityProfile: { maxReadyCapacity: 1743, refillPolicy: "always" },
+      containerGroupProperties: {
+        containerGroupProfile: {
+          id: "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.ContainerInstance/containerGroupProfiles/cgProfile",
+          revision: 2,
         },
+        subnetIds: [
+          {
+            id: "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.Network/virtualNetworks/cgSubnet/subnets/cgSubnet",
+          },
+        ],
       },
     },
-  );
+  });
   console.log(result);
 }
 

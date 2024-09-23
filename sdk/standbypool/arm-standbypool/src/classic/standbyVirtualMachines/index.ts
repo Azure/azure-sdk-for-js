@@ -30,10 +30,7 @@ export interface StandbyVirtualMachinesOperations {
   ) => PagedAsyncIterableIterator<StandbyVirtualMachineResource>;
 }
 
-export function getStandbyVirtualMachines(
-  context: StandbyPoolContext,
-  subscriptionId: string,
-) {
+export function getStandbyVirtualMachines(context: StandbyPoolContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

@@ -60,11 +60,10 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 /** Contains information about a standby container group pool as last known by the StandbyPool resource provider. */
-export interface StandbyContainerGroupPoolRuntimeViewResource
-  extends ProxyResource {
+export interface StandbyContainerGroupPoolRuntimeViewResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyContainerGroupPoolRuntimeViewResourceProperties;
 }
@@ -156,9 +155,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): Record<string, unknown> {
+export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -197,12 +194,8 @@ export function standbyContainerGroupPoolResourcePropertiesSerializer(
   item: StandbyContainerGroupPoolResourceProperties,
 ): Record<string, unknown> {
   return {
-    elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(
-      item.elasticityProfile,
-    ),
-    containerGroupProperties: containerGroupPropertiesSerializer(
-      item.containerGroupProperties,
-    ),
+    elasticityProfile: standbyContainerGroupPoolElasticityProfileSerializer(item.elasticityProfile),
+    containerGroupProperties: containerGroupPropertiesSerializer(item.containerGroupProperties),
   };
 }
 
@@ -250,13 +243,9 @@ export function containerGroupPropertiesSerializer(
   item: ContainerGroupProperties,
 ): Record<string, unknown> {
   return {
-    containerGroupProfile: containerGroupProfileSerializer(
-      item.containerGroupProfile,
-    ),
+    containerGroupProfile: containerGroupProfileSerializer(item.containerGroupProfile),
     subnetIds:
-      item["subnetIds"] === undefined
-        ? item["subnetIds"]
-        : item["subnetIds"].map(subnetSerializer),
+      item["subnetIds"] === undefined ? item["subnetIds"] : item["subnetIds"].map(subnetSerializer),
   };
 }
 
@@ -304,9 +293,7 @@ export function standbyContainerGroupPoolResourceUpdateSerializer(
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
       ? item.properties
-      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
-        item.properties,
-      ),
+      : standbyContainerGroupPoolResourceUpdatePropertiesSerializer(item.properties),
   };
 }
 
@@ -324,9 +311,7 @@ export function standbyContainerGroupPoolResourceUpdatePropertiesSerializer(
   return {
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
-      : standbyContainerGroupPoolElasticityProfileSerializer(
-        item.elasticityProfile,
-      ),
+      : standbyContainerGroupPoolElasticityProfileSerializer(item.elasticityProfile),
     containerGroupProperties: !item.containerGroupProperties
       ? item.containerGroupProperties
       : containerGroupPropertiesSerializer(item.containerGroupProperties),
@@ -342,8 +327,7 @@ export interface _StandbyContainerGroupPoolResourceListResult {
 }
 
 /** Contains information about a standby virtual machine pool as last known by the StandbyPool resource provider. */
-export interface StandbyVirtualMachinePoolRuntimeViewResource
-  extends ProxyResource {
+export interface StandbyVirtualMachinePoolRuntimeViewResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachinePoolRuntimeViewResourceProperties;
 }
@@ -439,9 +423,7 @@ export function standbyVirtualMachinePoolResourcePropertiesSerializer(
   return {
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
-      : standbyVirtualMachinePoolElasticityProfileSerializer(
-        item.elasticityProfile,
-      ),
+      : standbyVirtualMachinePoolElasticityProfileSerializer(item.elasticityProfile),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };
@@ -497,9 +479,7 @@ export function standbyVirtualMachinePoolResourceUpdateSerializer(
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     properties: !item.properties
       ? item.properties
-      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
-        item.properties,
-      ),
+      : standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(item.properties),
   };
 }
 
@@ -519,9 +499,7 @@ export function standbyVirtualMachinePoolResourceUpdatePropertiesSerializer(
   return {
     elasticityProfile: !item.elasticityProfile
       ? item.elasticityProfile
-      : standbyVirtualMachinePoolElasticityProfileSerializer(
-        item.elasticityProfile,
-      ),
+      : standbyVirtualMachinePoolElasticityProfileSerializer(item.elasticityProfile),
     virtualMachineState: item["virtualMachineState"],
     attachedVirtualMachineScaleSetId: item["attachedVirtualMachineScaleSetId"],
   };

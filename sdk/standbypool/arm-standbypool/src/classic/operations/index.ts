@@ -10,21 +10,16 @@ import { OperationsListOptionalParams } from "../../models/options.js";
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** List the operations for the provider */
-  list: (
-    options?: OperationsListOptionalParams,
-  ) => PagedAsyncIterableIterator<Operation>;
+  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 export function getOperations(context: StandbyPoolContext) {
   return {
-    list: (options?: OperationsListOptionalParams) =>
-      operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 
-export function getOperationsOperations(
-  context: StandbyPoolContext,
-): OperationsOperations {
+export function getOperationsOperations(context: StandbyPoolContext): OperationsOperations {
   return {
     ...getOperations(context),
   };
