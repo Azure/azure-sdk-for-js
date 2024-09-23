@@ -569,7 +569,7 @@ describe("Batch Service", function () {
         userAccounts: [
           {
             name: "testuser",
-            password: "Password1234.",
+            password: fakeTestPasswordPlaceholder2,
             elevationLevel: "admin",
           },
         ],
