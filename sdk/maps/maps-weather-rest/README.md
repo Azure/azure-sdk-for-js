@@ -38,7 +38,7 @@ npm install @azure-rest/maps-weather
 
 ### Create and authenticate a `MapsWeatherClient`
 
-You'll need a `credential` instance for authentication when creating the `MapsWeatherClient` instance used to access the Azure Maps weather APIs. You can use either a Microsoft Entra ID credential or an Azure subscription key to authenticate. For more information on authentication, see [Authentication with Azure Maps][az_map_auth].
+You'll need a `credential` instance for authentication when creating the `MapsWeatherClient` instance used to access the Azure Maps weather APIs. You can use a Microsoft Entra ID credential, an Azure subscription key, or a Shared Access Signature (SAS) Token to authenticate. For more information on authentication, see [Authentication with Azure Maps][az_map_auth].
 
 #### Using an Microsoft Entra ID credential
 
