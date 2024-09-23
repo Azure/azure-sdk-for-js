@@ -1,12 +1,11 @@
 # Release History
 
-## 12.25.0-beta.2 (Unreleased)
+## 12.25.0 (2024-09-22)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Includes all features released in 12.25.0-beta.1.
+- Added support for customer provided key in BlockBlobClient.uploadStream().
 
 ### Other Changes
 
