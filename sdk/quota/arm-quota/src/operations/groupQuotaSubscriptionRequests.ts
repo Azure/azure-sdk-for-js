@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotaSubscriptionRequests operations. */
-export class GroupQuotaSubscriptionRequestsImpl
-  implements GroupQuotaSubscriptionRequests
-{
+export class GroupQuotaSubscriptionRequestsImpl implements GroupQuotaSubscriptionRequests {
   private readonly client: AzureQuotaExtensionAPI;
 
   /**
@@ -63,12 +61,7 @@ export class GroupQuotaSubscriptionRequestsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          managementGroupId,
-          groupQuotaName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(managementGroupId, groupQuotaName, options, settings);
       },
     };
   }
@@ -89,12 +82,7 @@ export class GroupQuotaSubscriptionRequestsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        managementGroupId,
-        groupQuotaName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(managementGroupId, groupQuotaName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +95,7 @@ export class GroupQuotaSubscriptionRequestsImpl
     groupQuotaName: string,
     options?: GroupQuotaSubscriptionRequestsListOptionalParams,
   ): AsyncIterableIterator<GroupQuotaSubscriptionRequestStatus> {
-    for await (const page of this.listPagingPage(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(managementGroupId, groupQuotaName, options)) {
       yield* page;
     }
   }
@@ -193,11 +177,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
   headerParameters: [Parameters.accept],
   serializer,
 };

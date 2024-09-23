@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import fs from "fs-extra";
 import path from "node:path";
@@ -211,4 +211,20 @@ export async function resolveRoot(start: string = process.cwd()): Promise<string
 export async function isModuleProject() {
   const projectInfo = await resolveProject(process.cwd());
   return projectInfo.packageJson.type === "module";
+}
+
+/**
+ * @param info - the project to bind to
+ * @returns - a "require"-like function that always resolves relative to the input project
+ */
+export function bindRequireFunction(info: ProjectInfo): (id: string) => unknown {
+  return (moduleSpecifier) => {
+    try {
+      return require(
+        path.join(info.path, "node_modules", moduleSpecifier.split("/").join(path.sep)),
+      );
+    } catch {
+      return require(moduleSpecifier);
+    }
+  };
 }

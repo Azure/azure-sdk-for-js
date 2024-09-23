@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertCount, assertLogExpectation } from "../../utils/assert";
 import { LogBasicScenario } from "../../utils/basic";

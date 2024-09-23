@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import {
   ErrorResponse,

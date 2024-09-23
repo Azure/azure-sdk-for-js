@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";

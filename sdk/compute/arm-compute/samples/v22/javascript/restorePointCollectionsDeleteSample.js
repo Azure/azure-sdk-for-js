@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
  */
 async function restorePointCollectionDeleteMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -35,7 +35,7 @@ async function restorePointCollectionDeleteMaximumSetGen() {
  * This sample demonstrates how to The operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary The operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
  */
 async function restorePointCollectionDeleteMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

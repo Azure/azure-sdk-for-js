@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ContainerDefinition } from "./ContainerDefinition";
 import { PartitionKeyDefinition } from "../../documents";
 import { VerboseOmit } from "../../utils/types";

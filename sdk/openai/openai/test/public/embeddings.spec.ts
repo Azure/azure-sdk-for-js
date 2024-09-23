@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the scheduleNotification() method can be used to schedule a broadcast
@@ -15,12 +15,9 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
-import { createClientContext, scheduleNotification } from "@azure/notification-hubs/api";
+import "dotenv/config";
+import { createClientContext, scheduleBroadcastNotification } from "@azure/notification-hubs/api";
 import { createAppleNotification } from "@azure/notification-hubs/models";
-
-// Load the .env file if it exists
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
@@ -42,11 +39,11 @@ async function main(): Promise<void> {
   // Schedule 8 hours from nows
   const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
 
-  const result = await scheduleNotification(context, scheduledTime, notification);
+  const result = await scheduleBroadcastNotification(context, scheduledTime, notification);
 
-  console.log(`Scheduled send Tracking ID: ${result.trackingId}`);
-  console.log(`Scheduled send Correlation ID: ${result.correlationId}`);
-  console.log(`Scheduled send Notification ID: ${result.notificationId}`);
+  console.log(`Scheduled broadcast send Tracking ID: ${result.trackingId}`);
+  console.log(`Scheduled broadcast send Correlation ID: ${result.correlationId}`);
+  console.log(`Scheduled broadcast send Notification ID: ${result.notificationId}`);
 }
 
 main().catch((err) => {

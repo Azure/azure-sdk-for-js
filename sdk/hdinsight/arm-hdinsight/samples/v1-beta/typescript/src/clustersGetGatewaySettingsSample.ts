@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the gateway settings for the specified cluster.
  *
  * @summary Gets the gateway settings for the specified cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Clusters_GetGatewaySettings.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Clusters_GetGatewaySettings.json
  */
 async function getHttpSettings() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getHttpSettings() {
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.getGatewaySettings(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2024-05-15)
     
-**Features**
+### Features Added
 
   - Added operation UpdateRuns.beginSkip
   - Added operation UpdateRuns.beginSkipAndWait
@@ -32,7 +32,7 @@
     
 ## 1.1.0-beta.1 (2024-04-03)
     
-**Features**
+### Features Added
 
   - Added operation UpdateRuns.beginSkip
   - Added operation UpdateRuns.beginSkipAndWait

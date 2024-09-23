@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force the inclusion of type declarations in the package.
@@ -20,7 +20,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json to specify types according to package directory",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

@@ -112,7 +112,7 @@
     "nyc": "^17.0.0",
     "chai": "^4.2.0",
     "dotenv": "^16.0.0",
-    "eslint": "^8.0.0",
+    "eslint": "^9.9.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -123,11 +123,10 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "nock": "^13.5.4",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "tsx": "^4.7.1",
-    "typescript": "~5.5.3"
+    "typescript": "~5.6.2"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";

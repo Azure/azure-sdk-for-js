@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EOL } from "os";
 import { DocumentTypeDetails, DocumentModelDetails } from "../src";
@@ -26,7 +26,7 @@ const sampleHeader = `
  */
 function templateHeader(model: DocumentModelDetails, test: boolean): string {
   return `// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 ${!test ? sampleHeader : ""}
 // Model:       ${model.modelId}
 // Description: ${model.description}

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   Resource,
@@ -64,7 +64,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.samplingRatio = 1;
     this.enableLiveMetrics = true;
     this.enableStandardMetrics = true;
-    this.enableTraceBasedSamplingForLogs = true;
+    this.enableTraceBasedSamplingForLogs = false;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },

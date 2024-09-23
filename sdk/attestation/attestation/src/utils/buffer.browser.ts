@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 async function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   if ("arrayBuffer" in blob) {

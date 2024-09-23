@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 import { XML_ATTRKEY, XML_CHARKEY, type XmlOptions } from "./xml.common.js";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
  */
 async function availabilitySetGetMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -32,7 +32,7 @@ async function availabilitySetGetMaximumSetGen() {
  * This sample demonstrates how to Retrieves information about an availability set.
  *
  * @summary Retrieves information about an availability set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
  */
 async function availabilitySetGetMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

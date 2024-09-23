@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getStartingPositionsForTests } from "../utils/testUtils.js";
 import {

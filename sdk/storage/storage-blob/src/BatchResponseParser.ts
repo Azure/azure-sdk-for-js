@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";

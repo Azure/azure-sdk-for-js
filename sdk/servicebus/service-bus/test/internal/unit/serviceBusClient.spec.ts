@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { extractReceiverArguments, ServiceBusClient } from "../../../src/serviceBusClient";
 import chai from "chai";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
@@ -117,7 +117,7 @@ export function throwTypeErrorIfNotInstanceOfParameterType(
   connectionId: string,
   parameterName: string,
   parameterValue: unknown,
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   constructor: Function,
 ): void {
   if (!(parameterValue instanceof constructor)) {

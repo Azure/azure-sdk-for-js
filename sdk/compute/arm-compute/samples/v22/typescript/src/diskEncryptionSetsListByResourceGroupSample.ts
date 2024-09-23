@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the disk encryption sets under a resource group.
  *
  * @summary Lists all the disk encryption sets under a resource group.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListByResourceGroup.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListByResourceGroup.json
  */
 async function listAllDiskEncryptionSetsInAResourceGroup() {
   const subscriptionId =
