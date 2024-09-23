@@ -6,7 +6,8 @@
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "lib": ["dom"],
   },
   "exclude": ["./samples/**/*.ts"],
   "include": [

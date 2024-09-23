@@ -15,6 +15,7 @@ export default mergeConfig(
       testTimeout: 250000,
       hookTimeout: 25000,
       fileParallelism: false,
+      setupFiles: ["./test/public/utils/logging.ts"],
       include: [
         "dist-test/browser/test/**/*.spec.js",
       ],
