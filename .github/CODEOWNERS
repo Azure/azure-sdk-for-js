@@ -75,7 +75,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern
+/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -95,7 +95,7 @@
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
@@ -107,7 +107,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern
+/sdk/communication/communication-short-codes/ @miguhern @whisper6284
+
+# PRLabel: %Communication - Toll Free Verification
+# ServiceLabel: %Communication - Toll Free Verification
+/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -574,7 +578,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
+/sdk/healthdataaiservices/ @GrahamMThomas
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -1031,7 +1035,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @Eskibear @avanigupta
+#/<NotInRepo>/          @zhiyuanliang-ms @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar

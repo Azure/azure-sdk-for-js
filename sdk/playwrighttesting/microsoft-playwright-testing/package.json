@@ -1,6 +1,6 @@
 {
   "name": "@azure/microsoft-playwright-testing",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Package to integrate your Playwright test suite with Microsoft Playwright Testing service",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/microsoft-playwright-testing/README.md",
   "sdk-type": "client",
@@ -80,7 +80,7 @@
     "@playwright/test": "^1.43.1",
     "@azure/dev-tool": "^1.0.0",
     "rimraf": "^5.0.5",
-    "typescript": "^5.5.3",
+    "typescript": "~5.6.2",
     "@microsoft/api-extractor": "^7.43.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "eslint": "^9.9.0",
