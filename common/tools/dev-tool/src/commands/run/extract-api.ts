@@ -15,8 +15,8 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 import { createPrinter } from "../../util/printer";
 import path from "path";
-import { readFile } from "fs-extra";
-import { stat, writeFile, unlink } from "node:fs/promises";
+import { readFile, writeFile, unlink } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { resolveProject } from "../../util/resolveProject";
 
 export const commandInfo = makeCommandInfo(
@@ -40,10 +40,6 @@ interface ExportEntry {
    * For nested exports, "/" are replaced with hyphens since "/" is an invalid character for APIView
    */
   baseName: string;
-  /**
-   * When true, generates an api.json docModel file for this export.
-   */
-  generateDocModel: boolean;
   /**
    * Represents the updated mainEntryPointFilePath for this export to be fed into API Extractor.
    */
@@ -72,7 +68,6 @@ function buildExportConfiguration(packageJson: any): ExportEntry[] | undefined {
           .replace(/^\.\//, "") // remove leading "./"
           .replace(/\//g, "-"), // replace slashes with hyphens
 
-        generateDocModel: exportPath === ".",
         // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
         mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
         suppressForgottenExportErrors: exportPath !== ".",
@@ -118,13 +113,13 @@ interface ApiJson {
 }
 
 async function loadApiJson(fullPath: string): Promise<ApiJson> {
-  return JSON.parse((await readFile(fullPath)).toString("utf-8")) as ApiJson;
+  return JSON.parse(await readFile(fullPath, { encoding: "utf-8" })) as ApiJson;
 }
 
-export default leafCommand(commandInfo, async (_options) => {
+export default leafCommand(commandInfo, async () => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
-  const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
+  const packageJson = JSON.parse(await readFile(packageJsonPath, { encoding: "utf-8" }));
 
   const apiExtractorJsonPath: string = path.join(projectInfo.path, "api-extractor.json");
   const extractorConfigObject = ExtractorConfig.loadFile(apiExtractorJsonPath);
@@ -183,13 +178,13 @@ export default leafCommand(commandInfo, async (_options) => {
       };
       const newDocModel: IConfigDocModel = {
         ...extractorConfigObject.docModel,
-        enabled: exportEntry.generateDocModel,
+        enabled: true,
         apiJsonFilePath: newApiJsonPath,
       };
 
       const newApiReport: IConfigApiReport = {
         ...extractorConfigObject.apiReport,
-        enabled: true, // or should we disable? not sure if we need look at multiple api.md
+        enabled: true,
         reportFileName: newApiReportName,
       };
 
@@ -246,15 +241,14 @@ async function buildMergedApiJson(
 
   const apiJson = await loadApiJson(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
-  for (const subpath of exports?.filter((p) => p.baseName !== ".") ?? []) {
-    log.debug(`loading api package for "${subpath.baseName}"`);
+  for (const subpath of exports?.filter((p) => p.isSubpath) ?? []) {
     const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
-    try {
-      await stat(p);
-    } catch {
-      // file does not exist
+    if (!existsSync(p)) {
+      log.debug(`${p} not there`);
       continue;
     }
+
+    log.debug(`loading api package for "${subpath.baseName}"`);
     const subpathApiJson = await loadApiJson(p);
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     entryPoint.name = subpath.baseName;
