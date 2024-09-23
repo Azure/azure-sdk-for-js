@@ -46,18 +46,20 @@ describe("Batches", () => {
               });
               assertBatch(batch);
 
+              await client.files.del(file.id);
+
               // Retrieve batch
               const retrievedBatch = await client.batches.retrieve(batch.id);
-              assertBatch(retrievedBatch);
-
+              return retrievedBatch;
+            },
+            async (batch) => {
+              assertBatch(batch);
               // Can only cancel batch if it is in one of the following states
-              if (["validating", "in_progress", "finalizing"].includes(retrievedBatch.status)) {
+              if (["validating", "in_progress", "finalizing"].includes(batch.status)) {
                 const cancelledBatch = await client.batches.cancel(batch.id);
                 assertBatch(cancelledBatch);
               }
-              await client.files.del(file.id);
             },
-            () => {},
           );
         });
 
