@@ -1,6 +1,6 @@
 import { assert } from "vitest";
 import { get, Metadata } from "./utils.js";
-import { getImageDimensionsFromResponse } from "./images.js";
+import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./images.js";
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
@@ -411,12 +411,9 @@ export function assertImagesWithJSON(image: ImagesResponse, height: number, widt
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {
       assert.isString(data);
-      // Width in PNG is byte 16 - 19
-      const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
-      assert.equal(actualWidth, width, "Width does not match");
-      // Height in PNG is byte 20 - 23
-      const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
-      assert.equal(actualHeight, height, "Height does not match");
+      const dimensions = getImageDimensionsFromString(data);
+      assert.equal(dimensions?.height, height, "Height does not match");
+      assert.equal(dimensions?.width, width, "Width does not match");
     });
   });
 }
