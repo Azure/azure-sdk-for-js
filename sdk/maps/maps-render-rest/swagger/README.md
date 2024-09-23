@@ -1,4 +1,4 @@
-# Azure Farmbeats TypeScript Protocol Layer
+# Azure Maps Render Protocol Layer
 
 > see https://aka.ms/autorest
 

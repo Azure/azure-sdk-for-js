@@ -12,9 +12,9 @@ Key links:
 - [Product Information][product_info]
 
 | Package Version | Service Version |
-|-----------------| --------------- |
+|-----------------|-----------------|
 | ^1.0.0-beta.4   | V1              |
-| ^2.0.0-beta.1   | V2              |
+| ^2.0.0-beta.1   | 2024-04-01      |
 
 ## Getting started
 
