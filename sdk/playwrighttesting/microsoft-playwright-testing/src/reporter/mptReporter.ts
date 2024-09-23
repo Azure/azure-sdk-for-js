@@ -89,9 +89,17 @@ class MPTReporter implements Reporter {
     }
   }
 
-  private _addInformationalMessage(message: string): void {
+  private _addInformationalMessage = (message: string): void => {
     this.informationalMessages.push(message);
-  }
+  };
+
+  private _addKeyToInformationMessage = (key: string): void => {
+    this.processedErrorMessageKeys.push(key);
+  };
+
+  private _isInformationMessagePresent = (key: string): boolean => {
+    return this.processedErrorMessageKeys.includes(key);
+  };
 
   /**
    * @public
@@ -106,7 +114,13 @@ class MPTReporter implements Reporter {
     this.initializeMPTReporter();
     this.reporterUtils = new ReporterUtils(this.envVariables, config, suite);
     if (this.isTokenValid && this.isRegionValid) {
-      this.serviceClient = new ServiceClient(this.envVariables, this.reporterUtils);
+      this.serviceClient = new ServiceClient(
+        this.envVariables,
+        this.reporterUtils,
+        this._addInformationalMessage,
+        this._isInformationMessagePresent,
+        this._addKeyToInformationMessage,
+      );
       this.promiseOnBegin = this._onBegin();
     }
   }
@@ -303,7 +317,7 @@ class MPTReporter implements Reporter {
         )}`;
         if (
           this.sasUri === undefined ||
-          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
+          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
         ) {
           // Renew the sas uri
           this.sasUri = await this.serviceClient.createStorageUri();
@@ -316,7 +330,7 @@ class MPTReporter implements Reporter {
       const rawTestResult = this.testRawResults.get(testExecutionId);
       if (
         this.sasUri === undefined ||
-        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri.expiresAt)
+        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
       ) {
         // Renew the sas uri
         this.sasUri = await this.serviceClient.createStorageUri();
