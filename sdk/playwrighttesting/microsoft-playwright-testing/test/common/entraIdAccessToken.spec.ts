@@ -3,6 +3,7 @@
 
 import {
   EntraIdAccessTokenConstants,
+  InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";
@@ -91,15 +92,14 @@ describe("EntraIdAccessToken", () => {
       getToken: sinon.stub().resolves(accessToken),
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
-    const status = await entraIdAccessToken.fetchEntraIdAccessToken();
+    await entraIdAccessToken.fetchEntraIdAccessToken();
     expect(entraIdAccessToken.token).to.equal(token);
     expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
     expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]).to.equal(token);
-    expect(status).to.be.true;
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
-  it("should return false if cached access token is returned", async () => {
+  it("should be no-op if cached access token is returned", async () => {
     const token = "token";
     const accessToken = {
       token,
@@ -109,17 +109,17 @@ describe("EntraIdAccessToken", () => {
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
     entraIdAccessToken.token = token;
-    const status = await entraIdAccessToken.fetchEntraIdAccessToken();
-    expect(status).to.be.false;
+    await entraIdAccessToken.fetchEntraIdAccessToken();
   });
 
-  it("should return false if fetching access token throws error", async () => {
+  it("should throw error and set fatal setup environment variable if fetching access token throws error", async () => {
     const credential = {
       getToken: sinon.stub().rejects(new Error()),
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
-    const status = await entraIdAccessToken.fetchEntraIdAccessToken();
-    expect(status).to.be.false;
+    await expect(entraIdAccessToken.fetchEntraIdAccessToken()).to.be.rejected;
+    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]).to.be.undefined;
+    expect(process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR]).to.equal("true");
   });
 
   it("should return true if entra id access token needs rotation due to no token", () => {

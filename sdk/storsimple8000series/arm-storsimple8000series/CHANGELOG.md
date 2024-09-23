@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-12)
     
-**Features**
+### Features Added
 
   - Added Interface AccessControlRecord
   - Added Interface Alert
@@ -44,7 +44,7 @@
     
 ## 2.0.1 (2022-05-05)
 
-**Features**
+### Features Added
 
   - Bug fix
     

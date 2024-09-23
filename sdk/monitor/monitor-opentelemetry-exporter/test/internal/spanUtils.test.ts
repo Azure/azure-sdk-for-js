@@ -32,7 +32,7 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements } from "../../src/types";
+import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
 import {
@@ -1300,6 +1300,41 @@ describe("spanUtils.ts", () => {
     const expectedProperties = {};
     const expectedBaseData: Partial<MessageData> = {
       message: "test event",
+      properties: expectedProperties,
+      version: 2,
+    };
+
+    assertEnvelope(
+      envelopes[0],
+      "Microsoft.ApplicationInsights.Message",
+      100,
+      "MessageData",
+      expectedTags,
+      expectedProperties,
+      undefined,
+      expectedBaseData,
+    );
+  });
+  it("should truncate message envelope for span events", () => {
+    const message = "a".repeat(MaxPropertyLengths.FIFTEEN_BIT + 1);
+    const span = new Span(
+      tracer,
+      ROOT_CONTEXT,
+      "parent span",
+      { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+      SpanKind.SERVER,
+      "parentSpanId",
+    );
+    span.addEvent(message);
+    span.end();
+    const envelopes = spanEventsToEnvelopes(span, "ikey");
+
+    const expectedTags: Tags = {};
+    expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+    expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+    const expectedProperties = {};
+    const expectedBaseData: Partial<MessageData> = {
+      message: message.substring(0, MaxPropertyLengths.FIFTEEN_BIT),
       properties: expectedProperties,
       version: 2,
     };

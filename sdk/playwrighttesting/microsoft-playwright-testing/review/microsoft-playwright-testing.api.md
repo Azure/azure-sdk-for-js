@@ -30,7 +30,7 @@ export type EndpointOptions = {
 };
 
 // @public
-export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "defaultAuthenticationMechanism">) => Promise<BrowserConnectOptions>;
+export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">) => Promise<BrowserConnectOptions>;
 
 // @public
 export const getServiceConfig: (config: PlaywrightConfigInput, options?: PlaywrightServiceAdditionalOptions) => PlaywrightConfig;
@@ -38,6 +38,7 @@ export const getServiceConfig: (config: PlaywrightConfigInput, options?: Playwri
 // @public
 export interface MPTReporterConfig {
     enableGitHubSummary?: boolean;
+    enableResultPublish?: boolean;
 }
 
 // @public
@@ -60,7 +61,7 @@ export type PlaywrightConfigInput = {
 
 // @public
 export type PlaywrightServiceAdditionalOptions = {
-    defaultAuth?: AuthenticationType;
+    serviceAuthType?: AuthenticationType;
     os?: OsType;
     runId?: string;
     timeout?: number;
@@ -72,8 +73,8 @@ export type PlaywrightServiceAdditionalOptions = {
 
 // @public
 export const ServiceAuth: {
-    readonly ENTRA: "ENTRA";
-    readonly TOKEN: "TOKEN";
+    readonly ENTRA_ID: "ENTRA_ID";
+    readonly ACCESS_TOKEN: "ACCESS_TOKEN";
 };
 
 // @public

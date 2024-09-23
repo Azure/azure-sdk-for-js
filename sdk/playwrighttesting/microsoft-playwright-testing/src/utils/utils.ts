@@ -1,14 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JwtPayload } from "../common/types";
-import { API_VERSION, ServiceEnvironmentVariable } from "../common/constants";
+import type { JwtPayload, VersionInfo } from "../common/types";
+import {
+  API_VERSION,
+  InternalEnvironmentVariables,
+  MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
+  ServiceEnvironmentVariable,
+} from "../common/constants";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { EntraIdAccessToken } from "../common/entraIdAccessToken";
 import { coreLogger } from "../common/logger";
 import type { TokenCredential } from "@azure/identity";
 import ReporterUtils from "./reporterUtils";
 import { CIInfoProvider } from "./cIInfoProvider";
+import { getPackageManager } from "./packageManager";
+import { execSync } from "child_process";
 
 export const exitWithFailureMessage = (message: string): never => {
   console.log();
@@ -92,8 +99,53 @@ export const emitReportingUrl = (): void => {
   const url = getServiceBaseURL();
   const match = url?.match(regex);
   if (match && match.length >= 3) {
-    const [_, region, domain] = match;
+    const [, region, domain] = match;
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL] =
       `https://${region}.reporting.api.${domain}`;
+  }
+};
+
+export const getPlaywrightVersion = (): string => {
+  if (process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]) {
+    return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
+  }
+
+  const packageManager = getPackageManager();
+  const command = packageManager.runCommand("playwright", "--version");
+  const stdout = execSync(command).toString().trim();
+  const version = packageManager.getVersionFromStdout(stdout);
+  process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = version;
+  coreLogger.info(
+    `Playwright version being used - ${process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]}`,
+  );
+  return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
+};
+
+export const getVersionInfo = (version: string): VersionInfo => {
+  const regex = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?/;
+  const match = version.match(regex);
+  const versionInfo = {
+    major: 0,
+    minor: 0,
+    patch: 0,
+  };
+  versionInfo.major = match && match[1] ? parseInt(match[1], 10) : 0;
+  versionInfo.minor = match && match[2] ? parseInt(match[2], 10) : 0;
+  versionInfo.patch = match && match[3] ? parseInt(match[3], 10) : 0;
+  return versionInfo;
+};
+
+export const validatePlaywrightVersion = (): void => {
+  const minimumSupportedVersion = MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION;
+  const installedVersion = getPlaywrightVersion();
+
+  const minimumSupportedVersionInfo = getVersionInfo(minimumSupportedVersion);
+  const installedVersionInfo = getVersionInfo(installedVersion);
+  const isInstalledVersionGreater =
+    installedVersionInfo.major > minimumSupportedVersionInfo.major ||
+    (installedVersionInfo.major === minimumSupportedVersionInfo.major &&
+      installedVersionInfo.minor >= minimumSupportedVersionInfo.minor);
+  if (!isInstalledVersionGreater) {
+    exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_PLAYWRIGHT_VERSION_ERROR);
   }
 };

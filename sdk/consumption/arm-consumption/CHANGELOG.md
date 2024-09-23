@@ -12,7 +12,7 @@
 
 ## 9.2.0 (2023-01-03)
     
-**Features**
+### Features Added
 
   - Interface EventsListByBillingAccountNextOptionalParams no longer has parameter filter
   - Interface LotsListByBillingAccountNextOptionalParams no longer has parameter filter
@@ -43,7 +43,7 @@
     
 ## 9.1.0 (2022-09-05)
     
-**Features**
+### Features Added
 
   - Added Interface AmountWithExchangeRate
   - Added Interface Balance
@@ -75,7 +75,7 @@
     
 ## 9.0.1 (2022-04-11)
 
-**features**
+### Features Added
 
   - bug fix
 

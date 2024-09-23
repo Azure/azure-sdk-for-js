@@ -12,7 +12,7 @@
 
 ## 9.0.0 (2023-02-09)
     
-**Features**
+### Features Added
 
   - Added operation group Queries
   - Added operation group QueryPacks
@@ -113,7 +113,7 @@
   - Added Enum KnownTableTypeEnum
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group Schema
   - Removed operation Tables.create
@@ -123,7 +123,7 @@
     
 ## 8.0.1 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
 

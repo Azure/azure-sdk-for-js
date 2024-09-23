@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.9.3",
+  "version": "1.10.1",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
@@ -88,7 +88,7 @@
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
   "//metadata": {
