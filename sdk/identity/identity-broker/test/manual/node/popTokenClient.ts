@@ -19,17 +19,18 @@ import { authorizeRequestOnPopTokenChallenge } from "./authRequestPopTokenChalle
 export async function sendGraphRequest(credential: TokenCredential) {
   const pipeline = createEmptyPipeline();
   // how to create pop policy?
-  pipeline.addPolicy(popTokenAuthenticationPolicy({
-    credential,
-    "scopes": "https://graph.microsoft.com/.default",
-    challengeCallbacks: {
-      authorizeRequestOnChallenge: authorizeRequestOnPopTokenChallenge
-    },
-
-  }));
+  pipeline.addPolicy(
+    popTokenAuthenticationPolicy({
+      credential,
+      scopes: "https://graph.microsoft.com/.default",
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: authorizeRequestOnPopTokenChallenge,
+      },
+    })
+  );
 
   const req = createPipelineRequest({
-    url: "https://graph.microsoft.com/v1.0/users/kaghiya@microsoft.com"
+    url: "https://graph.microsoft.com/v1.0/me",
   });
 
   const client = createDefaultHttpClient();
