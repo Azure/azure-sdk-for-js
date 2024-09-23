@@ -18,7 +18,7 @@ import rootConfig from "./azure-sdk-base";
 function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
   return typescriptEslint.config(
     {
-      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
     {
       languageOptions: {
@@ -102,7 +102,7 @@ export default (plugin: FlatConfig.Plugin) => ({
   "azure-sdk-base": rootConfig,
   internal: typescriptEslint.config(
     {
-      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs}"],
+      ignores: ["**/generated/**", "**/*.config.{js,cjs,mjs,ts,cts,mts}"],
     },
     {
       languageOptions: {

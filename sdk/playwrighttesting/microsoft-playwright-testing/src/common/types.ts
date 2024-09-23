@@ -61,7 +61,7 @@ export type ConnectOptions = {
    *
    * Maximum time in milliseconds to wait for the connection to be established.
    *
-   * @defaultValue `0`
+   * @defaultValue `30000`
    */
   timeout?: number;
 
@@ -82,8 +82,22 @@ export type ConnectOptions = {
  *
  * @example
  * ```
- * const { wsEndpoint, options }: BrowserConnectOptions = await getConnectOptions();
- * const browser = await (playwright[browserName] as BrowserType).connect(wsEndpoint, options);
+ * import playwright, { test, expect, BrowserType } from "@playwright/test";
+ * import { getConnectOptions, BrowserConnectOptions } from "@azure/microsoft-playwright-testing";
+ *
+ * test("has title", async ({ browserName }) => {
+ *  const { wsEndpoint, options } : BrowserConnectOptions = await getConnectOptions();
+ *  const browser = await (playwright[browserName] as BrowserType).connect(wsEndpoint, options);
+ *  const context = await browser.newContext();
+ *  const page = await context.newPage();
+ *
+ *  await page.goto("https://playwright.dev/");
+ *  await expect(page).toHaveTitle(/Playwright/);
+ *
+ *  await page.close();
+ *  await context.close();
+ *  await browser.close();
+ * });
  * ```
  */
 export type BrowserConnectOptions = EndpointOptions & {
@@ -111,7 +125,7 @@ export type PlaywrightConfigInput = {
    *
    * Path to the global teardown file. This file will be required and run after all the tests. It must export a single
    * function. See also
-   * {@link https://playwright.dev/docs/api/class-testconfig#test-config-global-setup | testConfig.globalSetup}.
+   * {@link https://playwright.dev/docs/api/class-testconfig#test-config-global-teardown | testConfig.globalTeardown}.
    *
    * Learn more about {@link https://playwright.dev/docs/test-global-setup-teardown | global setup and teardown}.
    */
@@ -174,7 +188,7 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * Maximum time in milliseconds to wait for the connection to be established.
    *
-   * @defaultValue `0`
+   * @defaultValue `30000`
    */
   timeout?: number;
 
@@ -249,7 +263,7 @@ export type ApiErrorMessage = {
  * import { defineConfig } from "@playwright/test";
  *
  * export default defineConfig({
- *  reporter: [["@azure/microsoft-playwright-testing", {
+ *  reporter: [["@azure/microsoft-playwright-testing/reporter", {
  *   enableGitHubSummary: true
  *  }]],
  * });

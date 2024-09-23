@@ -58,7 +58,7 @@ export class Constants {
   public static readonly TEST_TYPE = "WebTest";
   public static readonly TEST_SDK_LANGUAGE = "JAVASCRIPT";
   // Placeholder version
-  public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.1";
+  public static readonly REPORTER_PACKAGE_VERSION = "1.0.0-beta.3";
   public static readonly DEFAULT_DASHBOARD_ENDPOINT = "https://playwright.microsoft.com";
   public static readonly DEFAULT_SERVICE_ENDPOINT =
     "https://{region}.reporting.api.playwright-test.io";
@@ -94,6 +94,7 @@ export class Constants {
     "workspaces/{workspaceId}/test-runs/{testRunId}:createArtifactsUploadBaseUri";
   public static readonly testResultsEndpoint: string =
     "workspaces/{workspaceId}/test-results/upload-batch";
+  public static readonly patchTestRun: string = "patchTestRun";
   public static readonly getTestRun: string = "getTestRun";
   public static readonly patchTestRunShardStart: string = "patchTestRunShardStart";
   public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
@@ -101,6 +102,14 @@ export class Constants {
   public static readonly getStorageUri: string = "getStorageUri";
 
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
+    patchTestRun: {
+      400: "The request made to the server is invalid. Please check the request parameters and try again.",
+      401: "The authentication token provided is invalid. Please check the token and try again.",
+      500: "An unexpected error occurred on our server. Our team is working to resolve the issue. Please try again later, or contact support if the problem continues.",
+      429: "You have exceeded the rate limit for the API. Please wait and try again later.",
+      504: "The request to the service timed out. Please try again later.",
+      503: "The service is currently unavailable. Please check the service status and try again.",
+    },
     getTestRun: {
       400: "The request made to the server is invalid. Please check the request parameters and try again.",
       401: "The authentication token provided is invalid. Please check the token and try again.",
@@ -148,9 +157,6 @@ export class Constants {
     },
   };
 }
-export const BackoffConstants = {
-  MAX_RETRIES: 10,
-};
 
 export const TestErrorType = {
   Scalable: "Scalable",
@@ -169,7 +175,7 @@ export const TestResultErrorConstants = [
     message: `You do not have the required permissions to run tests. This could be because:
 
     a. You do not have the required roles on the workspace. Only Owner and Contributor roles can run tests. Contact the service administrator.
-    b. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal and login using the command 'az login --tenant <TENANT_ID>'.
+    b. The workspace you are trying to run the tests on is in a different Azure tenant than what you are signed into. Check the tenant id from Azure portal (https://aka.ms/mpt/find-tenant-id) and login using the command 'az login --tenant <TENANT_ID>'.
     `,
     pattern:
       /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*CheckAccess API call with non successful response)/i,
@@ -179,14 +185,29 @@ export const TestResultErrorConstants = [
     key: "InvalidWorkspace_Scalable",
     message: "The specified workspace does not exist. Please verify your workspace settings.",
     pattern:
-      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*InvalidAccountOrSubscriptionState)/i,
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccountOrSubscriptionState)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "InvalidAccessToken_Scalable",
+    message:
+      "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
+    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
+    type: TestErrorType.Scalable,
+  },
+  {
+    key: "AccessTokenOrUserOrWorkspaceNotFound_Scalable",
+    message:
+      "The data for the user, workspace or access token was not found. Please check the request or create new token and try again.",
+    pattern: /(?=.*browserType\.connect)(?=.*404 Not Found)(?=[\s\S]*NotFound)/i,
     type: TestErrorType.Scalable,
   },
   {
     key: "AccessKeyBasedAuthNotSupported_Scalable",
     message:
       "Authentication through service access token is disabled for this workspace. Please use Entra ID to authenticate.",
-    pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=.*AccessKeyBasedAuthNotSupported)/i,
+    pattern:
+      /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*AccessKeyBasedAuthNotSupported)/i,
     type: TestErrorType.Scalable,
   },
   {

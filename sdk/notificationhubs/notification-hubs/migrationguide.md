@@ -1,5 +1,7 @@
 # Guide to migrate from `azure-sb` to `@azure/notification-hubs`
 
+<!-- dev-tool snippets ignore -->
+
 This guide will help you migrate from the deprecated `azure-sb` package to the new `@azure/notification-hubs` package.  This will focus on a side-by-side comparison between the two libraries for similar operations between the two packages.
 
 Familiarity with the `azure-sb` package is assumed.  For those are new to the `azure-sb` package, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/README.md) and [Notification Hubs Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples-dev) for the `@azure/notification-hubs` package.
