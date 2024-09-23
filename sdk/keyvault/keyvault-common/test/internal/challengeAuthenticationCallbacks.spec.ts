@@ -5,12 +5,42 @@ import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
   PipelineRequest,
+  SendRequest,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "../../src/index.js";
+import {
+  addKeyVaultAuthenticationPolicies,
+  createKeyVaultChallengeCallbacks,
+} from "../../src/index.js";
 import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate.js";
-import { describe, it, beforeEach, expect } from "vitest";
+import { describe, it, beforeEach, expect, vi } from "vitest";
+import { TokenCredential } from "@azure/core-auth";
+
+const caeChallenge = `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`;
+const caeClaims = `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`;
+
+const mockCredential: TokenCredential = {
+  getToken: async (scopes, options) => {
+    const [scope] = Array.isArray(scopes) ? scopes : [scopes];
+    expect(scope).toBe("https://vault.azure.net/.default");
+    expect(options?.tenantId).toBe("testTenantId");
+
+    if (options?.claims) {
+      expect(options.claims).toBe(caeClaims);
+      return {
+        token: "cae_token",
+        expiresOnTimestamp: 999999999,
+      };
+    } else {
+      return {
+        token: "access_token",
+        expiresOnTimestamp: 999999999,
+      };
+    }
+  },
+};
 
 describe("Challenge based authentication tests", function () {
   let request: PipelineRequest;
@@ -89,51 +119,220 @@ describe("Challenge based authentication tests", function () {
 
       expect(options.request.headers.get("authorization")).toBeUndefined();
     });
+  });
 
-    it("Handles CAE challenge", async () => {
-      let called = false;
+  describe("Continuous Access Evaluation (CAE)", () => {
+    it("handles a CAE challenge that comes immediately after a successful challenge", async () => {
+      const pipeline = createEmptyPipeline();
+      addKeyVaultAuthenticationPolicies(pipeline, {
+        scopes: [],
+        credential: mockCredential,
+      });
 
-      // First, respond with a normal challenge
-      await challengeCallbacks.authorizeRequestOnChallenge!({
-        getAccessToken: (scopes) => {
-          expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
-          return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
-        },
-        request,
-        response: {
+      const sendRequest = vi
+        .fn<SendRequest>()
+        // First, send the standard challenge
+        .mockImplementationOnce(async (req) => ({
           headers: createHttpHeaders({
             "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
           }),
-          request,
           status: 401,
-        },
+          request: req,
+        }))
+        // Then send a CAE challenge immediately after
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": caeChallenge,
+          }),
+          request: req,
+          status: 401,
+        }))
+        // Finally, send a successful response, but only after asserting that the token in the Authorization header was obtained by passing the scopes through to the credential.
+        .mockImplementationOnce(async (req) => {
+          expect(req.headers.get("Authorization")).toEqual("Bearer cae_token");
+
+          return {
+            headers: createHttpHeaders({}),
+            request: req,
+            status: 204,
+          };
+        });
+
+      const rsp = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp.status).toBe(204);
+    });
+
+    it("handles a CAE challenge where the Base64-encoded claims do not have the correct padding", async () => {
+      const pipeline = createEmptyPipeline();
+      addKeyVaultAuthenticationPolicies(pipeline, {
         scopes: [],
+        credential: mockCredential,
       });
 
-      // Then, a CAE challenge should come back
-      await challengeCallbacks.authorizeRequestOnChallenge!({
-        getAccessToken: (scopes, getTokenOptions) => {
-          expect(getTokenOptions.claims).toEqual(
-            `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
-          );
-          expect(scopes).to.deep.equal(["https://vault.azure.net/.default"]);
-          expect(getTokenOptions.tenantId).toEqual("testTenantId");
-          expect(getTokenOptions.enableCae).toBeTruthy();
-          called = true;
-          return Promise.resolve({ token: "successful_token", expiresOnTimestamp: 999999999 });
-        },
-        request,
-        response: {
+      const sendRequest = vi
+        .fn<SendRequest>()
+        // First, send the standard challenge
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
+          }),
+          status: 401,
+          request: req,
+        }))
+        // Then send a CAE challenge immediately after. In this case the padding == at the end of the `claims` has been removed
+        .mockImplementationOnce(async (req) => ({
           headers: createHttpHeaders({
             "WWW-Authenticate": `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
           }),
-          request,
+          request: req,
           status: 401,
-        },
+        }))
+        // Finally, send a successful response, but only after asserting that the token in the Authorization header was obtained by passing the scopes through to the credential.
+        .mockImplementationOnce(async (req) => {
+          expect(req.headers.get("Authorization")).toEqual("Bearer cae_token");
+
+          return {
+            headers: createHttpHeaders({}),
+            request: req,
+            status: 204,
+          };
+        });
+
+      const rsp = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp.status).toBe(204);
+    });
+
+    it("handles a CAE challenge that comes a few requests after the initial request", async () => {
+      const pipeline = createEmptyPipeline();
+      addKeyVaultAuthenticationPolicies(pipeline, {
         scopes: [],
+        credential: mockCredential,
       });
 
-      expect(called).toBeTruthy();
+      const sendRequest = vi
+        .fn<SendRequest>()
+        // First, send the standard challenge
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
+          }),
+          status: 401,
+          request: req,
+        }))
+        // Then, send a successful response, but only after asserting that the token in the Authorization header was obtained
+        .mockImplementationOnce(async (req) => {
+          expect(req.headers.get("Authorization")).toEqual("Bearer access_token");
+
+          return {
+            headers: createHttpHeaders({}),
+            request: req,
+            bodyAsText: "response 1",
+            status: 204,
+          };
+        })
+        // Do that again
+        .mockImplementationOnce(async (req) => {
+          expect(req.headers.get("Authorization")).toEqual("Bearer access_token");
+
+          return {
+            headers: createHttpHeaders({}),
+            request: req,
+            bodyAsText: "response 2",
+            status: 204,
+          };
+        })
+        // Then provide a CAE challenge
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": caeChallenge,
+          }),
+          request: req,
+          status: 401,
+        }))
+        // After the CAE challenge, send a successful response, but only after asserting that the token in the Authorization header was obtained by passing the scopes through to the credential.
+        .mockImplementationOnce(async (req) => {
+          expect(req.headers.get("Authorization")).toEqual("Bearer cae_token");
+
+          return {
+            headers: createHttpHeaders({}),
+            request: req,
+            bodyAsText: "response 3",
+            status: 204,
+          };
+        })
+        // Next request, though, we should NOT expect the CAE token and instead should get a access_token
+        .mockImplementationOnce(async (req) => {
+          expect(req.headers.get("Authorization")).toEqual("Bearer access_token");
+
+          return {
+            headers: createHttpHeaders({}),
+            request: req,
+            bodyAsText: "response 4",
+            status: 204,
+          };
+        });
+
+      // First request will get the standard challenge followed by a 204
+      const rsp = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp.status).toBe(204);
+      expect(rsp.bodyAsText).toBe("response 1");
+
+      // Making the request a second time should result in a 204 immediately
+      const rsp2 = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp2.status).toBe(204);
+      expect(rsp2.bodyAsText).toBe("response 2");
+
+      // The third request will get a CAE challenge, which will get handled and then we will get another 204.
+      const rsp3 = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp3.status).toBe(204);
+      expect(rsp3.bodyAsText).toBe("response 3");
+
+      // The fourth request should be a normal request and should use the normal token, not a CAE token
+      const rsp4 = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp4.status).toBe(204);
+      expect(rsp4.bodyAsText).toBe("response 4");
+    });
+
+    it("does not handle multiple consecutive CAE challenges", async () => {
+      const pipeline = createEmptyPipeline();
+      addKeyVaultAuthenticationPolicies(pipeline, {
+        scopes: [],
+        credential: mockCredential,
+      });
+
+      const sendRequest = vi
+        .fn<SendRequest>()
+        // First, send the standard challenge
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
+          }),
+          status: 401,
+          request: req,
+        }))
+        // Then provide a CAE challenge
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": caeChallenge,
+          }),
+          request: req,
+          bodyAsText: "CAE challenge 1",
+          status: 401,
+        }))
+        // Then another CAE challenge. This challenge should not be handled
+        .mockImplementationOnce(async (req) => ({
+          headers: createHttpHeaders({
+            "WWW-Authenticate": caeChallenge,
+          }),
+          request: req,
+          bodyAsText: "CAE challenge 2",
+          status: 401,
+        }));
+
+      // Should be a 401
+      const rsp = await pipeline.sendRequest({ sendRequest }, request);
+      expect(rsp.status).toBe(401);
+      expect(rsp.bodyAsText).toBe("CAE challenge 2");
     });
   });
 

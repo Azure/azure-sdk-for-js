@@ -4,7 +4,13 @@
 
 ```ts
 
+import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
+import { BearerTokenAuthenticationPolicyOptions } from '../../../core/core-rest-pipeline/dist/commonjs/index.js';
 import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
+import { Pipeline } from '@azure/core-rest-pipeline';
+
+// @public (undocumented)
+export function applyKeyVaultAuthPolicies(pipeline: Pipeline, options: BearerTokenAuthenticationPolicyOptions): void;
 
 // @public
 export interface CreateChallengeCallbacksOptions {
@@ -12,7 +18,13 @@ export interface CreateChallengeCallbacksOptions {
 }
 
 // @public
-export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
+export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ExtendedChallengeCallbacks;
+
+// @public (undocumented)
+export interface ExtendedChallengeCallbacks extends ChallengeCallbacks {
+    // (undocumented)
+    authorizeRequestOnClaimChallenge: (options: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+}
 
 // @public
 export interface KeyVaultEntityIdentifier {

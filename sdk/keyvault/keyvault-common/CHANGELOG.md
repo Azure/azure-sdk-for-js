@@ -1,10 +1,11 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0 (Unreleased)
 
 ### Features Added
 
 - Add support for Continuous Access Evaluation (CAE).
+  - To take advantage of this support, `addKeyVaultAuthenticationPolicies` should be used to add the correct policies to the pipeline.
 
 ### Breaking Changes
 

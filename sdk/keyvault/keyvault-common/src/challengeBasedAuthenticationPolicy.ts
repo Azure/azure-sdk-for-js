@@ -4,13 +4,19 @@
 import {
   AuthorizeRequestOnChallengeOptions,
   AuthorizeRequestOptions,
+  bearerTokenAuthenticationPolicy,
   ChallengeCallbacks,
+  Pipeline,
+  PipelinePolicy,
   PipelineRequest,
   RequestBodyType,
+  RestError,
 } from "@azure/core-rest-pipeline";
 import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
-import { GetTokenOptions } from "@azure/core-auth";
+import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { BearerTokenAuthenticationPolicyOptions } from "../../../core/core-rest-pipeline/dist/commonjs/index.js";
+import { logger } from "./logger.js";
 
 /**
  * @internal
@@ -38,6 +44,24 @@ type ChallengeState =
       tenantId?: string;
     };
 
+interface ChallengeStateContainer {
+  get(): ChallengeState;
+  update(newState: ChallengeState): void;
+}
+
+function createChallengeStateContainer(): ChallengeStateContainer {
+  let challengeState: ChallengeState = { status: "none" };
+
+  return {
+    get() {
+      return challengeState;
+    },
+    update(newState) {
+      challengeState = newState;
+    },
+  };
+}
+
 /**
  * Additional options for the challenge based authentication policy.
  */
@@ -48,6 +72,11 @@ export interface CreateChallengeCallbacksOptions {
    * Defaults to false.
    */
   disableChallengeResourceVerification?: boolean;
+
+  /**
+   * Callbacks to set and update the challenge state.
+   */
+  challengeState?: ChallengeStateContainer;
 }
 
 function verifyChallengeResource(scope: string, request: PipelineRequest): void {
@@ -84,7 +113,8 @@ export function createKeyVaultChallengeCallbacks(
   options: CreateChallengeCallbacksOptions = {},
 ): ChallengeCallbacks {
   const { disableChallengeResourceVerification } = options;
-  let challengeState: ChallengeState = { status: "none" };
+
+  const challengeState = options.challengeState ?? createChallengeStateContainer();
 
   function requestToOptions(request: PipelineRequest): GetTokenOptions {
     return {
@@ -102,21 +132,22 @@ export function createKeyVaultChallengeCallbacks(
   }: AuthorizeRequestOptions): Promise<void> {
     const requestOptions: GetTokenOptions = requestToOptions(request);
 
-    switch (challengeState.status) {
+    const currentChallengeState = challengeState.get();
+
+    switch (currentChallengeState.status) {
       case "none":
-        challengeState = {
+        challengeState.update({
           status: "started",
           originalBody: request.body,
-        };
+        });
         request.body = null;
         break;
       case "started":
         break; // Retry, we should not overwrite the original body
       case "complete": {
-        const token = await getAccessToken(challengeState.scopes, {
+        const token = await getAccessToken(currentChallengeState.scopes, {
           ...requestOptions,
-          tenantId: challengeState.tenantId,
-          enableCae: true,
+          tenantId: currentChallengeState.tenantId,
         });
         if (token) {
           request.headers.set("authorization", `Bearer ${token.token}`);
@@ -132,11 +163,12 @@ export function createKeyVaultChallengeCallbacks(
     response,
     getAccessToken,
   }: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
-    if (request.body === null && challengeState.status === "started") {
+    const currentChallengeState = challengeState.get();
+    if (request.body === null && currentChallengeState.status === "started") {
       // Reset the original body before doing anything else.
       // Note: If successful status will be "complete", otherwise "none" will
       // restart the process.
-      request.body = challengeState.originalBody;
+      request.body = currentChallengeState.originalBody;
     }
 
     const getTokenOptions = requestToOptions(request);
@@ -147,72 +179,121 @@ export function createKeyVaultChallengeCallbacks(
     }
     const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
-    if (parsedChallenge.error && parsedChallenge.error === "insufficient_claims") {
-      // Handle CAE challenge
-      if (challengeState.status !== "complete") {
-        throw new Error(
-          "Received a CAE challenge, but the initial authorization was not completed.",
-        );
-      }
+    const scope = parsedChallenge.resource
+      ? parsedChallenge.resource + "/.default"
+      : parsedChallenge.scope;
 
-      const base64EncodedClaims = parsedChallenge.claims;
-      if (!base64EncodedClaims) {
-        throw new Error("Received a CAE challenge, but no claims were provided.");
-      }
-
-      const claims = atob(base64EncodedClaims);
-
-      const accessToken = await getAccessToken(challengeState.scopes, {
-        ...getTokenOptions,
-        claims,
-        tenantId: challengeState.tenantId,
-        enableCae: true,
-      });
-
-      if (!accessToken) {
-        return false;
-      }
-
-      request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-      return true;
-    } else {
-      const scope = parsedChallenge.resource
-        ? parsedChallenge.resource + "/.default"
-        : parsedChallenge.scope;
-      const tenantId = parsedChallenge.tenantId;
-
-      if (!scope) {
-        throw new Error("Missing scope.");
-      }
-
-      if (!disableChallengeResourceVerification) {
-        verifyChallengeResource(scope, request);
-      }
-
-      const accessToken = await getAccessToken([scope], {
-        ...getTokenOptions,
-        tenantId,
-        enableCae: true,
-      });
-
-      if (!accessToken) {
-        return false;
-      }
-
-      request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-
-      challengeState = {
-        status: "complete",
-        scopes: [scope],
-        tenantId,
-      };
-
-      return true;
+    if (!scope) {
+      throw new Error("Missing scope.");
     }
+
+    if (!disableChallengeResourceVerification) {
+      verifyChallengeResource(scope, request);
+    }
+
+    const accessToken = await getAccessToken([scope], {
+      ...getTokenOptions,
+      tenantId: parsedChallenge.tenantId,
+      enableCae: true,
+    });
+
+    if (!accessToken) {
+      return false;
+    }
+
+    request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+
+    challengeState.update({
+      status: "complete",
+      tenantId: parsedChallenge.tenantId,
+      scopes: [scope],
+    });
+
+    return true;
   }
 
   return {
     authorizeRequest,
     authorizeRequestOnChallenge,
   };
+}
+
+export function keyVaultClaimsChallengePolicy(
+  getChallengeState: () => ChallengeState,
+  credential: TokenCredential,
+): PipelinePolicy {
+  return {
+    name: "keyVaultClaimsChallengePolicy",
+    async sendRequest(request, next) {
+      const response = await next(request);
+      if (response.status === 401 && response.headers.has("WWW-Authenticate")) {
+        const {
+          error,
+          claims: base64EncodedClaims,
+          scope: newScope,
+        } = parseWWWAuthenticateHeader(response.headers.get("WWW-Authenticate") ?? "");
+
+        // If the error is present and is "insufficient_claims", we have a CAE challenge that this policy will now handle.
+        if (error !== "insufficient_claims") {
+          return response;
+        }
+
+        const challengeState = getChallengeState();
+        if (challengeState.status !== "complete") {
+          logger.warning(
+            "Received a CAE challenge before receiving a normal challenge. Not handling CAE challenge.",
+          );
+          return response;
+        }
+
+        if (base64EncodedClaims === undefined) {
+          throw new RestError(
+            `Received a WWW-Authenticate header with error="insufficient_claims", but no claims field was present`,
+          );
+        }
+
+        const claims = atob(base64EncodedClaims);
+
+        const token = await credential.getToken(newScope ? [newScope] : challengeState.scopes, {
+          tenantId: challengeState.tenantId,
+          enableCae: true,
+          claims,
+        });
+        request.headers.set("Authorization", `Bearer ${token?.token}`);
+        return next(request);
+      }
+
+      return response;
+    },
+  };
+}
+
+/**
+ * Add the necessary pipeline policies for Key Vault authentication to the given pipeline.
+ * As a result of calling this function, the provided pipeline will have two policies added to it:
+ * - The Key Vault bearer-token authentication policy, which will handle parsing the standard authorization challenge;
+ * - and a CAE bearer-token authentication policy, which will handle any CAE claims challenges that may arise after the standard authorization challenge.
+ *
+ * @param pipeline - Pipeline to add the policy to
+ * @param options - Options to be passed to the bearer token auth policy and to createKeyVaultChallengeCallbacks
+ */
+export function addKeyVaultAuthenticationPolicies(
+  pipeline: Pipeline,
+  options: BearerTokenAuthenticationPolicyOptions & CreateChallengeCallbacksOptions,
+): void {
+  const challengeState: ChallengeStateContainer =
+    options.challengeState ?? createChallengeStateContainer();
+  pipeline.addPolicy(
+    bearerTokenAuthenticationPolicy({
+      ...options,
+      challengeCallbacks: createKeyVaultChallengeCallbacks({ challengeState, ...options }),
+      scopes: [],
+    }),
+  );
+
+  if (options.credential) {
+    pipeline.addPolicy(
+      keyVaultClaimsChallengePolicy(() => challengeState.get(), options.credential),
+    );
+  }
 }
