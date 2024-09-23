@@ -22,14 +22,19 @@ const sanitizerOptions: SanitizerOptions = {
     { key: "x-ms-content-sha256", value: "Sanitized" },
     {
       key: "Operation-Location",
-      value: "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
+      value: "https://someEndpoint/emails/operations/someId?api-version=2024-07-01-preview",
     },
   ],
   uriSanitizers: [
     {
       regex: true,
-      target: `emails/operations/.*?api`,
-      value: "emails/operations/someId?api",
+      target: `https://[^/]+/emails/operations/.*?api`,
+      value: "https://someEndpoint/emails/operations/someId?api",
+    },
+    {
+      regex: true,
+      target: `https://[^/]+/emails:send\\?api`,
+      value: "https://someEndpoint/emails:send?api-version=2024-07-01-preview",
     },
   ],
   bodySanitizers: [
