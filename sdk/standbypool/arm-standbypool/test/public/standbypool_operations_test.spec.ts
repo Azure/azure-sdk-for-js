@@ -40,64 +40,11 @@ describe("StandbyPool test", () => {
     await recorder.stop();
   });
 
-  it.only("operations list test", async function () {
+  it("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
-
-  it("standbyContainerGroupPools create test", async function () {
-    const result = await client.standbyContainerGroupPools.createOrUpdate(
-      resourceGroup,
-      "pool",
-      {
-        properties: {
-          elasticityProfile: { maxReadyCapacity: 688, refillPolicy: "always" },
-          containerGroupProperties: {
-            containerGroupProfile: {
-              id: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/testcontainerinstence",
-              revision: 1,
-            },
-            subnetIds: [
-              {
-                id: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/testvn/subnets/testSubnet",
-              },
-            ],
-          },
-        },
-        tags: {},
-        location: "West US",
-      },
-    );
-    assert.equal(result.name, "pool")
-  });
-
-  it("standbyContainerGroupPools get test", async function () {
-    const res = await client.standbyContainerGroupPools.get(
-      resourceGroup,
-      "pool"
-    );
-    assert.equal(res.name, "pool");
-  });
-
-  it("standbyContainerGroupPools list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.standbyContainerGroupPools.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("standbyContainerGroupPools delete test", async function () {
-    const resArray = new Array();
-    await client.standbyContainerGroupPools.delete(resourceGroup, "pool"
-    )
-    for await (let item of client.standbyContainerGroupPools.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
-
 });
