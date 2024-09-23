@@ -111,7 +111,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -123,7 +123,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -136,7 +136,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -149,7 +149,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -160,7 +160,7 @@ describe("Service Utils", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10 });
 
-    expect(() => validateMptPAT()).not.to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
     processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
@@ -176,7 +176,7 @@ describe("Service Utils", () => {
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
       throw new Error();
     });
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
@@ -191,7 +191,7 @@ describe("Service Utils", () => {
       .stub(utils, "populateValuesFromServiceUrl")
       .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
 
-    expect(() => validateMptPAT()).not.to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
     processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
@@ -308,7 +308,7 @@ describe("Service Utils", () => {
     });
     const consoleErrorSpy = sandbox.stub(console, "error");
 
-    exitWithFailureMessage("error message");
+    exitWithFailureMessage({ key: "error", message: "error message" });
 
     expect(exitStub.called).to.be.true;
     expect(consoleErrorSpy.calledWith("error message")).to.be.true;

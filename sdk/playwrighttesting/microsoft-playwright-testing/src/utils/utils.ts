@@ -4,7 +4,6 @@
 import type { JwtPayload, VersionInfo } from "../common/types";
 import {
   API_VERSION,
-  Constants,
   InternalEnvironmentVariables,
   MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
   ServiceEnvironmentVariable,
@@ -18,13 +17,12 @@ import { CIInfoProvider } from "./cIInfoProvider";
 import { getPackageManager } from "./packageManager";
 import { execSync } from "child_process";
 
-export const exitWithFailureMessage = (message: string): never => {
+export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
   console.log();
-  console.error(message);
+  console.error(error.message);
   // eslint-disable-next-line n/no-process-exit
   process.exit(1);
 };
-
 export const base64UrlDecode = (base64Url: string): string => {
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   const buffer = Buffer.from(base64, "base64");
@@ -82,23 +80,23 @@ export const validateServiceUrl = (): void => {
 };
 
 export const validateMptPAT = (
-  handleFailure?: (error: { key: string; message: string }) => void,
+  validationFailureCallback: (error: { key: string; message: string }) => void,
 ): void => {
   try {
     const accessToken = getAccessToken();
     const result = populateValuesFromServiceUrl();
     if (!accessToken) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.NO_AUTH_ERROR);
+      validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
     const claims = parseJwt<JwtPayload>(accessToken!);
     if (!claims.exp) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
+      validationFailureCallback(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
     }
     if (Date.now() >= claims.exp! * 1000) {
-      exitWithFailureMessage(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
+      validationFailureCallback(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
     }
     if (result!.accountId !== claims!.aid) {
-      handleFailure?.(Constants.WORKSPACE_MISMATCH_ERROR);
+      validationFailureCallback(ServiceErrorMessageConstants.WORKSPACE_MISMATCH_ERROR);
     }
   } catch (err) {
     coreLogger.error(err);
@@ -112,7 +110,7 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
   if (!getAccessToken()) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
   }
   return getAccessToken()!;
 };

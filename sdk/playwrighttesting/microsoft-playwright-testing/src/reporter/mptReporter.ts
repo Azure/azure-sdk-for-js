@@ -366,7 +366,7 @@ class MPTReporter implements Reporter {
     }
     reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
-      process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR}`);
+      process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR.message}`);
       this.isTokenValid = false;
     } else if (ReporterUtils.hasAudienceClaim(this.envVariables.accessToken)) {
       const result = populateValuesFromServiceUrl();

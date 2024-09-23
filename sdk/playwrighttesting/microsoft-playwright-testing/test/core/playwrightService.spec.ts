@@ -44,8 +44,8 @@ describe("getServiceConfig", () => {
     const consoleErrorSpy = sandbox.stub(console, "error");
     sandbox.stub(process, "exit").throws(new Error());
     expect(() => getServiceConfig(samplePlaywrightConfigInput)).to.throw();
-    expect(consoleErrorSpy.calledWith(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR)).to.be
-      .true;
+    expect(consoleErrorSpy.calledWith(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR.message)).to
+      .be.true;
   });
 
   it("should set customer config global setup and teardown scripts in the config if passed", () => {
@@ -216,7 +216,7 @@ describe("getConnectOptions", () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await expect(getConnectOptions()).to.be.rejectedWith(
-      ServiceErrorMessageConstants.NO_AUTH_ERROR,
+      ServiceErrorMessageConstants.NO_AUTH_ERROR.message,
     );
   });
 
