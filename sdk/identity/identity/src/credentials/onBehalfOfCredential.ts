@@ -48,15 +48,17 @@ export class OnBehalfOfCredential implements TokenCredential {
    *
    * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
    *
-   * ```ts
+   * ```ts snippet:on_behalf_of_credential_pem_example
+   * import { OnBehalfOfCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
    * const tokenCredential = new OnBehalfOfCredential({
-   *   tenantId,
-   *   clientId,
+   *   tenantId: "tenant-id",
+   *   clientId: "client-id",
    *   certificatePath: "/path/to/certificate.pem",
-   *   userAssertionToken: "access-token"
+   *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
-   *
    * await client.getKey("key-name");
    * ```
    *
@@ -74,15 +76,17 @@ export class OnBehalfOfCredential implements TokenCredential {
    *
    * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
    *
-   * ```ts
+   * ```ts snippet:on_behalf_of_credential_secret_example
+   * import { OnBehalfOfCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
    * const tokenCredential = new OnBehalfOfCredential({
-   *   tenantId,
-   *   clientId,
-   *   clientSecret,
-   *   userAssertionToken: "access-token"
+   *   tenantId: "tenant-id",
+   *   clientId: "client-id",
+   *   clientSecret: "client-secret",
+   *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
-   *
    * await client.getKey("key-name");
    * ```
    *
@@ -101,15 +105,19 @@ export class OnBehalfOfCredential implements TokenCredential {
    *
    * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
    *
-   * ```ts
+   * ```ts snippet:on_behalf_of_credential_assertion_example
+   * import { OnBehalfOfCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
    * const tokenCredential = new OnBehalfOfCredential({
-   *   tenantId,
-   *   clientId,
-   *   getAssertion: () => { return Promise.resolve("my-jwt")},
-   *   userAssertionToken: "access-token"
+   *   tenantId: "tenant-id",
+   *   clientId: "client-id",
+   *   getAssertion: () => {
+   *     return Promise.resolve("my-jwt");
+   *   },
+   *   userAssertionToken: "access-token",
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
-   *
    * await client.getKey("key-name");
    * ```
    *
