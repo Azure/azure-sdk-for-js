@@ -21,8 +21,8 @@ import {
   withDeployments,
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import "@azure/openai/types";
 import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
+import "../../src/types/index.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
