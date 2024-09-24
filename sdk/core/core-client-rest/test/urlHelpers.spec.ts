@@ -212,7 +212,7 @@ describe("urlHelpers", () => {
     assert.equal(result, "https://example.org/?foo=bar");
   });
 
-  it("explode defaults to false", () => {
+  it("explode defaults to false; style defaults to `form`", () => {
     const result = buildRequestUrl("https://example.org/", "", [], {
       queryParameters: {
         foo: {
@@ -222,6 +222,32 @@ describe("urlHelpers", () => {
     });
 
     assert.equal(result, "https://example.org/?foo=bar,baz");
+  });
+
+  it("style `pipeDelimited` works", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          style: "pipeDelimited",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar|baz");
+  });
+
+  it("style `spaceDelimited` works", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          style: "spaceDelimited",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar%20baz");
   });
 
   it("explode decomposes query parameter array into multiple query parameters", () => {

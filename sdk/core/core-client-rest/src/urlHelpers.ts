@@ -3,6 +3,8 @@
 
 import { PathParameterWithOptions, RequestParameters } from "./common.js";
 
+type QueryParameterStyle = "form" | "spaceDelimited" | "pipeDelimited";
+
 /**
  * An object that can be passed as a query parameter, allowing for additional options to be set relating to how the parameter is encoded.
  */
@@ -22,6 +24,16 @@ interface QueryParameterWithOptions {
    * Defaults to false.
    */
   explode?: boolean;
+
+  /**
+   * Style for encoding arrays. Three possible values:
+   * - "form": array values will be separated by a comma "," in the query parameter value if explode is set to false.
+   * - "spaceDelimited": array values will be separated by a space (" ", url-encoded to "%20").
+   * - "pipeDelimited": array values will be separated by a pipe ("|").
+   *
+   * Ignored if `explode` is set to `true`; defaults to "form".
+   */
+  style?: QueryParameterStyle;
 }
 
 function isPathParameterWithOptions(x: unknown): x is PathParameterWithOptions {
@@ -64,7 +76,21 @@ export function buildRequestUrl(
   );
 }
 
-function getQueryParamValue(key: string, allowReserved: boolean, param: any): string {
+function getQueryParamValue(
+  key: string,
+  allowReserved: boolean,
+  style: QueryParameterStyle,
+  param: any,
+): string {
+  let separator: string;
+  if (style === "pipeDelimited") {
+    separator = "|";
+  } else if (style === "spaceDelimited") {
+    separator = "%20";
+  } else {
+    separator = ",";
+  }
+
   const value = (Array.isArray(param) ? param : [param])
     .map((p) => {
       if (p === null || p === undefined) {
@@ -78,7 +104,7 @@ function getQueryParamValue(key: string, allowReserved: boolean, param: any): st
       const rawValue = p.toISOString !== undefined ? p.toISOString() : p.toString();
       return allowReserved ? rawValue : encodeURIComponent(rawValue);
     })
-    .join(",");
+    .join(separator);
 
   return `${allowReserved ? key : encodeURIComponent(key)}=${value}`;
 }
@@ -100,6 +126,7 @@ function appendQueryParams(url: string, options: RequestParameters = {}): string
     const hasMetadata = isQueryParameterWithOptions(param);
     const rawValue = hasMetadata ? param.value : param;
     const explode = hasMetadata ? (param.explode ?? false) : false;
+    const style = hasMetadata && param.style ? param.style : "form";
 
     if (explode) {
       if (!Array.isArray(rawValue)) {
@@ -109,10 +136,10 @@ function appendQueryParams(url: string, options: RequestParameters = {}): string
       }
 
       for (const item of rawValue) {
-        paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, item));
+        paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item));
       }
     } else {
-      paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, rawValue));
+      paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue));
     }
   }
 
