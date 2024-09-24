@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServiceClient } from "@azure/core-client";
-export class PopTokenClient extends ServiceClient {
-}
-import { createEmptyPipeline, createPipelineRequest, createDefaultHttpClient, } from "@azure/core-rest-pipeline";
-import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy";
-import { authorizeRequestOnClaimChallenge } from "./authRequestPopChallenge";
-export async function sendGraphRequest(credential) {
+
+const { createEmptyPipeline, createPipelineRequest, createDefaultHttpClient } = require('@azure/core-rest-pipeline');
+const { popTokenAuthenticationPolicy } = require('./popTokenAuthenticationPolicy');
+const { authorizeRequestOnClaimChallenge } = require('./authRequestPopChallenge');
+
+module.exports = async function sendGraphRequest(credential) {
     const pipeline = createEmptyPipeline();
     // how to create pop policy?
     pipeline.addPolicy(popTokenAuthenticationPolicy({

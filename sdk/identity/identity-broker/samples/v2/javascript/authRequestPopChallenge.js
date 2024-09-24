@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel }  = require('@azure/logger');
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.
  * Into: `[ { a: 'b', c: 'd' }, { d: 'e', f: 'g' } ]`.
  *
  * @internal
  */
-export function parseCAEChallenge(challenges) {
+module.exports = function parseCAEChallenge(challenges) {
     console.log({ challenges });
     const bearerChallenges = `, ${challenges.trim()}`.split(", Bearer ").filter((x) => x);
     return bearerChallenges.map((challenge) => {
@@ -44,7 +44,7 @@ export function parseCAEChallenge(challenges) {
  * ```
  */
 setLogLevel("info");
-export async function authorizeRequestOnClaimChallenge(onChallengeOptions) {
+module.exports = async function authorizeRequestOnClaimChallenge(onChallengeOptions) {
     const { scopes, response } = onChallengeOptions;
     const logger = onChallengeOptions.logger; //|| coreClientLogger;
     console.log("authorizeRequestPopClaimChallenge func is called");
