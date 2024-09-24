@@ -15,7 +15,7 @@ import {
 import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { BearerTokenAuthenticationPolicyOptions } from "../../../core/core-rest-pipeline/dist/commonjs/index.js";
+import { BearerTokenAuthenticationPolicyOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./logger.js";
 
 /**
@@ -218,7 +218,7 @@ export function createKeyVaultChallengeCallbacks(
   };
 }
 
-export function keyVaultClaimsChallengePolicy(
+function keyVaultClaimsChallengePolicy(
   getChallengeState: () => ChallengeState,
   credential: TokenCredential,
 ): PipelinePolicy {
@@ -279,21 +279,20 @@ export function keyVaultClaimsChallengePolicy(
  */
 export function addKeyVaultAuthenticationPolicies(
   pipeline: Pipeline,
-  options: BearerTokenAuthenticationPolicyOptions & CreateChallengeCallbacksOptions,
+  credential: TokenCredential,
+  options?: Omit<BearerTokenAuthenticationPolicyOptions, "credential" | "scopes"> &
+    CreateChallengeCallbacksOptions,
 ): void {
   const challengeState: ChallengeStateContainer =
-    options.challengeState ?? createChallengeStateContainer();
+    options?.challengeState ?? createChallengeStateContainer();
   pipeline.addPolicy(
     bearerTokenAuthenticationPolicy({
       ...options,
+      credential,
       challengeCallbacks: createKeyVaultChallengeCallbacks({ challengeState, ...options }),
       scopes: [],
     }),
   );
 
-  if (options.credential) {
-    pipeline.addPolicy(
-      keyVaultClaimsChallengePolicy(() => challengeState.get(), options.credential),
-    );
-  }
+  pipeline.addPolicy(keyVaultClaimsChallengePolicy(() => challengeState.get(), credential));
 }

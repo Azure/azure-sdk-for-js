@@ -4,8 +4,6 @@
 
 import { TokenCredential } from "@azure/core-auth";
 
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-
 import { logger } from "./log";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -18,7 +16,7 @@ import {
   SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -119,12 +117,6 @@ export class SecretClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [],
-      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
-    });
-
     const internalPipelineOptions = {
       ...pipelineOptions,
       loggingOptions: {
@@ -141,7 +133,7 @@ export class SecretClient {
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       internalPipelineOptions,
     );
-    this.client.pipeline.addPolicy(authPolicy);
+    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
   }
 
   /**

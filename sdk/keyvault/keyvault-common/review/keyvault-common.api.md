@@ -4,27 +4,24 @@
 
 ```ts
 
-import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
-import { BearerTokenAuthenticationPolicyOptions } from '../../../core/core-rest-pipeline/dist/commonjs/index.js';
+import { BearerTokenAuthenticationPolicyOptions } from '@azure/core-rest-pipeline';
 import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export function applyKeyVaultAuthPolicies(pipeline: Pipeline, options: BearerTokenAuthenticationPolicyOptions): void;
+// @public
+export function addKeyVaultAuthenticationPolicies(pipeline: Pipeline, credential: TokenCredential, options?: Omit<BearerTokenAuthenticationPolicyOptions, "credential" | "scopes"> & CreateChallengeCallbacksOptions): void;
 
 // @public
 export interface CreateChallengeCallbacksOptions {
+    // Warning: (ae-forgotten-export) The symbol "ChallengeStateContainer" needs to be exported by the entry point index.d.ts
+    challengeState?: ChallengeStateContainer;
     disableChallengeResourceVerification?: boolean;
 }
 
 // @public
-export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ExtendedChallengeCallbacks;
-
-// @public (undocumented)
-export interface ExtendedChallengeCallbacks extends ChallengeCallbacks {
-    // (undocumented)
-    authorizeRequestOnClaimChallenge: (options: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
-}
+export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
 
 // @public
 export interface KeyVaultEntityIdentifier {

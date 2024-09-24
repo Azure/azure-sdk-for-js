@@ -98,7 +98,7 @@
     "@azure/core-util": "^1.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/keyvault-common": "^1.0.0",
+    "@azure/keyvault-common": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

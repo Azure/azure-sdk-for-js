@@ -21,8 +21,7 @@ import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/pol
 import { LATEST_API_VERSION } from "./constants.js";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
 
@@ -89,15 +88,7 @@ export class KeyVaultBackupClient {
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
-    this.client.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({
-        credential,
-        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
-        // returned by the challenge, so pass an empty array as a placeholder.
-        scopes: [],
-        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      }),
-    );
+    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
   }
 
   /**

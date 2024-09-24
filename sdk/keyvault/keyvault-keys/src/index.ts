@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-
 import { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
@@ -19,7 +17,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -260,12 +258,6 @@ export class KeyClient {
           : libInfo,
     };
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [], // Scopes are going to be defined by the challenge callbacks.
-      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
-    });
-
     const internalPipelineOptions = {
       ...pipelineOptions,
       loggingOptions: {
@@ -283,7 +275,8 @@ export class KeyClient {
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       internalPipelineOptions,
     );
-    this.client.pipeline.addPolicy(authPolicy);
+
+    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
   }
 
   /**

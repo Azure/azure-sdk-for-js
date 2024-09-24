@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support for Continuous Access Evaluation (CAE). [#31140](https://github.com/Azure/azure-sdk-for-js/pull/31140)
+
 ### Breaking Changes
 
 ### Bugs Fixed
