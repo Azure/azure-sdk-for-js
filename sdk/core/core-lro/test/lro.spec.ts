@@ -11,7 +11,8 @@ import {
 import { describe, it, assert, expect } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
-import { matrix } from "./matrix.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+
 matrix(
   [["createPoller"], [true, false]] as const,
   async function (implName: ImplementationName, throwOnNon2xxResponse: boolean) {

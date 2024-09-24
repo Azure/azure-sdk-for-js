@@ -1,35 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { defineConfig } from "vitest/config";
-import { resolve } from "node:path";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.shared.config.ts";
 
-export default defineConfig({
-  test: {
-    reporters: ["basic", "junit"],
-    outputFile: {
-      junit: "test-results.xml",
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      include: ["test/**/*.spec.ts"],
+      exclude: ["test/snippets.spec.ts"],
     },
-    fakeTimers: {
-      toFake: ["setTimeout", "Date"],
-    },
-    watch: false,
-    alias: {
-      "../commonjs/state.js": resolve("./src/state-cjs.cts"),
-    },
-    include: ["test/**/*.spec.ts"],
-    exclude: ["test/**/browser/*.spec.ts"],
-    coverage: {
-      include: ["src/**/*.ts"],
-      exclude: [
-        "src/**/*-browser.mts",
-        "src/**/*-react-native.mts",
-        "vitest*.config.ts",
-        "samples-dev/**/*.ts",
-      ],
-      provider: "v8",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage",
-    },
-  },
-});
+  }),
+);
