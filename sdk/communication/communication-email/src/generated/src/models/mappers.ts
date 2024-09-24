@@ -321,12 +321,6 @@ export const EmailAttachment: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      contentId: {
-        serializedName: "contentId",
-        type: {
-          name: "String"
-        }
       }
     }
   }

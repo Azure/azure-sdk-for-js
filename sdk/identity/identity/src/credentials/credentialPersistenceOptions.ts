@@ -17,14 +17,23 @@ export interface CredentialPersistenceOptions {
    *
    * Example:
    *
-   * ```ts snippet:credential_persistence_options_example
+   * ```javascript
+   * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
    * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
    *
    * useIdentityPlugin(cachePersistencePlugin);
-   * const credential = new DeviceCodeCredential({
-   *   tokenCachePersistenceOptions: {
-   *     enabled: true,
-   *   },
+   *
+   * async function main() {
+   *   const credential = new DeviceCodeCredential({
+   *     tokenCachePersistenceOptions: {
+   *       enabled: true
+   *     }
+   *   });
+   * }
+   *
+   * main().catch((error) => {
+   *   console.error("An error occurred:", error);
+   *   process.exit(1);
    * });
    * ```
    */

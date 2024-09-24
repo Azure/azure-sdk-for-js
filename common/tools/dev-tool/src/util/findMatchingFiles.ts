@@ -31,10 +31,6 @@ export interface FileInfo {
    * File stats from the `fs.stat` Node API
    */
   stat: fs.Stats;
-  /**
-   * Depth of this find.
-   */
-  depth: number;
 }
 
 /**
@@ -43,13 +39,11 @@ export interface FileInfo {
 export interface FindOptions {
   ignore: string[];
   skips: string[];
-  maxDepth: number;
 }
 
 const defaultFindOptions: FindOptions = {
   ignore: [],
   skips: [],
-  maxDepth: Number.MAX_SAFE_INTEGER,
 };
 
 /**
@@ -68,7 +62,7 @@ export async function* findMatchingFiles(
 
   const options: FindOptions = { ...defaultFindOptions, ...findOptions };
 
-  async function enqueueAll(dir: string, depth: number) {
+  async function enqueueAll(dir: string) {
     const files = await fs.readdir(dir);
     for (const file of files) {
       const fullPath = path.join(dir, file);
@@ -77,14 +71,11 @@ export async function* findMatchingFiles(
         fullPath,
         name: file,
         stat: await fs.stat(fullPath),
-        depth,
       });
     }
   }
 
-  if (options.maxDepth > 0) {
-    await enqueueAll(dir, 1);
-  }
+  await enqueueAll(dir);
 
   while (q.length) {
     const info = q.shift() as FileInfo;
@@ -95,9 +86,7 @@ export async function* findMatchingFiles(
     }
 
     if (info.stat.isDirectory()) {
-      if (info.depth < options.maxDepth) {
-        await enqueueAll(info.fullPath, info.depth + 1);
-      }
+      await enqueueAll(info.fullPath);
     } else if (shouldSkip(info, options.skips)) {
       logInfo(`Skipping ${info.fullPath} because it was configured to be skipped.`);
     } else if (matches(info.name, info.stat)) {

@@ -100,6 +100,7 @@ export class Constants {
   public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
   public static readonly postTestResults: string = "postTestResults";
   public static readonly getStorageUri: string = "getStorageUri";
+
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
     patchTestRun: {
       400: "The request made to the server is invalid. Please check the request parameters and try again.",
@@ -164,7 +165,7 @@ export const TestErrorType = {
 
 export const TestResultErrorConstants = [
   {
-    key: "401",
+    key: "Unauthorized_Scalable",
     message: "The authentication token provided is invalid. Please check the token and try again.",
     pattern: /(?=.*browserType\.connect)(?=.*401 Unauthorized)/i,
     type: TestErrorType.Scalable,
@@ -188,7 +189,7 @@ export const TestResultErrorConstants = [
     type: TestErrorType.Scalable,
   },
   {
-    key: "InvalidAccessToken",
+    key: "InvalidAccessToken_Scalable",
     message:
       "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
     pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
@@ -210,13 +211,13 @@ export const TestResultErrorConstants = [
     type: TestErrorType.Scalable,
   },
   {
-    key: "503",
+    key: "ServiceUnavailable_Scalable",
     message: "The service is currently unavailable. Please check the service status and try again.",
     pattern: /(?=.*browserType\.connect)(?=.*503 Service Unavailable)/i,
     type: TestErrorType.Scalable,
   },
   {
-    key: "504",
+    key: "GatewayTimeout_Scalable",
     message: "The request to the service timed out. Please try again later.",
     pattern: /(?=.*browserType\.connect)(?=.*504 Gateway Timeout)/i,
     type: TestErrorType.Scalable,

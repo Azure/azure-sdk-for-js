@@ -88,7 +88,6 @@ export { AbortError } from "./abort-controller/AbortError.js";
 export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential.js";
 export { KeyCredential, isKeyCredential } from "./auth/keyCredential.js";
 export {
-  AddEventOptions,
   Instrumenter,
   InstrumenterSpanOptions,
   OperationTracingOptions,

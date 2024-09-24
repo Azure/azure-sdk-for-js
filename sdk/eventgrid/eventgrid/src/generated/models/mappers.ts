@@ -592,13 +592,6 @@ export const StorageLifecyclePolicyCompletedEventData: coreClient.CompositeMappe
           className: "StorageLifecyclePolicyActionSummaryDetail"
         }
       },
-      tierToColdSummary: {
-        serializedName: "tierToColdSummary",
-        type: {
-          name: "Composite",
-          className: "StorageLifecyclePolicyActionSummaryDetail"
-        }
-      },
       tierToArchiveSummary: {
         serializedName: "tierToArchiveSummary",
         type: {

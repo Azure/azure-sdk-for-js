@@ -6,7 +6,7 @@ import path from "node:path";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
-import { ProjectInfo, bindRequireFunction, resolveRoot } from "../resolveProject";
+import { ProjectInfo, resolveRoot } from "../resolveProject";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
@@ -105,7 +105,15 @@ export async function makeSampleGenerationInfo(
     return undefined as never;
   }
 
-  const requireInScope = bindRequireFunction(projectInfo);
+  const requireInScope = (moduleSpecifier: string) => {
+    try {
+      return require(
+        path.join(projectInfo.path, "node_modules", moduleSpecifier.split("/").join(path.sep)),
+      );
+    } catch {
+      return require(moduleSpecifier);
+    }
+  };
 
   const moduleInfos = await processSources(
     sampleSourcesPath,

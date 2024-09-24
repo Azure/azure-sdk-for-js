@@ -5,9 +5,6 @@ parameters:
   - name: RepositoryPath
     type: string
     default: 'sdk'
-  - name: RepositoryCommitish
-    type: string
-    default: $(Build.SourceVersion)
 
 jobs:
 - job:
@@ -39,7 +36,6 @@ jobs:
       parameters:
         Repositories:
           - Name: ${{ parameters.Repository }}
-            Commitish: ${{ parameters.RepositoryCommitish }}
             WorkingDirectory: $(System.DefaultWorkingDirectory)
         Paths:
           - 'sdk/**/*.yml'

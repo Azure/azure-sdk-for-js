@@ -30,16 +30,18 @@ const pluginContext: AzurePluginContext = {
  *
  * Example:
  *
- * ```ts snippet:consumer_example
- * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
+ * ```javascript
+ * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
  *
+ * import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
  * useIdentityPlugin(cachePersistencePlugin);
- * // The plugin has the capability to extend `DeviceCodeCredential` and to
+ *
+ * // The plugin has the capability to extend `DefaultAzureCredential` and to
  * // add middleware to the underlying credentials, such as persistence.
- * const credential = new DeviceCodeCredential({
+ * const credential = new DefaultAzureCredential({
  *   tokenCachePersistenceOptions: {
- *     enabled: true,
- *   },
+ *     enabled: true
+ *   }
  * });
  * ```
  *
