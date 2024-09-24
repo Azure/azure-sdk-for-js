@@ -3,7 +3,7 @@
 
 import { positionToTileXY } from "@azure-rest/maps-render";
 import { DefaultAzureCredential } from "@azure/identity";
-import { isUnexpected } from "../src/generated";
+import { isUnexpected } from "../generated";
 import MapsRender from "../src/mapsRender";
 
 /**

@@ -3,8 +3,19 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/maps-render": ["./src/index"] },
-    "lib": ["DOM"]
+    "paths": {
+      "@azure-rest/maps-render": [
+        "./src/index"
+      ]
+    },
+    "lib": [
+      "DOM"
+    ]
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts",
+    "generated/logger.ts"
+  ]
 }
