@@ -83,7 +83,7 @@
     "eslint": "^9.9.0",
     "rimraf": "^5.0.5",
     "mkdirp": "^3.0.1",
-    "typescript": "~5.4.5",
+    "typescript": "~5.6.2",
     "tshy": "^2.0.0",
     "@azure/core-util": "^1.9.0",
     "@azure-tools/test-credential": "^2.1.0",

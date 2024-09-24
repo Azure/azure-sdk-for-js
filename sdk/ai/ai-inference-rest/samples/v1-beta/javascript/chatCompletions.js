@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get chat completions for a chat context.
  *
- * @summary get chat completions.
+ * @summary Get chat completions.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,
@@ -19,8 +19,9 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 
 async function main() {
   console.log("== Chat Completions Sample ==");
+  const credential = new DefaultAzureCredential();
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const client = ModelClient(endpoint, credential);
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [

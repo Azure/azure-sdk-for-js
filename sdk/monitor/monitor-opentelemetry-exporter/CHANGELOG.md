@@ -1,10 +1,11 @@
 # Release History
 
-## 1.0.0-beta.26 ()
+## 1.0.0-beta.26 (2024-09-13)
 
 ### Other Changes
 
-- Updated OTel dependencies
+- Enforce property length limits on telemetry using truncation.
+- Updated OTel dependencies.
 
 ## 1.0.0-beta.25 (2024-08-14)
 

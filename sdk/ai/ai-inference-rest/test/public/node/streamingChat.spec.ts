@@ -36,7 +36,7 @@ describe("chat test suite", () => {
     assert.isDefined(stream);
 
     if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
+      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
     }
 
     const sses = createSseStream(stream);

@@ -24,7 +24,14 @@ export class ChainedTokenCredential implements TokenCredential {
    * @param sources - `TokenCredential` implementations to be tried in order.
    *
    * Example usage:
-   * ```javascript
+   * ```ts snippet:chained_token_credential_example
+   * import { ClientSecretCredential, ChainedTokenCredential } from "@azure/identity";
+   *
+   * const tenantId = "<tenant-id>";
+   * const clientId = "<client-id>";
+   * const clientSecret = "<client-secret>";
+   * const anotherClientId = "<another-client-id>";
+   * const anotherSecret = "<another-client-secret>";
    * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
    * const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
    * const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);

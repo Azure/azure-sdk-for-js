@@ -2442,6 +2442,13 @@ export const AdvancedNetworking: coreClient.CompositeMapper = {
           className: "AdvancedNetworkingObservability",
         },
       },
+      security: {
+        serializedName: "security",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworkingSecurity",
+        },
+      },
     },
   },
 };
@@ -2450,6 +2457,43 @@ export const AdvancedNetworkingObservability: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdvancedNetworkingObservability",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      tlsManagement: {
+        serializedName: "tlsManagement",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworkingSecurity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworkingSecurity",
+    modelProperties: {
+      fqdnPolicy: {
+        serializedName: "fqdnPolicy",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworkingFqdnPolicy",
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworkingFqdnPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworkingFqdnPolicy",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -3221,6 +3265,13 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
             },
           },
         },
+        nginx: {
+          serializedName: "nginx",
+          type: {
+            name: "Composite",
+            className: "ManagedClusterIngressProfileNginx",
+          },
+        },
         identity: {
           serializedName: "identity",
           type: {
@@ -3231,6 +3282,21 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
       },
     },
   };
+
+export const ManagedClusterIngressProfileNginx: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterIngressProfileNginx",
+    modelProperties: {
+      defaultIngressControllerType: {
+        serializedName: "defaultIngressControllerType",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper =
   {
