@@ -13,7 +13,7 @@ export const commandInfo = makeCommandInfo("build-package", "build a package for
 const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", ".bin");
 
 export default leafCommand(commandInfo, async () => {
-  const command = path.join(DOT_BIN_PATH, process.platform !== "win32" ? "tshy" : "tshy.cmd");
+  const command = path.join(DOT_BIN_PATH, "tshy");
   log.info(`Building package with tshy from ${command}`);
 
   await concurrently(
