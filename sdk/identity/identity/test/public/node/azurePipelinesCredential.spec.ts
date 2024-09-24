@@ -87,4 +87,19 @@ describe("AzurePipelinesCredential", function () {
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 302/);
   });
+
+  it("fails with with invalid system access token, redirect?", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
+    const credential = new AzurePipelinesCredential(
+      tenantId,
+      clientId,
+      existingServiceConnectionId,
+      "systemAccessToken",
+    );
+    await assert.isRejected(credential.getToken(scope), /Status code: 203/);
+  });
 });
