@@ -401,7 +401,6 @@ export function createDeserializer(typeMarker: TypeMarker): Serializer {
 
 /**
  * @hidden
- * extracts the top-level path
  */
 export function extractPath(path: string): string {
   const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);

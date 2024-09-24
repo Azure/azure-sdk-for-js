@@ -24,6 +24,7 @@ export class EncryptionSettingsCache {
   ): Promise<EncryptionSettings> {
     const encryptionSettings = new EncryptionSettings(id, containerRid, partitionKeyPaths);
     if (!clientEncryptionPolicy) return null;
+    encryptionSettings.validatePolicyFormatVersion(clientEncryptionPolicy, partitionKeyPaths);
 
     for (const includedPath of clientEncryptionPolicy.includedPaths) {
       const encryptionSettingForProperty = new EncryptionSettingForProperty(includedPath);

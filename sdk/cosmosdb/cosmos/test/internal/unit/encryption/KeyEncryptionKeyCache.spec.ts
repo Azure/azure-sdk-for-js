@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import assert from "assert";
 import { KeyEncryptionKeyCache } from "../../../../src/encryption/Cache/KeyEncryptionKeyCache";
 
