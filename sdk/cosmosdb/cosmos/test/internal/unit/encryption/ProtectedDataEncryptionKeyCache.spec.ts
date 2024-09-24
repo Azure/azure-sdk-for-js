@@ -59,11 +59,12 @@ describe("ProtectedDataEncryptionKeyCache", function () {
   let keyEncryptionKey: KeyEncryptionKey;
   let protectedDataEncryptionKeyCache: ProtectedDataEncryptionKeyCache;
   let key: string;
+  let keyStoreProvider: EncryptionKeyStoreProvider;
   let protectedDataEncryptionKey: ProtectedDataEncryptionKey;
 
   beforeEach(async function () {
     const resolver = new MockKeyVaultEncryptionKeyResolver();
-    const keyStoreProvider = new EncryptionKeyStoreProvider(resolver, "keyStoreProvider", 0);
+    keyStoreProvider = new EncryptionKeyStoreProvider(resolver, "keyStoreProvider", 0);
     keyEncryptionKey = new KeyEncryptionKey("metadataName", "metadataPath", keyStoreProvider);
     const cacheTTL = 5000;
     protectedDataEncryptionKeyCache = new ProtectedDataEncryptionKeyCache(cacheTTL);
@@ -129,5 +130,10 @@ describe("ProtectedDataEncryptionKeyCache", function () {
       undefined,
       "The key should not get stored in cache as ttl is 0",
     );
+    clearTimeout(cacheWithZeroTTL.cacheRefresher);
+  });
+  afterEach(function () {
+    clearTimeout(protectedDataEncryptionKeyCache.cacheRefresher);
+    clearTimeout(keyStoreProvider.cacheRefresher);
   });
 });
