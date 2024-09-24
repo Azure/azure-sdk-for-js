@@ -72,7 +72,7 @@ export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
 
 /**
  * A custom implementation of the bearer-token authentication policy that handles Key Vault and CAE challenges.
- * 
+ *
  * Key Vault supports other authentication schemes, but we ensure challenge authentication
  * is used by first sending a copy of the request, without authorization or content.
  *
