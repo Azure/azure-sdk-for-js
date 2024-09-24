@@ -4,24 +4,19 @@
 
 ```ts
 
-import { BearerTokenAuthenticationPolicyOptions } from '@azure/core-rest-pipeline';
-import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function addKeyVaultAuthenticationPolicies(pipeline: Pipeline, credential: TokenCredential, options?: Omit<BearerTokenAuthenticationPolicyOptions, "credential" | "scopes"> & CreateChallengeCallbacksOptions): void;
-
-// @public
 export interface CreateChallengeCallbacksOptions {
-    // Warning: (ae-forgotten-export) The symbol "ChallengeStateContainer" needs to be exported by the entry point index.d.ts
-    challengeState?: ChallengeStateContainer;
     disableChallengeResourceVerification?: boolean;
 }
 
 // @public
-export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
+export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: CreateChallengeCallbacksOptions): PipelinePolicy;
+
+// @public (undocumented)
+export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
 
 // @public
 export interface KeyVaultEntityIdentifier {

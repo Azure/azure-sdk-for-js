@@ -17,7 +17,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -276,7 +276,7 @@ export class KeyClient {
       internalPipelineOptions,
     );
 
-    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions));
   }
 
   /**

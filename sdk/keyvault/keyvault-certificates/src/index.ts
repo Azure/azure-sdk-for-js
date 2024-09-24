@@ -99,7 +99,7 @@ import {
 } from "./generated/models/index.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller.js";
 import { CertificateOperationPoller } from "./lro/operation/poller.js";
 import { DeleteCertificatePoller } from "./lro/delete/poller.js";
@@ -262,7 +262,7 @@ export class CertificateClient {
       clientOptions.serviceVersion || LATEST_API_VERSION,
       internalClientPipelineOptions,
     );
-    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions));
   }
 
   private async *listPropertiesOfCertificatesPage(

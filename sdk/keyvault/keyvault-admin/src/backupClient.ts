@@ -21,7 +21,7 @@ import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/pol
 import { LATEST_API_VERSION } from "./constants.js";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
-import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
 
@@ -88,7 +88,7 @@ export class KeyVaultBackupClient {
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
-    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions));
   }
 
   /**

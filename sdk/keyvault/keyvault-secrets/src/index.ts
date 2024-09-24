@@ -16,7 +16,7 @@ import {
   SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -133,7 +133,7 @@ export class SecretClient {
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       internalPipelineOptions,
     );
-    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions));
   }
 
   /**

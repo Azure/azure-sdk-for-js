@@ -110,7 +110,7 @@
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/keyvault-common": "^1.0.0",
+    "@azure/keyvault-common": "^2.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

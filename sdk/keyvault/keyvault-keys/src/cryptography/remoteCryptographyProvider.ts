@@ -33,7 +33,7 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { tracingClient } from "../tracing";
 
 /**
@@ -397,7 +397,7 @@ function getOrInitializeClient(
     options.serviceVersion || LATEST_API_VERSION,
     internalPipelineOptions,
   );
-  addKeyVaultAuthenticationPolicies(client.pipeline, credential);
+  client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options));
 
   return client;
 }

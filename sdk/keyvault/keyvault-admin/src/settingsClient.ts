@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
-import { addKeyVaultAuthenticationPolicies } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { LATEST_API_VERSION } from "./constants.js";
 import { KeyVaultClient, Setting as GeneratedSetting } from "./generated/index.js";
 import { logger } from "./log.js";
@@ -90,7 +90,7 @@ export class KeyVaultSettingsClient {
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
-    addKeyVaultAuthenticationPolicies(this.client.pipeline, credential);
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions));
   }
 
   /**
