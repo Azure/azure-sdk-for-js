@@ -21078,7 +21078,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-fjQ2BzBoMkArIjxvlf6oe8hqdIH65InA8pgcgsGnJCXdYm+vxR8bQch4JQEYETSLwULhGtIU5BKniBtfdI40ig==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-4fWB5VISf7xXi2jY/jMoGFZTbHkAmOnLETpiSDHw5Dfbvwys/76MkW+v3xyavlcwxdfeTI6hJH74DY5a/yqqbA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -21087,6 +21087,7 @@ packages:
       '@azure/identity': 4.4.1
       '@eslint/js': 9.11.0
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
+      '@microsoft/api-extractor-model': 7.29.8(@types/node@18.19.50)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.22.4)
       '@rollup/plugin-inject': 5.0.5(rollup@4.22.4)
       '@rollup/plugin-json': 6.1.0(rollup@4.22.4)
