@@ -224,6 +224,9 @@ export function popTokenAuthenticationPolicy(
           console.log("Response 2");
           console.log(res2.request.headers.get("Authorization"));
           console.log((shouldSendRequest as any).request.headers.get("Authorization"));
+          console.log("Response => ")
+          console.dir(res2)
+          console.log(res2.bodyAsText)
           return res2;
         }
       }
