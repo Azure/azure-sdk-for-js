@@ -8,11 +8,4 @@ export default [
       "@azure/azure-sdk/ts-package-json-name": "off",
     },
   },
-  {
-    files: ["test/snippets.spec.ts"],
-    rules: {
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-    },
-  },
 ];
