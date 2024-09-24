@@ -29,6 +29,7 @@ import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
 import { MPTReporterConfig } from "../common/types";
 import { ServiceErrorMessageConstants } from "../common/messages";
+import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
 
 /**
  * @public
@@ -100,7 +101,13 @@ class MPTReporter implements Reporter {
   private _isInformationMessagePresent = (key: string): boolean => {
     return this.processedErrorMessageKeys.includes(key);
   };
-
+  private _reporterFailureHandler = (error: { key: string; message: string }): void => {
+    if (!this._isInformationMessagePresent(error.key)) {
+      this._addKeyToInformationMessage(error.key);
+      this._addInformationalMessage(error.message);
+    }
+    this.isTokenValid = false;
+  };
   /**
    * @public
    *
@@ -359,10 +366,10 @@ class MPTReporter implements Reporter {
     }
     reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
-      process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR}`);
+      process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR.message}`);
       this.isTokenValid = false;
     } else if (ReporterUtils.hasAudienceClaim(this.envVariables.accessToken)) {
-      const result = ReporterUtils.populateValuesFromServiceUrl();
+      const result = populateValuesFromServiceUrl();
       this.envVariables.region = result!.region;
       this.envVariables.accountId = result!.accountId;
       const entraTokenDetails: EntraTokenDetails = ReporterUtils.getTokenDetails<EntraTokenDetails>(
@@ -376,6 +383,7 @@ class MPTReporter implements Reporter {
         this.envVariables.accessToken,
         TokenType.MPT,
       );
+      validateMptPAT(this._reporterFailureHandler);
       this.envVariables.accountId = mptTokenDetails.aid;
       this.envVariables.userId = mptTokenDetails.oid;
       this.envVariables.userName = mptTokenDetails.userName;
