@@ -1,6 +1,6 @@
 {
   "name": "@azure/notification-hubs",
-  "version": "1.2.4",
+  "version": "2.0.0",
   "description": "Azure Notification Hubs SDK for JavaScript",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -23,7 +23,7 @@
     "build": "npm run build:test && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
+    "execute:samples": "tsx",
     "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser -- -c vitest.browser.int.config.ts",
@@ -37,7 +37,8 @@
     "test": "npm run clean && tshy && npm run unit-test:node && npm run build:test && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser -- -c vitest.browser.unit.config.ts",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "update-snippets": "tshy && dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -74,13 +75,14 @@
     "playwright": "^1.43.0",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
+    "tsx": "^4.19.1",
     "typescript": "~5.5.3",
     "vitest": "^2.0.5"
   },
   "dependencies": {
     "@azure/core-auth": "^1.7.2",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/core-lro": "^2.7.2",
+    "@azure/core-lro": "^3.0.0",
     "@azure/core-paging": "^1.6.2",
     "@azure/core-rest-pipeline": "^1.15.2",
     "@azure/core-tracing": "^1.1.2",

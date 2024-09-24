@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates applications for the HDInsight cluster.
  *
  * @summary Creates applications for the HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateApplication.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateApplication.json
  */
 async function createApplication() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -60,7 +60,7 @@ async function createApplication() {
     resourceGroupName,
     clusterName,
     applicationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

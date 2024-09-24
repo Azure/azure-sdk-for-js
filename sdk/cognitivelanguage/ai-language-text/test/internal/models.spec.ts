@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AnalyzeAction, KnownAnalyzeTextLROTaskKind } from "../../src/generated/models";
 import { AnalyzeActionName, AnalyzeBatchActionName } from "../../src";

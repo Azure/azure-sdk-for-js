@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { StorageClient as StorageClientContext } from "./generated/src/";
 import { StorageContextClient } from "./StorageContextClient";

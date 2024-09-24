@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { AzureKeyCredential } from "./azureKeyCredential.js";
 export { KeyCredential, isKeyCredential } from "./keyCredential.js";

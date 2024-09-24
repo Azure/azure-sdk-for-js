@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import { CosmosClient, CosmosClientOptions } from "../../../src";
 import { RequestContext } from "../../../src";

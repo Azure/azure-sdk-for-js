@@ -11,7 +11,7 @@ import {
   ConfigurationPatchOptionalParams,
   ConfigurationPatchResponse,
   ConfigurationGetOptionalParams,
-  ConfigurationGetResponse
+  ConfigurationGetResponse,
 } from "../models";
 
 /** Interface representing a Configuration. */
@@ -28,7 +28,7 @@ export interface Configuration {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterQuotaConfigurationProperties,
-    options?: ConfigurationPatchOptionalParams
+    options?: ConfigurationPatchOptionalParams,
   ): Promise<ConfigurationPatchResponse>;
   /**
    * Get all Event Hubs Cluster settings - a collection of key/value pairs which represent the quotas and
@@ -40,6 +40,6 @@ export interface Configuration {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationGetOptionalParams
+    options?: ConfigurationGetOptionalParams,
   ): Promise<ConfigurationGetResponse>;
 }

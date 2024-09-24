@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { PollerStoppedError } from "@azure/core-lro";
 
 import {
   CertificateClient,
@@ -87,7 +87,6 @@ describe("Certificates client - LRO - recoverDelete", () => {
     expect(recoverPoller.getOperationState().isStarted).toBeTruthy();
 
     recoverPoller.pollUntilDone().catch((e) => {
-      expect(e).toBeInstanceOf(PollerStoppedError);
       expect(e.name).toEqual("PollerStoppedError");
       expect(e.message).toEqual("This poller is already stopped");
     });

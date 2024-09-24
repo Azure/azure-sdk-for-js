@@ -84,7 +84,7 @@ As an example, we can create a new `hello-world` command under the `dev-tool pac
 
 ```typescript
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -147,7 +147,7 @@ Instead of creating a single file `hello-world.ts`, we will instead create a fol
 
 ```typescript
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { subCommand, makeCommandInfo } from "../../framework/command";
 
@@ -166,7 +166,7 @@ This simple file establishes the mapping from the command name `"world"` to our 
 
 ```typescript
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";

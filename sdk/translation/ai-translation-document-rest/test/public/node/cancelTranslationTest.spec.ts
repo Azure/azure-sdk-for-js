@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { DocumentTranslationClient, isUnexpected } from "../.././../src";
+import { DocumentTranslationClient, isUnexpected } from "../../../src";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
 import {
   ONE_TEST_DOCUMENTS,

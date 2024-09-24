@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { SupportedVersions, TestFunctionWrapper, assert, supports } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";

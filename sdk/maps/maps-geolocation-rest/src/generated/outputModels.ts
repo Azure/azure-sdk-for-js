@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** This object is returned from a successful call to IP Address to country/region API */
 export interface IpAddressToLocationResultOutput {

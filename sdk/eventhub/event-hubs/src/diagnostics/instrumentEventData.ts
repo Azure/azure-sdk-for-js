@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EventData, isAmqpAnnotatedMessage } from "../eventData.js";
 import { TracingContext } from "@azure/core-tracing";

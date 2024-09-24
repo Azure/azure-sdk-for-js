@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import * as os from "os";
 import {
   MeterProvider,
@@ -368,7 +368,9 @@ export class LiveMetrics {
   }
 
   public getDocuments(): DocumentIngress[] {
-    return this.documents;
+    const result: DocumentIngress[] = this.documents;
+    this.documents = [];
+    return result;
   }
 
   private addDocument(document: DocumentIngress): void {

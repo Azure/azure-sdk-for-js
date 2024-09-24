@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const { positionToTileXY } = require("@azure-rest/maps-render");
 const { DefaultAzureCredential } = require("@azure/identity");

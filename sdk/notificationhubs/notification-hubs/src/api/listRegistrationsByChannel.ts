@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RegistrationDescription, RegistrationChannel } from "../models/registration.js";
 import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_listRegistrations.js";

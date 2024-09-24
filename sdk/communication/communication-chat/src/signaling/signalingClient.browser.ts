@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
 import { CommunicationTokenCredential } from "@azure/communication-common";

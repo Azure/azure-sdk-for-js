@@ -47,6 +47,7 @@ module.exports = function (config) {
       "SERVICEBUS_CONNECTION_STRING_PREMIUM",
       "SERVICEBUS_CONNECTION_STRING",
       "SERVICEBUS_FQDN",
+      "TEST_MODE",
     ],
 
     // test results reporter to use

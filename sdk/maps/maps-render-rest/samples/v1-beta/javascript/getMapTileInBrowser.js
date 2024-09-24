@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const MapsRender = require("@azure-rest/maps-render").default,

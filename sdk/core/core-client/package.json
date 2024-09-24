@@ -55,7 +55,7 @@
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "clean": "rimraf --glob dist temp types *.tgz *.log",
+    "clean": "rimraf --glob dist* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tshy && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
@@ -93,7 +93,7 @@
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
     "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
   "//metadata": {

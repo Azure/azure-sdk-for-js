@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to create an Account SAS token. An account SAS token
  * provides access to the whole Tables Service account, given the permissions selected,

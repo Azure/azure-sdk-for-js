@@ -11,7 +11,7 @@
     "./src/**/*.ts",
     "./src/**/*.mts",
     "./src/**/*.cts",
-    "test/**/*.ts",
+    "./test/**/*.ts",
     "samples-dev/**/*.ts"
   ]
 }

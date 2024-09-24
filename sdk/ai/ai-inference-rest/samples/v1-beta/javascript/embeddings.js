@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get embeddings from a model endpoint.
  *
- * @summary get embeddings.
+ * @summary Get embeddings.
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default,

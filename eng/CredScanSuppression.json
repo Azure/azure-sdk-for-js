@@ -31,6 +31,7 @@
       "file": [
         "sdk/batch/arm-batch/test/fakeTestSecrets.ts",
         "sdk/batch/batch/test/fakeTestSecrets.ts",
+        "sdk/batch/batch-rest/test/utils/fakeTestSecrets.ts",
         "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
         "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
         "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",

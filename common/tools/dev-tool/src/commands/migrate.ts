@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { METADATA_KEY, ProjectInfo, resolveProject, resolveRoot } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";

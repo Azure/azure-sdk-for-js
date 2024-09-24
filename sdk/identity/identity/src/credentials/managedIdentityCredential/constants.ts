@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export const DefaultScopeSuffix = "/.default";
 export const imdsHost = "http://169.254.169.254";

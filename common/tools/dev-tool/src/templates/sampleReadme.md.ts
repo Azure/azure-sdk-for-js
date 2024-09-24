@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import path from "node:path";
 import YAML from "yaml";

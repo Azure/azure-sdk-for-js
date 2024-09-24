@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ManagementClient } from "../../src/core/managementClient";
 import { createConnectionContextForTests } from "./unit/unittestUtils";

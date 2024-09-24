@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the async operation status.
  *
  * @summary Get the async operation status.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Locations_GetAsyncOperationStatus.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_GetAsyncOperationStatus.json
  */
 async function getsTheAzureAsyncOperationStatus() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
