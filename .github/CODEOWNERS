@@ -8,12 +8,6 @@
 /** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
 ################
-# CODEOWNERS
-################
-
-/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
-
-################
 # Misc.
 ################
 
@@ -1546,16 +1540,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @ccmshowbackdevs
 
 ###########
-# Eng Sys
-###########
-/eng/                  @ckairen @mikeharder @weshaggard @benbp
-/eng/common/           @Azure/azure-sdk-eng
-/.github/workflows/    @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-
-/.config/1espt/ @benbp @weshaggard
-
-###########
 # Config
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
@@ -1605,3 +1589,13 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 /sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+
+#########################
+# Eng Sys and CODEOWNERS
+#########################
+/eng/                  @ckairen @mikeharder @weshaggard @benbp
+/eng/common/           @Azure/azure-sdk-eng
+/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+/.config/1espt/ @benbp @weshaggard
+/.github/workflows/    @Azure/azure-sdk-eng
+/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
