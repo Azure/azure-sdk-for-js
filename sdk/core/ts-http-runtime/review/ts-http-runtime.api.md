@@ -43,6 +43,12 @@ export interface AddCredentialPipelinePolicyOptions {
 }
 
 // @public
+export interface AddEventOptions {
+    attributes?: Record<string, unknown>;
+    startTime?: Date;
+}
+
+// @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";
@@ -789,6 +795,7 @@ export interface TracingPolicyOptions {
 
 // @public
 export interface TracingSpan {
+    addEvent?(name: string, options?: AddEventOptions): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;

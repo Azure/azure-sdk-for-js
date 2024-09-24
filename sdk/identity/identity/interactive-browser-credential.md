@@ -10,14 +10,16 @@ For Node.js, if a `clientId` is provided, the Microsoft Entra application will n
 
 When using `InteractiveBrowserCredential` on Node, you may specify a `clientId` and `tenantId`, but otherwise we try to authenticate using a public client that's available for all Azure accounts and the default tenant of your account. For Node, this credential uses a web server to fulfill the redirection. This web server tries to use the port `80` by default. A `redirectUri` can be provided to determine the proper redirection URI with the adequate port, as follows:
 
-```ts
+```ts snippet:interactivebrowsercredential_node
+import { InteractiveBrowserCredential } from "@azure/identity";
+
 const credential = new InteractiveBrowserCredential({
   // You may provide a client ID if you have an application configured.
   clientId: "my-client-id",
   // You may provide a tenant ID based on the resource you are trying to access.
   tenantId: "my-tenant-id",
   // You may provide a redirectUri based on the redirectUri configured in your Microsoft Entra application:
-  redirectUri: "http://localhost:8080/"
+  redirectUri: "http://localhost:8080/",
 });
 ```
 
@@ -27,14 +29,16 @@ Follow the instructions for [creating and configuring a Microsoft Entra applicat
 
 When using `InteractiveBrowserCredential` in the browser, you will be required to pass a `clientId` in the constructor parameters, such as:
 
-```ts
+```ts snippet:interactivebrowsercredential_browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+
 const credential = new InteractiveBrowserCredential({
   // You MUST provide a client ID if you have an application configured.
   clientId: "my-client-id",
   // You may provide a tenant ID based on the resource you are trying to access.
   tenantId: "my-tenant-id",
   // You may provide a redirectUri based on the redirectUri configured in your Microsoft Entra application:
-  redirectUri: "http://localhost:8080/"
+  redirectUri: "http://localhost:8080/",
 });
 ```
 

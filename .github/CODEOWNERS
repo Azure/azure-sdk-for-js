@@ -1035,7 +1035,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @Eskibear @avanigupta
+#/<NotInRepo>/          @zhiyuanliang-ms @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar
@@ -1552,6 +1552,8 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /eng/common/           @Azure/azure-sdk-eng
 /.github/workflows/    @Azure/azure-sdk-eng
 /eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+
+/.config/1espt/ @benbp @weshaggard
 
 ###########
 # Config

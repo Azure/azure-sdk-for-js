@@ -24,6 +24,9 @@ export function createDefaultTracingSpan(): TracingSpan {
     setStatus: () => {
       // noop
     },
+    addEvent: () => {
+      // noop
+    },
   };
 }
 

@@ -18,6 +18,7 @@ import {
   exitWithFailureMessage,
   fetchOrValidateAccessToken,
   emitReportingUrl,
+  populateValuesFromServiceUrl,
 } from "../../src/utils/utils";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";
@@ -110,7 +111,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -122,7 +123,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -135,7 +136,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -148,21 +149,61 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should be no-op if MPT PAT is valid", () => {
+    const processExitStub = sandbox.stub(process, "exit");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10 });
 
-    expect(() => validateMptPAT()).not.to.throw();
-
+    expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
+    processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
+  it("Should exit with an error message if the MPT PAT and service URL are from different workspaces", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    sandbox
+      .stub(utils, "parseJwt")
+      .returns({ aid: "eastasia_c24330dd-9249-4ae8-9ba9-b5766060427c" });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
+    expect(exitStub.calledWith(1)).to.be.true;
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+
+  it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
+    const processExitStub = sandbox.stub(process, "exit");
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    sandbox
+      .stub(utils, "parseJwt")
+      .returns({ aid: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+
+    expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
+    processExitStub.restore();
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+  it("should not exit the process if workspace URL is mismatched", () => {
+    const exitStub = sandbox.stub(process, "exit");
+    process.env["PLAYWRIGHT_SERVICE_URL"] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.deep.equal({ region: "eastus", accountId: "wrong-id" });
+    expect(exitStub.notCalled).to.be.true;
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
   it("should return entra access token (not close to expiry)", async () => {
     const tokenMock = "test";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
@@ -267,7 +308,7 @@ describe("Service Utils", () => {
     });
     const consoleErrorSpy = sandbox.stub(console, "error");
 
-    exitWithFailureMessage("error message");
+    exitWithFailureMessage({ key: "error", message: "error message" });
 
     expect(exitStub.called).to.be.true;
     expect(consoleErrorSpy.calledWith("error message")).to.be.true;
@@ -413,5 +454,29 @@ describe("Service Utils", () => {
     const version = utils.getPlaywrightVersion();
     expect(version).to.equal(mockVersion);
     expect(process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]).to.equal(mockVersion);
+  });
+
+  it("should return region and accountId from a valid service URL", () => {
+    process.env["PLAYWRIGHT_SERVICE_URL"] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
+
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
+
+  it("should return null for an invalid service URL", () => {
+    process.env["PLAYWRIGHT_SERVICE_URL"] = "invalid-url";
+
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.be.null;
+
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
+
+  it("should return null if PLAYWRIGHT_SERVICE_URL is not set", () => {
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.be.null;
   });
 });

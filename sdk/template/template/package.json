@@ -42,6 +42,7 @@
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tshy && dev-tool run extract-api",
+    "update-snippets": "tshy && dev-tool run update-snippets",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "tshy && dev-tool run build-test && dev-tool run test:vitest --browser",

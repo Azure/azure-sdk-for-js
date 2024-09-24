@@ -1613,6 +1613,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: {
         [propertyName: string]: string;

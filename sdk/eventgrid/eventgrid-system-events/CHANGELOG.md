@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.4 (2024-09-23)
+
+### Other Changes
+
+- A new property `tierToColdSummary` is added to the `StorageLifecyclePolicyCompletedEventData` interface.
+
 ## 1.0.0-beta.3 (2024-08-20)
 
 ### Other Changes

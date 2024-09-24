@@ -26,8 +26,9 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' 'test/**/**/*.spec.ts'",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' --exclude 'test/snippets.spec.ts' 'test/**/**/*.spec.ts'",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -81,7 +82,7 @@
     "mocha": "^10.0.0",
     "puppeteer": "^23.0.2",
     "rimraf": "^5.0.1",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "sinon": "^17.0.0"
   },
   "//sampleConfiguration": {

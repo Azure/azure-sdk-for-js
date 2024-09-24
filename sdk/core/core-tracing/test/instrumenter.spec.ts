@@ -72,6 +72,8 @@ describe("Instrumenter", () => {
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       span.recordException(new Error("test"));
+      assert.exists(span.addEvent);
+      span.addEvent?.("I said span not Spren!", { startTime: new Date() });
       span.end();
       assert.isFalse(span.isRecording());
     });

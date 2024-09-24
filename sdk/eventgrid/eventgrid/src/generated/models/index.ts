@@ -200,6 +200,8 @@ export interface StorageLifecyclePolicyCompletedEventData {
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
+  tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
+  /** Execution statistics of a specific policy action in a Blob Management cycle. */
   tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
 

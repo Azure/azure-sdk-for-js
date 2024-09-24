@@ -2,6 +2,8 @@
 
 <!-- NOTE: This is an example README copied from the real Azure App Configuration SDK. The real SDK has much more functionality than is exposed in the template/tutorial project, but this README can serve as an example to help you write a high-quality README for your own package. -->
 
+<!-- dev-tool snippets ignore -->
+
 [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
 Use the client library for App Configuration to:

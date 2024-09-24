@@ -60,7 +60,9 @@ const requireOrImportDefaultFunction = async (file: string): Promise<any> => {
   }
   if (typeof func !== "function") {
     // match playwright's error style
-    const error = new Error(`${fileName}: ${ServiceErrorMessageConstants.INVALID_GLOBAL_FUNCTION}`);
+    const error = new Error(
+      `${fileName}: ${ServiceErrorMessageConstants.INVALID_GLOBAL_FUNCTION.message}`,
+    );
     error.stack = "";
     throw error;
   }

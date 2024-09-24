@@ -6,7 +6,8 @@
     "paths": {
       "@azure/schema-registry-json": ["./src/index"]
     },
-    "lib": ["dom"]
+    "lib": ["dom"],
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

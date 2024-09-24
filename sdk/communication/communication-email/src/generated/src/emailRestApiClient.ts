@@ -57,7 +57,7 @@ export class EmailRestApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-03-31";
+    this.apiVersion = options.apiVersion || "2024-07-01-preview";
     this.email = new EmailImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

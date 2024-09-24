@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for attaching events to a span. [#31162](https://github.com/Azure/azure-sdk-for-js/pull/31162)
+
 ### Breaking Changes
 
 ### Bugs Fixed

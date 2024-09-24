@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a load balancer in the specified managed cluster.
  *
  * @summary Deletes a load balancer in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-05-02-preview/examples/LoadBalancers_Delete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-06-02-preview/examples/LoadBalancers_Delete.json
  */
 async function deleteALoadBalancer() {
   const subscriptionId =
