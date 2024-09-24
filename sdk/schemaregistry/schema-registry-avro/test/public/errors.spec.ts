@@ -13,7 +13,7 @@ import { testGroup, testSchemaName } from "./utils/dummies.js";
 import { v4 as uuid } from "uuid";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll, expect } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, afterAll, expect } from "vitest";
 
 describe("Error scenarios", function () {
   let serializer: AvroSerializer;
@@ -41,7 +41,7 @@ describe("Error scenarios", function () {
 
   describe("Schema validation", function () {
     describe("Without auto register schema", function () {
-      beforeAll(async function () {
+      beforeEach(async function () {
         serializerNoAutoReg = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: false,
