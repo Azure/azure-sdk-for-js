@@ -100,7 +100,7 @@
     "rimraf": "^6.0.1",
     "stream": "^0.0.3",
     "tshy": "^2.0.0",
-    "typescript": "~5.5.4",
+    "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
   "//sampleConfiguration": {

@@ -372,9 +372,6 @@ export interface SubmitStartRequest {
     schedule: Schedule;
 }
 
-// @public
-export type Versions = "2024-08-15-preview";
-
 // (No @packageDocumentation comment for this package)
 
 ```

@@ -53,7 +53,6 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
   OperationsListOptionalParams,
   ScheduledActionsVirtualMachinesSubmitDeallocateOptionalParams,
   ScheduledActionsVirtualMachinesSubmitHibernateOptionalParams,
