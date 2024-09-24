@@ -9,9 +9,6 @@ const log = createPrinter("build-package");
 
 export const commandInfo = makeCommandInfo("build-package", "build a package for production");
 
-// // Create an output stream to capture the output of the build command
-// const outStream = new WriteStream();
-
 export default leafCommand(commandInfo, async () => {
   log.info("Building package with tshy...");
 
