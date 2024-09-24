@@ -5,6 +5,7 @@
       "@azure/schema-registry-avro": ["./src/index"]
     },
     "lib": ["dom"],
+    "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
