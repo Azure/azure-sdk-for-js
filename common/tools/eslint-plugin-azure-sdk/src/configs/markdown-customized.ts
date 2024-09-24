@@ -7,7 +7,6 @@ import typescriptEslint from "typescript-eslint";
 const markdownConfigs: FlatConfig.ConfigArray = [
   {
     files: ["**/*.md"],
-    ignores: ["**/*.api.md"],
     processor: "markdown/markdown",
   },
   {

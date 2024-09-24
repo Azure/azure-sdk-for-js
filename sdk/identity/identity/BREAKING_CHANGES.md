@@ -14,9 +14,7 @@ As of `@azure/identity` 3.0.0, the default behavior of credentials supporting mu
 
 - Add all IDs, of tenants from which tokens should be acquired, to the `additionallyAllowedTenants` array in the credential options. For example:
 
-```typescript snippet:identity_breakingchanges_addexplicitadditionallyallowedtenants
-import { DefaultAzureCredential } from "@azure/identity";
-
+```typescript Snippet:Identity_BreakingChanges_AddExplicitAdditionallyAllowedTenants
 const credential = new DefaultAzureCredential({
   additionallyAllowedTenants: ["<tenant_id_1>", "<tenant_id_2>"],
 });
@@ -24,9 +22,7 @@ const credential = new DefaultAzureCredential({
 
 - Add `*` to enable token acquisition from any tenant, which is the original behavior. For example:
 
-```typescript snippet:identity_breakingchanges_addalladditionallyallowedtenants
-import { DefaultAzureCredential } from "@azure/identity";
-
+```typescript Snippet:Identity_BreakingChanges_AddAllAdditionallyAllowedTenants
 const credential = new DefaultAzureCredential({
   additionallyAllowedTenants: ["*"],
 });

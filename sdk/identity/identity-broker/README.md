@@ -8,9 +8,9 @@ An authentication broker is an application that runs on a user’s machine that 
 
 ## Getting started
 
-```ts snippet:getting_started
-import { useIdentityPlugin } from "@azure/identity";
+```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
+import { useIdentityPlugin } from "@azure/identity";
 
 useIdentityPlugin(nativeBrokerPlugin);
 ```
@@ -56,15 +56,15 @@ ms-appx-web://Microsoft.AAD.BrokerPlugin/{client_id}
 
 As of `@azure/identity` version 2.0.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-broker`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable native broker in your program as follows:
 
-```ts snippet:using_plugins
-import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
 
 useIdentityPlugin(nativeBrokerPlugin);
+
 const credential = new InteractiveBrowserCredential({
   brokerOptions: {
     enabled: true,
-    parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
   },
 });
 ```
@@ -75,21 +75,32 @@ After calling `useIdentityPlugin`, the native broker plugin is registered to the
 
 Once the plugin is registered, you can enable WAM broker authentication by passing `brokerOptions` with an `enabled` property set to `true` to a credential constructor. In the following example, we use the `InteractiveBrowserCredential`.
 
-```ts snippet:usage_example
-import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+<!-- eslint-skip -->
+```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
 
 useIdentityPlugin(nativeBrokerPlugin);
-const credential = new InteractiveBrowserCredential({
-  brokerOptions: {
-    enabled: true,
-    parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
-  },
+
+async function main() {
+  const credential = new InteractiveBrowserCredential({
+    brokerOptions: {
+      enabled: true,
+      parentWindowHandle: <insert_current_window_handle>
+    },
+  });
+
+  // We'll use the Microsoft Graph scope as an example
+  const scope = "https://graph.microsoft.com/.default";
+
+  // Print out part of the access token
+  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
+}
+
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
 });
-// We'll use the Microsoft Graph scope as an example
-const scope = "https://graph.microsoft.com/.default";
-// Print out part of the access token
-console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
 ```
 
 For a complete example of using an Electron app for retrieving a window handle, see [this sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/typescript/src/index.ts).
@@ -98,22 +109,33 @@ For a complete example of using an Electron app for retrieving a window handle, 
 
 When the `useDefaultBrokerAccount` option is set to `true`, the credential will attempt to silently use the default broker account. If using the default account fails, the credential will fall back to interactive authentication.
 
-```ts snippet:use_default_account
-import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
+<!-- eslint-skip -->
+```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
+import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
 
 useIdentityPlugin(nativeBrokerPlugin);
-const credential = new InteractiveBrowserCredential({
-  brokerOptions: {
-    enabled: true,
-    useDefaultBrokerAccount: true,
-    parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
-  },
+
+async function main() {
+  const credential = new InteractiveBrowserCredential({
+    brokerOptions: {
+      enabled: true,
+      useDefaultBrokerAccount: true,
+      parentWindowHandle: <insert_current_window_handle>
+    },
+  });
+
+  // We'll use the Microsoft Graph scope as an example
+  const scope = "https://graph.microsoft.com/.default";
+
+  // Print out part of the access token
+  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
+}
+
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
 });
-// We'll use the Microsoft Graph scope as an example
-const scope = "https://graph.microsoft.com/.default";
-// Print out part of the access token
-console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 ```
 
 ## Troubleshooting
@@ -124,7 +146,7 @@ See the Azure Identity [troubleshooting guide][https://github.com/Azure/azure-sd
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:logging
+```typescript
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

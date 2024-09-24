@@ -17,34 +17,18 @@ import { CIInfoProvider } from "./cIInfoProvider";
 import { getPackageManager } from "./packageManager";
 import { execSync } from "child_process";
 
-export const exitWithFailureMessage = (error: { key: string; message: string }): never => {
+export const exitWithFailureMessage = (message: string): never => {
   console.log();
-  console.error(error.message);
-  // eslint-disable-next-line n/no-process-exit
+  console.error(message);
   process.exit(1);
 };
+
 export const base64UrlDecode = (base64Url: string): string => {
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   const buffer = Buffer.from(base64, "base64");
   return buffer.toString("utf-8");
 };
 
-export const populateValuesFromServiceUrl = (): { region: string; accountId: string } | null => {
-  // Service URL format: wss://<region>.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
-  const url = process.env["PLAYWRIGHT_SERVICE_URL"]!;
-  if (!ReporterUtils.isNullOrEmpty(url)) {
-    const parts = url.split("/");
-
-    if (parts.length > 2) {
-      const subdomainParts = parts[2]!.split(".");
-      const region = subdomainParts.length > 0 ? subdomainParts[0] : null;
-      const accountId = parts[4];
-
-      return { region: region!, accountId: accountId! };
-    }
-  }
-  return null;
-};
 export const parseJwt = <T = JwtPayload>(token: string): T => {
   const parts = token.split(".");
   if (parts.length !== 3) {
@@ -79,24 +63,18 @@ export const validateServiceUrl = (): void => {
   }
 };
 
-export const validateMptPAT = (
-  validationFailureCallback: (error: { key: string; message: string }) => void,
-): void => {
+export const validateMptPAT = (): void => {
   try {
     const accessToken = getAccessToken();
-    const result = populateValuesFromServiceUrl();
     if (!accessToken) {
-      validationFailureCallback(ServiceErrorMessageConstants.NO_AUTH_ERROR);
+      exitWithFailureMessage(ServiceErrorMessageConstants.NO_AUTH_ERROR);
     }
     const claims = parseJwt<JwtPayload>(accessToken!);
     if (!claims.exp) {
-      validationFailureCallback(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
+      exitWithFailureMessage(ServiceErrorMessageConstants.INVALID_MPT_PAT_ERROR);
     }
     if (Date.now() >= claims.exp! * 1000) {
-      validationFailureCallback(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
-    }
-    if (result!.accountId !== claims!.aid) {
-      validationFailureCallback(ServiceErrorMessageConstants.WORKSPACE_MISMATCH_ERROR);
+      exitWithFailureMessage(ServiceErrorMessageConstants.EXPIRED_MPT_PAT_ERROR);
     }
   } catch (err) {
     coreLogger.error(err);
@@ -110,7 +88,7 @@ export const fetchOrValidateAccessToken = async (credential?: TokenCredential): 
     await entraIdAccessToken.fetchEntraIdAccessToken();
   }
   if (!getAccessToken()) {
-    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR.message);
+    throw new Error(ServiceErrorMessageConstants.NO_AUTH_ERROR);
   }
   return getAccessToken()!;
 };

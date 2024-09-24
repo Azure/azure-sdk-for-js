@@ -35,9 +35,6 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions,
-  removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret
-  ],
 };
 
 export type CreateClientMode =

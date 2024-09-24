@@ -154,7 +154,7 @@ function Get-PrPkgProperties([string]$InputDiffJson) {
 
     if ($AdditionalValidationPackagesFromPackageSetFn -and (Test-Path "Function:$AdditionalValidationPackagesFromPackageSetFn"))
     {
-        $packagesWithChanges += &$AdditionalValidationPackagesFromPackageSetFn $packagesWithChanges $diff $allPackageProperties
+        $packagesWithChanges += &$AdditionalValidationPackagesFromPackageSetFn $packagesWithChanges $diff
     }
 
     return $packagesWithChanges

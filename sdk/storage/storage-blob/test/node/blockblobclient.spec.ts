@@ -803,8 +803,7 @@ describe("syncUploadFromURL", () => {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
   }).timeout(10 * 60 * 1000);
 
-  // TODO: should enable this case when service is ready
-  it.skip("large content with timeout", async function () {
+  it("large content with timeout", async function () {
     if (!isLiveMode()) {
       this.skip();
     }

@@ -120,10 +120,6 @@ jobs:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
       Location: westus
       ResourceType: perf
-      ServiceConnection: azure-sdk-tests
-      SubscriptionConfigurationFilePaths:
-        - eng/common/TestResources/sub-config/AzurePublicMsft.json
-      UseFederatedAuth: true
 
   - script: >-
       dotnet run -- run
@@ -183,7 +179,3 @@ jobs:
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
       ResourceType: perf
-      ServiceConnection: azure-sdk-tests
-      SubscriptionConfigurationFilePaths:
-        - eng/common/TestResources/sub-config/AzurePublicMsft.json
-      UseFederatedAuth: true

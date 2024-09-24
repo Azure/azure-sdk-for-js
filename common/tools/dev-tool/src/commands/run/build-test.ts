@@ -65,8 +65,7 @@ export default leafCommand(commandInfo, async (options) => {
   // Build the overrides - hard code to browser for now
   const overrides = new Map<string, OverrideSet>();
   overrides.set("esm", new OverrideSet("esm", "browser"));
-  // Check for browser specific file under "src" and "test"
-  const sources = new Set([...getSources(), ...getSources("test")]);
+  const sources = new Set(getSources());
   for (const file of sources) {
     for (const override of overrides.values()) {
       override.addOverride(file, sources);

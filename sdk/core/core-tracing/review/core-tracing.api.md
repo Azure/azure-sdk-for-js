@@ -5,12 +5,6 @@
 ```ts
 
 // @public
-export interface AddEventOptions {
-    attributes?: Record<string, unknown>;
-    startTime?: Date;
-}
-
-// @public
 export function createTracingClient(options: TracingClientOptions): TracingClient;
 
 // @public
@@ -96,7 +90,6 @@ export interface TracingContext {
 
 // @public
 export interface TracingSpan {
-    addEvent?(name: string, options?: AddEventOptions): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;

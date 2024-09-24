@@ -26,6 +26,7 @@ import {
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
 import { randomUUID } from "@azure/core-util";
+import { Container } from "./client";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -41,7 +42,7 @@ export class QueryIterator<T> {
   private correlatedActivityId: string;
   private nonStreamingOrderBy: boolean = false;
   /**
-   * @hidden
+   * @internal
    */
   constructor(
     private clientContext: ClientContext,
@@ -50,7 +51,9 @@ export class QueryIterator<T> {
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
     private resourceLink?: string,
     private resourceType?: ResourceType,
+    private readonly container?: Container,
   ) {
+    this.container = container;
     this.query = query;
     this.fetchFunctions = fetchFunctions;
     this.options = options || {};
@@ -95,6 +98,9 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
+        if (this.container && this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
@@ -104,6 +110,18 @@ export class QueryIterator<T> {
           }
         } else {
           throw error;
+        }
+      }
+
+      if (
+        this.container &&
+        this.clientContext.enableEncryption &&
+        this.resourceType === ResourceType.item &&
+        response.result &&
+        response.result.length
+      ) {
+        for (let item of response.result) {
+          item = await this.container.encryptionProcessor.decrypt(item, diagnosticNode);
         }
       }
 
@@ -139,7 +157,27 @@ export class QueryIterator<T> {
 
   public async fetchAll(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      return this.fetchAllInternal(diagnosticNode);
+      let response: FeedResponse<T>;
+      try {
+        response = await this.fetchAllInternal(diagnosticNode);
+      } catch (error: any) {
+        if (this.container && this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
+      if (
+        this.container &&
+        this.clientContext.enableEncryption &&
+        this.resourceType === ResourceType.item &&
+        response.resources &&
+        response.resources.length > 0
+      ) {
+        for (let result of response.resources) {
+          result = await this.container.encryptionProcessor.decrypt(result, diagnosticNode);
+        }
+      }
+      return response;
     }, this.clientContext);
   }
 
@@ -176,11 +214,13 @@ export class QueryIterator<T> {
       if (!this.isInitialized) {
         await this.init();
       }
-
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
+        if (this.container && this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
@@ -190,6 +230,17 @@ export class QueryIterator<T> {
           }
         } else {
           throw error;
+        }
+      }
+      if (
+        this.container &&
+        this.clientContext.enableEncryption &&
+        this.resourceType === ResourceType.item &&
+        response.result &&
+        response.result.length
+      ) {
+        for (let result of response.result) {
+          result = await this.container.encryptionProcessor.decrypt(result, diagnosticNode);
         }
       }
       return new FeedResponse<T>(
@@ -320,6 +371,14 @@ export class QueryIterator<T> {
 
   private initPromise: Promise<void>;
   private async init(): Promise<void> {
+    // add rid to options if encryption is enable for client
+    if (this.container && this.clientContext.enableEncryption) {
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      this.container.encryptionProcessor.containerRid = this.container._rid;
+      this.options.containerRid = this.container._rid;
+    }
     if (this.isInitialized === true) {
       return;
     }

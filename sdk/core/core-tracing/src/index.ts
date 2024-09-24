@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 export {
-  AddEventOptions,
   Instrumenter,
   InstrumenterSpanOptions,
   OperationTracingOptions,

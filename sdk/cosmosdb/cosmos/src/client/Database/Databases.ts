@@ -14,6 +14,7 @@ import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -27,12 +28,13 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  */
 export class Databases {
   /**
-   * @hidden
+   * @internal
    * @param client - The parent {@link CosmosClient} for the Database.
    */
   constructor(
     public readonly client: CosmosClient,
     private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {}
 
   /**
@@ -160,7 +162,13 @@ export class Databases {
       diagnosticNode,
       options,
     });
-    const ref = new Database(this.client, body.id, this.clientContext);
+    const ref = new Database(
+      this.client,
+      body.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new DatabaseResponse(
       response.result,
       response.headers,

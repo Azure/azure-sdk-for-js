@@ -44,20 +44,25 @@ An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` wit
 
 The `AuthenticationError` is used to indicate a failure to authenticate with Microsoft Entra ID. The `errorResponse` field contains more details about the specific failure.
 
-```ts snippet:troubleshooting_authentication_error
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
+```ts
+import * from "@azure/identity";
+import * from "@azure/keyvault-secrets";
 
-// Create a key client using the DefaultAzureCredential
-const keyVaultUrl = "https://key-vault-name.vault.azure.net";
-const credential = new DefaultAzureCredential();
-const client = new KeyClient(keyVaultUrl, credential);
-try {
-  // Retrieving the properties of the existing keys in that specific Key Vault.
-  console.log(await client.listPropertiesOfKeys().next());
-} catch (error) {
-  console.log("Microsoft Entra ID service response with error", error);
+async function main() {
+  // Create a key client using the DefaultAzureCredential
+  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+  const credential = new DefaultAzureCredential();
+  const client = new KeyClient(keyVaultUrl, credential);
+
+  try {
+    // Retrieving the properties of the existing keys in that specific Key Vault.
+    console.log(await client.listPropertiesOfKeys().next());
+  } catch (error) {
+    console.log("Microsoft Entra ID service response with error", error.errorResponse);
+  }
 }
+
+main();
 ```
 
 ### AuthenticationRequiredError
@@ -66,20 +71,25 @@ Errors arising from authentication issues can be thrown on any service client me
 
 To distinguish these failures from failures in the service client, Azure Identity classes throw the `AuthenticationRequiredError`. Details describing the source of the error are provided in the error message. Depending on the application, these errors may or may not be recoverable.
 
-```ts snippet:troubleshooting_authentication_required_error
-import { DefaultAzureCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
+```ts
+import * from "@azure/identity";
+import * from "@azure/keyvault-secrets";
 
-// Create a key client using the DefaultAzureCredential
-const keyVaultUrl = "https://key-vault-name.vault.azure.net";
-const credential = new DefaultAzureCredential();
-const client = new KeyClient(keyVaultUrl, credential);
-try {
-  // Retrieving the properties of the existing keys in that specific Key Vault.
-  console.log(await client.listPropertiesOfKeys().next());
-} catch (error) {
-  console.log("Authentication Failed", error);
+async function main() {
+  // Create a key client using the DefaultAzureCredential
+  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+  const credential = new DefaultAzureCredential();
+  const client = new KeyClient(keyVaultUrl, credential);
+
+  try {
+    // Retrieving the properties of the existing keys in that specific Key Vault.
+    console.log(await client.listPropertiesOfKeys().next());
+  } catch (error) {
+    console.log("Authentication Failed", error.message);
+  }
 }
+
+main();
 ```
 
 ### CredentialUnavailableError
@@ -109,16 +119,16 @@ The Azure Identity library has the same [logging capabilities](https://github.co
 
 For help with debugging authentication issues or diagnosing errors in credentials that encompass multiple credentials, like `DefaultAzureCredential`, see [Logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging).
 
-```ts snippet:troubleshooting_logging
+```ts
 import { setLogLevel } from "@azure/logger";
-
 // set up the log level to enable the logger
 setLogLevel("info");
 ```
 
 Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
 
-```ts snippet:troubleshooting_dotenv
+```ts
+import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 ```
 
@@ -145,11 +155,11 @@ In cases where the authentication code might be running in an environment with m
 
 For example, using the `DefaultAzureCredential`:
 
-```ts snippet:troubleshooting_logging_identifiers
+```ts
 import { setLogLevel } from "@azure/logger";
-import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
+
 const credential = new DefaultAzureCredential({
   loggingOptions: { allowLoggingAccountIdentifiers: true },
 });
@@ -167,11 +177,11 @@ In cases where the user's [Personally Identifiable Information](https://github.c
 
 For example, using the `DefaultAzureCredential`:
 
-```ts snippet:troubleshooting_pii_logging
+```ts
 import { setLogLevel } from "@azure/logger";
-import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
+
 const credential = new DefaultAzureCredential({
   loggingOptions: { enableUnsafeSupportLogging: true },
 });

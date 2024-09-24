@@ -1,14 +1,14 @@
 # Release History
 
-## 12.24.0 (2024-09-22)
+## 12.24.0-beta.2 (Unreleased)
 
 ### Features Added
 
-- Includes all features released in 12.24.0-beta.1.
+### Breaking Changes
+
+### Bugs Fixed
 
 ### Other Changes
-
-- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
 
 ## 12.24.0-beta.1 (2024-08-09)
 

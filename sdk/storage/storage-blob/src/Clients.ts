@@ -3373,11 +3373,6 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   blobHTTPHeaders?: BlobHTTPHeaders;
 
   /**
-   * Customer Provided Key Info.
-   */
-  customerProvidedKey?: CpkInfo;
-
-  /**
    * Metadata of block blob.
    */
   metadata?: { [propertyName: string]: string };
@@ -4322,7 +4317,6 @@ export class BlockBlobClient extends BlobClient {
             blockNum++;
 
             await this.stageBlock(blockID, body, length, {
-              customerProvidedKey: options.customerProvidedKey,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,

@@ -10,7 +10,7 @@ import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../comm
 import { Response, FeedOptions, ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { extractOverlappingRanges } from "./changeFeedUtils";
+import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils";
 import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
@@ -186,6 +186,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       do {
         const [processedFeedRange, response] = await this.fetchNext(diagnosticNode);
         result = response;
+
         if (result !== undefined) {
           {
             if (firstNotModifiedFeedRange === undefined) {
@@ -198,6 +199,15 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
             if (result.statusCode === StatusCodes.Ok) {
               result.headers[Constants.HttpHeaders.ContinuationToken] =
                 this.generateContinuationToken();
+
+              if (this.clientContext.enableEncryption) {
+                await decryptChangeFeedResponse(
+                  result,
+                  diagnosticNode,
+                  this.changeFeedOptions.changeFeedMode,
+                  this.container.encryptionProcessor,
+                );
+              }
               return result;
             }
           }
@@ -419,6 +429,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
+    if (this.clientContext.enableEncryption) {
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      this.container.encryptionProcessor.containerRid = this.container._rid;
+      feedOptions.containerRid = this.container._rid;
+    }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
