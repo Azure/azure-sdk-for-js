@@ -507,6 +507,12 @@ export function assertAssistantEquality(
   assert.equal(response.tools[0].type, tools[0].type);
 }
 
+export function assertBatches(batches: Batches): void {
+  assertBatch(batches.createdBatch);
+  assertBatch(batches.retrievedBatch);
+  ifDefined(batches.cancelledBatch, assertBatch);
+}
+
 export function assertBatch(batch: Batch): void {
   assert.isString(batch.id);
   assert.equal(batch.completion_window, "24h");
@@ -563,4 +569,10 @@ interface ChatCompletionTestOptions {
 
 interface EmbeddingTestOptions {
   dimensions?: number;
+}
+
+export interface Batches {
+  createdBatch: Batch;
+  retrievedBatch: Batch;
+  cancelledBatch?: Batch;
 }

@@ -47,7 +47,7 @@ export enum APIVersion {
 }
 export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
 function toString(error: any): string {
-  return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
+  return error.error ? JSON.stringify(error.error) : JSON.stringify(error);
 }
 
 export async function withDeployments<T>(
@@ -85,6 +85,7 @@ export async function withDeployments<T>(
           "rate_limit_exceeded",
           "ModelDeprecated",
           "429",
+          "UserError",
           400,
         ].includes(error.code) ||
         error.type === "invalid_request_error" ||

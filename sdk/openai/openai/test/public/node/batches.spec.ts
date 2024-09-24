@@ -6,17 +6,18 @@ import { describe, beforeEach, it } from "vitest";
 import OpenAI, { AzureOpenAI, toFile } from "openai";
 import { createClient } from "../utils/createClient.js";
 import { APIVersion, DeploymentInfo, getDeployments, withDeployments } from "../utils/utils.js";
-import { assertBatch } from "../utils/asserts.js";
+import { assertBatch, assertBatches, Batches } from "../utils/asserts.js";
 
-describe("Batches", () => {
+// TODO: Unskip the test when we have deployments available
+describe.skip("Batches", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
       let deployments: DeploymentInfo[] = [];
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "vision");
-        deployments = await getDeployments("vision");
+        client = createClient(apiVersion, "completions");
+        deployments = await getDeployments("completions");
       });
 
       describe("all CRUD APIs", function () {
@@ -47,18 +48,21 @@ describe("Batches", () => {
               assertBatch(batch);
 
               await client.files.del(file.id);
-
               // Retrieve batch
               const retrievedBatch = await client.batches.retrieve(batch.id);
-              return retrievedBatch;
-            },
-            async (batch) => {
-              assertBatch(batch);
+              const batches: Batches = {
+                createdBatch: batch,
+                retrievedBatch,
+              };
               // Can only cancel batch if it is in one of the following states
               if (["validating", "in_progress", "finalizing"].includes(batch.status)) {
                 const cancelledBatch = await client.batches.cancel(batch.id);
-                assertBatch(cancelledBatch);
+                batches.cancelledBatch = cancelledBatch;
               }
+              return batches;
+            },
+            async (batches) => {
+              assertBatches(batches);
             },
           );
         });
