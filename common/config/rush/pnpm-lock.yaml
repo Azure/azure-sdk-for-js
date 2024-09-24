@@ -13742,7 +13742,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-Wl42MhvqkSN9qt7aI2dq9MoSjUPhKs9Vd7ph4z1NDv/4+Tr5TThGfXEcF6li2/uyM/oej6wCchIOXcN+x5t8Ug==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-giEQbgQSPKX5IztgAepOuRLfULJTB4rv9RXCMFBYOh9cAjTSCfDW5HXmQ9KyPDtFJ1XAEtWRzIcIqEb+93rJ1A==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -21078,7 +21078,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-4fWB5VISf7xXi2jY/jMoGFZTbHkAmOnLETpiSDHw5Dfbvwys/76MkW+v3xyavlcwxdfeTI6hJH74DY5a/yqqbA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-OLnTHzHCQjUIWs+9qKPbshgPtcTGjE1RzbPLFwfH0aeBqkuGeTu1zR7uomdERR7jWbiF2ofeZkQvdfHJI7pGCw==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -21125,6 +21125,7 @@ packages:
       strip-json-comments: 3.1.1
       ts-morph: 23.0.0
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
+      tshy: 2.0.1
       tslib: 2.7.0
       typescript: 5.6.2
       typescript-eslint: 8.2.0(eslint@9.11.0)(typescript@5.6.2)
