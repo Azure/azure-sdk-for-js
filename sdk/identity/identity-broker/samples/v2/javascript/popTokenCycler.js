@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AbortError } from "@azure/abort-controller";
+
+const { AbortError } = require('@azure/abort-controller');
+
 // Default options for the cycler if none are provided
-export const DEFAULT_CYCLER_OPTIONS = {
+exports.DEFAULT_CYCLER_OPTIONS = {
     forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
     retryIntervalInMs: 3000, // Allow refresh attempts every 3s
     refreshWindowInMs: 1000 * 60 * 2, // Start refreshing 2m before expiry
@@ -59,7 +61,7 @@ async function beginRefresh(getAccessToken, retryIntervalInMs, refreshTimeout) {
  *
  * @returns - a function that reliably produces a valid access token
  */
-export function createTokenCycler(credential, tokenCyclerOptions) {
+module.exports = function createTokenCycler(credential, tokenCyclerOptions) {
     let refreshWorker = null;
     let token = null;
     let tenantId;
@@ -160,7 +162,7 @@ export function createTokenCycler(credential, tokenCyclerOptions) {
         return token;
     };
 }
-export function delay(delayInMs, value, options) {
+module.exports = function delay(delayInMs, value, options) {
     return new Promise((resolve, reject) => {
         let timer = undefined;
         let onAborted = undefined;

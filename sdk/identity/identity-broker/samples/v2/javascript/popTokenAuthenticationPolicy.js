@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { createTokenCycler } from "./popTokenCycler";
+// CommonJS
+const { createTokenCycler } = require('./popTokenCycler');
+
 /**
  * The programmatic identifier of the popTokenAuthenticationPolicy.
  */
-export const popTokenAuthenticationPolicyName = "popTokenAuthenticationPolicy";
+exports.popTokenAuthenticationPolicyName = "popTokenAuthenticationPolicy";
+
 /**
  * Default authorize request handler
  */
@@ -34,7 +37,7 @@ function getChallenge(response) {
  * A policy that can request a token from a TokenCredential implementation and
  * then apply it to the Authorization header of a request as a pop token.
  */
-export function popTokenAuthenticationPolicy(options) {
+module.exports =  function popTokenAuthenticationPolicy(options) {
     const { credential, scopes, challengeCallbacks } = options;
     const logger = options.logger;
     const callbacks = {
