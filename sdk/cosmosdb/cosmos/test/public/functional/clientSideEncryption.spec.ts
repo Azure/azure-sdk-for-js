@@ -174,22 +174,19 @@ describe("Client Side Encryption", function (this: Suite) {
   });
 
   it("create client encryption included paths and policy", async () => {
+    // check policy format version
     let path = new ClientEncryptionIncludedPath(
       "/id",
       "key1",
       EncryptionType.DETERMINISTIC,
       EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     );
-    // check policy format version
-    const policy = new ClientEncryptionPolicy([path]);
-    const testcontainer = (
+    let policy = new ClientEncryptionPolicy([path]);
+    try {
       await database.containers.createIfNotExists({
         id: randomUUID(),
         clientEncryptionPolicy: policy,
-      })
-    ).container;
-    try {
-      await testcontainer.initializeEncryption();
+      });
     } catch (err) {
       assert.ok(
         err.message.includes(
@@ -197,15 +194,58 @@ describe("Client Side Encryption", function (this: Suite) {
         ),
       );
     }
-    await testcontainer.delete();
+    // check deterministic encryption for id
+    path = new ClientEncryptionIncludedPath(
+      "/id",
+      "key1",
+      EncryptionType.RANDOMIZED,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    policy = new ClientEncryptionPolicy([path], 2);
+    try {
+      await database.containers.createIfNotExists({
+        id: randomUUID(),
+        clientEncryptionPolicy: policy,
+      });
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "The '/id' property must be encrypted using Deterministic encryption.",
+        ),
+      );
+    }
+    // check deterministic encryption for partition key
+    path = new ClientEncryptionIncludedPath(
+      "/address",
+      "key1",
+      EncryptionType.RANDOMIZED,
+      EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
+    );
+    policy = new ClientEncryptionPolicy([path], 2);
+    const containerDef = {
+      id: randomUUID(),
+      partitionKey: {
+        paths: ["/PK", "/address/zip"],
+      },
+      clientEncryptionPolicy: policy,
+    };
+    try {
+      await database.containers.createIfNotExists(containerDef);
+    } catch (err) {
+      assert.ok(
+        err.message.includes(
+          "Path: /address which is part of the partition key has to be encrypted with Deterministic type Encryption.",
+        ),
+      );
+    }
 
+    // check invalid path
     path = new ClientEncryptionIncludedPath(
       "id",
       "key1",
       EncryptionType.DETERMINISTIC,
       EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     );
-    // check invalid path
     try {
       new ClientEncryptionPolicy([path]);
     } catch (err) {
@@ -213,13 +253,13 @@ describe("Client Side Encryption", function (this: Suite) {
         err.message.includes("Path in ClientEncryptionIncludedPath needs to start with '/'"),
       );
     }
+    // check empty key
     path = new ClientEncryptionIncludedPath(
       "/id",
       "",
       EncryptionType.DETERMINISTIC,
       EncryptionAlgorithm.AEAD_AES_256_CBC_HMAC_SHA256,
     );
-    // check empty key
     try {
       new ClientEncryptionPolicy([path]);
     } catch (err) {
