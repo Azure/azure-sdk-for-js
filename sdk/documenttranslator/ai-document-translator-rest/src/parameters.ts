@@ -16,8 +16,8 @@ export interface DocumentTranslationStartTranslationMediaTypesParam {
 
 export type DocumentTranslationStartTranslationParameters =
   DocumentTranslationStartTranslationMediaTypesParam &
-  DocumentTranslationStartTranslationBodyParam &
-  RequestParameters;
+    DocumentTranslationStartTranslationBodyParam &
+    RequestParameters;
 
 export interface DocumentTranslationGetTranslationsStatusQueryParamProperties {
   /**
