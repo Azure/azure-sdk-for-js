@@ -13,6 +13,7 @@ export default leafCommand(commandInfo, async () => {
   log.info("Building package with tshy...");
   const output = await run("tshy", {
     captureOutput: true,
+    cwd: process.cwd(),
     env: { TSHY_VERBOSE: "2", ...process.env },
   });
 
