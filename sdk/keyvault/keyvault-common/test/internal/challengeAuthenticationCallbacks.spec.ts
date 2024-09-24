@@ -124,10 +124,7 @@ describe("Challenge based authentication tests", function () {
   describe("Continuous Access Evaluation (CAE)", () => {
     it("handles a CAE challenge that comes immediately after a successful challenge", async () => {
       const pipeline = createEmptyPipeline();
-      addKeyVaultAuthenticationPolicies(pipeline, {
-        scopes: [],
-        credential: mockCredential,
-      });
+      addKeyVaultAuthenticationPolicies(pipeline, mockCredential);
 
       const sendRequest = vi
         .fn<SendRequest>()
@@ -164,10 +161,7 @@ describe("Challenge based authentication tests", function () {
 
     it("handles a CAE challenge where the Base64-encoded claims do not have the correct padding", async () => {
       const pipeline = createEmptyPipeline();
-      addKeyVaultAuthenticationPolicies(pipeline, {
-        scopes: [],
-        credential: mockCredential,
-      });
+      addKeyVaultAuthenticationPolicies(pipeline, mockCredential);
 
       const sendRequest = vi
         .fn<SendRequest>()
@@ -204,10 +198,7 @@ describe("Challenge based authentication tests", function () {
 
     it("handles a CAE challenge that comes a few requests after the initial request", async () => {
       const pipeline = createEmptyPipeline();
-      addKeyVaultAuthenticationPolicies(pipeline, {
-        scopes: [],
-        credential: mockCredential,
-      });
+      addKeyVaultAuthenticationPolicies(pipeline, mockCredential);
 
       const sendRequest = vi
         .fn<SendRequest>()
@@ -295,10 +286,7 @@ describe("Challenge based authentication tests", function () {
 
     it("does not handle multiple consecutive CAE challenges", async () => {
       const pipeline = createEmptyPipeline();
-      addKeyVaultAuthenticationPolicies(pipeline, {
-        scopes: [],
-        credential: mockCredential,
-      });
+      addKeyVaultAuthenticationPolicies(pipeline, mockCredential);
 
       const sendRequest = vi
         .fn<SendRequest>()
