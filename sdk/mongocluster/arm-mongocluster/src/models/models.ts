@@ -959,5 +959,4 @@ export enum KnownProvisioningState {
  * **Dropping**
  */
 
-/** Alias for ProvisioningState */
 export type ProvisioningState = string;
