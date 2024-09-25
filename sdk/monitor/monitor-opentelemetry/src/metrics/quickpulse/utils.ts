@@ -253,7 +253,7 @@ function getIso8601Duration(milliseconds: number): string {
   return `PT${seconds}S`;
 }
 
-export function getSpanColumns(span: ReadableSpan): RequestData | DependencyData {
+export function getSpanData(span: ReadableSpan): RequestData | DependencyData {
   if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
     // request
     return getRequestData(span);
@@ -370,15 +370,15 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   else if (dbSystem) {
     // TODO: Remove special logic when Azure UX supports OpenTelemetry dbSystem
     if (String(dbSystem) === DBSYSTEMVALUES_MYSQL) {
-      dependencyData.Type = "mysql";
+      dependencyData.Type = DependencyTypes.mysql
     } else if (String(dbSystem) === DBSYSTEMVALUES_POSTGRESQL) {
-      dependencyData.Type = "postgresql";
+      dependencyData.Type = DependencyTypes.postgresql;
     } else if (String(dbSystem) === DBSYSTEMVALUES_MONGODB) {
-      dependencyData.Type = "mongodb";
+      dependencyData.Type = DependencyTypes.mongodb;
     } else if (String(dbSystem) === DBSYSTEMVALUES_REDIS) {
-      dependencyData.Type = "redis";
+      dependencyData.Type = DependencyTypes.redis;
     } else if (isSqlDB(String(dbSystem))) {
-      dependencyData.Type = "SQL";
+      dependencyData.Type = DependencyTypes.Sql;
     } else {
       dependencyData.Type = String(dbSystem);
     }
@@ -419,7 +419,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   return dependencyData;
 }
 
-export function getLogColumns(log: LogRecord): ExceptionData | TraceData {
+export function getLogData(log: LogRecord): ExceptionData | TraceData {
   const customDims = createCustomDimsFromAttributes(log.attributes);
   if (isExceptionTelemetry(log)) {
     return {

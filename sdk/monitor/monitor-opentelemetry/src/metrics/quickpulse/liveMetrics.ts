@@ -40,8 +40,8 @@ import {
   getCloudRoleInstance,
   getLogDocument,
   getSdkVersion,
-  getSpanColumns,
-  getLogColumns,
+  getSpanData,
+  getLogData,
   getSpanDocument,
   getTransmissionTime,
   isRequestData,
@@ -64,16 +64,16 @@ import {
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
 import { CollectionConfigurationError } from "../../generated";
+import { Filter } from "./filtering/filter";
+import { Validator } from "./filtering/validator";
+import { CollectionConfigurationErrorTracker } from "./filtering/collectionConfigurationErrorTracker";
+import { Projection } from "./filtering/projection";
 import {
   TelemetryTypeError,
   UnexpectedFilterCreateError,
-  Validator,
   DuplicateMetricIdError,
-  CollectionConfigurationErrorTracker,
-  Filter,
-  Projection,
   MetricFailureToCreateError,
-} from "./filtering";
+} from "./filtering/quickpulseErrors";
 import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 
 const POST_INTERVAL = 1000;
@@ -148,7 +148,8 @@ export class LiveMetrics {
   private seenMetricIds: Set<string> = new Set();
   private validDerivedMetrics: Map<string, DerivedMetricInfo[]> = new Map();
   private derivedMetricProjection: Projection = new Projection();
-  // implementation note: add configuration info or some list representation of filters
+  private validator: Validator = new Validator();
+  private filter: Filter = new Filter();
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param config - Distro configuration.
@@ -447,7 +448,7 @@ export class LiveMetrics {
    */
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
-      const columns: RequestData | DependencyData = getSpanColumns(span);
+      const columns: RequestData | DependencyData = getSpanData(span);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
@@ -502,7 +503,7 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      const columns: TraceData | ExceptionData = getLogColumns(logRecord);
+      const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isExceptionData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
@@ -702,11 +703,11 @@ export class LiveMetrics {
       try {
         if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
           this.seenMetricIds.add(derivedMetricInfo.id);
-          Validator.validateTelemetryType(derivedMetricInfo);
-          Validator.checkCustomMetricProjection(derivedMetricInfo);
-          Validator.validateFilters(derivedMetricInfo);
+          this.validator.validateTelemetryType(derivedMetricInfo);
+          this.validator.checkCustomMetricProjection(derivedMetricInfo);
+          this.validator.validateFilters(derivedMetricInfo);
           derivedMetricInfo.filterGroups.forEach((filterConjunctionGroupInfo) => {
-            Filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
+            this.filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
           });
 
           if (this.validDerivedMetrics.has(derivedMetricInfo.telemetryType)) {
@@ -754,7 +755,7 @@ export class LiveMetrics {
     data: TelemetryData,
   ): void {
     derivedMetricInfoList.forEach((derivedMetricInfo: DerivedMetricInfo) => {
-      if (Filter.checkMetricFilters(derivedMetricInfo, data)) {
+      if (this.filter.checkMetricFilters(derivedMetricInfo, data)) {
         try {
           this.derivedMetricProjection.calculateProjection(derivedMetricInfo, data);
         } catch (error) {

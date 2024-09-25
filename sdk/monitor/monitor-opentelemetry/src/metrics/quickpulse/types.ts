@@ -91,7 +91,7 @@ export interface TraceData extends TelemetryData {
   Message: string;
 }
 
-// copied from exporter constants
+// copied from exporter constants & added a few more
 export enum DependencyTypes {
   InProc = "InProc",
   QueueMessage = "Queue Message",
@@ -99,4 +99,26 @@ export enum DependencyTypes {
   Http = "Http",
   Grpc = "GRPC",
   Wcf = "WCF Service",
+  mysql = "mysql",
+  postgresql = "postgresql",
+  mongodb = "mongodb",
+  redis = "redis",
+}
+
+export enum KnownRequestColumns {
+  Url = "Url",
+  Duration = "Duration",
+  ResponseCode = "ResponseCode",
+  Success = "Success",
+  Name = "Name",
+}
+
+export enum KnownDependencyColumns {
+  Target = "Target",
+  Duration = "Duration",
+  Success = "Success",
+  Name = "Name",
+  ResultCode = "ResultCode",
+  Type = "Type",
+  Data = "Data",
 }
