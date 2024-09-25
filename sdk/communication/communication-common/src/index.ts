@@ -6,8 +6,8 @@ export {
   CommunicationGetTokenOptions,
 } from "./communicationTokenCredential";
 export { AzureCommunicationTokenCredential } from "./azureCommunicationTokenCredential";
-export * from "./credential";
 export { CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential";
+export { EntraCommunicationTokenCredentialOptions } from "./entraTokenCredential";
 export * from "./credential";
 export * from "./identifierModels";
 export * from "./identifierModelSerializer";

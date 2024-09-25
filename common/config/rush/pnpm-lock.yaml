@@ -1601,6 +1601,28 @@ packages:
       undici: 5.28.4
     dev: false
 
+  /@azure/identity@4.3.0:
+    resolution: {integrity: sha512-LHZ58/RsIpIWa4hrrE2YuJ/vzG1Jv9f774RfTTAVDZDriubvJ0/S5u4pnw4akJDlS0TiJb6VMphmVUFsWmgodQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.8.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.17.0
+      '@azure/core-tracing': 1.1.2
+      '@azure/core-util': 1.10.0
+      '@azure/logger': 1.1.4
+      '@azure/msal-browser': 3.24.0
+      '@azure/msal-node': 2.14.0
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.7.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/identity@4.4.1:
     resolution: {integrity: sha512-DwnG4cKFEM7S3T+9u05NstXU/HN0dk45kPOinUyNKsn5VWwpXd9sbPKEg6kgJzGbm1lMuhx9o31PVbCtM5sfBA==}
     engines: {node: '>=18.0.0'}
@@ -8657,6 +8679,14 @@ packages:
       propagate: 2.0.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /nock@14.0.0-beta.7:
+    resolution: {integrity: sha512-+EQMm5W9K8YnBE2Ceg4hnJynaCZmvK8ZlFXQ2fxGwtkOkBUq8GpQLTks2m1jpvse9XDxMDDOHgOWpiznFuh0bA==}
+    engines: {node: '>= 18'}
+    dependencies:
+      json-stringify-safe: 5.0.1
+      propagate: 2.0.1
     dev: false
 
   /node-abi@3.68.0:
@@ -19948,10 +19978,11 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-e3+egFou4S0gvBpAquJguDycR7GgTZAdv9db+wzCranXHrUQUKUaAQ319WKbIae4Mac66aFfsP+/o9k29lIDvw==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-zVPVrJ1BIe4HhoeqbaBSsb1OXWSF2TB8clkanUS6d4ykY2mK45hL72d1zcv2yxDptFWNbV4Nn/e/os5nqMFEIg==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 4.3.0
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
       '@types/chai': 4.3.19
       '@types/chai-as-promised': 7.1.8
@@ -19976,6 +20007,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       mockdate: 3.0.5
+      nock: 14.0.0-beta.7
       nyc: 17.1.0
       rimraf: 5.0.10
       sinon: 17.0.1
