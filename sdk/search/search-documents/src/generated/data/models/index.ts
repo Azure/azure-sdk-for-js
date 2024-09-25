@@ -97,16 +97,6 @@ export interface SearchDocumentsResult {
    */
   readonly nextPageParameters?: SearchRequest;
   /**
-   * Reason that a partial response was returned for a semantic ranking request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticPartialResponseReason?: SemanticErrorReason;
-  /**
-   * Type of partial response that was returned for a semantic ranking request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly semanticPartialResponseType?: SemanticSearchResultsType;
-  /**
    * The sequence of results returned by the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -116,6 +106,16 @@ export interface SearchDocumentsResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+  /**
+   * Reason that a partial response was returned for a semantic ranking request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticPartialResponseReason?: SemanticErrorReason;
+  /**
+   * Type of partial response that was returned for a semantic ranking request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly semanticPartialResponseType?: SemanticSearchResultsType;
 }
 
 /** A single bucket of a facet query result. Reports the number of documents with a field value falling within a particular range or having a particular value or interval. */
@@ -183,14 +183,6 @@ export interface SearchRequest {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
-  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
-  semanticQuery?: string;
-  /** The name of a semantic configuration that will be used when processing documents for queries of type semantic. */
-  semanticConfigurationName?: string;
-  /** Allows the user to choose whether a semantic call should fail completely, or to return partial results (default). */
-  semanticErrorHandling?: SemanticErrorMode;
-  /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
-  semanticMaxWaitInMilliseconds?: number;
   /** Enables a debugging tool that can be used to further explore your reranked results. */
   debug?: QueryDebugMode;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
@@ -203,21 +195,29 @@ export interface SearchRequest {
   queryLanguage?: QueryLanguage;
   /** A value that specified the type of the speller to use to spell-correct individual search query terms. */
   speller?: QuerySpellerType;
-  /** A value that specifies whether answers should be returned as part of the search response. */
-  answers?: QueryAnswerType;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
   skip?: number;
   /** The number of search results to retrieve. This can be used in conjunction with $skip to implement client-side paging of search results. If results are truncated due to server-side paging, the response will include a continuation token that can be used to issue another Search request for the next page of results. */
   top?: number;
+  /** The name of a semantic configuration that will be used when processing documents for queries of type semantic. */
+  semanticConfigurationName?: string;
+  /** Allows the user to choose whether a semantic call should fail completely (default / current behavior), or to return partial results. */
+  semanticErrorHandling?: SemanticErrorMode;
+  /** Allows the user to set an upper bound on the amount of time it takes for semantic enrichment to finish processing before the request fails. */
+  semanticMaxWaitInMilliseconds?: number;
+  /** Allows setting a separate search query that will be solely used for semantic reranking, semantic captions and semantic answers. Is useful for scenarios where there is a need to use different queries between the base retrieval and ranking phase, and the L2 semantic phase. */
+  semanticQuery?: string;
+  /** A value that specifies whether answers should be returned as part of the search response. */
+  answers?: QueryAnswerType;
   /** A value that specifies whether captions should be returned as part of the search response. */
   captions?: QueryCaptionType;
   /** The comma-separated list of field names used for semantic ranking. */
   semanticFields?: string;
   /** The query parameters for vector and hybrid search queries. */
   vectorQueries?: VectorQueryUnion[];
-  /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter'. */
+  /** Determines whether or not filters are applied before or after the vector search is performed. Default is 'preFilter' for new indexes. */
   vectorFilterMode?: VectorFilterMode;
   /** The query parameters to configure hybrid search behaviors. */
   hybridSearch?: HybridSearch;
@@ -239,6 +239,8 @@ export interface VectorQuery {
   weight?: number;
   /** The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric. */
   threshold?: VectorThresholdUnion;
+  /** The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in the top level filter parameter is used instead. */
+  filterOverride?: string;
 }
 
 /** The threshold used for vector queries. */
@@ -286,7 +288,7 @@ export interface SearchResult {
   readonly documentDebugInfo?: DocumentDebugInfo[];
 }
 
-/** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.. */
+/** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
 export interface QueryCaptionResult {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
@@ -309,6 +311,11 @@ export interface DocumentDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semantic?: SemanticDebugInfo;
+  /**
+   * Contains debugging information specific to vector and hybrid search.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectors?: VectorsDebugInfo;
 }
 
 export interface SemanticDebugInfo {
@@ -365,6 +372,56 @@ export interface QueryResultDocumentRerankerInput {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keywords?: string;
+}
+
+export interface VectorsDebugInfo {
+  /**
+   * The breakdown of subscores of the document prior to the chosen result set fusion/combination method such as RRF.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscores?: QueryResultDocumentSubscores;
+}
+
+/** The breakdown of subscores between the text and vector query components of the search query for this document. Each vector query is shown as a separate object in the same order they were received. */
+export interface QueryResultDocumentSubscores {
+  /**
+   * The BM25 or Classic score for the text portion of the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly text?: TextResult;
+  /**
+   * The vector similarity and @search.score values for each vector query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectors?: { [propertyName: string]: SingleVectorFieldResult }[];
+  /**
+   * The BM25 or Classic score for the text portion of the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly documentBoost?: number;
+}
+
+/** The BM25 or Classic score for the text portion of the query. */
+export interface TextResult {
+  /**
+   * The BM25 or Classic score for the text portion of the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly searchScore?: number;
+}
+
+/** A single vector field result. Both @search.score and vector similarity values are returned. Vector similarity is related to @search.score by an equation. */
+export interface SingleVectorFieldResult {
+  /**
+   * The @search.score value that is calculated from the vector similarity score. This is the score that's visible in a pure single-field single-vector query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly searchScore?: number;
+  /**
+   * The vector similarity score for this document. Note this is the canonical definition of similarity metric, not the 'distance' version. For example, cosine similarity instead of cosine distance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectorSimilarity?: number;
 }
 
 /** Response containing suggestion query results from an index. */
@@ -667,20 +724,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20240501Preview} that the service accepts. */
-export enum KnownApiVersion20240501Preview {
-  /** Api Version '2024-05-01-preview' */
-  TwoThousandTwentyFour0501Preview = "2024-05-01-preview",
+/** Known values of {@link ApiVersion20240901Preview} that the service accepts. */
+export enum KnownApiVersion20240901Preview {
+  /** Api Version '2024-09-01-preview' */
+  TwoThousandTwentyFour0901Preview = "2024-09-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20240501Preview. \
- * {@link KnownApiVersion20240501Preview} can be used interchangeably with ApiVersion20240501Preview,
+ * Defines values for ApiVersion20240901Preview. \
+ * {@link KnownApiVersion20240901Preview} can be used interchangeably with ApiVersion20240901Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-05-01-preview**: Api Version '2024-05-01-preview'
+ * **2024-09-01-preview**: Api Version '2024-09-01-preview'
  */
-export type ApiVersion20240501Preview = string;
+export type ApiVersion20240901Preview = string;
 
 /** Known values of {@link SemanticErrorMode} that the service accepts. */
 export enum KnownSemanticErrorMode {
@@ -1096,9 +1153,30 @@ export enum KnownHybridCountAndFacetMode {
  */
 export type HybridCountAndFacetMode = string;
 
+/** Known values of {@link SemanticFieldState} that the service accepts. */
+export enum KnownSemanticFieldState {
+  /** The field was fully used for semantic enrichment. */
+  Used = "used",
+  /** The field was not used for semantic enrichment. */
+  Unused = "unused",
+  /** The field was partially used for semantic enrichment. */
+  Partial = "partial",
+}
+
+/**
+ * Defines values for SemanticFieldState. \
+ * {@link KnownSemanticFieldState} can be used interchangeably with SemanticFieldState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **used**: The field was fully used for semantic enrichment. \
+ * **unused**: The field was not used for semantic enrichment. \
+ * **partial**: The field was partially used for semantic enrichment.
+ */
+export type SemanticFieldState = string;
+
 /** Known values of {@link SemanticErrorReason} that the service accepts. */
 export enum KnownSemanticErrorReason {
-  /** If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration exceeded that value. Only the base results were returned. */
+  /** If `semanticMaxWaitInMilliseconds` was set and the semantic processing duration exceeded that value. Only the base results were returned. */
   MaxWaitExceeded = "maxWaitExceeded",
   /** The request was throttled. Only the base results were returned. */
   CapacityOverloaded = "capacityOverloaded",
@@ -1111,7 +1189,7 @@ export enum KnownSemanticErrorReason {
  * {@link KnownSemanticErrorReason} can be used interchangeably with SemanticErrorReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **maxWaitExceeded**: If 'semanticMaxWaitInMilliseconds' was set and the semantic processing duration exceeded that value. Only the base results were returned. \
+ * **maxWaitExceeded**: If `semanticMaxWaitInMilliseconds` was set and the semantic processing duration exceeded that value. Only the base results were returned. \
  * **capacityOverloaded**: The request was throttled. Only the base results were returned. \
  * **transient**: At least one step of the semantic process failed.
  */
@@ -1134,27 +1212,6 @@ export enum KnownSemanticSearchResultsType {
  * **rerankedResults**: Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights.
  */
 export type SemanticSearchResultsType = string;
-
-/** Known values of {@link SemanticFieldState} that the service accepts. */
-export enum KnownSemanticFieldState {
-  /** The field was fully used for semantic enrichment. */
-  Used = "used",
-  /** The field was not used for semantic enrichment. */
-  Unused = "unused",
-  /** The field was partially used for semantic enrichment. */
-  Partial = "partial",
-}
-
-/**
- * Defines values for SemanticFieldState. \
- * {@link KnownSemanticFieldState} can be used interchangeably with SemanticFieldState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **used**: The field was fully used for semantic enrichment. \
- * **unused**: The field was not used for semantic enrichment. \
- * **partial**: The field was partially used for semantic enrichment.
- */
-export type SemanticFieldState = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */
