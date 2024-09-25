@@ -148,7 +148,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the function accepts, described as a JSON Schema object. */
-  parameters?: unknown;
+  parameters?: Record<string, unknown>;
 }
 
 /** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
@@ -166,7 +166,7 @@ export interface ChatCompletionsFunctionToolSelection {
 }
 
 /** Represents an image with optional text. */
-export interface ImageEmbeddingInput {
+export interface EmbeddingInput {
   /** The input image, in PNG format. */
   image: string;
   /**

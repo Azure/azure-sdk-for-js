@@ -27,7 +27,7 @@ export interface GetChatCompletions {
    * on the given endpoint.
    */
   post(
-    options?: GetChatCompletionsParameters,
+    options: GetChatCompletionsParameters,
   ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
@@ -47,7 +47,7 @@ export interface GetEmbeddings {
    * The method makes a REST API call to the `/embeddings` route on the given endpoint.
    */
   post(
-    options?: GetEmbeddingsParameters,
+    options: GetEmbeddingsParameters,
   ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
@@ -57,7 +57,7 @@ export interface GetImageEmbeddings {
    * The method makes a REST API call to the `/images/embeddings` route on the given endpoint.
    */
   post(
-    options?: GetImageEmbeddingsParameters,
+    options: GetImageEmbeddingsParameters,
   ): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
 }
 

@@ -12,7 +12,7 @@ import {
   ChatCompletionsNamedToolSelection,
   EmbeddingEncodingFormat,
   EmbeddingInputType,
-  ImageEmbeddingInput,
+  EmbeddingInput,
 } from "./models.js";
 
 export interface GetChatCompletionsHeaders {
@@ -27,7 +27,7 @@ export interface GetChatCompletionsHeaders {
 }
 
 export interface GetChatCompletionsBodyParam {
-  body?: {
+  body: {
     messages: Array<ChatRequestMessage>;
     frequency_penalty?: number;
     stream?: boolean;
@@ -65,7 +65,7 @@ export interface GetEmbeddingsHeaders {
 }
 
 export interface GetEmbeddingsBodyParam {
-  body?: {
+  body: {
     input: string[];
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;
@@ -94,8 +94,8 @@ export interface GetImageEmbeddingsHeaders {
 }
 
 export interface GetImageEmbeddingsBodyParam {
-  body?: {
-    input: Array<ImageEmbeddingInput>;
+  body: {
+    input: Array<EmbeddingInput>;
     dimensions?: number;
     encoding_format?: EmbeddingEncodingFormat;
     input_type?: EmbeddingInputType;
