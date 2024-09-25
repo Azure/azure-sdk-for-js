@@ -161,7 +161,7 @@ describe("Challenge based authentication tests", function () {
           responseBody: "response 3",
         }),
       )
-      // Next request, we should get the CAE token again
+      // Next request, we should again get the token we got after the CAE challenge.
       .mockImplementationOnce(
         successfulResponseWith({
           expectAuthorizationHeader: "Bearer cae_token",
@@ -169,22 +169,22 @@ describe("Challenge based authentication tests", function () {
         }),
       );
 
-    // First request will get the standard challenge followed by a 204
+    // First request will get the standard challenge followed by a 200
     const rsp = await pipeline.sendRequest({ sendRequest }, request);
     expect(rsp.status).toBe(200);
     expect(rsp.bodyAsText).toBe("response 1");
 
-    // Making the request a second time should result in a 204 immediately
+    // Making the request a second time should result in a 200 immediately
     const rsp2 = await pipeline.sendRequest({ sendRequest }, request);
     expect(rsp2.status).toBe(200);
     expect(rsp2.bodyAsText).toBe("response 2");
 
-    // The third request will get a CAE challenge, which will get handled and then we will get another 204.
+    // The third request will get a CAE challenge, which will get handled and then we will get another 200.
     const rsp3 = await pipeline.sendRequest({ sendRequest }, request);
     expect(rsp3.status).toBe(200);
     expect(rsp3.bodyAsText).toBe("response 3");
 
-    // The fourth request should be a normal request
+    // The fourth request should not have any challenge to handle and we will ultimately get a 200 status.
     const rsp4 = await pipeline.sendRequest({ sendRequest }, request);
     expect(rsp4.status).toBe(200);
     expect(rsp4.bodyAsText).toBe("response 4");
