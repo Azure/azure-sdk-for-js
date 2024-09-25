@@ -8,7 +8,7 @@ import {
   MapTilesetOutput,
   MapAttributionOutput,
   CopyrightCaptionOutput,
-  CopyrightOutput
+  CopyrightOutput,
 } from "./outputModels";
 
 export interface RenderGetMapTile200Headers {
@@ -17,9 +17,9 @@ export interface RenderGetMapTile200Headers {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+ * **
  *
- * The Get Map Tiles API allows users to request map tiles in vector or raster formats typically to be integrated  into a map control or SDK. Some example tiles that can be requested are Azure Maps road tiles, real-time  Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://aka.ms/amcreator). By default,  Azure Maps uses vector tiles for its web map control (Web SDK) and Android SDK.
+ * The `Get Map Tiles` API is an HTTP `GET` request that allows users to request map tiles in vector or raster formats, typically to be integrated into a map control or SDK. Some example tiles that can be requested are Azure Maps road tiles, real-time  Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://aka.ms/amcreator). By default, Azure Maps uses vector tiles for its web map control ([Web SDK](/azure/azure-maps/about-azure-maps#web-sdk)) and [Android SDK](/azure/azure-maps/about-azure-maps#android-sdk).
  */
 export interface RenderGetMapTile200Response extends HttpResponse {
   status: "200";
@@ -29,9 +29,9 @@ export interface RenderGetMapTile200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+ * **
  *
- * The Get Map Tiles API allows users to request map tiles in vector or raster formats typically to be integrated  into a map control or SDK. Some example tiles that can be requested are Azure Maps road tiles, real-time  Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://aka.ms/amcreator). By default,  Azure Maps uses vector tiles for its web map control (Web SDK) and Android SDK.
+ * The `Get Map Tiles` API is an HTTP `GET` request that allows users to request map tiles in vector or raster formats, typically to be integrated into a map control or SDK. Some example tiles that can be requested are Azure Maps road tiles, real-time  Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://aka.ms/amcreator). By default, Azure Maps uses vector tiles for its web map control ([Web SDK](/azure/azure-maps/about-azure-maps#web-sdk)) and [Android SDK](/azure/azure-maps/about-azure-maps#android-sdk).
  */
 export interface RenderGetMapTileDefaultResponse extends HttpResponse {
   status: string;
@@ -39,9 +39,9 @@ export interface RenderGetMapTileDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+ * **
  *
- * The Get Map Tileset API allows users to request metadata for a tileset.
+ * The `Get Map Tileset` API is an HTTP `GET` request allows users to request [metadata](#maptileset) for a tileset.
  */
 export interface RenderGetMapTileset200Response extends HttpResponse {
   status: "200";
@@ -49,9 +49,9 @@ export interface RenderGetMapTileset200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+ * **
  *
- * The Get Map Tileset API allows users to request metadata for a tileset.
+ * The `Get Map Tileset` API is an HTTP `GET` request allows users to request [metadata](#maptileset) for a tileset.
  */
 export interface RenderGetMapTilesetDefaultResponse extends HttpResponse {
   status: string;
@@ -59,9 +59,8 @@ export interface RenderGetMapTilesetDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * The Get Map Attribution API allows users to request map copyright attribution information for a section of a tileset.
+ * The `Get Map Attribution` API is an HTTP `GET` request that returns map copyright attribution information for a section of a tileset as defined by the four bounding box coordinates and zoom level.
  */
 export interface RenderGetMapAttribution200Response extends HttpResponse {
   status: "200";
@@ -69,9 +68,8 @@ export interface RenderGetMapAttribution200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * The Get Map Attribution API allows users to request map copyright attribution information for a section of a tileset.
+ * The `Get Map Attribution` API is an HTTP `GET` request that returns map copyright attribution information for a section of a tileset as defined by the four bounding box coordinates and zoom level.
  */
 export interface RenderGetMapAttributionDefaultResponse extends HttpResponse {
   status: string;
@@ -84,9 +82,8 @@ export interface RenderGetMapStateTile200Headers {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Fetches state tiles in vector format typically to be integrated into indoor maps module of map control or SDK. The map control will call this API after user turns on dynamic styling (see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid))
+ * The `Get Map State Tile` API is an HTTP `GET` request that fetches state tiles in vector format, typically to be integrated into the indoor maps module of a map control or SDK. The map control calls this API after dynamic styling is turned on. For more information, see [Zoom Levels and Tile Grid](/azure/azure-maps/zoom-levels-and-tile-grid).
  */
 export interface RenderGetMapStateTile200Response extends HttpResponse {
   status: "200";
@@ -96,9 +93,8 @@ export interface RenderGetMapStateTile200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Fetches state tiles in vector format typically to be integrated into indoor maps module of map control or SDK. The map control will call this API after user turns on dynamic styling (see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid))
+ * The `Get Map State Tile` API is an HTTP `GET` request that fetches state tiles in vector format, typically to be integrated into the indoor maps module of a map control or SDK. The map control calls this API after dynamic styling is turned on. For more information, see [Zoom Levels and Tile Grid](/azure/azure-maps/zoom-levels-and-tile-grid).
  */
 export interface RenderGetMapStateTileDefaultResponse extends HttpResponse {
   status: string;
@@ -106,14 +102,10 @@ export interface RenderGetMapStateTileDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Copyrights API is designed to serve copyright information for Render Tile
- * service. In addition to basic copyright for the whole map, API is serving
- * specific groups of copyrights for some countries/regions.
+ * The `Get Copyright Caption` API is an HTTP `GET` request designed to serve copyright information to be use in conjunction with tiles requested from the Render service. In addition to a basic copyright for the whole map, it can serve specific groups of copyrights for some countries/regions.
  *
- * As an alternative to copyrights for map request, one can receive captions
- * for displaying the map provider information on the map.
+ * As an alternative to copyrights for map request, one can receive captions for displaying the map provider information on the map.
  */
 export interface RenderGetCopyrightCaption200Response extends HttpResponse {
   status: "200";
@@ -121,14 +113,10 @@ export interface RenderGetCopyrightCaption200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Copyrights API is designed to serve copyright information for Render Tile
- * service. In addition to basic copyright for the whole map, API is serving
- * specific groups of copyrights for some countries/regions.
+ * The `Get Copyright Caption` API is an HTTP `GET` request designed to serve copyright information to be use in conjunction with tiles requested from the Render service. In addition to a basic copyright for the whole map, it can serve specific groups of copyrights for some countries/regions.
  *
- * As an alternative to copyrights for map request, one can receive captions
- * for displaying the map provider information on the map.
+ * As an alternative to copyrights for map request, one can receive captions for displaying the map provider information on the map.
  */
 export interface RenderGetCopyrightCaptionDefaultResponse extends HttpResponse {
   status: string;
@@ -141,9 +129,8 @@ export interface RenderGetMapStaticImage200Headers {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * The static image service renders a user-defined, rectangular image containing a map section using a zoom level from 0 to 20. The supported resolution range for the map image is from 1x1 to 8192x8192. If you are deciding when to use the static image service over the map tile service, you may want to consider how you would like to interact with the rendered map. If the map contents will be relatively unchanging, a static map is a good choice. If you want to support a lot of zooming, panning and changing of the map content, the map tile service would be a better choice.
+ * The supported resolution range for the map image is from 1x1 to 8192x8192. If you are deciding when to use the static image service over the map tile service, you may want to consider how you would like to interact with the rendered map. If the map contents will be relatively unchanging, a static map is a good choice. If you want to support a lot of zooming, panning and changing of the map content, the map tile service would be a better choice.
  *
  * Service also provides Image Composition functionality to get a static image back with additional data like; pushpins and geometry overlays with following capabilities.
  *
@@ -190,9 +177,8 @@ export interface RenderGetMapStaticImage200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * The static image service renders a user-defined, rectangular image containing a map section using a zoom level from 0 to 20. The supported resolution range for the map image is from 1x1 to 8192x8192. If you are deciding when to use the static image service over the map tile service, you may want to consider how you would like to interact with the rendered map. If the map contents will be relatively unchanging, a static map is a good choice. If you want to support a lot of zooming, panning and changing of the map content, the map tile service would be a better choice.
+ * The supported resolution range for the map image is from 1x1 to 8192x8192. If you are deciding when to use the static image service over the map tile service, you may want to consider how you would like to interact with the rendered map. If the map contents will be relatively unchanging, a static map is a good choice. If you want to support a lot of zooming, panning and changing of the map content, the map tile service would be a better choice.
  *
  * Service also provides Image Composition functionality to get a static image back with additional data like; pushpins and geometry overlays with following capabilities.
  *
@@ -237,9 +223,8 @@ export interface RenderGetMapStaticImageDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Returns copyright information for a given bounding box. Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
+ * Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
  */
 export interface RenderGetCopyrightFromBoundingBox200Response
   extends HttpResponse {
@@ -248,9 +233,8 @@ export interface RenderGetCopyrightFromBoundingBox200Response
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Returns copyright information for a given bounding box. Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
+ * Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
  */
 export interface RenderGetCopyrightFromBoundingBoxDefaultResponse
   extends HttpResponse {
@@ -259,9 +243,8 @@ export interface RenderGetCopyrightFromBoundingBoxDefaultResponse
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
+ * In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
  * Returns the copyright information for a given tile. To obtain the copyright information for a particular tile, the request should specify the tile's zoom level and x and y coordinates (see: Zoom Levels and Tile Grid).
  */
 export interface RenderGetCopyrightForTile200Response extends HttpResponse {
@@ -270,9 +253,8 @@ export interface RenderGetCopyrightForTile200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
+ * In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
  * Returns the copyright information for a given tile. To obtain the copyright information for a particular tile, the request should specify the tile's zoom level and x and y coordinates (see: Zoom Levels and Tile Grid).
  */
 export interface RenderGetCopyrightForTileDefaultResponse extends HttpResponse {
@@ -281,10 +263,9 @@ export interface RenderGetCopyrightForTileDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
- * Returns the copyright information for the world. To obtain the default copyright information for the whole world, do not specify a tile or bounding box.
+ * In addition to basic copyright for the whole map, API is serving specific groups of copyrights for some countries/regions.
+ * To obtain the default copyright information for the whole world, do not specify a tile or bounding box.
  */
 export interface RenderGetCopyrightForWorld200Response extends HttpResponse {
   status: "200";
@@ -292,10 +273,9 @@ export interface RenderGetCopyrightForWorld200Response extends HttpResponse {
 }
 
 /**
- * **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
- * Returns the copyright information for the world. To obtain the default copyright information for the whole world, do not specify a tile or bounding box.
+ * In addition to basic copyright for the whole map, API is serving specific groups of copyrights for some countries/regions.
+ * To obtain the default copyright information for the whole world, do not specify a tile or bounding box.
  */
 export interface RenderGetCopyrightForWorldDefaultResponse
   extends HttpResponse {

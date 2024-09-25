@@ -4,7 +4,7 @@
 import { RequestParameters } from "@azure-rest/core-client";
 
 export interface RenderGetMapTileQueryParamProperties {
-  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/en-us/rest/api/maps/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
+  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/rest/api/maps-creator/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
   tilesetId:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -31,7 +31,7 @@ export interface RenderGetMapTileQueryParamProperties {
   /**
    * Zoom level for the desired tile.
    *
-   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   zoom: number;
   /**
@@ -95,7 +95,7 @@ export type RenderGetMapTileParameters = RenderGetMapTileQueryParam &
   RequestParameters;
 
 export interface RenderGetMapTilesetQueryParamProperties {
-  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/en-us/rest/api/maps/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
+  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/rest/api/maps-creator/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
   tilesetId:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -129,7 +129,7 @@ export type RenderGetMapTilesetParameters = RenderGetMapTilesetQueryParam &
   RequestParameters;
 
 export interface RenderGetMapAttributionQueryParamProperties {
-  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/en-us/rest/api/maps/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
+  /** A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset  zoom levels. Every tileset has a **tilesetId** to use when making requests. The **tilesetId** for tilesets created using [Azure Maps Creator](https://aka.ms/amcreator) are generated through the  [Tileset Create API](https://docs.microsoft.com/rest/api/maps-creator/tileset). The ready-to-use tilesets supplied  by Azure Maps are listed below. For example, microsoft.base. */
   tilesetId:
     | "microsoft.base"
     | "microsoft.base.labels"
@@ -163,14 +163,14 @@ export interface RenderGetMapAttributionQueryParam {
   queryParameters: RenderGetMapAttributionQueryParamProperties;
 }
 
-export type RenderGetMapAttributionParameters = RenderGetMapAttributionQueryParam &
-  RequestParameters;
+export type RenderGetMapAttributionParameters =
+  RenderGetMapAttributionQueryParam & RequestParameters;
 
 export interface RenderGetMapStateTileQueryParamProperties {
   /**
    * Zoom level for the desired tile.
    *
-   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   zoom: number;
   /**
@@ -459,8 +459,8 @@ export interface RenderGetMapStaticImageQueryParam {
   queryParameters?: RenderGetMapStaticImageQueryParamProperties;
 }
 
-export type RenderGetMapStaticImageParameters = RenderGetMapStaticImageQueryParam &
-  RequestParameters;
+export type RenderGetMapStaticImageParameters =
+  RenderGetMapStaticImageQueryParam & RequestParameters;
 
 export interface RenderGetCopyrightFromBoundingBoxQueryParamProperties {
   /** Minimum coordinates (south-west point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228 */
@@ -475,14 +475,14 @@ export interface RenderGetCopyrightFromBoundingBoxQueryParam {
   queryParameters: RenderGetCopyrightFromBoundingBoxQueryParamProperties;
 }
 
-export type RenderGetCopyrightFromBoundingBoxParameters = RenderGetCopyrightFromBoundingBoxQueryParam &
-  RequestParameters;
+export type RenderGetCopyrightFromBoundingBoxParameters =
+  RenderGetCopyrightFromBoundingBoxQueryParam & RequestParameters;
 
 export interface RenderGetCopyrightForTileQueryParamProperties {
   /**
    * Zoom level for the desired tile.
    *
-   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+   * Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
    */
   zoom: number;
   /**
@@ -505,8 +505,8 @@ export interface RenderGetCopyrightForTileQueryParam {
   queryParameters: RenderGetCopyrightForTileQueryParamProperties;
 }
 
-export type RenderGetCopyrightForTileParameters = RenderGetCopyrightForTileQueryParam &
-  RequestParameters;
+export type RenderGetCopyrightForTileParameters =
+  RenderGetCopyrightForTileQueryParam & RequestParameters;
 
 export interface RenderGetCopyrightForWorldQueryParamProperties {
   /** Yes/no value to exclude textual data from response. Only images and country/region names will be in response. */
@@ -517,5 +517,5 @@ export interface RenderGetCopyrightForWorldQueryParam {
   queryParameters?: RenderGetCopyrightForWorldQueryParamProperties;
 }
 
-export type RenderGetCopyrightForWorldParameters = RenderGetCopyrightForWorldQueryParam &
-  RequestParameters;
+export type RenderGetCopyrightForWorldParameters =
+  RenderGetCopyrightForWorldQueryParam & RequestParameters;
