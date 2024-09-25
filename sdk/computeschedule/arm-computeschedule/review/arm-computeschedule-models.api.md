@@ -141,9 +141,9 @@ export enum KnownOptimizationPreference {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public

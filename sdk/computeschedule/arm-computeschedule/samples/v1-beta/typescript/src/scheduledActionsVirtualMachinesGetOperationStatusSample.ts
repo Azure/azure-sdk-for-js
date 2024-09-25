@@ -14,14 +14,13 @@ async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinim
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result =
-    await client.scheduledActions.virtualMachinesGetOperationStatus(
-      "htxxasfxaesuecem",
-      {
-        operationIds: ["01080d2f-1dca-4610-afb4-dd25eec1f3df"],
-        correlationid: "01080d2f-1dca-4610-afb4-dd25eec1f3c1",
-      },
-    );
+  const result = await client.scheduledActions.virtualMachinesGetOperationStatus(
+    "htxxasfxaesuecem",
+    {
+      operationIds: ["01080d2f-1dca-4610-afb4-dd25eec1f3df"],
+      correlationid: "01080d2f-1dca-4610-afb4-dd25eec1f3c1",
+    },
+  );
   console.log(result);
 }
 
@@ -35,11 +34,10 @@ async function scheduledActionsVirtualMachinesGetOperationStatusGeneratedByMinim
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result =
-    await client.scheduledActions.virtualMachinesGetOperationStatus("csay", {
-      operationIds: ["01080d2f-1dca-4610-afb4-dd25eec1f3df"],
-      correlationid: "01080d2f-1dca-4610-afb4-dd25eec1f3c1",
-    });
+  const result = await client.scheduledActions.virtualMachinesGetOperationStatus("csay", {
+    operationIds: ["01080d2f-1dca-4610-afb4-dd25eec1f3df"],
+    correlationid: "01080d2f-1dca-4610-afb4-dd25eec1f3c1",
+  });
   console.log(result);
 }
 

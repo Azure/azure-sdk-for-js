@@ -534,11 +534,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  user = "user",
+  User = "user",
   /** system */
-  system = "system",
+  System = "system",
   /** user,system */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**

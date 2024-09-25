@@ -14,10 +14,9 @@ async function csScheduledActionsVirtualMachinesGetOperationErrorsMax() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result =
-    await client.scheduledActions.virtualMachinesGetOperationErrors("hfsa", {
-      operationIds: ["DE84A209-5715-43E7-BC76-3E208A9A323"],
-    });
+  const result = await client.scheduledActions.virtualMachinesGetOperationErrors("hfsa", {
+    operationIds: ["DE84A209-5715-43E7-BC76-3E208A9A323"],
+  });
   console.log(result);
 }
 
@@ -31,11 +30,9 @@ async function csScheduledActionsVirtualMachinesGetOperationErrorsMin() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "DE84A209-5715-43E7-BC76-3E208A9A82C5";
   const client = new ComputeScheduleClient(credential, subscriptionId);
-  const result =
-    await client.scheduledActions.virtualMachinesGetOperationErrors(
-      "ggxoaxzxtdbi",
-      { operationIds: ["qeicik"] },
-    );
+  const result = await client.scheduledActions.virtualMachinesGetOperationErrors("ggxoaxzxtdbi", {
+    operationIds: ["qeicik"],
+  });
   console.log(result);
 }
 
