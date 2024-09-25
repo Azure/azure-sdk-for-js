@@ -111,12 +111,12 @@
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test"
   },
   "//sampleConfiguration": {
-    "productName": "@azure/arm-mongocluster",
+    "productName": "@azure/arm-standbypool",
     "productSlugs": [
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview"
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-standbypool?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
