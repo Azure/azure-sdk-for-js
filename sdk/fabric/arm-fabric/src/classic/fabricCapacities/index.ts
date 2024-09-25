@@ -106,23 +106,13 @@ export interface FabricCapacitiesOperations {
   ) => PagedAsyncIterableIterator<RpSkuDetailsForNewResource>;
 }
 
-export function getFabricCapacities(
-  context: FabricContext,
-  subscriptionId: string,
-) {
+export function getFabricCapacities(context: FabricContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesGetOptionalParams,
-    ) =>
-      fabricCapacitiesGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
+    ) => fabricCapacitiesGet(context, subscriptionId, resourceGroupName, capacityName, options),
     createOrUpdate: (
       resourceGroupName: string,
       capacityName: string,
@@ -155,63 +145,28 @@ export function getFabricCapacities(
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesDeleteOptionalParams,
-    ) =>
-      fabricCapacitiesDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
+    ) => fabricCapacitiesDelete(context, subscriptionId, resourceGroupName, capacityName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: FabricCapacitiesListByResourceGroupOptionalParams,
-    ) =>
-      fabricCapacitiesListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: FabricCapacitiesListBySubscriptionOptionalParams,
-    ) => fabricCapacitiesListBySubscription(context, subscriptionId, options),
+    ) => fabricCapacitiesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: FabricCapacitiesListBySubscriptionOptionalParams) =>
+      fabricCapacitiesListBySubscription(context, subscriptionId, options),
     resume: (
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesResumeOptionalParams,
-    ) =>
-      fabricCapacitiesResume(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
+    ) => fabricCapacitiesResume(context, subscriptionId, resourceGroupName, capacityName, options),
     suspend: (
       resourceGroupName: string,
       capacityName: string,
       options?: FabricCapacitiesSuspendOptionalParams,
-    ) =>
-      fabricCapacitiesSuspend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        capacityName,
-        options,
-      ),
+    ) => fabricCapacitiesSuspend(context, subscriptionId, resourceGroupName, capacityName, options),
     checkNameAvailability: (
       location: string,
       body: CheckNameAvailabilityRequest,
       options?: FabricCapacitiesCheckNameAvailabilityOptionalParams,
-    ) =>
-      fabricCapacitiesCheckNameAvailability(
-        context,
-        subscriptionId,
-        location,
-        body,
-        options,
-      ),
+    ) => fabricCapacitiesCheckNameAvailability(context, subscriptionId, location, body, options),
     listSkusForCapacity: (
       resourceGroupName: string,
       capacityName: string,

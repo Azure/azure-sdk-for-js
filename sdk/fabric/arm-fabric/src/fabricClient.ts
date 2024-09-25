@@ -7,15 +7,8 @@ import {
   getFabricCapacitiesOperations,
   FabricCapacitiesOperations,
 } from "./classic/fabricCapacities/index.js";
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  createFabric,
-  FabricContext,
-  FabricClientOptionalParams,
-} from "./api/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { createFabric, FabricContext, FabricClientOptionalParams } from "./api/index.js";
 
 export { FabricClientOptionalParams } from "./api/fabricContext.js";
 
@@ -38,10 +31,7 @@ export class FabricClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.fabricCapacities = getFabricCapacitiesOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.fabricCapacities = getFabricCapacitiesOperations(this._client, subscriptionId);
     this.operations = getOperationsOperations(this._client);
   }
 

@@ -55,8 +55,5 @@ export {
   FabricCapacitiesListSkusOptionalParams,
   OperationsListOptionalParams,
 } from "./models/index.js";
-export {
-  FabricCapacitiesOperations,
-  OperationsOperations,
-} from "./classic/index.js";
+export { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -165,9 +165,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): Record<string, unknown> {
+export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -182,9 +180,7 @@ export interface FabricCapacity extends TrackedResource {
   sku: RpSku;
 }
 
-export function fabricCapacitySerializer(
-  item: FabricCapacity,
-): Record<string, unknown> {
+export function fabricCapacitySerializer(item: FabricCapacity): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -440,7 +436,7 @@ export enum KnownProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -453,7 +449,7 @@ export enum KnownProvisioningState {
  * **Canceled** \
  * **Deleting** \
  * **Provisioning** \
- * **Updating** 
+ * **Updating**
  */
 /** Alias for ProvisioningState */
 export type ProvisioningState = string;
