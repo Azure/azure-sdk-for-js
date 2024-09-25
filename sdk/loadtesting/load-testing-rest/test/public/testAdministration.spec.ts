@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { AzureLoadTestingClient, isUnexpected } from "../../src";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { AzureLoadTestingClient, isUnexpected } from "../../generated";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper";
@@ -106,19 +106,14 @@ describe("Test Creation", () => {
   });
 
   it("should create the app components", async () => {
-    const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
     const result = await client.path("/tests/{testId}/app-components", "abc").patch({
       contentType: "application/merge-patch+json",
       body: {
-        testId: "abc",
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
             {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
               resourceName: "App-Service-Sample-Demo",
               resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
             },
         },
       },

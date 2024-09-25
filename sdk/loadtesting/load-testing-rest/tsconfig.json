@@ -7,5 +7,19 @@
       "@azure-rest/load-testing": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "generated/azureLoadTesting.ts",
+    "generated/clientDefinitions.ts",
+    "generated/index.ts",
+    "generated/isUnexpected.ts",
+    "generated/logger.ts",
+    "generated/models.ts",
+    "generated/outputModels.ts",
+    "generated/paginateHelper.ts",
+    "generated/parameters.ts",
+    "generated/responses.ts"
+  ]
 }

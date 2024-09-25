@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import * as fs from "fs";
-import { AzureLoadTestingClient, isUnexpected } from "../../src";
+import { AzureLoadTestingClient, isUnexpected } from "../../generated";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
   let readStreamTestFile: fs.ReadStream;
 
   beforeEach(async function (this: Context) {
@@ -70,7 +69,6 @@ describe("Test Run Creation", () => {
       body: {
         testId: "abc",
         displayName: "sample123",
-        virtualUsers: 10,
       },
     });
 
@@ -78,7 +76,6 @@ describe("Test Run Creation", () => {
       throw testRunCreationResult.body.error;
     }
 
-    testRunCreationResult.body.testRunId = "adjwfjsdmf";
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
     await testRunPoller.pollUntilDone({
       abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
@@ -95,7 +92,6 @@ describe("Test Run Creation", () => {
         body: {
           testId: "abc",
           displayName: "sample123",
-          virtualUsers: 10,
         },
       });
 
@@ -122,7 +118,6 @@ describe("Test Run Creation", () => {
       body: {
         testId: "abc",
         displayName: "sample123",
-        virtualUsers: 10,
       },
     });
 
@@ -151,11 +146,8 @@ describe("Test Run Creation", () => {
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
             {
-              resourceId:
-                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
               resourceName: "App-Service-Sample-Demo",
               resourceType: "Microsoft.Web/sites",
-              subscriptionId: SUBSCRIPTION_ID,
             },
         },
       },

@@ -14,9 +14,9 @@ export interface TestOutput {
   /** The load test configuration. */
   loadTestConfiguration?: LoadTestConfigurationOutput;
   /** The input artifacts for the test. */
-  inputArtifacts?: TestInputArtifactsOutput;
+  readonly inputArtifacts?: TestInputArtifactsOutput;
   /** Unique test name as identifier. */
-  testId?: string;
+  readonly testId?: string;
   /** The test description. */
   description?: string;
   /** Display name of a test. */
@@ -28,13 +28,13 @@ export interface TestOutput {
   /** Resource Id of the managed identity referencing the Key vault. */
   keyvaultReferenceIdentityId?: string;
   /** The creation datetime(ISO 8601 literal format). */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The user that created. */
-  createdBy?: string;
+  readonly createdBy?: string;
   /** The last Modified datetime(ISO 8601 literal format). */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
 }
 
 /** Pass fail criteria for a test. */
@@ -46,9 +46,23 @@ export interface PassFailCriteriaOutput {
 /** Pass fail metric */
 export interface PassFailMetricOutput {
   /** The client metric on which the criteria should be applied. */
-  clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
+  clientMetric?:
+    | "response_time_ms"
+    | "latency"
+    | "error"
+    | "requests"
+    | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
-  aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
+  aggregate?:
+    | "count"
+    | "percentage"
+    | "avg"
+    | "p50"
+    | "p90"
+    | "p95"
+    | "p99"
+    | "min"
+    | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
   condition?: string;
   /** Request name for which the Pass fail criteria has to be applied */
@@ -56,11 +70,11 @@ export interface PassFailMetricOutput {
   /** The value to compare with the client metric. Allowed values - ‘error : [0.0 , 100.0] unit- % ’, response_time_ms and latency : any integer value unit- ms. */
   value?: number;
   /** Action taken after the threshold is met. Default is ‘continue’. */
-  action?: "stop" | "continue";
+  action?: "continue" | "stop";
   /** The actual value of the client metric for the test run. */
-  actualValue?: number;
+  readonly actualValue?: number;
   /** Outcome of the test run. */
-  result?: "passed" | "undetermined" | "failed";
+  readonly result?: "passed" | "undetermined" | "failed";
 }
 
 /** Secret */
@@ -116,7 +130,7 @@ export interface TestInputArtifactsOutput {
   /** File info */
   inputArtifactsZipFileInfo?: FileInfoOutput;
   /** Additional supported files for the test run */
-  additionalFileInfo?: Array<FileInfoOutput>;
+  readonly additionalFileInfo?: Array<FileInfoOutput>;
 }
 
 /** File info */
@@ -179,21 +193,21 @@ export interface TestAppComponentsOutput {
   /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
   components: Record<string, AppComponentOutput>;
   /** Test identifier */
-  testId?: string;
+  readonly testId?: string;
   /** The creation datetime(ISO 8601 literal format). */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The user that created. */
-  createdBy?: string;
+  readonly createdBy?: string;
   /** The last Modified datetime(ISO 8601 literal format). */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
 }
 
 /** An Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource) */
 export interface AppComponentOutput {
   /** fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName} */
-  resourceId?: string;
+  readonly resourceId?: string;
   /** Azure resource name, required while creating the app component. */
   resourceName?: string;
   /** Azure resource type, required while creating the app component. */
@@ -201,9 +215,9 @@ export interface AppComponentOutput {
   /** Azure resource display name */
   displayName?: string;
   /** Resource group name of the Azure resource */
-  resourceGroup?: string;
+  readonly resourceGroup?: string;
   /** Subscription Id of the Azure resource */
-  subscriptionId?: string;
+  readonly subscriptionId?: string;
   /** Kind of Azure resource type */
   kind?: string;
 }
@@ -211,23 +225,23 @@ export interface AppComponentOutput {
 /** Test server metrics configuration */
 export interface TestServerMetricConfigOutput {
   /** Test identifier */
-  testId?: string;
+  readonly testId?: string;
   /** Azure resource metrics collection {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id). */
   metrics?: Record<string, ResourceMetricOutput>;
   /** The creation datetime(ISO 8601 literal format). */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The user that created. */
-  createdBy?: string;
+  readonly createdBy?: string;
   /** The last Modified datetime(ISO 8601 literal format). */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
 }
 
 /** Associated metric definition for particular metrics of the azure resource ( Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition). */
 export interface ResourceMetricOutput {
   /** Unique name for metric. */
-  id?: string;
+  readonly id?: string;
   /** Azure resource id. */
   resourceId: string;
   /** Metric name space. */
@@ -255,19 +269,19 @@ export interface TestRunOutput {
   /** Environment variables which are defined as a set of <name,value> pairs. */
   environmentVariables?: Record<string, string>;
   /** Error details if there is any failure in load test run */
-  errorDetails?: Array<ErrorDetailsOutput>;
+  readonly errorDetails?: Array<ErrorDetailsOutput>;
   /** Test run statistics. */
-  testRunStatistics?: Record<string, TestRunStatisticsOutput>;
+  readonly testRunStatistics?: Record<string, TestRunStatisticsOutput>;
   /** The load test configuration. */
   loadTestConfiguration?: LoadTestConfigurationOutput;
   /** Collection of test run artifacts */
-  testArtifacts?: TestRunArtifactsOutput;
+  readonly testArtifacts?: TestRunArtifactsOutput;
   /** Test result for pass/Fail criteria used during the test run. */
-  testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
+  readonly testResult?: "PASSED" | "NOT_APPLICABLE" | "FAILED";
   /** Number of virtual users, for which test has been run. */
-  virtualUsers?: number;
+  readonly virtualUsers?: number;
   /** Unique test run name as identifier */
-  testRunId?: string;
+  readonly testRunId?: string;
   /** Display name of a testRun. */
   displayName?: string;
   /** Associated test Id. */
@@ -275,7 +289,7 @@ export interface TestRunOutput {
   /** The test run description. */
   description?: string;
   /** The test run status. */
-  status?:
+  readonly status?:
     | "ACCEPTED"
     | "NOTSTARTED"
     | "PROVISIONING"
@@ -293,69 +307,69 @@ export interface TestRunOutput {
     | "VALIDATION_SUCCESS"
     | "VALIDATION_FAILURE";
   /** The test run start DateTime(ISO 8601 literal format). */
-  startDateTime?: string;
+  readonly startDateTime?: string;
   /** The test run end DateTime(ISO 8601 literal format). */
-  endDateTime?: string;
+  readonly endDateTime?: string;
   /** Test run initiated time. */
-  executedDateTime?: string;
+  readonly executedDateTime?: string;
   /** Portal url. */
-  portalUrl?: string;
+  readonly portalUrl?: string;
   /** Test run duration in milliseconds. */
-  duration?: number;
+  readonly duration?: number;
   /** Subnet ID on which the load test instances should run. */
-  subnetId?: string;
+  readonly subnetId?: string;
   /** The creation datetime(ISO 8601 literal format). */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The user that created. */
-  createdBy?: string;
+  readonly createdBy?: string;
   /** The last Modified datetime(ISO 8601 literal format). */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
 }
 
 /** Error details if there is any failure in load test run */
 export interface ErrorDetailsOutput {
   /** Error details in case test run was not successfully run. */
-  message?: string;
+  readonly message?: string;
 }
 
 /** Test run statistics. */
 export interface TestRunStatisticsOutput {
   /** Transaction name. */
-  transaction?: string;
+  readonly transaction?: string;
   /** Sampler count. */
-  sampleCount?: number;
+  readonly sampleCount?: number;
   /** Error count. */
-  errorCount?: number;
+  readonly errorCount?: number;
   /** Error percentage. */
-  errorPct?: number;
+  readonly errorPct?: number;
   /** Mean response time. */
-  meanResTime?: number;
+  readonly meanResTime?: number;
   /** Median response time. */
-  medianResTime?: number;
+  readonly medianResTime?: number;
   /** Max response time. */
-  maxResTime?: number;
+  readonly maxResTime?: number;
   /** Minimum response time. */
-  minResTime?: number;
+  readonly minResTime?: number;
   /** 90 percentile response time. */
-  pct1ResTime?: number;
+  readonly pct1ResTime?: number;
   /** 95 percentile response time. */
-  pct2ResTime?: number;
+  readonly pct2ResTime?: number;
   /** 99 percentile response time. */
-  pct3ResTime?: number;
+  readonly pct3ResTime?: number;
   /** Throughput. */
-  throughput?: number;
+  readonly throughput?: number;
   /** Received network bytes. */
-  receivedKBytesPerSec?: number;
+  readonly receivedKBytesPerSec?: number;
   /** Send network bytes. */
-  sentKBytesPerSec?: number;
+  readonly sentKBytesPerSec?: number;
 }
 
 /** Collection of test run artifacts */
 export interface TestRunArtifactsOutput {
   /** The input artifacts for the test run. */
-  inputArtifacts?: TestRunInputArtifactsOutput;
+  readonly inputArtifacts?: TestRunInputArtifactsOutput;
   /** The output artifacts for the test run. */
   outputArtifacts?: TestRunOutputArtifactsOutput;
 }
@@ -371,7 +385,7 @@ export interface TestRunInputArtifactsOutput {
   /** File info */
   inputArtifactsZipFileInfo?: FileInfoOutput;
   /** Additional supported files for the test run */
-  additionalFileInfo?: Array<FileInfoOutput>;
+  readonly additionalFileInfo?: Array<FileInfoOutput>;
 }
 
 /** The output artifacts for the test run. */
@@ -462,7 +476,7 @@ export interface MetricAvailabilityOutput {
 /** The response to a metrics query. */
 export interface MetricsOutput {
   /** Timeseries data for metric query. */
-  timeseries?: Array<TimeSeriesElementOutput>;
+  value?: Array<TimeSeriesElementOutput>;
   /** Link for the next set of timeseries in case of paginated results, if applicable */
   nextLink?: string;
 }
@@ -504,29 +518,29 @@ export interface TestRunAppComponentsOutput {
   /** Azure resource collection { resource id (fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } */
   components: Record<string, AppComponentOutput>;
   /** Test run identifier */
-  testRunId?: string;
+  readonly testRunId?: string;
   /** The creation datetime(ISO 8601 literal format). */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The user that created. */
-  createdBy?: string;
+  readonly createdBy?: string;
   /** The last Modified datetime(ISO 8601 literal format). */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
 }
 
 /** Test run server metrics configuration */
 export interface TestRunServerMetricConfigOutput {
   /** Test run identifier */
-  testRunId?: string;
+  readonly testRunId?: string;
   /** Azure resource metrics collection {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id). */
   metrics?: Record<string, ResourceMetricOutput>;
   /** The creation datetime(ISO 8601 literal format). */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** The user that created. */
-  createdBy?: string;
+  readonly createdBy?: string;
   /** The last Modified datetime(ISO 8601 literal format). */
-  lastModifiedDateTime?: string;
+  readonly lastModifiedDateTime?: string;
   /** The user that last modified. */
-  lastModifiedBy?: string;
+  readonly lastModifiedBy?: string;
 }

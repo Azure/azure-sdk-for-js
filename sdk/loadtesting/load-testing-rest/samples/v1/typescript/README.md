@@ -11,12 +11,10 @@ urlFragment: load-testing-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Load Testing rest in some common scenarios.
 
-| **File Name**                                               | **Description**            |
-| ----------------------------------------------------------- | -------------------------- |
-| [createAppComponent.ts][createappcomponent]                 | creates and run a loadtest |
-| [createOrUpdateTest.ts][createorupdatetest]                 | creates and run a loadtest |
-| [createTestRunAndGetMetrics.ts][createtestrunandgetmetrics] | creates and run a loadtest |
-| [fileUpload.ts][fileupload]                                 | creates and run a loadtest |
+| **File Name**           | **Description**                  |
+| ----------------------- | -------------------------------- |
+| [sample.ts][sample]     | creates and run a loadtest       |
+| [stopTest.ts][stoptest] | creates, run and stop a loadtest |
 
 ## Prerequisites
 
@@ -57,24 +55,22 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/createAppComponent.js
+node dist/sample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION_ID="<subscription id>" node dist/createAppComponent.js
+npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" node dist/sample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[createappcomponent]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/typescript/src/createAppComponent.ts
-[createorupdatetest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/typescript/src/createOrUpdateTest.ts
-[createtestrunandgetmetrics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/typescript/src/createTestRunAndGetMetrics.ts
-[fileupload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/typescript/src/fileUpload.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
+[sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/typescript/src/sample.ts
+[stoptest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1/typescript/src/stopTest.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/load-testing
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureloadtestingserviceinstance]: https://learn.microsoft.com/azure/load-testing/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md
