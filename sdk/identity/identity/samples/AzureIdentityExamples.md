@@ -603,12 +603,34 @@ function withSystemAssignedManagedIdentityCredential() {
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
+```
 
+In order to authenticate with a user-assigned managed identity, you must specify one of the following IDs for the managed identity:
+
+```ts
 /**
- * Authenticate with a user-assigned managed identity.
+ * Authenticate with a user-assigned managed identity using a client ID
  */
 function withUserManagedIdentityCredential() {
-  const credential = new ManagedIdentityCredential("<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>");
+  const credential = new ManagedIdentityCredential({ clientId: "<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>" });
+
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+
+/**
+ * Authenticate with a user-assigned managed identity using a resource ID
+ */
+function withUserManagedIdentityCredential() {
+  const credential = new ManagedIdentityCredential({ resourceId: "<USER_ASSIGNED_MANAGED_IDENTITY_RESOURCE_ID>" });
+
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+
+/**
+ * Authenticate with a user-assigned managed identity using an object ID
+ */
+function withUserManagedIdentityCredential() {
+  const credential = new ManagedIdentityCredential({ objectId: "<USER_ASSIGNED_MANAGED_IDENTITY_OBJECT_ID>" });
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
