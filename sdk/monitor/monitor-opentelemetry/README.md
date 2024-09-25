@@ -101,7 +101,7 @@ useAzureMonitor(options);
 | enableStandardMetrics      | Enable/Disable Standard Metrics. |true|
 | logRecordProcessors        | Array of log record processors to register to the global logger provider. ||
 | spanProcessors             | Array of span processors to register to the global tracer provider. ||
-<!--- TODO: Enable when feature is released | enableTraceBasedSamplingForLogs      | Enable log sampling based on trace. |true|-->
+| enableTraceBasedSamplingForLogs  | Enable log sampling based on trace. |false|
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances. 
 
