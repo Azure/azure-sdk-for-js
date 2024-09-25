@@ -154,7 +154,7 @@ describe("Challenge based authentication tests", function () {
       )
       // Then provide a CAE challenge
       .mockImplementationOnce(caeChallengeResponse)
-      // After the CAE challenge, send a successful response, but only after asserting that the token in the Authorization header was obtained by passing the scopes through to the credential.
+      // After the CAE challenge, send a successful response, but only after asserting that the token in the Authorization header was obtained by passing the claims through to the credential.
       .mockImplementationOnce(
         successfulResponseWith({
           expectAuthorizationHeader: "Bearer cae_token",
