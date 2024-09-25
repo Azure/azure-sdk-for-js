@@ -61,6 +61,7 @@ function getConnectResponseHandler(
     failWith(res: ConnectErrorResponse | MqttConnectErrorResponse) {
       if ("mqtt" in res) {
         response.statusCode = getStatusCodeFromMqttConnectCode(res.mqtt.code);
+        response.setHeader("Content-Type", "application/json; charset=utf-8");
         response.end(JSON.stringify(res));
       } else {
         handleConnectErrorResponse(connectRequest, response, res.code, res.detail);
@@ -255,7 +256,6 @@ function handleConnectErrorResponse(
 ): void {
   const isMqttReq = connectRequest.context.clientProtocol === "mqtt";
   if (isMqttReq) {
-    console.log("mqtt req ", connectRequest);
     const protocolVersion = (connectRequest as MqttConnectRequest).mqtt.protocolVersion;
     const mqttErrorResponse: MqttConnectErrorResponse = {
       mqtt: {
@@ -264,6 +264,7 @@ function handleConnectErrorResponse(
       },
     };
     response.statusCode = code;
+    response.setHeader("Content-Type", "application/json; charset=utf-8");
     response.end(JSON.stringify(mqttErrorResponse));
   } else {
     response.statusCode = code;

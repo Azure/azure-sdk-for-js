@@ -155,7 +155,7 @@ const express = require("express");
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
-  onDisconnected: (connectedRequest) => {
+  onDisconnected: (disconnectedRequest) => {
     // Your onDisconnected logic goes here
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
@@ -212,7 +212,7 @@ const handler = new WebPubSubEventHandler("chat", {
       res.fail(401, "Not Authorized");
       // Or use below method for more fine-grained control over the MQTT return code
       // res.failWith({ mqtt: { code: MqttV500ConnectReasonCode.NotAuthorized } });
-    }
+    } else res.success();
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
 });
