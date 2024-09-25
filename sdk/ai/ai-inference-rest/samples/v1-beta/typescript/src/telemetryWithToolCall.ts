@@ -2,36 +2,38 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use tool calls with streaming chat completions.
+ * Demonstrates how to use tool calls with chat completions with telemetry.
  *
- * @summary Get chat completions with streaming and function call.
+ * @summary Get chat completions with function call.
  */
 
-import ModelClient, { ChatCompletionsFunctionToolCallOutput } from "@azure-rest/ai-inference";
-import { createSseStream } from "@azure/core-sse";
 import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import { context, trace } from "@opentelemetry/api";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { IncomingMessage } from "http";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
-interface EventData {
-  choices: [
-    {
-      content_filter_results: any;
-      delta: any;
-      finish_reason: string | null;
-      index: number;
-      logprobs: any | null;
-    },
-  ];
-  id: string;
-  model: string;
+const provider = new NodeTracerProvider();
+if (connectionString) {
+  const exporter = new AzureMonitorTraceExporter({ connectionString });
+  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 }
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.register();
+
+registerInstrumentations({
+  instrumentations: [createAzureSdkInstrumentation()],
+});
+
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -57,12 +59,9 @@ const getWeatherFunc = (location: string, unit: string): string => {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
-};
+}
 
-const updateToolCalls = (
-  toolCallArray: Array<ChatCompletionsFunctionToolCallOutput>,
-  functionArray: Array<any>,
-) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
@@ -81,7 +80,7 @@ const updateToolCalls = (
     }
     index++;
   }
-};
+}
 
 const handleToolCalls = (functionArray: Array<any>) => {
   const messageArray = [];
@@ -90,13 +89,14 @@ const handleToolCalls = (functionArray: Array<any>) => {
     let content = "";
 
     switch (func.name) {
+
       case "get_current_weather":
         content = getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
         messageArray.push({
           role: "tool",
           content,
           tool_call_id: func.id,
-          name: func.name,
+          name: func.name
         });
         break;
 
@@ -106,18 +106,11 @@ const handleToolCalls = (functionArray: Array<any>) => {
     }
   }
   return messageArray;
-};
+}
 
-const streamToString = async (stream: NodeJS.ReadableStream) => {
-  // lets have a ReadableStream as a stream variable
-  const chunks = [];
 
-  for await (const chunk of stream) {
-    chunks.push(Buffer.from(chunk));
-  }
-
-  return Buffer.concat(chunks).toString("utf-8");
-};
+// any import such as ai-inference has core-tracing as dependency must be imported after the instrumentation is registered
+import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
 
 export async function main() {
   const credential = new DefaultAzureCredential();
@@ -127,14 +120,17 @@ export async function main() {
   const clientOptions = { credentials: { scopes } };
   const client = ModelClient(modelEndpoint, credential, clientOptions);
 
-  const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
+  const messages: ChatRequestMessage[] = [{ role: "user", content: "What's the weather like in Boston?" }];
 
   let toolCallAnswer = "";
   let awaitingToolCallAnswer = true;
-  while (awaitingToolCallAnswer) {
-    const response = await client
-      .path("/chat/completions")
-      .post({
+
+  const tracer = trace.getTracer('sample', '0.1.0');
+
+  await tracer.startActiveSpan('main', async (span) => {
+    while (awaitingToolCallAnswer) {
+
+      const response = await client.path("/chat/completions").post({
         body: {
           messages,
           tools: [
@@ -142,38 +138,35 @@ export async function main() {
               type: "function",
               function: getCurrentWeather,
             },
-          ],
-          stream: true,
+          ]
         },
-      })
-      .asNodeStream();
+        tracingOptions: { tracingContext: context.active() }
+      });
 
-    const stream = response.body;
-    if (!stream) {
-      throw new Error("The response stream is undefined");
-    }
-
-    if (response.status !== "200") {
-      throw new Error(`Failed to get chat completions: ${await streamToString(stream)}`);
-    }
-
-    const sses = createSseStream(stream as IncomingMessage);
-    const functionArray: Array<any> = [];
-
-    for await (const event of sses) {
-      if (event.data === "[DONE]") {
-        continue;
+      if (isUnexpected(response)) {
+        throw response.body.error;
       }
-      const eventData: EventData = JSON.parse(event.data);
 
-      for (const choice of eventData.choices) {
-        const toolCallArray = choice.delta?.tool_calls;
+      const stream = response.body;
+      if (!stream) {
+        throw new Error("The response stream is undefined");
+      }
+
+      if (response.status !== "200") {
+        throw new Error(`Failed to get chat completions.`);
+      }
+
+      const functionArray: Array<any> = [];
+
+
+      for (const choice of response.body.choices) {
+        const toolCallArray = choice.message?.tool_calls;
 
         if (toolCallArray) {
           if (toolCallArray[0].function?.name) {
             // Include original response from assistant requesting tool call in chat history
-            choice.delta.role = "assistant";
-            messages.push(choice.delta);
+            choice.message.role = "assistant";
+            messages.push(choice.message);
           }
           updateToolCalls(toolCallArray, functionArray);
         }
@@ -181,17 +174,20 @@ export async function main() {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.delta?.content && choice.delta.content != "") {
-            toolCallAnswer += choice.delta?.content;
+          if (choice.message?.content && choice.message.content != '') {
+            toolCallAnswer += choice.message?.content;
             awaitingToolCallAnswer = false;
           }
         }
       }
     }
-  }
+
+    span.end();
+  });
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
+
 }
 
 main().catch((err) => {

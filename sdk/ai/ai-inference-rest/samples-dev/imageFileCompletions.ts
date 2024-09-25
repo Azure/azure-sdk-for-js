@@ -9,7 +9,7 @@
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
-import fs from 'fs';
+import fs from "fs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,16 +30,25 @@ export async function main() {
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [
-        { role: "system", content: "You are a helpful assistant that describes images in details." },
-        { role: "user", content: [
-            { type: "text", text: "What's in this image?"},
-            { type: "image_url", image_url: {
-                url: getImageDataUrl(imageFilePath, imageFormat)}}
-          ]
-        }
+        {
+          role: "system",
+          content: "You are a helpful assistant that describes images in details.",
+        },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: "What's in this image?" },
+            {
+              type: "image_url",
+              image_url: {
+                url: getImageDataUrl(imageFilePath, imageFormat),
+              },
+            },
+          ],
+        },
       ],
-      model: modelName
-    }
+      model: modelName,
+    },
   });
 
   if (isUnexpected(response)) {
@@ -57,13 +66,13 @@ export async function main() {
  */
 function getImageDataUrl(imageFile: string, imageFormat: string): string {
   try {
-      const imageBuffer = fs.readFileSync(imageFile);
-      const imageBase64 = imageBuffer.toString('base64');
-      return `data:image/${imageFormat};base64,${imageBase64}`;
+    const imageBuffer = fs.readFileSync(imageFile);
+    const imageBase64 = imageBuffer.toString("base64");
+    return `data:image/${imageFormat};base64,${imageBase64}`;
   } catch (error) {
-      console.error(`Could not read '${imageFile}'.`);
-      console.error('Set the correct path to the image file before running this sample.');
-      process.exit(1);
+    console.error(`Could not read '${imageFile}'.`);
+    console.error("Set the correct path to the image file before running this sample.");
+    process.exit(1);
   }
 }
 

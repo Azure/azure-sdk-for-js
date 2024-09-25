@@ -5,7 +5,6 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import { TokenCredential, KeyCredential, isKeyCredential } from "@azure/core-auth";
 import { ModelClient } from "./clientDefinitions.js";
-import { tracingPolicy } from "./tracingPolicy.js";
 
 /** The optional parameters for the client */
 export interface ModelClientOptions extends ClientOptions {
@@ -25,7 +24,7 @@ export default function createClient(
   { apiVersion = "2024-05-01-preview", ...options }: ModelClientOptions = {},
 ): ModelClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-inference/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-ai-inference-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -43,16 +42,9 @@ export default function createClient(
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
-
   const client = getClient(endpointUrl, credentials, options) as ModelClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  client.pipeline.addPolicy({
-    name: "InferenceTracingPolicy",
-    sendRequest: (req, next) => {
-      return tracingPolicy().sendRequest(req, next);
-    },
-  });
   client.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
