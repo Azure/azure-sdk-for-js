@@ -27,12 +27,17 @@ export type AzureDeveloperDevCenterClient = Client & {
 };
 
 // @public
+export interface AzureDeveloperDevCenterClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface CatalogOutput {
     readonly name: string;
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, options?: ClientOptions): AzureDeveloperDevCenterClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureDeveloperDevCenterClientOptions): AzureDeveloperDevCenterClient;
 export default createClient;
 
 // @public
@@ -338,7 +343,7 @@ export interface DevBoxActionDelayResultOutput {
 }
 
 // @public
-export type DevBoxActionDelayResultStatusOutput = "Succeeded" | "Failed" | string;
+export type DevBoxActionDelayResultStatusOutput = string;
 
 // @public
 export interface DevBoxActionOutput {
@@ -350,7 +355,7 @@ export interface DevBoxActionOutput {
 }
 
 // @public
-export type DevBoxActionTypeOutput = "Stop" | string;
+export type DevBoxActionTypeOutput = string;
 
 // @public
 export interface DevBoxNextActionOutput {
@@ -379,10 +384,10 @@ export interface DevBoxOutput {
 }
 
 // @public
-export type DevBoxProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Deleting" | "Updating" | "Starting" | "Stopping" | "Provisioning" | "ProvisionedWithWarning" | "InGracePeriod" | "NotProvisioned" | string;
+export type DevBoxProvisioningState = string;
 
 // @public
-export type DevBoxProvisioningStateOutput = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Deleting" | "Updating" | "Starting" | "Stopping" | "Provisioning" | "ProvisionedWithWarning" | "InGracePeriod" | "NotProvisioned" | string;
+export type DevBoxProvisioningStateOutput = string;
 
 // @public
 export interface Environment {
@@ -429,13 +434,13 @@ export interface EnvironmentOutput {
 }
 
 // @public
-export type EnvironmentProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Accepted" | "Deleting" | "Updating" | "Preparing" | "Running" | "Syncing" | "MovingResources" | "TransientFailure" | "StorageProvisioningFailed" | string;
+export type EnvironmentProvisioningState = string;
 
 // @public
-export type EnvironmentProvisioningStateOutput = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Accepted" | "Deleting" | "Updating" | "Preparing" | "Running" | "Syncing" | "MovingResources" | "TransientFailure" | "StorageProvisioningFailed" | string;
+export type EnvironmentProvisioningStateOutput = string;
 
 // @public
-export type EnvironmentTypeEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type EnvironmentTypeEnableStatusOutput = string;
 
 // @public
 export interface EnvironmentTypeOutput {
@@ -800,10 +805,10 @@ export interface HardwareProfileOutput {
 }
 
 // @public
-export type HibernateSupport = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupport = string;
 
 // @public
-export type HibernateSupportOutput = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupportOutput = string;
 
 // @public
 export interface ImageReference {
@@ -1321,13 +1326,13 @@ export interface ListSchedulesByPoolDefaultResponse extends HttpResponse {
 export type ListSchedulesByPoolParameters = RequestParameters;
 
 // @public
-export type LocalAdminStatus = "Enabled" | "Disabled" | string;
+export type LocalAdminStatus = string;
 
 // @public
-export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
+export type LocalAdminStatusOutput = string;
 
 // @public
-export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+export type OperationStateOutput = string;
 
 // @public
 export interface OperationStatusOutput {
@@ -1352,10 +1357,10 @@ export interface OsDiskOutput {
 }
 
 // @public
-export type OsType = "Windows" | string;
+export type OsType = string;
 
 // @public
-export type OsTypeOutput = "Windows" | string;
+export type OsTypeOutput = string;
 
 // @public
 export type PagedCatalogOutput = Paged<CatalogOutput>;
@@ -1403,10 +1408,10 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export type ParameterTypeOutput = "array" | "boolean" | "integer" | "number" | "object" | "string" | string;
+export type ParameterTypeOutput = string;
 
 // @public
-export type PoolHealthStatusOutput = "Unknown" | "Pending" | "Healthy" | "Warning" | "Unhealthy" | string;
+export type PoolHealthStatusOutput = string;
 
 // @public
 export interface PoolOutput {
@@ -1423,10 +1428,10 @@ export interface PoolOutput {
 }
 
 // @public
-export type PowerState = "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated" | string;
+export type PowerState = string;
 
 // @public
-export type PowerStateOutput = "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated" | string;
+export type PowerStateOutput = string;
 
 // @public
 export interface ProjectOutput {
@@ -1521,10 +1526,10 @@ export interface Routes {
 }
 
 // @public
-export type ScheduledFrequencyOutput = "Daily" | string;
+export type ScheduledFrequencyOutput = string;
 
 // @public
-export type ScheduledTypeOutput = "StopDevBox" | string;
+export type ScheduledTypeOutput = string;
 
 // @public
 export interface ScheduleOutput {
@@ -1587,10 +1592,10 @@ export interface SkipActionDefaultResponse extends HttpResponse {
 export type SkipActionParameters = RequestParameters;
 
 // @public
-export type SkuName = "general_i_8c32gb256ssd_v2" | "general_i_8c32gb512ssd_v2" | "general_i_8c32gb1024ssd_v2" | "general_i_8c32gb2048ssd_v2" | "general_i_16c64gb256ssd_v2" | "general_i_16c64gb512ssd_v2" | "general_i_16c64gb1024ssd_v2" | "general_i_16c64gb2048ssd_v2" | "general_i_32c128gb512ssd_v2" | "general_i_32c128gb1024ssd_v2" | "general_i_32c128gb2048ssd_v2" | "general_a_8c32gb256ssd_v2" | "general_a_8c32gb512ssd_v2" | "general_a_8c32gb1024ssd_v2" | "general_a_8c32gb2048ssd_v2" | "general_a_16c64gb256ssd_v2" | "general_a_16c64gb512ssd_v2" | "general_a_16c64gb1024ssd_v2" | "general_a_16c64gb2048ssd_v2" | "general_a_32c128gb512ssd_v2" | "general_a_32c128gb1024ssd_v2" | "general_a_32c128gb2048ssd_v2" | string;
+export type SkuName = string;
 
 // @public
-export type SkuNameOutput = "general_i_8c32gb256ssd_v2" | "general_i_8c32gb512ssd_v2" | "general_i_8c32gb1024ssd_v2" | "general_i_8c32gb2048ssd_v2" | "general_i_16c64gb256ssd_v2" | "general_i_16c64gb512ssd_v2" | "general_i_16c64gb1024ssd_v2" | "general_i_16c64gb2048ssd_v2" | "general_i_32c128gb512ssd_v2" | "general_i_32c128gb1024ssd_v2" | "general_i_32c128gb2048ssd_v2" | "general_a_8c32gb256ssd_v2" | "general_a_8c32gb512ssd_v2" | "general_a_8c32gb1024ssd_v2" | "general_a_8c32gb2048ssd_v2" | "general_a_16c64gb256ssd_v2" | "general_a_16c64gb512ssd_v2" | "general_a_16c64gb1024ssd_v2" | "general_a_16c64gb2048ssd_v2" | "general_a_32c128gb512ssd_v2" | "general_a_32c128gb1024ssd_v2" | "general_a_32c128gb2048ssd_v2" | string;
+export type SkuNameOutput = string;
 
 // @public (undocumented)
 export interface StartDevBox {
@@ -1702,7 +1707,7 @@ export interface StopOnDisconnectConfigurationOutput {
 }
 
 // @public
-export type StopOnDisconnectEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type StopOnDisconnectEnableStatusOutput = string;
 
 // @public
 export interface StorageProfile {
