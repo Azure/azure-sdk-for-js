@@ -195,6 +195,7 @@ export function firewallRulesCreateOrUpdate(
           resource,
           options,
         ),
+      resourceLocationConfig: "azure-async-operation",
     },
   ) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
@@ -250,6 +251,7 @@ export function firewallRulesDelete(
         firewallRuleName,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 

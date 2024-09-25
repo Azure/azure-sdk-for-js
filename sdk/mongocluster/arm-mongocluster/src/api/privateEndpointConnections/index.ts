@@ -313,6 +313,7 @@ export function privateEndpointConnectionsCreate(
           resource,
           options,
         ),
+      resourceLocationConfig: "azure-async-operation",
     },
   ) as PollerLike<
     OperationState<PrivateEndpointConnectionResource>,
@@ -379,6 +380,7 @@ export function privateEndpointConnectionsDelete(
           privateEndpointConnectionName,
           options,
         ),
+      resourceLocationConfig: "location",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
