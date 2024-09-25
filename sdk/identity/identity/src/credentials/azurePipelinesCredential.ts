@@ -37,7 +37,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     clientId: string,
     serviceConnectionId: string,
     systemAccessToken: string,
-    options?: AzurePipelinesCredentialOptions,
+    options: AzurePipelinesCredentialOptions = {},
   ) {
     if (!clientId) {
       throw new CredentialUnavailableError(
@@ -60,6 +60,11 @@ export class AzurePipelinesCredential implements TokenCredential {
       );
     }
 
+    options.loggingOptions = {
+      ...options?.loggingOptions,
+      additionalAllowedHeaderNames: [...options.loggingOptions?.additionalAllowedHeaderNames?? [], "x-vss-e2eid","x-msedge-ref"]
+    }
+  
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(

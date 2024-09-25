@@ -47,8 +47,6 @@ Request and response bodies are never logged. Headers are redacted by default, u
 - "x-ms-useragent",
 - "x-ms-correlation-request-id",
 - "x-ms-request-id",
-- "x-vss-e2eid",
-- "x-msedge-ref",
 - "client-request-id",
 - "ms-cv",
 - "return-client-request-id",
