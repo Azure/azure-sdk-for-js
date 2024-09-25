@@ -197,27 +197,6 @@ export function mongoClusterReplicaParametersSerializer(
   };
 }
 
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ResourceProvisioningState = string;
-
 /** Known values of {@link MongoClusterStatus} that the service accepts. */
 export enum KnownMongoClusterStatus {
   /** Ready */
@@ -838,11 +817,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  user = "user",
+  User = "user",
   /** system */
-  system = "system",
+  System = "system",
   /** user,system */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -870,10 +849,34 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | string
-  | ResourceProvisioningState
-  | "InProgress"
-  | "Updating"
-  | "Dropping";
+
+/** Known values of {@link ProvisioningState } that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Updating */
+  Updating = "Updating",
+  /** Dropping */
+  Dropping = "Dropping",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownProvisioningState } can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress** \
+ * **Updating** \
+ * **Dropping**
+ */
+
+export type ProvisioningState = string;

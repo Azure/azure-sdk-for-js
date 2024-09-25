@@ -152,9 +152,9 @@ export enum KnownNodeKind {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -188,6 +188,16 @@ export enum KnownPromoteOption {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Dropping = "Dropping",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -208,13 +218,6 @@ export enum KnownReplicationState {
     Provisioning = "Provisioning",
     Reconfiguring = "Reconfiguring",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
 }
 
 // @public
@@ -500,7 +503,7 @@ export interface PromoteReplicaRequest {
 }
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "InProgress" | "Updating" | "Dropping";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -543,9 +546,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: MongoClusterManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

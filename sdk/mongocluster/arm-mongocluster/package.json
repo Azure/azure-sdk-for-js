@@ -124,44 +124,36 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     },
     "./models": {
       "browser": {
-        "source": "./src/models/index.ts",
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
       },
       "react-native": {
-        "source": "./src/models/index.ts",
         "types": "./dist/react-native/models/index.d.ts",
         "default": "./dist/react-native/models/index.js"
       },
       "import": {
-        "source": "./src/models/index.ts",
         "types": "./dist/esm/models/index.d.ts",
         "default": "./dist/esm/models/index.js"
       },
       "require": {
-        "source": "./src/models/index.ts",
         "types": "./dist/commonjs/models/index.d.ts",
         "default": "./dist/commonjs/models/index.js"
       }

@@ -14,27 +14,23 @@ async function createsANewMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.createOrUpdate(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      location: "westus2",
-      properties: {
-        administratorLogin: "mongoAdmin",
-        administratorLoginPassword: "password",
-        serverVersion: "5.0",
-        nodeGroupSpecs: [
-          {
-            kind: "Shard",
-            sku: "M30",
-            diskSizeGB: 128,
-            enableHa: true,
-            nodeCount: 1,
-          },
-        ],
-      },
+  const result = await client.mongoClusters.createOrUpdate("TestResourceGroup", "myMongoCluster", {
+    location: "westus2",
+    properties: {
+      administratorLogin: "mongoAdmin",
+      administratorLoginPassword: "password",
+      serverVersion: "5.0",
+      nodeGroupSpecs: [
+        {
+          kind: "Shard",
+          sku: "M30",
+          diskSizeGB: 128,
+          enableHa: true,
+          nodeCount: 1,
+        },
+      ],
     },
-  );
+  });
   console.log(result);
 }
 
@@ -76,21 +72,17 @@ async function createsAMongoClusterResourceFromAPointInTimeRestore() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.createOrUpdate(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      location: "westus2",
-      properties: {
-        createMode: "PointInTimeRestore",
-        restoreParameters: {
-          pointInTimeUTC: new Date("2023-01-13T20:07:35Z"),
-          sourceResourceId:
-            "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/myOtherMongoCluster",
-        },
+  const result = await client.mongoClusters.createOrUpdate("TestResourceGroup", "myMongoCluster", {
+    location: "westus2",
+    properties: {
+      createMode: "PointInTimeRestore",
+      restoreParameters: {
+        pointInTimeUTC: new Date("2023-01-13T20:07:35Z"),
+        sourceResourceId:
+          "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestResourceGroup/providers/Microsoft.DocumentDB/mongoClusters/myOtherMongoCluster",
       },
     },
-  );
+  });
   console.log(result);
 }
 

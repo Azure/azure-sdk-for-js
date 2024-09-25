@@ -13,11 +13,11 @@ import {
   PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRulesGetOptionalParams,
@@ -195,6 +195,7 @@ export function firewallRulesCreateOrUpdate(
           resource,
           options,
         ),
+      resourceLocationConfig: "azure-async-operation",
     },
   ) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
@@ -250,6 +251,7 @@ export function firewallRulesDelete(
         firewallRuleName,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 

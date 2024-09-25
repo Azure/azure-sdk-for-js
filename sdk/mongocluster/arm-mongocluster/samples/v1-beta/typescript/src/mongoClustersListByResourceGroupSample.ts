@@ -15,9 +15,7 @@ async function listsTheMongoClusterResourcesInAResourceGroup() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.mongoClusters.listByResourceGroup(
-    "TestResourceGroup",
-  )) {
+  for await (let item of client.mongoClusters.listByResourceGroup("TestResourceGroup")) {
     resArray.push(item);
   }
 

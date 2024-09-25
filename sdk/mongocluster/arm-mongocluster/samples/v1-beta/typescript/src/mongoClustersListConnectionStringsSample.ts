@@ -14,10 +14,7 @@ async function listTheAvailableConnectionStringsForTheMongoClusterResource() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.listConnectionStrings(
-    "TestGroup",
-    "myMongoCluster",
-  );
+  const result = await client.mongoClusters.listConnectionStrings("TestGroup", "myMongoCluster");
   console.log(result);
 }
 

@@ -20,11 +20,11 @@ import {
   createRestError,
 } from "@azure-rest/core-client";
 import { serializeRecord } from "../../helpers/serializerHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   MongoClustersGetOptionalParams,
@@ -369,6 +369,7 @@ export function mongoClustersCreateOrUpdate(
         resource,
         options,
       ),
+    resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
@@ -543,6 +544,7 @@ export function mongoClustersUpdate(
         properties,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<MongoCluster>, MongoCluster>;
 }
 
@@ -593,6 +595,7 @@ export function mongoClustersDelete(
         mongoClusterName,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1095,5 +1098,6 @@ export function mongoClustersPromote(
         body,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
