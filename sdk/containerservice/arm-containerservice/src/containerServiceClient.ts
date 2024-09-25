@@ -134,7 +134,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-02-preview";
+    this.apiVersion = options.apiVersion || "2024-06-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
