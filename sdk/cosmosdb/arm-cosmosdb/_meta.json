@@ -1,5 +1,5 @@
 {
-  "commit": "63aca1b0be7893ffe04891b25d1b4a00d7a22563",
+  "commit": "572a19175617f6be83d90bfc79dd77f2eb9e355d",
   "readme": "specification/cosmos-db/resource-manager/readme.md",
   "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\cosmos-db\\resource-manager\\readme.md --use=@autorest/typescript@6.0.27 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
