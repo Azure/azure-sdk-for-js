@@ -40,11 +40,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  user = "user",
+  User = "user",
   /** system */
-  system = "system",
+  System = "system",
   /** user,system */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -210,27 +210,6 @@ export function fabricCapacityPropertiesSerializer(
     administration: capacityAdministrationSerializer(item.administration),
   };
 }
-
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ResourceProvisioningState = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
@@ -448,13 +427,33 @@ export interface RpSkuDetailsForNewResource {
   /** The list of available locations for the SKU */
   locations: string[];
 }
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Updating */
+  Updating = "Updating"
+}
 
-/** The available API versions. */
-export type Versions = "2023-11-01";
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleting** \
+ * **Provisioning** \
+ * **Updating** 
+ */
 /** Alias for ProvisioningState */
-export type ProvisioningState =
-  | ResourceProvisioningState
-  | "Deleting"
-  | "Provisioning"
-  | "Updating"
-  | string;
+export type ProvisioningState = string;

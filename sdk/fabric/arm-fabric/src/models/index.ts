@@ -18,8 +18,7 @@ export {
   TrackedResource,
   FabricCapacity,
   FabricCapacityProperties,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
+  KnownProvisioningState,
   KnownResourceState,
   ResourceState,
   CapacityAdministration,
@@ -34,7 +33,6 @@ export {
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
-  Versions,
   ProvisioningState,
 } from "./models.js";
 export {
