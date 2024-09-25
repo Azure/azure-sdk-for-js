@@ -429,6 +429,10 @@
     {
       "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
       "words": ["protobuf"]
+    },
+    {
+      "filename": "sdk/maps/maps-weather-rest/review/maps-weather.api.md",
+      "words": ["Actuals"]
     }
   ]
 }

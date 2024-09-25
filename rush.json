@@ -684,6 +684,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/maps-weather",
+      "projectFolder": "sdk/maps/maps-weather-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/notification-hubs",
       "projectFolder": "sdk/notificationhubs/notification-hubs",
       "versionPolicyName": "client"
