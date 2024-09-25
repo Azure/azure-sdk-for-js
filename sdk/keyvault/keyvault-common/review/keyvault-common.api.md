@@ -15,7 +15,7 @@ export interface CreateChallengeCallbacksOptions {
 // @public
 export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: CreateChallengeCallbacksOptions): PipelinePolicy;
 
-// @public (undocumented)
+// @public
 export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
 
 // @public

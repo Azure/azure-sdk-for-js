@@ -68,6 +68,9 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
   }
 }
 
+/**
+ * Name of the Key Vault authentication policy.
+ */
 export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
 
 /**
