@@ -17,17 +17,6 @@ import {
   VerifyFromLargePersonGroupParameters,
   VerifyFromPersonDirectoryParameters,
   GroupParameters,
-  CreateLivenessSessionParameters,
-  GetLivenessSessionsParameters,
-  DeleteLivenessSessionParameters,
-  GetLivenessSessionResultParameters,
-  GetLivenessSessionAuditEntriesParameters,
-  CreateLivenessWithVerifySessionWithVerifyImageParameters,
-  CreateLivenessWithVerifySessionParameters,
-  GetLivenessWithVerifySessionsParameters,
-  DeleteLivenessWithVerifySessionParameters,
-  GetLivenessWithVerifySessionResultParameters,
-  GetLivenessWithVerifySessionAuditEntriesParameters,
   CreateFaceListParameters,
   DeleteFaceListParameters,
   GetFaceListParameters,
@@ -49,26 +38,6 @@ import {
   DeleteLargeFaceListFaceParameters,
   GetLargeFaceListFaceParameters,
   UpdateLargeFaceListFaceParameters,
-  CreatePersonParameters,
-  GetPersonsParameters,
-  DeletePersonParameters,
-  GetPersonParameters,
-  UpdatePersonParameters,
-  GetDynamicPersonGroupReferencesParameters,
-  AddPersonFaceParameters,
-  AddPersonFaceFromUrlParameters,
-  GetPersonFacesParameters,
-  DeletePersonFaceParameters,
-  GetPersonFaceParameters,
-  UpdatePersonFaceParameters,
-  CreateDynamicPersonGroupWithPersonParameters,
-  CreateDynamicPersonGroupParameters,
-  DeleteDynamicPersonGroupParameters,
-  GetDynamicPersonGroupParameters,
-  UpdateDynamicPersonGroupWithPersonChangesParameters,
-  UpdateDynamicPersonGroupParameters,
-  GetDynamicPersonGroupsParameters,
-  GetDynamicPersonGroupPersonsParameters,
   CreatePersonGroupParameters,
   DeletePersonGroupParameters,
   GetPersonGroupParameters,
@@ -103,6 +72,37 @@ import {
   DeleteLargePersonGroupPersonFaceParameters,
   GetLargePersonGroupPersonFaceParameters,
   UpdateLargePersonGroupPersonFaceParameters,
+  CreateLivenessSessionParameters,
+  GetLivenessSessionsParameters,
+  DeleteLivenessSessionParameters,
+  GetLivenessSessionResultParameters,
+  GetLivenessSessionAuditEntriesParameters,
+  CreateLivenessWithVerifySessionWithVerifyImageParameters,
+  CreateLivenessWithVerifySessionParameters,
+  GetLivenessWithVerifySessionsParameters,
+  DeleteLivenessWithVerifySessionParameters,
+  GetLivenessWithVerifySessionResultParameters,
+  GetLivenessWithVerifySessionAuditEntriesParameters,
+  CreatePersonParameters,
+  GetPersonsParameters,
+  DeletePersonParameters,
+  GetPersonParameters,
+  UpdatePersonParameters,
+  GetDynamicPersonGroupReferencesParameters,
+  AddPersonFaceParameters,
+  AddPersonFaceFromUrlParameters,
+  GetPersonFacesParameters,
+  DeletePersonFaceParameters,
+  GetPersonFaceParameters,
+  UpdatePersonFaceParameters,
+  CreateDynamicPersonGroupWithPersonParameters,
+  CreateDynamicPersonGroupParameters,
+  DeleteDynamicPersonGroupParameters,
+  GetDynamicPersonGroupParameters,
+  UpdateDynamicPersonGroupWithPersonChangesParameters,
+  UpdateDynamicPersonGroupParameters,
+  GetDynamicPersonGroupsParameters,
+  GetDynamicPersonGroupPersonsParameters,
 } from "./parameters.js";
 import {
   GetOperationResult200Response,
@@ -135,28 +135,6 @@ import {
   VerifyFromPersonDirectoryDefaultResponse,
   Group200Response,
   GroupDefaultResponse,
-  CreateLivenessSession200Response,
-  CreateLivenessSessionDefaultResponse,
-  GetLivenessSessions200Response,
-  GetLivenessSessionsDefaultResponse,
-  DeleteLivenessSession200Response,
-  DeleteLivenessSessionDefaultResponse,
-  GetLivenessSessionResult200Response,
-  GetLivenessSessionResultDefaultResponse,
-  GetLivenessSessionAuditEntries200Response,
-  GetLivenessSessionAuditEntriesDefaultResponse,
-  CreateLivenessWithVerifySessionWithVerifyImage200Response,
-  CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse,
-  CreateLivenessWithVerifySession200Response,
-  CreateLivenessWithVerifySessionDefaultResponse,
-  GetLivenessWithVerifySessions200Response,
-  GetLivenessWithVerifySessionsDefaultResponse,
-  DeleteLivenessWithVerifySession200Response,
-  DeleteLivenessWithVerifySessionDefaultResponse,
-  GetLivenessWithVerifySessionResult200Response,
-  GetLivenessWithVerifySessionResultDefaultResponse,
-  GetLivenessWithVerifySessionAuditEntries200Response,
-  GetLivenessWithVerifySessionAuditEntriesDefaultResponse,
   CreateFaceList200Response,
   CreateFaceListDefaultResponse,
   DeleteFaceList200Response,
@@ -199,46 +177,6 @@ import {
   GetLargeFaceListFaceDefaultResponse,
   UpdateLargeFaceListFace200Response,
   UpdateLargeFaceListFaceDefaultResponse,
-  CreatePerson202Response,
-  CreatePersonDefaultResponse,
-  GetPersons200Response,
-  GetPersonsDefaultResponse,
-  DeletePerson202Response,
-  DeletePersonDefaultResponse,
-  GetPerson200Response,
-  GetPersonDefaultResponse,
-  UpdatePerson200Response,
-  UpdatePersonDefaultResponse,
-  GetDynamicPersonGroupReferences200Response,
-  GetDynamicPersonGroupReferencesDefaultResponse,
-  AddPersonFace202Response,
-  AddPersonFaceDefaultResponse,
-  AddPersonFaceFromUrl202Response,
-  AddPersonFaceFromUrlDefaultResponse,
-  GetPersonFaces200Response,
-  GetPersonFacesDefaultResponse,
-  DeletePersonFace202Response,
-  DeletePersonFaceDefaultResponse,
-  GetPersonFace200Response,
-  GetPersonFaceDefaultResponse,
-  UpdatePersonFace200Response,
-  UpdatePersonFaceDefaultResponse,
-  CreateDynamicPersonGroupWithPerson202Response,
-  CreateDynamicPersonGroupWithPersonDefaultResponse,
-  CreateDynamicPersonGroup200Response,
-  CreateDynamicPersonGroupDefaultResponse,
-  DeleteDynamicPersonGroup202Response,
-  DeleteDynamicPersonGroupDefaultResponse,
-  GetDynamicPersonGroup200Response,
-  GetDynamicPersonGroupDefaultResponse,
-  UpdateDynamicPersonGroupWithPersonChanges202Response,
-  UpdateDynamicPersonGroupWithPersonChangesDefaultResponse,
-  UpdateDynamicPersonGroup200Response,
-  UpdateDynamicPersonGroupDefaultResponse,
-  GetDynamicPersonGroups200Response,
-  GetDynamicPersonGroupsDefaultResponse,
-  GetDynamicPersonGroupPersons200Response,
-  GetDynamicPersonGroupPersonsDefaultResponse,
   CreatePersonGroup200Response,
   CreatePersonGroupDefaultResponse,
   DeletePersonGroup200Response,
@@ -307,6 +245,68 @@ import {
   GetLargePersonGroupPersonFaceDefaultResponse,
   UpdateLargePersonGroupPersonFace200Response,
   UpdateLargePersonGroupPersonFaceDefaultResponse,
+  CreateLivenessSession200Response,
+  CreateLivenessSessionDefaultResponse,
+  GetLivenessSessions200Response,
+  GetLivenessSessionsDefaultResponse,
+  DeleteLivenessSession200Response,
+  DeleteLivenessSessionDefaultResponse,
+  GetLivenessSessionResult200Response,
+  GetLivenessSessionResultDefaultResponse,
+  GetLivenessSessionAuditEntries200Response,
+  GetLivenessSessionAuditEntriesDefaultResponse,
+  CreateLivenessWithVerifySessionWithVerifyImage200Response,
+  CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse,
+  CreateLivenessWithVerifySession200Response,
+  CreateLivenessWithVerifySessionDefaultResponse,
+  GetLivenessWithVerifySessions200Response,
+  GetLivenessWithVerifySessionsDefaultResponse,
+  DeleteLivenessWithVerifySession200Response,
+  DeleteLivenessWithVerifySessionDefaultResponse,
+  GetLivenessWithVerifySessionResult200Response,
+  GetLivenessWithVerifySessionResultDefaultResponse,
+  GetLivenessWithVerifySessionAuditEntries200Response,
+  GetLivenessWithVerifySessionAuditEntriesDefaultResponse,
+  CreatePerson202Response,
+  CreatePersonDefaultResponse,
+  GetPersons200Response,
+  GetPersonsDefaultResponse,
+  DeletePerson202Response,
+  DeletePersonDefaultResponse,
+  GetPerson200Response,
+  GetPersonDefaultResponse,
+  UpdatePerson200Response,
+  UpdatePersonDefaultResponse,
+  GetDynamicPersonGroupReferences200Response,
+  GetDynamicPersonGroupReferencesDefaultResponse,
+  AddPersonFace202Response,
+  AddPersonFaceDefaultResponse,
+  AddPersonFaceFromUrl202Response,
+  AddPersonFaceFromUrlDefaultResponse,
+  GetPersonFaces200Response,
+  GetPersonFacesDefaultResponse,
+  DeletePersonFace202Response,
+  DeletePersonFaceDefaultResponse,
+  GetPersonFace200Response,
+  GetPersonFaceDefaultResponse,
+  UpdatePersonFace200Response,
+  UpdatePersonFaceDefaultResponse,
+  CreateDynamicPersonGroupWithPerson202Response,
+  CreateDynamicPersonGroupWithPersonDefaultResponse,
+  CreateDynamicPersonGroup200Response,
+  CreateDynamicPersonGroupDefaultResponse,
+  DeleteDynamicPersonGroup202Response,
+  DeleteDynamicPersonGroupDefaultResponse,
+  GetDynamicPersonGroup200Response,
+  GetDynamicPersonGroupDefaultResponse,
+  UpdateDynamicPersonGroupWithPersonChanges202Response,
+  UpdateDynamicPersonGroupWithPersonChangesDefaultResponse,
+  UpdateDynamicPersonGroup200Response,
+  UpdateDynamicPersonGroupDefaultResponse,
+  GetDynamicPersonGroups200Response,
+  GetDynamicPersonGroupsDefaultResponse,
+  GetDynamicPersonGroupPersons200Response,
+  GetDynamicPersonGroupPersonsDefaultResponse,
 } from "./responses.js";
 import { RecognitionModel } from "./models.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
@@ -321,7 +321,7 @@ export interface GetOperationResult {
 export interface DetectFromUrl {
   /**
    * > [!IMPORTANT]
-   * > To mitigate potential misuse that can subject people to stereotyping, discrimination, or unfair denial of services, we are retiring Face API attributes that predict emotion, gender, age, smile, facial hair, hair, and makeup. Read more about this decision https://azure.microsoft.com/blog/responsible-ai-investments-and-safeguards-for-facial-recognition/.
+   * > Microsoft has retired or limited facial recognition capabilities that can be used to try to infer emotional states and identity attributes which, if misused, can subject people to stereotyping, discrimination or unfair denial of services. The retired capabilities are emotion and gender. The limited capabilities are age, smile, facial hair, hair and makeup. Email [Azure Face API](mailto:azureface@microsoft.com) if you have a responsible use case that would benefit from the use of any of the limited capabilities. Read more about this decision [here](https://azure.microsoft.com/blog/responsible-ai-investments-and-safeguards-for-facial-recognition/).
    *
    * *
    *   * No image will be stored. Only the extracted face feature(s) will be stored on server. The faceId is an identifier of the face feature and will be used in "Identify", "Verify", and "Find Similar". The stored face features will expire and be deleted at the time specified by faceIdTimeToLive after the original detection call.
@@ -330,17 +330,15 @@ export interface DetectFromUrl {
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
    *   * Up to 100 faces can be returned for an image. Faces are ranked by face rectangle size from large to small.
    *   * For optimal results when querying "Identify", "Verify", and "Find Similar" ('returnFaceId' is true), please use faces that are: frontal, clear, and with a minimum size of 200x200 pixels (100 pixels between eyes).
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
-   *     * 'detection_02': Face attributes and landmarks are disabled if you choose this detection model.
-   *     * 'detection_03': Face attributes (mask, blur, and headPose) and landmarks are supported if you choose this detection model.
-   *   * Different 'recognitionModel' values are provided. If follow-up operations like "Verify", "Identify", "Find Similar" are needed, please specify the recognition model with 'recognitionModel' parameter. The default value for 'recognitionModel' is 'recognition_01', if latest model needed, please explicitly specify the model you need in this parameter. Once specified, the detected faceIds will be associated with the specified recognition model. More details, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-recognition-model.
+   *   * Different 'detectionModel' values can be provided. The availability of landmarks and supported attributes depends on the detection model specified. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
+   *   * Different 'recognitionModel' values are provided. If follow-up operations like "Verify", "Identify", "Find Similar" are needed, please specify the recognition model with 'recognitionModel' parameter. The default value for 'recognitionModel' is 'recognition_01', if latest model needed, please explicitly specify the model you need in this parameter. Once specified, the detected faceIds will be associated with the specified recognition model. More details, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-recognition-model).
    */
   post(
     options: DetectFromUrlParameters,
   ): StreamableMethod<DetectFromUrl200Response | DetectFromUrlDefaultResponse>;
   /**
    * > [!IMPORTANT]
-   * > To mitigate potential misuse that can subject people to stereotyping, discrimination, or unfair denial of services, we are retiring Face API attributes that predict emotion, gender, age, smile, facial hair, hair, and makeup. Read more about this decision https://azure.microsoft.com/blog/responsible-ai-investments-and-safeguards-for-facial-recognition/.
+   * > Microsoft has retired or limited facial recognition capabilities that can be used to try to infer emotional states and identity attributes which, if misused, can subject people to stereotyping, discrimination or unfair denial of services. The retired capabilities are emotion and gender. The limited capabilities are age, smile, facial hair, hair and makeup. Email [Azure Face API](mailto:azureface@microsoft.com) if you have a responsible use case that would benefit from the use of any of the limited capabilities. Read more about this decision [here](https://azure.microsoft.com/blog/responsible-ai-investments-and-safeguards-for-facial-recognition/).
    *
    * *
    *   * No image will be stored. Only the extracted face feature(s) will be stored on server. The faceId is an identifier of the face feature and will be used in "Identify", "Verify", and "Find Similar". The stored face features will expire and be deleted at the time specified by faceIdTimeToLive after the original detection call.
@@ -349,10 +347,8 @@ export interface DetectFromUrl {
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
    *   * Up to 100 faces can be returned for an image. Faces are ranked by face rectangle size from large to small.
    *   * For optimal results when querying "Identify", "Verify", and "Find Similar" ('returnFaceId' is true), please use faces that are: frontal, clear, and with a minimum size of 200x200 pixels (100 pixels between eyes).
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
-   *     * 'detection_02': Face attributes and landmarks are disabled if you choose this detection model.
-   *     * 'detection_03': Face attributes (mask, blur, and headPose) and landmarks are supported if you choose this detection model.
-   *   * Different 'recognitionModel' values are provided. If follow-up operations like "Verify", "Identify", "Find Similar" are needed, please specify the recognition model with 'recognitionModel' parameter. The default value for 'recognitionModel' is 'recognition_01', if latest model needed, please explicitly specify the model you need in this parameter. Once specified, the detected faceIds will be associated with the specified recognition model. More details, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-recognition-model.
+   *   * Different 'detectionModel' values can be provided. The availability of landmarks and supported attributes depends on the detection model specified. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
+   *   * Different 'recognitionModel' values are provided. If follow-up operations like "Verify", "Identify", "Find Similar" are needed, please specify the recognition model with 'recognitionModel' parameter. The default value for 'recognitionModel' is 'recognition_01', if latest model needed, please explicitly specify the model you need in this parameter. Once specified, the detected faceIds will be associated with the specified recognition model. More details, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-recognition-model).
    */
   post(options: DetectParameters): StreamableMethod<Detect200Response | DetectDefaultResponse>;
 }
@@ -523,148 +519,6 @@ export interface Group {
   post(options?: GroupParameters): StreamableMethod<Group200Response | GroupDefaultResponse>;
 }
 
-export interface CreateLivenessSession {
-  /**
-   * A session is best for client device scenarios where developers want to authorize a client device to perform only a liveness detection without granting full access to their resource. Created sessions have a limited life span and only authorize clients to perform the desired action before access is expired.
-   *
-   * Permissions includes...
-   * >
-   * *
-   *   * Ability to call /detectLiveness/singleModal for up to 3 retries.
-   *   * A token lifetime of 10 minutes.
-   *
-   * > [!NOTE]
-   * > Client access can be revoked by deleting the session using the Delete Liveness Session operation. To retrieve a result, use the Get Liveness Session. To audit the individual requests that a client has made to your resource, use the List Liveness Session Audit Entries.
-   */
-  post(
-    options?: CreateLivenessSessionParameters,
-  ): StreamableMethod<CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse>;
-  /**
-   * List sessions from the last sessionId greater than the 'start'.
-   *
-   * The result should be ordered by sessionId in ascending order.
-   */
-  get(
-    options?: GetLivenessSessionsParameters,
-  ): StreamableMethod<GetLivenessSessions200Response | GetLivenessSessionsDefaultResponse>;
-}
-
-export interface DeleteLivenessSession {
-  /**
-   * > [!NOTE]
-   * > Deleting a session deactivates the Session Auth Token by blocking future API calls made with that Auth Token. While this can be used to remove any access for that token, those requests will still count towards overall resource rate limits. It's best to leverage TokenTTL to limit length of tokens in the case that it is misused.
-   */
-  delete(
-    options?: DeleteLivenessSessionParameters,
-  ): StreamableMethod<DeleteLivenessSession200Response | DeleteLivenessSessionDefaultResponse>;
-  /** Get session result of detectLiveness/singleModal call. */
-  get(
-    options?: GetLivenessSessionResultParameters,
-  ): StreamableMethod<
-    GetLivenessSessionResult200Response | GetLivenessSessionResultDefaultResponse
-  >;
-}
-
-export interface GetLivenessSessionAuditEntries {
-  /** Gets session requests and response body for the session. */
-  get(
-    options?: GetLivenessSessionAuditEntriesParameters,
-  ): StreamableMethod<
-    GetLivenessSessionAuditEntries200Response | GetLivenessSessionAuditEntriesDefaultResponse
-  >;
-}
-
-export interface CreateLivenessWithVerifySessionWithVerifyImage {
-  /**
-   * A session is best for client device scenarios where developers want to authorize a client device to perform only a liveness detection without granting full access to their resource. Created sessions have a limited life span and only authorize clients to perform the desired action before access is expired.
-   *
-   * Permissions includes...
-   * >
-   * *
-   *   * Ability to call /detectLivenessWithVerify/singleModal for up to 3 retries.
-   *   * A token lifetime of 10 minutes.
-   *
-   * > [!NOTE]
-   * >
-   * > *
-   * >   * Client access can be revoked by deleting the session using the Delete Liveness With Verify Session operation.
-   * >   * To retrieve a result, use the Get Liveness With Verify Session.
-   * >   * To audit the individual requests that a client has made to your resource, use the List Liveness With Verify Session Audit Entries.
-   *
-   * Recommended Option: VerifyImage is provided during session creation.
-   */
-  post(
-    options: CreateLivenessWithVerifySessionWithVerifyImageParameters,
-  ): StreamableMethod<
-    | CreateLivenessWithVerifySessionWithVerifyImage200Response
-    | CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse
-  >;
-  /**
-   * A session is best for client device scenarios where developers want to authorize a client device to perform only a liveness detection without granting full access to their resource. Created sessions have a limited life span and only authorize clients to perform the desired action before access is expired.
-   *
-   * Permissions includes...
-   * >
-   * *
-   *   * Ability to call /detectLivenessWithVerify/singleModal for up to 3 retries.
-   *   * A token lifetime of 10 minutes.
-   *
-   * > [!NOTE]
-   * >
-   * > *
-   * >   * Client access can be revoked by deleting the session using the Delete Liveness With Verify Session operation.
-   * >   * To retrieve a result, use the Get Liveness With Verify Session.
-   * >   * To audit the individual requests that a client has made to your resource, use the List Liveness With Verify Session Audit Entries.
-   *
-   * Alternative Option: Client device submits VerifyImage during the /detectLivenessWithVerify/singleModal call.
-   * > [!NOTE]
-   * > Extra measures should be taken to validate that the client is sending the expected VerifyImage.
-   */
-  post(
-    options?: CreateLivenessWithVerifySessionParameters,
-  ): StreamableMethod<
-    CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse
-  >;
-  /**
-   * List sessions from the last sessionId greater than the "start".
-   *
-   * The result should be ordered by sessionId in ascending order.
-   */
-  get(
-    options?: GetLivenessWithVerifySessionsParameters,
-  ): StreamableMethod<
-    GetLivenessWithVerifySessions200Response | GetLivenessWithVerifySessionsDefaultResponse
-  >;
-}
-
-export interface DeleteLivenessWithVerifySession {
-  /**
-   * > [!NOTE]
-   * > Deleting a session deactivates the Session Auth Token by blocking future API calls made with that Auth Token. While this can be used to remove any access for that token, those requests will still count towards overall resource rate limits. It's best to leverage TokenTTL to limit length of tokens in the case that it is misused.
-   */
-  delete(
-    options?: DeleteLivenessWithVerifySessionParameters,
-  ): StreamableMethod<
-    DeleteLivenessWithVerifySession200Response | DeleteLivenessWithVerifySessionDefaultResponse
-  >;
-  /** Get session result of detectLivenessWithVerify/singleModal call. */
-  get(
-    options?: GetLivenessWithVerifySessionResultParameters,
-  ): StreamableMethod<
-    | GetLivenessWithVerifySessionResult200Response
-    | GetLivenessWithVerifySessionResultDefaultResponse
-  >;
-}
-
-export interface GetLivenessWithVerifySessionAuditEntries {
-  /** Gets session requests and response body for the session. */
-  get(
-    options?: GetLivenessWithVerifySessionAuditEntriesParameters,
-  ): StreamableMethod<
-    | GetLivenessWithVerifySessionAuditEntries200Response
-    | GetLivenessWithVerifySessionAuditEntriesDefaultResponse
-  >;
-}
-
 export interface CreateFaceList {
   /**
    * Up to 64 Face Lists are allowed in one subscription.
@@ -710,15 +564,15 @@ export interface AddFaceListFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Face List Face" or "Delete Face List" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
    *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
-   *   * Each person entry can hold up to 248 faces.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    */
   post(
     options?: AddFaceListFaceFromUrlParameters,
@@ -727,15 +581,15 @@ export interface AddFaceListFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Face List Face" or "Delete Face List" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
    *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
-   *   * Each person entry can hold up to 248 faces.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    */
   post(
     options: AddFaceListFaceParameters,
@@ -831,15 +685,15 @@ export interface AddLargeFaceListFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Large Face List Face" or "Delete Large Face List" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
    *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
-   *   * Each person entry can hold up to 248 faces.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    *
    * > [!NOTE]
    * >
@@ -856,15 +710,15 @@ export interface AddLargeFaceListFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Large Face List Face" or "Delete Large Face List" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
    *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
-   *   * Each person entry can hold up to 248 faces.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    *
    * > [!NOTE]
    * >
@@ -907,226 +761,6 @@ export interface DeleteLargeFaceListFace {
   patch(
     options?: UpdateLargeFaceListFaceParameters,
   ): StreamableMethod<UpdateLargeFaceListFace200Response | UpdateLargeFaceListFaceDefaultResponse>;
-}
-
-export interface CreatePerson {
-  /** Creates a new person in a Person Directory. To add face to this person, please call Person Directory "Add Person Face". */
-  post(
-    options?: CreatePersonParameters,
-  ): StreamableMethod<CreatePerson202Response | CreatePersonDefaultResponse>;
-  /**
-   * Persons are stored in alphabetical order of personId created in Person Directory "Create Person".
-   * >
-   * *
-   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
-   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
-   *
-   * > [!TIP]
-   * >
-   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
-   * >   * "start=&top=" will return all 5 items.
-   * >   * "start=&top=2" will return "itemId1", "itemId2".
-   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
-   */
-  get(
-    options?: GetPersonsParameters,
-  ): StreamableMethod<GetPersons200Response | GetPersonsDefaultResponse>;
-}
-
-export interface DeletePerson {
-  /** Delete an existing person from Person Directory. The persistedFaceId(s), userData, person name and face feature(s) in the person entry will all be deleted. */
-  delete(
-    options?: DeletePersonParameters,
-  ): StreamableMethod<DeletePerson202Response | DeletePersonDefaultResponse>;
-  /** Retrieve a person's name and userData from Person Directory. */
-  get(
-    options?: GetPersonParameters,
-  ): StreamableMethod<GetPerson200Response | GetPersonDefaultResponse>;
-  /** Update name or userData of a person. */
-  patch(
-    options?: UpdatePersonParameters,
-  ): StreamableMethod<UpdatePerson200Response | UpdatePersonDefaultResponse>;
-}
-
-export interface GetDynamicPersonGroupReferences {
-  /**
-   * Dynamic Person Groups are stored in alphabetical order of Dynamic Person Group ID created in Person Directory "Create Dynamic Person Group".
-   * >
-   * *
-   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
-   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
-   *
-   * > [!TIP]
-   * >
-   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
-   * >   * "start=&top=" will return all 5 items.
-   * >   * "start=&top=2" will return "itemId1", "itemId2".
-   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
-   */
-  get(
-    options?: GetDynamicPersonGroupReferencesParameters,
-  ): StreamableMethod<
-    GetDynamicPersonGroupReferences200Response | GetDynamicPersonGroupReferencesDefaultResponse
-  >;
-}
-
-export interface AddPersonFace {
-  /**
-   * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until Person Directory "Delete Person Face" or "Delete Person" is called.
-   *
-   * Note that persistedFaceId is different from faceId generated by "Detect".
-   * >
-   * *
-   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
-   *   * Each person entry can hold up to 248 faces.
-   *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
-   *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
-   *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
-   *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
-   * *
-   *   * Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel.
-   *   * This is a long running operation. Use Response Header "Operation-Location" to determine when the AddFace operation has successfully propagated for future requests to "Identify". For further information about Operation-Locations see "Get Face Operation Status".
-   */
-  post(
-    options: AddPersonFaceParameters,
-  ): StreamableMethod<AddPersonFace202Response | AddPersonFaceDefaultResponse>;
-  /**
-   * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until Person Directory "Delete Person Face" or "Delete Person" is called.
-   *
-   * Note that persistedFaceId is different from faceId generated by "Detect".
-   * >
-   * *
-   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
-   *   * Each person entry can hold up to 248 faces.
-   *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
-   *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
-   *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
-   *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
-   * *
-   *   * Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel.
-   *   * This is a long running operation. Use Response Header "Operation-Location" to determine when the AddFace operation has successfully propagated for future requests to "Identify". For further information about Operation-Locations see "Get Face Operation Status".
-   */
-  post(
-    options?: AddPersonFaceFromUrlParameters,
-  ): StreamableMethod<AddPersonFaceFromUrl202Response | AddPersonFaceFromUrlDefaultResponse>;
-  /** Retrieve a person's persistedFaceIds representing the registered person face feature(s). */
-  get(
-    options?: GetPersonFacesParameters,
-  ): StreamableMethod<GetPersonFaces200Response | GetPersonFacesDefaultResponse>;
-}
-
-export interface DeletePersonFace {
-  /** Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel. */
-  delete(
-    options?: DeletePersonFaceParameters,
-  ): StreamableMethod<DeletePersonFace202Response | DeletePersonFaceDefaultResponse>;
-  /** Retrieve person face information. The persisted person face is specified by its personId. recognitionModel, and persistedFaceId. */
-  get(
-    options?: GetPersonFaceParameters,
-  ): StreamableMethod<GetPersonFace200Response | GetPersonFaceDefaultResponse>;
-  /** Update a persisted face's userData field of a person. */
-  patch(
-    options?: UpdatePersonFaceParameters,
-  ): StreamableMethod<UpdatePersonFace200Response | UpdatePersonFaceDefaultResponse>;
-}
-
-export interface CreateDynamicPersonGroupWithPerson {
-  /**
-   * A Dynamic Person Group is a container that references Person Directory "Create Person". After creation, use Person Directory "Update Dynamic Person Group" to add/remove persons to/from the Dynamic Person Group.
-   *
-   * Dynamic Person Group and user data will be stored on server until Person Directory "Delete Dynamic Person Group" is called. Use "Identify From Dynamic Person Group" with the dynamicPersonGroupId parameter to identify against persons.
-   *
-   * No image will be stored. Only the person's extracted face feature(s) and userData will be stored on server until Person Directory "Delete Person" or "Delete Person Face" is called.
-   *
-   * 'recognitionModel' does not need to be specified with Dynamic Person Groups. Dynamic Person Groups are references to Person Directory "Create Person" and therefore work with most all 'recognitionModels'. The faceId's provided during "Identify" determine the 'recognitionModel' used.
-   */
-  put(
-    options?: CreateDynamicPersonGroupWithPersonParameters,
-  ): StreamableMethod<
-    | CreateDynamicPersonGroupWithPerson202Response
-    | CreateDynamicPersonGroupWithPersonDefaultResponse
-  >;
-  /**
-   * A Dynamic Person Group is a container that references Person Directory "Create Person". After creation, use Person Directory "Update Dynamic Person Group" to add/remove persons to/from the Dynamic Person Group.
-   *
-   * Dynamic Person Group and user data will be stored on server until Person Directory "Delete Dynamic Person Group" is called. Use "Identify From Dynamic Person Group" with the dynamicPersonGroupId parameter to identify against persons.
-   *
-   * No image will be stored. Only the person's extracted face feature(s) and userData will be stored on server until Person Directory "Delete Person" or "Delete Person Face" is called.
-   *
-   * 'recognitionModel' does not need to be specified with Dynamic Person Groups. Dynamic Person Groups are references to Person Directory "Create Person" and therefore work with most all 'recognitionModels'. The faceId's provided during "Identify" determine the 'recognitionModel' used.
-   */
-  put(
-    options?: CreateDynamicPersonGroupParameters,
-  ): StreamableMethod<
-    CreateDynamicPersonGroup200Response | CreateDynamicPersonGroupDefaultResponse
-  >;
-  /** Deleting this Dynamic Person Group only delete the references to persons data. To delete actual person see Person Directory "Delete Person". */
-  delete(
-    options?: DeleteDynamicPersonGroupParameters,
-  ): StreamableMethod<
-    DeleteDynamicPersonGroup202Response | DeleteDynamicPersonGroupDefaultResponse
-  >;
-  /** This API returns Dynamic Person Group information only, use Person Directory "Get Dynamic Person Group Persons" instead to retrieve person information under the Dynamic Person Group. */
-  get(
-    options?: GetDynamicPersonGroupParameters,
-  ): StreamableMethod<GetDynamicPersonGroup200Response | GetDynamicPersonGroupDefaultResponse>;
-  /** The properties keep unchanged if they are not in request body. */
-  patch(
-    options?: UpdateDynamicPersonGroupWithPersonChangesParameters,
-  ): StreamableMethod<
-    | UpdateDynamicPersonGroupWithPersonChanges202Response
-    | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse
-  >;
-  /** The properties keep unchanged if they are not in request body. */
-  patch(
-    options?: UpdateDynamicPersonGroupParameters,
-  ): StreamableMethod<
-    UpdateDynamicPersonGroup200Response | UpdateDynamicPersonGroupDefaultResponse
-  >;
-}
-
-export interface GetDynamicPersonGroups {
-  /**
-   * Dynamic Person Groups are stored in alphabetical order of dynamicPersonGroupId.
-   * >
-   * *
-   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
-   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
-   *
-   * > [!TIP]
-   * >
-   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
-   * >   * "start=&top=" will return all 5 items.
-   * >   * "start=&top=2" will return "itemId1", "itemId2".
-   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
-   */
-  get(
-    options?: GetDynamicPersonGroupsParameters,
-  ): StreamableMethod<GetDynamicPersonGroups200Response | GetDynamicPersonGroupsDefaultResponse>;
-}
-
-export interface GetDynamicPersonGroupPersons {
-  /**
-   * Persons are stored in alphabetical order of personId created in Person Directory "Create Person".
-   * >
-   * *
-   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
-   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
-   *
-   * > [!TIP]
-   * >
-   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
-   * >   * "start=&top=" will return all 5 items.
-   * >   * "start=&top=2" will return "itemId1", "itemId2".
-   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
-   */
-  get(
-    options?: GetDynamicPersonGroupPersonsParameters,
-  ): StreamableMethod<
-    GetDynamicPersonGroupPersons200Response | GetDynamicPersonGroupPersonsDefaultResponse
-  >;
 }
 
 export interface CreatePersonGroup {
@@ -1253,15 +887,16 @@ export interface AddPersonGroupPersonFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Person Group Person Face", "Delete Person Group Person" or "Delete Person Group" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
-   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * Each person entry can hold up to 248 faces.
+   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    */
   post(
     options?: AddPersonGroupPersonFaceFromUrlParameters,
@@ -1272,15 +907,16 @@ export interface AddPersonGroupPersonFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Person Group Person Face", "Delete Person Group Person" or "Delete Person Group" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
-   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * Each person entry can hold up to 248 faces.
+   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    */
   post(
     options: AddPersonGroupPersonFaceParameters,
@@ -1443,15 +1079,16 @@ export interface AddLargePersonGroupPersonFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Large Person Group Person Face", "Delete Large Person Group Person" or "Delete Large Person Group" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
-   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * Each person entry can hold up to 248 faces.
+   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    */
   post(
     options?: AddLargePersonGroupPersonFaceFromUrlParameters,
@@ -1463,15 +1100,16 @@ export interface AddLargePersonGroupPersonFaceFromUrl {
    * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until "Delete Large Person Group Person Face", "Delete Large Person Group Person" or "Delete Large Person Group" is called.
    *
    * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
    * >
    * *
-   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * Each person entry can hold up to 248 faces.
+   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
    *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
    *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
    *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
    *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
-   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
    */
   post(
     options: AddLargePersonGroupPersonFaceParameters,
@@ -1501,6 +1139,368 @@ export interface DeleteLargePersonGroupPersonFace {
   >;
 }
 
+export interface CreateLivenessSession {
+  /**
+   * A session is best for client device scenarios where developers want to authorize a client device to perform only a liveness detection without granting full access to their resource. Created sessions have a limited life span and only authorize clients to perform the desired action before access is expired.
+   *
+   * Permissions includes...
+   * >
+   * *
+   *   * Ability to call /detectLiveness/singleModal for up to 3 retries.
+   *   * A token lifetime of 10 minutes.
+   *
+   * > [!NOTE]
+   * > Client access can be revoked by deleting the session using the Delete Liveness Session operation. To retrieve a result, use the Get Liveness Session. To audit the individual requests that a client has made to your resource, use the List Liveness Session Audit Entries.
+   */
+  post(
+    options: CreateLivenessSessionParameters,
+  ): StreamableMethod<CreateLivenessSession200Response | CreateLivenessSessionDefaultResponse>;
+  /**
+   * List sessions from the last sessionId greater than the 'start'.
+   *
+   * The result should be ordered by sessionId in ascending order.
+   */
+  get(
+    options?: GetLivenessSessionsParameters,
+  ): StreamableMethod<GetLivenessSessions200Response | GetLivenessSessionsDefaultResponse>;
+}
+
+export interface DeleteLivenessSession {
+  /**
+   * > [!NOTE]
+   * > Deleting a session deactivates the Session Auth Token by blocking future API calls made with that Auth Token. While this can be used to remove any access for that token, those requests will still count towards overall resource rate limits. It's best to leverage TokenTTL to limit length of tokens in the case that it is misused.
+   */
+  delete(
+    options?: DeleteLivenessSessionParameters,
+  ): StreamableMethod<DeleteLivenessSession200Response | DeleteLivenessSessionDefaultResponse>;
+  /** Get session result of detectLiveness/singleModal call. */
+  get(
+    options?: GetLivenessSessionResultParameters,
+  ): StreamableMethod<
+    GetLivenessSessionResult200Response | GetLivenessSessionResultDefaultResponse
+  >;
+}
+
+export interface GetLivenessSessionAuditEntries {
+  /** Gets session requests and response body for the session. */
+  get(
+    options?: GetLivenessSessionAuditEntriesParameters,
+  ): StreamableMethod<
+    GetLivenessSessionAuditEntries200Response | GetLivenessSessionAuditEntriesDefaultResponse
+  >;
+}
+
+export interface CreateLivenessWithVerifySessionWithVerifyImage {
+  /**
+   * A session is best for client device scenarios where developers want to authorize a client device to perform only a liveness detection without granting full access to their resource. Created sessions have a limited life span and only authorize clients to perform the desired action before access is expired.
+   *
+   * Permissions includes...
+   * >
+   * *
+   *   * Ability to call /detectLivenessWithVerify/singleModal for up to 3 retries.
+   *   * A token lifetime of 10 minutes.
+   *
+   * > [!NOTE]
+   * >
+   * > *
+   * >   * Client access can be revoked by deleting the session using the Delete Liveness With Verify Session operation.
+   * >   * To retrieve a result, use the Get Liveness With Verify Session.
+   * >   * To audit the individual requests that a client has made to your resource, use the List Liveness With Verify Session Audit Entries.
+   *
+   * Recommended Option: VerifyImage is provided during session creation.
+   */
+  post(
+    options: CreateLivenessWithVerifySessionWithVerifyImageParameters,
+  ): StreamableMethod<
+    | CreateLivenessWithVerifySessionWithVerifyImage200Response
+    | CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse
+  >;
+  /**
+   * A session is best for client device scenarios where developers want to authorize a client device to perform only a liveness detection without granting full access to their resource. Created sessions have a limited life span and only authorize clients to perform the desired action before access is expired.
+   *
+   * Permissions includes...
+   * >
+   * *
+   *   * Ability to call /detectLivenessWithVerify/singleModal for up to 3 retries.
+   *   * A token lifetime of 10 minutes.
+   *
+   * > [!NOTE]
+   * >
+   * > *
+   * >   * Client access can be revoked by deleting the session using the Delete Liveness With Verify Session operation.
+   * >   * To retrieve a result, use the Get Liveness With Verify Session.
+   * >   * To audit the individual requests that a client has made to your resource, use the List Liveness With Verify Session Audit Entries.
+   *
+   * Alternative Option: Client device submits VerifyImage during the /detectLivenessWithVerify/singleModal call.
+   * > [!NOTE]
+   * > Extra measures should be taken to validate that the client is sending the expected VerifyImage.
+   */
+  post(
+    options: CreateLivenessWithVerifySessionParameters,
+  ): StreamableMethod<
+    CreateLivenessWithVerifySession200Response | CreateLivenessWithVerifySessionDefaultResponse
+  >;
+  /**
+   * List sessions from the last sessionId greater than the "start".
+   *
+   * The result should be ordered by sessionId in ascending order.
+   */
+  get(
+    options?: GetLivenessWithVerifySessionsParameters,
+  ): StreamableMethod<
+    GetLivenessWithVerifySessions200Response | GetLivenessWithVerifySessionsDefaultResponse
+  >;
+}
+
+export interface DeleteLivenessWithVerifySession {
+  /**
+   * > [!NOTE]
+   * > Deleting a session deactivates the Session Auth Token by blocking future API calls made with that Auth Token. While this can be used to remove any access for that token, those requests will still count towards overall resource rate limits. It's best to leverage TokenTTL to limit length of tokens in the case that it is misused.
+   */
+  delete(
+    options?: DeleteLivenessWithVerifySessionParameters,
+  ): StreamableMethod<
+    DeleteLivenessWithVerifySession200Response | DeleteLivenessWithVerifySessionDefaultResponse
+  >;
+  /** Get session result of detectLivenessWithVerify/singleModal call. */
+  get(
+    options?: GetLivenessWithVerifySessionResultParameters,
+  ): StreamableMethod<
+    | GetLivenessWithVerifySessionResult200Response
+    | GetLivenessWithVerifySessionResultDefaultResponse
+  >;
+}
+
+export interface GetLivenessWithVerifySessionAuditEntries {
+  /** Gets session requests and response body for the session. */
+  get(
+    options?: GetLivenessWithVerifySessionAuditEntriesParameters,
+  ): StreamableMethod<
+    | GetLivenessWithVerifySessionAuditEntries200Response
+    | GetLivenessWithVerifySessionAuditEntriesDefaultResponse
+  >;
+}
+
+export interface CreatePerson {
+  /** Creates a new person in a Person Directory. To add face to this person, please call Person Directory "Add Person Face". */
+  post(
+    options?: CreatePersonParameters,
+  ): StreamableMethod<CreatePerson202Response | CreatePersonDefaultResponse>;
+  /**
+   * Persons are stored in alphabetical order of personId created in Person Directory "Create Person".
+   * >
+   * *
+   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
+   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
+   *
+   * > [!TIP]
+   * >
+   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
+   * >   * "start=&top=" will return all 5 items.
+   * >   * "start=&top=2" will return "itemId1", "itemId2".
+   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
+   */
+  get(
+    options?: GetPersonsParameters,
+  ): StreamableMethod<GetPersons200Response | GetPersonsDefaultResponse>;
+}
+
+export interface DeletePerson {
+  /** Delete an existing person from Person Directory. The persistedFaceId(s), userData, person name and face feature(s) in the person entry will all be deleted. */
+  delete(
+    options?: DeletePersonParameters,
+  ): StreamableMethod<DeletePerson202Response | DeletePersonDefaultResponse>;
+  /** Retrieve a person's name and userData from Person Directory. */
+  get(
+    options?: GetPersonParameters,
+  ): StreamableMethod<GetPerson200Response | GetPersonDefaultResponse>;
+  /** Update name or userData of a person. */
+  patch(
+    options?: UpdatePersonParameters,
+  ): StreamableMethod<UpdatePerson200Response | UpdatePersonDefaultResponse>;
+}
+
+export interface GetDynamicPersonGroupReferences {
+  /**
+   * Dynamic Person Groups are stored in alphabetical order of Dynamic Person Group ID created in Person Directory "Create Dynamic Person Group".
+   * >
+   * *
+   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
+   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
+   *
+   * > [!TIP]
+   * >
+   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
+   * >   * "start=&top=" will return all 5 items.
+   * >   * "start=&top=2" will return "itemId1", "itemId2".
+   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
+   */
+  get(
+    options?: GetDynamicPersonGroupReferencesParameters,
+  ): StreamableMethod<
+    GetDynamicPersonGroupReferences200Response | GetDynamicPersonGroupReferencesDefaultResponse
+  >;
+}
+
+export interface AddPersonFace {
+  /**
+   * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until Person Directory "Delete Person Face" or "Delete Person" is called.
+   *
+   * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
+   * >
+   * *
+   *   * Each person entry can hold up to 248 faces.
+   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
+   *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
+   *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
+   *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
+   *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
+   *   * Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel.
+   *   * This is a long running operation. Use Response Header "Operation-Location" to determine when the AddFace operation has successfully propagated for future requests to "Identify". For further information about Operation-Locations see "Get Face Operation Status".
+   */
+  post(
+    options: AddPersonFaceParameters,
+  ): StreamableMethod<AddPersonFace202Response | AddPersonFaceDefaultResponse>;
+  /**
+   * To deal with an image containing multiple faces, input face can be specified as an image with a targetFace rectangle. It returns a persistedFaceId representing the added face. No image will be stored. Only the extracted face feature(s) will be stored on server until Person Directory "Delete Person Face" or "Delete Person" is called.
+   *
+   * Note that persistedFaceId is different from faceId generated by "Detect".
+   *
+   * >
+   * *
+   *   * Each person entry can hold up to 248 faces.
+   *   * Higher face image quality means better recognition precision. Please consider high-quality faces: frontal, clear, and face size is 200x200 pixels (100 pixels between eyes) or bigger.
+   *   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
+   *   * "targetFace" rectangle should contain one face. Zero or multiple faces will be regarded as an error. If the provided "targetFace" rectangle is not returned from "Detect", there's no guarantee to detect and add the face successfully.
+   *   * Out of detectable face size (36x36 - 4096x4096 pixels), large head-pose, or large occlusions will cause failures.
+   *   * The minimum detectable face size is 36x36 pixels in an image no larger than 1920x1080 pixels. Images with dimensions higher than 1920x1080 pixels will need a proportionally larger minimum face size.
+   *   * Different 'detectionModel' values can be provided. To use and compare different detection models, please refer to [here](https://learn.microsoft.com/azure/ai-services/computer-vision/how-to/specify-detection-model).
+   *   * Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel.
+   *   * This is a long running operation. Use Response Header "Operation-Location" to determine when the AddFace operation has successfully propagated for future requests to "Identify". For further information about Operation-Locations see "Get Face Operation Status".
+   */
+  post(
+    options?: AddPersonFaceFromUrlParameters,
+  ): StreamableMethod<AddPersonFaceFromUrl202Response | AddPersonFaceFromUrlDefaultResponse>;
+  /** Retrieve a person's persistedFaceIds representing the registered person face feature(s). */
+  get(
+    options?: GetPersonFacesParameters,
+  ): StreamableMethod<GetPersonFaces200Response | GetPersonFacesDefaultResponse>;
+}
+
+export interface DeletePersonFace {
+  /** Adding/deleting faces to/from a same person will be processed sequentially. Adding/deleting faces to/from different persons are processed in parallel. */
+  delete(
+    options?: DeletePersonFaceParameters,
+  ): StreamableMethod<DeletePersonFace202Response | DeletePersonFaceDefaultResponse>;
+  /** Retrieve person face information. The persisted person face is specified by its personId. recognitionModel, and persistedFaceId. */
+  get(
+    options?: GetPersonFaceParameters,
+  ): StreamableMethod<GetPersonFace200Response | GetPersonFaceDefaultResponse>;
+  /** Update a persisted face's userData field of a person. */
+  patch(
+    options?: UpdatePersonFaceParameters,
+  ): StreamableMethod<UpdatePersonFace200Response | UpdatePersonFaceDefaultResponse>;
+}
+
+export interface CreateDynamicPersonGroupWithPerson {
+  /**
+   * A Dynamic Person Group is a container that references Person Directory "Create Person". After creation, use Person Directory "Update Dynamic Person Group" to add/remove persons to/from the Dynamic Person Group.
+   *
+   * Dynamic Person Group and user data will be stored on server until Person Directory "Delete Dynamic Person Group" is called. Use "Identify From Dynamic Person Group" with the dynamicPersonGroupId parameter to identify against persons.
+   *
+   * No image will be stored. Only the person's extracted face feature(s) and userData will be stored on server until Person Directory "Delete Person" or "Delete Person Face" is called.
+   *
+   * 'recognitionModel' does not need to be specified with Dynamic Person Groups. Dynamic Person Groups are references to Person Directory "Create Person" and therefore work with most all 'recognitionModels'. The faceId's provided during "Identify" determine the 'recognitionModel' used.
+   */
+  put(
+    options?: CreateDynamicPersonGroupWithPersonParameters,
+  ): StreamableMethod<
+    | CreateDynamicPersonGroupWithPerson202Response
+    | CreateDynamicPersonGroupWithPersonDefaultResponse
+  >;
+  /**
+   * A Dynamic Person Group is a container that references Person Directory "Create Person". After creation, use Person Directory "Update Dynamic Person Group" to add/remove persons to/from the Dynamic Person Group.
+   *
+   * Dynamic Person Group and user data will be stored on server until Person Directory "Delete Dynamic Person Group" is called. Use "Identify From Dynamic Person Group" with the dynamicPersonGroupId parameter to identify against persons.
+   *
+   * No image will be stored. Only the person's extracted face feature(s) and userData will be stored on server until Person Directory "Delete Person" or "Delete Person Face" is called.
+   *
+   * 'recognitionModel' does not need to be specified with Dynamic Person Groups. Dynamic Person Groups are references to Person Directory "Create Person" and therefore work with most all 'recognitionModels'. The faceId's provided during "Identify" determine the 'recognitionModel' used.
+   */
+  put(
+    options?: CreateDynamicPersonGroupParameters,
+  ): StreamableMethod<
+    CreateDynamicPersonGroup200Response | CreateDynamicPersonGroupDefaultResponse
+  >;
+  /** Deleting this Dynamic Person Group only delete the references to persons data. To delete actual person see Person Directory "Delete Person". */
+  delete(
+    options?: DeleteDynamicPersonGroupParameters,
+  ): StreamableMethod<
+    DeleteDynamicPersonGroup202Response | DeleteDynamicPersonGroupDefaultResponse
+  >;
+  /** This API returns Dynamic Person Group information only, use Person Directory "Get Dynamic Person Group Persons" instead to retrieve person information under the Dynamic Person Group. */
+  get(
+    options?: GetDynamicPersonGroupParameters,
+  ): StreamableMethod<GetDynamicPersonGroup200Response | GetDynamicPersonGroupDefaultResponse>;
+  /** The properties keep unchanged if they are not in request body. */
+  patch(
+    options?: UpdateDynamicPersonGroupWithPersonChangesParameters,
+  ): StreamableMethod<
+    | UpdateDynamicPersonGroupWithPersonChanges202Response
+    | UpdateDynamicPersonGroupWithPersonChangesDefaultResponse
+  >;
+  /** The properties keep unchanged if they are not in request body. */
+  patch(
+    options?: UpdateDynamicPersonGroupParameters,
+  ): StreamableMethod<
+    UpdateDynamicPersonGroup200Response | UpdateDynamicPersonGroupDefaultResponse
+  >;
+}
+
+export interface GetDynamicPersonGroups {
+  /**
+   * Dynamic Person Groups are stored in alphabetical order of dynamicPersonGroupId.
+   * >
+   * *
+   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
+   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
+   *
+   * > [!TIP]
+   * >
+   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
+   * >   * "start=&top=" will return all 5 items.
+   * >   * "start=&top=2" will return "itemId1", "itemId2".
+   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
+   */
+  get(
+    options?: GetDynamicPersonGroupsParameters,
+  ): StreamableMethod<GetDynamicPersonGroups200Response | GetDynamicPersonGroupsDefaultResponse>;
+}
+
+export interface GetDynamicPersonGroupPersons {
+  /**
+   * Persons are stored in alphabetical order of personId created in Person Directory "Create Person".
+   * >
+   * *
+   *   * "start" parameter (string, optional) specifies an ID value from which returned entries will have larger IDs based on string comparison. Setting "start" to an empty value indicates that entries should be returned starting from the first item.
+   *   * "top" parameter (int, optional) determines the maximum number of entries to be returned, with a limit of up to 1000 entries per call. To retrieve additional entries beyond this limit, specify "start" with the personId of the last entry returned in the current call.
+   *
+   * > [!TIP]
+   * >
+   * > * For example, there are total 5 items with their IDs: "itemId1", ..., "itemId5".
+   * >   * "start=&top=" will return all 5 items.
+   * >   * "start=&top=2" will return "itemId1", "itemId2".
+   * >   * "start=itemId2&top=3" will return "itemId3", "itemId4", "itemId5".
+   */
+  get(
+    options?: GetDynamicPersonGroupPersonsParameters,
+  ): StreamableMethod<
+    GetDynamicPersonGroupPersons200Response | GetDynamicPersonGroupPersonsDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
   (path: "/operations/{operationId}", operationId: string): GetOperationResult;
@@ -1514,32 +1514,6 @@ export interface Routes {
   (path: "/verify"): VerifyFaceToFace;
   /** Resource for '/group' has methods for the following verbs: post */
   (path: "/group"): Group;
-  /** Resource for '/detectLiveness/singleModal/sessions' has methods for the following verbs: post, get */
-  (path: "/detectLiveness/singleModal/sessions"): CreateLivenessSession;
-  /** Resource for '/detectLiveness/singleModal/sessions/\{sessionId\}' has methods for the following verbs: delete, get */
-  (
-    path: "/detectLiveness/singleModal/sessions/{sessionId}",
-    sessionId: string,
-  ): DeleteLivenessSession;
-  /** Resource for '/detectLiveness/singleModal/sessions/\{sessionId\}/audit' has methods for the following verbs: get */
-  (
-    path: "/detectLiveness/singleModal/sessions/{sessionId}/audit",
-    sessionId: string,
-  ): GetLivenessSessionAuditEntries;
-  /** Resource for '/detectLivenessWithVerify/singleModal/sessions' has methods for the following verbs: post, get */
-  (
-    path: "/detectLivenessWithVerify/singleModal/sessions",
-  ): CreateLivenessWithVerifySessionWithVerifyImage;
-  /** Resource for '/detectLivenessWithVerify/singleModal/sessions/\{sessionId\}' has methods for the following verbs: delete, get */
-  (
-    path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}",
-    sessionId: string,
-  ): DeleteLivenessWithVerifySession;
-  /** Resource for '/detectLivenessWithVerify/singleModal/sessions/\{sessionId\}/audit' has methods for the following verbs: get */
-  (
-    path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit",
-    sessionId: string,
-  ): GetLivenessWithVerifySessionAuditEntries;
   /** Resource for '/facelists/\{faceListId\}' has methods for the following verbs: put, delete, get, patch */
   (path: "/facelists/{faceListId}", faceListId: string): CreateFaceList;
   /** Resource for '/facelists' has methods for the following verbs: get */
@@ -1574,40 +1548,6 @@ export interface Routes {
     largeFaceListId: string,
     persistedFaceId: string,
   ): DeleteLargeFaceListFace;
-  /** Resource for '/persons' has methods for the following verbs: post, get */
-  (path: "/persons"): CreatePerson;
-  /** Resource for '/persons/\{personId\}' has methods for the following verbs: delete, get, patch */
-  (path: "/persons/{personId}", personId: string): DeletePerson;
-  /** Resource for '/persons/\{personId\}/dynamicPersonGroupReferences' has methods for the following verbs: get */
-  (
-    path: "/persons/{personId}/dynamicPersonGroupReferences",
-    personId: string,
-  ): GetDynamicPersonGroupReferences;
-  /** Resource for '/persons/\{personId\}/recognitionModels/\{recognitionModel\}/persistedfaces' has methods for the following verbs: post, get */
-  (
-    path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces",
-    personId: string,
-    recognitionModel: RecognitionModel,
-  ): AddPersonFace;
-  /** Resource for '/persons/\{personId\}/recognitionModels/\{recognitionModel\}/persistedfaces/\{persistedFaceId\}' has methods for the following verbs: delete, get, patch */
-  (
-    path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces/{persistedFaceId}",
-    personId: string,
-    recognitionModel: RecognitionModel,
-    persistedFaceId: string,
-  ): DeletePersonFace;
-  /** Resource for '/dynamicpersongroups/\{dynamicPersonGroupId\}' has methods for the following verbs: put, delete, get, patch */
-  (
-    path: "/dynamicpersongroups/{dynamicPersonGroupId}",
-    dynamicPersonGroupId: string,
-  ): CreateDynamicPersonGroupWithPerson;
-  /** Resource for '/dynamicpersongroups' has methods for the following verbs: get */
-  (path: "/dynamicpersongroups"): GetDynamicPersonGroups;
-  /** Resource for '/dynamicpersongroups/\{dynamicPersonGroupId\}/persons' has methods for the following verbs: get */
-  (
-    path: "/dynamicpersongroups/{dynamicPersonGroupId}/persons",
-    dynamicPersonGroupId: string,
-  ): GetDynamicPersonGroupPersons;
   /** Resource for '/persongroups/\{personGroupId\}' has methods for the following verbs: put, delete, get, patch */
   (path: "/persongroups/{personGroupId}", personGroupId: string): CreatePersonGroup;
   /** Resource for '/persongroups' has methods for the following verbs: get */
@@ -1681,6 +1621,66 @@ export interface Routes {
     personId: string,
     persistedFaceId: string,
   ): DeleteLargePersonGroupPersonFace;
+  /** Resource for '/detectLiveness/singleModal/sessions' has methods for the following verbs: post, get */
+  (path: "/detectLiveness/singleModal/sessions"): CreateLivenessSession;
+  /** Resource for '/detectLiveness/singleModal/sessions/\{sessionId\}' has methods for the following verbs: delete, get */
+  (
+    path: "/detectLiveness/singleModal/sessions/{sessionId}",
+    sessionId: string,
+  ): DeleteLivenessSession;
+  /** Resource for '/detectLiveness/singleModal/sessions/\{sessionId\}/audit' has methods for the following verbs: get */
+  (
+    path: "/detectLiveness/singleModal/sessions/{sessionId}/audit",
+    sessionId: string,
+  ): GetLivenessSessionAuditEntries;
+  /** Resource for '/detectLivenessWithVerify/singleModal/sessions' has methods for the following verbs: post, get */
+  (
+    path: "/detectLivenessWithVerify/singleModal/sessions",
+  ): CreateLivenessWithVerifySessionWithVerifyImage;
+  /** Resource for '/detectLivenessWithVerify/singleModal/sessions/\{sessionId\}' has methods for the following verbs: delete, get */
+  (
+    path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}",
+    sessionId: string,
+  ): DeleteLivenessWithVerifySession;
+  /** Resource for '/detectLivenessWithVerify/singleModal/sessions/\{sessionId\}/audit' has methods for the following verbs: get */
+  (
+    path: "/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit",
+    sessionId: string,
+  ): GetLivenessWithVerifySessionAuditEntries;
+  /** Resource for '/persons' has methods for the following verbs: post, get */
+  (path: "/persons"): CreatePerson;
+  /** Resource for '/persons/\{personId\}' has methods for the following verbs: delete, get, patch */
+  (path: "/persons/{personId}", personId: string): DeletePerson;
+  /** Resource for '/persons/\{personId\}/dynamicPersonGroupReferences' has methods for the following verbs: get */
+  (
+    path: "/persons/{personId}/dynamicPersonGroupReferences",
+    personId: string,
+  ): GetDynamicPersonGroupReferences;
+  /** Resource for '/persons/\{personId\}/recognitionModels/\{recognitionModel\}/persistedfaces' has methods for the following verbs: post, get */
+  (
+    path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces",
+    personId: string,
+    recognitionModel: RecognitionModel,
+  ): AddPersonFace;
+  /** Resource for '/persons/\{personId\}/recognitionModels/\{recognitionModel\}/persistedfaces/\{persistedFaceId\}' has methods for the following verbs: delete, get, patch */
+  (
+    path: "/persons/{personId}/recognitionModels/{recognitionModel}/persistedfaces/{persistedFaceId}",
+    personId: string,
+    recognitionModel: RecognitionModel,
+    persistedFaceId: string,
+  ): DeletePersonFace;
+  /** Resource for '/dynamicpersongroups/\{dynamicPersonGroupId\}' has methods for the following verbs: put, delete, get, patch */
+  (
+    path: "/dynamicpersongroups/{dynamicPersonGroupId}",
+    dynamicPersonGroupId: string,
+  ): CreateDynamicPersonGroupWithPerson;
+  /** Resource for '/dynamicpersongroups' has methods for the following verbs: get */
+  (path: "/dynamicpersongroups"): GetDynamicPersonGroups;
+  /** Resource for '/dynamicpersongroups/\{dynamicPersonGroupId\}/persons' has methods for the following verbs: get */
+  (
+    path: "/dynamicpersongroups/{dynamicPersonGroupId}/persons",
+    dynamicPersonGroupId: string,
+  ): GetDynamicPersonGroupPersons;
 }
 
 export type FaceClient = Client & {
