@@ -75,7 +75,8 @@
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -84,6 +85,7 @@
     "@azure-tools/test-utils": "^1.0.1",
     "@azure-rest/core-client": "^2.2.0",
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/express": "^4.17.21",
     "@types/node": "^18.0.0",

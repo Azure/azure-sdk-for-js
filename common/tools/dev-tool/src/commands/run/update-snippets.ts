@@ -53,14 +53,21 @@ async function* getAllSnippetFiles(dir: string): AsyncIterable<string> {
   // like samples/*/README.md and other similar files that are not really part of the "source" of the package.
   yield* findMatchingFiles(dir, (name) => name.endsWith(".md"), { maxDepth: 1 });
 
-  yield* findMatchingFiles(path.join(dir, "src"), (name) => name.endsWith(".ts"));
+  if (existsSync(path.join(dir, "src"))) {
+    yield* findMatchingFiles(path.join(dir, "src"), (name) => name.endsWith(".ts"));
+  }
 
-  yield* findMatchingFiles(path.join(dir, "test"), (name) => name.endsWith(".ts"));
+  if (existsSync(path.join(dir, "test"))) {
+    yield* findMatchingFiles(path.join(dir, "test"), (name) => name.endsWith(".ts"));
+  }
 
   if (existsSync(path.join(dir, "samples-dev"))) {
     yield* findMatchingFiles(path.join(dir, "samples-dev"), (name) => name.endsWith(".ts"));
   }
 }
+
+const IGNORE_CODE_COMMENT = "// dev-tool snippets ignore";
+const IGNORE_MARKDOWN_COMMENT = "<!-- dev-tool snippets ignore -->";
 
 /**
  * Finds all the snippet locations in a project.
@@ -74,9 +81,7 @@ async function findAllSnippetLocations(info: ProjectInfo): Promise<SnippetLocati
 
   for await (const f of getAllSnippetFiles(info.path)) {
     // We want to use some kind of semantically appropriate comment to allow ignoring a file.
-    const ignoreString = f.endsWith(".md")
-      ? "<!-- dev-tool snippets ignore -->"
-      : "// dev-tool snippets ignore";
+    const ignoreString = f.endsWith(".md") ? IGNORE_MARKDOWN_COMMENT : IGNORE_CODE_COMMENT;
 
     const contents = (await fs.readFile(f)).toString("utf-8");
 
@@ -110,7 +115,6 @@ async function findAllSnippetLocations(info: ProjectInfo): Promise<SnippetLocati
           // We don't care about bash, text, etc. snippets. Only JS/TS in any incarnation.
           if (!["js", "ts", "javascript", "typescript"].includes(language)) continue;
 
-          // TODO: have a mode where we can extract these nameless snippets and create definitions for them.
           if (!snippetName?.trim()?.startsWith("snippet:")) {
             log.error(
               `${language} snippet at ${f}:${startIdx} does not have a snippet name, or has a malformed snippet name.`,
