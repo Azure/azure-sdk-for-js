@@ -26,6 +26,8 @@ import { createClientLogger } from "@azure/logger";
 import { AzureChatExtensionConfiguration } from "../../../src/types/models.js";
 
 const logger = createClientLogger("openai");
+
+export const maxRetriesOption = { maxRetries: 0 };
 export interface Metadata {
   foo: string;
 }
@@ -39,13 +41,13 @@ interface ModelInfo {
   version: string;
 }
 export enum APIVersion {
-  Preview = "2024-07-01-preview",
+  Preview = "2024-08-01-preview",
   Stable = "2024-06-01",
   OpenAI = "OpenAI",
 }
 export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
 function toString(error: any): string {
-  return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
+  return error.error ? JSON.stringify(error.error) : JSON.stringify(error);
 }
 
 export async function withDeployments<T>(
@@ -83,6 +85,7 @@ export async function withDeployments<T>(
           "rate_limit_exceeded",
           "ModelDeprecated",
           "429",
+          "UserError",
           400,
         ].includes(error.code) ||
         error.type === "invalid_request_error" ||
