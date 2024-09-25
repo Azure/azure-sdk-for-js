@@ -68,7 +68,7 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceSerializer(item: ProxyResource) {
   return item as any;
@@ -929,7 +929,6 @@ export enum KnownActionType {
  */
 export type ActionType = string;
 
-
 /** Known values of {@link ProvisioningState } that the service accepts. */
 export enum KnownProvisioningState {
   /** Succeeded */
@@ -943,7 +942,7 @@ export enum KnownProvisioningState {
   /** Updating */
   Updating = "Updating",
   /** Dropping */
-  Dropping = "Dropping"
+  Dropping = "Dropping",
 }
 
 /**

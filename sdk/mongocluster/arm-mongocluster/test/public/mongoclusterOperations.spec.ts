@@ -58,7 +58,7 @@ describe("MongoCluster test", () => {
       resourceGroup,
       resourcename,
       {
-        tags: { "tag": "test" },
+        tags: { tag: "test" },
         location,
         properties: {
           administrator: {
