@@ -126,7 +126,6 @@ export function keyVaultAuthenticationPolicy(
         break;
       }
     }
-    return Promise.resolve();
   }
 
   async function handleChallenge(

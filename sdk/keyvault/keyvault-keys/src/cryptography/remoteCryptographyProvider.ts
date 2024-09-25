@@ -397,7 +397,12 @@ function getOrInitializeClient(
     options.serviceVersion || LATEST_API_VERSION,
     internalPipelineOptions,
   );
-  client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options));
+
+  // The authentication policy must come after the deserialization policy since the deserialization policy
+  // converts 401 responses to an Error, and we don't want to deal with that.
+  client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
+    afterPolicies: ["deserializationPolicy"],
+  });
 
   return client;
 }

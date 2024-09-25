@@ -133,7 +133,12 @@ export class SecretClient {
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       internalPipelineOptions,
     );
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions));
+
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   /**

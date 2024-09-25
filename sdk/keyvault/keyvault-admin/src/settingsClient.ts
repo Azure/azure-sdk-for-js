@@ -90,7 +90,12 @@ export class KeyVaultSettingsClient {
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions));
+
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   /**
