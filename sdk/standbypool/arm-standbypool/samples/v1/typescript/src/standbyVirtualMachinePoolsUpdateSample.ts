@@ -14,19 +14,15 @@ async function standbyVirtualMachinePoolsUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
-  const result = await client.standbyVirtualMachinePools.update(
-    "rgstandbypool",
-    "pool",
-    {
-      tags: {},
-      properties: {
-        elasticityProfile: { maxReadyCapacity: 304, minReadyCapacity: 300 },
-        virtualMachineState: "Running",
-        attachedVirtualMachineScaleSetId:
-          "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.Compute/virtualMachineScaleSets/myVmss",
-      },
+  const result = await client.standbyVirtualMachinePools.update("rgstandbypool", "pool", {
+    tags: {},
+    properties: {
+      elasticityProfile: { maxReadyCapacity: 304, minReadyCapacity: 300 },
+      virtualMachineState: "Running",
+      attachedVirtualMachineScaleSetId:
+        "/subscriptions/00000000-0000-0000-0000-000000000009/resourceGroups/rgstandbypool/providers/Microsoft.Compute/virtualMachineScaleSets/myVmss",
     },
-  );
+  });
   console.log(result);
 }
 

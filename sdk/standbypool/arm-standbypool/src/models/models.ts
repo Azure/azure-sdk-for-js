@@ -90,27 +90,6 @@ export interface PoolResourceStateCount {
   count: number;
 }
 
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ResourceProvisioningState = string;
-
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
 export interface ErrorResponse {
   /** The error object. */
@@ -219,7 +198,7 @@ export function standbyContainerGroupPoolElasticityProfileSerializer(
 /** Known values of {@link RefillPolicy} that the service accepts. */
 export enum KnownRefillPolicy {
   /** always */
-  always = "always",
+  Always = "always",
 }
 
 /**
@@ -550,11 +529,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  user = "user",
+  User = "user",
   /** system */
-  system = "system",
+  System = "system",
   /** user,system */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -582,5 +561,29 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Deleting**
+ */
 /** Alias for ProvisioningState */
-export type ProvisioningState = string | ResourceProvisioningState | "Deleting";
+
+export type ProvisioningState = string;

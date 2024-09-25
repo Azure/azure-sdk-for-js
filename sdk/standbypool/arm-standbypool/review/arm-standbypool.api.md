@@ -76,21 +76,22 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownRefillPolicy {
-    always = "always"
-}
-
-// @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+    Always = "always"
 }
 
 // @public
@@ -147,7 +148,7 @@ export interface PoolResourceStateCount {
 }
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "Deleting";
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -163,9 +164,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StandbyPoolManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

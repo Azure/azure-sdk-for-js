@@ -16,11 +16,11 @@ import {
   createRestError,
 } from "@azure-rest/core-client";
 import { serializeRecord } from "../../helpers/serializerHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   StandbyVirtualMachinePoolsGetOptionalParams,
@@ -219,6 +219,7 @@ export function standbyVirtualMachinePoolsCreateOrUpdate(
           resource,
           options,
         ),
+      resourceLocationConfig: "azure-async-operation",
     },
   ) as PollerLike<
     OperationState<StandbyVirtualMachinePoolResource>,
@@ -281,6 +282,7 @@ export function standbyVirtualMachinePoolsDelete(
           standbyVirtualMachinePoolName,
           options,
         ),
+      resourceLocationConfig: "location",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
