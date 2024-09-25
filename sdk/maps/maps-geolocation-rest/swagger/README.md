@@ -25,7 +25,7 @@ generate-test: false
 generate-sample: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Geolocation/preview/1.0/geolocation.json
 package-version: 1.0.0-beta.4
 rest-level-client: true
