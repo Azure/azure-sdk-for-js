@@ -636,7 +636,7 @@ function withUserManagedIdentityCredential() {
 }
 ```
 
-> For more information about user-assigned managed identities please see the [Developer Introduction and Guidelines](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview-for-developers).
+For more information about user-assigned managed identities, see [Connecting from your application to resources without handling credentials](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview-for-developers).
 
 #### Authenticating in Azure Pipelines with service-connections
 
