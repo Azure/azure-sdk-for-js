@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { DefaultAzureCredential } = require("@azure/identity");
-const { createWriteStream } = require("fs");
-const MapsRender = require("@azure-rest/maps-render").default,
-  { createPathQuery, createPinsQuery } = require("@azure-rest/maps-render");
+import { DefaultAzureCredential } from "@azure/identity";
+import { createWriteStream } from "fs";
+import MapsRender, { createPathQuery, createPinsQuery } from "@azure-rest/maps-render";
+import { LatLon } from "@azure/maps-common";
 
 /**
  * @summary How to get the map static image with pins and paths specified.
  */
-async function main() {
+async function main(): Promise<void>  {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
@@ -33,7 +33,7 @@ async function main() {
   /** In this example, we handle the response stream in Node.js. For how to handle the browser stream, please refer to getMapTileInBrowser.ts */
   /** To get static image, one can assign bbox and zoom to the queryParameters */
   const res1 = await client
-    .path("/map/static/{format}", "png")
+    .path("/map/static")
     .get({
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],
@@ -49,7 +49,7 @@ async function main() {
 
   /** The other way is to assign center with image width and height to the queryParameters */
   const res2 = await client
-    .path("/map/static/{format}", "png")
+    .path("/map/static")
     .get({
       queryParameters: {
         center: [13.228, 52.4559],
@@ -68,8 +68,8 @@ async function main() {
   // Prepare pins sets
   const pinsSet1 = {
     pins: [
-      { coordinate: [52.577, 13.35], label: "Label start" },
-      { coordinate: [52.6, 13.2988], label: "Label end" },
+      { coordinate: [52.577, 13.35] as LatLon, label: "Label start" },
+      { coordinate: [52.6, 13.2988] as LatLon, label: "Label end" },
     ],
     options: {
       scale: 0.9,
@@ -79,7 +79,7 @@ async function main() {
     },
   };
   const pinsSet2 = {
-    pins: [{ coordinate: [52.497, 13.495], label: "Label 3" }],
+    pins: [{ coordinate: [52.497, 13.495] as LatLon, label: "Label 3" }],
     options: {
       scale: 1.2,
       pinColor: "F5F5DC",
@@ -105,7 +105,7 @@ async function main() {
 
   // Make the request
   const res3 = await client
-    .path("/map/static/{format}", "png")
+    .path("/map/static")
     .get({
       queryParameters: {
         bbox: [13.228, 52.4559, 13.5794, 52.62],

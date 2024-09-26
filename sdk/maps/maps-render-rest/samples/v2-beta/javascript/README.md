@@ -54,15 +54,15 @@ npx cross-env MAPS_RESOURCE_CLIENT_ID="<maps resource client id>" node getCopyri
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getcopyrightcaption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getCopyrightCaption.js
-[getcopyrightfortile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getCopyrightForTile.js
-[getcopyrightforworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getCopyrightForWorld.js
-[getcopyrightfromboundingbox]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getCopyrightFromBoundingBox.js
-[getmapattribution]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapAttribution.js
-[getmapstaticimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapStaticImage.js
-[getmaptileinbrowser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileInBrowser.js
-[getmaptileinnode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileInNode.js
-[getmaptileset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v1-beta/javascript/getMapTileset.js
+[getcopyrightcaption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getCopyrightCaption.js
+[getcopyrightfortile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getCopyrightForTile.js
+[getcopyrightforworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getCopyrightForWorld.js
+[getcopyrightfromboundingbox]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getCopyrightFromBoundingBox.js
+[getmapattribution]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapAttribution.js
+[getmapstaticimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapStaticImage.js
+[getmaptileinbrowser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapTileInBrowser.js
+[getmaptileinnode]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapTileInNode.js
+[getmaptileset]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-render-rest/samples/v2-beta/javascript/getMapTileset.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-render
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
