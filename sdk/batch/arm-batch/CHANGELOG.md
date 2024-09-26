@@ -58,7 +58,7 @@
 
 ### Breaking Changes
 
-  - Removed operation Location_2.listSupportedCloudServiceSkus
+  - Removed operation Location.listSupportedCloudServiceSkus
   - Interface DeploymentConfiguration no longer has parameter cloudServiceConfiguration
   - Interface ProxyResource no longer has parameter etag
   - Interface Resource no longer has parameter location
