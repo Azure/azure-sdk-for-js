@@ -37,7 +37,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     clientId: string,
     serviceConnectionId: string,
     systemAccessToken: string,
-    options: AzurePipelinesCredentialOptions = {},
+    options?: AzurePipelinesCredentialOptions,
   ) {
     if (!clientId) {
       throw new CredentialUnavailableError(
@@ -59,7 +59,9 @@ export class AzurePipelinesCredential implements TokenCredential {
         `${credentialName}: is unavailable. systemAccessToken is a required parameter.`,
       );
     }
-
+    if(!options){
+      options = {}
+    }
     options.loggingOptions = {
       ...options?.loggingOptions,
       additionalAllowedHeaderNames: [

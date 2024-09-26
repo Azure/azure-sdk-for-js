@@ -67,9 +67,8 @@ describe("AzurePipelinesCredential", function () {
     );
     // const regExp: RegExp =
     //   /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
-    let response;
     try{
-      response = await credential.getToken(scope)
+       await credential.getToken(scope)
     }
     catch(e){
       console.log(e);
