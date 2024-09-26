@@ -184,7 +184,9 @@ export function handleOidcResponse(response: PipelineResponse): string {
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
-      error_description: `Response = ${text}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+      error_description: `Response = ${text}. ${JSON.stringify(
+        response,
+      )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }
 }
