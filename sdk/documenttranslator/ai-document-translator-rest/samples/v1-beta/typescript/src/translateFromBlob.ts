@@ -11,7 +11,6 @@
  * To handle these long running operations we need to call a few different endpoints, to track the status of the operation
  *
  * @summary translates a collection of documents
- * @azsdk-weight 40
  */
 
 import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
