@@ -27,11 +27,11 @@ interface QueryParameterWithOptions {
 
   /**
    * Style for encoding arrays. Three possible values:
-   * - "form": array values will be separated by a comma "," in the query parameter value if explode is set to false.
+   * - "form": array values will be separated by a comma "," in the query parameter value.
    * - "spaceDelimited": array values will be separated by a space (" ", url-encoded to "%20").
    * - "pipeDelimited": array values will be separated by a pipe ("|").
    *
-   * Ignored if `explode` is set to `true`; defaults to "form".
+   * Defaults to "form".
    */
   style?: QueryParameterStyle;
 }
@@ -91,7 +91,18 @@ function getQueryParamValue(
     separator = ",";
   }
 
-  const value = (Array.isArray(param) ? param : [param])
+  let paramValues: any[];
+  if (Array.isArray(param)) {
+    paramValues = param;
+  } else if (typeof param === "object" && param.toString === Object.prototype.toString) {
+    // If the parameter is an object without a custom toString implementation (e.g. a Date),
+    // then we should deconstruct the object into an array [key1, value1, key2, value2, ...].
+    paramValues = Object.entries(param).flat();
+  } else {
+    paramValues = [param];
+  }
+
+  const value = paramValues
     .map((p) => {
       if (p === null || p === undefined) {
         return "";
@@ -129,14 +140,20 @@ function appendQueryParams(url: string, options: RequestParameters = {}): string
     const style = hasMetadata && param.style ? param.style : "form";
 
     if (explode) {
-      if (!Array.isArray(rawValue)) {
-        throw new Error(
-          `explode can only be set to true for arrays, but query parameter ${key} is not an array`,
-        );
-      }
-
-      for (const item of rawValue) {
-        paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item));
+      if (Array.isArray(rawValue)) {
+        for (const item of rawValue) {
+          paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item));
+        }
+      } else if (typeof rawValue === "object") {
+        // For object explode, the name of the query parameter is ignored and we use the object key instead
+        for (const [actualKey, value] of Object.entries(rawValue)) {
+          paramStrings.push(
+            getQueryParamValue(actualKey, options.skipUrlEncoding ?? false, style, value),
+          );
+        }
+      } else {
+        // Explode doesn't really make sense for primitives
+        throw new Error("explode can only be set to true for objects and arrays");
       }
     } else {
       paramStrings.push(getQueryParamValue(key, options.skipUrlEncoding ?? false, style, rawValue));

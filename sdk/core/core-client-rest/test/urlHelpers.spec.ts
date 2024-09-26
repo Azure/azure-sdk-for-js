@@ -250,6 +250,18 @@ describe("urlHelpers", () => {
     assert.equal(result, "https://example.org/?foo=bar%20baz");
   });
 
+  it("objects are handled by decomposing into array of key1,value1,key2,value2...", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: { bar: "aaa", baz: "bbb" },
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar,aaa,baz,bbb");
+  });
+
   it("explode decomposes query parameter array into multiple query parameters", () => {
     const result = buildRequestUrl("https://example.org/", "", [], {
       queryParameters: {
@@ -261,5 +273,18 @@ describe("urlHelpers", () => {
     });
 
     assert.equal(result, "https://example.org/?foo=bar&foo=baz");
+  });
+
+  it("explode handles an object", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: { bar: "aaa", baz: "bbb" },
+          explode: true,
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?bar=aaa&baz=bbb");
   });
 });
