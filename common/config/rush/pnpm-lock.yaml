@@ -13232,7 +13232,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-xbfyInpvh//K3rGg0LkeSunwru0AJyRmWBkAYKBB3ZIEI2Zz84uI48VnCFap8xw9x5ZpzOf3Z+gc3VNYz95GWA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-GzGCopQ9KbMjORsZM5l6Q9G6BiGLe7XvXbigD/eGvU7rE6/3U7CY9bORHfB6MyeBJLab9BbRxzNcNlP8w2tL8A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -13253,6 +13253,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.6.2
       uglify-js: 3.19.3
     transitivePeerDependencies:
