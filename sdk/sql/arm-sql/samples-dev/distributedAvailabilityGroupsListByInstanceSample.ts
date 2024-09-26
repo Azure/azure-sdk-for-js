@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of a distributed availability groups in instance.
  *
  * @summary Gets a list of a distributed availability groups in instance.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-08-01-preview/examples/DistributedAvailabilityGroupsListByInstance.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/DistributedAvailabilityGroupsListByInstance.json
  */
 async function listsAllDistributedAvailabilityGroupsInInstance() {
   const subscriptionId =
