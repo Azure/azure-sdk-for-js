@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  DatabaseUpdate,
+  AccessPolicyAssignment,
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -18,12 +18,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Updates a database
+ * This sample demonstrates how to Creates/Updates a particular access policy assignment for a database
  *
- * @summary Updates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesUpdate.json
+ * @summary Creates/Updates a particular access policy assignment for a database
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentCreateUpdate.json
  */
-async function redisEnterpriseDatabasesUpdate() {
+async function redisEnterpriseAccessPolicyAssignmentCreateUpdate() {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
     "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
@@ -31,28 +31,29 @@ async function redisEnterpriseDatabasesUpdate() {
     process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
   const databaseName = "default";
-  const parameters: DatabaseUpdate = {
-    accessKeysAuthentication: "Enabled",
-    clientProtocol: "Encrypted",
-    evictionPolicy: "AllKeysLRU",
-    persistence: { rdbEnabled: true, rdbFrequency: "12h" },
+  const accessPolicyAssignmentName = "defaultTestEntraApp1";
+  const parameters: AccessPolicyAssignment = {
+    accessPolicyName: "default",
+    user: { objectId: "6497c918-11ad-41e7-1b0f-7c518a87d0b0" },
   };
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(
     credential,
     subscriptionId,
   );
-  const result = await client.databases.beginUpdateAndWait(
-    resourceGroupName,
-    clusterName,
-    databaseName,
-    parameters,
-  );
+  const result =
+    await client.accessPolicyAssignmentOperations.beginCreateUpdateAndWait(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      accessPolicyAssignmentName,
+      parameters,
+    );
   console.log(result);
 }
 
 async function main() {
-  redisEnterpriseDatabasesUpdate();
+  redisEnterpriseAccessPolicyAssignmentCreateUpdate();
 }
 
 main().catch(console.error);

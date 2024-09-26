@@ -18042,7 +18042,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-2OuZxOIoB+wE5E0rj/0Xtz1fMoA1iFAQeTbUhnptoXZ7G41XSdiaZkk5gFkGtQ8K+rEYBTM+6u8s6HvxjyKSjg==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-oEZMSeVMe/RBxOfdBFaMk1CIyilJhPTbHQ68s6vhzgIz0hoOy2XpvoLB13CTT1X233ouQdzjlS+5vRadRIfQhg==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -18062,9 +18062,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.6.2)
+      ts-node: 10.9.2(@types/node@18.19.50)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.2
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'

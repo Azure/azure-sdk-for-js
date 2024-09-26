@@ -13,28 +13,31 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a single database
+ * This sample demonstrates how to Deletes a single access policy assignment.
  *
- * @summary Deletes a single database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2023-11-01/examples/RedisEnterpriseDatabasesDelete.json
+ * @summary Deletes a single access policy assignment.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentDelete.json
  */
-async function redisEnterpriseDatabasesDelete() {
-  const subscriptionId = process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+async function redisEnterpriseAccessPolicyAssignmentDelete() {
+  const subscriptionId =
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
-  const databaseName = "db1";
+  const databaseName = "default";
+  const accessPolicyAssignmentName = "defaultTestEntraApp1";
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-  const result = await client.databases.beginDeleteAndWait(
+  const result = await client.accessPolicyAssignmentOperations.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
     databaseName,
+    accessPolicyAssignmentName,
   );
   console.log(result);
 }
 
 async function main() {
-  redisEnterpriseDatabasesDelete();
+  redisEnterpriseAccessPolicyAssignmentDelete();
 }
 
 main().catch(console.error);

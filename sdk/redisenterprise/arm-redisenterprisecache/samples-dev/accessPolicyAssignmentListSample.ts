@@ -15,26 +15,29 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets all databases in the specified RedisEnterprise cluster.
+ * This sample demonstrates how to Gets all access policy assignments..
  *
- * @summary Gets all databases in the specified RedisEnterprise cluster.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2023-11-01/examples/RedisEnterpriseDatabasesListByCluster.json
+ * @summary Gets all access policy assignments..
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseAccessPolicyAssignmentsList.json
  */
-async function redisEnterpriseDatabasesListByCluster() {
+async function redisEnterpriseAccessPolicyAssignmentList() {
   const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
+    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName =
     process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
+  const databaseName = "default";
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.databases.listByCluster(
+  for await (let item of client.accessPolicyAssignmentOperations.list(
     resourceGroupName,
-    clusterName
+    clusterName,
+    databaseName,
   )) {
     resArray.push(item);
   }
@@ -42,7 +45,7 @@ async function redisEnterpriseDatabasesListByCluster() {
 }
 
 async function main() {
-  redisEnterpriseDatabasesListByCluster();
+  redisEnterpriseAccessPolicyAssignmentList();
 }
 
 main().catch(console.error);
