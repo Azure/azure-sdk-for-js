@@ -145,6 +145,7 @@ export class AzurePipelinesCredential implements TokenCredential {
 }
 
 export function handleOidcResponse(response: PipelineResponse): string {
+  // OIDC token is present in `bodyAsText` field
   const text = response.bodyAsText;
   if (!text) {
     logger.error(
@@ -180,12 +181,14 @@ export function handleOidcResponse(response: PipelineResponse): string {
     }
   } catch (e: any) {
     const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
-    logger.error(`Response from service = ${text} and error message = ${e.message}`);
+    logger.error(`Response from service = ${text}, Headers - ${JSON.stringify(
+      response.headers,
+    )} and error message = ${e.message}`);
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
       error_description: `Response = ${text}. ${JSON.stringify(
-        response,
+        response.headers,
       )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }

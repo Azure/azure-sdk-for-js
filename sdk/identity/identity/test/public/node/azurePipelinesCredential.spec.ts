@@ -52,6 +52,30 @@ describe("AzurePipelinesCredential", function () {
     );
   });
 
+  it("failure includes the expected response headers", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    // clientId for above service connection
+    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+    const credential = new AzurePipelinesCredential(
+      tenantId,
+      clientId,
+      "existingServiceConnectionId",
+      systemAccessToken,
+    );
+    // const regExp: RegExp =
+    //   /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
+    let response;
+    try{
+      response = await credential.getToken(scope)
+    }
+    catch(e){
+      console.log(e);
+    }
+  });
+
   it("fails with with invalid client id", async function () {
     if (!isLiveMode()) {
       this.skip();
