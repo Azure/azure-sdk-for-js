@@ -1,5 +1,32 @@
 # Release History
     
+## 21.1.0 (2024-09-26)
+    
+### Features Added
+
+  - Added operation group Machines
+  - Added operation AgentPools.beginDeleteMachines
+  - Added operation AgentPools.beginDeleteMachinesAndWait
+  - Added Interface AgentPoolDeleteMachinesParameter
+  - Added Interface AgentPoolsDeleteMachinesHeaders
+  - Added Interface AgentPoolsDeleteMachinesOptionalParams
+  - Added Interface AgentPoolSecurityProfile
+  - Added Interface Machine
+  - Added Interface MachineIpAddress
+  - Added Interface MachineListResult
+  - Added Interface MachineNetworkProperties
+  - Added Interface MachineProperties
+  - Added Interface MachinesGetOptionalParams
+  - Added Interface MachinesListNextOptionalParams
+  - Added Interface MachinesListOptionalParams
+  - Added Type Alias AgentPoolsDeleteMachinesResponse
+  - Added Type Alias MachinesGetResponse
+  - Added Type Alias MachinesListNextResponse
+  - Added Type Alias MachinesListResponse
+  - Interface AgentPool has a new optional parameter securityProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter securityProfile
+    
+    
 ## 21.1.0-beta.2 (2024-09-10)
 Compared with version 21.0.0
     
