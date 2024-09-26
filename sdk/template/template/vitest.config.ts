@@ -9,6 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
+      exclude: ["test/snippets.spec.ts"],
     },
   }),
 );

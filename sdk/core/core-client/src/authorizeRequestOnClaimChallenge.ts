@@ -37,12 +37,15 @@ export interface CAEChallenge {
  *
  * Call the `bearerTokenAuthenticationPolicy` with the following options:
  *
- * ```ts
+ * ```ts snippet:authorize_request_on_claim_challenge
  * import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
  *
- * const bearerTokenAuthenticationPolicy = bearerTokenAuthenticationPolicy({
- *   authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+ * const policy = bearerTokenAuthenticationPolicy({
+ *   challengeCallbacks: {
+ *     authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,
+ *   },
+ *   scopes: ["https://service/.default"],
  * });
  * ```
  *

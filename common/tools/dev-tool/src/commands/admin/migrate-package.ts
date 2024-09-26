@@ -402,11 +402,12 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setScriptsSection(packageJson: any): void {
-  packageJson.scripts["build"] = "npm run clean && tshy && dev-tool run extract-api";
+  packageJson.scripts["build"] =
+    "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   // TODO: Check if web package or not
   packageJson.scripts["unit-test:browser"] =
-    "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
+    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
   packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest --no-test-proxy";
 }
 

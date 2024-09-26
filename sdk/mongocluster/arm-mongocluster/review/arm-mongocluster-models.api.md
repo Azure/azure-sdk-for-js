@@ -246,6 +246,12 @@ export interface MongoClusterReplicaParameters {
 }
 
 // @public
+export interface MongoClusterReplicaParameters {
+    sourceLocation: string;
+    sourceResourceId: string;
+}
+
+// @public
 export interface MongoClusterRestoreParameters {
     pointInTimeUTC?: Date;
     sourceResourceId?: string;

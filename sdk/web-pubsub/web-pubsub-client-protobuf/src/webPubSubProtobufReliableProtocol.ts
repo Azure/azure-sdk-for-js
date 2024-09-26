@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { WebPubSubMessage, WebPubSubClientProtocol } from "@azure/web-pubsub-client";
-
-import { WebPubSubProtobufProtocolBase } from "./webPubSubProtobufProtocolBase";
+import { WebPubSubProtobufProtocolBase } from "./webPubSubProtobufProtocolBase.js";
 
 /**
  * The "protobuf.reliable.webpubsub.azure.v1" protocol

@@ -22,11 +22,23 @@ export type AddonAutoscaling = string;
 // @public
 export interface AdvancedNetworking {
     observability?: AdvancedNetworkingObservability;
+    security?: AdvancedNetworkingSecurity;
+}
+
+// @public
+export interface AdvancedNetworkingFqdnPolicy {
+    enabled?: boolean;
 }
 
 // @public
 export interface AdvancedNetworkingObservability {
     enabled?: boolean;
+    tlsManagement?: TLSManagement;
+}
+
+// @public
+export interface AdvancedNetworkingSecurity {
+    fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
 }
 
 // @public
@@ -860,6 +872,14 @@ export enum KnownNetworkPolicy {
 }
 
 // @public
+export enum KnownNginxIngressControllerType {
+    AnnotationControlled = "AnnotationControlled",
+    External = "External",
+    Internal = "Internal",
+    None = "None"
+}
+
+// @public
 export enum KnownNodeOSUpgradeChannel {
     NodeImage = "NodeImage",
     None = "None",
@@ -987,6 +1007,12 @@ export enum KnownServiceMeshMode {
 export enum KnownSnapshotType {
     ManagedCluster = "ManagedCluster",
     NodePool = "NodePool"
+}
+
+// @public
+export enum KnownTLSManagement {
+    Managed = "Managed",
+    None = "None"
 }
 
 // @public
@@ -1581,11 +1607,17 @@ export interface ManagedClusterIngressProfile {
     webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
 }
 
+// @public (undocumented)
+export interface ManagedClusterIngressProfileNginx {
+    defaultIngressControllerType?: NginxIngressControllerType;
+}
+
 // @public
 export interface ManagedClusterIngressProfileWebAppRouting {
     dnsZoneResourceIds?: string[];
     enabled?: boolean;
     readonly identity?: UserAssignedIdentity;
+    nginx?: ManagedClusterIngressProfileNginx;
 }
 
 // @public
@@ -2433,6 +2465,9 @@ export interface NetworkProfileForSnapshot {
 }
 
 // @public
+export type NginxIngressControllerType = string;
+
+// @public
 export type NodeOSUpgradeChannel = string;
 
 // @public
@@ -2938,6 +2973,9 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
+
+// @public
+export type TLSManagement = string;
 
 // @public
 export interface TrackedResource extends Resource {

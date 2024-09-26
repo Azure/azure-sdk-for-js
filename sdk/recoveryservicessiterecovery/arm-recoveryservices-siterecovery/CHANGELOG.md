@@ -12,7 +12,7 @@
 
 ## 5.2.0 (2024-02-09)
     
-**Features**
+### Features Added
 
   - Added operation ReplicationFabrics.beginRemoveInfra
   - Added operation ReplicationFabrics.beginRemoveInfraAndWait
@@ -27,7 +27,7 @@
     
 ## 5.1.0 (2023-09-08)
     
-**Features**
+### Features Added
 
   - Added Interface A2AFabricSpecificLocationDetails
   - Added Interface ApplianceMonitoringDetails
@@ -77,7 +77,7 @@
 
 ## 5.0.0 (2022-12-08)
 
-**Features**
+### Features Added
 
   - Added operation ReplicationMigrationItems.beginPauseReplication
   - Added operation ReplicationMigrationItems.beginPauseReplicationAndWait
@@ -308,7 +308,7 @@
   - Enum KnownTestMigrationState has a new value TestMigrationCompletedWithInformation
   - Enum KnownTestMigrationState has a new value TestMigrationPartiallySucceeded
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation MigrationRecoveryPoints.get has a new signature
   - Operation MigrationRecoveryPoints.listByReplicationMigrationItems has a new signature

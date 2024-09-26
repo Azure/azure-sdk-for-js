@@ -68,7 +68,7 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceSerializer(item: ProxyResource) {
   return item as any;
