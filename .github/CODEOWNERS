@@ -8,12 +8,6 @@
 /** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
 ################
-# CODEOWNERS
-################
-
-/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
-
-################
 # Misc.
 ################
 
@@ -1549,14 +1543,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @ccmshowbackdevs
 
 ###########
-# Eng Sys
-###########
-/eng/                  @ckairen @mikeharder @weshaggard @benbp
-/eng/common/           @Azure/azure-sdk-eng
-/.github/workflows/    @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-
-###########
 # Config
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
@@ -1578,8 +1564,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
-/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
-
 /rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-js-dev
 
 /tsconfig.json @mikeharder @ckairen @Azure/azure-sdk-for-js-core
@@ -1592,17 +1576,29 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 /vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 
-# Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
-/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
-
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao
 
-/eng/emitter-package-lock.json @qiaozha @MaryGao
-/eng/emitter-package.json @qiaozha @MaryGao
 
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 /sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+
+#########################
+# Eng Sys and CODEOWNERS
+#########################
+/eng/                  @ckairen @mikeharder @weshaggard @benbp
+/eng/common/           @Azure/azure-sdk-eng
+/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+/.config/1espt/ @benbp @weshaggard
+/.github/workflows/    @Azure/azure-sdk-eng
+/.github/CODEOWNERS    @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+
+/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/eng/emitter-package-lock.json @qiaozha @MaryGao
+/eng/emitter-package.json @qiaozha @MaryGao
+
+# Add owners for notifications for specific pipelines
+/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
+/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng

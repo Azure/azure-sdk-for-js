@@ -192,10 +192,12 @@ export interface Client {
    * This method will be used to send request that would check the path to provide
    * strong types. When used by the codegen this type gets overriden wit the generated
    * types. For example:
-   * ```typescript
+   * ```typescript snippet:path_example
+   * import { Client, Routes } from "@typespec/ts-http-runtime";
+   *
    * export type MyClient = Client & {
-   *    path: Routes;
-   * }
+   *   path: Routes;
+   * };
    * ```
    */
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type

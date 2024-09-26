@@ -17,10 +17,10 @@ dotenv.config();
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get Model Info Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential()));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/info").get();
 
   if (isUnexpected(response)) {

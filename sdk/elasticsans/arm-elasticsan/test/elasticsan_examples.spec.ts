@@ -20,9 +20,6 @@ import { ElasticSanManagement } from "../src/elasticSanManagement";
 import { ElasticSan } from "../src/models";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
@@ -68,6 +65,14 @@ describe("elasticSan test", () => {
 
   afterEach(async function () {
     await recorder.stop();
+  });
+
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
   });
 
   it("elasticSan create test", async function () {
