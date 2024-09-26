@@ -5,12 +5,15 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
+generate-test: true
 package-name: "@azure-rest/iot-device-update"
 title: DeviceUpdate
 description: Iot Device Update Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
-output-folder: ../
+output-folder: $(typescript-sdks-folder)/sdk/deviceupdate/iot-device-update-rest
 source-code-folder-path: ./src
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d7c9be23749467be1aea18f02ba2f4948a39db6a/specification/deviceupdate/data-plane/Microsoft.DeviceUpdate/stable/2022-10-01/deviceupdate.json
 package-version: 1.0.1
@@ -49,4 +52,3 @@ directive:
       "description": "The condition specified using HTTP conditional header(s) is not met."
     };
 ```
-

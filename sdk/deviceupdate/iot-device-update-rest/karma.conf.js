@@ -1,11 +1,11 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-
 require("dotenv").config();
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
@@ -25,15 +25,18 @@ module.exports = function (config) {
       "karma-coverage",
       "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-json-to-file-reporter",
       "karma-source-map-support",
-      "karma-json-preprocessor",
     ],
 
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
+      {
+        pattern: "dist-test/index.browser.js.map",
+        type: "html",
+        included: false,
+        served: true,
+      },
     ],
 
     // list of files / patterns to exclude
@@ -43,7 +46,6 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // "dist-test/index.js": ["coverage"]
@@ -55,6 +57,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
+      "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
     ],
 
