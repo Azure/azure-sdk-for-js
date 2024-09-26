@@ -126,6 +126,7 @@ describe("MongoCluster test", () => {
       tags: {},
     });
     assert.equal(res.name, resourcename);
+    assert.deepEqual(res.tags, {});
   });
 
   it("firewallRules delete test", async function () {
