@@ -62,9 +62,13 @@ export class AzurePipelinesCredential implements TokenCredential {
 
     options.loggingOptions = {
       ...options?.loggingOptions,
-      additionalAllowedHeaderNames: [...options.loggingOptions?.additionalAllowedHeaderNames?? [], "x-vss-e2eid","x-msedge-ref"]
-    }
-  
+      additionalAllowedHeaderNames: [
+        ...(options.loggingOptions?.additionalAllowedHeaderNames ?? []),
+        "x-vss-e2eid",
+        "x-msedge-ref",
+      ],
+    };
+
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
@@ -164,7 +168,7 @@ export function handleOidcResponse(response: PipelineResponse): string {
       let errorDescription = ``;
       if (response.status !== 200) {
         errorDescription = `Complete response - ${JSON.stringify(
-          result,
+          response,
         )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
       logger.error(errorMessage);
