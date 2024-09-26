@@ -172,7 +172,7 @@
     
 ## 7.1.1 (2022-04-11)
 
-**features**
+### Features Added
 
   - Bug fix
     
