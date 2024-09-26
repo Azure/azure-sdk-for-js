@@ -37,12 +37,12 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "build:test": "npm run clean && tshy",
-    "build": "npm run clean && tshy && dev-tool run extract-api",
+    "build:test": "npm run clean && dev-tool run build-package",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && rimraf --glob src/**/*.js && rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tshy && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test:browser": "echo skipped",
@@ -119,7 +119,6 @@
     "eslint": "^9.9.0",
     "playwright": "^1.46.0",
     "rimraf": "^5.0.5",
-    "tshy": "^2.0.0",
     "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },

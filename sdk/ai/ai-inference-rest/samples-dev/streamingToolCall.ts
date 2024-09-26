@@ -22,15 +22,15 @@ const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
 interface EventData {
   choices: [
     {
-      content_filter_results: any,
-      delta: any,
-      finish_reason: string | null,
-      index: number,
-      logprobs: any | null,
-    }
-  ],
-  id: string,
-  model: string,
+      content_filter_results: any;
+      delta: any;
+      finish_reason: string | null;
+      index: number;
+      logprobs: any | null;
+    },
+  ];
+  id: string;
+  model: string;
 }
 
 const getCurrentWeather = {
@@ -57,14 +57,17 @@ const getWeatherFunc = (location: string, unit: string): string => {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
-}
+};
 
-const updateToolCalls = (toolCallArray: Array<ChatCompletionsFunctionToolCallOutput>, functionArray: Array<any>) => {
+const updateToolCalls = (
+  toolCallArray: Array<ChatCompletionsFunctionToolCallOutput>,
+  functionArray: Array<any>,
+) => {
   const dummyFunction = { name: "", arguments: "", id: "" };
-  while ( functionArray.length < toolCallArray.length ) {
+  while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
   }
-  
+
   let index = 0;
   for (const toolCall of toolCallArray) {
     if (toolCall.function.name) {
@@ -78,7 +81,7 @@ const updateToolCalls = (toolCallArray: Array<ChatCompletionsFunctionToolCallOut
     }
     index++;
   }
-}
+};
 
 const handleToolCalls = (functionArray: Array<any>) => {
   const messageArray = [];
@@ -87,14 +90,13 @@ const handleToolCalls = (functionArray: Array<any>) => {
     let content = "";
 
     switch (func.name) {
-      
       case "get_current_weather":
-        content =  getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
+        content = getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
         messageArray.push({
           role: "tool",
           content,
           tool_call_id: func.id,
-          name: func.name
+          name: func.name,
         });
         break;
 
@@ -104,7 +106,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
     }
   }
   return messageArray;
-}
+};
 
 const streamToString = async (stream: NodeJS.ReadableStream) => {
   // lets have a ReadableStream as a stream variable
@@ -115,34 +117,36 @@ const streamToString = async (stream: NodeJS.ReadableStream) => {
   }
 
   return Buffer.concat(chunks).toString("utf-8");
-}
-
+};
 
 export async function main() {
   const credential = new DefaultAzureCredential();
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
-  const scopes = [ "https://cognitiveservices.azure.com/.default" ];
+  const scopes = ["https://cognitiveservices.azure.com/.default"];
   const clientOptions = { credentials: { scopes } };
   const client = ModelClient(modelEndpoint, credential, clientOptions);
- 
+
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
 
   let toolCallAnswer = "";
   let awaitingToolCallAnswer = true;
   while (awaitingToolCallAnswer) {
-    const response = await client.path("/chat/completions").post({
-      body: {
-        messages,
-        tools: [
-          {
-            type: "function",
-            function: getCurrentWeather,
-          },
-        ],
-        stream: true
-      }
-    }).asNodeStream();
+    const response = await client
+      .path("/chat/completions")
+      .post({
+        body: {
+          messages,
+          tools: [
+            {
+              type: "function",
+              function: getCurrentWeather,
+            },
+          ],
+          stream: true,
+        },
+      })
+      .asNodeStream();
 
     const stream = response.body;
     if (!stream) {
@@ -157,7 +161,6 @@ export async function main() {
     const functionArray: Array<any> = [];
 
     for await (const event of sses) {
-
       if (event.data === "[DONE]") {
         continue;
       }
@@ -178,8 +181,7 @@ export async function main() {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.delta?.content && choice.delta.content != '')
-          {
+          if (choice.delta?.content && choice.delta.content != "") {
             toolCallAnswer += choice.delta?.content;
             awaitingToolCallAnswer = false;
           }
@@ -187,10 +189,9 @@ export async function main() {
       }
     }
   }
-  
+
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
-
 }
 
 main().catch((err) => {
