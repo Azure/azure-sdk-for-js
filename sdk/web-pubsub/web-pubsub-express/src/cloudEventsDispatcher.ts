@@ -20,6 +20,7 @@ import type {
   MqttConnectErrorResponse,
   MqttConnectionContextProperties,
   ConnectErrorResponse,
+  MqttDisconnectedRequest,
 } from "./cloudEventsProtocols.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
@@ -452,10 +453,9 @@ export class CloudEventsDispatcher {
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(
-          request,
-          origin,
-        );
+        const disconnectedRequest = isMqtt
+          ? await readSystemEventRequest<MqttDisconnectedRequest>(request, origin)
+          : await readSystemEventRequest<DisconnectedRequest>(request, origin);
         logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;

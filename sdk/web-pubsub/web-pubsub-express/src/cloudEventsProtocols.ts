@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { MqttDisconnectReasonCode } from "./enum/MqttErrorCodes/mqttDisconnectReasonCode.js";
 import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
 import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
 
@@ -318,6 +319,44 @@ export interface DisconnectedRequest {
    * The reason that the connection disconnects.
    */
   reason?: string;
+}
+
+/**
+ * Request for the disconnected event.
+ */
+export interface MqttDisconnectedRequest extends DisconnectedRequest {
+  /**
+   * The MQTT specific properties in the MQTT disconnected event request.
+   */
+  mqtt: MqttDisconnectedProperties;
+}
+
+/**
+ * The properties of an MQTT disconnected event.
+ */
+export interface MqttDisconnectedProperties {
+  /**
+   * The MQTT disconnect packet.
+   */
+  disconnectPacket: MqttDisconnectPacket;
+  /**
+   * Whether the disconnection is initiated by the client.
+   */
+  initiatedByClient: boolean;
+}
+
+/**
+ * The properties of the MQTT DISCONNECT packet.
+ */
+export interface MqttDisconnectPacket {
+  /**
+   * The MQTT disconnect return code.
+   */
+  code: MqttDisconnectReasonCode;
+  /**
+   * The user properties in the MQTT disconnect packet.
+   */
+  userProperties?: MqttUserProperty[];
 }
 
 /**

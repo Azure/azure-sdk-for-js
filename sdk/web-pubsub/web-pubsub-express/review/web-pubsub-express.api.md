@@ -112,6 +112,56 @@ export interface MqttConnectResponseProperties {
 }
 
 // @public
+export interface MqttDisconnectedProperties {
+    disconnectPacket: MqttDisconnectPacket;
+    initiatedByClient: boolean;
+}
+
+// @public
+export interface MqttDisconnectedRequest extends DisconnectedRequest {
+    mqtt: MqttDisconnectedProperties;
+}
+
+// @public
+export interface MqttDisconnectPacket {
+    code: MqttDisconnectReasonCode;
+    userProperties?: MqttUserProperty[];
+}
+
+// @public
+export enum MqttDisconnectReasonCode {
+    AdministrativeAction = 152,
+    ConnectionRateExceeded = 159,
+    DisconnectWithWillMessage = 4,
+    ImplementationSpecificError = 131,
+    KeepAliveTimeout = 141,
+    MalformedPacket = 129,
+    MaximumConnectTime = 160,
+    MessageRateTooHigh = 150,
+    NormalDisconnection = 0,
+    NotAuthorized = 135,
+    PacketTooLarge = 149,
+    PayloadFormatInvalid = 153,
+    ProtocolError = 130,
+    QosNotSupported = 155,
+    QuotaExceeded = 151,
+    ReceiveMaximumExceeded = 147,
+    RetainNotSupported = 154,
+    ServerBusy = 137,
+    ServerMoved = 157,
+    ServerShuttingDown = 139,
+    SessionTakenOver = 142,
+    SharedSubscriptionsNotSupported = 158,
+    SubscriptionIdentifiersNotSupported = 161,
+    TopicAliasInvalid = 148,
+    TopicFilterInvalid = 143,
+    TopicNameInvalid = 144,
+    UnspecifiedError = 128,
+    UseAnotherServer = 156,
+    WildcardSubscriptionsNotSupported = 162
+}
+
+// @public
 export interface MqttUserProperty {
     name: string;
     value: string;
