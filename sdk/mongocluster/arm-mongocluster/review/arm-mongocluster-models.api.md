@@ -32,35 +32,10 @@ export interface ConnectionString {
 }
 
 // @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
-
-// @public
 export type CreatedByType = string;
 
 // @public
 export type CreateMode = string;
-
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
 
 // @public
 export interface FirewallRule extends ProxyResource {
@@ -114,7 +89,9 @@ export enum KnownCreatedByType {
 // @public
 export enum KnownCreateMode {
     Default = "Default",
-    PointInTimeRestore = "PointInTimeRestore"
+    GeoReplica = "GeoReplica",
+    PointInTimeRestore = "PointInTimeRestore",
+    Replica = "Replica"
 }
 
 // @public
@@ -135,9 +112,14 @@ export enum KnownNodeKind {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPreviewFeature {
+    GeoReplicas = "GeoReplicas"
 }
 
 // @public
@@ -156,16 +138,46 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownPromoteMode {
+    Switchover = "Switchover"
+}
+
+// @public
+export enum KnownPromoteOption {
+    Forced = "Forced"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Dropping = "Dropping",
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Succeeded = "Succeeded"
+export enum KnownReplicationRole {
+    AsyncReplica = "AsyncReplica",
+    GeoAsyncReplica = "GeoAsyncReplica",
+    Primary = "Primary"
+}
+
+// @public
+export enum KnownReplicationState {
+    Active = "Active",
+    Broken = "Broken",
+    Catchup = "Catchup",
+    Provisioning = "Provisioning",
+    Reconfiguring = "Reconfiguring",
+    Updating = "Updating"
 }
 
 // @public
@@ -186,12 +198,22 @@ export interface MongoClusterProperties {
     readonly connectionString?: string;
     createMode?: CreateMode;
     readonly earliestRestoreTime?: string;
+    readonly infrastructureVersion?: string;
     nodeGroupSpecs?: NodeGroupSpec[];
+    previewFeatures?: PreviewFeature[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+    readonly replica?: ReplicationProperties;
+    replicaParameters?: MongoClusterReplicaParameters;
     restoreParameters?: MongoClusterRestoreParameters;
     serverVersion?: string;
+}
+
+// @public
+export interface MongoClusterReplicaParameters {
+    sourceLocation: string;
+    sourceResourceId: string;
 }
 
 // @public
@@ -231,6 +253,11 @@ export interface MongoClustersListOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface MongoClustersPromoteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type MongoClusterStatus = string;
 
 // @public
@@ -249,6 +276,7 @@ export interface MongoClusterUpdateProperties {
     administratorLogin?: string;
     administratorLoginPassword?: string;
     nodeGroupSpecs?: NodeGroupSpec[];
+    previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
     serverVersion?: string;
 }
@@ -290,16 +318,7 @@ export interface OperationsListOptionalParams extends OperationOptions {
 export type Origin = string;
 
 // @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
+export type PreviewFeature = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -372,7 +391,19 @@ export interface PrivateLinksListByMongoClusterOptionalParams extends OperationO
 }
 
 // @public
-export type ProvisioningState = string | ResourceProvisioningState | "InProgress" | "Updating" | "Dropping";
+export type PromoteMode = string;
+
+// @public
+export type PromoteOption = string;
+
+// @public
+export interface PromoteReplicaRequest {
+    mode?: PromoteMode;
+    promoteOption: PromoteOption;
+}
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -382,15 +413,34 @@ export interface ProxyResource extends Resource {
 export type PublicNetworkAccess = string;
 
 // @public
+export interface Replica extends ProxyResource {
+    properties?: MongoClusterProperties;
+}
+
+// @public
+export interface ReplicasListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ReplicationProperties {
+    readonly replicationState?: ReplicationState;
+    readonly role?: ReplicationRole;
+    readonly sourceResourceId?: string;
+}
+
+// @public
+export type ReplicationRole = string;
+
+// @public
+export type ReplicationState = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface SystemData {
@@ -407,9 +457,6 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
-
-// @public
-export type Versions = "2024-03-01-preview";
 
 // (No @packageDocumentation comment for this package)
 
