@@ -370,7 +370,7 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   else if (dbSystem) {
     // TODO: Remove special logic when Azure UX supports OpenTelemetry dbSystem
     if (String(dbSystem) === DBSYSTEMVALUES_MYSQL) {
-      dependencyData.Type = DependencyTypes.mysql
+      dependencyData.Type = DependencyTypes.mysql;
     } else if (String(dbSystem) === DBSYSTEMVALUES_POSTGRESQL) {
       dependencyData.Type = DependencyTypes.postgresql;
     } else if (String(dbSystem) === DBSYSTEMVALUES_MONGODB) {
@@ -599,7 +599,7 @@ export function getMsFromFilterTimestampString(timestamp: string): number {
   const days = parseFloat(firstPart[0]);
 
   if (isNaN(days) || isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
-    throw NaN;
+    return NaN;
   }
 
   return seconds * 1000 + minutes * 60000 + hours * 3600000 + days * 86400000;

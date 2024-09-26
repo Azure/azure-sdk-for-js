@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 import * as assert from "assert";
 import {
   DerivedMetricInfo,
@@ -8,6 +9,7 @@ import {
   KnownPredicateType,
   KnownTelemetryType,
   RemoteDependency,
+  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Exception,
   Trace,

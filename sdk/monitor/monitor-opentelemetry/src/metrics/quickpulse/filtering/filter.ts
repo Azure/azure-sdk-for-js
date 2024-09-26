@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   DerivedMetricInfo,
@@ -14,7 +14,7 @@ import {
   ExceptionData,
   TraceData,
   KnownDependencyColumns,
-  KnownRequestColumns
+  KnownRequestColumns,
 } from "../types";
 import {
   isRequestData,
@@ -35,10 +35,7 @@ export class Filter {
     });
   }
 
-  public checkMetricFilters(
-    derivedMetricInfo: DerivedMetricInfo,
-    data: TelemetryData,
-  ): boolean {
+  public checkMetricFilters(derivedMetricInfo: DerivedMetricInfo, data: TelemetryData): boolean {
     if (derivedMetricInfo.filterGroups.length === 0) {
       // This should never happen - even when a user does not add filter pills to the derived metric,
       // the filterGroups array should have one filter group with an empty array of filters.

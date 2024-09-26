@@ -1,17 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  DerivedMetricInfo,
-  KnownAggregationType,
-} from "../../../generated";
+import { DerivedMetricInfo, KnownAggregationType } from "../../../generated";
 import { TelemetryData } from "../types";
-import {
-  isRequestData,
-  isDependencyData,
-} from "../utils";
+import { isRequestData, isDependencyData } from "../utils";
 import { MetricFailureToCreateError } from "./quickpulseErrors";
-
 
 export class Projection {
   // contains the projections for all the derived metrics. key id, value [metric value, aggregation type]
