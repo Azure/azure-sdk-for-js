@@ -605,7 +605,7 @@ function withSystemAssignedManagedIdentityCredential() {
 }
 ```
 
-In order to authenticate with a user-assigned managed identity, you must specify one of the following IDs for the managed identity:
+To authenticate with a user-assigned managed identity, specify one of the following IDs for the managed identity:
 
 ```ts
 /**
