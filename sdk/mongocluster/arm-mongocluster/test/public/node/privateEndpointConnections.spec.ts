@@ -62,18 +62,15 @@ describe("MongoCluster test", () => {
       {
         location,
         properties: {
-          administratorLogin: "mongoAdmin",
-          administratorLoginPassword: "SecureString;",
-          nodeGroupSpecs: [
-            {
-              diskSizeGB: 128,
-              enableHa: true,
-              kind: "Shard",
-              nodeCount: 1,
-              sku: "M30",
-            },
-          ],
+          administrator: {
+            userName: "mongoAdmin",
+            password: "SecureString;",
+          },
           serverVersion: "5.0",
+          storage: { sizeGb: 128 },
+          compute: { tier: "M30" },
+          sharding: { shardCount: 1 },
+          highAvailability: { targetMode: "Disabled" },
         },
       },
       testPollingOptions,

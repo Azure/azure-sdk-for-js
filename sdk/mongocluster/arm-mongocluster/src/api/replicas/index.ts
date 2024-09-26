@@ -81,26 +81,36 @@ export async function _replicasListByParentDeserialize(
                     sourceResourceId: p.properties?.replicaParameters?.["sourceResourceId"],
                     sourceLocation: p.properties?.replicaParameters?.["sourceLocation"],
                   },
-              administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              administrator: !p.properties?.administrator
+                ? undefined
+                : {
+                    userName: p.properties?.administrator?.["userName"],
+                    password: p.properties?.administrator?.["password"],
+                  },
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
-              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
               provisioningState: p.properties?.["provisioningState"],
               clusterStatus: p.properties?.["clusterStatus"],
               publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                p.properties?.["nodeGroupSpecs"] === undefined
-                  ? p.properties?.["nodeGroupSpecs"]
-                  : p.properties?.["nodeGroupSpecs"].map((p: any) => {
-                      return {
-                        sku: p["sku"],
-                        diskSizeGB: p["diskSizeGB"],
-                        enableHa: p["enableHa"],
-                        kind: p["kind"],
-                        nodeCount: p["nodeCount"],
-                      };
-                    }),
+              highAvailability: !p.properties?.highAvailability
+                ? undefined
+                : {
+                    targetMode: p.properties?.highAvailability?.["targetMode"],
+                  },
+              storage: !p.properties?.storage
+                ? undefined
+                : { sizeGb: p.properties?.storage?.["sizeGb"] },
+              sharding: !p.properties?.sharding
+                ? undefined
+                : { shardCount: p.properties?.sharding?.["shardCount"] },
+              compute: !p.properties?.compute
+                ? undefined
+                : { tier: p.properties?.compute?.["tier"] },
+              backup: !p.properties?.backup
+                ? undefined
+                : {
+                    earliestRestoreTime: p.properties?.backup?.["earliestRestoreTime"],
+                  },
               privateEndpointConnections:
                 p.properties?.["privateEndpointConnections"] === undefined
                   ? p.properties?.["privateEndpointConnections"]

@@ -4,6 +4,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 The Microsoft Azure management API provides create, read, update, and delete functionality for Azure Cosmos DB for MongoDB vCore resources including clusters and firewall rules.
 
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mongocluster) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview) |
 

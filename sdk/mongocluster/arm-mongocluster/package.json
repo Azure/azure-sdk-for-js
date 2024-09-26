@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-mongocluster",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0",
   "description": "A generated SDK for DocumentDBClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -74,7 +74,7 @@
     "rimraf": "^5.0.5",
     "mkdirp": "^3.0.1",
     "typescript": "~5.6.2",
-    "@azure/core-util": "^1.0.0",
+    "tshy": "^2.0.0",
     "@azure/identity": "^4.2.1",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",

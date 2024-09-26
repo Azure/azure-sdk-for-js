@@ -88,24 +88,28 @@ export interface MongoClusterProperties {
   restoreParameters?: MongoClusterRestoreParameters;
   /** The parameters to create a replica mongo cluster. */
   replicaParameters?: MongoClusterReplicaParameters;
-  /** The administrator's login for the mongo cluster. */
-  administratorLogin?: string;
-  /** The password of the administrator login. */
-  administratorLoginPassword?: string;
+  /** The local administrator properties for the mongo cluster. */
+  administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
   /** The default mongo connection string for the cluster. */
   readonly connectionString?: string;
-  /** Earliest restore timestamp in UTC ISO8601 format. */
-  readonly earliestRestoreTime?: string;
   /** The provisioning state of the mongo cluster. */
   readonly provisioningState?: ProvisioningState;
   /** The status of the mongo cluster. */
   readonly clusterStatus?: MongoClusterStatus;
   /** Whether or not public endpoint access is allowed for this mongo cluster. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** The list of node group specs in the cluster. */
-  nodeGroupSpecs?: NodeGroupSpec[];
+  /** The high availability properties of the mongo cluster. */
+  highAvailability?: HighAvailabilityProperties;
+  /** The storage properties of the mongo cluster. */
+  storage?: StorageProperties;
+  /** The sharding properties of the mongo cluster. */
+  sharding?: ShardingProperties;
+  /** The compute properties of the mongo cluster. */
+  compute?: ComputeProperties;
+  /** The backup properties of the mongo cluster. */
+  backup?: BackupProperties;
   /** List of private endpoint connections. */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** List of private endpoint connections. */
@@ -127,14 +131,18 @@ export function mongoClusterPropertiesSerializer(
     replicaParameters: !item.replicaParameters
       ? item.replicaParameters
       : mongoClusterReplicaParametersSerializer(item.replicaParameters),
-    administratorLogin: item["administratorLogin"],
-    administratorLoginPassword: item["administratorLoginPassword"],
+    administrator: !item.administrator
+      ? item.administrator
+      : administratorPropertiesSerializer(item.administrator),
     serverVersion: item["serverVersion"],
     publicNetworkAccess: item["publicNetworkAccess"],
-    nodeGroupSpecs:
-      item["nodeGroupSpecs"] === undefined
-        ? item["nodeGroupSpecs"]
-        : item["nodeGroupSpecs"].map(nodeGroupSpecSerializer),
+    highAvailability: !item.highAvailability
+      ? item.highAvailability
+      : highAvailabilityPropertiesSerializer(item.highAvailability),
+    storage: !item.storage ? item.storage : storagePropertiesSerializer(item.storage),
+    sharding: !item.sharding ? item.sharding : shardingPropertiesSerializer(item.sharding),
+    compute: !item.compute ? item.compute : computePropertiesSerializer(item.compute),
+    backup: !item.backup ? item.backup : backupPropertiesSerializer(item.backup),
     previewFeatures: item["previewFeatures"],
   };
 }
@@ -197,6 +205,23 @@ export function mongoClusterReplicaParametersSerializer(
   };
 }
 
+/** The local administrator login properties. */
+export interface AdministratorProperties {
+  /** The administrator user name. */
+  userName?: string;
+  /** The administrator password. */
+  password?: string;
+}
+
+export function administratorPropertiesSerializer(
+  item: AdministratorProperties,
+): Record<string, unknown> {
+  return {
+    userName: item["userName"],
+    password: item["password"],
+  };
+}
+
 /** Known values of {@link MongoClusterStatus} that the service accepts. */
 export enum KnownMongoClusterStatus {
   /** Ready */
@@ -248,44 +273,86 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
-/** Specification for a node group. */
-export interface NodeGroupSpec {
-  /** The resource sku for the node group. This defines the size of CPU and memory that is provisioned for each node. Example values: 'M30', 'M40'. */
-  sku?: string;
-  /** The disk storage size for the node group in GB. Example values: 128, 256, 512, 1024. */
-  diskSizeGB?: number;
-  /** Whether high availability is enabled on the node group. */
-  enableHa?: boolean;
-  /** The node type deployed in the node group. */
-  kind?: NodeKind;
-  /** The number of nodes in the node group. */
-  nodeCount?: number;
+/** The high availability properties of the cluster. */
+export interface HighAvailabilityProperties {
+  /** The target high availability mode requested for the cluster. */
+  targetMode?: HighAvailabilityMode;
 }
 
-export function nodeGroupSpecSerializer(item: NodeGroupSpec): Record<string, unknown> {
+export function highAvailabilityPropertiesSerializer(
+  item: HighAvailabilityProperties,
+): Record<string, unknown> {
   return {
-    sku: item["sku"],
-    diskSizeGB: item["diskSizeGB"],
-    enableHa: item["enableHa"],
-    kind: item["kind"],
-    nodeCount: item["nodeCount"],
+    targetMode: item["targetMode"],
   };
 }
 
-/** Known values of {@link NodeKind} that the service accepts. */
-export enum KnownNodeKind {
-  /** Shard */
-  Shard = "Shard",
+/** Known values of {@link HighAvailabilityMode} that the service accepts. */
+export enum KnownHighAvailabilityMode {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SameZone */
+  SameZone = "SameZone",
+  /** ZoneRedundantPreferred */
+  ZoneRedundantPreferred = "ZoneRedundantPreferred",
 }
 
 /**
- * The kind of the node on the cluster. \
- * {@link KnownNodeKind} can be used interchangeably with NodeKind,
+ * The high availability modes for a cluster. \
+ * {@link KnownHighAvailabilityMode} can be used interchangeably with HighAvailabilityMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Shard**
+ * **Disabled** \
+ * **SameZone** \
+ * **ZoneRedundantPreferred**
  */
-export type NodeKind = string;
+export type HighAvailabilityMode = string;
+
+/** The storage properties of the cluster. This includes the data storage size and scaling applied to servers in the cluster. */
+export interface StorageProperties {
+  /** The size of the data disk assigned to each server. */
+  sizeGb?: number;
+}
+
+export function storagePropertiesSerializer(item: StorageProperties): Record<string, unknown> {
+  return {
+    sizeGb: item["sizeGb"],
+  };
+}
+
+/** The sharding properties of the cluster. This includes the shard count and scaling options for the cluster. */
+export interface ShardingProperties {
+  /** Number of shards to provision on the cluster. */
+  shardCount?: number;
+}
+
+export function shardingPropertiesSerializer(item: ShardingProperties): Record<string, unknown> {
+  return {
+    shardCount: item["shardCount"],
+  };
+}
+
+/** The compute properties of the cluster. This includes the virtual-cores/memory and scaling options applied to servers in the cluster. */
+export interface ComputeProperties {
+  /** The compute tier to assign to the cluster, where each tier maps to a virtual-core and memory size. Example values: 'M30', 'M40'. */
+  tier?: string;
+}
+
+export function computePropertiesSerializer(item: ComputeProperties): Record<string, unknown> {
+  return {
+    tier: item["tier"],
+  };
+}
+
+/** The backup properties of the cluster. This includes the earliest restore time and retention settings. */
+export interface BackupProperties {
+  /** Earliest restore timestamp in UTC ISO8601 format. */
+  readonly earliestRestoreTime?: string;
+}
+
+export function backupPropertiesSerializer(item: BackupProperties) {
+  return item as any;
+}
 
 /** The private endpoint connection resource */
 export interface PrivateEndpointConnection extends Resource {
@@ -608,16 +675,22 @@ export function mongoClusterUpdateSerializer(item: MongoClusterUpdate): Record<s
 
 /** The updatable properties of the MongoCluster. */
 export interface MongoClusterUpdateProperties {
-  /** The administrator's login for the mongo cluster. */
-  administratorLogin?: string;
-  /** The password of the administrator login. */
-  administratorLoginPassword?: string;
+  /** The local administrator properties for the mongo cluster. */
+  administrator?: AdministratorProperties;
   /** The Mongo DB server version. Defaults to the latest available version if not specified. */
   serverVersion?: string;
   /** Whether or not public endpoint access is allowed for this mongo cluster. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** The list of node group specs in the cluster. */
-  nodeGroupSpecs?: NodeGroupSpec[];
+  /** The high availability properties of the mongo cluster. */
+  highAvailability?: HighAvailabilityProperties;
+  /** The storage properties of the mongo cluster. */
+  storage?: StorageProperties;
+  /** The sharding properties of the mongo cluster. */
+  sharding?: ShardingProperties;
+  /** The compute properties of the mongo cluster. */
+  compute?: ComputeProperties;
+  /** The backup properties of the mongo cluster. */
+  backup?: BackupProperties;
   /** List of private endpoint connections. */
   previewFeatures?: PreviewFeature[];
 }
@@ -626,14 +699,18 @@ export function mongoClusterUpdatePropertiesSerializer(
   item: MongoClusterUpdateProperties,
 ): Record<string, unknown> {
   return {
-    administratorLogin: item["administratorLogin"],
-    administratorLoginPassword: item["administratorLoginPassword"],
+    administrator: !item.administrator
+      ? item.administrator
+      : administratorPropertiesSerializer(item.administrator),
     serverVersion: item["serverVersion"],
     publicNetworkAccess: item["publicNetworkAccess"],
-    nodeGroupSpecs:
-      item["nodeGroupSpecs"] === undefined
-        ? item["nodeGroupSpecs"]
-        : item["nodeGroupSpecs"].map(nodeGroupSpecSerializer),
+    highAvailability: !item.highAvailability
+      ? item.highAvailability
+      : highAvailabilityPropertiesSerializer(item.highAvailability),
+    storage: !item.storage ? item.storage : storagePropertiesSerializer(item.storage),
+    sharding: !item.sharding ? item.sharding : shardingPropertiesSerializer(item.sharding),
+    compute: !item.compute ? item.compute : computePropertiesSerializer(item.compute),
+    backup: !item.backup ? item.backup : backupPropertiesSerializer(item.backup),
     previewFeatures: item["previewFeatures"],
   };
 }
@@ -658,6 +735,8 @@ export interface ConnectionString {
   readonly connectionString?: string;
   /** Description of the connection string */
   readonly description?: string;
+  /** Name of the connection string. */
+  readonly name?: string;
 }
 
 /** The check availability request body. */

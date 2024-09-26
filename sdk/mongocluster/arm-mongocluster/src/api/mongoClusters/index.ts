@@ -104,26 +104,36 @@ export async function _mongoClustersGetDeserialize(
                 sourceResourceId: result.body.properties?.replicaParameters?.["sourceResourceId"],
                 sourceLocation: result.body.properties?.replicaParameters?.["sourceLocation"],
               },
-          administratorLogin: result.body.properties?.["administratorLogin"],
-          administratorLoginPassword: result.body.properties?.["administratorLoginPassword"],
+          administrator: !result.body.properties?.administrator
+            ? undefined
+            : {
+                userName: result.body.properties?.administrator?.["userName"],
+                password: result.body.properties?.administrator?.["password"],
+              },
           serverVersion: result.body.properties?.["serverVersion"],
           connectionString: result.body.properties?.["connectionString"],
-          earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
           clusterStatus: result.body.properties?.["clusterStatus"],
           publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
-          nodeGroupSpecs:
-            result.body.properties?.["nodeGroupSpecs"] === undefined
-              ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p: any) => {
-                  return {
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  };
-                }),
+          highAvailability: !result.body.properties?.highAvailability
+            ? undefined
+            : {
+                targetMode: result.body.properties?.highAvailability?.["targetMode"],
+              },
+          storage: !result.body.properties?.storage
+            ? undefined
+            : { sizeGb: result.body.properties?.storage?.["sizeGb"] },
+          sharding: !result.body.properties?.sharding
+            ? undefined
+            : { shardCount: result.body.properties?.sharding?.["shardCount"] },
+          compute: !result.body.properties?.compute
+            ? undefined
+            : { tier: result.body.properties?.compute?.["tier"] },
+          backup: !result.body.properties?.backup
+            ? undefined
+            : {
+                earliestRestoreTime: result.body.properties?.backup?.["earliestRestoreTime"],
+              },
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
@@ -273,26 +283,36 @@ export async function _mongoClustersCreateOrUpdateDeserialize(
                 sourceResourceId: result.body.properties?.replicaParameters?.["sourceResourceId"],
                 sourceLocation: result.body.properties?.replicaParameters?.["sourceLocation"],
               },
-          administratorLogin: result.body.properties?.["administratorLogin"],
-          administratorLoginPassword: result.body.properties?.["administratorLoginPassword"],
+          administrator: !result.body.properties?.administrator
+            ? undefined
+            : {
+                userName: result.body.properties?.administrator?.["userName"],
+                password: result.body.properties?.administrator?.["password"],
+              },
           serverVersion: result.body.properties?.["serverVersion"],
           connectionString: result.body.properties?.["connectionString"],
-          earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
           clusterStatus: result.body.properties?.["clusterStatus"],
           publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
-          nodeGroupSpecs:
-            result.body.properties?.["nodeGroupSpecs"] === undefined
-              ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p: any) => {
-                  return {
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  };
-                }),
+          highAvailability: !result.body.properties?.highAvailability
+            ? undefined
+            : {
+                targetMode: result.body.properties?.highAvailability?.["targetMode"],
+              },
+          storage: !result.body.properties?.storage
+            ? undefined
+            : { sizeGb: result.body.properties?.storage?.["sizeGb"] },
+          sharding: !result.body.properties?.sharding
+            ? undefined
+            : { shardCount: result.body.properties?.sharding?.["shardCount"] },
+          compute: !result.body.properties?.compute
+            ? undefined
+            : { tier: result.body.properties?.compute?.["tier"] },
+          backup: !result.body.properties?.backup
+            ? undefined
+            : {
+                earliestRestoreTime: result.body.properties?.backup?.["earliestRestoreTime"],
+              },
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
@@ -448,26 +468,36 @@ export async function _mongoClustersUpdateDeserialize(
                 sourceResourceId: result.body.properties?.replicaParameters?.["sourceResourceId"],
                 sourceLocation: result.body.properties?.replicaParameters?.["sourceLocation"],
               },
-          administratorLogin: result.body.properties?.["administratorLogin"],
-          administratorLoginPassword: result.body.properties?.["administratorLoginPassword"],
+          administrator: !result.body.properties?.administrator
+            ? undefined
+            : {
+                userName: result.body.properties?.administrator?.["userName"],
+                password: result.body.properties?.administrator?.["password"],
+              },
           serverVersion: result.body.properties?.["serverVersion"],
           connectionString: result.body.properties?.["connectionString"],
-          earliestRestoreTime: result.body.properties?.["earliestRestoreTime"],
           provisioningState: result.body.properties?.["provisioningState"],
           clusterStatus: result.body.properties?.["clusterStatus"],
           publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
-          nodeGroupSpecs:
-            result.body.properties?.["nodeGroupSpecs"] === undefined
-              ? result.body.properties?.["nodeGroupSpecs"]
-              : result.body.properties?.["nodeGroupSpecs"].map((p: any) => {
-                  return {
-                    sku: p["sku"],
-                    diskSizeGB: p["diskSizeGB"],
-                    enableHa: p["enableHa"],
-                    kind: p["kind"],
-                    nodeCount: p["nodeCount"],
-                  };
-                }),
+          highAvailability: !result.body.properties?.highAvailability
+            ? undefined
+            : {
+                targetMode: result.body.properties?.highAvailability?.["targetMode"],
+              },
+          storage: !result.body.properties?.storage
+            ? undefined
+            : { sizeGb: result.body.properties?.storage?.["sizeGb"] },
+          sharding: !result.body.properties?.sharding
+            ? undefined
+            : { shardCount: result.body.properties?.sharding?.["shardCount"] },
+          compute: !result.body.properties?.compute
+            ? undefined
+            : { tier: result.body.properties?.compute?.["tier"] },
+          backup: !result.body.properties?.backup
+            ? undefined
+            : {
+                earliestRestoreTime: result.body.properties?.backup?.["earliestRestoreTime"],
+              },
           privateEndpointConnections:
             result.body.properties?.["privateEndpointConnections"] === undefined
               ? result.body.properties?.["privateEndpointConnections"]
@@ -667,26 +697,36 @@ export async function _mongoClustersListByResourceGroupDeserialize(
                     sourceResourceId: p.properties?.replicaParameters?.["sourceResourceId"],
                     sourceLocation: p.properties?.replicaParameters?.["sourceLocation"],
                   },
-              administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              administrator: !p.properties?.administrator
+                ? undefined
+                : {
+                    userName: p.properties?.administrator?.["userName"],
+                    password: p.properties?.administrator?.["password"],
+                  },
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
-              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
               provisioningState: p.properties?.["provisioningState"],
               clusterStatus: p.properties?.["clusterStatus"],
               publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                p.properties?.["nodeGroupSpecs"] === undefined
-                  ? p.properties?.["nodeGroupSpecs"]
-                  : p.properties?.["nodeGroupSpecs"].map((p: any) => {
-                      return {
-                        sku: p["sku"],
-                        diskSizeGB: p["diskSizeGB"],
-                        enableHa: p["enableHa"],
-                        kind: p["kind"],
-                        nodeCount: p["nodeCount"],
-                      };
-                    }),
+              highAvailability: !p.properties?.highAvailability
+                ? undefined
+                : {
+                    targetMode: p.properties?.highAvailability?.["targetMode"],
+                  },
+              storage: !p.properties?.storage
+                ? undefined
+                : { sizeGb: p.properties?.storage?.["sizeGb"] },
+              sharding: !p.properties?.sharding
+                ? undefined
+                : { shardCount: p.properties?.sharding?.["shardCount"] },
+              compute: !p.properties?.compute
+                ? undefined
+                : { tier: p.properties?.compute?.["tier"] },
+              backup: !p.properties?.backup
+                ? undefined
+                : {
+                    earliestRestoreTime: p.properties?.backup?.["earliestRestoreTime"],
+                  },
               privateEndpointConnections:
                 p.properties?.["privateEndpointConnections"] === undefined
                   ? p.properties?.["privateEndpointConnections"]
@@ -832,26 +872,36 @@ export async function _mongoClustersListDeserialize(
                     sourceResourceId: p.properties?.replicaParameters?.["sourceResourceId"],
                     sourceLocation: p.properties?.replicaParameters?.["sourceLocation"],
                   },
-              administratorLogin: p.properties?.["administratorLogin"],
-              administratorLoginPassword: p.properties?.["administratorLoginPassword"],
+              administrator: !p.properties?.administrator
+                ? undefined
+                : {
+                    userName: p.properties?.administrator?.["userName"],
+                    password: p.properties?.administrator?.["password"],
+                  },
               serverVersion: p.properties?.["serverVersion"],
               connectionString: p.properties?.["connectionString"],
-              earliestRestoreTime: p.properties?.["earliestRestoreTime"],
               provisioningState: p.properties?.["provisioningState"],
               clusterStatus: p.properties?.["clusterStatus"],
               publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-              nodeGroupSpecs:
-                p.properties?.["nodeGroupSpecs"] === undefined
-                  ? p.properties?.["nodeGroupSpecs"]
-                  : p.properties?.["nodeGroupSpecs"].map((p: any) => {
-                      return {
-                        sku: p["sku"],
-                        diskSizeGB: p["diskSizeGB"],
-                        enableHa: p["enableHa"],
-                        kind: p["kind"],
-                        nodeCount: p["nodeCount"],
-                      };
-                    }),
+              highAvailability: !p.properties?.highAvailability
+                ? undefined
+                : {
+                    targetMode: p.properties?.highAvailability?.["targetMode"],
+                  },
+              storage: !p.properties?.storage
+                ? undefined
+                : { sizeGb: p.properties?.storage?.["sizeGb"] },
+              sharding: !p.properties?.sharding
+                ? undefined
+                : { shardCount: p.properties?.sharding?.["shardCount"] },
+              compute: !p.properties?.compute
+                ? undefined
+                : { tier: p.properties?.compute?.["tier"] },
+              backup: !p.properties?.backup
+                ? undefined
+                : {
+                    earliestRestoreTime: p.properties?.backup?.["earliestRestoreTime"],
+                  },
               privateEndpointConnections:
                 p.properties?.["privateEndpointConnections"] === undefined
                   ? p.properties?.["privateEndpointConnections"]
@@ -964,6 +1014,7 @@ export async function _mongoClustersListConnectionStringsDeserialize(
             return {
               connectionString: p["connectionString"],
               description: p["description"],
+              name: p["name"],
             };
           }),
   };

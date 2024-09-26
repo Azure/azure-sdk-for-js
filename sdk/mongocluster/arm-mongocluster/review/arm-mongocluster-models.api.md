@@ -10,6 +10,17 @@ import { OperationOptions } from '@azure-rest/core-client';
 export type ActionType = string;
 
 // @public
+export interface AdministratorProperties {
+    password?: string;
+    userName?: string;
+}
+
+// @public
+export interface BackupProperties {
+    readonly earliestRestoreTime?: string;
+}
+
+// @public
 export type CheckNameAvailabilityReason = string;
 
 // @public
@@ -26,9 +37,15 @@ export interface CheckNameAvailabilityResponse {
 }
 
 // @public
+export interface ComputeProperties {
+    tier?: string;
+}
+
+// @public
 export interface ConnectionString {
     readonly connectionString?: string;
     readonly description?: string;
+    readonly name?: string;
 }
 
 // @public
@@ -68,6 +85,14 @@ export interface FirewallRulesListByMongoClusterOptionalParams extends Operation
 }
 
 // @public
+export type HighAvailabilityMode = string;
+
+// @public
+export interface HighAvailabilityProperties {
+    targetMode?: HighAvailabilityMode;
+}
+
+// @public
 export enum KnownActionType {
     Internal = "Internal"
 }
@@ -95,6 +120,13 @@ export enum KnownCreateMode {
 }
 
 // @public
+export enum KnownHighAvailabilityMode {
+    Disabled = "Disabled",
+    SameZone = "SameZone",
+    ZoneRedundantPreferred = "ZoneRedundantPreferred"
+}
+
+// @public
 export enum KnownMongoClusterStatus {
     Dropping = "Dropping",
     Provisioning = "Provisioning",
@@ -103,11 +135,6 @@ export enum KnownMongoClusterStatus {
     Stopped = "Stopped",
     Stopping = "Stopping",
     Updating = "Updating"
-}
-
-// @public
-export enum KnownNodeKind {
-    Shard = "Shard"
 }
 
 // @public
@@ -192,14 +219,14 @@ export interface MongoCluster extends TrackedResource {
 
 // @public
 export interface MongoClusterProperties {
-    administratorLogin?: string;
-    administratorLoginPassword?: string;
+    administrator?: AdministratorProperties;
+    backup?: BackupProperties;
     readonly clusterStatus?: MongoClusterStatus;
+    compute?: ComputeProperties;
     readonly connectionString?: string;
     createMode?: CreateMode;
-    readonly earliestRestoreTime?: string;
+    highAvailability?: HighAvailabilityProperties;
     readonly infrastructureVersion?: string;
-    nodeGroupSpecs?: NodeGroupSpec[];
     previewFeatures?: PreviewFeature[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -208,6 +235,8 @@ export interface MongoClusterProperties {
     replicaParameters?: MongoClusterReplicaParameters;
     restoreParameters?: MongoClusterRestoreParameters;
     serverVersion?: string;
+    sharding?: ShardingProperties;
+    storage?: StorageProperties;
 }
 
 // @public
@@ -273,25 +302,16 @@ export interface MongoClusterUpdate {
 
 // @public
 export interface MongoClusterUpdateProperties {
-    administratorLogin?: string;
-    administratorLoginPassword?: string;
-    nodeGroupSpecs?: NodeGroupSpec[];
+    administrator?: AdministratorProperties;
+    backup?: BackupProperties;
+    compute?: ComputeProperties;
+    highAvailability?: HighAvailabilityProperties;
     previewFeatures?: PreviewFeature[];
     publicNetworkAccess?: PublicNetworkAccess;
     serverVersion?: string;
+    sharding?: ShardingProperties;
+    storage?: StorageProperties;
 }
-
-// @public
-export interface NodeGroupSpec {
-    diskSizeGB?: number;
-    enableHa?: boolean;
-    kind?: NodeKind;
-    nodeCount?: number;
-    sku?: string;
-}
-
-// @public
-export type NodeKind = string;
 
 // @public
 export interface Operation {
@@ -440,6 +460,16 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface ShardingProperties {
+    shardCount?: number;
+}
+
+// @public
+export interface StorageProperties {
+    sizeGb?: number;
 }
 
 // @public
