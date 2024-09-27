@@ -17,7 +17,7 @@ export const commandInfo = makeCommandInfo(
       shortName: "o",
     },
     verbose: {
-      description: "the format of the output",
+      description: "generate a detailed report by package",
       kind: "boolean",
       default: false,
     },
@@ -142,23 +142,21 @@ function echoMigrationResult(category: string, result: MigrationResult, verbose:
 }
 
 function generateDetailedReport(category: string, result: MigrationResult): void {
-  console.log("## Detailed Report:");
-  const header = `| Package Name | Project Folder | Type | Migrated |`;
+  const header = `\n| Package Name | Project Folder | Type | Migrated to ESM |`;
   const separator = `| --- | --- | --- | --- |`;
 
   console.log(header);
   console.log(separator);
 
-  const allEntries = [...Object.entries(result.esm).map(f => [...f, "✅"]), ...Object.entries(result.cjs).map(f => [...f, "❌"])].sort((a, b) => )
+  const allEntries = [
+    ...Object.entries(result.esm).map((f) => [...f, "✅"]),
+    ...Object.entries(result.cjs).map((f) => [...f, "❌"]),
+  ].sort((a, b) => a[0].localeCompare(b[0]));
 
-
-
-  for (const [packageName, projectFolder] of Object.entries(result.esm)) {
-    console.log(`| ${packageName} | ${projectFolder} | ${category} | ✅ |`);
+  for (const [packageName, projectFolder, migrated] of allEntries) {
+    console.log(`| ${packageName} | ${projectFolder} | ${category} | ${migrated} |`);
   }
-  for (const [packageName, projectFolder] of Object.entries(result.cjs)) {
-    console.log(`| ${packageName} | ${projectFolder} | ${category} | ❌ |`);
-  }
+
   console.log();
 }
 
