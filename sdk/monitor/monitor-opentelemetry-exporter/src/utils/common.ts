@@ -258,12 +258,18 @@ export function createResourceMetricEnvelope(
 
 export function serializeAttribute(value: AnyValue): string {
   if (typeof value === "object") {
-    if (value instanceof Uint8Array) {
+    if (value instanceof Error) {
+      try {
+        return JSON.stringify(value, Object.getOwnPropertyNames(value));
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
+    } else if (value instanceof Uint8Array) {
       return String(value);
     } else {
       try {
-        // Should handle Error objects as well
-        return JSON.stringify(value, Object.getOwnPropertyNames(value));
+        return JSON.stringify(value);
       } catch (err: unknown) {
         // Failed to serialize, return string cast
         return String(value);
