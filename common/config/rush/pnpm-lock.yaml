@@ -335,6 +335,9 @@ dependencies:
   '@rush-temp/arm-extendedlocation':
     specifier: file:./projects/arm-extendedlocation.tgz
     version: file:projects/arm-extendedlocation.tgz
+  '@rush-temp/arm-fabric':
+    specifier: file:./projects/arm-fabric.tgz
+    version: file:projects/arm-fabric.tgz
   '@rush-temp/arm-features':
     specifier: file:./projects/arm-features.tgz
     version: file:projects/arm-features.tgz
@@ -3888,7 +3891,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.50
+      '@types/node': 22.5.5
     dev: false
 
   /@types/debug@4.1.12:
@@ -3977,7 +3980,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.50
+      '@types/node': 22.5.5
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4120,7 +4123,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.50
+      '@types/node': 22.5.5
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4234,7 +4237,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.50
+      '@types/node': 22.5.5
     dev: false
     optional: true
 
@@ -15250,6 +15253,47 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+    dev: false
+
+  file:projects/arm-fabric.tgz:
+    resolution: {integrity: sha512-z/L7iOtkj5NHCtLf5mD3zHqdAEGkrkoCPi6xM7p1QmrmSdT8DIlXyKN2/7g5zklySQDnFi6oN+ss1MJ11X1e7A==, tarball: file:projects/arm-fabric.tgz}
+    name: '@rush-temp/arm-fabric'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
+      '@types/node': 18.19.50
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
+      '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      playwright: 1.47.2
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.5.4
+      vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-features.tgz:
