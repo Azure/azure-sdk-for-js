@@ -15,8 +15,9 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
   AZURE_AAD_COMPLETIONS_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/gpt-4o/",
-  AZURE_EMBEDDINGS_ENDPOINT: "https://endpoint.openai.azure.com/openai/deployments/text-embedding-3-small/",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  AZURE_EMBEDDINGS_ENDPOINT:
+    "https://endpoint.openai.azure.com/openai/deployments/text-embedding-3-small/",
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
@@ -51,6 +52,13 @@ export async function createModelClient(
   recorder?: Recorder,
   options?: ClientOptions,
 ): Promise<ModelClient> {
-  const credential = resourceType === "dummy" ? new AzureKeyCredential("foo") : createTestCredential()
-  return createClient(getEndpointFromResourceType(resourceType), credential, recorder?.configureClientOptions(options ?? { credentials: { scopes: ["https://cognitiveservices.azure.com/.default"] } }));
+  const credential =
+    resourceType === "dummy" ? new AzureKeyCredential("foo") : createTestCredential();
+  return createClient(
+    getEndpointFromResourceType(resourceType),
+    credential,
+    recorder?.configureClientOptions(
+      options ?? { credentials: { scopes: ["https://cognitiveservices.azure.com/.default"] } },
+    ),
+  );
 }

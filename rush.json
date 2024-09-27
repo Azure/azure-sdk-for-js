@@ -2281,6 +2281,11 @@
       "packageName": "@azure/arm-computeschedule",
       "projectFolder": "sdk/computeschedule/arm-computeschedule",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-fabric",
+      "projectFolder": "sdk/fabric/arm-fabric",
+      "versionPolicyName": "management"
     }
   ]
 }

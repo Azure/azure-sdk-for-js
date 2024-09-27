@@ -214,15 +214,18 @@ export default leafCommand(commandInfo, async () => {
     // normal extraction
     succeed = extractApi(extractorConfigObject, apiExtractorJsonPath, packageJsonPath);
   }
-  const reportTempDir = path.join(projectInfo.path, "temp");
-  const unscopedPackageName = projectInfo.name.split("/")[1];
 
-  await buildMergedApiJson(
-    unscopedPackageName,
-    reportTempDir,
-    exports,
-    packageJson["dependencies"],
-  );
+  if (extractorConfigObject.docModel?.enabled) {
+    const reportTempDir = path.join(projectInfo.path, "temp");
+    const unscopedPackageName = projectInfo.name.split("/")[1];
+
+    await buildMergedApiJson(
+      unscopedPackageName,
+      reportTempDir,
+      exports,
+      packageJson["dependencies"],
+    );
+  }
 
   return succeed;
 });

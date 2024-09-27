@@ -18,6 +18,7 @@ export default subCommand(commandInfo, {
   typecheck: () => import("./typecheck"),
   "start-browser-relay": () => import("./startBrowserRelay"),
   "update-snippets": () => import("./update-snippets"),
+  "build-package": () => import("./build-package"),
 
   // "vendored" is a special command that passes through execution to dev-tool's own commands
   vendored: () => import("./vendored"),
