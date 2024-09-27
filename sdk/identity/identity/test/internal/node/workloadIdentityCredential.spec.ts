@@ -92,7 +92,7 @@ describe("WorkloadIdentityCredential", function () {
           clientId,
           tenantId,
           tokenFilePath,
-        }
+        },
       );
     } catch (e) {
       console.log(e);
@@ -117,7 +117,7 @@ describe("WorkloadIdentityCredential", function () {
           clientId: "workloadIdentityClientId",
           tenantId,
           tokenFilePath,
-        }
+        },
       );
     } catch (e) {
       console.log(e);
@@ -130,7 +130,7 @@ describe("WorkloadIdentityCredential", function () {
 function validateWorkloadIdentityCredential(
   credential: WorkloadIdentityCredential,
   token: AccessToken,
-  options: { clientId: string; tenantId: string; tokenFilePath: string }
+  options: { clientId: string; tenantId: string; tokenFilePath: string },
 ): void {
   const { tenantId: expectedTenantId, tokenFilePath: expectedFederatedTokenFilePath } = options;
   const actualFederatedTokenFilePath = credential["federatedTokenFilePath"];
