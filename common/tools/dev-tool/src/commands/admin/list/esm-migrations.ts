@@ -4,6 +4,7 @@
 import { leafCommand, makeCommandInfo } from "../../../framework/command";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolveRoot } from "../../../util/resolveProject";
+import os from "node:os";
 import path from "node:path";
 import stripJsonComments from "strip-json-comments";
 
@@ -123,6 +124,7 @@ function setMigrationResult(
 
 function echoMigrationResult(category: string, result: MigrationResult, verbose: boolean): void {
   console.log(`## Category: ${category}`);
+  console.log();
   console.log(`- Total projects: ${result.totalProjects}`);
   console.log(`- Total CJS: ${result.totalCjs}`);
   console.log(`- Total ESM: ${result.totalEsm}`);
@@ -142,7 +144,7 @@ function echoMigrationResult(category: string, result: MigrationResult, verbose:
 }
 
 function generateDetailedReport(category: string, result: MigrationResult): void {
-  const header = `\n| Package Name | Project Folder | Type | Migrated to ESM |`;
+  const header = `${os.EOL}| Package Name | Project Folder | Type | Migrated to ESM |`;
   const separator = `| --- | --- | --- | --- |`;
 
   console.log(header);
@@ -156,8 +158,6 @@ function generateDetailedReport(category: string, result: MigrationResult): void
   for (const [packageName, projectFolder, migrated] of allEntries) {
     console.log(`| ${packageName} | ${projectFolder} | ${category} | ${migrated} |`);
   }
-
-  console.log();
 }
 
 export default leafCommand(commandInfo, async ({ output, verbose }) => {
@@ -206,16 +206,17 @@ export default leafCommand(commandInfo, async ({ output, verbose }) => {
     await writeFile(outputPath, JSON.stringify(results, null, 2));
   }
 
+  console.log(`# Migration report${os.EOL}`);
   echoMigrationResult("core", results.core, verbose);
-  console.log(`\n---------------------------------\n`);
+  console.log(`${os.EOL}---------------------------------${os.EOL}`);
   echoMigrationResult("management", results.management, verbose);
-  console.log(`\n---------------------------------\n`);
+  console.log(`${os.EOL}---------------------------------${os.EOL}`);
   echoMigrationResult("client", results.client, verbose);
-  console.log(`\n---------------------------------\n`);
+  console.log(`${os.EOL}---------------------------------${os.EOL}`);
   echoMigrationResult("utility", results.utility, verbose);
-  console.log(`\n---------------------------------\n`);
+  console.log(`${os.EOL}---------------------------------${os.EOL}`);
   echoMigrationResult("test", results.test, verbose);
-  console.log(`\n---------------------------------\n`);
+  console.log(`${os.EOL}---------------------------------${os.EOL}`);
 
   return true;
 });
