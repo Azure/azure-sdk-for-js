@@ -484,6 +484,7 @@ export interface ApplicationGatewayFirewallRule {
     description?: string;
     ruleId: number;
     ruleIdString?: string;
+    sensitivity?: ApplicationGatewayWafRuleSensitivityTypes;
     state?: ApplicationGatewayWafRuleStateTypes;
 }
 
@@ -505,6 +506,11 @@ export interface ApplicationGatewayFirewallRuleSet extends Resource {
 
 // @public
 export type ApplicationGatewayFirewallUserSessionVariable = string;
+
+// @public
+export interface ApplicationGatewayForContainersReferenceDefinition {
+    id: string;
+}
 
 // @public
 export interface ApplicationGatewayFrontendIPConfiguration extends SubResource {
@@ -1214,6 +1220,9 @@ export type ApplicationGatewayWafDynamicManifestsGetResponse = ApplicationGatewa
 export type ApplicationGatewayWafRuleActionTypes = string;
 
 // @public
+export type ApplicationGatewayWafRuleSensitivityTypes = string;
+
+// @public
 export type ApplicationGatewayWafRuleStateTypes = string;
 
 // @public
@@ -1577,6 +1586,7 @@ export interface AzureFirewall extends Resource {
         [propertyName: string]: string;
     };
     applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
+    autoscaleConfiguration?: AzureFirewallAutoscaleConfiguration;
     readonly etag?: string;
     firewallPolicy?: SubResource;
     hubIPAddresses?: HubIPAddresses;
@@ -1621,6 +1631,12 @@ export interface AzureFirewallApplicationRuleProtocol {
 
 // @public
 export type AzureFirewallApplicationRuleProtocolType = string;
+
+// @public
+export interface AzureFirewallAutoscaleConfiguration {
+    maxCapacity?: number;
+    minCapacity?: number;
+}
 
 // @public
 export interface AzureFirewallFqdnTag extends Resource {
@@ -2278,6 +2294,7 @@ export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserass
 export interface ConfigurationGroup {
     description?: string;
     id?: string;
+    memberType?: GroupMemberType;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
 }
@@ -2617,6 +2634,19 @@ export interface ConnectionResetSharedKey {
 // @public
 export interface ConnectionSharedKey extends SubResource {
     value: string;
+}
+
+// @public
+export interface ConnectionSharedKeyResult extends SubResource {
+    name?: string;
+    properties?: SharedKeyProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface ConnectionSharedKeyResultList {
+    nextLink?: string;
+    value?: ConnectionSharedKeyResult[];
 }
 
 // @public
@@ -3206,6 +3236,9 @@ export interface Dimension {
 export type Direction = string;
 
 // @public
+export type DisableBgpRoutePropagation = string;
+
+// @public
 export interface DisconnectActiveSessionsNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -3507,6 +3540,25 @@ export interface EvaluatedNetworkSecurityGroup {
 
 // @public
 export type EvaluationState = string;
+
+// @public
+export interface ExceptionEntry {
+    exceptionManagedRuleSets?: ExclusionManagedRuleSet[];
+    matchVariable: ExceptionEntryMatchVariable;
+    selector?: string;
+    selectorMatchOperator?: ExceptionEntrySelectorMatchOperator;
+    valueMatchOperator: ExceptionEntryValueMatchOperator;
+    values?: string[];
+}
+
+// @public
+export type ExceptionEntryMatchVariable = string;
+
+// @public
+export type ExceptionEntrySelectorMatchOperator = string;
+
+// @public
+export type ExceptionEntryValueMatchOperator = string;
 
 // @public
 export interface ExclusionManagedRule {
@@ -5240,6 +5292,7 @@ export interface FirewallPolicyTransportSecurity {
 // @public
 export interface FlowLog extends Resource {
     enabled?: boolean;
+    enabledFilteringCriteria?: string;
     readonly etag?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
@@ -5263,6 +5316,7 @@ export type FlowLogFormatType = string;
 // @public
 export interface FlowLogInformation {
     enabled: boolean;
+    enabledFilteringCriteria?: string;
     flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
     format?: FlowLogFormatParameters;
     identity?: ManagedServiceIdentity;
@@ -5477,6 +5531,9 @@ export interface GroupByVariable {
 
 // @public
 export type GroupConnectivity = string;
+
+// @public
+export type GroupMemberType = string;
 
 // @public
 export interface HeaderValueMatcher {
@@ -5898,6 +5955,11 @@ export interface IpAllocationsCreateOrUpdateOptionalParams extends coreClient.Op
 
 // @public
 export type IpAllocationsCreateOrUpdateResponse = IpAllocation;
+
+// @public
+export interface IpAllocationsDeleteHeaders {
+    location?: string;
+}
 
 // @public
 export interface IpAllocationsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -6360,6 +6422,14 @@ export enum KnownApplicationGatewayWafRuleActionTypes {
 }
 
 // @public
+export enum KnownApplicationGatewayWafRuleSensitivityTypes {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium",
+    None = "None"
+}
+
+// @public
 export enum KnownApplicationGatewayWafRuleStateTypes {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -6491,7 +6561,9 @@ export enum KnownCommissionedState {
 // @public
 export enum KnownConfigurationType {
     Connectivity = "Connectivity",
-    SecurityAdmin = "SecurityAdmin"
+    Routing = "Routing",
+    SecurityAdmin = "SecurityAdmin",
+    SecurityUser = "SecurityUser"
 }
 
 // @public
@@ -6622,6 +6694,12 @@ export enum KnownDirection {
 }
 
 // @public
+export enum KnownDisableBgpRoutePropagation {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownEffectiveAdminRuleKind {
     Custom = "Custom",
     Default = "Default"
@@ -6666,6 +6744,30 @@ export enum KnownEvaluationState {
     Completed = "Completed",
     InProgress = "InProgress",
     NotStarted = "NotStarted"
+}
+
+// @public
+export enum KnownExceptionEntryMatchVariable {
+    RemoteAddr = "RemoteAddr",
+    RequestHeader = "RequestHeader",
+    RequestURI = "RequestURI"
+}
+
+// @public
+export enum KnownExceptionEntrySelectorMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    StartsWith = "StartsWith"
+}
+
+// @public
+export enum KnownExceptionEntryValueMatchOperator {
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equals = "Equals",
+    IPMatch = "IPMatch",
+    StartsWith = "StartsWith"
 }
 
 // @public
@@ -6868,6 +6970,12 @@ export enum KnownGeo {
 export enum KnownGroupConnectivity {
     DirectlyConnected = "DirectlyConnected",
     None = "None"
+}
+
+// @public
+export enum KnownGroupMemberType {
+    Subnet = "Subnet",
+    VirtualNetwork = "VirtualNetwork"
 }
 
 // @public
@@ -7224,6 +7332,12 @@ export enum KnownPreferredRoutingGateway {
 }
 
 // @public
+export enum KnownPrivateEndpointVNetPolicies {
+    Basic = "Basic",
+    Disabled = "Disabled"
+}
+
+// @public
 export enum KnownProbeNoHealthyBackendsBehavior {
     AllProbedDown = "AllProbedDown",
     AllProbedUp = "AllProbedUp"
@@ -7304,6 +7418,12 @@ export enum KnownPublicIPPrefixSkuTier {
 }
 
 // @public
+export enum KnownResiliencyModel {
+    MultiHomed = "MultiHomed",
+    SingleHomed = "SingleHomed"
+}
+
+// @public
 export enum KnownRouteFilterRuleType {
     Community = "Community"
 }
@@ -7330,6 +7450,21 @@ export enum KnownRouteMapMatchCondition {
 export enum KnownRouteNextHopType {
     Internet = "Internet",
     None = "None",
+    VirtualAppliance = "VirtualAppliance",
+    VirtualNetworkGateway = "VirtualNetworkGateway",
+    VnetLocal = "VnetLocal"
+}
+
+// @public
+export enum KnownRoutingRuleDestinationType {
+    AddressPrefix = "AddressPrefix",
+    ServiceTag = "ServiceTag"
+}
+
+// @public
+export enum KnownRoutingRuleNextHopType {
+    Internet = "Internet",
+    NoNextHop = "NoNextHop",
     VirtualAppliance = "VirtualAppliance",
     VirtualNetworkGateway = "VirtualNetworkGateway",
     VnetLocal = "VnetLocal"
@@ -7432,6 +7567,14 @@ export enum KnownSecurityRuleProtocol {
     Icmp = "Icmp",
     Tcp = "Tcp",
     Udp = "Udp"
+}
+
+// @public
+export enum KnownSensitivityType {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium",
+    None = "None"
 }
 
 // @public
@@ -8404,11 +8547,13 @@ export interface ManagedRuleGroupOverride {
 export interface ManagedRuleOverride {
     action?: ActionType;
     ruleId: string;
+    sensitivity?: SensitivityType;
     state?: ManagedRuleEnabledState;
 }
 
 // @public
 export interface ManagedRulesDefinition {
+    exceptions?: ExceptionEntry[];
     exclusions?: OwaspCrsExclusionEntry[];
     managedRuleSets: ManagedRuleSet[];
 }
@@ -8714,6 +8859,7 @@ export interface NetworkConfigurationDiagnosticResult {
 // @public
 export interface NetworkGroup extends ChildResource {
     description?: string;
+    memberType?: GroupMemberType;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
     readonly systemData?: SystemData;
@@ -9367,6 +9513,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     networkManagerDeploymentStatusOperations: NetworkManagerDeploymentStatusOperations;
     // (undocumented)
+    networkManagerRoutingConfigurations: NetworkManagerRoutingConfigurations;
+    // (undocumented)
     networkManagers: NetworkManagers;
     // (undocumented)
     networkProfiles: NetworkProfiles;
@@ -9411,6 +9559,10 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     routingIntentOperations: RoutingIntentOperations;
     // (undocumented)
+    routingRuleCollections: RoutingRuleCollections;
+    // (undocumented)
+    routingRules: RoutingRules;
+    // (undocumented)
     scopeConnections: ScopeConnections;
     // (undocumented)
     securityAdminConfigurations: SecurityAdminConfigurations;
@@ -9418,6 +9570,12 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     securityPartnerProviders: SecurityPartnerProviders;
     // (undocumented)
     securityRules: SecurityRules;
+    // (undocumented)
+    securityUserConfigurations: SecurityUserConfigurations;
+    // (undocumented)
+    securityUserRuleCollections: SecurityUserRuleCollections;
+    // (undocumented)
+    securityUserRules: SecurityUserRules;
     // (undocumented)
     serviceAssociationLinks: ServiceAssociationLinks;
     // (undocumented)
@@ -9621,6 +9779,76 @@ export interface NetworkManagerPropertiesNetworkManagerScopes {
     readonly crossTenantScopes?: CrossTenantScopes[];
     managementGroups?: string[];
     subscriptions?: string[];
+}
+
+// @public
+export interface NetworkManagerRoutingConfiguration extends ChildResource {
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface NetworkManagerRoutingConfigurationListResult {
+    nextLink?: string;
+    value?: NetworkManagerRoutingConfiguration[];
+}
+
+// @public
+export interface NetworkManagerRoutingConfigurations {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: NetworkManagerRoutingConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: NetworkManagerRoutingConfigurationsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, routingConfiguration: NetworkManagerRoutingConfiguration, options?: NetworkManagerRoutingConfigurationsCreateOrUpdateOptionalParams): Promise<NetworkManagerRoutingConfigurationsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: NetworkManagerRoutingConfigurationsGetOptionalParams): Promise<NetworkManagerRoutingConfigurationsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, options?: NetworkManagerRoutingConfigurationsListOptionalParams): PagedAsyncIterableIterator<NetworkManagerRoutingConfiguration>;
+}
+
+// @public
+export interface NetworkManagerRoutingConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagerRoutingConfigurationsCreateOrUpdateResponse = NetworkManagerRoutingConfiguration;
+
+// @public
+export interface NetworkManagerRoutingConfigurationsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkManagerRoutingConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkManagerRoutingConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagerRoutingConfigurationsGetResponse = NetworkManagerRoutingConfiguration;
+
+// @public
+export interface NetworkManagerRoutingConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagerRoutingConfigurationsListNextResponse = NetworkManagerRoutingConfigurationListResult;
+
+// @public
+export interface NetworkManagerRoutingConfigurationsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkManagerRoutingConfigurationsListResponse = NetworkManagerRoutingConfigurationListResult;
+
+// @public
+export interface NetworkManagerRoutingGroupItem {
+    networkGroupId: string;
 }
 
 // @public
@@ -11121,9 +11349,13 @@ export interface PrivateEndpointsListOptionalParams extends coreClient.Operation
 export type PrivateEndpointsListResponse = PrivateEndpointListResult;
 
 // @public
+export type PrivateEndpointVNetPolicies = string;
+
+// @public
 export interface PrivateLinkService extends Resource {
     readonly alias?: string;
     autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+    destinationIPAddress?: string;
     enableProxyProtocol?: boolean;
     readonly etag?: string;
     extendedLocation?: ExtendedLocation;
@@ -11808,6 +12040,9 @@ export interface ReferencedPublicIpAddress {
 }
 
 // @public
+export type ResiliencyModel = string;
+
+// @public
 export interface Resource {
     id?: string;
     location?: string;
@@ -11864,7 +12099,7 @@ export interface RetentionPolicyParameters {
 export interface Route extends SubResource {
     addressPrefix?: string;
     readonly etag?: string;
-    hasBgpOverride?: boolean;
+    readonly hasBgpOverride?: boolean;
     name?: string;
     nextHopIpAddress?: string;
     nextHopType?: RouteNextHopType;
@@ -12319,6 +12554,158 @@ export interface RoutingPolicy {
 }
 
 // @public
+export interface RoutingRule extends ChildResource {
+    description?: string;
+    destination?: RoutingRuleRouteDestination;
+    nextHop?: RoutingRuleNextHop;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface RoutingRuleCollection extends ChildResource {
+    appliesTo?: NetworkManagerRoutingGroupItem[];
+    description?: string;
+    disableBgpRoutePropagation?: DisableBgpRoutePropagation;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface RoutingRuleCollectionListResult {
+    nextLink?: string;
+    value?: RoutingRuleCollection[];
+}
+
+// @public
+export interface RoutingRuleCollections {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: RoutingRuleCollectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: RoutingRuleCollectionsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleCollection: RoutingRuleCollection, options?: RoutingRuleCollectionsCreateOrUpdateOptionalParams): Promise<RoutingRuleCollectionsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: RoutingRuleCollectionsGetOptionalParams): Promise<RoutingRuleCollectionsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: RoutingRuleCollectionsListOptionalParams): PagedAsyncIterableIterator<RoutingRuleCollection>;
+}
+
+// @public
+export interface RoutingRuleCollectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingRuleCollectionsCreateOrUpdateResponse = RoutingRuleCollection;
+
+// @public
+export interface RoutingRuleCollectionsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface RoutingRuleCollectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RoutingRuleCollectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingRuleCollectionsGetResponse = RoutingRuleCollection;
+
+// @public
+export interface RoutingRuleCollectionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingRuleCollectionsListNextResponse = RoutingRuleCollectionListResult;
+
+// @public
+export interface RoutingRuleCollectionsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type RoutingRuleCollectionsListResponse = RoutingRuleCollectionListResult;
+
+// @public
+export type RoutingRuleDestinationType = string;
+
+// @public
+export interface RoutingRuleListResult {
+    nextLink?: string;
+    value?: RoutingRule[];
+}
+
+// @public
+export interface RoutingRuleNextHop {
+    nextHopAddress?: string;
+    nextHopType: RoutingRuleNextHopType;
+}
+
+// @public
+export type RoutingRuleNextHopType = string;
+
+// @public
+export interface RoutingRuleRouteDestination {
+    destinationAddress: string;
+    type: RoutingRuleDestinationType;
+}
+
+// @public
+export interface RoutingRules {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: RoutingRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: RoutingRulesDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, routingRule: RoutingRule, options?: RoutingRulesCreateOrUpdateOptionalParams): Promise<RoutingRulesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: RoutingRulesGetOptionalParams): Promise<RoutingRulesGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: RoutingRulesListOptionalParams): PagedAsyncIterableIterator<RoutingRule>;
+}
+
+// @public
+export interface RoutingRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingRulesCreateOrUpdateResponse = RoutingRule;
+
+// @public
+export interface RoutingRulesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface RoutingRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RoutingRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingRulesGetResponse = RoutingRule;
+
+// @public
+export interface RoutingRulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoutingRulesListNextResponse = RoutingRuleListResult;
+
+// @public
+export interface RoutingRulesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type RoutingRulesListResponse = RoutingRuleListResult;
+
+// @public
 export type RoutingState = string;
 
 // @public
@@ -12664,6 +13051,216 @@ export interface SecurityRulesListOptionalParams extends coreClient.OperationOpt
 export type SecurityRulesListResponse = SecurityRuleListResult;
 
 // @public
+export interface SecurityUserConfiguration extends ChildResource {
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface SecurityUserConfigurationListResult {
+    nextLink?: string;
+    value?: SecurityUserConfiguration[];
+}
+
+// @public
+export interface SecurityUserConfigurations {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityUserConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityUserConfigurationsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, securityUserConfiguration: SecurityUserConfiguration, options?: SecurityUserConfigurationsCreateOrUpdateOptionalParams): Promise<SecurityUserConfigurationsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityUserConfigurationsGetOptionalParams): Promise<SecurityUserConfigurationsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, options?: SecurityUserConfigurationsListOptionalParams): PagedAsyncIterableIterator<SecurityUserConfiguration>;
+}
+
+// @public
+export interface SecurityUserConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserConfigurationsCreateOrUpdateResponse = SecurityUserConfiguration;
+
+// @public
+export interface SecurityUserConfigurationsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface SecurityUserConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SecurityUserConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserConfigurationsGetResponse = SecurityUserConfiguration;
+
+// @public
+export interface SecurityUserConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserConfigurationsListNextResponse = SecurityUserConfigurationListResult;
+
+// @public
+export interface SecurityUserConfigurationsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SecurityUserConfigurationsListResponse = SecurityUserConfigurationListResult;
+
+// @public
+export interface SecurityUserGroupItem {
+    networkGroupId: string;
+}
+
+// @public
+export interface SecurityUserRule extends ChildResource {
+    description?: string;
+    destinationPortRanges?: string[];
+    destinations?: AddressPrefixItem[];
+    direction?: SecurityConfigurationRuleDirection;
+    protocol?: SecurityConfigurationRuleProtocol;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    sourcePortRanges?: string[];
+    sources?: AddressPrefixItem[];
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface SecurityUserRuleCollection extends ChildResource {
+    appliesToGroups?: SecurityUserGroupItem[];
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly resourceGuid?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface SecurityUserRuleCollectionListResult {
+    nextLink?: string;
+    value?: SecurityUserRuleCollection[];
+}
+
+// @public
+export interface SecurityUserRuleCollections {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: SecurityUserRuleCollectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: SecurityUserRuleCollectionsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, securityUserRuleCollection: SecurityUserRuleCollection, options?: SecurityUserRuleCollectionsCreateOrUpdateOptionalParams): Promise<SecurityUserRuleCollectionsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: SecurityUserRuleCollectionsGetOptionalParams): Promise<SecurityUserRuleCollectionsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityUserRuleCollectionsListOptionalParams): PagedAsyncIterableIterator<SecurityUserRuleCollection>;
+}
+
+// @public
+export interface SecurityUserRuleCollectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserRuleCollectionsCreateOrUpdateResponse = SecurityUserRuleCollection;
+
+// @public
+export interface SecurityUserRuleCollectionsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface SecurityUserRuleCollectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SecurityUserRuleCollectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserRuleCollectionsGetResponse = SecurityUserRuleCollection;
+
+// @public
+export interface SecurityUserRuleCollectionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserRuleCollectionsListNextResponse = SecurityUserRuleCollectionListResult;
+
+// @public
+export interface SecurityUserRuleCollectionsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SecurityUserRuleCollectionsListResponse = SecurityUserRuleCollectionListResult;
+
+// @public
+export interface SecurityUserRuleListResult {
+    nextLink?: string;
+    value?: SecurityUserRule[];
+}
+
+// @public
+export interface SecurityUserRules {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: SecurityUserRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: SecurityUserRulesDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, securityUserRule: SecurityUserRule, options?: SecurityUserRulesCreateOrUpdateOptionalParams): Promise<SecurityUserRulesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: SecurityUserRulesGetOptionalParams): Promise<SecurityUserRulesGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: SecurityUserRulesListOptionalParams): PagedAsyncIterableIterator<SecurityUserRule>;
+}
+
+// @public
+export interface SecurityUserRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserRulesCreateOrUpdateResponse = SecurityUserRule;
+
+// @public
+export interface SecurityUserRulesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface SecurityUserRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SecurityUserRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserRulesGetResponse = SecurityUserRule;
+
+// @public
+export interface SecurityUserRulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityUserRulesListNextResponse = SecurityUserRuleListResult;
+
+// @public
+export interface SecurityUserRulesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SecurityUserRulesListResponse = SecurityUserRuleListResult;
+
+// @public
+export type SensitivityType = string;
+
+// @public
 export interface ServiceAssociationLink extends SubResource {
     allowDelete?: boolean;
     readonly etag?: string;
@@ -12929,6 +13526,13 @@ export interface SessionIds {
 
 // @public
 export type Severity = string;
+
+// @public
+export interface SharedKeyProperties {
+    readonly provisioningState?: ProvisioningState;
+    sharedKey?: string;
+    sharedKeyLength?: number;
+}
 
 // @public
 export type SharingScope = string;
@@ -13939,6 +14543,7 @@ export interface VirtualNetwork extends Resource {
     readonly flowLogs?: FlowLog[];
     flowTimeoutInMinutes?: number;
     ipAllocations?: SubResource[];
+    privateEndpointVNetPolicies?: PrivateEndpointVNetPolicies;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
     subnets?: Subnet[];
@@ -13994,6 +14599,7 @@ export interface VirtualNetworkGateway extends Resource {
     ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
     natRules?: VirtualNetworkGatewayNatRule[];
     readonly provisioningState?: ProvisioningState;
+    resiliencyModel?: ResiliencyModel;
     readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
     virtualNetworkGatewayPolicyGroups?: VirtualNetworkGatewayPolicyGroup[];
@@ -15573,8 +16179,34 @@ export interface VpnLinkConnections {
     beginGetIkeSasAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetIkeSasOptionalParams): Promise<VpnLinkConnectionsGetIkeSasResponse>;
     beginResetConnection(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginResetConnectionAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsResetConnectionOptionalParams): Promise<void>;
+    beginSetOrInitDefaultSharedKey(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, connectionSharedKeyParameters: ConnectionSharedKeyResult, options?: VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams): Promise<SimplePollerLike<OperationState<VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse>, VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse>>;
+    beginSetOrInitDefaultSharedKeyAndWait(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, connectionSharedKeyParameters: ConnectionSharedKeyResult, options?: VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams): Promise<VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse>;
+    getDefaultSharedKey(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetDefaultSharedKeyOptionalParams): Promise<VpnLinkConnectionsGetDefaultSharedKeyResponse>;
+    listAllSharedKeys(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsGetAllSharedKeysOptionalParams): PagedAsyncIterableIterator<ConnectionSharedKeyResult>;
     listByVpnConnection(resourceGroupName: string, gatewayName: string, connectionName: string, options?: VpnLinkConnectionsListByVpnConnectionOptionalParams): PagedAsyncIterableIterator<VpnSiteLinkConnection>;
+    listDefaultSharedKey(resourceGroupName: string, gatewayName: string, connectionName: string, linkConnectionName: string, options?: VpnLinkConnectionsListDefaultSharedKeyOptionalParams): Promise<VpnLinkConnectionsListDefaultSharedKeyResponse>;
 }
+
+// @public
+export interface VpnLinkConnectionsGetAllSharedKeysNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsGetAllSharedKeysNextResponse = ConnectionSharedKeyResultList;
+
+// @public
+export interface VpnLinkConnectionsGetAllSharedKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsGetAllSharedKeysResponse = ConnectionSharedKeyResultList;
+
+// @public
+export interface VpnLinkConnectionsGetDefaultSharedKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsGetDefaultSharedKeyResponse = ConnectionSharedKeyResult;
 
 // @public
 export interface VpnLinkConnectionsGetIkeSasOptionalParams extends coreClient.OperationOptions {
@@ -15602,10 +16234,26 @@ export interface VpnLinkConnectionsListByVpnConnectionOptionalParams extends cor
 export type VpnLinkConnectionsListByVpnConnectionResponse = ListVpnSiteLinkConnectionsResult;
 
 // @public
+export interface VpnLinkConnectionsListDefaultSharedKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VpnLinkConnectionsListDefaultSharedKeyResponse = ConnectionSharedKeyResult;
+
+// @public
 export interface VpnLinkConnectionsResetConnectionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse = ConnectionSharedKeyResult;
 
 // @public
 export interface VpnLinkProviderProperties {
@@ -16066,6 +16714,7 @@ export type WebApplicationFirewallPoliciesListResponse = WebApplicationFirewallP
 
 // @public
 export interface WebApplicationFirewallPolicy extends Resource {
+    readonly applicationGatewayForContainers?: ApplicationGatewayForContainersReferenceDefinition[];
     readonly applicationGateways?: ApplicationGateway[];
     customRules?: WebApplicationFirewallCustomRule[];
     readonly etag?: string;

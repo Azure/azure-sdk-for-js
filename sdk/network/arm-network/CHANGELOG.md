@@ -1,15 +1,151 @@
 # Release History
-
-## 33.3.1 (Unreleased)
-
+    
+## 33.4.0 (2024-09-13)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group NetworkManagerRoutingConfigurations
+  - Added operation group RoutingRuleCollections
+  - Added operation group RoutingRules
+  - Added operation group SecurityUserConfigurations
+  - Added operation group SecurityUserRuleCollections
+  - Added operation group SecurityUserRules
+  - Added operation VpnLinkConnections.beginSetOrInitDefaultSharedKey
+  - Added operation VpnLinkConnections.beginSetOrInitDefaultSharedKeyAndWait
+  - Added operation VpnLinkConnections.getDefaultSharedKey
+  - Added operation VpnLinkConnections.listAllSharedKeys
+  - Added operation VpnLinkConnections.listDefaultSharedKey
+  - Added Interface ApplicationGatewayForContainersReferenceDefinition
+  - Added Interface AzureFirewallAutoscaleConfiguration
+  - Added Interface ConnectionSharedKeyResult
+  - Added Interface ConnectionSharedKeyResultList
+  - Added Interface ExceptionEntry
+  - Added Interface IpAllocationsDeleteHeaders
+  - Added Interface NetworkManagerRoutingConfiguration
+  - Added Interface NetworkManagerRoutingConfigurationListResult
+  - Added Interface NetworkManagerRoutingConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface NetworkManagerRoutingConfigurationsDeleteHeaders
+  - Added Interface NetworkManagerRoutingConfigurationsDeleteOptionalParams
+  - Added Interface NetworkManagerRoutingConfigurationsGetOptionalParams
+  - Added Interface NetworkManagerRoutingConfigurationsListNextOptionalParams
+  - Added Interface NetworkManagerRoutingConfigurationsListOptionalParams
+  - Added Interface NetworkManagerRoutingGroupItem
+  - Added Interface RoutingRule
+  - Added Interface RoutingRuleCollection
+  - Added Interface RoutingRuleCollectionListResult
+  - Added Interface RoutingRuleCollectionsCreateOrUpdateOptionalParams
+  - Added Interface RoutingRuleCollectionsDeleteHeaders
+  - Added Interface RoutingRuleCollectionsDeleteOptionalParams
+  - Added Interface RoutingRuleCollectionsGetOptionalParams
+  - Added Interface RoutingRuleCollectionsListNextOptionalParams
+  - Added Interface RoutingRuleCollectionsListOptionalParams
+  - Added Interface RoutingRuleListResult
+  - Added Interface RoutingRuleNextHop
+  - Added Interface RoutingRuleRouteDestination
+  - Added Interface RoutingRulesCreateOrUpdateOptionalParams
+  - Added Interface RoutingRulesDeleteHeaders
+  - Added Interface RoutingRulesDeleteOptionalParams
+  - Added Interface RoutingRulesGetOptionalParams
+  - Added Interface RoutingRulesListNextOptionalParams
+  - Added Interface RoutingRulesListOptionalParams
+  - Added Interface SecurityUserConfiguration
+  - Added Interface SecurityUserConfigurationListResult
+  - Added Interface SecurityUserConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface SecurityUserConfigurationsDeleteHeaders
+  - Added Interface SecurityUserConfigurationsDeleteOptionalParams
+  - Added Interface SecurityUserConfigurationsGetOptionalParams
+  - Added Interface SecurityUserConfigurationsListNextOptionalParams
+  - Added Interface SecurityUserConfigurationsListOptionalParams
+  - Added Interface SecurityUserGroupItem
+  - Added Interface SecurityUserRule
+  - Added Interface SecurityUserRuleCollection
+  - Added Interface SecurityUserRuleCollectionListResult
+  - Added Interface SecurityUserRuleCollectionsCreateOrUpdateOptionalParams
+  - Added Interface SecurityUserRuleCollectionsDeleteHeaders
+  - Added Interface SecurityUserRuleCollectionsDeleteOptionalParams
+  - Added Interface SecurityUserRuleCollectionsGetOptionalParams
+  - Added Interface SecurityUserRuleCollectionsListNextOptionalParams
+  - Added Interface SecurityUserRuleCollectionsListOptionalParams
+  - Added Interface SecurityUserRuleListResult
+  - Added Interface SecurityUserRulesCreateOrUpdateOptionalParams
+  - Added Interface SecurityUserRulesDeleteHeaders
+  - Added Interface SecurityUserRulesDeleteOptionalParams
+  - Added Interface SecurityUserRulesGetOptionalParams
+  - Added Interface SecurityUserRulesListNextOptionalParams
+  - Added Interface SecurityUserRulesListOptionalParams
+  - Added Interface SharedKeyProperties
+  - Added Interface VpnLinkConnectionsGetAllSharedKeysNextOptionalParams
+  - Added Interface VpnLinkConnectionsGetAllSharedKeysOptionalParams
+  - Added Interface VpnLinkConnectionsGetDefaultSharedKeyOptionalParams
+  - Added Interface VpnLinkConnectionsListDefaultSharedKeyOptionalParams
+  - Added Interface VpnLinkConnectionsSetOrInitDefaultSharedKeyOptionalParams
+  - Added Type Alias ApplicationGatewayWafRuleSensitivityTypes
+  - Added Type Alias DisableBgpRoutePropagation
+  - Added Type Alias ExceptionEntryMatchVariable
+  - Added Type Alias ExceptionEntrySelectorMatchOperator
+  - Added Type Alias ExceptionEntryValueMatchOperator
+  - Added Type Alias GroupMemberType
+  - Added Type Alias NetworkManagerRoutingConfigurationsCreateOrUpdateResponse
+  - Added Type Alias NetworkManagerRoutingConfigurationsGetResponse
+  - Added Type Alias NetworkManagerRoutingConfigurationsListNextResponse
+  - Added Type Alias NetworkManagerRoutingConfigurationsListResponse
+  - Added Type Alias PrivateEndpointVNetPolicies
+  - Added Type Alias ResiliencyModel
+  - Added Type Alias RoutingRuleCollectionsCreateOrUpdateResponse
+  - Added Type Alias RoutingRuleCollectionsGetResponse
+  - Added Type Alias RoutingRuleCollectionsListNextResponse
+  - Added Type Alias RoutingRuleCollectionsListResponse
+  - Added Type Alias RoutingRuleDestinationType
+  - Added Type Alias RoutingRuleNextHopType
+  - Added Type Alias RoutingRulesCreateOrUpdateResponse
+  - Added Type Alias RoutingRulesGetResponse
+  - Added Type Alias RoutingRulesListNextResponse
+  - Added Type Alias RoutingRulesListResponse
+  - Added Type Alias SecurityUserConfigurationsCreateOrUpdateResponse
+  - Added Type Alias SecurityUserConfigurationsGetResponse
+  - Added Type Alias SecurityUserConfigurationsListNextResponse
+  - Added Type Alias SecurityUserConfigurationsListResponse
+  - Added Type Alias SecurityUserRuleCollectionsCreateOrUpdateResponse
+  - Added Type Alias SecurityUserRuleCollectionsGetResponse
+  - Added Type Alias SecurityUserRuleCollectionsListNextResponse
+  - Added Type Alias SecurityUserRuleCollectionsListResponse
+  - Added Type Alias SecurityUserRulesCreateOrUpdateResponse
+  - Added Type Alias SecurityUserRulesGetResponse
+  - Added Type Alias SecurityUserRulesListNextResponse
+  - Added Type Alias SecurityUserRulesListResponse
+  - Added Type Alias SensitivityType
+  - Added Type Alias VpnLinkConnectionsGetAllSharedKeysNextResponse
+  - Added Type Alias VpnLinkConnectionsGetAllSharedKeysResponse
+  - Added Type Alias VpnLinkConnectionsGetDefaultSharedKeyResponse
+  - Added Type Alias VpnLinkConnectionsListDefaultSharedKeyResponse
+  - Added Type Alias VpnLinkConnectionsSetOrInitDefaultSharedKeyResponse
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter sensitivity
+  - Interface AzureFirewall has a new optional parameter autoscaleConfiguration
+  - Interface ConfigurationGroup has a new optional parameter memberType
+  - Interface FlowLog has a new optional parameter enabledFilteringCriteria
+  - Interface FlowLogInformation has a new optional parameter enabledFilteringCriteria
+  - Interface ManagedRuleOverride has a new optional parameter sensitivity
+  - Interface ManagedRulesDefinition has a new optional parameter exceptions
+  - Interface NetworkGroup has a new optional parameter memberType
+  - Interface PrivateLinkService has a new optional parameter destinationIPAddress
+  - Interface VirtualNetwork has a new optional parameter privateEndpointVNetPolicies
+  - Interface VirtualNetworkGateway has a new optional parameter resiliencyModel
+  - Interface WebApplicationFirewallPolicy has a new optional parameter applicationGatewayForContainers
+  - Added Enum KnownApplicationGatewayWafRuleSensitivityTypes
+  - Added Enum KnownDisableBgpRoutePropagation
+  - Added Enum KnownExceptionEntryMatchVariable
+  - Added Enum KnownExceptionEntrySelectorMatchOperator
+  - Added Enum KnownExceptionEntryValueMatchOperator
+  - Added Enum KnownGroupMemberType
+  - Added Enum KnownPrivateEndpointVNetPolicies
+  - Added Enum KnownResiliencyModel
+  - Added Enum KnownRoutingRuleDestinationType
+  - Added Enum KnownRoutingRuleNextHopType
+  - Added Enum KnownSensitivityType
+  - Enum KnownConfigurationType has a new value Routing
+  - Enum KnownConfigurationType has a new value SecurityUser
+    
+    
 ## 33.3.0 (2024-07-17)
     
 ### Features Added
