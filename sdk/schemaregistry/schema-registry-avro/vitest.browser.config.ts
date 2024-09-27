@@ -11,11 +11,11 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     optimizeDeps: {
-      include: ["buffer"],
+      include: ["process", "buffer"],
     },
     plugins: [
       browserMap(),
-      inject({ Buffer: ["buffer", "Buffer"] }),
+      inject({ process: "process", Buffer: ["buffer", "Buffer"] }),
     ],
     test: {
       fileParallelism: false,
