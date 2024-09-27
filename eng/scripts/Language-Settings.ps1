@@ -8,6 +8,7 @@ $GithubUri = "https://github.com/Azure/azure-sdk-for-js"
 $PackageRepositoryUri = "https://www.npmjs.com/package"
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
+. "$PSScriptRoot/docs/Docs-Onboarding.ps1"
 
 function Confirm-NodeInstallation {
   if (!(Get-Command npm -ErrorAction SilentlyContinue)) {
@@ -260,42 +261,6 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
     }
     return $null
   }
-}
-
-# Defined in common.ps1 as:
-# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages"
-function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) {
-  if (!$PackageInfos) {
-    $PackageInfos = @($PackageInfo)
-  }
-
-  $allSucceeded = $true
-  $failedPackages = @()
-
-  foreach ($packageInfo in $PackageInfos) {
-    $outputLocation = New-Item `
-      -ItemType Directory `
-      -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
-
-    Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
-    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1
-    if ($LASTEXITCODE) {
-      $allSucceeded = $false
-      $failedPackages += $packageInfo.Name
-      Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
-      $output | Write-Host
-    }
-  }
-
-  # Show failed packages at the end of the run
-  if ($failedPackages.Count -gt 0) {
-    Write-Host "Failed package: $($failedPackages.Count)"
-    foreach ($failedPackage in $failedPackages) {
-      Write-Host "Failed package: $failedPackage"
-    }
-  }
-
-  return $allSucceeded
 }
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
