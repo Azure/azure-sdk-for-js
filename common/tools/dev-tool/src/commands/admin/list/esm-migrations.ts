@@ -16,6 +16,11 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       shortName: "o",
     },
+    verbose: {
+      description: "the format of the output",
+      kind: "boolean",
+      default: false,
+    },
   },
 );
 
@@ -116,23 +121,48 @@ function setMigrationResult(
   results.totalProjects++;
 }
 
-function echoMigrationResult(category: string, result: MigrationResult): void {
-  console.log(`Category: ${category}`);
-  console.log(`Total projects: ${result.totalProjects}`);
-  console.log(`Total CJS: ${result.totalCjs}`);
-  console.log(`Total ESM: ${result.totalEsm}`);
-  console.log(`Total Mocha: ${result.totalMocha}`);
-  console.log(`Total Vitest: ${result.totalVitest}`);
+function echoMigrationResult(category: string, result: MigrationResult, verbose: boolean): void {
+  console.log(`## Category: ${category}`);
+  console.log(`- Total projects: ${result.totalProjects}`);
+  console.log(`- Total CJS: ${result.totalCjs}`);
+  console.log(`- Total ESM: ${result.totalEsm}`);
+  console.log(`- Total Mocha: ${result.totalMocha}`);
+  console.log(`- Total Vitest: ${result.totalVitest}`);
 
   console.log(
-    `Converted to ESM percentage: ${((result.totalEsm / result.totalProjects) * 100).toFixed(2)}%`,
+    `- Converted to ESM percentage: ${((result.totalEsm / result.totalProjects) * 100).toFixed(2)}%`,
   );
   console.log(
-    `Converted to vitest percentage: ${((result.totalVitest / result.totalProjects) * 100).toFixed(2)}%`,
+    `- Converted to vitest percentage: ${((result.totalVitest / result.totalProjects) * 100).toFixed(2)}%`,
   );
+
+  if (verbose) {
+    generateDetailedReport(category, result);
+  }
 }
 
-export default leafCommand(commandInfo, async ({ output }) => {
+function generateDetailedReport(category: string, result: MigrationResult): void {
+  console.log("## Detailed Report:");
+  const header = `| Package Name | Project Folder | Type | Migrated |`;
+  const separator = `| --- | --- | --- | --- |`;
+
+  console.log(header);
+  console.log(separator);
+
+  const allEntries = [...Object.entries(result.esm).map(f => [...f, "✅"]), ...Object.entries(result.cjs).map(f => [...f, "❌"])].sort((a, b) => )
+
+
+
+  for (const [packageName, projectFolder] of Object.entries(result.esm)) {
+    console.log(`| ${packageName} | ${projectFolder} | ${category} | ✅ |`);
+  }
+  for (const [packageName, projectFolder] of Object.entries(result.cjs)) {
+    console.log(`| ${packageName} | ${projectFolder} | ${category} | ❌ |`);
+  }
+  console.log();
+}
+
+export default leafCommand(commandInfo, async ({ output, verbose }) => {
   const root = await resolveRoot();
   const cwd = process.cwd();
 
@@ -178,15 +208,16 @@ export default leafCommand(commandInfo, async ({ output }) => {
     await writeFile(outputPath, JSON.stringify(results, null, 2));
   }
 
-  echoMigrationResult("core", results.core);
+  echoMigrationResult("core", results.core, verbose);
   console.log(`\n---------------------------------\n`);
-  echoMigrationResult("management", results.management);
+  echoMigrationResult("management", results.management, verbose);
   console.log(`\n---------------------------------\n`);
-  echoMigrationResult("client", results.client);
+  echoMigrationResult("client", results.client, verbose);
   console.log(`\n---------------------------------\n`);
-  echoMigrationResult("utility", results.utility);
+  echoMigrationResult("utility", results.utility, verbose);
   console.log(`\n---------------------------------\n`);
-  echoMigrationResult("test", results.test);
+  echoMigrationResult("test", results.test, verbose);
+  console.log(`\n---------------------------------\n`);
 
   return true;
 });
