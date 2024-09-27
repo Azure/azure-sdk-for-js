@@ -52,10 +52,15 @@ export const commandInfo = makeCommandInfo(
       description: "The name of the package to migrate",
       kind: "string",
     },
+    browser: {
+      description: "Generate browser test config",
+      kind: "boolean",
+      default: true,
+    },
   },
 );
 
-export default leafCommand(commandInfo, async ({ "package-name": packageName }) => {
+export default leafCommand(commandInfo, async ({ "package-name": packageName, browser }) => {
   const root = await resolveRoot();
 
   const rushJson = await getRushJson();
@@ -77,9 +82,11 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
   fixTestingImports(projectFolder);
 
   // TODO: Check if browser supported
-  await writeBrowserTestConfig(projectFolder);
+  if (browser) {
+    await writeBrowserTestConfig(projectFolder);
+    await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
+  }
   await writeFile(resolve(projectFolder, "vitest.config.ts"), VITEST_CONFIG);
-  await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
 
   return true;
 });
@@ -408,7 +415,7 @@ function setScriptsSection(packageJson: any): void {
   // TODO: Check if web package or not
   packageJson.scripts["unit-test:browser"] =
     "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
-  packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest --no-test-proxy";
+  packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest";
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -441,18 +448,22 @@ function addTypeScriptHybridizer(packageJson: any): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function addNewPackages(packageJson: any): Promise<void> {
-  const newPackages = [
-    "@vitest/browser",
-    "@vitest/coverage-istanbul",
-    "playwright",
-    "tshy",
-    "vitest",
-  ];
+  const newPackages = {
+    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@vitest/browser": undefined,
+    "@vitest/coverage-istanbul": undefined,
+    playwright: undefined,
+    tshy: "^2.0.0",
+    vitest: undefined,
+  };
 
-  for (const newPackage of newPackages) {
-    const latestVersion = await run(["npm", "view", newPackage, "version"], {
-      captureOutput: true,
-    });
+  for (const [newPackage, packageVersion] of Object.entries(newPackages)) {
+    const latestVersion =
+      packageVersion ?? // the hardcoded preferred version
+      // or the latest version from npm
+      (await run(["npm", "view", newPackage, "version"], {
+        captureOutput: true,
+      }));
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
@@ -495,6 +506,7 @@ function removeLegacyPackages(packageJson: any): void {
     "@types/mocha",
     "@types/chai",
     "@types/sinon",
+    "@azure-tools/test-utils",
   ];
   for (const legacyPackage of legacyPackages) {
     if (packageJson.devDependencies[legacyPackage]) {
