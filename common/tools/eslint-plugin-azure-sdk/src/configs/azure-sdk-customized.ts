@@ -207,4 +207,11 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       "tsdoc/syntax": "off",
     },
   },
+  {
+    files: ["test/snippets.spec.ts", "**/*/test/snippets.spec.ts"],
+    rules: {
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
 ];

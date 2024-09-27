@@ -1,5 +1,17 @@
 # Release History
 
+## 12.2.0-beta.1 (2024-09-25)
+
+### Breaking Changes
+
+- Added trivial API changes to align with the latest stable release [#31133](https://github.com/Azure/azure-sdk-for-js/pull/31133)
+
+### Features Added
+
+- `SplitSkill` can now be configured to use Azure OpenAI through `SplitSkill.AzureOpenAITokenizerParameters`
+- Vector queries allow for filters to be overridden through `VectorQuery.filterOverride`
+- Vector fields with compression now have a `VectorSearchCompression.truncationDimension` configuration option
+
 ## 12.1.0 (2024-07-24)
 
 ### Features Added
