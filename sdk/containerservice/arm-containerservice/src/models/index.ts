@@ -469,6 +469,8 @@ export interface AgentPoolSecurityProfile {
 export interface AgentPoolGPUProfile {
   /** The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver installation themselves. */
   installGPUDriver?: boolean;
+  /** Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility. */
+  driverType?: DriverType;
 }
 
 export interface AgentPoolArtifactStreamingProfile {
@@ -484,7 +486,7 @@ export interface VirtualMachinesProfile {
 
 /** Specifications on how to scale a VirtualMachines agent pool. */
 export interface ScaleProfile {
-  /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. Currently, at most one ManualScaleProfile is allowed. */
+  /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
   manual?: ManualScaleProfile[];
   /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. Currently, at most one AutoScaleProfile is allowed. */
   autoscale?: AutoScaleProfile[];
@@ -816,11 +818,27 @@ export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
 export interface AdvancedNetworking {
   /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
   observability?: AdvancedNetworkingObservability;
+  /** Security profile to enable security features on cilium based cluster. */
+  security?: AdvancedNetworkingSecurity;
 }
 
 /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
 export interface AdvancedNetworkingObservability {
   /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
+  enabled?: boolean;
+  /** Management of TLS certificates for querying network flow logs via the flow log endpoint for Advanced Networking observability clusters. If not specified, the default is Managed. For more information see aka.ms/acnstls. */
+  tlsManagement?: TLSManagement;
+}
+
+/** Security profile to enable security features on cilium based cluster. */
+export interface AdvancedNetworkingSecurity {
+  /** FQDNFiltering profile to enable FQDN Policy filtering on cilium based cluster. */
+  fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
+}
+
+/** FQDNFiltering profile to enable FQDN Policy filtering on cilium based cluster. */
+export interface AdvancedNetworkingFqdnPolicy {
+  /** This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false. */
   enabled?: boolean;
 }
 
@@ -1082,11 +1100,18 @@ export interface ManagedClusterIngressProfileWebAppRouting {
   enabled?: boolean;
   /** Resource IDs of the DNS zones to be associated with the Web App Routing add-on. Used only when Web App Routing is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
   dnsZoneResourceIds?: string[];
+  /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
+  nginx?: ManagedClusterIngressProfileNginx;
   /**
    * Managed identity of the Web Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly identity?: UserAssignedIdentity;
+}
+
+export interface ManagedClusterIngressProfileNginx {
+  /** Ingress type for the default NginxIngressController custom resource */
+  defaultIngressControllerType?: NginxIngressControllerType;
 }
 
 /** Workload Auto-scaler profile for the managed cluster. */
@@ -1670,15 +1695,15 @@ export interface MachineNetworkProperties {
 /** The machine IP address details. */
 export interface MachineIpAddress {
   /**
+   * To determine if address belongs IPv4 or IPv6 family
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly family?: IpFamily;
+  /**
    * IPv4 or IPv6 address of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ip?: string;
-  /**
-   * To determine if address belongs IPv4 or IPv6 family.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly family?: IpFamily;
 }
 
 /** The list of available versions for an agent pool. */
@@ -3066,6 +3091,24 @@ export enum KnownAgentPoolSSHAccess {
  */
 export type AgentPoolSSHAccess = string;
 
+/** Known values of {@link DriverType} that the service accepts. */
+export enum KnownDriverType {
+  /** Install the GRID driver for the GPU, suitable for applications requiring virtualization support. */
+  Grid = "GRID",
+  /** Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications. */
+  Cuda = "CUDA",
+}
+
+/**
+ * Defines values for DriverType. \
+ * {@link KnownDriverType} can be used interchangeably with DriverType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GRID**: Install the GRID driver for the GPU, suitable for applications requiring virtualization support. \
+ * **CUDA**: Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications.
+ */
+export type DriverType = string;
+
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** No additional licensing is applied. */
@@ -3381,6 +3424,24 @@ export enum KnownIpvsScheduler {
  */
 export type IpvsScheduler = string;
 
+/** Known values of {@link TLSManagement} that the service accepts. */
+export enum KnownTLSManagement {
+  /** Disable TLS management of certificates. This leaves the flow log endpoint unencrypted. It is strongly recommended when using this option that you configure your own encryption on top, for example by putting the flow logs endpoint behind an ingress controller. */
+  None = "None",
+  /** Enable TLS and cert rotation is managed by Azure. */
+  Managed = "Managed",
+}
+
+/**
+ * Defines values for TLSManagement. \
+ * {@link KnownTLSManagement} can be used interchangeably with TLSManagement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: Disable TLS management of certificates. This leaves the flow log endpoint unencrypted. It is strongly recommended when using this option that you configure your own encryption on top, for example by putting the flow logs endpoint behind an ingress controller. \
+ * **Managed**: Enable TLS and cert rotation is managed by Azure.
+ */
+export type TLSManagement = string;
+
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
   /** Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. */
@@ -3473,6 +3534,30 @@ export enum KnownKeyVaultNetworkAccessTypes {
  * **Private**
  */
 export type KeyVaultNetworkAccessTypes = string;
+
+/** Known values of {@link NginxIngressControllerType} that the service accepts. */
+export enum KnownNginxIngressControllerType {
+  /** The default NginxIngressController will be created. Users can edit the default NginxIngressController Custom Resource to configure load balancer annotations. */
+  AnnotationControlled = "AnnotationControlled",
+  /** The default NginxIngressController will be created and the operator will provision an external loadbalancer with it. Any annotation to make the default loadbalancer internal will be overwritten. */
+  External = "External",
+  /** The default NginxIngressController will be created and the operator will provision an internal loadbalancer with it. Any annotation to make the default loadbalancer external will be overwritten. */
+  Internal = "Internal",
+  /** The default Ingress Controller will not be created. It will not be deleted by the system if it exists. Users should delete the default NginxIngressController Custom Resource manually if desired. */
+  None = "None",
+}
+
+/**
+ * Defines values for NginxIngressControllerType. \
+ * {@link KnownNginxIngressControllerType} can be used interchangeably with NginxIngressControllerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AnnotationControlled**: The default NginxIngressController will be created. Users can edit the default NginxIngressController Custom Resource to configure load balancer annotations. \
+ * **External**: The default NginxIngressController will be created and the operator will provision an external loadbalancer with it. Any annotation to make the default loadbalancer internal will be overwritten. \
+ * **Internal**: The default NginxIngressController will be created and the operator will provision an internal loadbalancer with it. Any annotation to make the default loadbalancer external will be overwritten. \
+ * **None**: The default Ingress Controller will not be created. It will not be deleted by the system if it exists. Users should delete the default NginxIngressController Custom Resource manually if desired.
+ */
+export type NginxIngressControllerType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
