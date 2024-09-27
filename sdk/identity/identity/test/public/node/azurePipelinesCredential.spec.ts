@@ -4,6 +4,7 @@
 import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
+import { logger } from "@azure/keyvault-keys";
 
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
@@ -30,7 +31,7 @@ describe("AzurePipelinesCredential", function () {
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it("fails with with invalid service connection", async function () {
+  it("fails with invalid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -52,7 +53,7 @@ describe("AzurePipelinesCredential", function () {
     );
   });
 
-  it("failure includes the expected response headers", async function () {
+  it.only("failure includes the expected response headers", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -72,6 +73,8 @@ describe("AzurePipelinesCredential", function () {
     }
     catch(e){
       console.log(e);
+      logger.error(e)
+      throw e     
     }
   });
 
