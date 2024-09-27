@@ -10,6 +10,7 @@ import { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import { getError } from "../../authTestUtils";
 import sinon from "sinon";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 describe("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -46,7 +47,7 @@ describe("EnvironmentCredential", function () {
   it("authenticates with a client secret on the environment variables", async function () {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
@@ -64,7 +65,7 @@ describe("EnvironmentCredential", function () {
     }
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_CERTIFICATE_PATH =
       cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
@@ -82,7 +83,7 @@ describe("EnvironmentCredential", function () {
     }
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_CLIENT_CERTIFICATE_PATH =
       cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert-password.pem";
@@ -98,7 +99,7 @@ describe("EnvironmentCredential", function () {
   it("finds and uses client username/password environment variables", async () => {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
     process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_USERNAME = "user";
     process.env.AZURE_PASSWORD = "password";
@@ -125,7 +126,7 @@ describe("EnvironmentCredential", function () {
       async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
         process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
@@ -146,7 +147,7 @@ describe("EnvironmentCredential", function () {
       async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
         process.env.AZURE_CLIENT_CERTIFICATE_PATH =
           cachedValues.AZURE_CLIENT_CERTIFICATE_PATH || "assets/fake-cert.pem";
@@ -164,7 +165,7 @@ describe("EnvironmentCredential", function () {
       async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID || PlaybackTenantId;
         process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
         process.env.AZURE_USERNAME = "user";
         process.env.AZURE_PASSWORD = "password";
