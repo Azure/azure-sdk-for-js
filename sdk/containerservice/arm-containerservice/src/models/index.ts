@@ -713,7 +713,7 @@ export interface ContainerServiceNetworkProfile {
   /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
   serviceCidrs?: string[];
   /** IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
-  ipFamilies?: IPFamily[];
+  ipFamilies?: IpFamily[];
   /** Defines access to special link local addresses (Azure Instance Metadata Service, aka IMDS) for pods with hostNetwork=false. if not specified, the default is 'IMDS'. */
   podLinkLocalAccess?: PodLinkLocalAccess;
   /** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
@@ -1698,7 +1698,7 @@ export interface MachineIpAddress {
    * To determine if address belongs IPv4 or IPv6 family
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly family?: IPFamily;
+  readonly family?: IpFamily;
   /**
    * IPv4 or IPv6 address of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3352,8 +3352,8 @@ export enum KnownClusterServiceLoadBalancerHealthProbeMode {
  */
 export type ClusterServiceLoadBalancerHealthProbeMode = string;
 
-/** Known values of {@link IPFamily} that the service accepts. */
-export enum KnownIPFamily {
+/** Known values of {@link IpFamily} that the service accepts. */
+export enum KnownIpFamily {
   /** IPv4 family */
   IPv4 = "IPv4",
   /** IPv6 family */
@@ -3361,14 +3361,14 @@ export enum KnownIPFamily {
 }
 
 /**
- * Defines values for IPFamily. \
- * {@link KnownIPFamily} can be used interchangeably with IPFamily,
+ * Defines values for IpFamily. \
+ * {@link KnownIpFamily} can be used interchangeably with IpFamily,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **IPv4**: IPv4 family \
  * **IPv6**: IPv6 family
  */
-export type IPFamily = string;
+export type IpFamily = string;
 
 /** Known values of {@link PodLinkLocalAccess} that the service accepts. */
 export enum KnownPodLinkLocalAccess {

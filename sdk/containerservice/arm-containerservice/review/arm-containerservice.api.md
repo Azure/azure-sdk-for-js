@@ -443,7 +443,7 @@ export interface ContainerServiceLinuxProfile {
 export interface ContainerServiceNetworkProfile {
     advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
-    ipFamilies?: IPFamily[];
+    ipFamilies?: IpFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
@@ -604,7 +604,7 @@ export interface GuardrailsAvailableVersionsProperties {
 export type GuardrailsSupport = string;
 
 // @public
-export type IPFamily = string;
+export type IpFamily = string;
 
 // @public
 export interface IPTag {
@@ -766,7 +766,7 @@ export enum KnownGuardrailsSupport {
 }
 
 // @public
-export enum KnownIPFamily {
+export enum KnownIpFamily {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
 }
@@ -1235,7 +1235,7 @@ export interface Machine extends SubResource {
 
 // @public
 export interface MachineIpAddress {
-    readonly family?: IPFamily;
+    readonly family?: IpFamily;
     readonly ip?: string;
 }
 

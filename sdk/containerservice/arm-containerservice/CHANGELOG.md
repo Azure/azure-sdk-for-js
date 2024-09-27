@@ -1,6 +1,6 @@
 # Release History
     
-## 22.0.0-beta.1 (2024-09-27)
+## 21.2.0-beta.1 (2024-09-27)
 Compared with version 21.1.0
     
 ### Features Added
@@ -93,7 +93,6 @@ Compared with version 21.1.0
   - Added Type Alias ClusterServiceLoadBalancerHealthProbeMode
   - Added Type Alias DriverType
   - Added Type Alias GuardrailsSupport
-  - Added Type Alias IPFamily
   - Added Type Alias IpvsScheduler
   - Added Type Alias Level
   - Added Type Alias LoadBalancersCreateOrUpdateResponse
@@ -193,7 +192,6 @@ Compared with version 21.1.0
   - Added Enum KnownClusterServiceLoadBalancerHealthProbeMode
   - Added Enum KnownDriverType
   - Added Enum KnownGuardrailsSupport
-  - Added Enum KnownIPFamily
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownLevel
   - Added Enum KnownMode
@@ -215,12 +213,6 @@ Compared with version 21.1.0
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
-
-### Breaking Changes
-
-  - Type of parameter ipFamilies of interface ContainerServiceNetworkProfile is changed from IpFamily[] to IPFamily[]
-  - Type of parameter family of interface MachineIpAddress is changed from IpFamily to IPFamily
-  - Removed Enum KnownIpFamily
     
     
 ## 21.1.0 (2024-09-26)
