@@ -26,8 +26,8 @@ The `AzureSASCredential` is a static signature-based credential that supports up
 
 ### AzureKeyCredential
 
-```js
-const { AzureKeyCredential } = require("@azure/core-auth");
+```ts snippet:azure_key_credential
+import { AzureKeyCredential } from "@azure/core-auth";
 
 const credential = new AzureKeyCredential("secret value");
 // prints: "secret value"
@@ -39,8 +39,8 @@ console.log(credential.key);
 
 ### AzureNamedKeyCredential
 
-```js
-const { AzureNamedKeyCredential } = require("@azure/core-auth");
+```ts snippet:azure_named_key_credential
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 const credential = new AzureNamedKeyCredential("ManagedPolicy", "secret value");
 // prints: "ManagedPolicy, secret value"
@@ -52,8 +52,8 @@ console.log(`${credential.name}, ${credential.key}`);
 
 ### AzureSASCredential
 
-```js
-const { AzureSASCredential } = require("@azure/core-auth");
+```ts snippet:azure_sas_credential
+import { AzureSASCredential } from "@azure/core-auth";
 
 const credential = new AzureSASCredential("signature1");
 // prints: "signature1"

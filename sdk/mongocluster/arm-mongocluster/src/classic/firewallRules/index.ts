@@ -9,7 +9,7 @@ import {
   firewallRulesDelete,
   firewallRulesListByMongoCluster,
 } from "../../api/firewallRules/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRulesGetOptionalParams,
