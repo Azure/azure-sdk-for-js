@@ -46,26 +46,6 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export interface FabricCapacitiesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
@@ -188,16 +168,19 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
-export enum KnownResourceProvisioningState {
+export enum KnownProvisioningState {
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
-    Succeeded = "Succeeded"
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -263,7 +246,7 @@ export interface PageSettings {
 }
 
 // @public
-export type ProvisioningState = ResourceProvisioningState | "Deleting" | "Provisioning" | "Updating" | string;
+export type ProvisioningState = string;
 
 // @public
 export interface Resource {
@@ -272,9 +255,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export type ResourceState = string;
@@ -326,9 +306,6 @@ export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
-
-// @public
-export type Versions = "2023-11-01";
 
 // (No @packageDocumentation comment for this package)
 
