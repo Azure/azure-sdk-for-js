@@ -2548,6 +2548,7 @@ export interface StorageLifecyclePolicyCompletedEventData {
     deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
     scheduleTime?: string;
     tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
+    tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
 

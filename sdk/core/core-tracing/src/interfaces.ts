@@ -26,8 +26,23 @@ export interface TracingClient {
    *
    * Example:
    *
-   * ```ts
-   * const myOperationResult = await tracingClient.withSpan("myClassName.myOperationName", options, (updatedOptions) => myOperation(updatedOptions));
+   * ```ts snippet:with_span_example
+   * import { createTracingClient } from "@azure/core-tracing";
+   *
+   * const tracingClient = createTracingClient({
+   *   namespace: "test.namespace",
+   *   packageName: "test-package",
+   *   packageVersion: "1.0.0",
+   * });
+   * const options = {};
+   * const myOperationResult = await tracingClient.withSpan(
+   *   "myClassName.myOperationName",
+   *   options,
+   *   (updatedOptions) => {
+   *     // Do something with the updated options.
+   *     return "myOperationResult";
+   *   },
+   * );
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
