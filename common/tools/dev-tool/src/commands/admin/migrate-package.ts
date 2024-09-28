@@ -10,6 +10,7 @@ import { existsSync, lstatSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
+import os from "node:os";
 
 const log = createPrinter("migrate-package");
 
@@ -335,7 +336,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
   // TODO: Clean up the betaTrimmedFilePath
   delete apiExtractorJson.dtsRollup.betaTrimmedFilePath;
 
-  await writeFile(apiExtractorJsonPath, JSON.stringify(apiExtractorJson, null, 2));
+  await writeFile(apiExtractorJsonPath, `${JSON.stringify(apiExtractorJson, null, 2)}${os.EOL}`);
 }
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
@@ -403,7 +404,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   delete packageJson["react-native"];
 
   // Save the updated package.json
-  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+  await writeFile(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}${os.EOL}`);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -416,7 +417,7 @@ function setScriptsSection(scripts: PackageJson["scripts"]): void {
 
   for (const script of Object.keys(scripts)) {
     if (scripts[script].includes("tsc -p .")) {
-      log.info(`Replacing usage of "tsc -p ." with "tshy" in ${script}`);
+      log.info(`Replacing usage of "tsc -p ." with "dev-tool run build-package" in ${script}`);
       scripts[script] = scripts[script].replace("tsc -p .", "dev-tool run build-package");
     }
   }
@@ -453,21 +454,21 @@ function addTypeScriptHybridizer(packageJson: any): void {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function addNewPackages(packageJson: any): Promise<void> {
   const newPackages = {
-    "@azure-tools/test-utils-vitest": "^1.0.0",
+    "@azure-tools/test-utils-vitest": "1.0.0",
     "@vitest/browser": undefined,
     "@vitest/coverage-istanbul": undefined,
     playwright: undefined,
-    tshy: "^2.0.0",
     vitest: undefined,
   };
 
-  for (const [newPackage, packageVersion] of Object.entries(newPackages)) {
-    const latestVersion =
-      packageVersion ?? // the hardcoded preferred version
-      // or the latest version from npm
-      (await run(["npm", "view", newPackage, "version"], {
+  for (const [newPackage, desiredMinVersion] of Object.entries(newPackages)) {
+    let latestVersion = desiredMinVersion;
+    if (!latestVersion) {
+      // Get the latest version from npm
+      latestVersion = await run(["npm", "view", newPackage, "version"], {
         captureOutput: true,
-      }));
+      });
+    }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
