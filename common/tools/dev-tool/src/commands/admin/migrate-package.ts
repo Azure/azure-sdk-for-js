@@ -139,10 +139,7 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
     },
   };
 
-  await writeFile(
-    resolve(packageFolder, "test.browser.config.json"),
-    JSON.stringify(testConfig, null, 2),
-  );
+  await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
 }
 
 function fixTestingImports(packageFolder: string): void {
@@ -336,7 +333,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
   // TODO: Clean up the betaTrimmedFilePath
   delete apiExtractorJson.dtsRollup.betaTrimmedFilePath;
 
-  await writeFile(apiExtractorJsonPath, `${JSON.stringify(apiExtractorJson, null, 2)}${os.EOL}`);
+  await saveJson(apiExtractorJsonPath, apiExtractorJson);
 }
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
@@ -359,18 +356,18 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
   tsConfig.compilerOptions.moduleResolution = "NodeNext";
   tsConfig.compilerOptions.rootDir = ".";
   tsConfig.include = [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
-    "./test/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
+    "test/**/*.ts",
   ];
 
   // Remove old options
   delete tsConfig.compilerOptions.outDir;
   delete tsConfig.compilerOptions.declarationDir;
 
-  await writeFile(tsconfigPath, JSON.stringify(tsConfig, null, 2));
+  await saveJson(tsconfigPath, tsConfig);
 }
 
 async function upgradePackageJson(projectFolder: string, packageJsonPath: string): Promise<void> {
@@ -404,7 +401,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   delete packageJson["react-native"];
 
   // Save the updated package.json
-  await writeFile(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}${os.EOL}`);
+  await saveJson(packageJsonPath, packageJson);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -570,4 +567,9 @@ async function renameFieldFiles(
       }
     }
   }
+}
+
+function saveJson(filePath: string, json: unknown): ReturnType<typeof writeFile> {
+  const fileContents = JSON.stringify(json, null, 2) + os.EOL; // ensure file ends in blank line per repo rules
+  return writeFile(filePath, fileContents);
 }
