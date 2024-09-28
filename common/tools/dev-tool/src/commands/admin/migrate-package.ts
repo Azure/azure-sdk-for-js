@@ -81,7 +81,6 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   fixSourceFiles(projectFolder);
   fixTestingImports(projectFolder);
 
-  // TODO: Check if browser supported
   if (browser) {
     await writeBrowserTestConfig(projectFolder);
     await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
@@ -395,7 +394,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   setFilesSection(packageJson);
 
   // Set scripts
-  setScriptsSection(packageJson);
+  setScriptsSection(packageJson.scripts);
 
   // Rename files and rewrite browser field
   await renameFieldFiles("browser", "browser", projectFolder, packageJson);
@@ -408,14 +407,19 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function setScriptsSection(packageJson: any): void {
-  packageJson.scripts["build"] =
-    "npm run clean && dev-tool run build-package && dev-tool run extract-api";
+function setScriptsSection(scripts: PackageJson["scripts"]): void {
+  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
-  // TODO: Check if web package or not
-  packageJson.scripts["unit-test:browser"] =
+  scripts["unit-test:browser"] =
     "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
-  packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest";
+  scripts["unit-test:node"] = "dev-tool run test:vitest";
+
+  for (const script of Object.keys(scripts)) {
+    if (scripts[script].includes("tsc -p .")) {
+      log.info(`Replacing usage of "tsc -p ." with "tshy" in ${script}`);
+      scripts[script] = scripts[script].replace("tsc -p .", "dev-tool run build-package");
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
