@@ -10,3 +10,4 @@ export * from "./operations";
 export * from "./trafficControllerInterface";
 export * from "./associationsInterface";
 export * from "./frontendsInterface";
+export * from "./securityPoliciesInterface";
