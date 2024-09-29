@@ -33,7 +33,10 @@
   ],
   "//sampleConfiguration": {
     "productName": "Azure Maps Route",
-    "productSlugs": ["azure", "azure-maps"],
+    "productSlugs": [
+      "azure",
+      "azure-maps"
+    ],
     "requiredResources": {
       "Azure Maps Resource": "https://docs.microsoft.com/azure/azure-maps/how-to-create-template"
     },
@@ -84,13 +87,9 @@
   "dependencies": {
     "@azure-rest/core-client": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-lro": "^2.2.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
-<<<<<<< HEAD
-    "@azure/core-lro": "^3.1.0",
-=======
->>>>>>> main
     "@azure/maps-common": "1.0.0-beta.2",
     "tslib": "^2.4.0",
     "@azure/abort-controller": "^2.1.2"
