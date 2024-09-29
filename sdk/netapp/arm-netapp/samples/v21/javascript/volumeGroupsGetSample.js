@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get details of the specified volume group
  *
  * @summary Get details of the specified volume group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/VolumeGroups_Get_Oracle.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/VolumeGroups_Get_Oracle.json
  */
 async function volumeGroupsGetOracle() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function volumeGroupsGetOracle() {
  * This sample demonstrates how to Get details of the specified volume group
  *
  * @summary Get details of the specified volume group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/VolumeGroups_Get_SapHana.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/VolumeGroups_Get_SapHana.json
  */
 async function volumeGroupsGetSapHana() {
   const subscriptionId =

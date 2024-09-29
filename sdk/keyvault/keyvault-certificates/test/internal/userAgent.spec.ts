@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CertificateClient } from "../../src";
-import { SDK_VERSION } from "../../src/constants";
+import { CertificateClient } from "../../src/index.js";
+import { SDK_VERSION } from "../../src/constants.js";
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
+import { describe, it, assert } from "vitest";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {
   it("SDK_VERSION and user-agent should match", async function () {

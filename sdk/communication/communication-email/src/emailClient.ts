@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EmailClientOptions, EmailMessage, EmailSendOptionalParams } from "./models";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";

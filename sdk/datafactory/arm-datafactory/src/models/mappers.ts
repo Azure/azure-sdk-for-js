@@ -1715,6 +1715,12 @@ export const LinkedService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String",
+        },
+      },
       connectVia: {
         serializedName: "connectVia",
         type: {
@@ -5606,6 +5612,48 @@ export const SsisVariable: coreClient.CompositeMapper = {
   },
 };
 
+export const AzureStorageLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureStorageLinkedServiceTypeProperties",
+      modelProperties: {
+        connectionString: {
+          serializedName: "connectionString",
+          type: {
+            name: "any",
+          },
+        },
+        accountKey: {
+          serializedName: "accountKey",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        sasUri: {
+          serializedName: "sasUri",
+          type: {
+            name: "any",
+          },
+        },
+        sasToken: {
+          serializedName: "sasToken",
+          type: {
+            name: "Composite",
+            className: "AzureKeyVaultSecretReference",
+          },
+        },
+        encryptedCredential: {
+          serializedName: "encryptedCredential",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const SqlServerBaseLinkedServiceTypeProperties: coreClient.CompositeMapper =
   {
     type: {
@@ -7369,6 +7417,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
             className: "IntegrationRuntimeReference",
           },
         },
+        continuationSettings: {
+          serializedName: "continuationSettings",
+          type: {
+            name: "Composite",
+            className: "ContinuationSettingsReference",
+          },
+        },
         compute: {
           serializedName: "compute",
           type: {
@@ -7403,6 +7458,33 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
       },
     },
   };
+
+export const ContinuationSettingsReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinuationSettingsReference",
+    modelProperties: {
+      continuationTtlInMinutes: {
+        serializedName: "continuationTtlInMinutes",
+        type: {
+          name: "any",
+        },
+      },
+      idleCondition: {
+        serializedName: "idleCondition",
+        type: {
+          name: "any",
+        },
+      },
+      customizedCheckpointKey: {
+        serializedName: "customizedCheckpointKey",
+        type: {
+          name: "any",
+        },
+      },
+    },
+  },
+};
 
 export const ExecuteDataFlowActivityTypePropertiesCompute: coreClient.CompositeMapper =
   {
@@ -9047,6 +9129,19 @@ export const AzureTableStorageLinkedService: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      serviceEndpoint: {
+        serializedName: "typeProperties.serviceEndpoint",
+        type: {
+          name: "any",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
+        },
+      },
     },
   },
 };
@@ -9415,6 +9510,13 @@ export const SqlServerLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SqlAlwaysEncryptedProperties",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
         },
       },
     },
@@ -10236,6 +10338,12 @@ export const DynamicsLinkedService: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      domain: {
+        serializedName: "typeProperties.domain",
+        type: {
+          name: "any",
+        },
+      },
       username: {
         serializedName: "typeProperties.username",
         type: {
@@ -10329,6 +10437,12 @@ export const DynamicsCrmLinkedService: coreClient.CompositeMapper = {
       authenticationType: {
         serializedName: "typeProperties.authenticationType",
         required: true,
+        type: {
+          name: "any",
+        },
+      },
+      domain: {
+        serializedName: "typeProperties.domain",
         type: {
           name: "any",
         },
@@ -10427,6 +10541,12 @@ export const CommonDataServiceForAppsLinkedService: coreClient.CompositeMapper =
         authenticationType: {
           serializedName: "typeProperties.authenticationType",
           required: true,
+          type: {
+            name: "any",
+          },
+        },
+        domain: {
+          serializedName: "typeProperties.domain",
           type: {
             name: "any",
           },
@@ -10650,6 +10770,19 @@ export const AzureFileStorageLinkedService: coreClient.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "String",
+        },
+      },
+      serviceEndpoint: {
+        serializedName: "typeProperties.serviceEndpoint",
+        type: {
+          name: "any",
+        },
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference",
         },
       },
     },
@@ -12718,6 +12851,26 @@ export const RestServiceLinkedService: coreClient.CompositeMapper = {
         serializedName: "typeProperties.scope",
         type: {
           name: "any",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalEmbeddedCert: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCert",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalEmbeddedCertPassword: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCertPassword",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
         },
       },
     },
@@ -15390,6 +15543,30 @@ export const VerticaLinkedService: coreClient.CompositeMapper = {
           name: "any",
         },
       },
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any",
+        },
+      },
+      port: {
+        serializedName: "typeProperties.port",
+        type: {
+          name: "any",
+        },
+      },
+      uid: {
+        serializedName: "typeProperties.uid",
+        type: {
+          name: "any",
+        },
+      },
+      database: {
+        serializedName: "typeProperties.database",
+        type: {
+          name: "any",
+        },
+      },
       pwd: {
         serializedName: "typeProperties.pwd",
         type: {
@@ -15522,7 +15699,7 @@ export const HDInsightOnDemandLinkedService: coreClient.CompositeMapper = {
           name: "any",
         },
       },
-      version: {
+      versionTypePropertiesVersion: {
         serializedName: "typeProperties.version",
         required: true,
         type: {
@@ -16665,6 +16842,26 @@ export const SharePointOnlineListLinkedService: coreClient.CompositeMapper = {
       },
       servicePrincipalKey: {
         serializedName: "typeProperties.servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "any",
+        },
+      },
+      servicePrincipalEmbeddedCert: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCert",
+        type: {
+          name: "Composite",
+          className: "SecretBase",
+        },
+      },
+      servicePrincipalEmbeddedCertPassword: {
+        serializedName: "typeProperties.servicePrincipalEmbeddedCertPassword",
         type: {
           name: "Composite",
           className: "SecretBase",
@@ -19931,6 +20128,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           className: "IntegrationRuntimeReference",
         },
       },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
+        },
+      },
       compute: {
         serializedName: "typeProperties.compute",
         type: {
@@ -21149,6 +21353,30 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreClient.CompositeMapp
     },
   };
 
+export const AzureTableStorageLinkedServiceTypeProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "AzureTableStorageLinkedServiceTypeProperties",
+      modelProperties: {
+        ...AzureStorageLinkedServiceTypeProperties.type.modelProperties,
+        serviceEndpoint: {
+          serializedName: "serviceEndpoint",
+          type: {
+            name: "any",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
+          },
+        },
+      },
+    },
+  };
+
 export const AzureSqlDWLinkedServiceTypeProperties: coreClient.CompositeMapper =
   {
     type: {
@@ -21279,6 +21507,13 @@ export const SqlServerLinkedServiceTypeProperties: coreClient.CompositeMapper =
           type: {
             name: "Composite",
             className: "SqlAlwaysEncryptedProperties",
+          },
+        },
+        credential: {
+          serializedName: "credential",
+          type: {
+            name: "Composite",
+            className: "CredentialReference",
           },
         },
       },
@@ -25807,6 +26042,12 @@ export const SnowflakeExportCopyCommand: coreClient.CompositeMapper = {
           value: { type: { name: "any" } },
         },
       },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
+        },
+      },
     },
   },
 };
@@ -25887,6 +26128,12 @@ export const SnowflakeImportCopyCommand: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } },
+        },
+      },
+      storageIntegration: {
+        serializedName: "storageIntegration",
+        type: {
+          name: "any",
         },
       },
     },
@@ -27926,6 +28173,13 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "IntegrationRuntimeReference",
+        },
+      },
+      continuationSettings: {
+        serializedName: "typeProperties.continuationSettings",
+        type: {
+          name: "Composite",
+          className: "ContinuationSettingsReference",
         },
       },
       compute: {

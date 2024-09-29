@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified HDInsight cluster.
  *
  * @summary Deletes the specified HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DeleteLinuxHadoopCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DeleteLinuxHadoopCluster.json
  */
 async function deleteHadoopOnLinuxCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteHadoopOnLinuxCluster() {
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginDeleteAndWait(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

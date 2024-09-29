@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
 import { TableClient, TableInsertEntityHeaders, odata } from "@azure/data-tables";

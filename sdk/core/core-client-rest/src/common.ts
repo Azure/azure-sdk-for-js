@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   HttpClient,
@@ -18,7 +18,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
- * Shape of the default request parameters, this may be overriden by the specific
+ * Shape of the default request parameters, this may be overridden by the specific
  * request types to provide strong types
  */
 export type RequestParameters = {
@@ -199,15 +199,17 @@ export interface Client {
   pipeline: Pipeline;
   /**
    * This method will be used to send request that would check the path to provide
-   * strong types. When used by the codegen this type gets overriden with the generated
+   * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
-   * ```typescript
+   * ```typescript snippet:path_example
+   * import { Client, Routes } from "@azure-rest/core-client";
+   *
    * export type MyClient = Client & {
-   *    path: Routes;
-   * }
+   *   path: Routes;
+   * };
    * ```
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types

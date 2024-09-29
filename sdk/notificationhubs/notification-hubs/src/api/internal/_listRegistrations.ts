@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./_client.js";
 import { NotificationHubsClientContext } from "../index.js";

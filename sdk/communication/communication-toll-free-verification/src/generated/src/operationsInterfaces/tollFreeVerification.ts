@@ -27,7 +27,7 @@ import {
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
-  TollFreeVerificationGetCampaignBriefAttachmentResponse
+  TollFreeVerificationGetCampaignBriefAttachmentResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,14 +40,14 @@ export interface TollFreeVerification {
    */
   listAllCampaignBriefsByCountryCode(
     countryCode: string,
-    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
   ): PagedAsyncIterableIterator<CampaignBrief>;
   /**
    * Get a list of Campaign Brief Summaries for the current resource.
    * @param options The options parameters.
    */
   listAllCampaignBriefSummaries(
-    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
   ): PagedAsyncIterableIterator<CampaignBriefSummary>;
   /**
    * Gets a list of attachments from a Campaign Brief.
@@ -58,7 +58,7 @@ export interface TollFreeVerification {
   listCampaignBriefAttachments(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   ): PagedAsyncIterableIterator<CampaignBriefAttachment>;
   /**
    * Creates or updates a Campaign Brief.
@@ -69,7 +69,7 @@ export interface TollFreeVerification {
   upsertCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationUpsertCampaignBriefOptionalParams
+    options?: TollFreeVerificationUpsertCampaignBriefOptionalParams,
   ): Promise<TollFreeVerificationUpsertCampaignBriefResponse>;
   /**
    * Deletes a Campaign Brief.
@@ -80,7 +80,7 @@ export interface TollFreeVerification {
   deleteCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationDeleteCampaignBriefOptionalParams
+    options?: TollFreeVerificationDeleteCampaignBriefOptionalParams,
   ): Promise<void>;
   /**
    * Get a Campaign Brief by id.
@@ -91,7 +91,7 @@ export interface TollFreeVerification {
   getCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationGetCampaignBriefOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefOptionalParams,
   ): Promise<TollFreeVerificationGetCampaignBriefResponse>;
   /**
    * Submits a Campaign Brief.
@@ -102,7 +102,7 @@ export interface TollFreeVerification {
   submitCampaignBrief(
     countryCode: string,
     campaignBriefId: string,
-    options?: TollFreeVerificationSubmitCampaignBriefOptionalParams
+    options?: TollFreeVerificationSubmitCampaignBriefOptionalParams,
   ): Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
   /**
    * Creates or updates an attachment on a Campaign Brief.
@@ -128,10 +128,8 @@ export interface TollFreeVerification {
     fileName: string,
     fileType: FileType,
     fileContentBase64: string,
-    options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
-  ): Promise<
-    TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse
-  >;
+    options?: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams,
+  ): Promise<TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse>;
   /**
    * Deletes a specific attachment from a Campaign Brief.
    * @param countryCode
@@ -143,7 +141,7 @@ export interface TollFreeVerification {
     countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
+    options?: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   ): Promise<void>;
   /**
    * Gets a specific attachment from a Campaign Brief.
@@ -156,6 +154,6 @@ export interface TollFreeVerification {
     countryCode: string,
     campaignBriefId: string,
     attachmentId: string,
-    options?: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams
+    options?: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
   ): Promise<TollFreeVerificationGetCampaignBriefAttachmentResponse>;
 }

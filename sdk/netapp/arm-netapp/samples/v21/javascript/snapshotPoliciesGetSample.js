@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a snapshot Policy
  *
  * @summary Get a snapshot Policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/SnapshotPolicies_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/SnapshotPolicies_Get.json
  */
 async function snapshotPoliciesGet() {
   const subscriptionId =

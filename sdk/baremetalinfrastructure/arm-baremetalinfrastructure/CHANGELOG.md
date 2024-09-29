@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.2 (2023-11-07)
     
-**Features**
+### Features Added
 
   - Added operation group AzureBareMetalStorageInstances
   - Added operation AzureBareMetalInstances.beginRestart
@@ -73,7 +73,7 @@
   - Enum KnownAzureBareMetalHardwareTypeNamesEnum has a new value Sdflex
   - Enum KnownAzureBareMetalInstanceSizeNamesEnum has a new value S448Se
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureBareMetalInstance no longer has parameter systemData
   - Type of parameter error of interface ErrorResponse is changed from ErrorDefinition to ErrorDetail

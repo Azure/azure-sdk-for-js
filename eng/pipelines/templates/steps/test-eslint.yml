@@ -7,7 +7,7 @@ steps:
     displayName: "Install library dependencies"
 
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
       node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}" -p max
     displayName: "Build ESLint Plugin and Lint Libraries"
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { credentialLogger, formatError } from "../util/logging";
 import { AccessToken } from "@azure/core-auth";

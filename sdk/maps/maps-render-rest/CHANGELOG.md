@@ -1,5 +1,20 @@
 # Release History
 
+## 2.0.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added support for `trafficLayer` in the `RenderGetMapStaticImage` endpoint, allowing for new traffic visualization options.
+
+### Breaking Changes
+
+- The API endpoint for `GetMapStaticImage` has been updated. The `format` parameter has been removed from the path, changing the usage from `(path: "/map/static/{format}", format: "png")` to `(path: "/map/static")`.
+- Replaced `layer` and `style` parameters with `tilesetId` in `RenderGetMapStaticImageQueryParamProperties`, which now supports more detailed map and traffic visualization.
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added

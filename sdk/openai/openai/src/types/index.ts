@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Disable eslint for declaration merging using namespace
 /* eslint-disable @typescript-eslint/no-shadow */
@@ -90,6 +90,15 @@ declare module "openai/resources/index" {
      * extensions while processing the chat completions request.
      */
     context?: AzureChatExtensionsMessageContextOutput;
+  }
+
+  interface CompletionChoice {
+    /**
+     * Information about the content filtering category (hate, sexual, violence, self_harm), if it
+     * has been detected, as well as the severity level (very_low, low, medium, high-scale that
+     * determines the intensity and risk level of harmful content) and if it has been filtered or not.
+     */
+    content_filter_results?: ContentFilterResultsForChoiceOutput;
   }
 
   namespace ChatCompletion {

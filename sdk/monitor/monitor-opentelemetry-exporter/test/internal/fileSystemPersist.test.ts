@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import * as fs from "fs";
@@ -69,7 +69,6 @@ describe("FileSystemPersist", () => {
   afterEach((done) => {
     fs.readdir(tempDir, (err, files) => {
       if (err) {
-        // eslint-disable-next-line no-console
         console.error(err);
         done();
       } else {

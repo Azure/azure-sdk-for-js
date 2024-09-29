@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
@@ -9,10 +9,10 @@ import { ApplicationInsightsSampler } from "../../../../src/traces/sampler";
 import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor";
 
 describe("AzureBatchLogRecordProcessor", () => {
-  describe("#trace based sampling", async () => {
-    it("sampled out", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+  describe("#trace based sampling", () => {
+    it("sampled out", () => {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
       });
       const loggerProvider = new LoggerProvider();
@@ -33,9 +33,9 @@ describe("AzureBatchLogRecordProcessor", () => {
       });
     });
 
-    it("sampled in", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+    it("sampled in", () => {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: true,
       });
       const loggerProvider = new LoggerProvider();
@@ -56,9 +56,9 @@ describe("AzureBatchLogRecordProcessor", () => {
       });
     });
 
-    it("enableTraceBasedSamplingForLogs=false", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
+    it("enableTraceBasedSamplingForLogs=false", () => {
+      const memoryLogExporter = new InMemoryLogRecordExporter();
+      const processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
         enableTraceBasedSamplingForLogs: false,
       });
       const loggerProvider = new LoggerProvider();
@@ -77,29 +77,6 @@ describe("AzureBatchLogRecordProcessor", () => {
         assert.strictEqual(logRecords.length, 0);
         span.end();
       });
-    });
-
-    it("should serialize nested log attributes", async () => {
-      let memoryLogExporter = new InMemoryLogRecordExporter();
-      let processor = new AzureBatchLogRecordProcessor(memoryLogExporter, {
-        enableTraceBasedSamplingForLogs: false,
-      });
-      const loggerProvider = new LoggerProvider();
-      loggerProvider.addLogRecordProcessor(processor);
-      const sampler = new ApplicationInsightsSampler(1);
-      const tracerProvider = new NodeTracerProvider({ sampler: sampler });
-      tracerProvider.getTracer("testTracere").startActiveSpan("test", async (span) => {
-        // Generate Log record
-        const logRecord: APILogRecord = {
-          attributes: { test: { nested: "value" } },
-          body: "testRecord",
-        };
-        loggerProvider.getLogger("testLoggere").emit(logRecord);
-        await loggerProvider.forceFlush();
-        span.end();
-      });
-      const logRecords = memoryLogExporter.getFinishedLogRecords();
-      assert.strictEqual(logRecords[0].attributes.test, '{"nested":"value"}');
     });
   });
 });

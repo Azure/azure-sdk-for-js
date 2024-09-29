@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "../utils/recordedClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -19,17 +19,18 @@ describe("chat test suite", () => {
     await recorder.stop();
   });
   it("chat streaming test", async function () {
-    const response = await client.path("/chat/completions").post({
-      body: {
-        messages: [
-          { role: "user", content: "How many feet are in a mile?" },
-        ],
-        stream: true
-      }
-    }).asBrowserStream();
+    const response = await client
+      .path("/chat/completions")
+      .post({
+        body: {
+          messages: [{ role: "user", content: "How many feet are in a mile?" }],
+          stream: true,
+        },
+      })
+      .asBrowserStream();
 
     assert.equal(response.status, "200");
-    const stream = response.body;
+    const stream: any = response.body;
     assert.isDefined(stream);
 
     const getBuffersLength = (buffers: Uint8Array[]): number => {
@@ -48,9 +49,9 @@ describe("chat test suite", () => {
       return res;
     };
 
-    const streamToString = async (stream: ReadableStream<Uint8Array>): Promise<string> => {
+    const streamToString = async (readableStream: ReadableStream<Uint8Array>): Promise<string> => {
       let length = 0;
-      const reader = (stream as any).getReader();
+      const reader = (readableStream as any).getReader();
       const buffers: Uint8Array[] = [];
       try {
         // eslint-disable-next-line no-constant-condition
@@ -69,7 +70,5 @@ describe("chat test suite", () => {
 
     const text = await streamToString(stream);
     assert.isNotEmpty(text);
-
   });
-
 });

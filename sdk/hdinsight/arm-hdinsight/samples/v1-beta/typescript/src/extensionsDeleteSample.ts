@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified extension for HDInsight cluster.
  *
  * @summary Deletes the specified extension for HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DeleteExtension.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DeleteExtension.json
  */
 async function deleteAnExtension() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function deleteAnExtension() {
   const result = await client.extensions.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    extensionName
+    extensionName,
   );
   console.log(result);
 }

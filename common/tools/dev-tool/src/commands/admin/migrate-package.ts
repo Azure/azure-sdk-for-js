@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { Project, SourceFile } from "ts-morph";
@@ -86,7 +86,7 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
 
 const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
@@ -103,7 +103,7 @@ export default mergeConfig(
 
 const VITEST_BROWSER_CONFIG = `
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
@@ -402,11 +402,12 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setScriptsSection(packageJson: any): void {
-  packageJson.scripts["build"] = "npm run clean && tshy && dev-tool run extract-api";
+  packageJson.scripts["build"] =
+    "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   // TODO: Check if web package or not
   packageJson.scripts["unit-test:browser"] =
-    "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
+    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
   packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest --no-test-proxy";
 }
 

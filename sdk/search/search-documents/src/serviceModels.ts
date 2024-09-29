@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AIStudioModelCatalogName,
   AsciiFoldingTokenFilter,
   AzureMachineLearningSkill,
   AzureOpenAIModelName,
+  AzureOpenAITokenizerParameters,
+  BinaryQuantizationCompression,
   BM25Similarity,
   CharFilterName,
   CjkBigramTokenFilter,
@@ -34,6 +37,33 @@ import {
   IndexProjectionMode,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
+  KnownBlobIndexerDataToExtract,
+  KnownBlobIndexerImageAction,
+  KnownBlobIndexerParsingMode,
+  KnownBlobIndexerPDFTextRotationAlgorithm,
+  KnownCharFilterName,
+  KnownCustomEntityLookupSkillLanguage,
+  KnownEntityCategory,
+  KnownEntityRecognitionSkillLanguage,
+  KnownImageAnalysisSkillLanguage,
+  KnownImageDetail,
+  KnownIndexerExecutionEnvironment,
+  KnownKeyPhraseExtractionSkillLanguage,
+  KnownLexicalAnalyzerName,
+  KnownLexicalTokenizerName,
+  KnownOcrSkillLanguage,
+  KnownPIIDetectionSkillMaskingMode,
+  KnownRegexFlags,
+  KnownSearchFieldDataType,
+  KnownSearchIndexerDataSourceType,
+  KnownSentimentSkillLanguage,
+  KnownSplitSkillLanguage,
+  KnownTextSplitMode,
+  KnownTextTranslationSkillLanguage,
+  KnownTokenFilterName,
+  KnownVectorSearchAlgorithmKind,
+  KnownVectorSearchAlgorithmMetric,
+  KnownVisualFeature,
   LanguageDetectionSkill,
   LengthTokenFilter,
   LexicalAnalyzerName,
@@ -48,12 +78,13 @@ import {
   MicrosoftLanguageTokenizer,
   NativeBlobSoftDeleteDeletionDetectionPolicy,
   NGramTokenizer,
+  OcrLineEnding,
   PathHierarchyTokenizerV2 as PathHierarchyTokenizer,
   PatternCaptureTokenFilter,
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
   PhoneticTokenFilter,
-  ScalarQuantizationCompressionConfiguration,
+  ScalarQuantizationCompression,
   ScoringFunctionAggregation,
   SearchAlias,
   SearchIndexerDataContainer,
@@ -70,6 +101,7 @@ import {
   ShingleTokenFilter,
   SnowballTokenFilter,
   SoftDeleteColumnDeletionDetectionPolicy,
+  SplitSkillUnit,
   SqlIntegratedChangeTrackingPolicy,
   StemmerOverrideTokenFilter,
   StemmerTokenFilter,
@@ -85,35 +117,9 @@ import {
   UniqueTokenFilter,
   VectorEncodingFormat,
   VectorSearchProfile,
+  VectorSearchVectorizerKind,
   WordDelimiterTokenFilter,
 } from "./generated/service/models";
-import {
-  BlobIndexerDataToExtract,
-  BlobIndexerImageAction,
-  BlobIndexerParsingMode,
-  BlobIndexerPDFTextRotationAlgorithm,
-  CustomEntityLookupSkillLanguage,
-  EntityCategory,
-  EntityRecognitionSkillLanguage,
-  ImageAnalysisSkillLanguage,
-  ImageDetail,
-  IndexerExecutionEnvironment,
-  KeyPhraseExtractionSkillLanguage,
-  OcrSkillLanguage,
-  PIIDetectionSkillMaskingMode,
-  RegexFlags,
-  SearchIndexerDataSourceType,
-  SentimentSkillLanguage,
-  SplitSkillLanguage,
-  TextSplitMode,
-  TextTranslationSkillLanguage,
-  VectorSearchAlgorithmKind,
-  VectorSearchAlgorithmMetric,
-  VectorSearchVectorizerKind,
-  VisualFeature,
-} from "./generatedStringLiteralUnions";
-
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Options for a list skillsets operation.
@@ -884,38 +890,6 @@ export type ScoringFunction =
   | TagScoringFunction;
 
 /**
- * Defines values for SearchFieldDataType.
- * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
- * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)', 'Collection(Edm.Int32)',
- * 'Collection(Edm.Int64)', 'Collection(Edm.Double)', 'Collection(Edm.Boolean)',
- * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)',
- * 'Collection(Edm.Half)', 'Collection(Edm.Int16)', 'Collection(Edm.SByte)'
- *
- * NB: `Edm.Single` alone is not a valid data type. It must be used as part of a collection type.
- * @readonly
- */
-export type SearchFieldDataType =
-  | "Edm.String"
-  | "Edm.Int32"
-  | "Edm.Int64"
-  | "Edm.Double"
-  | "Edm.Boolean"
-  | "Edm.DateTimeOffset"
-  | "Edm.GeographyPoint"
-  | "Collection(Edm.String)"
-  | "Collection(Edm.Int32)"
-  | "Collection(Edm.Int64)"
-  | "Collection(Edm.Double)"
-  | "Collection(Edm.Boolean)"
-  | "Collection(Edm.DateTimeOffset)"
-  | "Collection(Edm.GeographyPoint)"
-  | "Collection(Edm.Single)"
-  | "Collection(Edm.Half)"
-  | "Collection(Edm.Int16)"
-  | "Collection(Edm.SByte)"
-  | "Collection(Edm.Byte)";
-
-/**
  * Defines values for ComplexDataType.
  * Possible values include: 'Edm.ComplexType', 'Collection(Edm.ComplexType)'
  * @readonly
@@ -939,11 +913,7 @@ export interface SimpleField {
    */
   name: string;
   /**
-   * The data type of the field. Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64',
-   * 'Edm.Double', 'Edm.Boolean', 'Edm.DateTimeOffset', 'Edm.GeographyPoint',
-   * 'Collection(Edm.String)', 'Collection(Edm.Int32)', 'Collection(Edm.Int64)',
-   * 'Collection(Edm.Double)', 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)',
-   * 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)'
+   * The data type of the field.
    */
   type: SearchFieldDataType;
   /**
@@ -956,10 +926,10 @@ export interface SimpleField {
   /**
    * A value indicating whether the field can be returned in a search result. You can disable this
    * option if you want to use a field (for example, margin) as a filter, sorting, or scoring
-   * mechanism but do not want the field to be visible to the end user. This property must be true
+   * mechanism but do not want the field to be visible to the end user. This property must be false
    * for key fields. This property can be changed on existing fields. Enabling this property does
-   * not cause any increase in index storage requirements. Default is true for simple fields and
-   * false for vector fields.
+   * not cause any increase in index storage requirements. Default is true for vector fields, false
+   * otherwise.
    */
   hidden?: boolean;
   /**
@@ -967,8 +937,8 @@ export interface SimpleField {
    * returned in a search result. You can disable this option if you don't plan to return the field
    * contents in a search response to save on storage overhead. This can only be set during index
    * creation and only for vector fields. This property cannot be changed for existing fields or set
-   * as false for new fields. If this property is set as false, the property `hidden` must be set as
-   * true. This property must be true or unset for key fields, for new fields, and for non-vector
+   * as false for new fields. If this property is set to `false`, the property `hidden` must be set to
+   * `true`. This property must be true or unset for key fields, for new fields, and for non-vector
    * fields, and it must be null for complex fields. Disabling this property will reduce index
    * storage requirements. The default is true for vector fields.
    */
@@ -977,16 +947,17 @@ export interface SimpleField {
    * A value indicating whether the field is full-text searchable. This means it will undergo
    * analysis such as word-breaking during indexing. If you set a searchable field to a value like
    * "sunny day", internally it will be split into the individual tokens "sunny" and "day". This
-   * enables full-text searches for these terms. This property must be false for simple
+   * enables full-text searches for these terms. Fields of type Edm.String or Collection(Edm.String)
+   * are searchable by default. This property must be false for simple
    * fields of other non-string data types.
-   * Note: searchable fields consume extra space in your index since Azure Cognitive Search will store an
-   * additional tokenized version of the field value for full-text searches.
-   * Defaults to false for simple fields.
+   * Note: searchable fields consume extra space in your index to accommodate additional tokenized versions of the field value for full-text
+   * searches. If you want to save space in your index and you don't need a field to be included in
+   * searches, set searchable to false. Default is false.
    */
   searchable?: boolean;
   /**
-   * A value indicating whether to enable the field to be referenced in $filter queries. Filterable
-   * differs from searchable in how strings are handled. Fields of type Edm.String or
+   * A value indicating whether to enable the field to be referenced in $filter queries. `filterable`
+   * differs from `searchable` in how strings are handled. Fields of type Edm.String or
    * Collection(Edm.String) that are filterable do not undergo word-breaking, so comparisons are
    * for exact matches only. For example, if you set such a field f to "sunny day", $filter=f eq
    * 'sunny' will find no matches, but $filter=f eq 'sunny day' will.
@@ -995,12 +966,12 @@ export interface SimpleField {
   filterable?: boolean;
   /**
    * A value indicating whether to enable the field to be referenced in $orderby expressions. By
-   * default Azure Cognitive Search sorts results by score, but in many experiences users will want
+   * default, the service sorts results by score, but in many experiences users will want
    * to sort by fields in the documents. A simple field can be sortable only if it is single-valued
    * (it has a single value in the scope of the parent document). Simple collection fields cannot
    * be sortable, since they are multi-valued. Simple sub-fields of complex collections are also
    * multi-valued, and therefore cannot be sortable. This is true whether it's an immediate parent
-   * field, or an ancestor field, that's the complex collection. The default for sortable is false.
+   * field, or an ancestor field, that's the complex collection. The default is false.
    */
   sortable?: boolean;
   /**
@@ -1012,23 +983,23 @@ export interface SimpleField {
    */
   facetable?: boolean;
   /**
-   * The name of the language analyzer to use for the field. This option can be used only with
+   * The name of the analyzer to use for the field. This option can be used only with
    * searchable fields and it can't be set together with either searchAnalyzer or indexAnalyzer.
    * Once the analyzer is chosen, it cannot be changed for the field.
-   * KnownAnalyzerNames is an enum containing known values.
    */
   analyzerName?: LexicalAnalyzerName;
   /**
    * The name of the analyzer used at search time for the field. This option can be used only with
-   * searchable fields. It must be set together with indexAnalyzer and it cannot be set together
-   * with the analyzer option. This analyzer can be updated on an existing field.
-   * KnownAnalyzerNames is an enum containing known values.
+   * searchable fields. It must be set together with `indexAnalyzerName` and it cannot be set together
+   * with the `analyzerName` option. This property cannot be set to the name of a language
+   * analyzer; use the `analyzerName` property instead if you need a language analyzer. This
+   * analyzer can be updated on an existing field.
    */
   searchAnalyzerName?: LexicalAnalyzerName;
   /**
    * The name of the analyzer used at indexing time for the field. This option can be used only
    * with searchable fields. It must be set together with searchAnalyzer and it cannot be set
-   * together with the analyzer option. Once the analyzer is chosen, it cannot be changed for the
+   * together with the `analyzerName` option. Once the analyzer is chosen, it cannot be changed for the
    * field. KnownAnalyzerNames is an enum containing known values.
    */
   indexAnalyzerName?: LexicalAnalyzerName;
@@ -1049,12 +1020,14 @@ export interface SimpleField {
    */
   vectorSearchDimensions?: number;
   /**
-   * The name of the vector search algorithm configuration that specifies the algorithm and
-   * optional parameters for searching the vector field.
+   * The name of the vector search profile that specifies the algorithm and vectorizer to use when
+   * searching the vector field.
    */
   vectorSearchProfileName?: string;
-  /** The encoding format to interpret the field contents. */
-  vectorSearchEncodingFormat?: VectorEncodingFormat;
+  /**
+   * The encoding format to interpret the field contents.
+   */
+  vectorEncodingFormat?: VectorEncodingFormat;
 }
 
 export function isComplexField(field: SearchField): field is ComplexField {
@@ -1079,7 +1052,7 @@ export interface ComplexField {
   /**
    * A list of sub-fields.
    */
-  fields: SearchField[];
+  fields?: SearchField[];
 }
 
 /**
@@ -1116,15 +1089,13 @@ export interface SynonymMap {
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
- * An iterator for listing the aliases that exist in the Search service. Will make requests
+ * An iterator for listing the aliases that exist in the Search service. This will make requests
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 /**
@@ -1132,7 +1103,6 @@ export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchI
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
@@ -1369,7 +1339,7 @@ export interface SearchIndexerSkillset {
   /**
    *  Definition of additional projections to secondary search index(es).
    */
-  indexProjections?: SearchIndexerIndexProjections;
+  indexProjection?: SearchIndexerIndexProjection;
   /**
    * The ETag of the skillset.
    */
@@ -2148,7 +2118,7 @@ export interface VectorSearch {
    * Contains configuration options specific to the compression method used during indexing or
    * querying.
    */
-  compressions?: VectorSearchCompressionConfiguration[];
+  compressions?: VectorSearchCompression[];
 }
 
 /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
@@ -2224,7 +2194,7 @@ export interface ExhaustiveKnnParameters {
 }
 
 /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-export interface SearchIndexerIndexProjectionsParameters {
+export interface SearchIndexerIndexProjectionParameters {
   /** Describes unknown properties.*/
   [property: string]: unknown;
   /** Defines behavior of the index projections in relation to the rest of the indexer. */
@@ -2232,11 +2202,11 @@ export interface SearchIndexerIndexProjectionsParameters {
 }
 
 /** Definition of additional projections to secondary search indexes. */
-export interface SearchIndexerIndexProjections {
+export interface SearchIndexerIndexProjection {
   /** A list of projections to be performed to secondary search indexes. */
   selectors: SearchIndexerIndexProjectionSelector[];
   /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-  parameters?: SearchIndexerIndexProjectionsParameters;
+  parameters?: SearchIndexerIndexProjectionParameters;
 }
 
 /** Contains specific details for a vectorization method to be used during query time. */
@@ -2244,7 +2214,7 @@ export interface BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: VectorSearchVectorizerKind;
   /** The name to associate with this particular vectorization method. */
-  name: string;
+  vectorizerName: string;
 }
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
@@ -2252,23 +2222,46 @@ export interface AzureOpenAIVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure Open AI embedding vectorization. */
-  azureOpenAIParameters?: AzureOpenAIParameters;
+  parameters?: AzureOpenAIParameters;
 }
 
-/** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-export interface CustomVectorizer extends BaseVectorSearchVectorizer {
+/** Specifies a user-defined vectorizer for generating the vector embedding of a query string. Integration of an external vectorizer is achieved using the custom Web API interface of a skillset. */
+export interface WebApiVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
-  /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-  customVectorizerParameters?: CustomVectorizerParameters;
+  /** Specifies the properties of the user-defined vectorizer. */
+  parameters?: WebApiParameters;
 }
+
+/** Specifies the properties for connecting to a user-defined vectorizer. */
+export interface WebApiParameters {
+  /** The URI of the Web API providing the vectorizer. */
+  uri?: string;
+  /** The headers required to make the HTTP request. */
+  httpHeaders?: { [propertyName: string]: string };
+  /** The method for the HTTP request. */
+  httpMethod?: string;
+  /** The desired timeout for the request. Default is 30 seconds. */
+  timeout?: string;
+  /** Applies to custom endpoints that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the vectorization connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
+  authResourceId?: string;
+  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  authIdentity?: SearchIndexerDataIdentity;
+}
+
+/** Contains configuration options on how to vectorize text vector queries. */
+export type VectorSearchVectorizer =
+  | AIServicesVisionVectorizer
+  | AzureMachineLearningVectorizer
+  | AzureOpenAIVectorizer
+  | WebApiVectorizer;
 
 /** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
 export interface AIServicesVisionVectorizer extends BaseVectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "aiServicesVision";
   /** Contains the parameters specific to AI Services Vision embedding vectorization. */
-  aIServicesVisionParameters?: AIServicesVisionParameters;
+  parameters?: AIServicesVisionParameters;
 }
 
 /** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
@@ -2342,36 +2335,13 @@ export interface TokenAuthAzureMachineLearningVectorizerParameters
   region?: string;
 }
 
-/** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-export interface CustomVectorizerParameters {
-  /** The uri for the Web API. */
-  uri?: string;
-  /** The headers required to make the http request. */
-  httpHeaders?: Record<string, string>;
-  /** The method for the http request. */
-  httpMethod?: string;
-  /** The desired timeout for the request. Default is 30 seconds. */
-  timeout?: string;
-  /** Applies to custom endpoints that connect to external code in an Azure function or some other application that provides the transformations. This value should be the application ID created for the function or app when it was registered with Azure Active Directory. When specified, the vectorization connects to the function or app using a managed ID (either system or user-assigned) of the search service and the access token of the function or app, using this value as the resource id for creating the scope of the access token. */
-  authResourceId?: string;
-  /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
-  authIdentity?: SearchIndexerDataIdentity;
-}
-
-/** Contains configuration options on how to vectorize text vector queries. */
-export type VectorSearchVectorizer =
-  | AzureOpenAIVectorizer
-  | CustomVectorizer
-  | AIServicesVisionVectorizer
-  | AzureMachineLearningVectorizer;
-
-/** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
+/** Specifies the parameters for connecting to the Azure OpenAI resource. */
 export interface AzureOpenAIParameters {
-  /** The resource uri for your Azure Open AI resource. */
-  resourceUri?: string;
-  /** ID of your Azure Open AI model deployment on the designated resource. */
+  /** The resource URI of the Azure OpenAI resource. */
+  resourceUrl?: string;
+  /** ID of the Azure OpenAI model deployment on the designated resource. */
   deploymentId?: string;
-  /** API key for the designated Azure Open AI resource. */
+  /** API key of the designated Azure OpenAI resource. */
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentity;
@@ -2509,10 +2479,12 @@ export interface KeyPhraseExtractionSkill extends BaseSearchIndexerSkill {
 export interface OcrSkill extends BaseSearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Vision.OcrSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: OcrSkillLanguage;
   /** A value indicating to turn orientation detection on or not. Default is false. */
   shouldDetectOrientation?: boolean;
+  /** Defines the sequence of characters to use between the lines of text recognized by the OCR skill. The default value is "space". */
+  lineEnding?: OcrLineEnding;
 }
 
 /** Using the Text Analytics API, extracts personal information from an input text and gives you the option of masking it. */
@@ -2551,12 +2523,20 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
 export interface SplitSkill extends BaseSearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.SplitSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: SplitSkillLanguage;
   /** A value indicating which split mode to perform. */
   textSplitMode?: TextSplitMode;
   /** The desired maximum page length. Default is 10000. */
   maxPageLength?: number;
+  /** Only applicable when textSplitMode is set to 'pages'. If specified, n+1th chunk will start with this number of characters/tokens from the end of the nth chunk. */
+  pageOverlapLength?: number;
+  /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
+  maximumPagesToTake?: number;
+  /** Only applies if textSplitMode is set to pages. There are two possible values. The choice of the values will decide the length (maximumPageLength and pageOverlapLength) measurement. The default is 'characters', which means the length will be measured by character. */
+  unit?: SplitSkillUnit;
+  /** Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use these parameters when performing the tokenization. The parameters are a valid 'encoderModelName' and an optional 'allowedSpecialTokens' property. */
+  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /** A skill to translate text from one language to another. */
@@ -2583,10 +2563,176 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
   details?: ImageDetail[];
 }
 
+/** Contains configuration options specific to the compression method used during indexing or querying. */
+export type VectorSearchCompression = BinaryQuantizationCompression | ScalarQuantizationCompression;
+
 /**
- * Contains configuration options specific to the compression method used during indexing or
- * querying.
+ * Defines values for LexicalAnalyzerName.
+ * {@link KnownLexicalAnalyzerName} can be used interchangeably with LexicalAnalyzerName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ar.microsoft**: Microsoft analyzer for Arabic.
+ * **ar.lucene**: Lucene analyzer for Arabic.
+ * **hy.lucene**: Lucene analyzer for Armenian.
+ * **bn.microsoft**: Microsoft analyzer for Bangla.
+ * **eu.lucene**: Lucene analyzer for Basque.
+ * **bg.microsoft**: Microsoft analyzer for Bulgarian.
+ * **bg.lucene**: Lucene analyzer for Bulgarian.
+ * **ca.microsoft**: Microsoft analyzer for Catalan.
+ * **ca.lucene**: Lucene analyzer for Catalan.
+ * **zh-Hans.microsoft**: Microsoft analyzer for Chinese (Simplified).
+ * **zh-Hans.lucene**: Lucene analyzer for Chinese (Simplified).
+ * **zh-Hant.microsoft**: Microsoft analyzer for Chinese (Traditional).
+ * **zh-Hant.lucene**: Lucene analyzer for Chinese (Traditional).
+ * **hr.microsoft**: Microsoft analyzer for Croatian.
+ * **cs.microsoft**: Microsoft analyzer for Czech.
+ * **cs.lucene**: Lucene analyzer for Czech.
+ * **da.microsoft**: Microsoft analyzer for Danish.
+ * **da.lucene**: Lucene analyzer for Danish.
+ * **nl.microsoft**: Microsoft analyzer for Dutch.
+ * **nl.lucene**: Lucene analyzer for Dutch.
+ * **en.microsoft**: Microsoft analyzer for English.
+ * **en.lucene**: Lucene analyzer for English.
+ * **et.microsoft**: Microsoft analyzer for Estonian.
+ * **fi.microsoft**: Microsoft analyzer for Finnish.
+ * **fi.lucene**: Lucene analyzer for Finnish.
+ * **fr.microsoft**: Microsoft analyzer for French.
+ * **fr.lucene**: Lucene analyzer for French.
+ * **gl.lucene**: Lucene analyzer for Galician.
+ * **de.microsoft**: Microsoft analyzer for German.
+ * **de.lucene**: Lucene analyzer for German.
+ * **el.microsoft**: Microsoft analyzer for Greek.
+ * **el.lucene**: Lucene analyzer for Greek.
+ * **gu.microsoft**: Microsoft analyzer for Gujarati.
+ * **he.microsoft**: Microsoft analyzer for Hebrew.
+ * **hi.microsoft**: Microsoft analyzer for Hindi.
+ * **hi.lucene**: Lucene analyzer for Hindi.
+ * **hu.microsoft**: Microsoft analyzer for Hungarian.
+ * **hu.lucene**: Lucene analyzer for Hungarian.
+ * **is.microsoft**: Microsoft analyzer for Icelandic.
+ * **id.microsoft**: Microsoft analyzer for Indonesian (Bahasa).
+ * **id.lucene**: Lucene analyzer for Indonesian.
+ * **ga.lucene**: Lucene analyzer for Irish.
+ * **it.microsoft**: Microsoft analyzer for Italian.
+ * **it.lucene**: Lucene analyzer for Italian.
+ * **ja.microsoft**: Microsoft analyzer for Japanese.
+ * **ja.lucene**: Lucene analyzer for Japanese.
+ * **kn.microsoft**: Microsoft analyzer for Kannada.
+ * **ko.microsoft**: Microsoft analyzer for Korean.
+ * **ko.lucene**: Lucene analyzer for Korean.
+ * **lv.microsoft**: Microsoft analyzer for Latvian.
+ * **lv.lucene**: Lucene analyzer for Latvian.
+ * **lt.microsoft**: Microsoft analyzer for Lithuanian.
+ * **ml.microsoft**: Microsoft analyzer for Malayalam.
+ * **ms.microsoft**: Microsoft analyzer for Malay (Latin).
+ * **mr.microsoft**: Microsoft analyzer for Marathi.
+ * **nb.microsoft**: Microsoft analyzer for Norwegian (Bokmål).
+ * **no.lucene**: Lucene analyzer for Norwegian.
+ * **fa.lucene**: Lucene analyzer for Persian.
+ * **pl.microsoft**: Microsoft analyzer for Polish.
+ * **pl.lucene**: Lucene analyzer for Polish.
+ * **pt-BR.microsoft**: Microsoft analyzer for Portuguese (Brazil).
+ * **pt-BR.lucene**: Lucene analyzer for Portuguese (Brazil).
+ * **pt-PT.microsoft**: Microsoft analyzer for Portuguese (Portugal).
+ * **pt-PT.lucene**: Lucene analyzer for Portuguese (Portugal).
+ * **pa.microsoft**: Microsoft analyzer for Punjabi.
+ * **ro.microsoft**: Microsoft analyzer for Romanian.
+ * **ro.lucene**: Lucene analyzer for Romanian.
+ * **ru.microsoft**: Microsoft analyzer for Russian.
+ * **ru.lucene**: Lucene analyzer for Russian.
+ * **sr-cyrillic.microsoft**: Microsoft analyzer for Serbian (Cyrillic).
+ * **sr-latin.microsoft**: Microsoft analyzer for Serbian (Latin).
+ * **sk.microsoft**: Microsoft analyzer for Slovak.
+ * **sl.microsoft**: Microsoft analyzer for Slovenian.
+ * **es.microsoft**: Microsoft analyzer for Spanish.
+ * **es.lucene**: Lucene analyzer for Spanish.
+ * **sv.microsoft**: Microsoft analyzer for Swedish.
+ * **sv.lucene**: Lucene analyzer for Swedish.
+ * **ta.microsoft**: Microsoft analyzer for Tamil.
+ * **te.microsoft**: Microsoft analyzer for Telugu.
+ * **th.microsoft**: Microsoft analyzer for Thai.
+ * **th.lucene**: Lucene analyzer for Thai.
+ * **tr.microsoft**: Microsoft analyzer for Turkish.
+ * **tr.lucene**: Lucene analyzer for Turkish.
+ * **uk.microsoft**: Microsoft analyzer for Ukrainian.
+ * **ur.microsoft**: Microsoft analyzer for Urdu.
+ * **vi.microsoft**: Microsoft analyzer for Vietnamese.
+ * **standard.lucene**: Standard Lucene analyzer.
+ * **standardasciifolding.lucene**: Standard ASCII Folding Lucene analyzer. See https:\/\/learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#Analyzers
+ * **keyword**: Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/KeywordAnalyzer.html
+ * **pattern**: Flexibly separates text into terms via a regular expression pattern. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/PatternAnalyzer.html
+ * **simple**: Divides text at non-letters and converts them to lower case. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/SimpleAnalyzer.html
+ * **stop**: Divides text at non-letters; Applies the lowercase and stopword token filters. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopAnalyzer.html
+ * **whitespace**: An analyzer that uses the whitespace tokenizer. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/WhitespaceAnalyzer.html
  */
-export type VectorSearchCompressionConfiguration = ScalarQuantizationCompressionConfiguration;
+export type AnalyzerNames = `${KnownLexicalAnalyzerName}`;
+export type BlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;
+export type BlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
+export type BlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
+export type BlobIndexerPDFTextRotationAlgorithm = `${KnownBlobIndexerPDFTextRotationAlgorithm}`;
+export type CharFilterNames = `${KnownCharFilterName}`;
+export type CustomEntityLookupSkillLanguage = `${KnownCustomEntityLookupSkillLanguage}`;
+export type EntityCategory = `${KnownEntityCategory}`;
+export type EntityRecognitionSkillLanguage = `${KnownEntityRecognitionSkillLanguage}`;
+export type ImageAnalysisSkillLanguage = `${KnownImageAnalysisSkillLanguage}`;
+export type ImageDetail = `${KnownImageDetail}`;
+export type IndexerExecutionEnvironment = `${KnownIndexerExecutionEnvironment}`;
+export type KeyPhraseExtractionSkillLanguage = `${KnownKeyPhraseExtractionSkillLanguage}`;
+export type OcrSkillLanguage = `${KnownOcrSkillLanguage}`;
+export type PIIDetectionSkillMaskingMode = `${KnownPIIDetectionSkillMaskingMode}`;
+export type RegexFlags = `${KnownRegexFlags}`;
+/**
+ * Defines values for SearchFieldDataType.
+ *
+ * ### Known values supported by the service:
+ *
+ * **Edm.String**: Indicates that a field contains a string.
+ *
+ * **Edm.Int32**: Indicates that a field contains a 32-bit signed integer.
+ *
+ * **Edm.Int64**: Indicates that a field contains a 64-bit signed integer.
+ *
+ * **Edm.Double**: Indicates that a field contains an IEEE double-precision floating point number.
+ *
+ * **Edm.Boolean**: Indicates that a field contains a Boolean value (true or false).
+ *
+ * **Edm.DateTimeOffset**: Indicates that a field contains a date/time value, including timezone
+ * information.
+ *
+ * **Edm.GeographyPoint**: Indicates that a field contains a geo-location in terms of longitude and
+ * latitude.
+ *
+ * **Edm.ComplexType**: Indicates that a field contains one or more complex objects that in turn
+ * have sub-fields of other types.
+ *
+ * **Edm.Single**: Indicates that a field contains a single-precision floating point number. This is
+ * only valid when used as part of a collection type, i.e. Collection(Edm.Single).
+ *
+ * **Edm.Half**: Indicates that a field contains a half-precision floating point number. This is
+ * only valid when used as part of a collection type, i.e. Collection(Edm.Half).
+ *
+ * **Edm.Int16**: Indicates that a field contains a 16-bit signed integer. This is only valid when
+ * used as part of a collection type, i.e. Collection(Edm.Int16).
+ *
+ * **Edm.SByte**: Indicates that a field contains a 8-bit signed integer. This is only valid when
+ * used as part of a collection type, i.e. Collection(Edm.SByte).
+ *
+ * **Edm.Byte**: Indicates that a field contains a 8-bit unsigned integer. This is only valid when
+ * used as part of a collection type, i.e. Collection(Edm.Byte).
+ */
+export type SearchFieldDataType = Exclude<
+  `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,
+  "Edm.ComplexType" | "Edm.Byte" | "Edm.Half" | "Edm.Int16" | "Edm.SByte" | "Edm.Single"
+>;
+export type SearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
+export type SentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
+export type SplitSkillLanguage = `${KnownSplitSkillLanguage}`;
+export type TextSplitMode = `${KnownTextSplitMode}`;
+export type TextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
+export type TokenFilterNames = `${KnownTokenFilterName}`;
+export type TokenizerNames = `${KnownLexicalTokenizerName}`;
+export type VectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
+export type VectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
+export type VisualFeature = `${KnownVisualFeature}`;
 
 // END manually modified generated interfaces

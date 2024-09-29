@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  *  These tests only run in Live Mode because Http Requests with Randomized UUIDs do not play well with the recorder

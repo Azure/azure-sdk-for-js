@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, expect, vi, afterEach } from "vitest";
 import {
@@ -29,7 +29,7 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 416, response });
 
     const policy = exponentialRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
@@ -48,7 +48,7 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 503, response });
 
     const policy = exponentialRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(testError);
 
     vi.useFakeTimers();

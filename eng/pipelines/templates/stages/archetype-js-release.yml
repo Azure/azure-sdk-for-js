@@ -171,10 +171,9 @@ stages:
                             - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
                               parameters:
                                 FolderForUpload: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                BlobName: $(azure-sdk-docs-prod-blob-name)
                                 TargetLanguage: javascript
                                 ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                ScriptPath: eng/common/scripts/copy-docs-to-blobstorage.ps1
+
               - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
                   - deployment: UpdatePackageVersion
                     displayName: Update Package Version

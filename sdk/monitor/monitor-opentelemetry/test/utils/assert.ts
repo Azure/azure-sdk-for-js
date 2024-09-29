@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import { Expectation } from "./types";
@@ -180,7 +180,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
           }
           break;
         case "children":
-          //Do not check for children
+          // Do not check for children
           break;
         default:
           assert.ok(serializedKey, `Serialized key for ${key}`);
@@ -225,7 +225,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
           }
           break;
         case "children":
-          //Do not check for children
+          // Do not check for children
           break;
         default:
           assert.ok(serializedKey, `Serialized key for ${key}`);

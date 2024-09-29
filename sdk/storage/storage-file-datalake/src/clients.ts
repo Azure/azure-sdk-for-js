@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
@@ -69,7 +69,10 @@ import {
   RemovePathAccessControlItem,
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
+import {
+  generateDataLakeSASQueryParameters,
+  generateDataLakeSASQueryParametersInternal,
+} from "./sas/DataLakeSASSignatureValues";
 import { StorageClient } from "./StorageClient";
 import {
   toAccessControlChangeFailureArray,
@@ -1883,5 +1886,34 @@ export class DataLakeFileClient extends DataLakePathClient {
 
       resolve(appendToURLQuery(this.url, sas));
     });
+  }
+
+  /**
+   * Only available for clients constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: FileGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

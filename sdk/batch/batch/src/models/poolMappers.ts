@@ -21,9 +21,9 @@ export {
   CIFSMountConfiguration,
   CloudPool,
   CloudPoolListResult,
-  CloudServiceConfiguration,
   ComputeNodeIdentityReference,
   ContainerConfiguration,
+  ContainerHostBatchBindMountEntry,
   ContainerRegistry,
   DataDisk,
   DiffDiskSettings,
@@ -84,6 +84,7 @@ export {
   UserAssignedIdentity,
   UserIdentity,
   VirtualMachineConfiguration,
+  VMDiskSecurityProfile,
   VMExtension,
   WindowsConfiguration,
   WindowsUserConfiguration

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { context, diag } from "@opentelemetry/api";
 import {
   AggregationTemporality,
@@ -15,6 +15,7 @@ import {
   MonitoringDataPoint,
   PublishOptionalParams,
   PublishResponse,
+  CollectionConfigurationError,
 } from "../../../generated";
 import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
 
@@ -27,6 +28,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
   private getDocumentsFn: () => DocumentIngress[];
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
+  private etag: string;
+  private getErrorsFn: () => CollectionConfigurationError[];
+  private getDerivedMetricValuesFn: () => Map<string, number>;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricExporter class.
@@ -37,12 +41,15 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     this.sender = new QuickpulseSender({
       endpointUrl: options.endpointUrl,
       instrumentationKey: options.instrumentationKey,
-      aadAudience: options.aadAudience,
       credential: options.credential,
+      credentialScopes: options.credentialScopes,
     });
     this.postCallback = options.postCallback;
     this.getDocumentsFn = options.getDocumentsFn;
     this.baseMonitoringDataPoint = options.baseMonitoringDataPoint;
+    this.getErrorsFn = options.getErrorsFn;
+    this.etag = "";
+    this.getDerivedMetricValuesFn = options.getDerivedMetricValuesFn;
     diag.debug("QuickpulseMetricExporter was successfully setup");
   }
 
@@ -51,24 +58,27 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    * @param metrics - Resource metrics to export.
    * @param resultCallback - Result callback.
    */
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async export(
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
-    let optionalParams: PublishOptionalParams = {
+    const optionalParams: PublishOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,
         this.getDocumentsFn(),
+        this.getErrorsFn(),
+        this.getDerivedMetricValuesFn(),
       ),
       transmissionTime: getTransmissionTime(),
+      configurationEtag: this.etag,
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {
       try {
-        let postResponse = await this.sender.publish(optionalParams);
-        this.postCallback(postResponse);
+        this.postCallback(await this.sender.publish(optionalParams));
         resultCallback({ code: ExportResultCode.SUCCESS });
       } catch (error) {
         this.postCallback(undefined);
@@ -110,5 +120,9 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    */
   public getSender(): QuickpulseSender {
     return this.sender;
+  }
+
+  public setEtag(etag: string): void {
+    this.etag = etag;
   }
 }

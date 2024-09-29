@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import * as os from "os";
 import {
   MeterProvider,
@@ -19,7 +19,6 @@ import {
 } from "@opentelemetry/api";
 import { RandomIdGenerator, ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
-import { isExceptionTelemetry } from "../utils";
 import {
   DocumentIngress,
   Exception,
@@ -28,24 +27,54 @@ import {
   IsSubscribedResponse,
   PublishResponse,
   RemoteDependency,
+  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
+  KnownCollectionConfigurationErrorType,
+  KeyValuePairString,
+  DerivedMetricInfo,
+  KnownTelemetryType,
 } from "../../generated";
 import {
   getCloudRole,
   getCloudRoleInstance,
   getLogDocument,
   getSdkVersion,
+  getSpanData,
+  getLogData,
   getSpanDocument,
   getTransmissionTime,
+  isRequestData,
+  getSpanExceptionColumns,
+  isExceptionData,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
+import {
+  QuickPulseOpenTelemetryMetricNames,
+  QuickpulseExporterOptions,
+  RequestData,
+  DependencyData,
+  TraceData,
+  ExceptionData,
+  TelemetryData,
+} from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
+import { CollectionConfigurationError } from "../../generated";
+import { Filter } from "./filtering/filter";
+import { Validator } from "./filtering/validator";
+import { CollectionConfigurationErrorTracker } from "./filtering/collectionConfigurationErrorTracker";
+import { Projection } from "./filtering/projection";
+import {
+  TelemetryTypeError,
+  UnexpectedFilterCreateError,
+  DuplicateMetricIdError,
+  MetricFailureToCreateError,
+} from "./filtering/quickpulseErrors";
+import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -112,7 +141,15 @@ export class LiveMetrics {
       }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
-
+  private etag: string = "";
+  private errorTracker: CollectionConfigurationErrorTracker =
+    new CollectionConfigurationErrorTracker();
+  // For tracking of duplicate metric ids in the same configuration.
+  private seenMetricIds: Set<string> = new Set();
+  private validDerivedMetrics: Map<string, DerivedMetricInfo[]> = new Map();
+  private derivedMetricProjection: Projection = new Projection();
+  private validator: Validator = new Validator();
+  private filter: Filter = new Filter();
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param config - Distro configuration.
@@ -120,7 +157,7 @@ export class LiveMetrics {
    */
   constructor(config: InternalConfig) {
     this.config = config;
-    let idGenerator = new RandomIdGenerator();
+    const idGenerator = new RandomIdGenerator();
     const streamId = idGenerator.generateTraceId();
     const machineName = os.hostname();
     const instance = getCloudRoleInstance(this.config.resource);
@@ -128,7 +165,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 1,
+      invariantVersion: 2, // Not changing this to 5 until we have filtering of documents too
       instance: instance,
       roleName: roleName,
       machineName: machineName,
@@ -143,41 +180,51 @@ export class LiveMetrics {
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
+      credential: this.config.azureMonitorExporterOptions.credential,
+      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
     });
-    let exporterOptions: QuickpulseExporterOptions = {
+    const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
+      credential: this.config.azureMonitorExporterOptions.credential,
+      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
+      getErrorsFn: this.getErrors.bind(this),
+      getDerivedMetricValuesFn: this.getDerivedMetricValues.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
     };
     this.quickpulseExporter = new QuickpulseMetricExporter(exporterOptions);
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
   }
 
-  public shutdown() {
+  public shutdown(): void {
     this.meterProvider?.shutdown();
   }
 
-  private async goQuickpulse() {
+  private async goQuickpulse(): Promise<void> {
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
-        let params: IsSubscribedOptionalParams = {
+        const params: IsSubscribedOptionalParams = {
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
+          configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
-          let response = await this.pingSender.isSubscribed(params);
+          const response = await this.pingSender.isSubscribed(params);
           this.quickPulseDone(response);
         });
       } catch (error) {
         this.quickPulseDone(undefined);
       }
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
       this.handle.unref();
     }
@@ -186,7 +233,10 @@ export class LiveMetrics {
     }
   }
 
-  private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  private async quickPulseDone(
+    response: PublishResponse | IsSubscribedResponse | undefined,
+  ): Promise<void> {
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
@@ -206,9 +256,15 @@ export class LiveMetrics {
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
 
+      if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
+        this.updateConfiguration(response);
+      }
+
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
+        this.etag = "";
         this.deactivateMetrics();
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();
       }
@@ -228,13 +284,13 @@ export class LiveMetrics {
   }
 
   // Activate live metrics collection
-  public activateMetrics(options?: { collectionInterval: number }) {
+  public activateMetrics(options?: { collectionInterval: number }): void {
     if (this.meterProvider) {
       return;
     }
     // Turn on live metrics active collection for statsbeat
     if (!this.statsbeatOptionsUpdated) {
-      getInstance().setStatsbeatFeatures({ liveMetrics: true });
+      getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
     this.lastCpus = os.cpus();
@@ -335,8 +391,13 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public deactivateMetrics() {
+  public deactivateMetrics(): void {
     this.documents = [];
+    this.errorTracker.clearRunTimeErrors();
+    this.errorTracker.clearValidationTimeErrors();
+    this.validDerivedMetrics.clear();
+    this.derivedMetricProjection.clearProjectionMaps();
+    this.seenMetricIds.clear();
     this.meterProvider?.shutdown();
     this.meterProvider = undefined;
   }
@@ -356,10 +417,22 @@ export class LiveMetrics {
   }
 
   public getDocuments(): DocumentIngress[] {
-    return this.documents;
+    const result: DocumentIngress[] = this.documents;
+    this.documents = [];
+    return result;
   }
 
-  private addDocument(document: DocumentIngress) {
+  public getErrors(): CollectionConfigurationError[] {
+    const result = this.errorTracker.getErrors();
+    this.errorTracker.clearRunTimeErrors();
+    return result;
+  }
+
+  public getDerivedMetricValues(): Map<string, number> {
+    return this.derivedMetricProjection.getMetricValues();
+  }
+
+  private addDocument(document: DocumentIngress): void {
     if (document) {
       // Limit risk of memory leak by limiting doc length to something manageable
       if (this.documents.length > 20) {
@@ -375,11 +448,19 @@ export class LiveMetrics {
    */
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
-      // Add document and calculate metrics
-      let document: Request | RemoteDependency = getSpanDocument(span);
+      const columns: RequestData | DependencyData = getSpanData(span);
+      let derivedMetricInfos: DerivedMetricInfo[];
+      if (isRequestData(columns)) {
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
+      } else {
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Dependency) || [];
+      }
+      this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
+
+      const document: Request | RemoteDependency = getSpanDocument(columns);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
-      let success = span.status.code !== SpanStatusCode.ERROR;
+      const success = span.status.code !== SpanStatusCode.ERROR;
 
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
         this.totalRequestCount++;
@@ -398,6 +479,17 @@ export class LiveMetrics {
         span.events.forEach((event: TimedEvent) => {
           event.attributes = event.attributes || {};
           if (event.name === "exception") {
+            const exceptionColumns: ExceptionData = getSpanExceptionColumns(
+              event.attributes,
+              span.attributes,
+            );
+            derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+            this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
+            const exceptionDocument: Exception = getLogDocument(
+              exceptionColumns,
+              event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
+            ) as Exception;
+            this.addDocument(exceptionDocument);
             this.totalExceptionCount++;
           }
         });
@@ -411,15 +503,23 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      let document: Trace | Exception = getLogDocument(logRecord);
-      this.addDocument(document);
-      if (isExceptionTelemetry(logRecord)) {
+      const columns: TraceData | ExceptionData = getLogData(logRecord);
+      let derivedMetricInfos: DerivedMetricInfo[];
+      if (isExceptionData(columns)) {
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
         this.totalExceptionCount++;
+      } else {
+        // trace
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
       }
+      this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
+      const exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]) || "";
+      const document: Trace | Exception = getLogDocument(columns, exceptionType);
+      this.addDocument(document);
     }
   }
 
-  private getRequestDuration(observableResult: ObservableResult) {
+  private getRequestDuration(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const requestInterval = this.totalRequestCount - this.lastRequestDuration.count || 0;
     const durationInterval = this.requestDuration - this.lastRequestDuration.duration || 0;
@@ -435,7 +535,7 @@ export class LiveMetrics {
     };
   }
 
-  private getRequestRate(observableResult: ObservableResult) {
+  private getRequestRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalRequestCount - this.lastRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastRequestRate.time;
@@ -450,7 +550,7 @@ export class LiveMetrics {
     };
   }
 
-  private getRequestFailedRate(observableResult: ObservableResult) {
+  private getRequestFailedRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalRequests = this.totalFailedRequestCount - this.lastFailedRequestRate.count || 0;
     const elapsedMs = currentTime - this.lastFailedRequestRate.time;
@@ -465,7 +565,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyDuration(observableResult: ObservableResult) {
+  private getDependencyDuration(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const dependencyInterval = this.totalDependencyCount - this.lastDependencyDuration.count || 0;
     const durationInterval = this.dependencyDuration - this.lastDependencyDuration.duration || 0;
@@ -481,7 +581,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyRate(observableResult: ObservableResult) {
+  private getDependencyRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalDependencyCount - this.lastDependencyRate.count || 0;
     const elapsedMs = currentTime - this.lastDependencyRate.time;
@@ -496,7 +596,7 @@ export class LiveMetrics {
     };
   }
 
-  private getDependencyFailedRate(observableResult: ObservableResult) {
+  private getDependencyFailedRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalFailedDependencyCount - this.lastFailedDependencyRate.count || 0;
     const elapsedMs = currentTime - this.lastFailedDependencyRate.time;
@@ -511,7 +611,7 @@ export class LiveMetrics {
     };
   }
 
-  private getExceptionRate(observableResult: ObservableResult) {
+  private getExceptionRate(observableResult: ObservableResult): void {
     const currentTime = +new Date();
     const intervalData = this.totalExceptionCount - this.lastExceptionRate.count || 0;
     const elapsedMs = currentTime - this.lastExceptionRate.time;
@@ -526,13 +626,16 @@ export class LiveMetrics {
     };
   }
 
-  private getCommitedMemory(observableResult: ObservableResult) {
-    var freeMem = os.freemem();
-    var committedMemory = os.totalmem() - freeMem;
+  private getCommitedMemory(observableResult: ObservableResult): void {
+    const freeMem = os.freemem();
+    const committedMemory = os.totalmem() - freeMem;
     observableResult.observe(committedMemory);
   }
 
-  private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
+  private getTotalCombinedCpu(
+    cpus: os.CpuInfo[],
+    lastCpus: os.CpuInfo[],
+  ): { combinedTotal: number; totalUser: number; totalIdle: number } {
     let totalUser = 0;
     let totalSys = 0;
     let totalNice = 0;
@@ -572,7 +675,7 @@ export class LiveMetrics {
     };
   }
 
-  private getProcessorTime(observableResult: ObservableResult) {
+  private getProcessorTime(observableResult: ObservableResult): void {
     // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
     // to find the delta since the last measurement
     const cpus = os.cpus();
@@ -586,5 +689,98 @@ export class LiveMetrics {
       observableResult.observe(value);
     }
     this.lastCpus = cpus;
+  }
+
+  private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    this.etag = response.xMsQpsConfigurationEtag || "";
+    this.quickpulseExporter.setEtag(this.etag);
+    this.errorTracker.clearValidationTimeErrors();
+    this.validDerivedMetrics.clear();
+    this.derivedMetricProjection.clearProjectionMaps();
+    this.seenMetricIds.clear();
+
+    response.metrics.forEach((derivedMetricInfo) => {
+      try {
+        if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
+          this.seenMetricIds.add(derivedMetricInfo.id);
+          this.validator.validateTelemetryType(derivedMetricInfo);
+          this.validator.checkCustomMetricProjection(derivedMetricInfo);
+          this.validator.validateFilters(derivedMetricInfo);
+          derivedMetricInfo.filterGroups.forEach((filterConjunctionGroupInfo) => {
+            this.filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
+          });
+
+          if (this.validDerivedMetrics.has(derivedMetricInfo.telemetryType)) {
+            this.validDerivedMetrics.get(derivedMetricInfo.telemetryType)?.push(derivedMetricInfo);
+          } else {
+            this.validDerivedMetrics.set(derivedMetricInfo.telemetryType, [derivedMetricInfo]);
+          }
+        } else {
+          throw new DuplicateMetricIdError(`Duplicate Metric Id: ${derivedMetricInfo.id}`);
+        }
+        this.derivedMetricProjection.initDerivedMetricProjection(derivedMetricInfo);
+      } catch (error) {
+        const configError: CollectionConfigurationError = {
+          collectionConfigurationErrorType: "",
+          message: "",
+          fullException: "",
+          data: [],
+        };
+        if (error instanceof TelemetryTypeError) {
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
+        } else if (error instanceof UnexpectedFilterCreateError) {
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.FilterFailureToCreateUnexpected;
+        } else if (error instanceof DuplicateMetricIdError) {
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricDuplicateIds;
+        }
+
+        if (error instanceof Error) {
+          configError.message = error.message;
+          configError.fullException = error.stack || "";
+        }
+        const data: KeyValuePairString[] = [];
+        data.push({ key: "MetricId", value: derivedMetricInfo.id });
+        data.push({ key: "ETag", value: this.etag });
+        configError.data = data;
+        this.errorTracker.addValidationError(configError);
+      }
+    });
+  }
+
+  private checkMetricFilterAndCreateProjection(
+    derivedMetricInfoList: DerivedMetricInfo[],
+    data: TelemetryData,
+  ): void {
+    derivedMetricInfoList.forEach((derivedMetricInfo: DerivedMetricInfo) => {
+      if (this.filter.checkMetricFilters(derivedMetricInfo, data)) {
+        try {
+          this.derivedMetricProjection.calculateProjection(derivedMetricInfo, data);
+        } catch (error) {
+          const configError: CollectionConfigurationError = {
+            collectionConfigurationErrorType: "",
+            message: "",
+            fullException: "",
+            data: [],
+          };
+          if (error instanceof MetricFailureToCreateError) {
+            configError.collectionConfigurationErrorType =
+              KnownCollectionConfigurationErrorType.MetricFailureToCreate;
+
+            if (error instanceof Error) {
+              configError.message = error.message;
+              configError.fullException = error.stack || "";
+            }
+            const errorData: KeyValuePairString[] = [];
+            errorData.push({ key: "MetricId", value: derivedMetricInfo.id });
+            errorData.push({ key: "ETag", value: this.etag });
+            configError.data = errorData;
+            this.errorTracker.addRunTimeError(configError);
+          }
+        }
+      }
+    });
   }
 }

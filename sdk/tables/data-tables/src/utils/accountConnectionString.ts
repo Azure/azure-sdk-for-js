@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { AzureNamedKeyCredential } from "@azure/core-auth";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Link, Attributes, SpanKind, Context } from "@opentelemetry/api";
 import { Sampler, SamplingDecision, SamplingResult } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorSampleRate } from "./utils/constants/applicationinsights";
@@ -20,7 +20,7 @@ export class ApplicationInsightsSampler implements Sampler {
    */
   constructor(samplingRatio: number = 1) {
     this.samplingRatio = samplingRatio;
-    if (this.samplingRatio > 1) {
+    if (this.samplingRatio > 1 || this.samplingRatio < 0 || !Number.isFinite(this.samplingRatio)) {
       throw new Error("Wrong sampling rate, data will not be sampled out");
     }
     this._sampleRate = Math.round(this.samplingRatio * 100);
@@ -62,7 +62,11 @@ export class ApplicationInsightsSampler implements Sampler {
     }
     // Add sample rate as span attribute
     attributes = attributes || {};
-    attributes[AzureMonitorSampleRate] = this._sampleRate;
+
+    // Only send the sample rate if it's not 100
+    if (this._sampleRate !== 100) {
+      attributes[AzureMonitorSampleRate] = this._sampleRate;
+    }
     return isSampledIn
       ? { decision: SamplingDecision.RECORD_AND_SAMPLED, attributes: attributes }
       : { decision: SamplingDecision.NOT_RECORD, attributes: attributes };

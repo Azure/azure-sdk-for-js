@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
  *
  * @summary Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records within the zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZonePut.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZonePut.json
  */
 async function putPrivateDnsZone() {
   const subscriptionId =
@@ -28,14 +28,14 @@ async function putPrivateDnsZone() {
   const privateZoneName = "privatezone1.com";
   const parameters: PrivateZone = {
     location: "Global",
-    tags: { key1: "value1" }
+    tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.privateZones.beginCreateOrUpdateAndWait(
     resourceGroupName,
     privateZoneName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

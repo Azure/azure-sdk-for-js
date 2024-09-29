@@ -18,7 +18,7 @@ import {
   RestoreOperationParameters as RestoreOperationParametersMapper,
   SelectiveKeyRestoreOperationParameters as SelectiveKeyRestoreOperationParametersMapper,
   UpdateSettingRequest as UpdateSettingRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

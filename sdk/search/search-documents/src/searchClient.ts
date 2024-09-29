@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 
@@ -19,7 +19,6 @@ import {
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { SemanticErrorReason, SemanticSearchResultsType } from "./generatedStringLiteralUnions";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   AutocompleteOptions,
@@ -41,6 +40,8 @@ import {
   SearchResult,
   SelectArray,
   SelectFields,
+  SemanticErrorReason,
+  SemanticSearchResultsType,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,

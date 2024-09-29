@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -8,7 +8,7 @@ import {
   isUnexpected,
   getLongRunningPoller,
   StartTranslation202Response,
-} from "../.././../src";
+} from "../../../src";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
 import { createSourceContainer, createTargetContainer } from "./containerHelper";
 import { Context } from "mocha";

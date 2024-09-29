@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Attributes, SpanStatusCode } from "@opentelemetry/api";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
@@ -14,6 +14,15 @@ import {
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_USER_AGENT,
   SEMATTRS_HTTP_STATUS_CODE,
+  DBSYSTEMVALUES_DB2,
+  DBSYSTEMVALUES_DERBY,
+  DBSYSTEMVALUES_MARIADB,
+  DBSYSTEMVALUES_MSSQL,
+  DBSYSTEMVALUES_ORACLE,
+  DBSYSTEMVALUES_SQLITE,
+  DBSYSTEMVALUES_OTHER_SQL,
+  DBSYSTEMVALUES_HSQLDB,
+  DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
 import {
   MetricDependencyDimensions,
@@ -37,7 +46,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
@@ -51,7 +60,7 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
   if (isSyntheticLoad(span)) {
     dimensions.operationSynthetic = "True";
   }
-  return convertDimensions(dimensions) as Attributes;
+  return convertDimensions(dimensions);
 }
 
 export function getExceptionDimensions(resource: Resource): Attributes {
@@ -104,7 +113,21 @@ export function getDependencyTarget(attributes: Attributes): string {
   return "";
 }
 
-export function isExceptionTelemetry(logRecord: LogRecord) {
+export function isSqlDB(dbSystem: string): boolean {
+  return (
+    dbSystem === DBSYSTEMVALUES_DB2 ||
+    dbSystem === DBSYSTEMVALUES_DERBY ||
+    dbSystem === DBSYSTEMVALUES_MARIADB ||
+    dbSystem === DBSYSTEMVALUES_MSSQL ||
+    dbSystem === DBSYSTEMVALUES_ORACLE ||
+    dbSystem === DBSYSTEMVALUES_SQLITE ||
+    dbSystem === DBSYSTEMVALUES_OTHER_SQL ||
+    dbSystem === DBSYSTEMVALUES_HSQLDB ||
+    dbSystem === DBSYSTEMVALUES_H2
+  );
+}
+
+export function isExceptionTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "ExceptionData") {
@@ -118,7 +141,7 @@ export function isExceptionTelemetry(logRecord: LogRecord) {
   return false;
 }
 
-export function isTraceTelemetry(logRecord: LogRecord) {
+export function isTraceTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
   if (baseType && baseType === "MessageData") {
@@ -140,8 +163,8 @@ export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
 export function convertDimensions(
   dimensions: MetricDependencyDimensions | MetricRequestDimensions,
 ): Attributes {
-  let convertedDimensions: any = {};
-  for (let dim in dimensions) {
+  const convertedDimensions: any = {};
+  for (const dim in dimensions) {
     convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
       dimensions as any
     )[dim];

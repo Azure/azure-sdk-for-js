@@ -30,7 +30,7 @@ import {
   RecordSetsGetOptionalParams,
   RecordSetsGetResponse,
   RecordSetsListByTypeNextResponse,
-  RecordSetsListNextResponse
+  RecordSetsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,13 +57,13 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams
+    options?: RecordSetsListByTypeOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet> {
     const iter = this.listByTypePagingAll(
       resourceGroupName,
       privateZoneName,
       recordType,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +81,9 @@ export class RecordSetsImpl implements RecordSets {
           privateZoneName,
           recordType,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,7 +92,7 @@ export class RecordSetsImpl implements RecordSets {
     privateZoneName: string,
     recordType: RecordType,
     options?: RecordSetsListByTypeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecordSet[]> {
     let result: RecordSetsListByTypeResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class RecordSetsImpl implements RecordSets {
         resourceGroupName,
         privateZoneName,
         recordType,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class RecordSetsImpl implements RecordSets {
         privateZoneName,
         recordType,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,13 +127,13 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams
+    options?: RecordSetsListByTypeOptionalParams,
   ): AsyncIterableIterator<RecordSet> {
     for await (const page of this.listByTypePagingPage(
       resourceGroupName,
       privateZoneName,
       recordType,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,12 +148,12 @@ export class RecordSetsImpl implements RecordSets {
   public list(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: RecordSetsListOptionalParams
+    options?: RecordSetsListOptionalParams,
   ): PagedAsyncIterableIterator<RecordSet> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateZoneName,
-      options
+      options,
     );
     return {
       next() {
@@ -170,9 +170,9 @@ export class RecordSetsImpl implements RecordSets {
           resourceGroupName,
           privateZoneName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -180,7 +180,7 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     options?: RecordSetsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RecordSet[]> {
     let result: RecordSetsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -196,7 +196,7 @@ export class RecordSetsImpl implements RecordSets {
         resourceGroupName,
         privateZoneName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -208,12 +208,12 @@ export class RecordSetsImpl implements RecordSets {
   private async *listPagingAll(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: RecordSetsListOptionalParams
+    options?: RecordSetsListOptionalParams,
   ): AsyncIterableIterator<RecordSet> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateZoneName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -235,7 +235,7 @@ export class RecordSetsImpl implements RecordSets {
     recordType: RecordType,
     relativeRecordSetName: string,
     parameters: RecordSet,
-    options?: RecordSetsCreateOrUpdateOptionalParams
+    options?: RecordSetsCreateOrUpdateOptionalParams,
   ): Promise<RecordSetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -244,9 +244,9 @@ export class RecordSetsImpl implements RecordSets {
         recordType,
         relativeRecordSetName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -265,7 +265,7 @@ export class RecordSetsImpl implements RecordSets {
     recordType: RecordType,
     relativeRecordSetName: string,
     parameters: RecordSet,
-    options?: RecordSetsUpdateOptionalParams
+    options?: RecordSetsUpdateOptionalParams,
   ): Promise<RecordSetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -274,9 +274,9 @@ export class RecordSetsImpl implements RecordSets {
         recordType,
         relativeRecordSetName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -294,7 +294,7 @@ export class RecordSetsImpl implements RecordSets {
     privateZoneName: string,
     recordType: RecordType,
     relativeRecordSetName: string,
-    options?: RecordSetsDeleteOptionalParams
+    options?: RecordSetsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -302,9 +302,9 @@ export class RecordSetsImpl implements RecordSets {
         privateZoneName,
         recordType,
         relativeRecordSetName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -321,7 +321,7 @@ export class RecordSetsImpl implements RecordSets {
     privateZoneName: string,
     recordType: RecordType,
     relativeRecordSetName: string,
-    options?: RecordSetsGetOptionalParams
+    options?: RecordSetsGetOptionalParams,
   ): Promise<RecordSetsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -329,9 +329,9 @@ export class RecordSetsImpl implements RecordSets {
         privateZoneName,
         recordType,
         relativeRecordSetName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -346,11 +346,11 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     recordType: RecordType,
-    options?: RecordSetsListByTypeOptionalParams
+    options?: RecordSetsListByTypeOptionalParams,
   ): Promise<RecordSetsListByTypeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateZoneName, recordType, options },
-      listByTypeOperationSpec
+      listByTypeOperationSpec,
     );
   }
 
@@ -363,11 +363,11 @@ export class RecordSetsImpl implements RecordSets {
   private _list(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: RecordSetsListOptionalParams
+    options?: RecordSetsListOptionalParams,
   ): Promise<RecordSetsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateZoneName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -384,11 +384,11 @@ export class RecordSetsImpl implements RecordSets {
     privateZoneName: string,
     recordType: RecordType,
     nextLink: string,
-    options?: RecordSetsListByTypeNextOptionalParams
+    options?: RecordSetsListByTypeNextOptionalParams,
   ): Promise<RecordSetsListByTypeNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateZoneName, recordType, nextLink, options },
-      listByTypeNextOperationSpec
+      listByTypeNextOperationSpec,
     );
   }
 
@@ -403,11 +403,11 @@ export class RecordSetsImpl implements RecordSets {
     resourceGroupName: string,
     privateZoneName: string,
     nextLink: string,
-    options?: RecordSetsListNextOptionalParams
+    options?: RecordSetsListNextOptionalParams,
   ): Promise<RecordSetsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateZoneName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -415,19 +415,18 @@ export class RecordSetsImpl implements RecordSets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSet
+      bodyMapper: Mappers.RecordSet,
     },
     201: {
-      bodyMapper: Mappers.RecordSet
+      bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -437,28 +436,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.privateZoneName,
     Parameters.subscriptionId,
     Parameters.recordType,
-    Parameters.relativeRecordSetName
+    Parameters.relativeRecordSetName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSet
+      bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -468,26 +466,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.privateZoneName,
     Parameters.subscriptionId,
     Parameters.recordType,
-    Parameters.relativeRecordSetName
+    Parameters.relativeRecordSetName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -496,22 +493,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.privateZoneName,
     Parameters.subscriptionId,
     Parameters.recordType,
-    Parameters.relativeRecordSetName
+    Parameters.relativeRecordSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}/{relativeRecordSetName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSet
+      bodyMapper: Mappers.RecordSet,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -520,74 +516,72 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.privateZoneName,
     Parameters.subscriptionId,
     Parameters.recordType,
-    Parameters.relativeRecordSetName
+    Parameters.relativeRecordSetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTypeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/{recordType}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSetListResult
+      bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.recordsetnamesuffix
+    Parameters.recordsetnamesuffix,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId,
-    Parameters.recordType
+    Parameters.recordType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/ALL",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}/ALL",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSetListResult
+      bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.recordsetnamesuffix
+    Parameters.recordsetnamesuffix,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTypeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSetListResult
+      bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -595,29 +589,29 @@ const listByTypeNextOperationSpec: coreClient.OperationSpec = {
     Parameters.privateZoneName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.recordType
+    Parameters.recordType,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RecordSetListResult
+      bodyMapper: Mappers.RecordSetListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.privateZoneName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

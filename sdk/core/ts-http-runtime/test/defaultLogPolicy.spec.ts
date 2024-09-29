@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";

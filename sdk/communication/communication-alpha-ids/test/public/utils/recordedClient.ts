@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";

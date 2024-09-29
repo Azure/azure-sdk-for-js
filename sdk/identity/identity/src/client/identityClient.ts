@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
@@ -21,6 +21,7 @@ import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
   parseExpirationTimestamp,
+  parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
@@ -122,6 +123,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         accessToken: {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
+          refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
         },
         refreshToken: parsedBody.refresh_token,
       };

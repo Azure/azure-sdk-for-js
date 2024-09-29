@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.

@@ -177,7 +177,7 @@ export class ClientAssertionCredential implements TokenCredential {
 }
 
 // @public
-export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
+export interface ClientAssertionCredentialOptions extends MultiTenantTokenCredentialOptions, CredentialPersistenceOptions, AuthorityValidationOptions {
 }
 
 // @public
@@ -361,12 +361,18 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
     constructor(options?: ManagedIdentityCredentialClientIdOptions);
     constructor(options?: ManagedIdentityCredentialResourceIdOptions);
+    constructor(options?: ManagedIdentityCredentialObjectIdOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
 export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
     clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityCredentialObjectIdOptions extends TokenCredentialOptions {
+    objectId: string;
 }
 
 // @public

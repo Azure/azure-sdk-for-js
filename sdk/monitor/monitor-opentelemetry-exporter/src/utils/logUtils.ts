@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AvailabilityData,
@@ -13,14 +13,14 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated";
-import { createTagsFromResource, hrTimeToDate } from "./common";
+import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { Measurements, Properties, Tags } from "../types";
+import { MaxPropertyLengths, Measurements, Properties, Tags } from "../types";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -92,6 +92,15 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       return;
     }
   }
+  // Truncate properties
+  if (baseData.message) {
+    baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+  }
+  if (properties) {
+    for (const key of Object.keys(properties)) {
+      properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+    }
+  }
   return {
     name,
     sampleRate,
@@ -135,7 +144,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
-        properties[key] = log.attributes[key] as string;
+        properties[key] = serializeAttribute(log.attributes[key]);
       }
     }
   }

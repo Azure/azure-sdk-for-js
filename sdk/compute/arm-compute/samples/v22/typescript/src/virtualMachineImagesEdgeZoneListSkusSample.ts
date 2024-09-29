@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
  *
  * @summary Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
  *
  * @summary Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
   const subscriptionId =
