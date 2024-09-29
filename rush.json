@@ -2281,6 +2281,11 @@
       "packageName": "@azure/arm-fabric",
       "projectFolder": "sdk/fabric/arm-fabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-trustedsigning",
+      "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
+      "versionPolicyName": "management"
     }
   ]
 }
