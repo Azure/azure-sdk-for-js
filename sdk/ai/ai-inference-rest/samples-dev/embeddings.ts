@@ -24,8 +24,8 @@ export async function main() {
   const client = ModelClient(endpoint, credential);
   const response = await client.path("/embeddings").post({
     body: {
-      input: ["first phrase", "second phrase", "third phrase"]
-    }
+      input: ["first phrase", "second phrase", "third phrase"],
+    },
   });
 
   if (isUnexpected(response)) {
@@ -35,7 +35,6 @@ export async function main() {
     console.log(data);
   }
   console.log(response.body.usage);
-
 }
 
 main().catch((err) => {

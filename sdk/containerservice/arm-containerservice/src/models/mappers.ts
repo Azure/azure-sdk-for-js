@@ -1335,6 +1335,12 @@ export const AgentPoolGPUProfile: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      driverType: {
+        serializedName: "driverType",
+        type: {
+          name: "String",
+        },
+      },
     },
   },
 };
@@ -4885,15 +4891,15 @@ export const MachineIpAddress: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MachineIpAddress",
     modelProperties: {
-      ip: {
-        serializedName: "ip",
+      family: {
+        serializedName: "family",
         readOnly: true,
         type: {
           name: "String",
         },
       },
-      family: {
-        serializedName: "family",
+      ip: {
+        serializedName: "ip",
         readOnly: true,
         type: {
           name: "String",
