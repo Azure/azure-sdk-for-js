@@ -30,7 +30,7 @@ export async function main() {
   });
 
   const serviceClient = new ShareServiceClient(
-    `https://${account}.file.core.windows.net${accountSas}`,
+    `https://${account}.file.core.windows.net?${accountSas}`,
     pipeline
   );
 
