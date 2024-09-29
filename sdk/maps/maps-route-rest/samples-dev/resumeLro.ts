@@ -70,14 +70,14 @@ async function main(): Promise<void> {
     body: request,
   });
 
-  const initialPoller = getLongRunningPoller(client, initialResponse);
+  const initialPoller = await getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
   await initialPoller.poll();
   /** Serialized the current operation for future poller */
   const serializedState = initialPoller.toString();
-  /** Use the `resumeFrom` option to rehydrate the previous operation */
-  const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
-    resumeFrom: serializedState,
+  /** Use the `restoreFrom` option to rehydrate the previous operation */
+  const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
+    restoreFrom: serializedState,
   });
   const {
     body: { summary, batchItems },
@@ -94,8 +94,7 @@ async function main(): Promise<void> {
         );
         legs.forEach(({ summary: legSummary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
-              legSummary.travelTimeInSeconds
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${legSummary.travelTimeInSeconds
             } seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));

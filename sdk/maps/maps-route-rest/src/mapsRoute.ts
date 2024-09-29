@@ -10,8 +10,8 @@ import {
   isTokenCredential,
 } from "@azure/core-auth";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsRouteClient } from "./generated";
-import createClient from "./generated";
+import { MapsRouteClient } from "../generated";
+import createClient from "../generated";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**
