@@ -88,7 +88,8 @@ function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response): void
         );
         legs.forEach(({ summary: legSummary, points }, idx) => {
           console.log(
-            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${legSummary.travelTimeInSeconds
+            `The ${idx + 1}th leg's length is ${legSummary.lengthInMeters} meters, and it takes ${
+              legSummary.travelTimeInSeconds
             } seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));
