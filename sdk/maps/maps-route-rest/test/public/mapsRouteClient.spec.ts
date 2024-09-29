@@ -276,7 +276,7 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/directions/batch/{format}", "json").post({
         body: createRouteDirectionsBatchRequest(batchRequests),
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
       const serializedState = originalPoller.toString();
@@ -401,7 +401,7 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/matrix/{format}", "json").post({
         body: routeMatrixQuery,
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
       const serializedState = originalPoller.toString();
