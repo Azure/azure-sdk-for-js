@@ -29,18 +29,12 @@ import {
   IscsiPath as IscsiPathMapper,
   ScriptExecution as ScriptExecutionMapper,
   WorkloadNetworkDhcp as WorkloadNetworkDhcpMapper,
-  WorkloadNetworkDhcpUpdate as WorkloadNetworkDhcpUpdateMapper,
   WorkloadNetworkDnsService as WorkloadNetworkDnsServiceMapper,
-  WorkloadNetworkDnsServiceUpdate as WorkloadNetworkDnsServiceUpdateMapper,
   WorkloadNetworkDnsZone as WorkloadNetworkDnsZoneMapper,
-  WorkloadNetworkDnsZoneUpdate as WorkloadNetworkDnsZoneUpdateMapper,
   WorkloadNetworkPortMirroring as WorkloadNetworkPortMirroringMapper,
-  WorkloadNetworkPortMirroringUpdate as WorkloadNetworkPortMirroringUpdateMapper,
   WorkloadNetworkPublicIP as WorkloadNetworkPublicIPMapper,
   WorkloadNetworkSegment as WorkloadNetworkSegmentMapper,
-  WorkloadNetworkSegmentUpdate as WorkloadNetworkSegmentUpdateMapper,
   WorkloadNetworkVMGroup as WorkloadNetworkVMGroupMapper,
-  WorkloadNetworkVMGroupUpdate as WorkloadNetworkVMGroupUpdateMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -439,11 +433,6 @@ export const workloadNetworkDhcp: OperationParameter = {
   mapper: WorkloadNetworkDhcpMapper,
 };
 
-export const workloadNetworkDhcp1: OperationParameter = {
-  parameterPath: "workloadNetworkDhcp",
-  mapper: WorkloadNetworkDhcpUpdateMapper,
-};
-
 export const dnsServiceId: OperationURLParameter = {
   parameterPath: "dnsServiceId",
   mapper: {
@@ -463,11 +452,6 @@ export const workloadNetworkDnsService: OperationParameter = {
   mapper: WorkloadNetworkDnsServiceMapper,
 };
 
-export const workloadNetworkDnsService1: OperationParameter = {
-  parameterPath: "workloadNetworkDnsService",
-  mapper: WorkloadNetworkDnsServiceUpdateMapper,
-};
-
 export const dnsZoneId: OperationURLParameter = {
   parameterPath: "dnsZoneId",
   mapper: {
@@ -485,11 +469,6 @@ export const dnsZoneId: OperationURLParameter = {
 export const workloadNetworkDnsZone: OperationParameter = {
   parameterPath: "workloadNetworkDnsZone",
   mapper: WorkloadNetworkDnsZoneMapper,
-};
-
-export const workloadNetworkDnsZone1: OperationParameter = {
-  parameterPath: "workloadNetworkDnsZone",
-  mapper: WorkloadNetworkDnsZoneUpdateMapper,
 };
 
 export const gatewayId: OperationURLParameter = {
@@ -523,11 +502,6 @@ export const portMirroringId: OperationURLParameter = {
 export const workloadNetworkPortMirroring: OperationParameter = {
   parameterPath: "workloadNetworkPortMirroring",
   mapper: WorkloadNetworkPortMirroringMapper,
-};
-
-export const workloadNetworkPortMirroring1: OperationParameter = {
-  parameterPath: "workloadNetworkPortMirroring",
-  mapper: WorkloadNetworkPortMirroringUpdateMapper,
 };
 
 export const publicIPId: OperationURLParameter = {
@@ -568,11 +542,6 @@ export const workloadNetworkSegment: OperationParameter = {
   mapper: WorkloadNetworkSegmentMapper,
 };
 
-export const workloadNetworkSegment1: OperationParameter = {
-  parameterPath: "workloadNetworkSegment",
-  mapper: WorkloadNetworkSegmentUpdateMapper,
-};
-
 export const vmGroupId: OperationURLParameter = {
   parameterPath: "vmGroupId",
   mapper: {
@@ -590,9 +559,4 @@ export const vmGroupId: OperationURLParameter = {
 export const workloadNetworkVMGroup: OperationParameter = {
   parameterPath: "workloadNetworkVMGroup",
   mapper: WorkloadNetworkVMGroupMapper,
-};
-
-export const workloadNetworkVMGroup1: OperationParameter = {
-  parameterPath: "workloadNetworkVMGroup",
-  mapper: WorkloadNetworkVMGroupUpdateMapper,
 };

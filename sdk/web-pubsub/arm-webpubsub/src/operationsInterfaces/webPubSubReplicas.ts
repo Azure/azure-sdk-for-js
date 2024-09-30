@@ -19,7 +19,7 @@ import {
   WebPubSubReplicasUpdateOptionalParams,
   WebPubSubReplicasUpdateResponse,
   WebPubSubReplicasRestartOptionalParams,
-  WebPubSubReplicasRestartResponse
+  WebPubSubReplicasRestartResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface WebPubSubReplicas {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubReplicasListOptionalParams
+    options?: WebPubSubReplicasListOptionalParams,
   ): PagedAsyncIterableIterator<Replica>;
   /**
    * Get the replica and its properties.
@@ -47,7 +47,7 @@ export interface WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasGetOptionalParams
+    options?: WebPubSubReplicasGetOptionalParams,
   ): Promise<WebPubSubReplicasGetResponse>;
   /**
    * Create or update a replica.
@@ -62,7 +62,7 @@ export interface WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasCreateOrUpdateOptionalParams
+    options?: WebPubSubReplicasCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubReplicasCreateOrUpdateResponse>,
@@ -82,7 +82,7 @@ export interface WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasCreateOrUpdateOptionalParams
+    options?: WebPubSubReplicasCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubReplicasCreateOrUpdateResponse>;
   /**
    * Operation to delete a replica.
@@ -95,7 +95,7 @@ export interface WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasDeleteOptionalParams
+    options?: WebPubSubReplicasDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting replica.
@@ -110,7 +110,7 @@ export interface WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasUpdateOptionalParams
+    options?: WebPubSubReplicasUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubReplicasUpdateResponse>,
@@ -130,7 +130,7 @@ export interface WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasUpdateOptionalParams
+    options?: WebPubSubReplicasUpdateOptionalParams,
   ): Promise<WebPubSubReplicasUpdateResponse>;
   /**
    * Operation to restart a replica.
@@ -143,7 +143,7 @@ export interface WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasRestartOptionalParams
+    options?: WebPubSubReplicasRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubReplicasRestartResponse>,
@@ -161,6 +161,6 @@ export interface WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasRestartOptionalParams
+    options?: WebPubSubReplicasRestartOptionalParams,
   ): Promise<WebPubSubReplicasRestartResponse>;
 }

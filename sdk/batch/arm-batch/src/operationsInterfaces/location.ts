@@ -10,7 +10,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SupportedSku,
   LocationListSupportedVirtualMachineSkusOptionalParams,
-  LocationListSupportedCloudServiceSkusOptionalParams,
   LocationGetQuotasOptionalParams,
   LocationGetQuotasResponse,
   CheckNameAvailabilityParameters,
@@ -29,15 +28,6 @@ export interface Location {
   listSupportedVirtualMachineSkus(
     locationName: string,
     options?: LocationListSupportedVirtualMachineSkusOptionalParams,
-  ): PagedAsyncIterableIterator<SupportedSku>;
-  /**
-   * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
-   * @param locationName The region for which to retrieve Batch service supported SKUs.
-   * @param options The options parameters.
-   */
-  listSupportedCloudServiceSkus(
-    locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams,
   ): PagedAsyncIterableIterator<SupportedSku>;
   /**
    * Gets the Batch service quotas for the specified subscription at the given location.
