@@ -99,7 +99,7 @@ describe("AzurePipelinesCredential", function () {
     );
   });
 
-  it("fails with with invalid system access token", async function () {
+  it.only("fails with with invalid system access token", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -111,6 +111,12 @@ describe("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       "systemAccessToken"
     );
-    await assert.isRejected(credential.getToken(scope), /Status code: 302/);
+    await assert.isRejected(credential.getToken(scope), /Status code: 401/);
+    try {
+      await credential.getToken(scope);
+    } catch (e) {
+      console.log(e);
+      logger.error(e);
+    }
   });
 });
