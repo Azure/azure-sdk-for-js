@@ -279,6 +279,7 @@ describe("LRO", function (this: Suite) {
       const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
+      await originalPoller.poll();
       const serializedState = originalPoller.toString();
 
       // Use serialized state to retrieve the result
@@ -404,6 +405,7 @@ describe("LRO", function (this: Suite) {
       const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
+      await originalPoller.poll();
       const serializedState = originalPoller.toString();
 
       // Use saved batchId to retrieve the result
