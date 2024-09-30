@@ -17,6 +17,7 @@ import {
   WorkloadIdentityCredential,
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 describe.skip("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -33,7 +34,7 @@ describe.skip("WorkloadIdentityCredential", function () {
   });
 
   const scope = "https://vault.azure.net/.default";
-  const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
+  const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID || PlaybackTenantId;
   const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
   const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
   const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
@@ -50,7 +51,7 @@ describe.skip("WorkloadIdentityCredential", function () {
         tenantId,
         clientId,
         tokenFilePath: fileDir.tempFile,
-      } as WorkloadIdentityCredentialOptions),
+      } as WorkloadIdentityCredentialOptions)
     );
     try {
       const token = await credential.getToken(scope);
@@ -94,7 +95,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     const credential = new DefaultAzureCredential(
       recorder.configureClientOptions({
         managedIdentityClientId: "f850650c-1fcf-4489-b46f-71af2e30d360",
-      }),
+      })
     );
     try {
       const token = await credential.getToken(scope);
