@@ -191,9 +191,8 @@ function buildRoutePath(
   options: RequestParameters = {},
 ): string {
   for (const pathParam of pathParameters) {
-    const allowReserved = typeof pathParam === 'string'
-      ? false
-      : (pathParam?.allowReserved ?? false)
+    const allowReserved =
+      typeof pathParam === "string" ? false : (pathParam?.allowReserved ?? false);
     let value = typeof pathParam === "string" ? pathParam : pathParam?.value;
 
     if (!options.skipUrlEncoding && !allowReserved) {
