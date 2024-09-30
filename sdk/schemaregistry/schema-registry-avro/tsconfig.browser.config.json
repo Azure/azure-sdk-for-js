@@ -5,6 +5,7 @@
   "compilerOptions": {
     "outDir": "./dist-test/browser",
     "rootDir": ".",
+    "lib": ["dom"],
     "skipLibCheck": true
   }
 }

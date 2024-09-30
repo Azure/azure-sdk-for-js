@@ -2,9 +2,8 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/schema-registry-avro": ["./src/index"]
+      "@azure/schema-registry-avro": ["./src/index.js"]
     },
-    "lib": ["dom"],
     "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -15,6 +14,7 @@
     "./src/**/*.mts",
     "./src/**/*.cts",
     "./samples-dev/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "./test/**/*.mts"
   ]
 }
