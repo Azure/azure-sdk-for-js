@@ -4,6 +4,7 @@
     "paths": {
       "@azure/schema-registry-avro": ["./src/index.js"]
     },
+    "skipLibCheck": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
