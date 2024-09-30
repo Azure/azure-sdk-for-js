@@ -36,15 +36,12 @@ interface QueryParameterWithOptions {
   style?: QueryParameterStyle;
 }
 
-function isPathParameterWithOptions(x: unknown): x is PathParameterWithOptions {
-  const value = (x as PathParameterWithOptions).value as any;
+function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions {
+  const value = (x as QueryParameterWithOptions).value as any;
   return (
     value !== undefined && value.toString !== undefined && typeof value.toString === "function"
   );
 }
-
-const isQueryParameterWithOptions: (x: unknown) => x is QueryParameterWithOptions =
-  isPathParameterWithOptions;
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -194,10 +191,10 @@ function buildRoutePath(
   options: RequestParameters = {},
 ): string {
   for (const pathParam of pathParameters) {
-    const allowReserved = isPathParameterWithOptions(pathParam)
-      ? (pathParam.allowReserved ?? false)
-      : false;
-    let value = isPathParameterWithOptions(pathParam) ? pathParam.value : pathParam;
+    const allowReserved = typeof pathParam === 'string'
+      ? false
+      : (pathParam.allowReserved ?? false)
+    let value = typeof pathParam === "string" ? pathParam : pathParam.value;
 
     if (!options.skipUrlEncoding && !allowReserved) {
       value = encodeURIComponent(value);
