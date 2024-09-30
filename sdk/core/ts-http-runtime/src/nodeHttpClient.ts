@@ -27,6 +27,10 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 }
 
 function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
+  if (stream.readable === false) {
+    return Promise.resolve();
+  }
+
   return new Promise((resolve) => {
     stream.on("close", resolve);
     stream.on("end", resolve);
