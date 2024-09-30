@@ -7,30 +7,42 @@ import { CosmosHeaders, FeedOptions } from "../../../src";
 
 describe("getHeader Test", function () {
   const mockedEndpoint = "https://localhost:8081";
-  function getHeadersFunc (feedOptions:FeedOptions) : Promise<CosmosHeaders> {
+  function getHeadersFunc(feedOptions: FeedOptions): Promise<CosmosHeaders> {
     return getHeaders({
-      clientOptions: {endpoint:mockedEndpoint},
-      defaultHeaders:null,
-      verb:null,
-      path:null,
-      resourceId:null,
-      resourceType:null,
+      clientOptions: { endpoint: mockedEndpoint },
+      defaultHeaders: null,
+      verb: null,
+      path: null,
+      resourceId: null,
+      resourceType: null,
       options: feedOptions,
-      partitionKeyRangeId:null,
-      useMultipleWriteLocations:null,
-      partitionKey:null,
+      partitionKeyRangeId: null,
+      useMultipleWriteLocations: null,
+      partitionKey: null,
     });
   }
   it("When maxDegreeOfParallelism > 1 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be true", async function () {
-    const headers = await getHeadersFunc({maxDegreeOfParallelism:2});
-    assert.equal(headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],true,"incorrect header");
+    const headers = await getHeadersFunc({ maxDegreeOfParallelism: 2 });
+    assert.equal(
+      headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
+      true,
+      "incorrect header"
+    );
   });
   it("When maxDegreeOfParallelism == 0 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be null", async function () {
-    const headers = await getHeadersFunc({maxDegreeOfParallelism:0});
-    assert.equal(headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],null,"incorrect header");
+    const headers = await getHeadersFunc({ maxDegreeOfParallelism: 0 });
+    assert.equal(
+      headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
+      null,
+      "incorrect header"
+    );
   });
   it("When maxDegreeOfParallelism < 0 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be null", async function () {
-    const headers = await getHeadersFunc({maxDegreeOfParallelism:-1});
-    assert.equal(headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],null,"incorrect header");
+    const headers = await getHeadersFunc({ maxDegreeOfParallelism: -1 });
+    assert.equal(
+      headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
+      null,
+      "incorrect header"
+    );
   });
 });
