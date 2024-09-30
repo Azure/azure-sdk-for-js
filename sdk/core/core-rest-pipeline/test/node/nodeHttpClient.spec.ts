@@ -456,7 +456,6 @@ describe("NodeHttpClient", function () {
     }
   });
 
-
   it("should release abort listener when stream body ends already", async function () {
     vi.useRealTimers();
     const client = createDefaultHttpClient();

@@ -455,8 +455,7 @@ describe("NodeHttpClient", function () {
     }
   });
 
-
-  it.only("should release abort listener when stream body ends already", async function () {
+  it("should release abort listener when stream body ends already", async function () {
     vi.useRealTimers();
     const client = createDefaultHttpClient();
     const writable = new Writable({
@@ -499,4 +498,5 @@ describe("NodeHttpClient", function () {
     yieldHttpsResponse(createResponse(200));
     await Promise.all([promise, delay(10)]);
     assert.equal(listenerRemoved, true);
-  });});
+  });
+});
