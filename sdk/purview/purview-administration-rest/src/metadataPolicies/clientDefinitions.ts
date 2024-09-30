@@ -1,47 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
 import {
-  MetadataPolicyGetParameters,
+  MetadataRolesListParameters,
   MetadataPolicyListAllParameters,
   MetadataPolicyUpdateParameters,
-  MetadataRolesListParameters,
+  MetadataPolicyGetParameters,
 } from "./parameters";
 import {
-  MetadataPolicyGet200Response,
-  MetadataPolicyGetdefaultResponse,
-  MetadataPolicyListAll200Response,
-  MetadataPolicyListAlldefaultResponse,
-  MetadataPolicyUpdate200Response,
-  MetadataPolicyUpdatedefaultResponse,
   MetadataRolesList200Response,
-  MetadataRolesListdefaultResponse,
+  MetadataRolesListDefaultResponse,
+  MetadataPolicyListAll200Response,
+  MetadataPolicyListAllDefaultResponse,
+  MetadataPolicyUpdate200Response,
+  MetadataPolicyUpdateDefaultResponse,
+  MetadataPolicyGet200Response,
+  MetadataPolicyGetDefaultResponse,
 } from "./responses";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface MetadataRolesList {
   /** Lists roles for Purview Account */
   get(
     options?: MetadataRolesListParameters,
-  ): Promise<MetadataRolesList200Response | MetadataRolesListdefaultResponse>;
+  ): StreamableMethod<
+    MetadataRolesList200Response | MetadataRolesListDefaultResponse
+  >;
 }
 
 export interface MetadataPolicyListAll {
   /** List or Get metadata policies */
   get(
     options?: MetadataPolicyListAllParameters,
-  ): Promise<MetadataPolicyListAll200Response | MetadataPolicyListAlldefaultResponse>;
+  ): StreamableMethod<
+    MetadataPolicyListAll200Response | MetadataPolicyListAllDefaultResponse
+  >;
 }
 
 export interface MetadataPolicyUpdate {
   /** Updates a metadata policy */
   put(
     options?: MetadataPolicyUpdateParameters,
-  ): Promise<MetadataPolicyUpdate200Response | MetadataPolicyUpdatedefaultResponse>;
+  ): StreamableMethod<
+    MetadataPolicyUpdate200Response | MetadataPolicyUpdateDefaultResponse
+  >;
   /** Gets a metadata policy */
   get(
     options?: MetadataPolicyGetParameters,
-  ): Promise<MetadataPolicyGet200Response | MetadataPolicyGetdefaultResponse>;
+  ): StreamableMethod<
+    MetadataPolicyGet200Response | MetadataPolicyGetDefaultResponse
+  >;
 }
 
 export interface Routes {
@@ -50,9 +58,12 @@ export interface Routes {
   /** Resource for '/metadataPolicies' has methods for the following verbs: get */
   (path: "/metadataPolicies"): MetadataPolicyListAll;
   /** Resource for '/metadataPolicies/\{policyId\}' has methods for the following verbs: put, get */
-  (path: "/metadataPolicies/{policyId}", policyId: string): MetadataPolicyUpdate;
+  (
+    path: "/metadataPolicies/{policyId}",
+    policyId: string,
+  ): MetadataPolicyUpdate;
 }
 
-export type PurviewMetadataPoliciesRestClient = Client & {
+export type PurviewMetadataPoliciesClient = Client & {
   path: Routes;
 };

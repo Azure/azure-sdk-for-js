@@ -9,7 +9,7 @@ import { Context } from "mocha";
 
 describe("List collections", () => {
   let recorder: Recorder;
-  let client: PurviewAccount.Client.PurviewAccountRestClient;
+  let client: PurviewAccount.Client.PurviewAccountClient;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
