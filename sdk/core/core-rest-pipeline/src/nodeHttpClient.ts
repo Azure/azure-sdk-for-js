@@ -187,7 +187,7 @@ class NodeHttpClient implements HttpClient {
         if (isReadableStream(responseStream)) {
           downloadStreamDone = isStreamComplete(responseStream);
         }
-        await Promise.all([uploadStreamDone, downloadStreamDone])
+        Promise.all([uploadStreamDone, downloadStreamDone])
           .then(() => {
             // eslint-disable-next-line promise/always-return
             if (abortListener) {
