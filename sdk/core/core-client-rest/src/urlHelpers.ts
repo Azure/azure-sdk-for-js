@@ -193,8 +193,8 @@ function buildRoutePath(
   for (const pathParam of pathParameters) {
     const allowReserved = typeof pathParam === 'string'
       ? false
-      : (pathParam.allowReserved ?? false)
-    let value = typeof pathParam === "string" ? pathParam : pathParam.value;
+      : (pathParam?.allowReserved ?? false)
+    let value = typeof pathParam === "string" ? pathParam : pathParam?.value;
 
     if (!options.skipUrlEncoding && !allowReserved) {
       value = encodeURIComponent(value);
