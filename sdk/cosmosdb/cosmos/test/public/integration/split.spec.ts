@@ -122,7 +122,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
+          maxDegreeOfParallelism: 2,
         })
         .fetchAll();
       assert.fail("Expected query to fail");
@@ -137,7 +137,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
+          maxDegreeOfParallelism: 2,
         })
         .fetchNext();
       assert.fail("Expected query to fail");
@@ -152,7 +152,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
+          maxDegreeOfParallelism: 2,
         })
         .getAsyncIterator();
       const results = [];
