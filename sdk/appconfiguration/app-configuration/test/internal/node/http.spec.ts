@@ -122,7 +122,6 @@ describe("http request related tests", function () {
       syncTokens = new SyncTokens();
     });
 
-
     it("policy is setup properly to send sync tokens", async function () {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
         return { headers: createHttpHeaders(), status: 418, request };

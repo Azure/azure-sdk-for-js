@@ -99,7 +99,7 @@ describe("Should not retry forever", () => {
         "Unexpected error thrown",
       );
     }
-    chai.assert.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 });
 

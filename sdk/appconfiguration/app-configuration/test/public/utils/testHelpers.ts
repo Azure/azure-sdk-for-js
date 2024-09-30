@@ -17,9 +17,9 @@ import {
 import {
   Recorder,
   RecorderStartOptions,
-  env,
   isPlaybackMode,
   VitestTestContext,
+  assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";

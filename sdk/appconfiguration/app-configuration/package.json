@@ -27,18 +27,18 @@
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tshy && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "dev-tool run build-package && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/swagger.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "npm run build:test && dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 180000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "integration-test:node": "dev-tool run test:vitest",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix",
     "pack": "npm pack 2>&1",
@@ -46,8 +46,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "engines": {
@@ -94,17 +94,15 @@
     "@azure/keyvault-secrets": "^4.2.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^2.1.1",
+    "@vitest/coverage-istanbul": "^2.1.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "nock": "^13.5.4",
-    "playwright": "^1.46.1",
+    "playwright": "^1.47.2",
     "rimraf": "^5.0.5",
-    "tshy": "^3.0.2",
-    "tsx": "^4.7.1",
     "typescript": "~5.6.2",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.1"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",
@@ -141,25 +139,22 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
-        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
-        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
-        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
-        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "module": "./dist/esm/index.js"
 }

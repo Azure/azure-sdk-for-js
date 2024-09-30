@@ -580,13 +580,11 @@ describe("AppConfigurationClient", () => {
       listConfigSettingB: "",
     };
 
-    before(async () => {
+    beforeEach(async () => {
       if (!isPlaybackMode()) {
         await deleteEverySetting();
       }
-    });
-
-    beforeEach(async () => {
+      
       keys.listConfigSettingA = recorder.variable(
         `listConfigSetting${count}A`,
         `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
@@ -604,7 +602,7 @@ describe("AppConfigurationClient", () => {
       listConfigSettingA = await client.addConfigurationSetting(productionASettingId);
     });
 
-    after(async () => {
+    afterEach(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA], client);
       } catch (e: any) {

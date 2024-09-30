@@ -3,7 +3,9 @@
   "compilerOptions": {
     "downlevelIteration": true,
     "paths": {
-      "@azure/app-configuration": ["./src/index"]
+      "@azure/app-configuration": [
+        "./src/index"
+      ]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
