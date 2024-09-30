@@ -51,9 +51,7 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CodeSigningAccount> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<CodeSigningAccount> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -101,13 +99,7 @@ export async function get(
   accountName: string,
   options: CodeSigningAccountsGetOptionalParams = { requestOptions: {} },
 ): Promise<CodeSigningAccount> {
-  const result = await _getSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    accountName,
-    options,
-  );
+  const result = await _getSend(context, subscriptionId, resourceGroupName, accountName, options);
   return _getDeserialize(result);
 }
 
@@ -129,9 +121,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -195,14 +185,7 @@ export function create(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _createSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        resource,
-        options,
-      ),
+      _createSend(context, subscriptionId, resourceGroupName, accountName, resource, options),
     resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
 }
@@ -225,9 +208,7 @@ export function _updateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
         properties: !properties.properties
           ? properties.properties
           : codeSigningAccountPatchPropertiesSerializer(properties.properties),
@@ -290,14 +271,7 @@ export function update(
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
-      _updateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        properties,
-        options,
-      ),
+      _updateSend(context, subscriptionId, resourceGroupName, accountName, properties, options),
     resourceLocationConfig: "location",
   }) as PollerLike<OperationState<CodeSigningAccount>, CodeSigningAccount>;
 }
@@ -319,9 +293,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -343,24 +315,13 @@ export function $delete(
   accountName: string,
   options: CodeSigningAccountsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          accountName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, subscriptionId, resourceGroupName, accountName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listByResourceGroupSend(
@@ -416,9 +377,7 @@ export async function _listByResourceGroupDeserialize(
           ? undefined
           : {
               accountUri: p.properties?.["accountUri"],
-              sku: !p.properties?.sku
-                ? undefined
-                : { name: p.properties?.sku?.["name"] },
+              sku: !p.properties?.sku ? undefined : { name: p.properties?.sku?.["name"] },
               provisioningState: p.properties?.["provisioningState"],
             },
       };
@@ -438,13 +397,7 @@ export function listByResourceGroup(
 ): PagedAsyncIterableIterator<CodeSigningAccount> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _listByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+    () => _listByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -502,9 +455,7 @@ export async function _listBySubscriptionDeserialize(
           ? undefined
           : {
               accountUri: p.properties?.["accountUri"],
-              sku: !p.properties?.sku
-                ? undefined
-                : { name: p.properties?.sku?.["name"] },
+              sku: !p.properties?.sku ? undefined : { name: p.properties?.sku?.["name"] },
               provisioningState: p.properties?.["provisioningState"],
             },
       };
@@ -573,11 +524,6 @@ export async function checkNameAvailability(
     requestOptions: {},
   },
 ): Promise<CheckNameAvailabilityResult> {
-  const result = await _checkNameAvailabilitySend(
-    context,
-    subscriptionId,
-    body,
-    options,
-  );
+  const result = await _checkNameAvailabilitySend(context, subscriptionId, body, options);
   return _checkNameAvailabilityDeserialize(result);
 }

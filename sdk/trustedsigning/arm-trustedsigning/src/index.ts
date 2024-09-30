@@ -7,10 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  CodeSigningClient,
-  CodeSigningClientOptionalParams,
-} from "./codeSigningClient.js";
+export { CodeSigningClient, CodeSigningClientOptionalParams } from "./codeSigningClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Resource,

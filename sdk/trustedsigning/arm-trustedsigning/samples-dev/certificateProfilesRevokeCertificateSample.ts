@@ -14,18 +14,13 @@ async function revokeACertificateUnderACertificateProfile() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
-  await client.certificateProfiles.revokeCertificate(
-    "MyResourceGroup",
-    "MyAccount",
-    "profileA",
-    {
-      effectiveAt: new Date("2023-11-12T23:40:25+00:00"),
-      reason: "KeyCompromised",
-      remarks: "test",
-      serialNumber: "xxxxxxxxxxxxxxxxxx",
-      thumbprint: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    },
-  );
+  await client.certificateProfiles.revokeCertificate("MyResourceGroup", "MyAccount", "profileA", {
+    effectiveAt: new Date("2023-11-12T23:40:25+00:00"),
+    reason: "KeyCompromised",
+    remarks: "test",
+    serialNumber: "xxxxxxxxxxxxxxxxxx",
+    thumbprint: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  });
 }
 
 async function main() {

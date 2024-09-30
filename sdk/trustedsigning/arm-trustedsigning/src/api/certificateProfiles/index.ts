@@ -47,9 +47,7 @@ export function _getSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<CertificateProfile> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<CertificateProfile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -83,8 +81,7 @@ export async function _getDeserialize(
           organization: result.body.properties?.["organization"],
           organizationUnit: result.body.properties?.["organizationUnit"],
           streetAddress: result.body.properties?.["streetAddress"],
-          includeStreetAddress:
-            result.body.properties?.["includeStreetAddress"],
+          includeStreetAddress: result.body.properties?.["includeStreetAddress"],
           city: result.body.properties?.["city"],
           includeCity: result.body.properties?.["includeCity"],
           state: result.body.properties?.["state"],
@@ -94,8 +91,7 @@ export async function _getDeserialize(
           postalCode: result.body.properties?.["postalCode"],
           includePostalCode: result.body.properties?.["includePostalCode"],
           enhancedKeyUsage: result.body.properties?.["enhancedKeyUsage"],
-          identityValidationId:
-            result.body.properties?.["identityValidationId"],
+          identityValidationId: result.body.properties?.["identityValidationId"],
           provisioningState: result.body.properties?.["provisioningState"],
           status: result.body.properties?.["status"],
           certificates:
@@ -214,8 +210,7 @@ export async function _createDeserialize(
           organization: result.body.properties?.["organization"],
           organizationUnit: result.body.properties?.["organizationUnit"],
           streetAddress: result.body.properties?.["streetAddress"],
-          includeStreetAddress:
-            result.body.properties?.["includeStreetAddress"],
+          includeStreetAddress: result.body.properties?.["includeStreetAddress"],
           city: result.body.properties?.["city"],
           includeCity: result.body.properties?.["includeCity"],
           state: result.body.properties?.["state"],
@@ -225,8 +220,7 @@ export async function _createDeserialize(
           postalCode: result.body.properties?.["postalCode"],
           includePostalCode: result.body.properties?.["includePostalCode"],
           enhancedKeyUsage: result.body.properties?.["enhancedKeyUsage"],
-          identityValidationId:
-            result.body.properties?.["identityValidationId"],
+          identityValidationId: result.body.properties?.["identityValidationId"],
           provisioningState: result.body.properties?.["provisioningState"],
           status: result.body.properties?.["status"],
           certificates:
@@ -308,9 +302,7 @@ export function _$deleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -333,25 +325,13 @@ export function $delete(
   profileName: string,
   options: CertificateProfilesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          accountName,
-          profileName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, subscriptionId, resourceGroupName, accountName, profileName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listByCodeSigningAccountSend(
@@ -517,9 +497,7 @@ export function _revokeCertificateSend(
     });
 }
 
-export async function _revokeCertificateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _revokeCertificateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);

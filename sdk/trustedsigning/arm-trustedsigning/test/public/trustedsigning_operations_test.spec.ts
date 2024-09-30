@@ -2,18 +2,14 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
-* Changes may cause incorrect behavior and will be lost if the code is regenerated.
+ * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
-import { CodeSigningClient } from "../../src/codeSigningClient.js"
+import { CodeSigningClient } from "../../src/codeSigningClient.js";
 
 export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -30,14 +26,13 @@ describe("CodeSigning test", () => {
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
     recorder = await createRecorder(context);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new CodeSigningClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
@@ -58,18 +53,16 @@ describe("CodeSigning test", () => {
       {
         location,
         properties: {
-          sku: { name: "Basic" }
-        }
+          sku: { name: "Basic" },
+        },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   });
 
   it("codeSigningAccounts get test", async function () {
-    const res = await client.codeSigningAccounts.get(
-      resourceGroup,
-      resourcename
-    );
+    const res = await client.codeSigningAccounts.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -83,11 +76,10 @@ describe("CodeSigning test", () => {
 
   it("codeSigningAccounts delete test", async function () {
     const resArray = new Array();
-    await client.codeSigningAccounts.delete(resourceGroup, resourcename
-    )
+    await client.codeSigningAccounts.delete(resourceGroup, resourcename);
     for await (let item of client.codeSigningAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

@@ -78,10 +78,7 @@ export interface CodeSigningAccountsOperations {
   ) => Promise<CheckNameAvailabilityResult>;
 }
 
-export function getCodeSigningAccounts(
-  context: CodeSigningContext,
-  subscriptionId: string,
-) {
+export function getCodeSigningAccounts(context: CodeSigningContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
@@ -93,43 +90,24 @@ export function getCodeSigningAccounts(
       accountName: string,
       resource: CodeSigningAccount,
       options?: CodeSigningAccountsCreateOptionalParams,
-    ) =>
-      create(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        resource,
-        options,
-      ),
+    ) => create(context, subscriptionId, resourceGroupName, accountName, resource, options),
     update: (
       resourceGroupName: string,
       accountName: string,
       properties: CodeSigningAccountPatch,
       options?: CodeSigningAccountsUpdateOptionalParams,
-    ) =>
-      update(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        properties,
-        options,
-      ),
+    ) => update(context, subscriptionId, resourceGroupName, accountName, properties, options),
     delete: (
       resourceGroupName: string,
       accountName: string,
       options?: CodeSigningAccountsDeleteOptionalParams,
-    ) =>
-      $delete(context, subscriptionId, resourceGroupName, accountName, options),
+    ) => $delete(context, subscriptionId, resourceGroupName, accountName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: CodeSigningAccountsListByResourceGroupOptionalParams,
-    ) =>
-      listByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (
-      options?: CodeSigningAccountsListBySubscriptionOptionalParams,
-    ) => listBySubscription(context, subscriptionId, options),
+    ) => listByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: CodeSigningAccountsListBySubscriptionOptionalParams) =>
+      listBySubscription(context, subscriptionId, options),
     checkNameAvailability: (
       body: CheckNameAvailability,
       options?: CodeSigningAccountsCheckNameAvailabilityOptionalParams,

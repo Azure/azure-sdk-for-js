@@ -14,10 +14,7 @@ async function getATrustedSigningAccount() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
-  const result = await client.codeSigningAccounts.get(
-    "MyResourceGroup",
-    "MyAccount",
-  );
+  const result = await client.codeSigningAccounts.get("MyResourceGroup", "MyAccount");
   console.log(result);
 }
 

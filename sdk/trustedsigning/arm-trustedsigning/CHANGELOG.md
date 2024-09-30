@@ -4,4 +4,4 @@
 
 ### Features Added
 
-Initial release of the Azure MongoCluster package
+Initial release of the Azure TrustedSigning package

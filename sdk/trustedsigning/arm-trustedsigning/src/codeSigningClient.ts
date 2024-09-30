@@ -3,10 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getCodeSigningAccountsOperations,
   CodeSigningAccountsOperations,
@@ -44,14 +41,8 @@ export class CodeSigningClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.codeSigningAccounts = getCodeSigningAccountsOperations(
-      this._client,
-      subscriptionId,
-    );
-    this.certificateProfiles = getCertificateProfilesOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.codeSigningAccounts = getCodeSigningAccountsOperations(this._client, subscriptionId);
+    this.certificateProfiles = getCertificateProfilesOperations(this._client, subscriptionId);
   }
 
   /** The operation groups for Operations */

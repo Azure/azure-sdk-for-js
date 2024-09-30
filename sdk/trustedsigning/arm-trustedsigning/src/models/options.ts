@@ -7,56 +7,46 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface OperationsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CodeSigningAccountsGetOptionalParams
-  extends OperationOptions {}
+export interface CodeSigningAccountsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CodeSigningAccountsCreateOptionalParams
-  extends OperationOptions {
+export interface CodeSigningAccountsCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CodeSigningAccountsUpdateOptionalParams
-  extends OperationOptions {
+export interface CodeSigningAccountsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CodeSigningAccountsDeleteOptionalParams
-  extends OperationOptions {
+export interface CodeSigningAccountsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CodeSigningAccountsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface CodeSigningAccountsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CodeSigningAccountsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface CodeSigningAccountsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CodeSigningAccountsCheckNameAvailabilityOptionalParams
-  extends OperationOptions {}
+export interface CodeSigningAccountsCheckNameAvailabilityOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificateProfilesGetOptionalParams
-  extends OperationOptions {}
+export interface CertificateProfilesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificateProfilesCreateOptionalParams
-  extends OperationOptions {
+export interface CertificateProfilesCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CertificateProfilesDeleteOptionalParams
-  extends OperationOptions {
+export interface CertificateProfilesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -66,5 +56,4 @@ export interface CertificateProfilesListByCodeSigningAccountOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificateProfilesRevokeCertificateOptionalParams
-  extends OperationOptions {}
+export interface CertificateProfilesRevokeCertificateOptionalParams extends OperationOptions {}

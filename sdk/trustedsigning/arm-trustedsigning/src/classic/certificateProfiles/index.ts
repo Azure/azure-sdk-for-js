@@ -65,25 +65,14 @@ export interface CertificateProfilesOperations {
   ) => Promise<void>;
 }
 
-export function getCertificateProfiles(
-  context: CodeSigningContext,
-  subscriptionId: string,
-) {
+export function getCertificateProfiles(context: CodeSigningContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       accountName: string,
       profileName: string,
       options?: CertificateProfilesGetOptionalParams,
-    ) =>
-      get(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        profileName,
-        options,
-      ),
+    ) => get(context, subscriptionId, resourceGroupName, accountName, profileName, options),
     create: (
       resourceGroupName: string,
       accountName: string,
@@ -105,27 +94,12 @@ export function getCertificateProfiles(
       accountName: string,
       profileName: string,
       options?: CertificateProfilesDeleteOptionalParams,
-    ) =>
-      $delete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        profileName,
-        options,
-      ),
+    ) => $delete(context, subscriptionId, resourceGroupName, accountName, profileName, options),
     listByCodeSigningAccount: (
       resourceGroupName: string,
       accountName: string,
       options?: CertificateProfilesListByCodeSigningAccountOptionalParams,
-    ) =>
-      listByCodeSigningAccount(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        accountName,
-        options,
-      ),
+    ) => listByCodeSigningAccount(context, subscriptionId, resourceGroupName, accountName, options),
     revokeCertificate: (
       resourceGroupName: string,
       accountName: string,

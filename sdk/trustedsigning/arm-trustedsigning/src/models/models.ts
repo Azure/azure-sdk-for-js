@@ -60,7 +60,7 @@ export enum KnownCreatedByType {
 export type CreatedByType = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceSerializer(item: ProxyResource) {
   return item as any;
@@ -72,9 +72,7 @@ export interface CertificateProfile extends ProxyResource {
   properties?: CertificateProfileProperties;
 }
 
-export function certificateProfileSerializer(
-  item: CertificateProfile,
-): Record<string, unknown> {
+export function certificateProfileSerializer(item: CertificateProfile): Record<string, unknown> {
   return {
     properties: !item.properties
       ? item.properties
@@ -314,9 +312,7 @@ export interface RevokeCertificate {
   remarks?: string;
 }
 
-export function revokeCertificateSerializer(
-  item: RevokeCertificate,
-): Record<string, unknown> {
+export function revokeCertificateSerializer(item: RevokeCertificate): Record<string, unknown> {
   return {
     serialNumber: item["serialNumber"],
     thumbprint: item["thumbprint"],
@@ -334,9 +330,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): Record<string, unknown> {
+export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -349,9 +343,7 @@ export interface CodeSigningAccount extends TrackedResource {
   properties?: CodeSigningAccountProperties;
 }
 
-export function codeSigningAccountSerializer(
-  item: CodeSigningAccount,
-): Record<string, unknown> {
+export function codeSigningAccountSerializer(item: CodeSigningAccount): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -385,9 +377,7 @@ export interface AccountSku {
   name: SkuName;
 }
 
-export function accountSkuSerializer(
-  item: AccountSku,
-): Record<string, unknown> {
+export function accountSkuSerializer(item: AccountSku): Record<string, unknown> {
   return {
     name: item["name"],
   };
