@@ -767,6 +767,9 @@ dependencies:
   '@rush-temp/arm-trafficmanager':
     specifier: file:./projects/arm-trafficmanager.tgz
     version: file:projects/arm-trafficmanager.tgz
+  '@rush-temp/arm-trustedsigning':
+    specifier: file:./projects/arm-trustedsigning.tgz
+    version: file:projects/arm-trustedsigning.tgz
   '@rush-temp/arm-visualstudio':
     specifier: file:./projects/arm-visualstudio.tgz
     version: file:projects/arm-visualstudio.tgz
@@ -3937,7 +3940,7 @@ packages:
   /@types/express-serve-static-core@4.19.5:
     resolution: {integrity: sha512-y6W03tvrACO72aijJ5uF02FRq5cgDR9lUxddQ8vyF+GvmjJQqbzDcJngEjURc+ZsG31VI3hODNZJ2URj86pzmg==}
     dependencies:
-      '@types/node': 18.19.50
+      '@types/node': 22.5.5
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3956,7 +3959,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.50
+      '@types/node': 22.5.5
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -19620,6 +19623,46 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+    dev: false
+
+  file:projects/arm-trustedsigning.tgz:
+    resolution: {integrity: sha512-pM0yO35qILHYaE1RUXpcUNchhXTOxF//WJ9yoM6Ts5G+oXI1oodtUQKcj5F4KUpGj8JTvdsyMqzjzeCR6coWlw==, tarball: file:projects/arm-trustedsigning.tgz}
+    name: '@rush-temp/arm-trustedsigning'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 4.4.1
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
+      '@types/node': 18.19.50
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.1)
+      '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      playwright: 1.47.2
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.6.2
+      vitest: 2.1.1(@types/node@18.19.50)(@vitest/browser@2.1.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-visualstudio.tgz:
