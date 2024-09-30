@@ -59,7 +59,6 @@ cabbpt is an invalid user. Ensure the user exists, is public member of Azure and
 alex-frankel is not a public member of Azure.
 filizt is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 sgellock is not a public member of Azure.
-maertendMSFT is not a public member of Azure.
 assafi is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 ctstone is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 vkurpad is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
@@ -253,4 +252,3 @@ robece is an invalid user. Ensure the user exists, is public member of Azure and
 axisc is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 jimmyca15 is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 zhenlan is not a public member of Azure.
-
