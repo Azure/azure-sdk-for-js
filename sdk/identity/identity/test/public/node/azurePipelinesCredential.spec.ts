@@ -24,7 +24,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -43,14 +43,14 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -65,7 +65,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken
+      systemAccessToken,
     );
     // const regExp: RegExp =
     //   /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
@@ -88,14 +88,14 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       "clientId",
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -109,7 +109,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "systemAccessToken"
+      "systemAccessToken",
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 401/);
     try {
