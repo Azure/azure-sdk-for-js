@@ -1,16 +1,10 @@
 # Release History
 
-## 1.4.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.4.4 (2024-10-03)
 
 ### Bugs Fixed
 
 - Fix an issue on Firefox where "xmlns" namespace is missing from the result of `stringifyXML()` [Issue #11655](https://github.com/Azure/azure-sdk-for-js/issues/11655)
-
-### Other Changes
 
 ## 1.4.3 (2024-08-01)
 
