@@ -16,7 +16,7 @@ import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -33,7 +33,7 @@ import {
   WebPubSubReplicasUpdateResponse,
   WebPubSubReplicasRestartOptionalParams,
   WebPubSubReplicasRestartResponse,
-  WebPubSubReplicasListNextResponse
+  WebPubSubReplicasListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +58,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubReplicasListOptionalParams
+    options?: WebPubSubReplicasListOptionalParams,
   ): PagedAsyncIterableIterator<Replica> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -76,9 +76,9 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +86,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubReplicasListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Replica[]> {
     let result: WebPubSubReplicasListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,12 +114,12 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubReplicasListOptionalParams
+    options?: WebPubSubReplicasListOptionalParams,
   ): AsyncIterableIterator<Replica> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -134,11 +134,11 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubReplicasListOptionalParams
+    options?: WebPubSubReplicasListOptionalParams,
   ): Promise<WebPubSubReplicasListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasGetOptionalParams
+    options?: WebPubSubReplicasGetOptionalParams,
   ): Promise<WebPubSubReplicasGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, replicaName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -174,7 +174,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasCreateOrUpdateOptionalParams
+    options?: WebPubSubReplicasCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubReplicasCreateOrUpdateResponse>,
@@ -183,21 +183,20 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubReplicasCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -206,8 +205,8 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -215,8 +214,8 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -227,9 +226,9 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         resourceName,
         replicaName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubReplicasCreateOrUpdateResponse,
@@ -237,7 +236,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -256,14 +255,14 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasCreateOrUpdateOptionalParams
+    options?: WebPubSubReplicasCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubReplicasCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       replicaName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -279,11 +278,11 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasDeleteOptionalParams
+    options?: WebPubSubReplicasDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, replicaName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -300,7 +299,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasUpdateOptionalParams
+    options?: WebPubSubReplicasUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubReplicasUpdateResponse>,
@@ -309,21 +308,20 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubReplicasUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -332,8 +330,8 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -341,8 +339,8 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -353,9 +351,9 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         resourceName,
         replicaName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubReplicasUpdateResponse,
@@ -363,7 +361,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -382,14 +380,14 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceName: string,
     replicaName: string,
     parameters: Replica,
-    options?: WebPubSubReplicasUpdateOptionalParams
+    options?: WebPubSubReplicasUpdateOptionalParams,
   ): Promise<WebPubSubReplicasUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       resourceName,
       replicaName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -405,7 +403,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasRestartOptionalParams
+    options?: WebPubSubReplicasRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubReplicasRestartResponse>,
@@ -414,21 +412,20 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubReplicasRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -437,8 +434,8 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -446,15 +443,15 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, resourceName, replicaName, options },
-      spec: restartOperationSpec
+      spec: restartOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubReplicasRestartResponse,
@@ -462,7 +459,7 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -479,13 +476,13 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubReplicasRestartOptionalParams
+    options?: WebPubSubReplicasRestartOptionalParams,
   ): Promise<WebPubSubReplicasRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       resourceName,
       replicaName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -501,11 +498,11 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: WebPubSubReplicasListNextOptionalParams
+    options?: WebPubSubReplicasListNextOptionalParams,
   ): Promise<WebPubSubReplicasListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -513,38 +510,15 @@ export class WebPubSubReplicasImpl implements WebPubSubReplicas {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaList
+      bodyMapper: Mappers.ReplicaList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -552,31 +526,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.replicaName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Replica,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.replicaName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     201: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     202: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     204: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -585,22 +579,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -608,31 +601,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     201: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     202: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     204: {
-      bodyMapper: Mappers.Replica
+      bodyMapper: Mappers.Replica,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
@@ -641,32 +633,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/replicas/{replicaName}/restart",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.WebPubSubReplicasRestartHeaders
+      headersMapper: Mappers.WebPubSubReplicasRestartHeaders,
     },
     201: {
-      headersMapper: Mappers.WebPubSubReplicasRestartHeaders
+      headersMapper: Mappers.WebPubSubReplicasRestartHeaders,
     },
     202: {
-      headersMapper: Mappers.WebPubSubReplicasRestartHeaders
+      headersMapper: Mappers.WebPubSubReplicasRestartHeaders,
     },
     204: {
-      headersMapper: Mappers.WebPubSubReplicasRestartHeaders
+      headersMapper: Mappers.WebPubSubReplicasRestartHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -674,29 +665,29 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.replicaName
+    Parameters.replicaName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaList
+      bodyMapper: Mappers.ReplicaList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -10,11 +10,19 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+
+## 7.9.5 (2024-06-11)
+
+### Bugs Fixed
+
 - Fix an issue where `rhea-promise` receivers are not properly closed in `MessageSession.createRheaLink()` [PR #29954](https://github.com/Azure/azure-sdk-for-js/pull/29954)
 
 ### Other Changes
 
-- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Wait up to max wait time for draining credit when receiving messages [PR #28604](https://github.com/Azure/azure-sdk-for-js/pull/28604)
 
 ## 7.9.4 (2024-02-06)
 
