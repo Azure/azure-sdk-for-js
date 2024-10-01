@@ -152,7 +152,9 @@ export function keyVaultAuthenticationPolicy(
 
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
-      throw new Error("A 401 response from the service must have a WWW-Authenticate header. This is a service bug.");
+      throw new Error(
+        "A 401 response from the service must have a WWW-Authenticate header. This is a service bug.",
+      );
     }
     const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
@@ -211,7 +213,9 @@ export function keyVaultAuthenticationPolicy(
 
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
-      throw new Error("A 401 response from the service must have a WWW-Authenticate header. This is a service bug.");
+      throw new Error(
+        "A 401 response from the service must have a WWW-Authenticate header. This is a service bug.",
+      );
     }
     const {
       claims: base64EncodedClaims,
