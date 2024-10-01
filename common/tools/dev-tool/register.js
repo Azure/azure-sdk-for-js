@@ -13,8 +13,8 @@
  * old JavaScript, it is simple enough.
  */
 
-const { existsSync } = require("fs");
-const path = require("path");
+const { existsSync } = require("node:fs");
+const path = require("node:path");
 const cwd = process.cwd();
 
 // This is the calling module, which will be the node repl context.
