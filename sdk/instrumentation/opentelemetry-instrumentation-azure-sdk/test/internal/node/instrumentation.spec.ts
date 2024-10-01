@@ -12,7 +12,7 @@ describe("instrumentation end-to-end tests", () => {
   });
 
   // This is node-only since we use the BasicTracerProvider in the browser
-  // which does not set up a context manager. Alteratively we can always pull in
+  // which does not set up a context manager. Alternatively we can always pull in
   // @opentelemetry/sdk-trace-web but it did not feel necessary at this time.
   describe("with a configured client", () => {
     it("works when using withSpan", async () => {
