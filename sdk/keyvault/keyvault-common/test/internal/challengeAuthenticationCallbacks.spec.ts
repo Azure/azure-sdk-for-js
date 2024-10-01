@@ -12,7 +12,7 @@ import {
 import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate.js";
 import { describe, it, beforeEach, expect, vi } from "vitest";
 import { TokenCredential } from "@azure/core-auth";
-import { keyVaultAuthenticationPolicy } from "../../src/challengeBasedAuthenticationPolicy.js";
+import { keyVaultAuthenticationPolicy } from "../../src/keyVaultAuthenticationPolicy.js";
 
 const caeChallenge = `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`;
 const caeClaims = `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`;

@@ -42,7 +42,7 @@ type ChallengeState =
 /**
  * Additional options for the challenge based authentication policy.
  */
-export interface CreateChallengeCallbacksOptions {
+export interface KeyVaultAuthenticationPolicyOptions {
   /**
    * Whether to disable verification that the challenge resource matches the Key Vault or Managed HSM domain.
    *
@@ -88,7 +88,7 @@ export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
  */
 export function keyVaultAuthenticationPolicy(
   credential: TokenCredential,
-  options: CreateChallengeCallbacksOptions = {},
+  options: KeyVaultAuthenticationPolicyOptions = {},
 ): PipelinePolicy {
   const { disableChallengeResourceVerification } = options;
   let challengeState: ChallengeState = { status: "none" };
