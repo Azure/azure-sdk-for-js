@@ -5,7 +5,7 @@ import { Constants } from "../../../src/common/constants";
 import { getHeaders } from "../../../src/request/request";
 import { CosmosHeaders, FeedOptions } from "../../../src";
 
-describe("getHeader Test", function () {
+describe("Test ParallelizeCrossPartitionQuery header value", function () {
   const mockedEndpoint = "https://localhost:8081";
   function getHeadersFunc(feedOptions: FeedOptions): Promise<CosmosHeaders> {
     return getHeaders({
@@ -21,28 +21,28 @@ describe("getHeader Test", function () {
       partitionKey: null,
     });
   }
-  it("When maxDegreeOfParallelism > 1 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be true", async function () {
+  it("If maxDegreeOfParallelism > 1 then ParallelizeCrossPartitionQuery header's value should be true", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 2 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       true,
-      "incorrect header",
+      "incorrect header value",
     );
   });
-  it("When maxDegreeOfParallelism == 0 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be null", async function () {
+  it("If maxDegreeOfParallelism == 0 then ParallelizeCrossPartitionQuery header's value should be null", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 0 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       null,
-      "incorrect header",
+      "incorrect header value",
     );
   });
-  it("When maxDegreeOfParallelism < 0 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be null", async function () {
+  it("If maxDegreeOfParallelism < 0 then ParallelizeCrossPartitionQuery header's value should be null", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: -1 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       null,
-      "incorrect header",
+      "incorrect header value",
     );
   });
 });
