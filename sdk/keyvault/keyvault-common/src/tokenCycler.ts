@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// This file is a direct copy of the tokenCycler implementation in core-rest-pipeline.
+
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { delay } from "@azure/core-util";
 
