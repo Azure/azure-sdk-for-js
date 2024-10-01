@@ -5,9 +5,7 @@
     "moduleResolution": "NodeNext",
     "rootDir": ".",
     "paths": {
-      "@azure/opentelemetry-instrumentation-azure-sdk": [
-        "./src/index"
-      ]
+      "@azure/opentelemetry-instrumentation-azure-sdk": ["./src/index"]
     }
   },
   "include": [

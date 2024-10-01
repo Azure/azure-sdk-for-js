@@ -8,10 +8,7 @@
     "./test/**/*.cts",
     "./test/**/*.ts"
   ],
-  "exclude": [
-    "./test/**/node/**/*.ts",
-    "./test/snippets.spec.ts"
-  ],
+  "exclude": ["./test/**/node/**/*.ts", "./test/snippets.spec.ts"],
   "compilerOptions": {
     "outDir": "./dist-test/browser",
     "rootDir": ".",
