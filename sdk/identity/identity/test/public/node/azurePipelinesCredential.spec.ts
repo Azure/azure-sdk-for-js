@@ -5,7 +5,7 @@ import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 
-describe("AzurePipelinesCredential", function () {
+describe.only("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
 
@@ -30,7 +30,7 @@ describe("AzurePipelinesCredential", function () {
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it.only("fails with invalid service connection", async function () {
+  it("fails with invalid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -52,7 +52,7 @@ describe("AzurePipelinesCredential", function () {
     );
   });
 
-  it.only("failure includes the expected response headers", async function () {
+  it("failure includes the expected response headers", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -106,7 +106,7 @@ describe("AzurePipelinesCredential", function () {
     );
   });
 
-  it.only("fails with with invalid system access token", async function () {
+  it("fails with with invalid system access token", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
