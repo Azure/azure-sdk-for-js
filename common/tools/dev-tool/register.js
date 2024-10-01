@@ -83,7 +83,8 @@ const makeTransformers = () => ({
   ],
 });
 
-require("ts-node").register({
+const tsxOptions = {
+  tsconfig: "../../../tsconfig.json",
   skipProject: true,
   transpileOnly: true,
   compilerOptions: {
@@ -97,4 +98,9 @@ require("ts-node").register({
     },
   },
   transformers: makeTransformers(),
-});
+};
+
+const tsx = require("tsx/esm/api");
+const tsxcjs = require("tsx/cjs/api");
+tsx.register(tsxOptions);
+tsxcjs.register(tsxOptions);
