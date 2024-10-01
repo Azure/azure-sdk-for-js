@@ -8,15 +8,15 @@ import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface CreateChallengeCallbacksOptions {
-    disableChallengeResourceVerification?: boolean;
-}
-
-// @public
-export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: CreateChallengeCallbacksOptions): PipelinePolicy;
+export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: KeyVaultAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
 export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
+
+// @public
+export interface KeyVaultAuthenticationPolicyOptions {
+    disableChallengeResourceVerification?: boolean;
+}
 
 // @public
 export interface KeyVaultEntityIdentifier {
