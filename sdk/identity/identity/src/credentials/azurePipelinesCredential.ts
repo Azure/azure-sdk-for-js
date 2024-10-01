@@ -172,11 +172,7 @@ export function handleOidcResponse(response: PipelineResponse): string {
       const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
       let errorDescription = ``;
       if (response.status !== 200) {
-        errorDescription = `Response body = ${text}. Response Headers ["x-vss-e2eid"] = ${response.headers.get(
-          "x-vss-e2eid",
-        )} and ["x-msedge-ref"] = ${response.headers.get(
-          "x-msedge-ref",
-        )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
+        errorDescription = `Response body = ${text}. Response Headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} and ["x-msedge-ref"] = ${response.headers.get("x-msedge-ref")}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
       logger.error(errorMessage);
       logger.error(errorDescription);
@@ -188,20 +184,13 @@ export function handleOidcResponse(response: PipelineResponse): string {
   } catch (e: any) {
     const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
     logger.error(
-      `Response from service = ${text}, Response Headers ["x-vss-e2eid"] = ${response.headers.get(
-        "x-vss-e2eid",
-      )} and ["x-msedge-ref"] = ${response.headers.get(
-        "x-msedge-ref",
-      )}, error message = ${e.message}`,
+      `Response from service = ${text}, Response Headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} 
+      and ["x-msedge-ref"] = ${response.headers.get("x-msedge-ref")}, error message = ${e.message}`,
     );
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
-      error_description: `Response = ${text}. Response headers "x-vss-e2eid" = ${response.headers.get(
-        "x-vss-e2eid",
-      )} and "x-msedge-ref" =  ${response.headers.get(
-        "x-msedge-ref",
-      )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+      error_description: `Response = ${text}. Response headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} and ["x-msedge-ref"] =  ${response.headers.get("x-msedge-ref")}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }
 }
