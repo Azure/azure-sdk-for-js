@@ -23188,7 +23188,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-micYqYdS28ldR3rNvKUud3F9dYcl1yW+GlumpMlyBCMTJR8ZK/Vjev6aUcPJehWHWMSAz5Wu4w2nnuYkXv39AA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-O2HkbOnxhtVlWGXfaRw4c+wAvPPJkuRnkusoIX/s1JjY0TvpTJujAnuJkyx9NdKIye2OoCWilx13neZczGFydg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -23202,6 +23202,8 @@ packages:
       '@types/mocha': 10.0.8
       '@types/node': 18.19.54
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.1)
+      '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -23217,6 +23219,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
       rimraf: 5.0.10
       sinon: 17.0.1
       source-map-support: 0.5.21
@@ -23224,12 +23227,27 @@ packages:
       tsx: 4.19.1
       typescript: 5.6.2
       util: 0.12.5
+      vitest: 2.1.1(@types/node@18.19.54)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OpenTelemetrySpanWrapper } from "../../../src/spanWrapper";
+import { assert } from "vitest";
+import { OpenTelemetrySpanWrapper } from "../../../src/spanWrapper.js";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import { assert } from "chai";
-import { inMemoryExporter } from "./setup";
+import { inMemoryExporter } from "./setup.js";
 
 export function getExportedSpan(span: OpenTelemetrySpanWrapper): ReadableSpan {
   // Also tests that we end the underlying span by proxy
