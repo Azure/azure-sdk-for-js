@@ -193,8 +193,10 @@ export function handleOidcResponse(response: PipelineResponse): string {
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
-      error_description: `Response = ${text}. ${JSON.stringify(
-        response.headers
+      error_description: `Response = ${text}. Response headers "x-vss-e2eid" = ${response.headers.get(
+        "x-vss-e2eid"
+      )} and "x-msedge-ref" =  ${response.headers.get(
+        "x-vss-e2eid"
       )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }

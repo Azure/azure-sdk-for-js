@@ -5,8 +5,6 @@ import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 import { logger } from "@azure/keyvault-keys";
-import { setLogLevel } from "@azure/logger";
-setLogLevel("verbose");
 describe("AzurePipelinesCredential", function () {
   const scope = "https://vault.azure.net/.default";
   const tenantId = process.env.AZURE_SERVICE_CONNECTION_TENANT_ID!;
@@ -46,7 +44,7 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken
     );
     const regExp: RegExp =
-      /AuthenticationRequiredError: invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
+      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
