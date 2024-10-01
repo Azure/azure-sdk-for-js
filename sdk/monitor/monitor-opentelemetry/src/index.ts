@@ -82,7 +82,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     metricReader: metricHandler.getMetricReader(),
     views: metricHandler.getViews(),
     instrumentations: instrumentations,
-    logRecordProcessor: logHandler.getAzureLogRecordProcessor(),
+    logRecordProcessors: [logHandler.getAzureLogRecordProcessor()],
     resource: config.resource,
     sampler: traceHandler.getSampler(),
     spanProcessors: [traceHandler.getAzureMonitorSpanProcessor()],
