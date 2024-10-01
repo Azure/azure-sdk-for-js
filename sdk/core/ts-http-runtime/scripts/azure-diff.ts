@@ -4,6 +4,15 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { exit } from "node:process";
 
+/**
+ * Mapping of files in the unbranded package to their Azure counterparts
+ * 
+ * For each source file in the unbranded package, we will loop through these entries and find the first matching key. A key is considered
+ * a match if the unbranded file's path starts with the key.
+ * 
+ * For example, any file under src/logger will map to ../logger/src (the Azure logger package), except for src/logger/logger.ts, which will get mapped
+ * to ../logger/src/index.ts, since that entry comes before src/logger in the object.
+ */
 const UNBRANDED_TO_AZURE_MAPPINGS = {
   // Logger index file was renamed
   "src/logger/logger.ts": "../logger/src/index.ts",
@@ -34,6 +43,11 @@ const {
   },
 });
 
+/**
+ * Recursively find all files in the directory
+ * @param dir - Directory to find files in
+ * @returns - an array containing paths to all files in the directory
+ */
 async function find(dir: string): Promise<string[]> {
   const files = await fs.readdir(dir);
   const allFiles: string[] = [];
@@ -50,6 +64,10 @@ async function find(dir: string): Promise<string[]> {
   return allFiles;
 }
 
+/**
+ * Returns a list of all unbranded source files and their azure counterparts if any
+ * @returns - list of tuples [unbranded file, azure counterpart]. The azure counterpart may be undefined if no counterpart can be found
+ */
 async function getFileMappings(): Promise<[string, string | undefined][]> {
   const result: [string, string | undefined][] = [];
   const files = await find("src");
@@ -93,6 +111,9 @@ export interface RunResult {
   stdout: string;
 }
 
+/**
+ * Runs the given CLI command and captures the output
+ */
 async function run(command: string, ...args: string[]): Promise<RunResult> {
   let stdout = "";
 
