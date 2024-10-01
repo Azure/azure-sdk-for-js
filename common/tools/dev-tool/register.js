@@ -13,6 +13,7 @@
  * old JavaScript, it is simple enough.
  */
 
+const { existsSync } = require("fs");
 const path = require("path");
 const cwd = process.cwd();
 
@@ -41,8 +42,7 @@ if (process.env.DEBUG) {
 
 require("dotenv").config();
 
-const tsxOptions = {
-  tsconfig: "../../../tsconfig.json",
-};
-require("tsx/esm/api").register(tsxOptions);
-require("tsx/cjs/api").register(tsxOptions);
+const tsconfig = existsSync("../../../tsconfig.json") ? "../../../tsconfig.json" : undefined;
+
+require("tsx/esm/api").register({ tsconfig });
+require("tsx/cjs/api").register({ tsconfig });
