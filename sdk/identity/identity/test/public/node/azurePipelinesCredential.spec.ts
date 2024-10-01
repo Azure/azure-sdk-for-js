@@ -58,12 +58,13 @@ describe("AzurePipelinesCredential", function () {
     }
     // clientId for above service connection
     const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
-    const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
+    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!
+    // const systemAccessToken = process.env.SYSTEM_ACCESSTOKEN!;
     const credential = new AzurePipelinesCredential(
       tenantId,
       clientId,
-      "existingServiceConnectionId",
-      systemAccessToken,
+      existingServiceConnectionId,
+      "systemAccessToken",
     );
     const regExpHeader1: RegExp =
       /\["x-vss-e2eid"\] - \"[a-fA-F0-9]{8}-([a-f0-9A-F]{4}-){3}[0-9a-fA-F]{12}\"/gm;
@@ -118,10 +119,5 @@ describe("AzurePipelinesCredential", function () {
       "systemAccessToken",
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 401/);
-    try {
-      await credential.getToken(scope);
-    } catch (e) {
-      console.log(e)
-    }
   });
 });
