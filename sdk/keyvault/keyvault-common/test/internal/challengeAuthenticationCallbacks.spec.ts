@@ -56,6 +56,7 @@ const mockCredential: TokenCredential = {
     const [scope] = Array.isArray(scopes) ? scopes : [scopes];
     expect(scope).toBe("https://vault.azure.net/.default");
     expect(options?.tenantId).toBe("testTenantId");
+    expect(options?.enableCae).toBe(true);
     const later = new Date().getTime() + 100000000;
 
     if (options?.claims) {
@@ -95,7 +96,7 @@ describe("Challenge based authentication tests", function () {
     expect(rsp.status).toBe(204);
   });
 
-  it("handles a CAE challenge that comes immediately after a successful challenge", async () => {
+  it("handles a CAE challenge that comes immediately after a successful Key Vault challenge", async () => {
     const sendRequest = vi
       .fn<SendRequest>()
       // First, send the standard challenge
