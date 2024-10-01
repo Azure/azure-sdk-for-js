@@ -41,5 +41,8 @@ if (process.env.DEBUG) {
 
 require("dotenv").config();
 
-require("tsx/esm/api").register();
-require("tsx/cjs/api").register();
+const tsxOptions = {
+  tsconfig: "../../../tsconfig.json",
+};
+require("tsx/esm/api").register(tsxOptions);
+require("tsx/cjs/api").register(tsxOptions);
