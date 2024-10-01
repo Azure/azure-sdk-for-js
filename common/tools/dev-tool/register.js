@@ -100,7 +100,5 @@ const tsxOptions = {
   transformers: makeTransformers(),
 };
 
-const tsx = require("tsx/esm/api");
-const tsxcjs = require("tsx/cjs/api");
-tsx.register(tsxOptions);
-tsxcjs.register(tsxOptions);
+require("tsx/esm/api").register(tsxOptions);
+require("tsx/cjs/api").register(tsxOptions);
