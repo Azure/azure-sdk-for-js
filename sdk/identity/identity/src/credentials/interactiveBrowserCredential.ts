@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
- 
-
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   InteractiveBrowserCredentialInBrowserOptions,

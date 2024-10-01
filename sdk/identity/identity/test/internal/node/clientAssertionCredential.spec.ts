@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
- 
-
 import * as path from "path";
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
