@@ -26,7 +26,7 @@ describe("getHeader Test", function () {
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       true,
-      "incorrect header"
+      "incorrect header",
     );
   });
   it("When maxDegreeOfParallelism == 0 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be null", async function () {
@@ -34,7 +34,7 @@ describe("getHeader Test", function () {
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       null,
-      "incorrect header"
+      "incorrect header",
     );
   });
   it("When maxDegreeOfParallelism < 0 , headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] should be null", async function () {
@@ -42,7 +42,7 @@ describe("getHeader Test", function () {
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       null,
-      "incorrect header"
+      "incorrect header",
     );
   });
 });
