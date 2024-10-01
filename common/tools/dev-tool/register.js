@@ -42,13 +42,14 @@ if (process.env.DEBUG) {
 
 require("dotenv").config();
 
-const tsconfig = existsSync("../../../tsconfig.json") ? "../../../tsconfig.json" : undefined;
-
-if (tsconfig === undefined) {
+let tsconfigPath;
+if (existsSync("../../../tsconfig.json")) {
+  tsconfigPath = "../../../tsconfig.json";
+} else {
   console.info(
     "[dev-tool/register] unable to locate tsconfig.json in repo root. This is expected in min/max tests.",
   );
 }
 
-require("tsx/esm/api").register({ tsconfig });
-require("tsx/cjs/api").register({ tsconfig });
+require("tsx/esm/api").register({ tsconfig: tsconfigPath });
+require("tsx/cjs/api").register({ tsconfig: tsconfigPath });
