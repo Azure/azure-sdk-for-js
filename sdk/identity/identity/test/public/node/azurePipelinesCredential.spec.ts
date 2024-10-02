@@ -74,11 +74,11 @@ describe.only("AzurePipelinesCredential", function () {
     }
     catch(e){
       console.log(e)
-      const match1 = (e as any).match(regExpHeader1);
+      const match1 = (e as string).match(regExpHeader1);
       if(match1){
         console.log(match1)
       }
-      const match2 = (e as any).match(regExpHeader2);
+      const match2 = (e as string).match(regExpHeader2);
       if(match2){
         console.log(match2)
       }
