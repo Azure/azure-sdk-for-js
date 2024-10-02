@@ -93,7 +93,7 @@ export async function recreateQueue(
   const checkIfQueueExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getQueue(queueName);
-    } catch (err: any) {
+    } catch {
       return false;
     }
     return true;
@@ -129,7 +129,7 @@ export async function recreateTopic(
   const checkIfTopicExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getTopic(topicName);
-    } catch (err: any) {
+    } catch {
       return false;
     }
     return true;
@@ -173,7 +173,7 @@ export async function recreateSubscription(
   const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getSubscription(topicName, subscriptionName);
-    } catch (err: any) {
+    } catch {
       return false;
     }
     return true;

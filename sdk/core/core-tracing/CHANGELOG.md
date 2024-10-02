@@ -1,16 +1,10 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.2.0 (2024-10-03)
 
 ### Features Added
 
 - Added support for attaching events to a span. [#31162](https://github.com/Azure/azure-sdk-for-js/pull/31162)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.1.2 (2024-04-09)
 
