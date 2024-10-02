@@ -4,7 +4,18 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
+
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: eng/scripts/spell-check-public-apis.ps1
+      arguments: -DiffJsonFile $(Build.ArtifactStagingDirectory)/diff/diff.json
+      pwsh: true
+    displayName: Spell check public API
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
   - task: PowerShell@2
     inputs:
@@ -12,7 +23,8 @@ steps:
       filePath: eng/scripts/spell-check-public-api.ps1
       arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
       pwsh: true
-    displayName: Spell check public API
+    displayName: Spell check public APIs
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
@@ -25,7 +37,6 @@ steps:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'package-diffs'
       SbomEnabled: false
-
 
   - template: /eng/common/pipelines/templates/steps/verify-readme.yml
     parameters:
