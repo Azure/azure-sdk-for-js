@@ -56,13 +56,13 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo), TelemetryTypeError);
+    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
     derivedMetricInfo.telemetryType = "\\Random\\Counter";
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo), TelemetryTypeError);
+    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
     derivedMetricInfo.telemetryType = "Metric";
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo), TelemetryTypeError);
+    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
     derivedMetricInfo.telemetryType = "does not exist";
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo), TelemetryTypeError);
+    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
   });
 
   it("The validator rejects CustomMetrics projections and filters (not supported in Otel)", () => {
@@ -98,8 +98,8 @@ describe("Live Metrics filtering - Validator", () => {
       () => validator.checkCustomMetricProjection(invalid1),
       UnexpectedFilterCreateError,
     );
-    validator.validateTelemetryType(invalid2); // this shouldn't throw an error as the telemetry type is supported
-    assert.throws(() => validator.validateFilters(invalid2), UnexpectedFilterCreateError);
+    validator.validateTelemetryType(invalid2.telemetryType); // this shouldn't throw an error as the telemetry type is supported
+    assert.throws(() => validator.validateMetricFilters(invalid2), UnexpectedFilterCreateError);
   });
 
   it("The validator rejects invalid filters", () => {
@@ -317,7 +317,7 @@ describe("Live Metrics filtering - Validator", () => {
 
       derivedMetricInfo.filterGroups = [conjunctionGroup];
       assert.throws(
-        () => validator.validateFilters(derivedMetricInfo),
+        () => validator.validateMetricFilters(derivedMetricInfo),
         UnexpectedFilterCreateError || TelemetryTypeError,
       );
     });
@@ -333,7 +333,7 @@ describe("Live Metrics filtering - Validator", () => {
     supportedTelemetryTypes.forEach((telemetryType) => {
       derivedMetricInfo.telemetryType = telemetryType;
       assert.throws(
-        () => validator.validateFilters(derivedMetricInfo),
+        () => validator.validateMetricFilters(derivedMetricInfo),
         UnexpectedFilterCreateError,
       );
     });
@@ -365,7 +365,7 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    assert.throws(() => validator.validateFilters(derivedMetricInfo), UnexpectedFilterCreateError);
+    assert.throws(() => validator.validateMetricFilters(derivedMetricInfo), UnexpectedFilterCreateError);
   });
 
   it("The validator accepts valid filters", () => {
@@ -520,7 +520,7 @@ describe("Live Metrics filtering - Validator", () => {
       };
 
       derivedMetricInfo.filterGroups = [conjunctionGroup];
-      validator.validateFilters(derivedMetricInfo);
+      validator.validateMetricFilters(derivedMetricInfo);
     });
   });
 });

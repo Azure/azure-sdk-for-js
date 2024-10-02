@@ -34,6 +34,7 @@ import {
   KeyValuePairString,
   DerivedMetricInfo,
   KnownTelemetryType,
+  FilterConjunctionGroupInfo,
 } from "../../generated";
 import {
   getCloudRole,
@@ -135,10 +136,10 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
+      model: string;
+      speed: number;
+      times: { user: number; nice: number; sys: number; idle: number; irq: number };
+    }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
@@ -150,6 +151,8 @@ export class LiveMetrics {
   private derivedMetricProjection: Projection = new Projection();
   private validator: Validator = new Validator();
   private filter: Filter = new Filter();
+  // type: Map<telemetryType, Map<id, FilterConjunctionGroupInfo[]>>
+  private validDocumentFilterConjuctionGroupInfos: Map<string, Map<string, FilterConjunctionGroupInfo[]>> = new Map();
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param config - Distro configuration.
@@ -165,7 +168,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 2, // Not changing this to 5 until we have filtering of documents too
+      invariantVersion: 5,
       instance: instance,
       roleName: roleName,
       machineName: machineName,
@@ -175,7 +178,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -393,6 +396,7 @@ export class LiveMetrics {
    */
   public deactivateMetrics(): void {
     this.documents = [];
+    this.validDocumentFilterConjuctionGroupInfos.clear();
     this.errorTracker.clearRunTimeErrors();
     this.errorTracker.clearValidationTimeErrors();
     this.validDerivedMetrics.clear();
@@ -449,6 +453,13 @@ export class LiveMetrics {
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
       const columns: RequestData | DependencyData = getSpanData(span);
+      let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
+      if (isRequestData(columns)) {
+        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) || new Map<string, FilterConjunctionGroupInfo[]>();
+      } else {
+        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) || new Map<string, FilterConjunctionGroupInfo[]>();
+      }
+      this.applyDocumentFilters(documentConfiguration, columns);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
@@ -457,8 +468,8 @@ export class LiveMetrics {
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
 
-      const document: Request | RemoteDependency = getSpanDocument(columns);
-      this.addDocument(document);
+      /* const document: Request | RemoteDependency = getSpanDocument(columns);
+      this.addDocument(document);*/
       const durationMs = hrTimeToMilliseconds(span.duration);
       const success = span.status.code !== SpanStatusCode.ERROR;
 
@@ -484,12 +495,14 @@ export class LiveMetrics {
               span.attributes,
             );
             derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+            documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) || new Map<string, FilterConjunctionGroupInfo[]>();
             this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
-            const exceptionDocument: Exception = getLogDocument(
+            /* const exceptionDocument: Exception = getLogDocument(
               exceptionColumns,
               event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
             ) as Exception;
-            this.addDocument(exceptionDocument);
+            this.addDocument(exceptionDocument);*/
+            this.applyDocumentFilters(documentConfiguration, exceptionColumns);
             this.totalExceptionCount++;
           }
         });
@@ -695,17 +708,84 @@ export class LiveMetrics {
     this.etag = response.xMsQpsConfigurationEtag || "";
     this.quickpulseExporter.setEtag(this.etag);
     this.errorTracker.clearValidationTimeErrors();
+    this.validDocumentFilterConjuctionGroupInfos.clear();
     this.validDerivedMetrics.clear();
     this.derivedMetricProjection.clearProjectionMaps();
     this.seenMetricIds.clear();
 
+    this.parseDocumentFilterConfiguration(response);
+    this.parseMetricFilterConfiguration(response);
+  }
+
+  private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    response.documentStreams.forEach((documentStreamInfo) => {
+      documentStreamInfo.documentFilterGroups.forEach((documentFilterGroupInfo) => {
+        try {
+          this.validator.validateTelemetryType(documentFilterGroupInfo.telemetryType);
+          this.validator.validateDocumentFilters(documentFilterGroupInfo);
+          this.filter.renameExceptionFieldNamesForFiltering(documentFilterGroupInfo.filters);
+
+          if (!this.validDocumentFilterConjuctionGroupInfos.has(documentFilterGroupInfo.telemetryType)) {
+            this.validDocumentFilterConjuctionGroupInfos.set(
+              documentFilterGroupInfo.telemetryType,
+              new Map<string, FilterConjunctionGroupInfo[]>(),
+            );
+            this.validDocumentFilterConjuctionGroupInfos.set(documentFilterGroupInfo.telemetryType, new Map<string, FilterConjunctionGroupInfo[]>());
+          }
+
+          const innerMap = this.validDocumentFilterConjuctionGroupInfos.get(documentFilterGroupInfo.telemetryType);
+          if (!innerMap?.has(documentStreamInfo.id)) {
+            innerMap?.set(documentStreamInfo.id, [documentFilterGroupInfo.filters]);
+          } else {
+            innerMap.get(documentStreamInfo.id)?.push(documentFilterGroupInfo.filters);
+          }
+
+        } catch (error) {
+          const configError: CollectionConfigurationError = {
+            collectionConfigurationErrorType: "",
+            message: "",
+            fullException: "",
+            data: [],
+          };
+          if (error instanceof TelemetryTypeError) {
+            configError.collectionConfigurationErrorType = "DocumentTelemetryTypeUnsupported";
+          } else if (error instanceof UnexpectedFilterCreateError) {
+            configError.collectionConfigurationErrorType =
+              KnownCollectionConfigurationErrorType.DocumentStreamFailureToCreateFilterUnexpected;
+          }
+
+          if (error instanceof Error) {
+            configError.message = error.message;
+            configError.fullException = error.stack || "";
+          }
+          const data: KeyValuePairString[] = [];
+          data.push({ key: "DocumentStreamInfoId", value: documentStreamInfo.id });
+          data.push({ key: "ETag", value: this.etag });
+          configError.data = data;
+          this.errorTracker.addValidationError(configError);
+        }
+      });
+    });
+  }
+
+  private applyDocumentFilters(documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>, data: TelemetryData): void {
+    // list of stream ids that match
+    // for each entry in document configuration
+    // get the FilterConjunctionGroupInfo[]
+    // for each FilterConjunctionGroupInfo
+    // check if the data matches the filter
+    // add stream id to list
+    // if list not empty, create document, append stream id list, then add this document to the list of documents
+  }
+
+  private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
     response.metrics.forEach((derivedMetricInfo) => {
       try {
         if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
           this.seenMetricIds.add(derivedMetricInfo.id);
-          this.validator.validateTelemetryType(derivedMetricInfo);
+          this.validator.validateTelemetryType(derivedMetricInfo.telemetryType);
           this.validator.checkCustomMetricProjection(derivedMetricInfo);
-          this.validator.validateFilters(derivedMetricInfo);
+          this.validator.validateMetricFilters(derivedMetricInfo);
           derivedMetricInfo.filterGroups.forEach((filterConjunctionGroupInfo) => {
             this.filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
           });
@@ -731,7 +811,7 @@ export class LiveMetrics {
             KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
         } else if (error instanceof UnexpectedFilterCreateError) {
           configError.collectionConfigurationErrorType =
-            KnownCollectionConfigurationErrorType.FilterFailureToCreateUnexpected;
+            KnownCollectionConfigurationErrorType.MetricFailureToCreateFilterUnexpected;
         } else if (error instanceof DuplicateMetricIdError) {
           configError.collectionConfigurationErrorType =
             KnownCollectionConfigurationErrorType.MetricDuplicateIds;

@@ -8,6 +8,7 @@ import {
   KnownTelemetryType,
   FilterInfo,
   KnownPredicateType,
+  DocumentFilterConjunctionGroupInfo,
 } from "../../../generated";
 import { getMsFromFilterTimestampString } from "../utils";
 
@@ -23,22 +24,22 @@ const knownStringColumns = new Set<string>([
 ]);
 
 export class Validator {
-  public validateTelemetryType(derivedMetricInfo: DerivedMetricInfo): void {
-    if (derivedMetricInfo.telemetryType === KnownTelemetryType.PerformanceCounter.toString()) {
+  public validateTelemetryType(telemetryType: string): void {
+    if (telemetryType === KnownTelemetryType.PerformanceCounter.toString()) {
       throw new TelemetryTypeError(
         "The telemetry type PerformanceCounter was specified, but this distro does not send performance counters to quickpulse.",
       );
-    } else if (derivedMetricInfo.telemetryType === KnownTelemetryType.Event.toString()) {
+    } else if (telemetryType === KnownTelemetryType.Event.toString()) {
       throw new TelemetryTypeError(
         "The telemetry type Event was specified, but this telemetry type is not supported via OpenTelemetry.",
       );
-    } else if (derivedMetricInfo.telemetryType === KnownTelemetryType.Metric.toString()) {
+    } else if (telemetryType === KnownTelemetryType.Metric.toString()) {
       throw new TelemetryTypeError(
         "The telemetry type Metric was specified, but this distro does not send custom live metrics to quickpulse.",
       );
-    } else if (!(derivedMetricInfo.telemetryType in KnownTelemetryType)) {
+    } else if (!(telemetryType in KnownTelemetryType)) {
       throw new TelemetryTypeError(
-        `'${derivedMetricInfo.telemetryType}' is not a valid telemetry type.`,
+        `'${telemetryType}' is not a valid telemetry type.`,
       );
     }
   }
@@ -51,13 +52,17 @@ export class Validator {
     }
   }
 
-  public validateFilters(derivedMetricInfo: DerivedMetricInfo): void {
+  public validateMetricFilters(derivedMetricInfo: DerivedMetricInfo): void {
     derivedMetricInfo.filterGroups.forEach((filterGroup) => {
       filterGroup.filters.forEach((filter) => {
         this.validateFieldNames(filter.fieldName, derivedMetricInfo.telemetryType);
         this.validatePredicateAndComparand(filter);
       });
     });
+  }
+
+  public validateDocumentFilters(documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfo): void {
+
   }
 
   private isCustomDimOrAnyField(fieldName: string): boolean {
