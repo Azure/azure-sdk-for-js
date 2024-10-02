@@ -66,7 +66,7 @@ describe("Entra CommunicationTokenCredential", function () {
       },
       {
         "Retry-After": "0",
-      }
+      },
     );
 
     const success = successApiMock();

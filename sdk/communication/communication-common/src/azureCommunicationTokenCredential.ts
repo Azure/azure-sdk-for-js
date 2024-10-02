@@ -8,12 +8,15 @@ import {
 import {
   CommunicationGetTokenOptions,
   CommunicationTokenCredential,
-  TokenCredential
+  TokenCredential,
 } from "./communicationTokenCredential";
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";
-import { EntraCommunicationTokenCredentialOptions, EntraTokenCredential } from "./entraTokenCredential";
+import {
+  EntraCommunicationTokenCredentialOptions,
+  EntraTokenCredential,
+} from "./entraTokenCredential";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.
@@ -39,9 +42,16 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    * @param entraOptions - Options to configure the Entra ID token credential.
    */
   constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
-  constructor(tokenOrRefreshOptionsOrEntraOptions: string | CommunicationTokenRefreshOptions | EntraCommunicationTokenCredentialOptions) {
+  constructor(
+    tokenOrRefreshOptionsOrEntraOptions:
+      | string
+      | CommunicationTokenRefreshOptions
+      | EntraCommunicationTokenCredentialOptions,
+  ) {
     if (typeof tokenOrRefreshOptionsOrEntraOptions === "string") {
-      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptionsOrEntraOptions));
+      this.tokenCredential = new StaticTokenCredential(
+        parseToken(tokenOrRefreshOptionsOrEntraOptions),
+      );
     } else if ("tokenRefresher" in tokenOrRefreshOptionsOrEntraOptions) {
       this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptionsOrEntraOptions);
     } else {

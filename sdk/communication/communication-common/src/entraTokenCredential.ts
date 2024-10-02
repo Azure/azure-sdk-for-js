@@ -3,17 +3,25 @@
 
 import { AccessToken } from "@azure/core-auth";
 import { TokenCredential } from "@azure/identity";
-import { TokenCredential as AcsTokenCredential, CommunicationGetTokenOptions } from "./communicationTokenCredential";
+import {
+  TokenCredential as AcsTokenCredential,
+  CommunicationGetTokenOptions,
+} from "./communicationTokenCredential";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Client, getClient } from "@azure-rest/core-client";
-import { HttpClient, createDefaultHttpClient, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  HttpClient,
+  createDefaultHttpClient,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 
 export interface ExchangeTokenResponse {
-  identity: string,
+  identity: string;
   accessToken: {
-      token: string;
-      expiresOn: string;
-  }
+    token: string;
+    expiresOn: string;
+  };
 }
 
 export interface EntraCommunicationTokenCredentialOptions {
@@ -38,7 +46,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
   private isPending: Promise<AccessToken> | null;
   private result = {
     entraToken: undefined as string | undefined,
-    acsToken: { token: "", expiresOnTimestamp: 0 }
+    acsToken: { token: "", expiresOnTimestamp: 0 },
   };
   private client: Client;
   private httpClient: HttpClient;
@@ -78,14 +86,17 @@ export class EntraTokenCredential implements AcsTokenCredential {
     if (token === null) {
       this.result = {
         entraToken: undefined,
-        acsToken: { token: "", expiresOnTimestamp: 0 }
+        acsToken: { token: "", expiresOnTimestamp: 0 },
       };
-    }
-    else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
-      const acsToken = await this.exchangeEntraToken(this.options.resourceEndpoint, token.token, getTokenOptions);
+    } else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
+      const acsToken = await this.exchangeEntraToken(
+        this.options.resourceEndpoint,
+        token.token,
+        getTokenOptions,
+      );
       this.result = {
         entraToken: token.token,
-        acsToken
+        acsToken,
       };
     }
 
@@ -96,24 +107,30 @@ export class EntraTokenCredential implements AcsTokenCredential {
     /* intentionally empty */
   }
 
-  private async exchangeEntraToken(resourceEndpoint: string, entraToken: string, options?: { abortSignal: AbortSignalLike }): Promise<AccessToken> {
+  private async exchangeEntraToken(
+    resourceEndpoint: string,
+    entraToken: string,
+    options?: { abortSignal: AbortSignalLike },
+  ): Promise<AccessToken> {
     const request = createPipelineRequest({
       url: `${resourceEndpoint}/access/entra:exchangeToken`,
       method: "POST",
       headers: createHttpHeaders({
-        Authorization: `Bearer ${entraToken}`
+        Authorization: `Bearer ${entraToken}`,
       }),
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     });
     const response = await this.client.pipeline.sendRequest(this.httpClient, request);
 
     if (response.status !== 200 || !response.bodyAsText) {
-        throw new Error(`Failed to exchange entra token. Status: ${response.status}, Body: ${response.bodyAsText}`);
+      throw new Error(
+        `Failed to exchange entra token. Status: ${response.status}, Body: ${response.bodyAsText}`,
+      );
     }
     const json = JSON.parse(response.bodyAsText) as ExchangeTokenResponse;
     return {
-          token: json.accessToken.token,
-          expiresOnTimestamp: Date.parse(json.accessToken.expiresOn)
+      token: json.accessToken.token,
+      expiresOnTimestamp: Date.parse(json.accessToken.expiresOn),
     };
   }
 }
