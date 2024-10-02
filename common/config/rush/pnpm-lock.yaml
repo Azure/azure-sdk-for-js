@@ -21269,7 +21269,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-OLnTHzHCQjUIWs+9qKPbshgPtcTGjE1RzbPLFwfH0aeBqkuGeTu1zR7uomdERR7jWbiF2ofeZkQvdfHJI7pGCw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-hHaZ92azMnKG56R0VjXtP50rhaIF7o/zUZpMumrmkbPSKYbFKc/35tfMsE5LcU7bEYTQwN1Qg9HAnzeFX74/FA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -21317,6 +21317,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
       tshy: 2.0.1
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.6.2
       typescript-eslint: 8.2.0(eslint@9.11.1)(typescript@5.6.2)
       vitest: 2.1.1(@types/node@18.19.54)(@vitest/browser@2.1.1)
