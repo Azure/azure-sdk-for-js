@@ -9,5 +9,12 @@
     "rootDir": ".",
     "lib": ["dom", "dom.iterable"]
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.mts",
+    "./src/**/*.cts",
+    "test/**/*.ts",
+    "src/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }

@@ -30,7 +30,7 @@ export async function main() {
         { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
         { role: "user", content: "What's the best way to train a parrot?" },
       ],
-    }
+    },
   });
 
   if (isUnexpected(response)) {

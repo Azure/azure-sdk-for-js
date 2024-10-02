@@ -28,7 +28,7 @@ const responseMap: Record<string, string[]> = {
   "GET /map/attribution": ["200"],
   "GET /map/statetile": ["200"],
   "GET /map/copyright/caption/{format}": ["200"],
-  "GET /map/static/{format}": ["200"],
+  "GET /map/static": ["200"],
   "GET /map/copyright/bounding/{format}": ["200"],
   "GET /map/copyright/tile/{format}": ["200"],
   "GET /map/copyright/world/{format}": ["200"]

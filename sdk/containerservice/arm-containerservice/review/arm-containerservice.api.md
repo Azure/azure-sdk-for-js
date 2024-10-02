@@ -136,6 +136,7 @@ export interface AgentPoolGatewayProfile {
 
 // @public (undocumented)
 export interface AgentPoolGPUProfile {
+    driverType?: DriverType;
     installGPUDriver?: boolean;
 }
 
@@ -525,6 +526,9 @@ export interface DelegatedResource {
 }
 
 // @public
+export type DriverType = string;
+
+// @public
 export interface EndpointDependency {
     domainName?: string;
     endpointDetails?: EndpointDetail[];
@@ -719,6 +723,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDriverType {
+    Cuda = "CUDA",
+    Grid = "GRID"
 }
 
 // @public

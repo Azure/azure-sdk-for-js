@@ -469,6 +469,8 @@ export interface AgentPoolSecurityProfile {
 export interface AgentPoolGPUProfile {
   /** The default value is true when the vmSize of the agent pool contains a GPU, false otherwise. GPU Driver Installation can only be set true when VM has an associated GPU resource. Setting this field to false prevents automatic GPU driver installation. In that case, in order for the GPU to be usable, the user must perform GPU driver installation themselves. */
   installGPUDriver?: boolean;
+  /** Specify the type of GPU driver to install when creating Windows agent pools. If not provided, AKS selects the driver based on system compatibility. This cannot be changed once the AgentPool has been created. This cannot be set on Linux AgentPools. For Linux AgentPools, the driver is selected based on system compatibility. */
+  driverType?: DriverType;
 }
 
 export interface AgentPoolArtifactStreamingProfile {
@@ -1693,15 +1695,15 @@ export interface MachineNetworkProperties {
 /** The machine IP address details. */
 export interface MachineIpAddress {
   /**
+   * To determine if address belongs IPv4 or IPv6 family
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly family?: IpFamily;
+  /**
    * IPv4 or IPv6 address of the machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ip?: string;
-  /**
-   * To determine if address belongs IPv4 or IPv6 family.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly family?: IpFamily;
 }
 
 /** The list of available versions for an agent pool. */
@@ -3088,6 +3090,24 @@ export enum KnownAgentPoolSSHAccess {
  * **Disabled**: SSH service will be turned off on the node.
  */
 export type AgentPoolSSHAccess = string;
+
+/** Known values of {@link DriverType} that the service accepts. */
+export enum KnownDriverType {
+  /** Install the GRID driver for the GPU, suitable for applications requiring virtualization support. */
+  Grid = "GRID",
+  /** Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications. */
+  Cuda = "CUDA",
+}
+
+/**
+ * Defines values for DriverType. \
+ * {@link KnownDriverType} can be used interchangeably with DriverType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GRID**: Install the GRID driver for the GPU, suitable for applications requiring virtualization support. \
+ * **CUDA**: Install the CUDA driver for the GPU, optimized for computational tasks in scientific computing and data-intensive applications.
+ */
+export type DriverType = string;
 
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {

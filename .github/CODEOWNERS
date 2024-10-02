@@ -156,10 +156,10 @@
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @timovv @maorleger @Azure/azsdk-keyvault
+/sdk/keyvault/ @maorleger @timovv
 
 # ServiceLabel: %KeyVault
-# AzureSdkOwners:  @timovv @maorleger
+# AzureSdkOwners:  @maorleger @timovv
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger @mpodwysocki
@@ -544,6 +544,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/features/arm-features/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/fabric/arm-fabric/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -914,6 +917,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/trustedsigning/arm-trustedsigning/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/visualstudio/arm-visualstudio/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1065,7 +1071,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @sgellock
 
 # ServiceLabel: %Cloud Shell %Service Attention
-#/<NotInRepo>/          @maertendMSFT
+#/<NotInRepo>/          @mbifeld
 
 # ServiceLabel: %Cognitive - Text Analytics %Service Attention
 #/<NotInRepo>/          @assafi
