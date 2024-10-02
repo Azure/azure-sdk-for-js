@@ -6,10 +6,10 @@ import { exit } from "node:process";
 
 /**
  * Mapping of files in the unbranded package to their Azure counterparts
- * 
+ *
  * For each source file in the unbranded package, we will loop through these entries and find the first matching key. A key is considered
  * a match if the unbranded file's path starts with the key.
- * 
+ *
  * For example, any file under src/logger will map to ../logger/src (the Azure logger package), except for src/logger/logger.ts, which will get mapped
  * to ../logger/src/index.ts, since that entry comes before src/logger in the object.
  */
@@ -74,11 +74,11 @@ async function getFileMappings(): Promise<[string, string | undefined][]> {
 
   for (const unbrandedLocation of files) {
     const pathMatches = Object.keys(UNBRANDED_TO_AZURE_MAPPINGS).filter((x) =>
-      unbrandedLocation.startsWith(x)
+      unbrandedLocation.startsWith(x),
     );
 
     let found = false;
-    for(const pathMatch of pathMatches) {
+    for (const pathMatch of pathMatches) {
       const azureLocation =
         UNBRANDED_TO_AZURE_MAPPINGS[pathMatch] + unbrandedLocation.substring(pathMatch.length);
 
@@ -90,14 +90,14 @@ async function getFileMappings(): Promise<[string, string | undefined][]> {
         exists = false;
       }
 
-      if(exists) {
+      if (exists) {
         result.push([unbrandedLocation, azureLocation]);
         found = true;
         break;
       }
     }
 
-    if(!found) {
+    if (!found) {
       result.push([unbrandedLocation, undefined]);
     }
   }
@@ -126,24 +126,26 @@ async function run(command: string, ...args: string[]): Promise<RunResult> {
         exitCode: exitCode ?? undefined,
         signal: signal ?? undefined,
         stdout,
-      })
+      });
     });
-    proc.stdout.on("data", data => {
+    proc.stdout.on("data", (data) => {
       stdout += data.toString();
     });
-  })
+  });
 }
 
 async function calculatePatchFileContents(): Promise<string> {
   const mappings = await getFileMappings();
 
   const patches: string[] = [];
-  for(const [unbrandedFile, azureFile = "/dev/null"] of mappings) {
+  for (const [unbrandedFile, azureFile = "/dev/null"] of mappings) {
     const result = await run("git", "diff", "--no-index", azureFile, unbrandedFile);
 
     // Exit code 1 is expected as it indicates a difference
-    if(result.exitCode !== 0 && result.exitCode !== 1) {
-      throw new Error(`git diff exited with code ${result.exitCode} when comparing ${unbrandedFile} and ${azureFile}`);
+    if (result.exitCode !== 0 && result.exitCode !== 1) {
+      throw new Error(
+        `git diff exited with code ${result.exitCode} when comparing ${unbrandedFile} and ${azureFile}`,
+      );
     }
 
     patches.push(result.stdout);
@@ -155,19 +157,23 @@ async function calculatePatchFileContents(): Promise<string> {
 async function main(): Promise<void> {
   const expectedContent = await calculatePatchFileContents();
 
-  if(update) {
+  if (update) {
     await fs.writeFile(outputPath, expectedContent, "utf-8");
   } else {
     const content = await fs.readFile(outputPath, "utf-8");
 
-    if(content === expectedContent) {
+    if (content === expectedContent) {
       console.log("✅ No changes to Azure to unbranded diff report");
     } else {
       console.log("❌ There have been changes to the Azure-unbranded diff report.");
-      console.log("  This happens when you make a change to Azure Core without making the same change in the unbranded Core package.");
+      console.log(
+        "  This happens when you make a change to Azure Core without making the same change in the unbranded Core package.",
+      );
       console.log("  To fix:");
       console.log("  - Apply your Core changes to the ts-http-runtime package as appropriate.");
-      console.log("  - Run `rushx lint:fix` in the ts-http-runtime package to update the diff report, and commit the changes.");
+      console.log(
+        "  - Run `rushx lint:fix` in the ts-http-runtime package to update the diff report, and commit the changes.",
+      );
       exit(1);
     }
   }
