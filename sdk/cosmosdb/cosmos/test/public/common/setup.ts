@@ -14,6 +14,8 @@ process.on("unhandledRejection", (error: any) => {
     }
   }
   const nestedError = new Error("Unhandled exception found");
-  Object.defineProperty(nestedError, 'errors', { value: [error] })
-  console.error(util.formatWithOptions({ colors: true, compact: true, depth: 6 }, "%O", nestedError));
+  Object.defineProperty(nestedError, "errors", { value: [error] });
+  console.error(
+    util.formatWithOptions({ colors: true, compact: true, depth: 6 }, "%O", nestedError),
+  );
 });

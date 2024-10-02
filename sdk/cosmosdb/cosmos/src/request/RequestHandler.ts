@@ -131,12 +131,12 @@ async function httpRequest(
     const errorResponse: ErrorResponse = new ErrorResponse(result.message);
     logger.warning(
       response.status +
-      " " +
-      requestContext.endpoint +
-      " " +
-      requestContext.path +
-      " " +
-      result.message,
+        " " +
+        requestContext.endpoint +
+        " " +
+        requestContext.path +
+        " " +
+        result.message,
     );
 
     errorResponse.code = response.status;
