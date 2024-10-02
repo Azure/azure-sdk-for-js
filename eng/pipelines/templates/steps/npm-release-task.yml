@@ -1,5 +1,4 @@
 parameters:
-  ArtifactName: ''
   Artifact: {}
   Registry: ''
   PathToArtifacts: ''
@@ -50,5 +49,7 @@ steps:
 
   - task: Powershell@2
     displayName: Verify package tags
-    inputs: 
+    inputs:
+      packageArtifact: ${{parameters.Artifact.name}}
+      workingDirectory: $(System.DefaultWorkingDirectory)
       
