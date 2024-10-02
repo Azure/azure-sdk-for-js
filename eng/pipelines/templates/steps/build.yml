@@ -13,14 +13,15 @@ steps:
 
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
-      if ($folder -eq "*") { $folder = "" }
+      if ($folder -eq "*" -or $folder -eq "auto") { $folder = "" }
       echo "##vso[task.setvariable variable=folder]$folder"
     displayName: "Set folder variable for readme links"
 
+  # we are not passing service directory, so we only ever set dev build to true
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
+  # todo: update set-dev.js to handle multiple service directories based on the ChangedServices value of the diff
+  # currently defaulting to nothing, so we set the entire repo to dev build (we do this for python)
   - script: |
       npm install ./eng/tools/versioning
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
@@ -28,17 +29,9 @@ steps:
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
 
-  - task: Powershell@2
-    inputs:
-      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
-      arguments: >
-        -ServiceDirectory ${{parameters.ServiceDirectory}}
-        -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
-        -AddDevVersion
-      pwsh: true
-      workingDirectory: $(Pipeline.Workspace)
-    displayName: Update package properties with dev version
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+  - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
       node common/scripts/install-run-rush.js install
@@ -47,6 +40,7 @@ steps:
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
       Artifacts: ${{ parameters.Artifacts }}
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
     - task: AzureCLI@2
@@ -92,16 +86,25 @@ steps:
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
+  # todo, handle direct/indirect packages here
+  # todo, add the parse of the documentation status to eng/common so that we don't have to look at the ci.yml properties again
   - pwsh: |
       $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+
+      $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory/PackageInfo/*.json" `
+          | ForEach-Object { $_.Name.Replace(".json", "") }
+
       foreach ($artifact in $artifacts)
       {
         $artifactName = $artifact.name
+        $artifactDetails = Get-Content $(Build.ArtifactStagingDirectory)/PackageInfo/$artifactName.json | ConvertFrom-Json
+
         Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifact.skipPublishDocMs -ne $true)
+        Copy-Item sdk/$($artifactDetails.Service)/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item sdk/$($artifactDetails.Service)/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+
+        if ($true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
