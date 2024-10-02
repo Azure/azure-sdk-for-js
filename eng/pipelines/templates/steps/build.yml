@@ -53,11 +53,28 @@ steps:
           sasToken=$(az storage container generate-sas --account-name azuresdkartifacts --name azure-sdk-for-js-rush-cache --permissions dlrw --auth-mode login --as-user --expiry $expiry --https-only -o tsv)
           echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
+  - script: |
+      $prDiff = Get-Content $(Build.ArtifactStagingDirectory)/diff/diff.json | ConvertFrom-Json -AsHashTable
+
+      $services = "auto"
+      if ($prDiff["ChangedServices"]) {
+        $services = $prDiff["ChangedServices"] -join " "
+      }
+
+      node eng/tools/rush-runner.js build $services -packages "$(ArtifactPackageNames)" --verbose -p max
+    displayName: "Build libraries for PR"
+    condition: and(succeeded(),eq(variables['Build.Reason'],'PullRequest'))
+    env:
+      ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
+        RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
+        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
+
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
       node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
-    displayName: "Build libraries"
+    displayName: "Build libraries for Service"
+    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
     env:
       ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
         RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
