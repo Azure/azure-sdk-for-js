@@ -124,6 +124,7 @@ export class CommunicationIdentityClient {
    */
   public revokeTokens(
     user: CommunicationUserIdentifier,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
@@ -143,6 +144,7 @@ export class CommunicationIdentityClient {
    *
    * @param options - Additional options for the request.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
@@ -194,6 +196,7 @@ export class CommunicationIdentityClient {
    */
   public deleteUser(
     user: CommunicationUserIdentifier,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(

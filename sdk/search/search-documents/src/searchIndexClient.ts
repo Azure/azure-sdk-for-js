@@ -306,6 +306,7 @@ export class SearchIndexClient {
    * Retrieves a list of names of existing indexes in the service.
    * @param options - Options to the list index operation.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listIndexesNames(options: ListIndexesOptions = {}): IndexNameIterator {
     const iter = this.listIndexesNamesAll(options);
 
@@ -346,6 +347,7 @@ export class SearchIndexClient {
    * Retrieves a list of names of existing SynonymMaps in the service.
    * @param options - Options to the list SynonymMaps operation.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listSynonymMapsNames(options: ListSynonymMapsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listSynonymMapsNames", options);
     try {
@@ -393,6 +395,7 @@ export class SearchIndexClient {
    */
   public async getSynonymMap(
     synonymMapName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetSynonymMapsOptions = {},
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getSynonymMaps", options);

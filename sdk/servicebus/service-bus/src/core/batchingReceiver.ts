@@ -339,16 +339,16 @@ export class BatchingReceiverLite {
     let drainTimer: ReturnType<typeof setTimeout>;
     const timeToWaitInMs = Math.max(this._drainTimeoutInMs, remainingWaitTimeInMs);
     const drainPromise = new Promise<void>((resolve) => {
-      function drainListener() {
+      function drainListener(): void {
         logger.verbose(`${loggingPrefix} Receiver has been drained.`);
         clearTimeout(drainTimer);
         resolve();
       }
-      function removeListeners() {
+      function removeListeners(): void {
         abortSignal?.removeEventListener("abort", onAbort);
         receiver.removeListener(ReceiverEvents.receiverDrained, drainListener);
       }
-      function onAbort() {
+      function onAbort(): void {
         removeListeners();
         clearTimeout(drainTimer);
         resolve();

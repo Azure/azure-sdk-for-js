@@ -214,6 +214,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * Retrieves the number of documents in the index.
    * @param options - Options to the count operation.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
     try {
