@@ -50,6 +50,7 @@ steps:
   - task: Powershell@2
     displayName: Verify package tags
     inputs:
-      packageArtifact: ${{parameters.Artifact.name}}
-      workingDirectory: $(System.DefaultWorkingDirectory)
-      
+      targetType: filePath
+      filePath: eng/scripts/verify-npm-tags.ps1
+      arguments: -packageArtifact ${{parameters.Artifact.name}} -workingDirectory $(System.DefaultWorkingDirectory)
+      pwsh: true
