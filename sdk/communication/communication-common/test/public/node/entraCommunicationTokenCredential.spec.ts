@@ -16,23 +16,24 @@ const scopes = ["https://communication.azure.com/clients/VoIP"];
 const tokenCredential: TokenCredential = {
   getToken: async (_scopes: string, _options?: GetTokenOptions) => {
     return {
-      token:  "entraToken",
+      token: "entraToken",
       expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
     };
-  }
+  },
 };
 
-const apiMock = () => nock(resourceEndpoint)
-.post(tokenExchangePath)
-.matchHeader("Authorization", `Bearer ${entraToken}`);
+const apiMock = () =>
+  nock(resourceEndpoint)
+    .post(tokenExchangePath)
+    .matchHeader("Authorization", `Bearer ${entraToken}`);
 
-const successApiMock = () => apiMock()
-.reply(200, {
-  accessToken: {
-    token: acsToken,
-    expiresOn: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
-  }
-});
+const successApiMock = () =>
+  apiMock().reply(200, {
+    accessToken: {
+      token: acsToken,
+      expiresOn: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+    },
+  });
 
 describe("Entra CommunicationTokenCredential", function () {
   afterEach(() => {
@@ -46,7 +47,7 @@ describe("Entra CommunicationTokenCredential", function () {
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes
+      scopes,
     });
 
     const tokenResult = (await credential.getToken()).token;
@@ -58,19 +59,22 @@ describe("Entra CommunicationTokenCredential", function () {
   });
 
   it("Retries when service is busy", async function () {
-    const busy = apiMock()
-    .reply(503, {
-      error: "Service Unavailable"
-    }, {
-      "Retry-After": "0"
-    });
+    const busy = apiMock().reply(
+      503,
+      {
+        error: "Service Unavailable",
+      },
+      {
+        "Retry-After": "0",
+      }
+    );
 
     const success = successApiMock();
 
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes
+      scopes,
     });
 
     const tokenResult = (await credential.getToken()).token;
@@ -91,7 +95,7 @@ describe("Entra CommunicationTokenCredential", function () {
     const credential = new AzureCommunicationTokenCredential({
       resourceEndpoint,
       tokenCredential,
-      scopes
+      scopes,
     });
 
     // the credential constructor immediately starts fetching,
@@ -117,7 +121,7 @@ describe("Entra CommunicationTokenCredential", function () {
       assert.isTrue(scope.isDone());
     }
     getTokenSpy.restore();
-  };
+  }
 
   it("Respects abort signal", () => testAbortSignal(true));
   it("Continues when abort signal isn't aborted", () => testAbortSignal(false));
