@@ -116,7 +116,7 @@ index b7a7a6d6f0..56553a505f 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/../core-client-rest/src/common.ts b/src/client/common.ts
-index 722a8117aa..c2851fcbda 100644
+index 21938d67af..a8fd8aa1c3 100644
 --- a/../core-client-rest/src/common.ts
 +++ b/src/client/common.ts
 @@ -3,22 +3,21 @@
@@ -407,37 +407,6 @@ index 9a96a4ad98..e884392ccd 100644
  
    if (firstType === "text/plain") {
      return String(bodyToParse);
-diff --git a/../core-client-rest/src/urlHelpers.ts b/src/client/urlHelpers.ts
-index 7d66e93508..39f2fa8d2b 100644
---- a/../core-client-rest/src/urlHelpers.ts
-+++ b/src/client/urlHelpers.ts
-@@ -33,7 +33,7 @@ export function buildRequestUrl(
-   );
- }
- 
--function appendQueryParams(url: string, options: RequestParameters = {}) {
-+function appendQueryParams(url: string, options: RequestParameters = {}): string {
-   if (!options.queryParameters) {
-     return url;
-   }
-@@ -57,7 +57,7 @@ function appendQueryParams(url: string, options: RequestParameters = {}) {
-   return parsedUrl.toString();
- }
- 
--function skipQueryParameterEncoding(url: URL) {
-+function skipQueryParameterEncoding(url: URL): URL {
-   if (!url) {
-     return url;
-   }
-@@ -96,7 +96,7 @@ function buildRoutePath(
-   routePath: string,
-   pathParameters: string[],
-   options: RequestParameters = {},
--) {
-+): string {
-   for (const pathParam of pathParameters) {
-     let value = pathParam;
-     if (!options.skipUrlEncoding) {
 diff --git a/../core-rest-pipeline/src/constants.ts b/src/constants.ts
 index 8e49c6ba42..60da499956 100644
 --- a/../core-rest-pipeline/src/constants.ts
