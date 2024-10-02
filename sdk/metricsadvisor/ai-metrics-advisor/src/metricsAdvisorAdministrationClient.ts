@@ -3,6 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
