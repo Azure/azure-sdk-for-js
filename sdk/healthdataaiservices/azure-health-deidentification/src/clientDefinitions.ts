@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetJobParameters,
@@ -89,6 +89,6 @@ export interface Routes {
   (path: "/deid"): Deidentify;
 }
 
-export type DeidServicesClient = Client & {
+export type DeidentificationClient = Client & {
   path: Routes;
 };

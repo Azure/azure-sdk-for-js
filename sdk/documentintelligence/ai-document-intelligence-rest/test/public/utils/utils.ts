@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createClientLogger } from "@azure/logger";
@@ -22,5 +22,11 @@ export function getRandomNumber(): number {
 
 export const containerSasUrl = (): string =>
   assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL");
+
+export const batchTrainingFilesContainerUrl = (): string =>
+  assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL");
+
+export const batchTrainingFilesResultContainerUrl = (): string =>
+  assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL");
 
 export const logger = createClientLogger("ai-form-recognizer:test");

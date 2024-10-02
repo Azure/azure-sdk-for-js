@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomBytes } from "crypto";
 import * as fs from "fs";
@@ -57,6 +57,41 @@ export function getGenericBSU(
 export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
   const client = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   configureStorageClient(recorder, client as unknown as StorageClient);
+  return client;
+}
+
+export function getSoftDeleteBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  return getTokenBSUWithDefaultCredential(
+    recorder,
+    "SOFT_DELETE_",
+    accountNameSuffix,
+    shareClientConfig,
+  );
+}
+
+export function getTokenBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = createTestCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
   return client;
 }
 

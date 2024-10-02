@@ -12,7 +12,7 @@ import { WorkspaceConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
 import {
   WorkspaceConnectionPropertiesV2BasicResource,
   WorkspaceConnectionsListNextOptionalParams,
@@ -23,19 +23,21 @@ import {
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
   WorkspaceConnectionsDeleteOptionalParams,
+  WorkspaceConnectionsListSecretsOptionalParams,
+  WorkspaceConnectionsListSecretsResponse,
   WorkspaceConnectionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceConnections operations. */
 export class WorkspaceConnectionsImpl implements WorkspaceConnections {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
    * Initialize a new instance of the class WorkspaceConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
   }
 
@@ -187,6 +189,25 @@ export class WorkspaceConnectionsImpl implements WorkspaceConnections {
   }
 
   /**
+   * List all the secrets of a machine learning workspaces connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsListSecretsOptionalParams,
+  ): Promise<WorkspaceConnectionsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, connectionName, options },
+      listSecretsOperationSpec,
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -297,6 +318,28 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/listsecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceConnectionPropertiesV2BasicResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.connectionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

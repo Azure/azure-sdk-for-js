@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns resource collection belonging to a resource group.
  *
  * @summary Returns resource collection belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/VaultCRUD/GetBackupVaultsInResourceGroup.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetBackupVaultsInResourceGroup.json
  */
 async function getBackupVaultsInResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getBackupVaultsInResourceGroup() {
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.backupVaults.listInResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

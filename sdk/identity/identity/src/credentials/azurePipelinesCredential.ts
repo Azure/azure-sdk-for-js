@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
-import { credentialLogger } from "../util/logging";
-import { checkTenantId } from "../util/tenantIdUtils";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+
 import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
+import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { IdentityClient } from "../client/identityClient";
+import { PipelineResponse } from "@azure/core-rest-pipeline";
+import { checkTenantId } from "../util/tenantIdUtils";
+import { credentialLogger } from "../util/logging";
 
 const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
@@ -37,11 +39,27 @@ export class AzurePipelinesCredential implements TokenCredential {
     systemAccessToken: string,
     options?: AzurePipelinesCredentialOptions,
   ) {
-    if (!clientId || !tenantId || !serviceConnectionId || !systemAccessToken) {
+    if (!clientId) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. tenantId, clientId, serviceConnectionId, and systemAccessToken are required parameters.`,
+        `${credentialName}: is unavailable. clientId is a required parameter.`,
       );
     }
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. tenantId is a required parameter.`,
+      );
+    }
+    if (!serviceConnectionId) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. serviceConnectionId is a required parameter.`,
+      );
+    }
+    if (!systemAccessToken) {
+      throw new CredentialUnavailableError(
+        `${credentialName}: is unavailable. systemAccessToken is a required parameter.`,
+      );
+    }
+
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
     logger.info(
@@ -113,41 +131,51 @@ export class AzurePipelinesCredential implements TokenCredential {
       }),
     });
     const response = await this.identityClient.sendRequest(request);
-    const text = response.bodyAsText;
-    if (!text) {
-      logger.error(
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
-          response.status
-        }. Complete response - ${JSON.stringify(response)}`,
-      );
-      throw new AuthenticationError(
-        response.status,
-        `${credentialName}: Authenticated Failed. Received null token from OIDC request. Response status- ${
-          response.status
-        }. Complete response - ${JSON.stringify(response)}`,
-      );
-    }
-    try {
-      const result = JSON.parse(text);
-      if (result?.oidcToken) {
-        return result.oidcToken;
-      } else {
-        let errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
-        if (response.status !== 200) {
-          errorMessage += `Response = ${JSON.stringify(result)}`;
-        }
-        logger.error(errorMessage);
-        throw new AuthenticationError(response.status, errorMessage);
+    return handleOidcResponse(response);
+  }
+}
+
+export function handleOidcResponse(response: PipelineResponse): string {
+  const text = response.bodyAsText;
+  if (!text) {
+    logger.error(
+      `${credentialName}: Authentication Failed. Received null token from OIDC request. Response status- ${
+        response.status
+      }. Complete response - ${JSON.stringify(response)}`,
+    );
+    throw new AuthenticationError(response.status, {
+      error: `${credentialName}: Authentication Failed. Received null token from OIDC request.`,
+      error_description: `${JSON.stringify(
+        response,
+      )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+    });
+  }
+  try {
+    const result = JSON.parse(text);
+    if (result?.oidcToken) {
+      return result.oidcToken;
+    } else {
+      const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+      let errorDescription = ``;
+      if (response.status !== 200) {
+        errorDescription = `Complete response - ${JSON.stringify(
+          result,
+        )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
-    } catch (e: any) {
-      logger.error(e.message);
-      logger.error(
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
-      );
-      throw new AuthenticationError(
-        response.status,
-        `${credentialName}: Authentication Failed. oidcToken field not detected in the response. Response = ${text}`,
-      );
+      logger.error(errorMessage);
+      logger.error(errorDescription);
+      throw new AuthenticationError(response.status, {
+        error: errorMessage,
+        error_description: errorDescription,
+      });
     }
+  } catch (e: any) {
+    const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
+    logger.error(`Response from service = ${text} and error message = ${e.message}`);
+    logger.error(errorDetails);
+    throw new AuthenticationError(response.status, {
+      error: errorDetails,
+      error_description: `Response = ${text}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+    });
   }
 }

@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import { ServiceBusAdministrationClient } from "../../src";
-import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
+import { getFullyQualifiedNamespace } from "../public/utils/testutils2";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
 
-const env = getEnvVars();
-
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
-  new ServiceBusAdministrationClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+  new ServiceBusAdministrationClient(getFullyQualifiedNamespace(), createTestCredential());
 
 describe("Operation Options", () => {
   const entityName1 = "random-name";

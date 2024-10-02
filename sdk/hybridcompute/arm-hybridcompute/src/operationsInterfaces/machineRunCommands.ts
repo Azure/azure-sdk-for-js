@@ -13,9 +13,6 @@ import {
   MachineRunCommandsListOptionalParams,
   MachineRunCommandsCreateOrUpdateOptionalParams,
   MachineRunCommandsCreateOrUpdateResponse,
-  MachineRunCommandUpdate,
-  MachineRunCommandsUpdateOptionalParams,
-  MachineRunCommandsUpdateResponse,
   MachineRunCommandsDeleteOptionalParams,
   MachineRunCommandsGetOptionalParams,
   MachineRunCommandsGetResponse,
@@ -70,41 +67,6 @@ export interface MachineRunCommands {
     runCommandProperties: MachineRunCommand,
     options?: MachineRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<MachineRunCommandsCreateOrUpdateResponse>;
-  /**
-   * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
-   * @param runCommandName The name of the run command.
-   * @param runCommandProperties Parameters supplied to the Create Run Command.
-   * @param options The options parameters.
-   */
-  beginUpdate(
-    resourceGroupName: string,
-    machineName: string,
-    runCommandName: string,
-    runCommandProperties: MachineRunCommandUpdate,
-    options?: MachineRunCommandsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MachineRunCommandsUpdateResponse>,
-      MachineRunCommandsUpdateResponse
-    >
-  >;
-  /**
-   * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
-   * @param runCommandName The name of the run command.
-   * @param runCommandProperties Parameters supplied to the Create Run Command.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
-    resourceGroupName: string,
-    machineName: string,
-    runCommandName: string,
-    runCommandProperties: MachineRunCommandUpdate,
-    options?: MachineRunCommandsUpdateOptionalParams,
-  ): Promise<MachineRunCommandsUpdateResponse>;
   /**
    * The operation to delete a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

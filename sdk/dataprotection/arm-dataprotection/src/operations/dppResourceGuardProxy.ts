@@ -26,7 +26,7 @@ import {
   UnlockDeleteRequest,
   DppResourceGuardProxyUnlockDeleteOptionalParams,
   DppResourceGuardProxyUnlockDeleteResponse,
-  DppResourceGuardProxyListNextResponse
+  DppResourceGuardProxyListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DppResourceGuardProxyListOptionalParams
+    options?: DppResourceGuardProxyListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardProxyBaseResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -69,9 +69,9 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     resourceGroupName: string,
     vaultName: string,
     options?: DppResourceGuardProxyListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceGuardProxyBaseResource[]> {
     let result: DppResourceGuardProxyListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +95,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -107,12 +107,12 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: DppResourceGuardProxyListOptionalParams
+    options?: DppResourceGuardProxyListOptionalParams,
   ): AsyncIterableIterator<ResourceGuardProxyBaseResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,11 +127,11 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DppResourceGuardProxyListOptionalParams
+    options?: DppResourceGuardProxyListOptionalParams,
   ): Promise<DppResourceGuardProxyListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     resourceGroupName: string,
     vaultName: string,
     resourceGuardProxyName: string,
-    options?: DppResourceGuardProxyGetOptionalParams
+    options?: DppResourceGuardProxyGetOptionalParams,
   ): Promise<DppResourceGuardProxyGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, resourceGuardProxyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,7 +168,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     vaultName: string,
     resourceGuardProxyName: string,
     parameters: ResourceGuardProxyBaseResource,
-    options?: DppResourceGuardProxyCreateOrUpdateOptionalParams
+    options?: DppResourceGuardProxyCreateOrUpdateOptionalParams,
   ): Promise<DppResourceGuardProxyCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -176,9 +176,9 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
         vaultName,
         resourceGuardProxyName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -193,11 +193,11 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     resourceGroupName: string,
     vaultName: string,
     resourceGuardProxyName: string,
-    options?: DppResourceGuardProxyDeleteOptionalParams
+    options?: DppResourceGuardProxyDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, resourceGuardProxyName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -214,7 +214,7 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     vaultName: string,
     resourceGuardProxyName: string,
     parameters: UnlockDeleteRequest,
-    options?: DppResourceGuardProxyUnlockDeleteOptionalParams
+    options?: DppResourceGuardProxyUnlockDeleteOptionalParams,
   ): Promise<DppResourceGuardProxyUnlockDeleteResponse> {
     return this.client.sendOperationRequest(
       {
@@ -222,9 +222,9 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
         vaultName,
         resourceGuardProxyName,
         parameters,
-        options
+        options,
       },
-      unlockDeleteOperationSpec
+      unlockDeleteOperationSpec,
     );
   }
 
@@ -239,11 +239,11 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: DppResourceGuardProxyListNextOptionalParams
+    options?: DppResourceGuardProxyListNextOptionalParams,
   ): Promise<DppResourceGuardProxyListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -251,38 +251,15 @@ export class DppResourceGuardProxyImpl implements DppResourceGuardProxy {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList
+      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -290,46 +267,65 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.resourceGuardProxyName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceGuardProxyBaseResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.resourceGuardProxyName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResource
+      bodyMapper: Mappers.ResourceGuardProxyBaseResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -337,54 +333,57 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const unlockDeleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupResourceGuardProxies/{resourceGuardProxyName}/unlockDelete",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UnlockDeleteResponse
+      bodyMapper: Mappers.UnlockDeleteResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.resourceGuardProxyName
+    Parameters.resourceGuardProxyName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.xMsAuthorizationAuxiliary,
+  ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList
+      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns ResourceGuards collection belonging to a ResourceGroup.
  *
  * @summary Returns ResourceGuards collection belonging to a ResourceGroup.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/GetResourceGuardsInResourceGroup.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/GetResourceGuardsInResourceGroup.json
  */
 async function getResourceGuardsInResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getResourceGuardsInResourceGroup() {
   const client = new DataProtectionClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.resourceGuards.listResourcesInResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

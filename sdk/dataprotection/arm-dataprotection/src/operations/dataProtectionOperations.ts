@@ -18,7 +18,7 @@ import {
   DataProtectionOperationsListNextOptionalParams,
   DataProtectionOperationsListOptionalParams,
   DataProtectionOperationsListResponse,
-  DataProtectionOperationsListNextResponse
+  DataProtectionOperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
    * @param options The options parameters.
    */
   public list(
-    options?: DataProtectionOperationsListOptionalParams
+    options?: DataProtectionOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DataProtectionOperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ClientDiscoveryValueForSingleApi[]> {
     let result: DataProtectionOperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
   }
 
   private async *listPagingAll(
-    options?: DataProtectionOperationsListOptionalParams
+    options?: DataProtectionOperationsListOptionalParams,
   ): AsyncIterableIterator<ClientDiscoveryValueForSingleApi> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
    * @param options The options parameters.
    */
   private _list(
-    options?: DataProtectionOperationsListOptionalParams
+    options?: DataProtectionOperationsListOptionalParams,
   ): Promise<DataProtectionOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,11 +105,11 @@ export class DataProtectionOperationsImpl implements DataProtectionOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: DataProtectionOperationsListNextOptionalParams
+    options?: DataProtectionOperationsListNextOptionalParams,
   ): Promise<DataProtectionOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -121,29 +121,29 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClientDiscoveryResponse
+      bodyMapper: Mappers.ClientDiscoveryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClientDiscoveryResponse
+      bodyMapper: Mappers.ClientDiscoveryResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Breeze errors.
@@ -45,14 +45,14 @@ export function msToTimeSpan(totalms: number): string {
   if (isNaN(totalms) || totalms < 0) {
     totalms = 0;
   }
-  var sec = ((totalms / 1000) % 60).toFixed(7).replace(/0{0,4}$/, "");
-  var min = "" + (Math.floor(totalms / (1000 * 60)) % 60);
-  var hour = "" + (Math.floor(totalms / (1000 * 60 * 60)) % 24);
-  var days = Math.floor(totalms / (1000 * 60 * 60 * 24));
+  let sec = ((totalms / 1000) % 60).toFixed(7).replace(/0{0,4}$/, "");
+  let min = "" + (Math.floor(totalms / (1000 * 60)) % 60);
+  let hour = "" + (Math.floor(totalms / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(totalms / (1000 * 60 * 60 * 24));
 
   sec = sec.indexOf(".") < 2 ? "0" + sec : sec;
   min = min.length < 2 ? "0" + min : min;
   hour = hour.length < 2 ? "0" + hour : hour;
-  var daysText = days > 0 ? days + "." : "";
+  const daysText = days > 0 ? days + "." : "";
   return daysText + hour + ":" + min + ":" + sec;
 }

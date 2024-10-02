@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // // Copyright (c) Microsoft Corporation.
-// // Licensed under the MIT license.
+// // Licensed under the MIT License.
 // import { v4 as uuid } from "uuid";
 // import { env } from "@azure-tools/test-recorder";
 //

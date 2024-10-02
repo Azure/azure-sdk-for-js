@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EdgeZonesContext } from "../../api/edgeZonesContext.js";
 import { Operation } from "../../models/models.js";
-import { list } from "../../api/operations/index.js";
+import { operationsList } from "../../api/operations/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { OperationsListOptionalParams } from "../../models/options.js";
 
@@ -15,7 +15,7 @@ export interface OperationsOperations {
 
 export function getOperations(context: EdgeZonesContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => list(context, options),
+    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
   };
 }
 

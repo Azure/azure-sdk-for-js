@@ -5,9 +5,6 @@ extends:
     parameters:
       PackageName: "@azure-rest/maps-geolocation"
       ServiceDirectory: maps
+      Location: 'eastus'
       SupportedClouds: 'Public,Canary'
-      EnvVars:
-        AZURE_CLIENT_ID: $(MAPS_CLIENT_ID)
-        AZURE_CLIENT_SECRET: $(MAPS_CLIENT_SECRET)
-        AZURE_TENANT_ID: $(MAPS_TENANT_ID)
-        AZURE_SUBSCRIPTION_ID: $(MAPS_SUBSCRIPTION_ID)
+      UseFederatedAuth: true

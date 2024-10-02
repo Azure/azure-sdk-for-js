@@ -8,8 +8,8 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApiVersion75,
   KeyVaultClientOptionalParams,
@@ -76,7 +76,7 @@ import {
   GetCertificateVersionsNextResponse,
   GetDeletedCertificatesNextOptionalParams,
   GetDeletedCertificatesNextResponse
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {

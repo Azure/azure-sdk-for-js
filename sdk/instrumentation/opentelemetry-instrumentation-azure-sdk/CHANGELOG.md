@@ -1,16 +1,21 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (2024-10-08)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for attaching events to a span. [#31162](https://github.com/Azure/azure-sdk-for-js/pull/31162)
 
-### Bugs Fixed
+### Other Changes
+
+- Updated to latest OTEL libraries
+
+## 1.0.0-beta.6 (2024-08-15)
 
 ### Other Changes
 
 - Export the AzureSdkInstrumentation class directly for compatibility with [@opentelemetry/auto-instrumentations-node](https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-node)
+- Updated to latest OTEL libraries
 
 ## 1.0.0-beta.5 (2023-08-09)
 

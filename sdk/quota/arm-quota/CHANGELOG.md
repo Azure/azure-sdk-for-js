@@ -12,7 +12,7 @@
 
 ## 1.1.0-beta.1 (2024-04-24)
     
-**Features**
+### Features Added
 
   - Added operation group GroupQuotaLimits
   - Added operation group GroupQuotaLimitsRequest

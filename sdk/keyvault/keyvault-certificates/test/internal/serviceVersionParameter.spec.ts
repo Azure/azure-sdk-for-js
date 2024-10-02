@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
-import { CertificateClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/certificatesModels";
+// Licensed under the MIT License.
+import { CertificateClient } from "../../src/index.js";
+import { LATEST_API_VERSION } from "../../src/certificatesModels.js";
 import {
   HttpClient,
   createHttpHeaders,
   PipelineRequest,
   PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
+import { describe, it, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
 
 describe("The Certificates client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -30,18 +29,15 @@ describe("The Certificates client should set the serviceVersion", () => {
     },
   };
 
-  let sandbox: SinonSandbox;
-  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
+  let spy: MockInstance<SendRequest>;
   let credential: ClientSecretCredential;
   beforeEach(async () => {
-    sandbox = createSandbox();
-    spy = sandbox.spy(mockHttpClient, "sendRequest");
-
+    spy = vi.spyOn(mockHttpClient, "sendRequest");
     credential = new ClientSecretCredential("tenant", "client", "secret");
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("it should default to the latest API version", async function () {
@@ -49,9 +45,9 @@ describe("The Certificates client should set the serviceVersion", () => {
       httpClient: mockHttpClient,
     });
     await client.getCertificate("certificateName");
-    const calls = spy.getCalls();
-    assert.equal(
-      calls[0].args[0].url,
+    expect(spy).toHaveBeenCalled();
+    const url = spy.mock.lastCall![0].url;
+    expect(url).toEqual(
       `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`,
     );
   });
@@ -68,10 +64,9 @@ describe("The Certificates client should set the serviceVersion", () => {
       });
       await client.getCertificate("certificateName");
 
-      const calls = spy.getCalls();
-      const lastCall = calls[calls.length - 1];
-      assert.equal(
-        lastCall.args[0].url,
+      expect(spy).toHaveBeenCalled();
+      const url = spy.mock.lastCall![0].url;
+      expect(url).toEqual(
         `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`,
       );
     }

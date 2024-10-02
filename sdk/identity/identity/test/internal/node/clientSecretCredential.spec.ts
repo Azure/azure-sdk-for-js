@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
@@ -7,7 +7,6 @@ import { AzureLogger, setLogLevel } from "@azure/logger";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
@@ -38,34 +37,18 @@ describe("ClientSecretCredential (internal)", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("Should throw if the parameteres are not correctly specified", async function () {
-    const errors: Error[] = [];
-    try {
-      new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID!, env.AZURE_CLIENT_SECRET!);
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new ClientSecretCredential(env.AZURE_TENANT_ID!, undefined as any, env.AZURE_CLIENT_SECRET!);
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new ClientSecretCredential(env.AZURE_TENANT_ID!, env.AZURE_CLIENT_ID!, undefined as any);
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new ClientSecretCredential(undefined as any, undefined as any, undefined as any);
-    } catch (e: any) {
-      errors.push(e);
-    }
-    assert.equal(errors.length, 4);
-    errors.forEach((e) => {
-      assert.equal(
-        e.message,
-        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
-      );
-    });
+    assert.throws(
+      () => new ClientSecretCredential("", "clientId", "clientSecret"),
+      /tenantId is a required parameter/,
+    );
+    assert.throws(
+      () => new ClientSecretCredential("tenantId", "", "clientSecret"),
+      /clientId is a required parameter/,
+    );
+    assert.throws(
+      () => new ClientSecretCredential("tenantId", "clientId", ""),
+      /clientSecret is a required parameter/,
+    );
   });
 
   it("Authenticates with tenantId on getToken", async function (this: Context) {

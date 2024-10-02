@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
 /** Translation job Status Response */
@@ -17,7 +20,11 @@ export interface TranslationStatusOutput {
   createdDateTimeUtc: string;
   /** Date time in which the operation's status has been updated */
   lastActionDateTimeUtc: string;
-  /** List of possible statuses for job or document */
+  /**
+   * List of possible statuses for job or document
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Cancelled", "Cancelling", "ValidationFailed"
+   */
   status: StatusOutput;
   /**
    * This contains an outer error with error code, message, details, target and an
@@ -33,7 +40,11 @@ export interface TranslationStatusOutput {
  * inner error with more descriptive details.
  */
 export interface TranslationErrorOutput {
-  /** Enums containing high level error codes. */
+  /**
+   * Enums containing high level error codes.
+   *
+   * Possible values: "InvalidRequest", "InvalidArgument", "InternalServerError", "ServiceUnavailable", "ResourceNotFound", "Unauthorized", "RequestRateTooHigh"
+   */
   code: TranslationErrorCodeOutput;
   /** Gets high level error message. */
   message: string;
@@ -112,7 +123,11 @@ export interface DocumentStatusOutput {
   createdDateTimeUtc: string;
   /** Date time in which the operation's status has been updated */
   lastActionDateTimeUtc: string;
-  /** List of possible statuses for job or document */
+  /**
+   * List of possible statuses for job or document
+   *
+   * Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Cancelled", "Cancelling", "ValidationFailed"
+   */
   status: StatusOutput;
   /** To language */
   to: string;
@@ -160,22 +175,6 @@ export interface FileFormatOutput {
 }
 
 /** Alias for StatusOutput */
-export type StatusOutput =
-  | "NotStarted"
-  | "Running"
-  | "Succeeded"
-  | "Failed"
-  | "Cancelled"
-  | "Cancelling"
-  | "ValidationFailed"
-  | string;
+export type StatusOutput = string;
 /** Alias for TranslationErrorCodeOutput */
-export type TranslationErrorCodeOutput =
-  | "InvalidRequest"
-  | "InvalidArgument"
-  | "InternalServerError"
-  | "ServiceUnavailable"
-  | "ResourceNotFound"
-  | "Unauthorized"
-  | "RequestRateTooHigh"
-  | string;
+export type TranslationErrorCodeOutput = string;

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Patch a snapshot
  *
  * @summary Patch a snapshot
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Snapshots_Update.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Snapshots_Update.json
  */
 async function snapshotsUpdate() {
   const subscriptionId =

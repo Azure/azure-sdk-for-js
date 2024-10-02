@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the updateRegistration() method can be used to update a device registration using
@@ -13,16 +13,12 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import {
   createClientContext,
   getRegistration,
   updateRegistration,
 } from "@azure/notification-hubs/api";
-
-// Load the .env file if it exists
-
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

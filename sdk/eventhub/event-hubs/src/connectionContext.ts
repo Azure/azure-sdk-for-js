@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
@@ -16,8 +16,8 @@ import {
 import {
   EventHubConnectionStringProperties,
   parseEventHubConnectionString,
-} from "./util/connectionStringUtils";
-import { ManagementClient, ManagementClientOptions } from "./managementClient";
+} from "./util/connectionStringUtils.js";
+import { ManagementClient, ManagementClientOptions } from "./managementClient.js";
 import {
   NamedKeyCredential,
   SASCredential,
@@ -25,14 +25,14 @@ import {
   isNamedKeyCredential,
   isSASCredential,
 } from "@azure/core-auth";
-import { logErrorStackTrace, logger } from "./logger";
-import { EventHubClientOptions } from "./models/public";
-import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { PartitionReceiver } from "./partitionReceiver";
-import { EventHubSender } from "./eventHubSender";
-import { getRuntimeInfo } from "./util/runtimeInfo";
-import { isCredential } from "./util/typeGuards";
-import { packageJsonInfo } from "./util/constants";
+import { logErrorStackTrace, logger } from "./logger.js";
+import { EventHubClientOptions } from "./models/public.js";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig.js";
+import { PartitionReceiver } from "./partitionReceiver.js";
+import { EventHubSender } from "./eventHubSender.js";
+import { getRuntimeInfo } from "./util/runtimeInfo.js";
+import { isCredential } from "./util/typeGuards.js";
+import { packageJsonInfo } from "./util/constants.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { createAbortablePromise } from "@azure/core-util";
 
@@ -121,7 +121,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
 /**
  * Helper type to get the names of all the functions on an object.
  */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/ban-types
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/no-unsafe-function-type
 /**
  * Helper type to get the types of all the functions on an object.
  */

@@ -46,9 +46,8 @@ module.exports = function (config) {
     envPreprocessor: [
       "SERVICEBUS_CONNECTION_STRING_PREMIUM",
       "SERVICEBUS_CONNECTION_STRING",
-      "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID",
+      "SERVICEBUS_FQDN",
+      "TEST_MODE",
     ],
 
     // test results reporter to use

@@ -1,14 +1,10 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.3.0 (2024-10-08)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add support for `allowReserved` (in query and path parameters) and `explode` (in query parameters only). PR [#31058](https://github.com/Azure/azure-sdk-for-js/pull/31058/files)
 
 ## 2.2.0 (2024-07-11)
 

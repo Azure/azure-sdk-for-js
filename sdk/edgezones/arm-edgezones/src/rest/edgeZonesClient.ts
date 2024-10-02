@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
@@ -22,7 +22,7 @@ export default function createClient(
   { apiVersion = "2024-04-01-preview", ...options }: EdgeZonesContextOptions = {},
 ): EdgeZonesContext {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

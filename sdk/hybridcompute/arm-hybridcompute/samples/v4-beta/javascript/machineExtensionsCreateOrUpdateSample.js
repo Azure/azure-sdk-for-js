@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create or update the extension.
  *
  * @summary The operation to create or update the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/extension/Extension_CreateOrUpdate.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/extension/Extension_CreateOrUpdate.json
  */
 async function createOrUpdateAMachineExtension() {
   const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";

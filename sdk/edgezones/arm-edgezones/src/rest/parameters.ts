@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 
-export type ListParameters = RequestParameters;
-export type GetParameters = RequestParameters;
-export type ListBySubscriptionParameters = RequestParameters;
-export type RegisterParameters = RequestParameters;
-export type UnregisterParameters = RequestParameters;
+export type OperationsListParameters = RequestParameters;
+export type ExtendedZonesGetParameters = RequestParameters;
+export type ExtendedZonesListBySubscriptionParameters = RequestParameters;
+export type ExtendedZonesRegisterParameters = RequestParameters;
+export type ExtendedZonesUnregisterParameters = RequestParameters;

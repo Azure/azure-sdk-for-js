@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BaseBackupPolicyResource,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or Updates a backup policy belonging to a backup vault
  *
  * @summary Creates or Updates a backup policy belonging to a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/PolicyCRUD/CreateOrUpdateBackupPolicy.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/PolicyCRUD/CreateOrUpdateBackupPolicy.json
  */
 async function createOrUpdateBackupPolicy() {
   const subscriptionId =
@@ -40,38 +40,38 @@ async function createOrUpdateBackupPolicy() {
           name: "BackupWeekly",
           backupParameters: {
             backupType: "Full",
-            objectType: "AzureBackupParams"
+            objectType: "AzureBackupParams",
           },
           dataStore: {
             dataStoreType: "VaultStore",
-            objectType: "DataStoreInfoBase"
+            objectType: "DataStoreInfoBase",
           },
           objectType: "AzureBackupRule",
           trigger: {
             objectType: "ScheduleBasedTriggerContext",
             schedule: {
-              repeatingTimeIntervals: ["R/2019-11-20T08:00:00-08:00/P1W"]
+              repeatingTimeIntervals: ["R/2019-11-20T08:00:00-08:00/P1W"],
             },
             taggingCriteria: [
               {
                 isDefault: true,
                 tagInfo: { tagName: "Default" },
-                taggingPriority: 99
+                taggingPriority: 99,
               },
               {
                 criteria: [
                   {
                     daysOfTheWeek: ["Sunday"],
                     objectType: "ScheduleBasedBackupCriteria",
-                    scheduleTimes: [new Date("2019-03-01T13:00:00Z")]
-                  }
+                    scheduleTimes: [new Date("2019-03-01T13:00:00Z")],
+                  },
                 ],
                 isDefault: false,
                 tagInfo: { tagName: "Weekly" },
-                taggingPriority: 20
-              }
-            ]
-          }
+                taggingPriority: 20,
+              },
+            ],
+          },
         },
         {
           name: "Default",
@@ -80,15 +80,15 @@ async function createOrUpdateBackupPolicy() {
             {
               deleteAfter: {
                 duration: "P1W",
-                objectType: "AbsoluteDeleteOption"
+                objectType: "AbsoluteDeleteOption",
               },
               sourceDataStore: {
                 dataStoreType: "VaultStore",
-                objectType: "DataStoreInfoBase"
-              }
-            }
+                objectType: "DataStoreInfoBase",
+              },
+            },
           ],
-          objectType: "AzureRetentionRule"
+          objectType: "AzureRetentionRule",
         },
         {
           name: "Weekly",
@@ -97,18 +97,18 @@ async function createOrUpdateBackupPolicy() {
             {
               deleteAfter: {
                 duration: "P12W",
-                objectType: "AbsoluteDeleteOption"
+                objectType: "AbsoluteDeleteOption",
               },
               sourceDataStore: {
                 dataStoreType: "VaultStore",
-                objectType: "DataStoreInfoBase"
-              }
-            }
+                objectType: "DataStoreInfoBase",
+              },
+            },
           ],
-          objectType: "AzureRetentionRule"
-        }
-      ]
-    }
+          objectType: "AzureRetentionRule",
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -116,7 +116,7 @@ async function createOrUpdateBackupPolicy() {
     resourceGroupName,
     vaultName,
     backupPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

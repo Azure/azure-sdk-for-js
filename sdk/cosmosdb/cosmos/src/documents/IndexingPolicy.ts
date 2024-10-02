@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { DataType, IndexingMode, IndexKind } from "./index";
 
 export interface IndexingPolicy {

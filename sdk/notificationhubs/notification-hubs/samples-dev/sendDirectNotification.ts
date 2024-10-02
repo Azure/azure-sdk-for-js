@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the sendDirectNotification() method can be used to send a direct
@@ -14,7 +14,7 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import {
   NotificationDetails,
   NotificationOutcomeState,
@@ -28,9 +28,6 @@ import {
 } from "@azure/notification-hubs/api";
 import { delay } from "@azure/core-util";
 import { isRestError } from "@azure/core-rest-pipeline";
-
-// Load the .env file if it exists
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

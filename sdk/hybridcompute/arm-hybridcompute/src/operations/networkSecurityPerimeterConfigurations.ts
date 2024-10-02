@@ -14,12 +14,20 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   NetworkSecurityPerimeterConfiguration,
   NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeNextOptionalParams,
   NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOptionalParams,
   NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeResponse,
   NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse,
   NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeNextResponse,
 } from "../models";
 
@@ -160,6 +168,102 @@ export class NetworkSecurityPerimeterConfigurationsImpl
   }
 
   /**
+   * Forces the network security perimeter configuration to refresh for a private link scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param perimeterName The name, in the format {perimeterGuid}.{associationName}, of the Network
+   *                      Security Perimeter resource.
+   * @param options The options parameters.
+   */
+  async beginReconcileForPrivateLinkScope(
+    resourceGroupName: string,
+    scopeName: string,
+    perimeterName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, scopeName, perimeterName, options },
+      spec: reconcileForPrivateLinkScopeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse,
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Forces the network security perimeter configuration to refresh for a private link scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param perimeterName The name, in the format {perimeterGuid}.{associationName}, of the Network
+   *                      Security Perimeter resource.
+   * @param options The options parameters.
+   */
+  async beginReconcileForPrivateLinkScopeAndWait(
+    resourceGroupName: string,
+    scopeName: string,
+    perimeterName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse> {
+    const poller = await this.beginReconcileForPrivateLinkScope(
+      resourceGroupName,
+      scopeName,
+      perimeterName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByPrivateLinkScopeNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
@@ -220,6 +324,41 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.scopeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const reconcileForPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/networkSecurityPerimeterConfigurations/{perimeterName}/reconcile",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+    },
+    201: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+    },
+    202: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+    },
+    204: {
+      headersMapper:
+        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.scopeName,
+    Parameters.perimeterName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

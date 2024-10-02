@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { RetryOptions } from "../retry/retryOptions";
 import { ConnectionMode } from "./ConnectionMode";
 /**

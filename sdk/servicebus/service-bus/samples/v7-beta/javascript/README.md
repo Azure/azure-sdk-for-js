@@ -18,7 +18,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [topicSubscriptionWithRuleOperationsSample.js][topicsubscriptionwithruleoperationssample] | Demonstrates how to filter messages in Service Bus                                                                                                             |
 | [receiveMessagesLoop.js][receivemessagesloop]                                             | Demonstrates how to receive Service Bus messages in a loop                                                                                                     |
 | [receiveMessagesStreaming.js][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
-| [usingAadAuth.js][usingaadauth]                                                           | This sample how to create a namespace using AAD token credentials                                                                                              |
 | [browseMessages.js][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
 | [session.js][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
 | [scheduledMessages.js][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
@@ -77,7 +76,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [topicsubscriptionwithruleoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/topicSubscriptionWithRuleOperationsSample.js
 [receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesLoop.js
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesStreaming.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/usingAadAuth.js
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/browseMessages.js
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/session.js
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/scheduledMessages.js

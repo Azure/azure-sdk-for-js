@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import {
   Constants,
   MessagingError,
@@ -18,8 +18,8 @@ import {
   Source,
   types,
 } from "rhea-promise";
-import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
-import { EventPosition, getEventPositionFilter } from "./eventPosition";
+import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData.js";
+import { EventPosition, getEventPositionFilter } from "./eventPosition.js";
 import {
   createSimpleLogger,
   logErrorStackTrace,
@@ -27,15 +27,15 @@ import {
   logger as azureLogger,
   SimpleLogger,
   createReceiverLogPrefix,
-} from "./logger";
-import { ConnectionContext } from "./connectionContext";
-import { PartitionReceiverOptions } from "./models/private";
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
+} from "./logger.js";
+import { ConnectionContext } from "./connectionContext.js";
+import { PartitionReceiverOptions } from "./models/private.js";
+import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
 import { createAbortablePromise } from "@azure/core-util";
-import { TimerLoop } from "./util/timerLoop";
-import { getRandomName } from "./util/utils";
-import { withAuth } from "./withAuth";
-import { receiverIdPropertyName } from "./util/constants";
+import { TimerLoop } from "./util/timerLoop.js";
+import { getRandomName } from "./util/utils.js";
+import { withAuth } from "./withAuth.js";
+import { receiverIdPropertyName } from "./util/constants.js";
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -358,13 +358,15 @@ export function waitForEvents(
     aborter.abort();
   };
   clientAbortSignal?.addEventListener("abort", abortListener);
+  let cleanupBeforeAbortCalled = false;
 
   const updatedOptions = {
     abortSignal: aborter.signal,
     abortErrorMsg: StandardAbortMessage,
     cleanupBeforeAbort: () => {
-      if (clientAbortSignal?.aborted) {
+      if (clientAbortSignal?.aborted && !cleanupBeforeAbortCalled) {
         cleanupBeforeAbort?.();
+        cleanupBeforeAbortCalled = true;
       }
     },
   };

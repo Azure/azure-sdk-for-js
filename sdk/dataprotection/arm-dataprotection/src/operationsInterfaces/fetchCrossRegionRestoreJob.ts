@@ -9,7 +9,7 @@
 import {
   CrossRegionRestoreJobRequest,
   FetchCrossRegionRestoreJobGetOptionalParams,
-  FetchCrossRegionRestoreJobGetResponse
+  FetchCrossRegionRestoreJobGetResponse,
 } from "../models";
 
 /** Interface representing a FetchCrossRegionRestoreJob. */
@@ -25,6 +25,6 @@ export interface FetchCrossRegionRestoreJob {
     resourceGroupName: string,
     location: string,
     parameters: CrossRegionRestoreJobRequest,
-    options?: FetchCrossRegionRestoreJobGetOptionalParams
+    options?: FetchCrossRegionRestoreJobGetOptionalParams,
   ): Promise<FetchCrossRegionRestoreJobGetResponse>;
 }

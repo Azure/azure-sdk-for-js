@@ -19,14 +19,15 @@ import { Context } from "mocha";
 import { HybridComputeManagementClient } from "../src/hybridComputeManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -48,7 +49,7 @@ describe("HybridCompute test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new HybridComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
@@ -64,5 +65,44 @@ describe("HybridCompute test", () => {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
+  });
+
+  it("gateways create test", async function () {
+    const res = await client.gateways.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      resourcename,
+      {
+        allowedFeatures: ["*"],
+        gatewayType: "Public",
+        location
+      },
+      testPollingOptions);
+    assert.equal(res.name, resourcename);
+  });
+
+  it("gateways get test", async function () {
+    const res = await client.gateways.get(
+      resourceGroup,
+      resourcename
+    );
+    assert.equal(res.name, resourcename);
+  });
+
+  it("gateways list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.gateways.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("gateways delete test", async function () {
+    const resArray = new Array();
+    const res = await client.gateways.beginDeleteAndWait(resourceGroup, resourcename
+    )
+    for await (let item of client.gateways.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 })

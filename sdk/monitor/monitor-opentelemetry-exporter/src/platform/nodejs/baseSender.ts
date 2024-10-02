@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { diag } from "@opentelemetry/api";
 import { PersistentStorage, SenderResult } from "../../types";
 import { AzureMonitorExporterOptions } from "../../config";

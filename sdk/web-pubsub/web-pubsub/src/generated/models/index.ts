@@ -164,12 +164,30 @@ export interface WebPubSubAddUserToGroupExceptionHeaders {
   errorCode?: string;
 }
 
+/** Known values of {@link WebPubSubClientType} that the service accepts. */
+export enum KnownWebPubSubClientType {
+  /** Default */
+  Default = "Default",
+  /** Mqtt */
+  Mqtt = "MQTT",
+}
+
+/**
+ * Defines values for WebPubSubClientType. \
+ * {@link KnownWebPubSubClientType} can be used interchangeably with WebPubSubClientType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **MQTT**
+ */
+export type WebPubSubClientType = string;
+
 /** Known values of {@link WebPubSubPermission} that the service accepts. */
 export enum KnownWebPubSubPermission {
   /** SendToGroup */
   SendToGroup = "sendToGroup",
   /** JoinLeaveGroup */
-  JoinLeaveGroup = "joinLeaveGroup"
+  JoinLeaveGroup = "joinLeaveGroup",
 }
 
 /**
@@ -212,6 +230,8 @@ export interface WebPubSubGenerateClientTokenOptionalParams
   expirationTimeInMinutes?: number;
   /** Groups that the connection will join when it connects. */
   groups?: string[];
+  /** The type of client. Case-insensitive. If not set, it's "Default". For Web PubSub for Socket.IO, only the default value is supported. For Web PubSub, the valid values are 'Default' and 'MQTT'. */
+  clientType?: WebPubSubClientType;
 }
 
 /** Contains response data for the generateClientToken operation. */

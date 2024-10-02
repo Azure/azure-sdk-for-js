@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Context } from "mocha";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientOptions } from "@azure-rest/core-client";
-import { DocumentTranslationClient } from "../../../src";
-import createClient from "../../../src/documentTranslationClient";
+import { DocumentTranslationClient, default as createClient } from "../../../src";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 

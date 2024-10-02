@@ -20,8 +20,6 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
-    exclude:
-      - feature/v4
   paths:
     include:
       - sdk/eventhub/

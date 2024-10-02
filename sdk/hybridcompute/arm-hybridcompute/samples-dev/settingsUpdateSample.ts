@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the base Settings of the target resource.
  *
  * @summary Updates the base Settings of the target resource.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-03-31-preview/examples/settings/SettingsUpdate.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/settings/SettingsUpdate.json
  */
 async function settingsUpdate() {
   const subscriptionId =

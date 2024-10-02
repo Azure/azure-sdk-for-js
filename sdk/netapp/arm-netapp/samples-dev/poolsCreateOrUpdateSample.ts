@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or Update a capacity pool
  *
  * @summary Create or Update a capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Pools_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Pools_CreateOrUpdate.json
  */
 async function poolsCreateOrUpdate() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an existing Cluster.
  *
  * @summary Updates an existing Cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/PatchCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/PatchCluster.json
  */
 async function hdInsightClustersPatchTags() {
   const subscriptionId =
@@ -130,7 +130,7 @@ async function hdInsightClustersPatchTags() {
  * This sample demonstrates how to Updates an existing Cluster.
  *
  * @summary Updates an existing Cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/PatchRangerCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/PatchRangerCluster.json
  */
 async function hdInsightRangerClusterPatchTags() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the operation status for a resource.
  *
  * @summary Gets the operation status for a resource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/GetOperationStatus.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/GetOperationStatus.json
  */
 async function getOperationStatus() {
   const subscriptionId =

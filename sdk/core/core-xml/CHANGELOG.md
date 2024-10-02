@@ -1,14 +1,16 @@
 # Release History
 
-## 1.4.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.4.4 (2024-10-03)
 
 ### Bugs Fixed
 
+- Fix an issue on Firefox where "xmlns" namespace is missing from the result of `stringifyXML()` [Issue #11655](https://github.com/Azure/azure-sdk-for-js/issues/11655)
+
+## 1.4.3 (2024-08-01)
+
 ### Other Changes
+
+- Adding React-Native support at top level [PR #30493](https://github.com/Azure/azure-sdk-for-js/pull/30493)
 
 ## 1.4.2 (2024-04-09)
 
@@ -39,7 +41,7 @@
 
 ### Other Changes
 
-- port https://github.com/Azure/ms-rest-js/pull/475 [PR # 24962](https://github.com/Azure/azure-sdk-for-js/pull/24962)
+- port https://github.com/Azure/ms-rest-js/pull/475 [PR #24962](https://github.com/Azure/azure-sdk-for-js/pull/24962)
 
 ## 1.3.2 (2023-01-05)
 

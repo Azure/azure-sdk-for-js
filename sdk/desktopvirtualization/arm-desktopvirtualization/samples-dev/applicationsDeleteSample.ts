@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Remove an application.
  *
  * @summary Remove an application.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Application_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Application_Delete.json
  */
 async function applicationDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function applicationDelete() {
   const result = await client.applications.delete(
     resourceGroupName,
     applicationGroupName,
-    applicationName
+    applicationName,
   );
   console.log(result);
 }

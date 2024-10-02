@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createHttpHeaders,
@@ -296,6 +296,7 @@ describe("TestProxyClient functions", () => {
       );
       expect(returnedRequest.url).to.equal(initialRequest.url);
       expect(returnedRequest.method).to.equal("POST");
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       expect(returnedRequest.body).not.to.be.undefined;
       expect(returnedRequest.headers.get("x-recording-id")).to.equal(client.recordingId);
       expect(returnedRequest.url).to.equal(initialRequest.url);

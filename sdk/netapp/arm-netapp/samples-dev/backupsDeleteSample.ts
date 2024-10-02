@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Backup under the Backup Vault
  *
  * @summary Delete a Backup under the Backup Vault
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/BackupsUnderBackupVault_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/BackupsUnderBackupVault_Delete.json
  */
 async function backupsUnderBackupVaultDelete() {
   const subscriptionId =

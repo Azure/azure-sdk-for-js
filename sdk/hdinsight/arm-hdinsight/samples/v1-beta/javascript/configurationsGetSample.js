@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The configuration object for the specified cluster. This API is not recommended and might be removed in the future. Please consider using List configurations API instead.
  *
  * @summary The configuration object for the specified cluster. This API is not recommended and might be removed in the future. Please consider using List configurations API instead.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Configurations_Get.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Configurations_Get.json
  */
 async function getCoreSiteSettings() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the access policy from a redis cache
  *
  * @summary Deletes the access policy from a redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheAccessPolicyDelete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyDelete.json
  */
 async function redisCacheAccessPolicyDelete() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function redisCacheAccessPolicyDelete() {
   const result = await client.accessPolicy.beginDeleteAndWait(
     resourceGroupName,
     cacheName,
-    accessPolicyName
+    accessPolicyName,
   );
   console.log(result);
 }

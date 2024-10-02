@@ -18,9 +18,18 @@ import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rh
 import * as rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 import { ErrorNameConditionMapper as AMQPError } from "@azure/core-amqp";
+import { SecretClient } from "@azure/keyvault-secrets";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
 import "dotenv/config";
+
+const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+// IoT Hub connection string is stored in Key Vault.
+const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
+// IoT Hub connection string name in Key Vault.
+const iotHubConnectionStringName =
+  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
 /**
  * Type guard for AmqpError.
@@ -29,8 +38,6 @@ import "dotenv/config";
 function isAmqpError(err: any): err is AmqpError {
   return rheaPromise.isAmqpError(err);
 }
-
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
 // This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(
@@ -134,9 +141,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
 export async function main() {
   console.log(`Running iothubConnectionString sample`);
 
-  const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
-    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>",
-  );
+  const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
+  const { value: iotHubConnectionString } = await kvClient.getSecret(iotHubConnectionStringName);
+  if (!iotHubConnectionString) {
+    throw new Error(`Failed to retrieve the IotHub connection string from Key Vault.`);
+  }
+
+  const eventHubsConnectionString =
+    await convertIotHubToEventHubsConnectionString(iotHubConnectionString);
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, eventHubsConnectionString);
 

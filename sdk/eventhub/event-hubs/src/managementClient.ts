@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   Constants,
@@ -27,17 +27,17 @@ import {
   logger,
   SimpleLogger,
   createManagementLogPrefix,
-} from "./logger";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+} from "./logger.js";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext";
-import { OperationOptions } from "./util/operationOptions";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { TimerLoop } from "./util/timerLoop";
-import { withAuth } from "./withAuth";
-import { getRandomName } from "./util/utils";
+import { ConnectionContext } from "./connectionContext.js";
+import { OperationOptions } from "./util/operationOptions.js";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
+import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
+import { TimerLoop } from "./util/timerLoop.js";
+import { withAuth } from "./withAuth.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * Describes the runtime information of an Event Hub.

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -192,7 +192,10 @@ import {
 } from "./utils/utils.node";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
-import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
+import {
+  generateBlobSASQueryParameters,
+  generateBlobSASQueryParametersInternal,
+} from "./sas/BlobSASSignatureValues";
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -2166,6 +2169,37 @@ export class BlobClient extends StorageClient {
   }
 
   /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: BlobGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw new RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateBlobSASQueryParametersInternal(
+      {
+        containerName: this._containerName,
+        blobName: this._name,
+        snapshotTime: this._snapshot,
+        versionId: this._versionId,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
    * Delete the immutablility policy on the blob.
    *
    * @param options - Optional options to delete immutability policy on the blob.
@@ -3339,6 +3373,11 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   blobHTTPHeaders?: BlobHTTPHeaders;
 
   /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
+
+  /**
    * Metadata of block blob.
    */
   metadata?: { [propertyName: string]: string };
@@ -4283,6 +4322,7 @@ export class BlockBlobClient extends BlobClient {
             blockNum++;
 
             await this.stageBlock(blockID, body, length, {
+              customerProvidedKey: options.customerProvidedKey,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createPipelineRequest,
@@ -68,7 +68,7 @@ async function httpRequest(
     requestContext.body = bodyFromData(requestContext.body);
   }
 
-  const httpsClient = getCachedDefaultHttpClient();
+  const httpsClient = requestContext.httpClient ?? getCachedDefaultHttpClient();
   const url = prepareURL(requestContext.endpoint, requestContext.path);
   const reqHeaders = createHttpHeaders(requestContext.headers as any);
   const pipelineRequest = createPipelineRequest({

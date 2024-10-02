@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortError } from '@azure/abort-controller';
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
@@ -26,7 +27,7 @@ export interface Agent {
 }
 
 // @public (undocumented)
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 // @public (undocumented)
 export type BulkOperationResponse = OperationResponse[] & {
@@ -712,6 +713,7 @@ export interface CosmosClientOptions {
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     endpoint: string;
+    httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -1044,6 +1046,7 @@ export interface FeedOptions extends SharedOptions {
         type: string;
         condition: string;
     };
+    allowUnboundedNonStreamingQueries?: boolean;
     bufferItems?: boolean;
     // @deprecated
     continuation?: string;
@@ -1851,6 +1854,8 @@ export interface RequestContext {
     // (undocumented)
     headers?: CosmosHeaders_2;
     // (undocumented)
+    httpClient?: HttpClient;
+    // (undocumented)
     method: HTTPMethod;
     // (undocumented)
     operationType?: OperationType;
@@ -2545,7 +2550,6 @@ export interface VectorEmbedding {
 
 // @public
 export enum VectorEmbeddingDataType {
-    Float16 = "float16",
     Float32 = "float32",
     Int8 = "int8",
     UInt8 = "uint8"

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
@@ -39,8 +38,9 @@ import {
   getUrl,
   hrTimeToDate,
   isSqlDB,
+  serializeAttribute,
 } from "./common";
-import { Tags, Properties, MSLink, Measurements } from "../types";
+import { Tags, Properties, MSLink, Measurements, MaxPropertyLengths } from "../types";
 import { parseEventHubSpan } from "./eventhub";
 import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
@@ -86,7 +86,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         try {
           const url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex: any) {}
+        } catch {
+          /* no-op */
+        }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -115,6 +117,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
       if (
         !(
           key.startsWith("_MS.") ||
+          key.startsWith("microsoft.") ||
           key === SEMATTRS_NET_PEER_IP ||
           key === SEMATTRS_NET_PEER_NAME ||
           key === SEMATTRS_PEER_SERVICE ||
@@ -135,7 +138,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
-        properties[key] = attributes[key] as string;
+        properties[key] = serializeAttribute(attributes[key]);
       }
     }
   }
@@ -183,7 +186,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         const dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {}
+      } catch {
+        /* no-op */
+      }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span.attributes);
@@ -208,7 +213,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (ex: any) {}
+      } catch {
+        /* no-op */
+      }
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -245,7 +252,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // grpc Dependency
   else if (rpcSystem) {
-    if (rpcSystem == DependencyTypes.Wcf) {
+    if (rpcSystem === DependencyTypes.Wcf) {
       remoteDependencyData.type = DependencyTypes.Wcf;
     } else {
       remoteDependencyData.type = DependencyTypes.Grpc;
@@ -335,6 +342,34 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     }
     if (span.attributes[AzNamespace] === MicrosoftEventHub) {
       parseEventHubSpan(span, baseData);
+    }
+  }
+
+  // Truncate properties
+  if (baseData.id) {
+    baseData.id = baseData.id.substring(0, MaxPropertyLengths.NINE_BIT);
+  }
+  if (baseData.name) {
+    baseData.name = baseData.name.substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.resultCode) {
+    baseData.resultCode = String(baseData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.data) {
+    baseData.data = String(baseData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+  }
+  if (baseData.type) {
+    baseData.type = String(baseData.type).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.target) {
+    baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.properties) {
+    for (const key of Object.keys(baseData.properties)) {
+      baseData.properties[key] = baseData.properties[key].substring(
+        0,
+        MaxPropertyLengths.THIRTEEN_BIT,
+      );
     }
   }
 
@@ -430,6 +465,18 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let sampleRate = 100;
       if (span.attributes[AzureMonitorSampleRate]) {
         sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
+      }
+      // Truncate properties
+      if (baseData.message) {
+        baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+      }
+      if (baseData.properties) {
+        for (const key of Object.keys(baseData.properties)) {
+          baseData.properties[key] = baseData.properties[key].substring(
+            0,
+            MaxPropertyLengths.THIRTEEN_BIT,
+          );
+        }
       }
       const env: Envelope = {
         name: name,

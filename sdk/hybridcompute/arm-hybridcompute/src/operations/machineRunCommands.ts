@@ -26,9 +26,6 @@ import {
   MachineRunCommandsListResponse,
   MachineRunCommandsCreateOrUpdateOptionalParams,
   MachineRunCommandsCreateOrUpdateResponse,
-  MachineRunCommandUpdate,
-  MachineRunCommandsUpdateOptionalParams,
-  MachineRunCommandsUpdateResponse,
   MachineRunCommandsDeleteOptionalParams,
   MachineRunCommandsGetOptionalParams,
   MachineRunCommandsGetResponse,
@@ -231,111 +228,6 @@ export class MachineRunCommandsImpl implements MachineRunCommands {
   }
 
   /**
-   * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
-   * @param runCommandName The name of the run command.
-   * @param runCommandProperties Parameters supplied to the Create Run Command.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    machineName: string,
-    runCommandName: string,
-    runCommandProperties: MachineRunCommandUpdate,
-    options?: MachineRunCommandsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MachineRunCommandsUpdateResponse>,
-      MachineRunCommandsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<MachineRunCommandsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        machineName,
-        runCommandName,
-        runCommandProperties,
-        options,
-      },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      MachineRunCommandsUpdateResponse,
-      OperationState<MachineRunCommandsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * The operation to update the run command.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param machineName The name of the hybrid machine.
-   * @param runCommandName The name of the run command.
-   * @param runCommandProperties Parameters supplied to the Create Run Command.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    machineName: string,
-    runCommandName: string,
-    runCommandProperties: MachineRunCommandUpdate,
-    options?: MachineRunCommandsUpdateOptionalParams,
-  ): Promise<MachineRunCommandsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      machineName,
-      runCommandName,
-      runCommandProperties,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * The operation to delete a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
@@ -501,39 +393,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.runCommandProperties,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.machineName1,
-    Parameters.runCommandName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands/{runCommandName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MachineRunCommand,
-    },
-    201: {
-      bodyMapper: Mappers.MachineRunCommand,
-    },
-    202: {
-      bodyMapper: Mappers.MachineRunCommand,
-    },
-    204: {
-      bodyMapper: Mappers.MachineRunCommand,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.runCommandProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -11,14 +11,17 @@ urlFragment: ai-inference-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                     | **Description**                       |
-| ------------------------------------------------- | ------------------------------------- |
-| [chatCompletions.js][chatcompletions]             | get chat completions.                 |
-| [embeddings.js][embeddings]                       | get embeddings.                       |
-| [getModelInfo.js][getmodelinfo]                   | get model info.                       |
-| [imageFileCompletions.js][imagefilecompletions]   | get chat completions with image file. |
-| [streamChatCompletions.js][streamchatcompletions] | list chat completions.                |
-| [toolCall.js][toolcall]                           | get chat completions with functions.  |
+| **File Name**                                     | **Description**                                           |
+| ------------------------------------------------- | --------------------------------------------------------- |
+| [chatCompletions.js][chatcompletions]             | Get chat completions.                                     |
+| [embeddings.js][embeddings]                       | Get embeddings.                                           |
+| [getModelInfo.js][getmodelinfo]                   | Get model info.                                           |
+| [imageFileCompletions.js][imagefilecompletions]   | Get chat completions with image file.                     |
+| [streamChatCompletions.js][streamchatcompletions] | List chat completions.                                    |
+| [streamingToolCall.js][streamingtoolcall]         | Get chat completions with streaming and function call.    |
+| [telemetry.js][telemetry]                         | Get instrumentation by open telemetry.                    |
+| [telemetryWithToolCall.js][telemetrywithtoolcall] | Get instrumentation by open telemetry with function call. |
+| [toolCall.js][toolcall]                           | Get chat completions with function call.                  |
 
 ## Prerequisites
 
@@ -63,7 +66,10 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getmodelinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/getModelInfo.js
 [imagefilecompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/imageFileCompletions.js
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/streamChatCompletions.js
+[streamingtoolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/streamingToolCall.js
+[telemetry]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/telemetry.js
+[telemetrywithtoolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/telemetryWithToolCall.js
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/javascript/toolCall.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-inference
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/README.md

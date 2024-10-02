@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   PipelineResponse,
@@ -12,6 +12,7 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants";
 import { administrationLogger as logger } from "../log";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
@@ -29,7 +30,6 @@ import { CreateRuleOptions } from "../serializers/ruleResourceSerializer";
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   serialize(requestBodyInJson: object): Record<string, unknown>;
 
   deserialize(response: FullOperationResponse): Promise<FullOperationResponse>;
@@ -86,7 +86,7 @@ export async function executeAtomXmlOperation(
     }
   }
 
-  logger.verbose(`Executing ATOM based HTTP request: ${request.body}`);
+  logger.verbose(`Executing ATOM based HTTP request body: ${request.body}`);
 
   const reqPrepareOptions = {
     headers: operationOptions.requestOptions?.customHeaders,

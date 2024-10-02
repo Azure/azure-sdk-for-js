@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AuthorizeRequestOnChallengeOptions,
@@ -8,7 +8,7 @@ import {
   PipelineRequest,
   RequestBodyType,
 } from "@azure/core-rest-pipeline";
-import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate";
+import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthenticate.js";
 
 import { GetTokenOptions } from "@azure/core-auth";
 

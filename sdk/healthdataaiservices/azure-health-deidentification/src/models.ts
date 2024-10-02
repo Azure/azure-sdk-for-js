@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJob {
@@ -7,9 +7,17 @@ export interface DeidentificationJob {
   sourceLocation: SourceStorageLocation;
   /** Target location to store output of operation. */
   targetLocation: TargetStorageLocation;
-  /** Operation to perform on the input documents. */
+  /**
+   * Operation to perform on the input documents.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
   operation?: OperationType;
-  /** Data type of the input documents. */
+  /**
+   * Data type of the input documents.
+   *
+   * Possible values: "Plaintext"
+   */
   dataType?: DocumentDataType;
   /** Format of the redacted output. Only valid when Operation is Redact. */
   redactionFormat?: string;
@@ -51,9 +59,17 @@ export interface JobSummary {
 export interface DeidentificationContent {
   /** Input text to de-identify. */
   inputText: string;
-  /** Operation to perform on the input. */
+  /**
+   * Operation to perform on the input.
+   *
+   * Possible values: "Redact", "Surrogate", "Tag"
+   */
   operation?: OperationType;
-  /** Data type of the input. */
+  /**
+   * Data type of the input.
+   *
+   * Possible values: "Plaintext"
+   */
   dataType?: DocumentDataType;
   /** Format of the redacted output. Only valid when OperationType is "Redact". */
   redactionFormat?: string;

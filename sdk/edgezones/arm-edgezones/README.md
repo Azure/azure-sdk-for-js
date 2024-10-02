@@ -4,7 +4,6 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Microsoft Edgezones Service
 
-
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/edgezones/arm-edgezones) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-edgezones) |
 [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-edgezones?view=azure-node-preview) |

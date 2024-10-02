@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to list chat completions for a chat context.
  *
- * @summary list chat completions.
+ * @summary List chat completions.
  */
 
 import ModelClient from "@azure-rest/ai-inference";
@@ -13,6 +13,7 @@ import { createSseStream } from "@azure/core-sse";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { IncomingMessage } from "http";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -44,7 +45,7 @@ export async function main() {
     throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
   }
 
-  const sses = createSseStream(stream);
+  const sses = createSseStream(stream as IncomingMessage);
 
   for await (const event of sses) {
     if (event.data === "[DONE]") {

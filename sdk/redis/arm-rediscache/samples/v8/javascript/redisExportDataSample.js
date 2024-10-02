@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Export data from the redis cache to blobs in a container.
  *
  * @summary Export data from the redis cache to blobs in a container.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheExport.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheExport.json
  */
 async function redisCacheExport() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

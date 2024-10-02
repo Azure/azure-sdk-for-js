@@ -368,10 +368,11 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
@@ -418,9 +419,9 @@ const downloadOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.range,
     Parameters.rangeGetContentMD5
@@ -444,9 +445,9 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -468,9 +469,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -492,9 +493,10 @@ const setHttpHeadersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
@@ -529,10 +531,10 @@ const setMetadataOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -554,12 +556,12 @@ const acquireLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.action,
     Parameters.duration,
     Parameters.proposedLeaseId,
     Parameters.requestId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -581,11 +583,11 @@ const releaseLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.requestId,
     Parameters.action1,
     Parameters.leaseId1,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -607,12 +609,12 @@ const changeLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.proposedLeaseId,
     Parameters.requestId,
     Parameters.leaseId1,
     Parameters.action2,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -634,11 +636,11 @@ const breakLeaseOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
     Parameters.requestId,
     Parameters.action4,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -661,8 +663,8 @@ const uploadRangeOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.leaseId,
     Parameters.fileRequestIntent,
+    Parameters.leaseId,
     Parameters.allowTrailingDot,
     Parameters.contentType2,
     Parameters.accept3,
@@ -693,9 +695,9 @@ const uploadRangeFromURLOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.allowSourceTrailingDot,
     Parameters.range1,
@@ -734,9 +736,9 @@ const getRangeListOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.range,
     Parameters.supportRename
@@ -760,10 +762,10 @@ const startCopyOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,
@@ -800,9 +802,9 @@ const abortCopyOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.leaseId,
-    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.copyActionAbortConstant
   ],
@@ -832,8 +834,8 @@ const listHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot
   ],
   isXML: true,
@@ -860,8 +862,8 @@ const forceCloseHandlesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
-    Parameters.accept1,
     Parameters.fileRequestIntent,
+    Parameters.accept1,
     Parameters.allowTrailingDot,
     Parameters.handleId
   ],
@@ -884,9 +886,10 @@ const renameOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
+    Parameters.fileRequestIntent,
     Parameters.accept1,
     Parameters.metadata,
-    Parameters.fileRequestIntent,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,

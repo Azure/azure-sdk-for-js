@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { GeneratedClient, ConfigurationSetting } from "./generated/index.js";
 import {
@@ -50,13 +50,13 @@ export class ConfigurationClient {
    * Creates an instance of a ConfigurationClient.
    *
    * Example usage:
-   * ```ts
-   * import { ConfigurationClient} from "@azure/ai-text-analytics";
-   * import { DefaultAzureCredential} from "@azure/identity";
+   * ```ts snippet:new_configurationclient
+   * import { ConfigurationClient } from "@azure/template";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const client = new ConfigurationClient(
-   *    "<app configuration endpoint>",
-   *    new DefaultAzureCredential()
+   *   process.env.ENDPOINT ?? "<app configuration endpoint>",
+   *   new DefaultAzureCredential(),
    * );
    * ```
    * @param endpointUrl - the URL to the App Configuration endpoint

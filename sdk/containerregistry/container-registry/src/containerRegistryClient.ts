@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 
@@ -243,6 +243,7 @@ export class ContainerRegistryClient {
    * @param options -
    */
   public listRepositoryNames(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListRepositoriesOptions = {},
   ): PagedAsyncIterableIterator<string, RepositoryPageResponse> {
     const iter = this.listRepositoryItems(options);

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ResourceGuardResource,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a ResourceGuard resource belonging to a resource group.
  *
  * @summary Creates or updates a ResourceGuard resource belonging to a resource group.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/PutResourceGuard.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/PutResourceGuard.json
  */
 async function createResourceGuard() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function createResourceGuard() {
   const resourceGuardsName = "swaggerExample";
   const parameters: ResourceGuardResource = {
     location: "WestUS",
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.resourceGuards.put(
     resourceGroupName,
     resourceGuardsName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

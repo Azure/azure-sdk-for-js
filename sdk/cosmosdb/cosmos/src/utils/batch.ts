@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { JSONObject } from "../queryExecutionContext";
-import { extractPartitionKeys } from "../extractPartitionKey";
+import { extractPartitionKeys, undefinedPartitionKey } from "../extractPartitionKey";
 import { CosmosDiagnostics, RequestOptions } from "..";
 import {
   NonePartitionKeyLiteral,
@@ -210,7 +210,8 @@ export function prepareOperations(
       case BulkOperationType.Read:
       case BulkOperationType.Delete:
       case BulkOperationType.Patch:
-        partitionKey = definition.paths.map(() => NonePartitionKeyLiteral);
+        partitionKey = undefinedPartitionKey(definition);
+        break;
     }
   }
   return {

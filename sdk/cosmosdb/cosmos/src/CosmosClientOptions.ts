@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { TokenCredential } from "@azure/core-auth";
 import { TokenProvider } from "./auth";
 import { PermissionDefinition } from "./client";
@@ -7,6 +7,7 @@ import { ConnectionPolicy, ConsistencyLevel } from "./documents";
 import { PluginConfig } from "./plugins/Plugin";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import { HttpClient } from "@azure/core-rest-pipeline";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -51,6 +52,9 @@ export interface CosmosClientOptions {
    * Use an agent such as https://github.com/TooTallNate/node-proxy-agent if you need to connect to Cosmos via a proxy
    */
   agent?: Agent;
+  /** An optional custom `HttpClient` shape to customize how requests are made by the HTTP pipeline.
+   * See `@azure/core-rest-pipeline` for details on how to implement this interface. */
+  httpClient?: HttpClient;
   /** A custom string to append to the default SDK user agent. */
   userAgentSuffix?: string;
   diagnosticLevel?: CosmosDbDiagnosticLevel;

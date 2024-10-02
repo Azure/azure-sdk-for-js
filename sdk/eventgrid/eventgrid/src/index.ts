@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
@@ -363,4 +363,5 @@ export {
   AcsChatThreadDeletedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatThreadEventInThreadBase,
+  StorageBlobAccessTier,
 } from "./generated/models";

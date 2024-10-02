@@ -15,7 +15,7 @@ import {
   AccessPolicyAssignmentCreateUpdateResponse,
   AccessPolicyAssignmentDeleteOptionalParams,
   AccessPolicyAssignmentGetOptionalParams,
-  AccessPolicyAssignmentGetResponse
+  AccessPolicyAssignmentGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface AccessPolicyAssignment {
   list(
     resourceGroupName: string,
     cacheName: string,
-    options?: AccessPolicyAssignmentListOptionalParams
+    options?: AccessPolicyAssignmentListOptionalParams,
   ): PagedAsyncIterableIterator<RedisCacheAccessPolicyAssignment>;
   /**
    * Adds the access policy assignment to the specified users
@@ -45,7 +45,7 @@ export interface AccessPolicyAssignment {
     cacheName: string,
     accessPolicyAssignmentName: string,
     parameters: RedisCacheAccessPolicyAssignment,
-    options?: AccessPolicyAssignmentCreateUpdateOptionalParams
+    options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AccessPolicyAssignmentCreateUpdateResponse>,
@@ -65,7 +65,7 @@ export interface AccessPolicyAssignment {
     cacheName: string,
     accessPolicyAssignmentName: string,
     parameters: RedisCacheAccessPolicyAssignment,
-    options?: AccessPolicyAssignmentCreateUpdateOptionalParams
+    options?: AccessPolicyAssignmentCreateUpdateOptionalParams,
   ): Promise<AccessPolicyAssignmentCreateUpdateResponse>;
   /**
    * Deletes the access policy assignment from a redis cache
@@ -78,7 +78,7 @@ export interface AccessPolicyAssignment {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentDeleteOptionalParams
+    options?: AccessPolicyAssignmentDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the access policy assignment from a redis cache
@@ -91,7 +91,7 @@ export interface AccessPolicyAssignment {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentDeleteOptionalParams
+    options?: AccessPolicyAssignmentDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the list of assignments for an access policy of a redis cache
@@ -104,6 +104,6 @@ export interface AccessPolicyAssignment {
     resourceGroupName: string,
     cacheName: string,
     accessPolicyAssignmentName: string,
-    options?: AccessPolicyAssignmentGetOptionalParams
+    options?: AccessPolicyAssignmentGetOptionalParams,
   ): Promise<AccessPolicyAssignmentGetResponse>;
 }

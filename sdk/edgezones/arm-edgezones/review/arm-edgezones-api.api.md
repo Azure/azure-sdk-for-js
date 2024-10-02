@@ -7,6 +7,7 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
@@ -24,6 +25,21 @@ export interface EdgeZonesClientOptionalParams extends ClientOptions {
 export type EdgeZonesContext = Client & {
     path: Routes;
 };
+
+// @public
+export function extendedZonesGet(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesGetOptionalParams): Promise<ExtendedZone>;
+
+// @public
+export function extendedZonesListBySubscription(context: EdgeZonesContext, subscriptionId: string, options?: ExtendedZonesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ExtendedZone>;
+
+// @public
+export function extendedZonesRegister(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams): Promise<ExtendedZone>;
+
+// @public
+export function extendedZonesUnregister(context: EdgeZonesContext, subscriptionId: string, extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams): Promise<ExtendedZone>;
+
+// @public
+export function operationsList(context: EdgeZonesContext, options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 
 // (No @packageDocumentation comment for this package)
 
