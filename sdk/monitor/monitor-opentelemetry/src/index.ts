@@ -87,13 +87,14 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     logRecordProcessors: [
       logHandler.getAzureLogRecordProcessor(),
       ...logRecordProcessors,
-      logHandler.getBatchLogRecordProcessor()
+      logHandler.getBatchLogRecordProcessor(),
     ],
     resource: config.resource,
     sampler: traceHandler.getSampler(),
-    spanProcessors: [traceHandler.getAzureMonitorSpanProcessor(),
+    spanProcessors: [
+      traceHandler.getAzureMonitorSpanProcessor(),
       ...spanProcessors,
-      traceHandler.getBatchSpanProcessor()
+      traceHandler.getBatchSpanProcessor(),
     ],
     resourceDetectors: resourceDetectorsList,
   };
