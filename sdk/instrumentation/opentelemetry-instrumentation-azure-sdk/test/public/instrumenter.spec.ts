@@ -20,26 +20,32 @@ describe("OpenTelemetryInstrumenter", () => {
 
   describe("#createRequestHeaders", () => {
     afterEach(() => {
-      vi.clearAllMocks();
+      vi.restoreAllMocks();
     });
 
-    // TODO: Investigate mocking of propagator
-    it.skip("uses the passed in context if it exists", () => {
-      const propagationSpy = vi.mocked(propagator);
+    it("uses the passed in context if it exists", () => {
+      const propagationSpy = vi.spyOn(propagator, "inject");
       const span = trace.getTracer("test").startSpan("test");
       const tracingContext = trace.setSpan(context.active(), span);
       instrumenter.createRequestHeaders(tracingContext);
 
-      expect(propagationSpy.inject).toHaveBeenCalledWith(tracingContext);
+      expect(propagationSpy).toHaveBeenCalledWith(
+        tracingContext,
+        expect.anything(),
+        expect.anything(),
+      );
     });
 
-    // TODO: Investigate mocking of propagator
-    it.skip("uses the active context if no context was provided", () => {
-      const propagationSpy = vi.mocked(propagator);
+    it("uses the active context if no context was provided", () => {
+      const propagationSpy = vi.spyOn(propagator, "inject");
       instrumenter.createRequestHeaders();
       const activeContext = context.active();
 
-      expect(propagationSpy.inject).toHaveBeenCalledWith(activeContext);
+      expect(propagationSpy).toHaveBeenCalledWith(
+        activeContext,
+        expect.anything(),
+        expect.anything(),
+      );
     });
   });
 
