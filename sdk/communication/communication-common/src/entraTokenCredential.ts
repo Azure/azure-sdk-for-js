@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken } from "@azure/core-auth";
 import { TokenCredential } from "@azure/identity";
@@ -72,7 +72,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
   }
 
   private async getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
-    let getTokenOptions = options?.abortSignal ? { abortSignal: options.abortSignal } : undefined;
+    const getTokenOptions = options?.abortSignal ? { abortSignal: options.abortSignal } : undefined;
     const token = await this.options.tokenCredential.getToken(this.options.scopes, getTokenOptions);
 
     if (token === null) {
@@ -107,7 +107,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
     });
     const response = await this.client.pipeline.sendRequest(this.httpClient, request);
 
-    if (response.status != 200 || !response.bodyAsText) {
+    if (response.status !== 200 || !response.bodyAsText) {
         throw new Error(`Failed to exchange entra token. Status: ${response.status}, Body: ${response.bodyAsText}`);
     }
     const json = JSON.parse(response.bodyAsText) as ExchangeTokenResponse;
