@@ -13,14 +13,13 @@
       ]
     },
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules",
     "./types/**/*.d.ts",
     "./samples/**/*.ts",
-    "test/perf-js-libs/*",
-    "test/perf/track-1",
     "test/stress*"
   ],
   "include": [
