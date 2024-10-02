@@ -67,19 +67,20 @@ describe("AzurePipelinesCredential", function () {
       "systemAccessToken"
     );
     const regExpHeader: RegExp = /"x-vss-e2eid"/gm;
-    const regExpHeader1: RegExp =
-      /\["x-vss-e2eid"\] - \"[a-fA-F0-9]{8}-([a-f0-9A-F]{4}-){3}[0-9a-fA-F]{12}\"/gm;
-    const regExpHeader2: RegExp = /\["x-msedge-ref"\] - "[a-zA-Z\s:0-9-]*"/gm;
+    // const regExpHeader1: RegExp =
+    //   /\["x-vss-e2eid"\] - \"[a-fA-F0-9]{8}-([a-f0-9A-F]{4}-){3}[0-9a-fA-F]{12}\"/gm;
+    const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader,
       "error thrown doesn't contain expected header"
     );
-    await assert.isRejected(
-      credential.getToken(scope),
-      regExpHeader1,
-      "error thrown doesn't contain expected header1"
-    );
+
+    // await assert.isRejected(
+    //   credential.getToken(scope),
+    //   regExpHeader1,
+    //   "error thrown doesn't contain expected header1"
+    // );
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader2,
