@@ -40,8 +40,7 @@ steps:
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-      Artifacts: ${{ parameters.Artifacts }}
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
     - task: AzureCLI@2
       inputs:
@@ -89,22 +88,19 @@ steps:
   # todo, handle direct/indirect packages here
   # todo, add the parse of the documentation status to eng/common so that we don't have to look at the ci.yml properties again
   - pwsh: |
-      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
-
       $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory/PackageInfo/*.json" `
           | ForEach-Object { $_.Name.Replace(".json", "") }
 
       foreach ($artifact in $artifacts)
       {
-        $artifactName = $artifact.name
-        $artifactDetails = Get-Content $(Build.ArtifactStagingDirectory)/PackageInfo/$artifactName.json | ConvertFrom-Json
+        $artifactDetails = Get-Content $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
 
-        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
-        New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
-        Copy-Item sdk/$($artifactDetails.Service)/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
-        Copy-Item sdk/$($artifactDetails.Service)/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+        Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
+        New-Item -Type Directory -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
+        Copy-Item sdk/$($artifactDetails.Service)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
+        Copy-Item sdk/$($artifactDetails.Service)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
 
-        if ($true)
+        if ($${{ parameters.IncludeRelease }} -eq $true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
