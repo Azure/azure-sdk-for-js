@@ -180,7 +180,7 @@ if (serviceDirs.length === 0) {
       // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
       // if this is build:test for any non-configured package service then all impacted projects downstream and it's dependents should be built
       var rushCommandFlag = "--impacted-by";
-      if (isReducedTestScopeEnabled || serviceDirs.length < 1) {
+      if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
         // reduced preconfigured set of projects and it's required projects
         rushCommandFlag = "--to";
       }
