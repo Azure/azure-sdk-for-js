@@ -387,7 +387,7 @@ export type PathParameters<
     // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
     // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
     // We spread the second path params to end up with a single dimension tuple at the end.
-    [pathParameter: string, ...pathParameters: PathParameters<Tail>]
+    [pathParameter: string | PathParameterWithOptions, ...pathParameters: PathParameters<Tail>]
   : // When the path doesn't match the template, it means that we have no path parameters so we return
     // an empty tuple.
     [];
@@ -418,4 +418,20 @@ export interface InnerError {
   code: string;
   /** Inner error. */
   innererror?: InnerError;
+}
+
+/**
+ * An object that can be passed as a path parameter, allowing for additional options to be set relating to how the parameter is encoded.
+ */
+export interface PathParameterWithOptions {
+  /**
+   * The value of the parameter.
+   */
+  value: string;
+
+  /**
+   * Whether to allow for reserved characters in the value. If set to true, special characters such as '/' in the parameter's value will not be URL encoded.
+   * Defaults to false.
+   */
+  allowReserved?: boolean;
 }
