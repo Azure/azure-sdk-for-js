@@ -180,7 +180,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param connectionString - The connection string needed for the client to connect to Azure.
    * @param options - PipelineOptions
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
   /**
    *
@@ -198,7 +197,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusAdministrationClientOptions,
   );
   constructor(
@@ -207,7 +205,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       | TokenCredential
       | NamedKeyCredential
       | ServiceBusAdministrationClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options3?: ServiceBusAdministrationClientOptions,
   ) {
     let options: ServiceBusAdministrationClientOptions;
@@ -236,7 +233,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       try {
         fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
-      } catch (error: any) {
+      } catch {
         throw new Error("Endpoint in the connection string is not valid.");
       }
       credentials = new SasServiceClientCredentials({
@@ -310,7 +307,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createQueue(
     queueName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateQueueOptions = {},
   ): Promise<WithResponse<QueueProperties>> {
     return tracingClient.withSpan(
@@ -728,7 +724,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createTopic(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateTopicOptions = {},
   ): Promise<WithResponse<TopicProperties>> {
     return tracingClient.withSpan(
@@ -1153,7 +1148,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSubscriptionOptions = {},
   ): Promise<WithResponse<SubscriptionProperties>> {
     return tracingClient.withSpan(

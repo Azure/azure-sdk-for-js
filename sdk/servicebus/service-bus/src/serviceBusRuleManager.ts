@@ -64,10 +64,7 @@ export interface ServiceBusRuleManager {
    *
    * @returns An asyncIterableIterator that supports paging.
    */
-  listRules(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions,
-  ): PagedAsyncIterableIterator<RuleProperties>;
+  listRules(options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties>;
 }
 
 /**
@@ -209,7 +206,6 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listRules(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions,
   ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);

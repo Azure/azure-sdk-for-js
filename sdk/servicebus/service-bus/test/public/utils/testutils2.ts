@@ -292,7 +292,7 @@ export class ServiceBusTestHelpers {
         try {
           TestMessage.checkMessageContents(sentMessage, receivedMessage, entityNames.usesSessions);
           return true;
-        } catch (err: any) {
+        } catch {
           return false;
         }
       });

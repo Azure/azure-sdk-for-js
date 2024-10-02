@@ -272,6 +272,7 @@ export class CallAutomationClient {
   public async createGroupCall(
     targetParticipants: CommunicationIdentifier[],
     callbackUrl: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateCallOptions = {},
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {

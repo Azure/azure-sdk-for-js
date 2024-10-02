@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to get model info using the Inference SDK.
  *
- * @summary get model info.
+ * @summary Get model info.
  */
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
@@ -17,17 +17,19 @@ dotenv.config();
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get Model Info Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential()));
+  const client = ModelClient(endpoint, new DefaultAzureCredential());
   const response = await client.path("/info").get();
 
   if (isUnexpected(response)) {
     throw response.body.error;
   }
 
-  console.log(`Model name: ${response.body.model_name}, type: ${response.body.model_type}, provider name: ${response.body.model_provider_name}`);
+  console.log(
+    `Model name: ${response.body.model_name}, type: ${response.body.model_type}, provider name: ${response.body.model_provider_name}`,
+  );
 }
 
 main().catch((err) => {

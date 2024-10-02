@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-02)
     
-**Features**
+### Features Added
 
   - Added Interface CdnPeeringPrefix
   - Added Interface ConnectionMonitorTest
@@ -29,7 +29,7 @@
     
 ## 2.0.1 (2022-04-27)
 
-**Features**
+### Features Added
 
   - Bug fix
     

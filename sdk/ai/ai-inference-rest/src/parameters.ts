@@ -38,9 +38,7 @@ export interface GetChatCompletionsBodyParam {
     response_format?: ChatCompletionsResponseFormat;
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?:
-      | ChatCompletionsToolSelectionPreset
-      | ChatCompletionsNamedToolSelection;
+    tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
     seed?: number;
     model?: string;
   };

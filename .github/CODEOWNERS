@@ -8,12 +8,6 @@
 /** @xirzec @jeremymeng @Azure/azure-sdk-eng
 
 ################
-# CODEOWNERS
-################
-
-/.github/CODEOWNERS @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
-
-################
 # Misc.
 ################
 
@@ -75,7 +69,7 @@
 
 # PRLabel: %Communication - Alpha IDs
 # ServiceLabel: %Communication - Alpha IDs
-/sdk/communication/communication-alpha-ids/ @miguhern
+/sdk/communication/communication-alpha-ids/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -95,7 +89,7 @@
 
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
-/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
+/sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
 
 # PRLabel: %Communication - Rooms
 # ServiceLabel: %Communication - Rooms
@@ -107,7 +101,11 @@
 
 # PRLabel: %Communication - Short Codes
 # ServiceLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @miguhern
+/sdk/communication/communication-short-codes/ @miguhern @whisper6284
+
+# PRLabel: %Communication - Toll Free Verification
+# ServiceLabel: %Communication - Toll Free Verification
+/sdk/communication/communication-toll-free-verification/ @miguhern @whisper6284
 
 # PRLabel: %Communication - Common
 # ServiceLabel: %Communication - Common
@@ -158,10 +156,10 @@
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @timovv @maorleger @Azure/azsdk-keyvault
+/sdk/keyvault/ @maorleger @timovv
 
 # ServiceLabel: %KeyVault
-# AzureSdkOwners:  @timovv @maorleger
+# AzureSdkOwners:  @maorleger @timovv
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger @mpodwysocki
@@ -289,6 +287,10 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Cognitive - Content Safety
 # AzureSdkOwners: @xirzec
+
+# PRLabel: %Operator Nexus - Network Cloud
+# ServiceLabel: %Operator Nexus - Network Cloud
+/sdk/networkcloud/ @Azure/azure-sdk-write-networkcloud
 
 # PRLabel: %Search
 /sdk/search/ @dgetu @Azure/azsdk-search
@@ -542,6 +544,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/features/arm-features/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/fabric/arm-fabric/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -570,7 +575,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas @danielszaniszlo
+/sdk/healthdataaiservices/ @GrahamMThomas
 
 # PRLabel: %Mgmt
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
@@ -912,6 +917,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/trustedsigning/arm-trustedsigning/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/visualstudio/arm-visualstudio/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1027,7 +1035,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @Eskibear @avanigupta
+#/<NotInRepo>/          @zhiyuanliang-ms @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar
@@ -1063,7 +1071,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @sgellock
 
 # ServiceLabel: %Cloud Shell %Service Attention
-#/<NotInRepo>/          @maertendMSFT
+#/<NotInRepo>/          @mbifeld
 
 # ServiceLabel: %Cognitive - Text Analytics %Service Attention
 #/<NotInRepo>/          @assafi
@@ -1538,14 +1546,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @ccmshowbackdevs
 
 ###########
-# Eng Sys
-###########
-/eng/                  @ckairen @mikeharder @weshaggard @benbp
-/eng/common/           @Azure/azure-sdk-eng
-/.github/workflows/    @Azure/azure-sdk-eng
-/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
-
-###########
 # Config
 ###########
 /.vscode/ @mikeharder @ckairen @deyaaeldeen @jeremymeng
@@ -1567,8 +1567,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk*/ @deyaaeldeen @jeremymeng
 
-/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
-
 /rush.json @mikeharder @ckairen @jeremymeng @Azure/azure-sdk-js-dev
 
 /tsconfig.json @mikeharder @ckairen @Azure/azure-sdk-for-js-core
@@ -1581,17 +1579,29 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /vitest.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 /vitest.browser.shared.config.ts @jeremymeng @mpodwysocki @deyaaeldeen
 
-# Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
-/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng
-
 # PRLabel: %Mgmt
 /**/ci.mgmt.yml   @qiaozha @MaryGao
 
-/eng/emitter-package-lock.json @qiaozha @MaryGao
-/eng/emitter-package.json @qiaozha @MaryGao
 
 # Make sure to not check in anymore test-resources.json files
 # and review bicep scripts for any exposed secrets
 /sdk/**/*.bicep @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
 /sdk/**/test-resources.json @deyaaeldeen @jeremymeng @Azure/azure-sdk-for-js-core
+
+#########################
+# Eng Sys and CODEOWNERS
+#########################
+/eng/                  @ckairen @mikeharder @weshaggard @benbp
+/eng/common/           @Azure/azure-sdk-eng
+/eng/ignore-links.txt  @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+/.config/1espt/ @benbp @weshaggard
+/.github/workflows/    @Azure/azure-sdk-eng
+/.github/CODEOWNERS    @xirzec @jeremymeng @qiaozha @MaryGao @Azure/azure-sdk-eng
+
+/eng/tools/dependency-testing @KarishmaGhiya @jeremymeng
+/eng/emitter-package-lock.json @qiaozha @MaryGao
+/eng/emitter-package.json @qiaozha @MaryGao
+
+# Add owners for notifications for specific pipelines
+/eng/pipelines/aggregate-reports.yml         @jeremymeng @xirzec
+/eng/common/pipelines/codeowners-linter.yml  @xirzec @jeremymeng

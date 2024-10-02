@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   GroupQuotasEntity,
@@ -90,11 +86,7 @@ export class GroupQuotasImpl implements GroupQuotas {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        managementGroupId,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(managementGroupId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -143,8 +135,7 @@ export class GroupQuotasImpl implements GroupQuotas {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -205,11 +196,7 @@ export class GroupQuotasImpl implements GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasCreateOrUpdateOptionalParams,
   ): Promise<GroupQuotasCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(managementGroupId, groupQuotaName, options);
     return poller.pollUntilDone();
   }
 
@@ -233,10 +220,7 @@ export class GroupQuotasImpl implements GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotasUpdateResponse>,
-      GroupQuotasUpdateResponse
-    >
+    SimplePollerLike<OperationState<GroupQuotasUpdateResponse>, GroupQuotasUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -248,8 +232,7 @@ export class GroupQuotasImpl implements GroupQuotas {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -313,11 +296,7 @@ export class GroupQuotasImpl implements GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasUpdateOptionalParams,
   ): Promise<GroupQuotasUpdateResponse> {
-    const poller = await this.beginUpdate(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    );
+    const poller = await this.beginUpdate(managementGroupId, groupQuotaName, options);
     return poller.pollUntilDone();
   }
 
@@ -353,10 +332,7 @@ export class GroupQuotasImpl implements GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<GroupQuotasDeleteResponse>,
-      GroupQuotasDeleteResponse
-    >
+    SimplePollerLike<OperationState<GroupQuotasDeleteResponse>, GroupQuotasDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -368,8 +344,7 @@ export class GroupQuotasImpl implements GroupQuotas {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -426,11 +401,7 @@ export class GroupQuotasImpl implements GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasDeleteOptionalParams,
   ): Promise<GroupQuotasDeleteResponse> {
-    const poller = await this.beginDelete(
-      managementGroupId,
-      groupQuotaName,
-      options,
-    );
+    const poller = await this.beginDelete(managementGroupId, groupQuotaName, options);
     return poller.pollUntilDone();
   }
 
@@ -444,10 +415,7 @@ export class GroupQuotasImpl implements GroupQuotas {
     managementGroupId: string,
     options?: GroupQuotasListOptionalParams,
   ): Promise<GroupQuotasListResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ managementGroupId, options }, listOperationSpec);
   }
 
   /**
@@ -492,11 +460,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.groupQuotaPutRequestBody,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
@@ -523,11 +487,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.groupQuotasPatchRequestBody,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
@@ -544,11 +504,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -573,11 +529,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.groupQuotaName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.groupQuotaName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -608,11 +560,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.managementGroupId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
