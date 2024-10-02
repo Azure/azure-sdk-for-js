@@ -10,7 +10,6 @@ import { existsSync, lstatSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
-import os from "node:os";
 
 const log = createPrinter("migrate-package");
 
@@ -570,6 +569,6 @@ async function renameFieldFiles(
 }
 
 function saveJson(filePath: string, json: unknown): ReturnType<typeof writeFile> {
-  const fileContents = JSON.stringify(json, null, 2) + os.EOL; // ensure file ends in blank line per repo rules
+  const fileContents = JSON.stringify(json, null, 2) + "\n"; // ensure file ends in blank line per repo rules
   return writeFile(filePath, fileContents);
 }
