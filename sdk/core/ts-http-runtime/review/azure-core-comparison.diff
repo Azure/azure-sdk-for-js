@@ -818,7 +818,7 @@ index d29ccec9bd..3ba9f34755 100644
    enable: (namespaces: string) => void;
    /**
 diff --git a/../logger/src/index.ts b/src/logger/logger.ts
-index 3e33a3b040..f30bfa1133 100644
+index 3e33a3b040..dd3965c71e 100644
 --- a/../logger/src/index.ts
 +++ b/src/logger/logger.ts
 @@ -1,22 +1,23 @@
@@ -834,7 +834,7 @@ index 3e33a3b040..f30bfa1133 100644
 +const registeredLoggers = new Set<TypeSpecRuntimeDebugger>();
  const logLevelFromEnv =
 -  (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
-+  (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) ||
++  (typeof process !== "undefined" && process.env && process.env.TYPESPEC_RUNTIME_LOG_LEVEL) ||
 +  undefined;
  
 -let azureLogLevel: AzureLogLevel | undefined;
