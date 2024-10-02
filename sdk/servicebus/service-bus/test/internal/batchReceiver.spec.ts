@@ -23,13 +23,8 @@ import { LinkEntity } from "../../src/core/linkEntity.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { BatchingReceiver } from "../../src/core/batchingReceiver.js";
 import { testLogger } from "./utils/misc.js";
-import { describe, it, assert } from "vitest";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
-
-const assert: typeof chai.assert = chai.assert;
-const expect = chai.expect;
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();

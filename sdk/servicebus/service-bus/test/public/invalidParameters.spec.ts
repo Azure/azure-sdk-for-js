@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import Long from "long";
-const should = chai.should();
-const expect = chai.expect;
-chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2.js";
 import { ServiceBusSender } from "../../src/index.js";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -29,7 +28,7 @@ describe("invalid parameters", () => {
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
-    before(async () => {
+    beforeAll(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedQueueWithSessions,
       );
@@ -46,7 +45,7 @@ describe("invalid parameters", () => {
       await sender.sendMessages(TestMessage.getSessionSample());
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.afterEach();
     });
 
@@ -149,7 +148,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe(undefined as any, undefined as any);
+        receiver.subscribe(undefined as any, undefined as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -160,7 +159,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe("somestring" as any, "somethingelse" as any);
+        receiver.subscribe("somestring" as any, "somethingelse" as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -323,7 +322,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Missing onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe(undefined as any, undefined as any);
+        receiver.subscribe(undefined as any, undefined as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -334,7 +333,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe("somestring" as any, "somethingelse" as any);
+        receiver.subscribe("somestring" as any, "somethingelse" as any);
       } catch (error: any) {
         caughtError = error;
       }

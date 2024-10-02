@@ -14,7 +14,7 @@ import {
 } from "../../../src/diagnostics/instrumentServiceBusMessage.js";
 import { ServiceBusReceivedMessage } from "../../../src/index.js";
 import { tracingClient } from "../../../src/diagnostics/tracing.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

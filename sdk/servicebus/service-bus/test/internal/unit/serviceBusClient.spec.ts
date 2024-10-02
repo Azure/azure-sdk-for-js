@@ -18,7 +18,7 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusSenderImpl } from "../../../src/sender.js";
 import { MessageReceiver } from "../../../src/core/messageReceiver.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const assert: typeof chai.assert = chai.assert;
 

@@ -3,10 +3,10 @@
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
-const should = chai.should();
 import isBuffer from "is-buffer";
 import { defaultDataTransformer } from "../../../src/dataTransformer.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
+import { should } from "../../public/utils/chai.js";
 
 describe("DataTransformer", function () {
   const objectBody: any = {

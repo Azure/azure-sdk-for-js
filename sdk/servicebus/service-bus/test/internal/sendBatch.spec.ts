@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const should = chai.should();
-const assert: typeof chai.assert = chai.assert;
-chai.use(chaiAsPromised);
+
 import {
   OperationOptions,
   ServiceBusAdministrationClient,
@@ -21,7 +19,8 @@ import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
 import { getEnvVarValue } from "../public/utils/envVarUtils.js";
 import { delay } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;

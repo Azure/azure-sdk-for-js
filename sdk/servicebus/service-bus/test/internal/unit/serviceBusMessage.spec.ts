@@ -17,7 +17,7 @@ import { ConnectionConfig, Constants } from "@azure/core-amqp";
 import { defaultDataTransformer } from "../../../src/dataTransformer.js";
 import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
 import { ConnectionContext } from "../../../src/connectionContext.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const assert: typeof chai.assert = chai.assert;
 

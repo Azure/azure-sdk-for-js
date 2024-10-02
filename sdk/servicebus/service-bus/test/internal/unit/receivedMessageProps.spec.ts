@@ -6,9 +6,7 @@ import { fromRheaMessage, toRheaMessage } from "../../../src/serviceBusMessage.j
 import { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { describe, it, assert } from "vitest";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+import { should } from "../../public/utils/chai.js";
 
 describe("Message translations", () => {
   describe("expiresAtUtc is not invalid on received message", function (): void {

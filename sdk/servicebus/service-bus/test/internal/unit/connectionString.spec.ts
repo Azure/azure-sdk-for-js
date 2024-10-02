@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { parseServiceBusConnectionString } from "../../../src/util/connectionStringUtils.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const assert: typeof chai.assert = chai.assert;
 

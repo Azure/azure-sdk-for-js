@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const should = chai.should();
-const expect = chai.expect;
-chai.use(chaiAsPromised);
+
 import {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
@@ -24,7 +22,8 @@ import {
 } from "../public/utils/testutils2.js";
 import { DispositionType } from "../../src/serviceBusMessage.js";
 import Long from "long";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

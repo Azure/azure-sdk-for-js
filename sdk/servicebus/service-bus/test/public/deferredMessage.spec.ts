@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const should = chai.should();
-chai.use(chaiAsPromised);
+
 import { delay, ServiceBusMessage } from "../../src/index.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import {
@@ -15,7 +14,8 @@ import { ServiceBusReceiver } from "../../src/index.js";
 import { ServiceBusSender } from "../../src/index.js";
 import { ServiceBusReceivedMessage } from "../../src/index.js";
 import Long from "long";
-import { describe, it, assert } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -27,11 +27,11 @@ describe("Deferred Messages", () => {
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
   const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 

@@ -25,12 +25,8 @@ import {
 import { getDeliveryProperty } from "./utils/misc.js";
 import { singleMessagePromise } from "./streamingReceiver.spec.js";
 import { defer } from "./unit/unittestUtils.js";
-import { describe, it, assert } from "vitest";
-
-const should = chai.should();
-const expect = chai.expect;
-const assert: typeof chai.assert = chai.assert;
-chai.use(chaiAsPromised);
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 describe("Streaming with sessions", () => {
   let sender: ServiceBusSender;

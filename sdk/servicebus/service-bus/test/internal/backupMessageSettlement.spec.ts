@@ -17,10 +17,8 @@ import {
   ServiceBusReceivedMessage,
 } from "../../src/serviceBusMessage.js";
 import { testLogger } from "./utils/misc.js";
-import { describe, it, assert } from "vitest";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 // const withSessionTestClientType = getRandomTestClientTypeWithSessions();

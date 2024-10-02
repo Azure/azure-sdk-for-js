@@ -8,7 +8,7 @@ import {
   EntityName,
   createServiceBusClientForTests,
 } from "../public/utils/testutils2.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 describe(`Tracing for send`, function (): void {
   let sbClient: ServiceBusClientForTests;

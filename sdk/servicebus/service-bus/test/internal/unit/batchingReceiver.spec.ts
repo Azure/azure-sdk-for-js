@@ -24,7 +24,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
 import { ReceiveMode } from "../../../src/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];

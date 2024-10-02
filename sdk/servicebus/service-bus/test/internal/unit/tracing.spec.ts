@@ -14,7 +14,7 @@ import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.j
 import { TracingContext } from "@azure/core-tracing";
 import Long from "long";
 import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {

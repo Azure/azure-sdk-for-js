@@ -22,10 +22,8 @@ import {
 import { getDeliveryProperty } from "./utils/misc.js";
 import { verifyMessageCount } from "../public/utils/managementUtils.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;

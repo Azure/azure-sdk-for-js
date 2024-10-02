@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const should = chai.should();
-chai.use(chaiAsPromised);
+
 import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src/index.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import {
@@ -12,7 +11,8 @@ import {
 import { ServiceBusSender } from "../../src/index.js";
 import { ServiceBusSessionReceiver } from "../../src/index.js";
 import { ServiceBusReceivedMessage } from "../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;
@@ -23,11 +23,11 @@ describe("Session Lock Renewal", () => {
 
   const testClientType = getRandomTestClientTypeWithSessions();
 
-  before(async () => {
+  beforeAll(async () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 

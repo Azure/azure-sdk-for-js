@@ -9,8 +9,7 @@ import { CreateQueueOptions } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
 import { assert } from "vitest";
-
-const should = chai.should();
+import { should } from "./utils/chai.js";
 
 let client: ServiceBusAdministrationClient;
 

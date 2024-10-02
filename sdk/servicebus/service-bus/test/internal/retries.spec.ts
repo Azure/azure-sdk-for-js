@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-chai.use(chaiAsPromised);
-const should = chai.should();
+
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import {
   ServiceBusClientForTests,
@@ -16,7 +15,8 @@ import {
   ServiceBusSessionReceiver,
 } from "../../src/receivers/sessionReceiver.js";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;

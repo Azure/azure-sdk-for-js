@@ -6,7 +6,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils.js";
 import { InternalMessageHandlers } from "../../../src/models.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const assert: typeof chai.assert = chai.assert;
 

@@ -12,11 +12,8 @@ import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
 import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert } from "vitest";
-
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
-const should = chai.should();
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const fullyQualifiedNamespace = getFullyQualifiedNamespace();
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =

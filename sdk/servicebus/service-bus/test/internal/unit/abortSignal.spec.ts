@@ -22,7 +22,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { ProcessErrorArgs } from "../../../src/index.js";
 import { ReceiveMode } from "../../../src/models.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const abortMsgRegex = new RegExp(StandardAbortMessage);
 

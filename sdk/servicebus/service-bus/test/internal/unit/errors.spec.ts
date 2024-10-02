@@ -3,7 +3,7 @@
 import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { createServiceBusLogger } from "../../../src/log.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

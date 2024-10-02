@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import Long from "long";
-const should = chai.should();
-chai.use(chaiAsPromised);
 import {
   ServiceBusReceivedMessage,
   delay,
@@ -22,7 +21,8 @@ import {
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, afterEach, afterAll, assert } from "vitest";
+import { should } from "./utils/chai.js";
 
 let unexpectedError: Error | undefined;
 
@@ -317,7 +317,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
     return serviceBusClient.test.createTestEntities(testClientType);
   }
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -409,7 +409,7 @@ describe("SessionReceiver - disconnects", function (): void {
     return serviceBusClient.test.createTestEntities(testClientType);
   }
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

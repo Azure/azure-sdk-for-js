@@ -4,12 +4,8 @@ import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { v4 as generateUuid } from "uuid";
 import { TestClientType } from "./utils/testUtils.js";
-import { describe, it, assert } from "vitest";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
-const assert: typeof chai.assert = chai.assert;
+import { describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 [
   // when we encode messages the partition+session queues are basically the "hardest" one

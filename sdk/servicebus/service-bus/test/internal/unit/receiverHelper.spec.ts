@@ -4,7 +4,7 @@ import { Receiver, ReceiverEvents, delay } from "rhea-promise";
 import { ReceiverHelper } from "../../../src/core/receiverHelper.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createRheaReceiverForTests } from "./unittestUtils.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

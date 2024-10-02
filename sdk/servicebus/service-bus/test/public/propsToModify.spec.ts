@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import { ServiceBusReceivedMessage, ServiceBusReceiver } from "../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -13,11 +13,11 @@ describe("dead lettering", () => {
   let receiver: ServiceBusReceiver;
   let receivedMessage: ServiceBusReceivedMessage;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -168,11 +168,11 @@ describe("abandoning", () => {
   let receiver: ServiceBusReceiver;
   let receivedMessage: ServiceBusReceivedMessage;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -291,11 +291,11 @@ describe("deferring", () => {
   let receiver: ServiceBusReceiver;
   let receivedMessage: ServiceBusReceivedMessage;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 

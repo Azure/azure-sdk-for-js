@@ -10,7 +10,7 @@ import {
   errorInvalidMessageTypeSingle,
   PartitionKeySessionIdMismatchError,
 } from "../../../src/util/errors.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const assert: typeof chai.assert = chai.assert;
 

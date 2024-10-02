@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import { parseServiceBusConnectionString } from "../../src/index.js";
@@ -21,14 +21,9 @@ import {
   getFullyQualifiedNamespace,
   ServiceBusClientForTests,
 } from "./utils/testutils2.js";
-import { versionsToTest } from "@azure-tools/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert } from "vitest";
-
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
-const should = chai.should();
-const assert: typeof chai.assert = chai.assert;
+import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 const env = getEnvVars();
 
@@ -64,7 +59,7 @@ let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 // TEST_MODE must be set to "live" to run both the versions
 versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
-    before(() => {
+    beforeAll(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         getFullyQualifiedNamespace(),
         createTestCredential(),
@@ -73,7 +68,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     });
 
     describe("Atom management - Authentication", function (): void {
-      if (isNode) {
+      if (isNodeLike) {
         it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
           const host = getFullyQualifiedNamespace();
           const endpoint = `sb://${host}/`;
@@ -164,11 +159,11 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     describe("Atom management - forwarding", () => {
       let serviceBusClient: ServiceBusClientForTests;
 
-      before(() => {
+      beforeAll(() => {
         serviceBusClient = createServiceBusClientForTests();
       });
 
-      after(() => serviceBusClient.test.after());
+      afterAll(() => serviceBusClient.test.after());
 
       afterEach(async () => {
         serviceBusClient.test.afterEach();
@@ -253,7 +248,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       const ruleNames: string[] = [];
       const numberOfEntities = 5;
 
-      before(async () => {
+      beforeAll(async () => {
         await recreateTopic(managementTopic1);
         await recreateSubscription(managementTopic1, managementSubscription1);
         for (let i = 0; i < numberOfEntities; i++) {
@@ -284,7 +279,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         }
       });
 
-      after(async () => {
+      afterAll(async () => {
         for (let i = 0; i < numberOfEntities; i++) {
           await serviceBusAtomManagementClient.deleteQueue(baseName + "_queue_" + i);
           await serviceBusAtomManagementClient.deleteTopic(baseName + "_topic_" + i);
@@ -2644,7 +2639,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           }
         }
       }
-      throw new Error("TestError: Unrecognized EntityType");
+      
     }
 
     async function getEntity(
@@ -2971,18 +2966,15 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           return ruleResponse;
         }
       }
-      throw new Error("TestError: Unrecognized EntityType");
+       
     }
 
-    describe("Premium Namespaces", () => {
-      const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+    const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+    describe.skipIf(!premiumNamespace)("Premium Namespaces", () => {
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
-      before(function (this: Mocha.Context) {
-        if (!premiumNamespace) {
-          ctx.task.skip();
-        }
-        atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
+      beforeAll(function () {
+        atomClient = new ServiceBusAdministrationClient(premiumNamespace!, createTestCredential());
       });
 
       function setEntityNameWithMaxSize(

@@ -12,7 +12,7 @@ import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { receiverLogger } from "../../../src/log.js";
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 chai.use(chaiAsPromised);
 const assert: typeof chai.assert = chai.assert;

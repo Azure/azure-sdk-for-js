@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const should = chai.should();
-const assert: typeof chai.assert = chai.assert;
-chai.use(chaiAsPromised);
+
 import { delay } from "rhea-promise";
 import { checkWithTimeout, TestMessage } from "../public/utils/testUtils.js";
 import {
@@ -18,7 +16,8 @@ import {
   ProcessErrorArgs,
 } from "../../src/index.js";
 import { InvalidOperationForPeekedMessage } from "../../src/util/errors.js";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 describe("Message Lock Renewal", () => {
   let serviceBusClient: ServiceBusClientForTests;

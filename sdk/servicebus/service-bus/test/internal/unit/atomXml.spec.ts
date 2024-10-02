@@ -28,7 +28,7 @@ import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSer
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
 import { TestConstants } from "../../public/fakeTestSecrets.js";
 import { FullOperationResponse } from "@azure/core-client";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 const queueProperties = [
   Constants.LOCK_DURATION,

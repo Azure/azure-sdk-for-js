@@ -19,7 +19,7 @@ import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionRec
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { Constants } from "@azure/core-amqp";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Receiver unit tests", () => {
   it("Receiver should set target in created receiver options", () => {

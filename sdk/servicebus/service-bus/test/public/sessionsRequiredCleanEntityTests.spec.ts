@@ -9,9 +9,8 @@ import {
 import { ServiceBusSender } from "../../src/index.js";
 import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src/index.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
-import { describe, it, assert } from "vitest";
-
-const should = chai.should();
+import { afterEach, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
 // and only grab the "expected" next session you need to ensure the entity (queue, sub)

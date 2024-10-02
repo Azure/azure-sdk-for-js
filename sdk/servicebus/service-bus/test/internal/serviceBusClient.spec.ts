@@ -29,10 +29,8 @@ import {
   getFullyQualifiedNamespace,
 } from "../public/utils/testutils2.js";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
-import { describe, it, assert } from "vitest";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+import { describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();

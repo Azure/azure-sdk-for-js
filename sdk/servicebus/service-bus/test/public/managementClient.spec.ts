@@ -3,10 +3,7 @@
 import { ServiceBusSender, ServiceBusReceiver } from "../../src/index.js";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2.js";
-import { describe, it, assert } from "vitest";
-
-chai.should();
-chai.use(chaiAsPromised);
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 
 describe("ManagementClient - disconnects", function (): void {
   let serviceBusClient: ServiceBusClientForTests;
@@ -21,11 +18,11 @@ describe("ManagementClient - disconnects", function (): void {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

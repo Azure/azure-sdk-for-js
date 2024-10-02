@@ -15,10 +15,7 @@ import {
   createServiceBusClientForTests,
 } from "../public/utils/testutils2.js";
 import { recreateSubscription } from "./utils/managementUtils.js";
-import { describe, it, assert } from "vitest";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const defaultRuleName = "$Default";
 interface Order {
@@ -54,11 +51,11 @@ async function getRules(ruleManager: any): Promise<RuleProperties[]> {
 describe("RuleManager tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  before(async () => {
+  beforeAll(async () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
   describe("subscriptions", () => {
@@ -66,7 +63,7 @@ describe("RuleManager tests", () => {
     let topic: string;
     let subscription: string;
 
-    before(async () => {
+    beforeAll(async () => {
       const entity = await serviceBusClient.test.createTestEntities(
         TestClientType.UnpartitionedSubscription,
       );

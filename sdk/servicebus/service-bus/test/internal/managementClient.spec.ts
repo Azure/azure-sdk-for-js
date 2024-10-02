@@ -4,7 +4,7 @@
 import { ManagementClient } from "../../src/core/managementClient.js";
 import { createConnectionContextForTests } from "./unit/unittestUtils.js";
 import { delay } from "rhea-promise";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 chai.use(chaiAsPromised);
 

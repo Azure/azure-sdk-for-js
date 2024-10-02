@@ -1,4 +1,4 @@
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.

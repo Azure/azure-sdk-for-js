@@ -6,7 +6,7 @@ import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper.js";
 import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer.js";
 import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
