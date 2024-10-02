@@ -13,3 +13,4 @@ export * from "./parallelQueryExecutionContext";
 export * from "./orderByQueryExecutionContext";
 export * from "./pipelinedQueryExecutionContext";
 export * from "./orderByComparator";
+export * from "./documentProducer2";
