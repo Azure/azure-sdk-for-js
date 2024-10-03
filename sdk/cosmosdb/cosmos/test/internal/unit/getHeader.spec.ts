@@ -21,28 +21,28 @@ describe("Test ParallelizeCrossPartitionQuery header value", function () {
       partitionKey: null,
     });
   }
-  it("If maxDegreeOfParallelism > 1 then ParallelizeCrossPartitionQuery header's value should be true", async function () {
+  it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 2 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       true,
-      "incorrect header value",
+      "incorrect header value"
     );
   });
-  it("If maxDegreeOfParallelism == 0 then ParallelizeCrossPartitionQuery header's value should be null", async function () {
+  it("If maxDegreeOfParallelism == 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: 0 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       null,
-      "incorrect header value",
+      "incorrect header value"
     );
   });
-  it("If maxDegreeOfParallelism < 0 then ParallelizeCrossPartitionQuery header's value should be null", async function () {
+  it("If maxDegreeOfParallelism < 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async function () {
     const headers = await getHeadersFunc({ maxDegreeOfParallelism: -1 });
     assert.equal(
       headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
       null,
-      "incorrect header value",
+      "incorrect header value"
     );
   });
 });
