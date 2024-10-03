@@ -165,13 +165,13 @@ async function main(): Promise<void> {
     if (content === expectedContent) {
       console.log("✅ No changes to Azure to unbranded diff report");
     } else {
-      console.log("❌ There have been changes to the Azure-unbranded diff report.");
-      console.log(
+      console.error("❌ There have been changes to the Azure-unbranded diff report.");
+      console.error(
         "  This happens when you make a change to Azure Core without making the same change in the unbranded Core package.",
       );
-      console.log("  To fix:");
-      console.log("  - Apply your Core changes to the ts-http-runtime package as appropriate.");
-      console.log(
+      console.error("  To fix:");
+      console.error("  - Apply your Core changes to the ts-http-runtime package as appropriate.");
+      console.error(
         "  - Run `rushx lint:fix` in the ts-http-runtime package to update the diff report, and commit the changes.",
       );
       exit(1);
