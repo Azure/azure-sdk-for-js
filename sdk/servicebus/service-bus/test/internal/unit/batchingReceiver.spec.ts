@@ -272,7 +272,7 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this check.
-      (lockMode === "peekLock" ? it : it.skip)(
+      it.skipIf(lockMode !== "peekLock")(
         `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
           const batchingReceiver = new BatchingReceiver(
@@ -326,7 +326,7 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-      (lockMode === "receiveAndDelete" ? it : it.skip)(
+      it.skipIf(lockMode !== "receiveAndDelete")(
         `3b. (without idle timeout)`,
         async () => {
           const batchingReceiver = new BatchingReceiver(
@@ -385,7 +385,7 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can enable this test for all modes.
-      (lockMode === "peekLock" ? it : it.skip)(
+      it.skipIf(lockMode !== "peekLock")(
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
           const batchingReceiver = new BatchingReceiver(

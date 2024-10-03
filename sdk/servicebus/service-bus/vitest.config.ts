@@ -8,8 +8,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      //include: ["test/**/*.spec.ts"],
-      include: ["test/internal/atom*.spec.ts"],
+      include: ["test/**/*.spec.ts"],
     },
   }),
 );
