@@ -15,6 +15,17 @@ steps:
   - pwsh: |
       node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"
     displayName: "Run Typedoc Docs"
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+  # todo, possibly make this a wrapper node script instead of wrapper powershell.
+  - pwsh: |
+      if ("$(ChangedServices)") {
+        foreach($service in "$(ChangedServices)".Split(" ")) {
+          node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"
+        }
+      }
+    displayName: "Run Typedocs for PR"
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
   - pwsh: |
       $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.SourcesDirectory)/docGen"
