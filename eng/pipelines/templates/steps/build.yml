@@ -127,8 +127,8 @@ steps:
 
         if ($${{ parameters.IncludeRelease }} -eq $true)
         {
-          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
-          Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
         }
       }
     displayName: 'Copy Packages'
