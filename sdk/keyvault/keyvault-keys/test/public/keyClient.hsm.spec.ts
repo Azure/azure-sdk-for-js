@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { KeyClient } from "../../src";
-import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
-import { getServiceVersion, onVersions } from "./utils/common";
-import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import { KeyClient } from "../../src/index.js";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
+import TestClient from "./utils/testClient.js";
+import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels.js";
+import { getServiceVersion, onVersions } from "./utils/common.js";
+import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 onVersions({ minVer: "7.2" }).describe(
   "Keys client - create, read, update and delete operations for managed HSM",
@@ -21,8 +19,8 @@ onVersions({ minVer: "7.2" }).describe(
     let testClient: TestClient;
     let recorder: Recorder;
 
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = new Recorder(ctx);
 
       // These tests rely on the attestation URI inside the Release Policy, which is sanitized by the test recorder.
       // Using a bodiless matcher to ignore the differences that this causes.
@@ -33,7 +31,7 @@ onVersions({ minVer: "7.2" }).describe(
       if (!authentication.hsmClient) {
         // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
         // This is only necessary while Managed HSM is in preview.
-        this.skip();
+        ctx.task.skip();
       }
 
       hsmClient = authentication.hsmClient;
@@ -45,7 +43,7 @@ onVersions({ minVer: "7.2" }).describe(
       await recorder.stop();
     });
 
-    it("can create an OCT key with options", async function (this: Context) {
+    it("can create an OCT key with options", async function (ctx) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const options: CreateOctKeyOptions = {
         hsm: true,

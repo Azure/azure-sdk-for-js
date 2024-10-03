@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyClient } from "../../../src";
+import { KeyClient } from "../../../src/index.js";
 import { Recorder, env, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
-import { uniqueString } from "./recorderUtils";
-import TestClient from "./testClient";
+import { uniqueString } from "./recorderUtils.js";
+import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export const replaceableVariables = {

@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
 
-import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src";
-import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
-import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
-import TestClient from "./utils/testClient";
-import { getServiceVersion, onVersions } from "./utils/common";
+import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src/index.js";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
+import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
+import TestClient from "./utils/testClient.js";
+import { getServiceVersion, onVersions } from "./utils/common.js";
 import { isNode } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 onVersions({ minVer: "7.2" }).describe(
   "CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
@@ -26,8 +24,8 @@ onVersions({ minVer: "7.2" }).describe(
     let keyVaultKey: KeyVaultKey;
     let keySuffix: string;
 
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = new Recorder(ctx);
       await recorder.start(envSetupForPlayback);
 
       const authentication = await authenticate(getServiceVersion(), recorder);
@@ -35,7 +33,7 @@ onVersions({ minVer: "7.2" }).describe(
       if (!authentication.hsmClient) {
         // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
         // This is only necessary while Managed HSM is in preview.
-        this.skip();
+        ctx.task.skip();
       }
 
       hsmClient = authentication.hsmClient;
@@ -50,7 +48,7 @@ onVersions({ minVer: "7.2" }).describe(
     });
 
     describe("with AES crypto algorithms", async function () {
-      it("encrypts and decrypts using AES-GCM", async function (this: Context) {
+      it("encrypts and decrypts using AES-GCM", async function (ctx) {
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
@@ -75,9 +73,9 @@ onVersions({ minVer: "7.2" }).describe(
         await testClient?.flushKey(keyName);
       });
 
-      it("encrypts and decrypts using AES-CBC", async function (this: Context) {
+      it("encrypts and decrypts using AES-CBC", async function (ctx) {
         if (!isNode) {
-          this.skip();
+          ctx.task.skip();
         }
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
         cryptoClient = new CryptographyClient(

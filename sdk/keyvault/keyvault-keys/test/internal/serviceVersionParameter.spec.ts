@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
-import { KeyClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/keysModels";
+import { KeyClient } from "../../src/index.js";
+import { LATEST_API_VERSION } from "../../src/keysModels.js";
 import {
   HttpClient,
   PipelineRequest,
@@ -13,7 +10,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import { versionsToTest } from "@azure-tools/test-utils";
-import { serviceVersions } from "../public/utils/common";
+import { serviceVersions } from "../public/utils/common.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyvaultname.vault.azure.net`;

@@ -4,23 +4,21 @@
 import { OperationOptions } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/core-auth";
-import { Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
-import sinon from "sinon";
 import {
   CryptographyClient,
   DecryptParameters,
   EncryptParameters,
   KeyClient,
   KeyVaultKey,
-} from "../../src";
-import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { JsonWebKey } from "../../src";
-import { stringToUint8Array } from "../public/utils/crypto";
-import { CryptographyProvider } from "../../src/cryptography/models";
-import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
+} from "../../src/index.js";
+import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider.js";
+import { JsonWebKey } from "../../src/index.js";
+import { stringToUint8Array } from "../public/utils/crypto.js";
+import { CryptographyProvider } from "../../src/cryptography/models.js";
+import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { RestError, SendRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
@@ -157,7 +155,7 @@ describe("internal crypto tests", () => {
       decryptStub = sinon
         .stub(cryptoProvider, "decrypt")
         .returns(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
-      sinon.stub(cryptoProvider, "isSupported").returns(true);
+      vi.spyOn(cryptoProvider, "isSupported").returns(true);
       client["providers"] = [cryptoProvider];
     });
 
@@ -166,7 +164,7 @@ describe("internal crypto tests", () => {
     });
 
     describe("Encrypt parameter mapping", async function () {
-      it("maps parameters correctly when using the previous API", async function (this: Context) {
+      it("maps parameters correctly when using the previous API", async function (ctx) {
         const text = stringToUint8Array(this.test!.title!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
@@ -180,7 +178,7 @@ describe("internal crypto tests", () => {
         );
       });
 
-      it("maps parameters correctly when using the current API", async function (this: Context) {
+      it("maps parameters correctly when using the current API", async function (ctx) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.encrypt(
@@ -200,7 +198,7 @@ describe("internal crypto tests", () => {
     });
 
     describe("Decrypt parameter mapping", async function () {
-      it("maps parameters correctly when using the previous API", async function (this: Context) {
+      it("maps parameters correctly when using the previous API", async function (ctx) {
         const text = stringToUint8Array(this.test!.title!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
@@ -214,7 +212,7 @@ describe("internal crypto tests", () => {
         );
       });
 
-      it("maps parameters correctly when using the current API", async function (this: Context) {
+      it("maps parameters correctly when using the current API", async function (ctx) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.decrypt(
@@ -235,10 +233,10 @@ describe("internal crypto tests", () => {
   });
 
   describe("RSA local cryptography tests", function () {
-    it("throws a validation error when the key is invalid", function (this: Context) {
+    it("throws a validation error when the key is invalid", function (ctx) {
       if (!isNode) {
         // Local cryptography is not supported in the browser
-        this.skip();
+        ctx.task.skip();
       }
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
@@ -247,9 +245,9 @@ describe("internal crypto tests", () => {
       );
     });
 
-    it("uses the browser replacement when running in the browser", function (this: Context) {
+    it("uses the browser replacement when running in the browser", function (ctx) {
       if (isNode) {
-        this.skip();
+        ctx.task.skip();
       }
       const rsaProvider = new RsaCryptographyProvider({ kty: "RSA", keyOps: ["encrypt"] });
       assert.throws(
@@ -265,7 +263,7 @@ describe("internal crypto tests", () => {
 
     beforeEach(() => {
       localProvider = new RsaCryptographyProvider({});
-      sinon.stub(localProvider, "isSupported").returns(true);
+      vi.spyOn(localProvider, "isSupported").returns(true);
       for (const operation of [
         "encrypt",
         "decrypt",
@@ -349,7 +347,7 @@ describe("internal crypto tests", () => {
 
       describe("when a local provider errors", function () {
         it("remotes the encrypt operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "encrypt");
+          const remoteStub = vi.spyOn(remoteProvider, "encrypt");
 
           const parameters: EncryptParameters = {
             algorithm: "RSA-OAEP",
@@ -361,7 +359,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the decrypt operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "decrypt");
+          const remoteStub = vi.spyOn(remoteProvider, "decrypt");
 
           const parameters: DecryptParameters = {
             algorithm: "RSA-OAEP",
@@ -372,7 +370,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the wrapKey operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "wrapKey");
+          const remoteStub = vi.spyOn(remoteProvider, "wrapKey");
 
           const keyToWrap = stringToUint8Array("myKey");
           await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
@@ -380,7 +378,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the unwrapKey operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "unwrapKey");
+          const remoteStub = vi.spyOn(remoteProvider, "unwrapKey");
 
           const wrappedKey = stringToUint8Array("myKey");
           await cryptoClient.unwrapKey("RSA-OAEP", wrappedKey);
@@ -388,7 +386,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the sign operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "sign");
+          const remoteStub = vi.spyOn(remoteProvider, "sign");
 
           const data = stringToUint8Array("myKey");
           await cryptoClient.sign("PS256", data);
@@ -396,7 +394,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the signData operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "signData");
+          const remoteStub = vi.spyOn(remoteProvider, "signData");
 
           const data = stringToUint8Array("myKey");
           await cryptoClient.signData("PS256", data);
@@ -404,7 +402,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the verify operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "verify");
+          const remoteStub = vi.spyOn(remoteProvider, "verify");
 
           const data = stringToUint8Array("myKey");
           const sig = stringToUint8Array("sig");
@@ -413,7 +411,7 @@ describe("internal crypto tests", () => {
         });
 
         it("remotes the verifyData operation", async function () {
-          const remoteStub = sinon.stub(remoteProvider, "verifyData");
+          const remoteStub = vi.spyOn(remoteProvider, "verifyData");
 
           const data = stringToUint8Array("myKey");
           const sig = stringToUint8Array("sig");
@@ -427,7 +425,7 @@ describe("internal crypto tests", () => {
       beforeEach(() => {
         const jwk: JsonWebKey = {};
         localProvider = new RsaCryptographyProvider(jwk);
-        sinon.stub(localProvider, "isSupported").returns(true);
+        vi.spyOn(localProvider, "isSupported").returns(true);
 
         cryptoClient = new CryptographyClient(jwk);
 
