@@ -40,7 +40,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:
-      PackageInfoFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
+      PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
