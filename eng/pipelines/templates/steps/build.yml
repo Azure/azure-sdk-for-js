@@ -113,7 +113,7 @@ steps:
   # todo, handle direct/indirect packages here
   # todo, add the parse of the documentation status to eng/common so that we don't have to look at the ci.yml properties again
   - pwsh: |
-      $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory/PackageInfo/*.json" `
+      $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory)/PackageInfo/*.json" `
           | ForEach-Object { $_.Name.Replace(".json", "") }
 
       foreach ($artifact in $artifacts)
