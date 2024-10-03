@@ -52,7 +52,7 @@ describe("AzurePipelinesCredential", function () {
     );
   });
 
-  it.only("failure includes the expected response headers", async function () {
+  it("failure includes the expected response headers", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -66,31 +66,20 @@ describe("AzurePipelinesCredential", function () {
       existingServiceConnectionId,
       "systemAccessToken"
     );
-    const regExpHeader: RegExp = /"x-vss-e2eid"/gm;
-    // const regExpHeader1: RegExp =
-    //   /\["x-vss-e2eid"\] - \"[a-fA-F0-9]{8}-([a-f0-9A-F]{4}-){3}[0-9a-fA-F]{12}\"/gm;
+    const regExpHeader1: RegExp = /"x-vss-e2eid"/gm;
     const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
+
     await assert.isRejected(
       credential.getToken(scope),
-      regExpHeader,
+      regExpHeader1,
       "error thrown doesn't contain expected header"
     );
 
-    // await assert.isRejected(
-    //   credential.getToken(scope),
-    //   regExpHeader1,
-    //   "error thrown doesn't contain expected header1"
-    // );
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader2,
       "error thrown doesn't contain expected header2"
     );
-    try {
-      await credential.getToken(scope);
-    } catch (e) {
-      console.log(e);
-    }
   });
 
   it("fails with with invalid client id", async function () {
