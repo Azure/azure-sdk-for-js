@@ -72,13 +72,13 @@ describe("AzurePipelinesCredential", function () {
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader1,
-      "error thrown doesn't contain expected header"
+      "error thrown doesn't contain expected header 'x-vss-e2eid'"
     );
 
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader2,
-      "error thrown doesn't contain expected header2"
+      "error thrown doesn't contain expected header 'x-msedge-ref'"
     );
   });
 
