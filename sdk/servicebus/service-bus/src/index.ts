@@ -42,7 +42,11 @@ export {
   QueueProperties,
   QueueRuntimeProperties,
 } from "./serializers/queueResourceSerializer.js";
-export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer.js";
+export {
+  RuleProperties,
+  SqlRuleAction,
+  SqlRuleFilter,
+} from "./serializers/ruleResourceSerializer.js";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,

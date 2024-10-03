@@ -3,30 +3,14 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "NodeNext",
-    "lib": [
-      "dom",
-      "ES2018.AsyncIterable"
-    ],
+    "lib": ["dom", "ES2018.AsyncIterable"],
     "paths": {
-      "@azure/service-bus": [
-        "./src/index"
-      ]
+      "@azure/service-bus": ["./src/index"]
     },
     "moduleResolution": "NodeNext",
     "rootDir": ".",
     "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules",
-    "./types/**/*.d.ts",
-    "./samples/**/*.ts",
-    "test/stress*"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts", "test/stress*"],
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }

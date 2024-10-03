@@ -25,7 +25,11 @@ import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage.js"
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils.js";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver.js";
-import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared.js";
+import {
+  onMessageSettled,
+  DeferredPromiseAndTimer,
+  createReceiverOptions,
+} from "../core/shared.js";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper.js";
 import {
