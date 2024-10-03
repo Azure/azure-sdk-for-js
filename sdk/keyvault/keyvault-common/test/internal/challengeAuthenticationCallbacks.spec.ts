@@ -21,7 +21,7 @@ const challengeResponse: SendRequest = async (req) => {
   expect(req.body).toBeNull();
   return {
     headers: createHttpHeaders({
-      "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
+      "WWW-Authenticate": `Bearer resource="https://vault.azure.net", authorization="http://login.windows.net/testTenantId"`,
     }),
     status: 401,
     request: req,
