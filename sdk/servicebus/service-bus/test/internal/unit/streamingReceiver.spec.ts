@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 import { addTestStreamingReceiver } from "./unittestUtils.js";
 import { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src/index.js";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { assertThrows } from "../../public/utils/testUtils.js";
-import { describe, it, vi, afterEach } from "vitest";
+import { describe, it, vi } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 
 describe("StreamingReceiver unit tests", () => {
@@ -119,31 +118,23 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
-  describe("forever loop", () => {
-    let streamingReceiver: StreamingReceiver | undefined;
-
-    afterEach(() => {
-      return streamingReceiver?.close();
-    });
-  });
-
   it("onDetach calls through to init", async () => {
     const streamingReceiver = createTestStreamingReceiver("fakeEntityPath");
 
-    const subscribeImplMock = sinon.mock();
+    const subscribeImplMock = vi.fn();
 
     streamingReceiver["_subscribeImpl"] = subscribeImplMock;
     await streamingReceiver.onDetached(new Error("let's detach"));
-    assert.isTrue(subscribeImplMock.calledOnce);
+    assert.equal(subscribeImplMock.mock.calls.length, 1);
 
     // simulate simultaneous detaches
     streamingReceiver["_isDetaching"] = true;
-    subscribeImplMock.resetHistory();
+    subscribeImplMock.mockReset();
 
     await streamingReceiver.onDetached(
       new Error("let's detach but it won't because there's already a onDetached running."),
     );
-    assert.isFalse(subscribeImplMock.called); // we don't do parallel detaches - subsequent ones are just stopped
+    assert.isFalse(subscribeImplMock.mock.calls.length > 0); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;
   });
 
@@ -172,7 +163,7 @@ describe("StreamingReceiver unit tests", () => {
         {},
       );
 
-      const closeLinkSpy = sinon.spy(
+      const closeLinkSpy = vi.spyOn(
         streamingReceiver as any as { closeLink(): Promise<void> },
         "closeLink",
       );
@@ -185,7 +176,7 @@ describe("StreamingReceiver unit tests", () => {
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
       // was suspended, which will cause us to fail to add credits)
-      assert.isTrue(closeLinkSpy.called);
+      assert.isTrue(closeLinkSpy.mock.calls.length > 0);
     });
 
     it("subscription.stop() happens after pre-init() should trigger an AbortError since the receiver is suspended", async () => {
@@ -212,7 +203,7 @@ describe("StreamingReceiver unit tests", () => {
         {},
       );
 
-      const closeLinkSpy = sinon.spy(
+      const closeLinkSpy = vi.spyOn(
         streamingReceiver as any as { closeLink(): Promise<void> },
         "closeLink",
       );
@@ -222,7 +213,10 @@ describe("StreamingReceiver unit tests", () => {
         message: "Error 0: AbortError: Receiver was suspended during initialization.",
       });
 
-      assert.isTrue(!closeLinkSpy.called, "closeLink should not be called if no link was created");
+      assert.isFalse(
+        closeLinkSpy.mock.calls.length > 0,
+        "closeLink should not be called if no link was created",
+      );
 
       assert.deepEqual(errors, [
         {

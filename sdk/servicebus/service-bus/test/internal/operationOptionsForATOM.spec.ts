@@ -7,9 +7,7 @@ import { NamespaceResourceSerializer } from "../../src/serializers/namespaceReso
 import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it } from "vitest";
-
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
+import { assert } from "../public/utils/chai.js";
 
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
   new ServiceBusAdministrationClient(getFullyQualifiedNamespace(), createTestCredential());

@@ -19,8 +19,8 @@ import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
 import { getEnvVarValue } from "../public/utils/envVarUtils.js";
 import { delay } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it } from "vitest";
-import { should } from "../public/utils/chai.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { assert, should } from "../public/utils/chai.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -30,11 +30,11 @@ describe("Send Batch", () => {
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
   const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -519,15 +519,12 @@ describe("Send Batch", () => {
   });
 });
 
-describe("Premium namespaces - Sending", () => {
-  const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+describe.skipIf(!premiumNamespace)("Premium namespaces - Sending", () => {
   let atomClient: ServiceBusAdministrationClient;
 
-  before(function (this: Mocha.Context) {
-    if (!premiumNamespace) {
-      ctx.task.skip();
-    }
-    atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
+  beforeAll(function () {
+    atomClient = new ServiceBusAdministrationClient(premiumNamespace!, createTestCredential());
   });
   let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClient;
@@ -543,11 +540,11 @@ describe("Premium namespaces - Sending", () => {
       ? TestClientType.UnpartitionedQueueWithSessions
       : TestClientType.UnpartitionedTopicWithSessions;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = new ServiceBusClient(premiumNamespace || "", createTestCredential());
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
   });
 

@@ -247,7 +247,7 @@ export interface SubscribeOptions extends OperationOptionsBase {
   /**
    * The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
-   * not be received until atleast one of the calls to the user's message handler has completed.
+   * not be received until at least one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
   maxConcurrentCalls?: number;

@@ -33,7 +33,7 @@ describe("sender unit tests", () => {
   };
 
   const partitionKeySessionIdMismatchMsg = {
-    body: "boooo",
+    body: "some body text",
     sessionId: "my-sessionId",
     partitionKey: "my-partitionKey",
   };

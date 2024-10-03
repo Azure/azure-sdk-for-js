@@ -29,7 +29,7 @@ import {
   getFullyQualifiedNamespace,
 } from "../public/utils/testutils2.js";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
-import { describe, it } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -634,13 +634,12 @@ describe("ServiceBusClient live tests", () => {
       it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function (): Promise<void> {
-          const tokenCreds = createTestCredential();
-
+          const tokenCredential = createTestCredential();
           const serviceBusClient = createServiceBusClientForTests();
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
 
-          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCreds);
+          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCredential);
           try {
             const sender = sbClient.createSender(entities.queue || entities.topic!);
             const receiver = entities.queue
@@ -1014,14 +1013,14 @@ describe("ServiceBusClient live tests", () => {
   describe("entityPath on sender and receiver", async () => {
     let sbClient: ServiceBusClientForTests;
 
-    before(() => {
+    beforeAll(() => {
       sbClient = createServiceBusClientForTests();
     });
 
     afterEach(async () => {
       await sbClient.test.afterEach();
     });
-    after(async () => {
+    afterAll(async () => {
       await sbClient.test.after();
     });
 

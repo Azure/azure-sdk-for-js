@@ -12,7 +12,7 @@ import { ServiceBusSender } from "../../src/index.js";
 import { ServiceBusSessionReceiver } from "../../src/index.js";
 import { ServiceBusReceivedMessage } from "../../src/index.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
-import { should } from "./utils/chai.js";
+import { assert, should } from "./utils/chai.js";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;
@@ -57,7 +57,7 @@ describe("Session Lock Renewal", () => {
     // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
-    //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    //   assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
 
@@ -272,7 +272,7 @@ describe("Session Lock Renewal", () => {
     await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
-      chai.assert.fail(uncaughtErrorFromHandlers.message);
+      assert.fail(uncaughtErrorFromHandlers.message);
     }
 
     should.equal(numOfMessagesReceived, 1, "Unexpected number of messages");
@@ -359,7 +359,7 @@ describe("Session Lock Renewal", () => {
     await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
-      chai.assert.fail(uncaughtErrorFromHandlers.message);
+      assert.fail(uncaughtErrorFromHandlers.message);
     }
   }
 

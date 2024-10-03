@@ -13,7 +13,7 @@ import { recreateSubscription, recreateTopic } from "../public/utils/managementU
 import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, beforeEach, describe, it } from "vitest";
-import { should } from "../public/utils/chai.js";
+import { assert, should } from "../public/utils/chai.js";
 
 const fullyQualifiedNamespace = getFullyQualifiedNamespace();
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
@@ -72,7 +72,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       { subject },
       1,
       (msg) => {
-        chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
+        assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
       },
     );
   });
@@ -120,7 +120,7 @@ describe("getSubscriptionRuntimeProperties", () => {
         subscriptionName1,
       )
     ).activeMessageCount;
-    chai.assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
+    assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
   });
 
   it("Active Message Count - multiple subscriptions", async () => {
@@ -138,7 +138,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
       topicName,
     )) {
-      chai.assert.equal(
+      assert.equal(
         subscription.activeMessageCount,
         messages.length,
         "Unexpected active message count",

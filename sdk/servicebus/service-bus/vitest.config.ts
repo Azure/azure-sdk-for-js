@@ -9,7 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       //include: ["test/**/*.spec.ts"],
-      include: ["test/internal/unit/**/messageSen*.spec.ts"],
+      include: ["test/internal/atom*.spec.ts"],
     },
   }),
 );

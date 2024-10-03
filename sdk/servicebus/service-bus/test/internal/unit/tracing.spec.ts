@@ -41,11 +41,11 @@ describe("tracing", () => {
 
   describe("#instrumentMessage", () => {
     afterEach(() => {
-      Sinon.restore();
+      vi.restoreAllMocks();
     });
 
     it("is idempotent", () => {
-      const tracingClientSpy = Sinon.spy(tracingClient, "startSpan");
+      const tracingClientSpy = vi.spyOn(tracingClient, "startSpan");
       const instrumentedMessage = {
         body: "test",
         applicationProperties: {
@@ -61,7 +61,7 @@ describe("tracing", () => {
       );
       assert.notExists(spanContext);
       assert.equal(message.applicationProperties?.[TRACEPARENT_PROPERTY], "exists");
-      assert.equal(tracingClientSpy.callCount, 0);
+      assert.equal(tracingClientSpy.mock.calls.length, 0);
     });
 
     it("returns early if the span is not recording", () => {
@@ -69,7 +69,7 @@ describe("tracing", () => {
       const { span: nonRecordingSpan } = instrumenter.startSpan("test");
       (nonRecordingSpan as MockTracingSpan).setIsRecording(false);
       // Setup our tracingClient to ensure we reach the happy path.
-      vi.spyOn(tracingClient, "startSpan").returns({
+      vi.spyOn(tracingClient, "startSpan").mockReturnValue({
         span: nonRecordingSpan,
         updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
       });
@@ -91,11 +91,11 @@ describe("tracing", () => {
         (recordingSpan as MockTracingSpan).setIsRecording(true);
 
         // Setup our tracingClient to ensure we reach the happy path.
-        vi.spyOn(tracingClient, "startSpan").returns({
+        vi.spyOn(tracingClient, "startSpan").mockReturnValue({
           span: recordingSpan,
           updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
         });
-        vi.spyOn(tracingClient, "createRequestHeaders").returns({
+        vi.spyOn(tracingClient, "createRequestHeaders").mockReturnValue({
           traceparent: "fake-traceparent-header",
         });
 
@@ -151,7 +151,7 @@ describe("tracing", () => {
           },
         };
         const fakeContext = {} as TracingContext;
-        vi.spyOn(tracingClient, "parseTraceparentHeader").returns(fakeContext);
+        vi.spyOn(tracingClient, "parseTraceparentHeader").mockReturnValue(fakeContext);
 
         const processingSpanOptions = toProcessingSpanOptions(
           [requiredMessageProperties],

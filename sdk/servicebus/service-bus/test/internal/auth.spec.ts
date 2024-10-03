@@ -16,8 +16,7 @@ import {
   ServiceBusTestHelpers,
 } from "../public/utils/testutils2.js";
 import { afterAll, beforeAll, describe, it } from "vitest";
-
-const assert: typeof chai.assert = chai.assert;
+import { assert } from "../public/utils/chai.js";
 
 type UnpackReturnType<T extends (...args: any) => any> =
   ReturnType<T> extends Promise<infer U> ? U : never;

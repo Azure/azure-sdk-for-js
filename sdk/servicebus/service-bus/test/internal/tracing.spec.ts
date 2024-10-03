@@ -8,18 +8,19 @@ import {
   EntityName,
   createServiceBusClientForTests,
 } from "../public/utils/testutils2.js";
-import { describe, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
+import { assert } from "../public/utils/chai.js";
 
 describe(`Tracing for send`, function (): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     sbClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return sbClient.test.after();
   });
 

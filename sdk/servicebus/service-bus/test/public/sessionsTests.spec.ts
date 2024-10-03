@@ -21,8 +21,8 @@ import {
   getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2.js";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
-import { describe, it, afterEach, afterAll, assert } from "vitest";
-import { should } from "./utils/chai.js";
+import { describe, it, afterEach, afterAll, vi } from "vitest";
+import { assert, should } from "./utils/chai.js";
 
 let unexpectedError: Error | undefined;
 
@@ -63,7 +63,7 @@ describe("session tests", () => {
     // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
-    //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    //   assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
 
@@ -436,7 +436,7 @@ describe("SessionReceiver - disconnects", function (): void {
 
     const sender = serviceBusClient.createSender(entityName.queue!);
     should.equal(receiver.isClosed, false, "Receiver should not have been closed");
-    const isCloseCalledSpy = sinon.spy(
+    const isCloseCalledSpy = vi.spyOn(
       (receiver as ServiceBusSessionReceiverImpl)["_messageSession"],
       "close",
     );
@@ -470,8 +470,11 @@ describe("SessionReceiver - disconnects", function (): void {
     //
     // This is only an issue for this test because we're trying to do some timing dependent checks of our
     // internal state.
-    await checkWithTimeout(() => isCloseCalledSpy.called);
-    assert.isTrue(isCloseCalledSpy.called, "Close should have been called on the message session");
+    await checkWithTimeout(() => !isCloseCalledSpy.mock.lastCall);
+    assert.isTrue(
+      isCloseCalledSpy.mock.lastCall !== undefined,
+      "Close should have been called on the message session",
+    );
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());

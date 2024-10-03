@@ -7,7 +7,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 import { ServiceBusSender } from "../../src/index.js";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../../src/index.js";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { should } from "./utils/chai.js";
+import { assert, should } from "./utils/chai.js";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -75,7 +75,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -90,7 +90,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -107,7 +107,7 @@ describe("invalid parameters", () => {
           await receiver.peekMessages(inputValue, {
             fromSequenceNumber: Long.ZERO,
           });
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -249,7 +249,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -264,7 +264,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -281,7 +281,7 @@ describe("invalid parameters", () => {
           await receiver.peekMessages(inputValue, {
             fromSequenceNumber: Long.ZERO,
           });
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(

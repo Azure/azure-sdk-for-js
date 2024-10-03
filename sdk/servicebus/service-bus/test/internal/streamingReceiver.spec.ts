@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const expect = chai.expect;
+
 import {
   ServiceBusReceivedMessage,
   delay,
@@ -22,8 +22,8 @@ import {
 import { getDeliveryProperty } from "./utils/misc.js";
 import { verifyMessageCount } from "../public/utils/managementUtils.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { should } from "../public/utils/chai.js";
+import { describe, it, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { assert, expect, should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
@@ -41,11 +41,11 @@ describe("Streaming Receiver Tests", () => {
   let deadLetterReceiver: ServiceBusReceiver;
   let entityNames: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -107,7 +107,7 @@ describe("Streaming Receiver Tests", () => {
         true,
         receivedMsgs.length !== 1
           ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didnt get auto-completed in time",
+          : "Message didn't get auto-completed in time",
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -516,7 +516,7 @@ describe("Streaming Receiver Tests", () => {
         true,
         receivedMsgs.length !== 1
           ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didnt get auto-completed in time",
+          : "Message didn't get auto-completed in time",
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -864,11 +864,11 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
   let sender: ServiceBusSender;
   let receiver: ServiceBusReceiver;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -932,7 +932,8 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
     await receiverIsActive;
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-    processErrorFake.called.should.equal(false);
+
+    assert.equal(processErrorFake.mock.calls.length, 0);
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
@@ -964,21 +965,21 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
  *
  * @param receivedErrors - Errors received while detaching
  */
-export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
+export function createOnDetachedProcessErrorFake(): any & {
   /**
    * Validates the errors that have been reported and makes sure they're consistent
    * with the platform we're running on.
    */
   assertErrors: () => void;
 } {
-  const processErrorFake = sinon.fake() as sinon.SinonSpy & {
+  const processErrorFake = vi.fn() as any & {
     assertErrors: () => void;
   };
 
   const assertErrors = (): void => {
     const errors: string[] = [];
 
-    for (const callArgs of processErrorFake.args) {
+    for (const callArgs of processErrorFake.mock.calls) {
       const processErrorArgs: ProcessErrorArgs = callArgs[0];
 
       if (processErrorArgs.error.message == null) {

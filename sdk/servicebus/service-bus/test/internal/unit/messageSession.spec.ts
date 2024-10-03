@@ -71,7 +71,7 @@ describe("Message session unit tests", () => {
             messages.map((m) => m.body),
             ["the message"],
           );
-        });
+        }, 5000);
 
         // in the new world the overall timeout firing means we've received _no_ messages
         // because otherwise it'd be one of the others.
@@ -100,13 +100,13 @@ describe("Message session unit tests", () => {
 
           const messages = await receivePromise;
           assert.isEmpty(messages);
-        });
+        }, 5000);
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this check.
-        (lockMode === "peekLock" ? it : it.skip)(
+        it.skipIf(lockMode !== "peekLock")(
           `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
           async () => {
             const receiver = new MessageSession(
@@ -151,66 +151,71 @@ describe("Message session unit tests", () => {
               ["the first message", "the second message"],
             );
           },
+          5000,
         );
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-        (lockMode === "receiveAndDelete" ? it : it.skip)(`3b. (without idle timeout)`, async () => {
-          const receiver = new MessageSession(
-            "identifier",
-            createConnectionContextForTests(),
-            "dummyEntityPath",
-            undefined,
-            {
-              receiveMode: lockMode,
-              retryOptions: undefined,
-              skipParsingBodyAsJson: false,
-              skipConvertingDate: false,
-            },
-          );
+        it.skipIf(lockMode !== "receiveAndDelete")(
+          `3b. (without idle timeout)`,
+          async () => {
+            const receiver = new MessageSession(
+              "identifier",
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              undefined,
+              {
+                receiveMode: lockMode,
+                retryOptions: undefined,
+                skipParsingBodyAsJson: false,
+                skipConvertingDate: false,
+              },
+            );
 
-          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+            const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-          const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
-          await receiveIsReady;
+            const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
+            await receiveIsReady;
 
-          // batch fulfillment is checked when we receive a message...
-          emitter.emit(ReceiverEvents.message, {
-            message: {
-              body: "the first message",
-            } as RheaMessage,
-          } as EventContext);
+            // batch fulfillment is checked when we receive a message...
+            emitter.emit(ReceiverEvents.message, {
+              message: {
+                body: "the first message",
+              } as RheaMessage,
+            } as EventContext);
 
-          // In the peekLock algorithm we would've resolved the promise here but_ we disable
-          // that in receiveAndDelete. So we'll advance here....
-          clock.advanceTimersByTime(littleTimeout);
+            // In the peekLock algorithm we would've resolved the promise here but_ we disable
+            // that in receiveAndDelete. So we'll advance here....
+            clock.advanceTimersByTime(littleTimeout);
 
-          // ...and emit another message _after_ the idle timer would have fired. Now when we advance
-          // the time all the way....
-          emitter.emit(ReceiverEvents.message, {
-            message: {
-              body: "the second message",
-            } as RheaMessage,
-          } as EventContext);
+            // ...and emit another message _after_ the idle timer would have fired. Now when we advance
+            // the time all the way....
+            emitter.emit(ReceiverEvents.message, {
+              message: {
+                body: "the second message",
+              } as RheaMessage,
+            } as EventContext);
 
-          clock.advanceTimersByTime(bigTimeout);
+            clock.advanceTimersByTime(bigTimeout);
 
-          // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
-          // timer fired.
-          const messages = await receivePromise;
-          assert.deepEqual(
-            messages.map((m) => m.body),
-            ["the first message", "the second message"],
-          );
-        });
+            // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
+            // timer fired.
+            const messages = await receivePromise;
+            assert.deepEqual(
+              messages.map((m) => m.body),
+              ["the first message", "the second message"],
+            );
+          },
+          5000,
+        );
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can enable this test for all modes.
-        (lockMode === "peekLock" ? it : it.skip)(
+        it.skipIf(lockMode !== "peekLock")(
           "4. sanity check that we're using getRemainingWaitTimeInMs",
           async () => {
             const receiver = new MessageSession(
@@ -267,6 +272,7 @@ describe("Message session unit tests", () => {
 
             assert.isTrue(wasCalled);
           },
+          5000,
         );
       });
     });

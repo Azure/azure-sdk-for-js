@@ -22,8 +22,8 @@ import {
 } from "../public/utils/testutils2.js";
 import { DispositionType } from "../../src/serviceBusMessage.js";
 import Long from "long";
-import { describe, it } from "vitest";
-import { should } from "../public/utils/chai.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { expect, should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -35,11 +35,11 @@ describe("receive and delete", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

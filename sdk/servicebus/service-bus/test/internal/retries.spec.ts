@@ -15,7 +15,7 @@ import {
   ServiceBusSessionReceiver,
 } from "../../src/receivers/sessionReceiver.js";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
-import { describe, it } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";
 
 describe("Retries - ManagementClient", () => {
@@ -25,7 +25,7 @@ describe("Retries - ManagementClient", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         // Defaults
@@ -36,7 +36,7 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -203,7 +203,7 @@ describe("Retries - MessageSender", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         timeoutInMs: 10000,
@@ -213,7 +213,7 @@ describe("Retries - MessageSender", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -328,7 +328,7 @@ describe("Retries - Receive methods", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         // Defaults
@@ -339,7 +339,7 @@ describe("Retries - Receive methods", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

@@ -310,7 +310,7 @@ describe("Receiver unit tests", () => {
       impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1, false);
 
       const existingStreamingReceiver = createStreamingReceiver("entityPath");
-      const subscribeStub = sinon.spy(existingStreamingReceiver, "subscribe");
+      const subscribeStub = vi.spyOn(existingStreamingReceiver, "subscribe");
 
       impl["_streamingReceiver"] = existingStreamingReceiver;
 
@@ -328,7 +328,7 @@ describe("Receiver unit tests", () => {
         "original receiver should be intact - we should not create a new one..",
       );
 
-      assert.isTrue(subscribeStub.calledOnce);
+      assert.equal(subscribeStub.mock.calls.length, 1);
     });
 
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
