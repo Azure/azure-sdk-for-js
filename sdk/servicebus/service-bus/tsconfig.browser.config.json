@@ -1,0 +1,10 @@
+{
+  "extends": "./.tshy/build.json",
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"],
+  "exclude": ["./test/**/node/**/*.ts", "./test/stress*"],
+  "compilerOptions": {
+    "outDir": "./dist-test/browser",
+    "rootDir": ".",
+    "skipLibCheck": true
+  }
+}

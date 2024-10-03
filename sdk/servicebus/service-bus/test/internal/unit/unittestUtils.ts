@@ -12,7 +12,6 @@ import { Constants } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "node:events";
 import { getUniqueName } from "../../../src/util/utils.js";
-import { Link } from "rhea-promise/typings/lib/link";
 import { ReceiveOptions } from "../../../src/core/messageReceiver.js";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { ReceiveMode } from "../../../src/models.js";
@@ -208,7 +207,7 @@ export function createRheaReceiverForTests(options?: ReceiverOptions): RheaPromi
   return receiver;
 }
 
-export function mockLinkProperties(link: Link): void {
+export function mockLinkProperties(link: RheaPromiseReceiver | AwaitableSender): void {
   let isOpen = true;
 
   link.close = async (): Promise<void> => {

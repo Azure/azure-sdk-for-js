@@ -24744,7 +24744,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-QneSUaxeIMSFfwv/fHoL17dU+p3CFbGg8nDctaHGT0s8xM43bY39SBVoA1M8uyAQYSkGp7IYLI8xDkaxzVPHBQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-WofubSmjRJlIVk0SHRRnp9z3VIgIkkqTzaA8wCZ49WdXhAH0sXKgvRP85KO9S8p9COR0pLdrbqvwdTcv1ILCaQ==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -24753,6 +24753,7 @@ packages:
       '@azure/core-amqp': 4.3.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.22.5)
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 8.0.1
       '@types/debug': 4.1.12
@@ -24813,6 +24814,7 @@ packages:
       - less
       - lightningcss
       - msw
+      - rollup
       - safaridriver
       - sass
       - sass-embedded

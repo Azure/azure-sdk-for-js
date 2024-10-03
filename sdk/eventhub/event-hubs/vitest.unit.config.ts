@@ -13,6 +13,7 @@ export default mergeConfig(
       fileParallelism: false,
       include: ["test/**/*.spec.ts"],
       exclude: ["./node_modules/**/*"],
+      globalSetup: ["./test/utils/setup.ts"],
       fakeTimers: {
         toFake: [
           "setTimeout",
@@ -25,5 +26,5 @@ export default mergeConfig(
         ],
       },
     },
-  }),
+  })
 );
