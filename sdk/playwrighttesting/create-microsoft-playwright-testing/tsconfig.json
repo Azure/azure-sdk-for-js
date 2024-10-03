@@ -1,12 +1,14 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist",
     "importHelpers": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
     "paths": {
       "@azure/create-microsoft-playwright-testing": ["./src/index"]
     }
   },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["dist", "node_modules", "test"]
 }
