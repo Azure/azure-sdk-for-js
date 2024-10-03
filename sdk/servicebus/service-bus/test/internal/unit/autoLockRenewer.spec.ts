@@ -2,24 +2,23 @@
 // Licensed under the MIT License.
 
 import { MessagingError } from "@azure/core-amqp";
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
 import { LockRenewer } from "../../../src/core/autoLockRenewer.js";
-import { ManagementClient, SendManagementRequestOptions } from "../../../src/core/managementClient.js";
+import {
+  ManagementClient,
+  SendManagementRequestOptions,
+} from "../../../src/core/managementClient.js";
 import { getPromiseResolverForTest } from "./unittestUtils.js";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, vi, beforeEach, afterEach } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("autoLockRenewer unit tests", () => {
-  let clock: ReturnType<typeof sinon.useFakeTimers>;
+  let clock: ReturnType<typeof vi.useFakeTimers>;
 
   let autoLockRenewer: LockRenewer;
 
-  let renewLockSpy: sinon.SinonSpy<
-    Parameters<ManagementClient["renewLock"]>,
-    ReturnType<ManagementClient["renewLock"]>
-  >;
+  let renewLockSpy: ReturnType<typeof vi.spyOn<ManagementClient, any>>;
 
-  let onErrorFake: sinon.SinonSpy;
+  let onErrorFake: ReturnType<typeof vi.fn>;
 
   const limits = {
     maxAdditionalTimeToRenewLock: 7,
@@ -36,11 +35,11 @@ describe("autoLockRenewer unit tests", () => {
   let stopTimerPromise: Promise<void>;
 
   beforeEach(() => {
-    clock = sinon.useFakeTimers();
+    clock = vi.useFakeTimers();
 
     // just to avoid any errors where we're dealing with absolute times
     // vs just offsets.
-    clock.tick(100);
+    clock.advanceTimersByTime(100);
 
     const managementClient = {
       async renewLock(_lockToken: string, _options?: SendManagementRequestOptions): Promise<Date> {
@@ -48,8 +47,8 @@ describe("autoLockRenewer unit tests", () => {
       },
     } as ManagementClient;
 
-    renewLockSpy = sinon.spy(managementClient, "renewLock");
-    onErrorFake = sinon.fake(async (_err: Error | MessagingError) => {
+    renewLockSpy = vi.spyOn(managementClient, "renewLock");
+    onErrorFake = vi.fn(async (_err: Error | MessagingError) => {
       /** Nothing to do here */
     });
 
@@ -101,7 +100,8 @@ describe("autoLockRenewer unit tests", () => {
       "The auto lock renewal timers should be removed",
     );
 
-    clock.restore();
+    vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
   it("standard renewal", async () => {
@@ -115,27 +115,22 @@ describe("autoLockRenewer unit tests", () => {
       onErrorFake,
     );
 
-    clock.tick(limits.msToNextRenewal - 1); // right before the renew timer would run
+    clock.advanceTimersByTime(limits.msToNextRenewal - 1); // right before the renew timer would run
 
     assert.exists(
       autoLockRenewer["_messageRenewLockTimers"].get(testLinkEntity.name)?.get("message id"),
       "auto-renew timer should be set up",
     );
 
-    assert.isFalse(
-      renewLockSpy.calledOnce,
-      "Our timeout duration should not fire yet and so we shouldn't renew anything.",
-    );
+    expect(renewLockSpy).not.toHaveBeenCalled();
 
-    clock.tick(1); // tick 1 more ms - timeout for the renewal should now fire.
+    clock.advanceTimersByTime(1); // tick 1 more ms - timeout for the renewal should now fire.
 
     await stopTimerPromise;
 
-    const actualLockToken = renewLockSpy.args[0][0] as string;
-
-    assert.equal(actualLockToken, "lock token", "should renew with the proper lock token");
-    assert.isTrue(renewLockSpy.calledOnce, "Lock should be renewed a single time");
-    assert.isFalse(onErrorFake.called, "no errors");
+    assert.equal(renewLockSpy.mock.calls.length, 1, "Lock should be renewed a single time");
+    assert.equal(renewLockSpy.mock.calls[0][0], "lock token");
+    expect(onErrorFake).not.toHaveBeenCalled();
   });
 
   it("delete multiple times", () => {
@@ -163,11 +158,11 @@ describe("autoLockRenewer unit tests", () => {
     );
 
     assert.isFalse(
-      renewLockSpy.calledOnce,
+      renewLockSpy.mock.calls.length === 1,
       "No lock renewal - the lockedUntilUtc of this message is longer than the current time + our max auto renewal time",
     );
 
-    assert.isFalse(onErrorFake.called, "no errors");
+    assert.isFalse(onErrorFake.mock.calls.length > 0, "no errors");
   });
 
   it("renewal timer is not (re)scheduled: the current date has passed our max lock renewal time", async () => {
@@ -182,24 +177,24 @@ describe("autoLockRenewer unit tests", () => {
     );
 
     // force one tick - we'll renew the lock, which will extend it's lifetime by limits.nextLockExpirationTime
-    clock.tick(limits.msToNextRenewal + 1);
+    clock.advanceTimersByTime(limits.msToNextRenewal + 1);
 
-    assert.isTrue(renewLockSpy.calledOnce, "You always get one lock renewal");
+    assert.equal(renewLockSpy.mock.calls.length, 1, "You always get one lock renewal");
 
     // now we'll pretend that we somehow warped into the future - we've exceeded our max time for
     // renewal so we should just stop scheduling timers.
 
-    renewLockSpy.resetHistory();
+    renewLockSpy.mockReset();
 
     // let's set the time to after our max lock renewal time.
-    clock.tick(limits.maxAdditionalTimeToRenewLock + 1000);
+    clock.advanceTimersByTime(limits.maxAdditionalTimeToRenewLock + 1000);
     await stopTimerPromise;
 
     assert.isFalse(
-      renewLockSpy.calledOnce,
+      renewLockSpy.mock.calls.length === 1,
       "No lock renewal. We exceeded the max allowed lock time.",
     );
-    assert.isFalse(onErrorFake.called, "no errors");
+    assert.isFalse(onErrorFake.mock.calls.length > 0, "no errors");
   });
 
   it("invalid message can't renew", () => {
@@ -212,11 +207,11 @@ describe("autoLockRenewer unit tests", () => {
     );
 
     assert.equal(
-      (onErrorFake.args[0][0] as Error).message,
+      (onErrorFake.mock.calls[0][0] as Error).message,
       "Can't start auto lock renewal for message with message id 'my message id' since it does not have a lock token.",
     );
 
-    assert.isTrue(onErrorFake.calledOnce, "Should only have a single error");
+    assert.equal(onErrorFake.mock.calls.length, 1, "Should only have a single error");
   });
 
   describe("AutoLockRenewer.create() does not create an AutoLockRenewer", () => {

@@ -16,7 +16,7 @@ import { should } from "./utils/chai.js";
 // and only grab the "expected" next session you need to ensure the entity (queue, sub)
 // is completely empty.
 //
-// I've moved these tests in here and re-create entites after each test - it'e expensive
+// I've moved these tests in here and re-create entities after each test - it'e expensive
 // but it'll allow them to be reliable.
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -174,7 +174,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
             msgs[0].sessionId === x.sessionId,
         ),
         true,
-        "Received Message doesnt match any of the test messages",
+        "Received Message doesn't match any of the test messages",
       );
       await receiver.completeMessage(msgs[0]);
       await receiver.close();
@@ -194,7 +194,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
             msgs[0].sessionId === x.sessionId,
         ),
         true,
-        "Received Message doesnt match any of the test messages",
+        "Received Message doesn't match any of the test messages",
       );
       await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
@@ -246,7 +246,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
             testMessagesWithDifferentSessionIds[1].messageId === msgs[0].messageId &&
             testMessagesWithDifferentSessionIds[1].sessionId === msgs[0].sessionId,
           true,
-          "Received Message doesnt match expected test message",
+          "Received Message doesn't match expected test message",
         );
         await receiver.completeMessage(msgs[0]);
 

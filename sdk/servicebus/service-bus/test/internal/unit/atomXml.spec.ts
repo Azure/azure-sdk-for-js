@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
 
 import {
   AtomXmlSerializer,
@@ -28,7 +26,8 @@ import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSer
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
 import { TestConstants } from "../../public/fakeTestSecrets.js";
 import { FullOperationResponse } from "@azure/core-client";
-import { describe, it } from "vitest";
+import { beforeEach, describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -1257,7 +1256,7 @@ describe("ATOM Serializers", () => {
     ].forEach((testCase) => {
       it(testCase.title, () => {
         sanitizeSerializableObject(testCase.input);
-        chai.assert.deepEqual(testCase.input, testCase.output as any);
+        assert.deepEqual(testCase.input, testCase.output as any);
       });
     });
   });
@@ -1274,7 +1273,7 @@ describe("ATOM Serializers", () => {
       { input: "abc", output: false },
     ].forEach((testCase) => {
       it(`${JSON.stringify(testCase.input)}`, () => {
-        chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
+        assert.equal(isJSONLikeObject(testCase.input), testCase.output);
       });
     });
   });
@@ -1357,9 +1356,9 @@ describe("ATOM Serializers", () => {
       it(`${testCase.title}`, () => {
         try {
           const xmlnsPrefix = getXMLNSPrefix(testCase.input);
-          chai.assert.equal(xmlnsPrefix, testCase.output.value);
+          assert.equal(xmlnsPrefix, testCase.output.value);
         } catch (error: any) {
-          chai.assert.equal(error, testCase.output.error, "Unexpected error thrown");
+          assert.equal(error, testCase.output.error, "Unexpected error thrown");
         }
       });
     });

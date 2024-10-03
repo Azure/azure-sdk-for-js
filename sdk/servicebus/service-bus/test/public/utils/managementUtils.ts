@@ -8,8 +8,7 @@ import { ServiceBusAdministrationClient } from "../../../src/index.js";
 import { CreateQueueOptions } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
-import { assert } from "vitest";
-import { should } from "./utils/chai.js";
+import { should } from "./chai.js";
 
 let client: ServiceBusAdministrationClient;
 

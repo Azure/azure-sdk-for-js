@@ -505,7 +505,7 @@ async function receiveAndValidate(
   topicName: string,
   subscriptionName: string,
   expectedOrders: Order[],
-) {
+): Promise<ServiceBusMessage[]> {
   const receiver = serviceBusClient.test.addToCleanup(
     serviceBusClient.createReceiver(topicName, subscriptionName),
   );

@@ -6,9 +6,8 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils.js";
 import { InternalMessageHandlers } from "../../../src/models.js";
-import { describe, it } from "vitest";
-
-const assert: typeof chai.assert = chai.assert;
+import { afterEach, beforeEach, describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("ServiceBusReceiver unit tests", () => {
   let receiver: ServiceBusReceiverImpl;

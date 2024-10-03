@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ReceiverOptions } from "rhea-promise";
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
 
+import { ReceiverOptions } from "rhea-promise";
 import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
@@ -19,7 +17,8 @@ import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionRec
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { Constants } from "@azure/core-amqp";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, vi, afterEach } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("Receiver unit tests", () => {
   it("Receiver should set target in created receiver options", () => {

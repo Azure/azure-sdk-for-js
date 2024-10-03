@@ -14,10 +14,8 @@ import {
 } from "../../../src/diagnostics/instrumentServiceBusMessage.js";
 import { ServiceBusReceivedMessage } from "../../../src/index.js";
 import { tracingClient } from "../../../src/diagnostics/tracing.js";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { describe, it, vi, beforeEach } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
@@ -326,7 +324,7 @@ describe("utils", () => {
 
   describe("extractSpanContextFromServiceBusMessage", function () {
     it("should use diagnostic id from a properly instrumented ServiceBusMessage", function () {
-      const tracingClientSpy = Sinon.spy(tracingClient, "parseTraceparentHeader");
+      const tracingClientSpy = vi.spyOn(tracingClient, "parseTraceparentHeader");
       const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
@@ -339,7 +337,7 @@ describe("utils", () => {
       };
 
       extractSpanContextFromServiceBusMessage(receivedMessage);
-      assert.isTrue(tracingClientSpy.calledWith(traceparent));
+      assert.equal(tracingClientSpy.mock.calls[0][0], traceparent);
     });
 
     it("should return undefined when ServiceBusMessage is not instrumented", function () {

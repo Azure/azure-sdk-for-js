@@ -16,6 +16,7 @@ import { Link } from "rhea-promise/typings/lib/link";
 import { ReceiveOptions } from "../../../src/core/messageReceiver.js";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
 import { ReceiveMode } from "../../../src/models.js";
+import { afterEach } from "vitest";
 
 export interface CreateConnectionContextForTestsOptions {
   host?: string;

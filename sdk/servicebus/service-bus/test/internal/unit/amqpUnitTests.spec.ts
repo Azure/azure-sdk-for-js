@@ -21,9 +21,7 @@ import {
   errorInvalidMessageTypeSingle,
   errorInvalidMessageTypeSingleOrArray,
 } from "../../../src/util/errors.js";
-import { describe, it } from "vitest";
-
-const assert: typeof chai.assert = chai.assert;
+import { assert, beforeEach, describe, it } from "vitest";
 
 describe("AMQP message encoding", () => {
   beforeEach(() => {

@@ -12,7 +12,7 @@ import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
 import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it } from "vitest";
+import { afterAll, beforeEach, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";
 
 const fullyQualifiedNamespace = getFullyQualifiedNamespace();
@@ -30,7 +30,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     await serviceBusAtomManagementClient.deleteRule(topicName, subscriptionName, DEFAULT_RULE_NAME);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
   });
 
@@ -90,7 +90,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     await recreateTopic(topicName);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
     await serviceBusAtomManagementClient.deleteTopic(topicName);
   });

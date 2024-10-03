@@ -5,7 +5,7 @@ import { TestMessage } from "../../public/utils/testUtils.js";
 import { fromRheaMessage, toRheaMessage } from "../../../src/serviceBusMessage.js";
 import { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 import { should } from "../../public/utils/chai.js";
 
 describe("Message translations", () => {

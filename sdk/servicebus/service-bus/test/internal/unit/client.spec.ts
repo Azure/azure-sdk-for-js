@@ -3,6 +3,7 @@
 
 import { ServiceBusClient, TokenCredential } from "../../../src/index.js";
 import { describe, it } from "vitest";
+import { expect } from "../../public/utils/chai.js";
 
 describe("ServiceBusClient unit tests", function (): void {
   describe("ServiceBusClient constructor", function (): void {
@@ -11,7 +12,7 @@ describe("ServiceBusClient unit tests", function (): void {
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
         { customEndpointAddress: "sb://foo.private.bar:111" },
       );
-      client.should.be.an.instanceof(ServiceBusClient);
+      expect(client).toBeInstanceOf(ServiceBusClient);
       client["_connectionContext"].config.host.should.equal("foo.private.bar");
       client["_connectionContext"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
       client["_connectionContext"].config.port!.should.equal(111);
@@ -29,7 +30,8 @@ describe("ServiceBusClient unit tests", function (): void {
       const client = new ServiceBusClient("test.servicebus.windows.net", dummyCredential, {
         customEndpointAddress: "sb://foo.private.bar:111",
       });
-      client.should.be.an.instanceof(ServiceBusClient);
+
+      expect(client).toBeInstanceOf(ServiceBusClient);
       client["_connectionContext"].config.host.should.equal("foo.private.bar");
       client["_connectionContext"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
       client["_connectionContext"].config.port!.should.equal(111);

@@ -25,8 +25,7 @@ import { MessageAlreadySettled } from "../../../src/util/errors.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { AbortError } from "@azure/abort-controller";
 import { describe, it } from "vitest";
-
-const assert: typeof chai.assert = chai.assert;
+import { assert } from "../../public/utils/chai.js";
 
 describe("shared receiver code", () => {
   describe("translateServiceBusError", () => {

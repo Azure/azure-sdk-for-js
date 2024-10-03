@@ -7,10 +7,8 @@ import { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { assertThrows } from "../../public/utils/testUtils.js";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { describe, it, vi, afterEach } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("StreamingReceiver unit tests", () => {
   const createTestStreamingReceiver = addTestStreamingReceiver();
@@ -256,7 +254,7 @@ describe("StreamingReceiver unit tests", () => {
         processError: async (args) => {
           processErrorMessages.push(args.error.message);
           // these errors are logged and there's no programatic way to detect them.
-          // this reduces the possiblity of a user ending up in an infinite set of `processError` calls.
+          // this reduces the possibility of a user ending up in an infinite set of `processError` calls.
           throw new Error("processError");
         },
         processMessage: async (msg) => {

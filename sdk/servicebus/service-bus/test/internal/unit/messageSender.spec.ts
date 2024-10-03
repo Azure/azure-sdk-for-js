@@ -5,6 +5,7 @@ import { MessageSender } from "../../../src/core/messageSender.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createConnectionContextForTests } from "./unittestUtils.js";
 import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("MessageSender unit tests", () => {
   it("getMaxMessageSize should retry (exhaust retries)", async () => {

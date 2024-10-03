@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
-import { EventEmitter } from "node:events";
 
+import { EventEmitter } from "node:events";
 import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,
@@ -24,7 +22,8 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
 import { ReceiveMode } from "../../../src/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, vi, beforeEach, afterEach } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -101,7 +100,7 @@ describe("BatchingReceiver unit tests", () => {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
-    }).timeout(1000);
+    }, 1000);
 
     it("abortSignal while receive is in process", async () => {
       const abortController = new AbortController();
@@ -187,79 +186,87 @@ describe("BatchingReceiver unit tests", () => {
     describe(`${lockMode} receive, exit paths`, () => {
       const bigTimeout = 60 * 1000;
       const littleTimeout = 30 * 1000;
-      let clock: ReturnType<typeof sinon.useFakeTimers>;
+      let clock: ReturnType<typeof vi.useFakeTimers>;
 
       beforeEach(() => {
-        clock = sinon.useFakeTimers();
+        clock = vi.useFakeTimers();
       });
 
       afterEach(() => {
-        clock.restore();
+        clock.useRealTimers();
       });
 
-      it("1. We received 'max messages'", async () => {
-        const batchingReceiver = new BatchingReceiver(
-          "serviceBusClientId",
-          createConnectionContextForTests(),
-          "dummyEntityPath",
-          {
-            receiveMode: lockMode,
-            lockRenewer: undefined,
-            skipParsingBodyAsJson: false,
-            skipConvertingDate: false,
-          },
-        );
-        closeables.push(batchingReceiver);
+      it(
+        "1. We received 'max messages'",
+        async () => {
+          const batchingReceiver = new BatchingReceiver(
+            "serviceBusClientId",
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode,
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
+            },
+          );
+          closeables.push(batchingReceiver);
 
-        const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(batchingReceiver);
+          const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(batchingReceiver);
 
-        const receivePromise = batchingReceiver.receive(1, bigTimeout, bigTimeout, {});
-        await receiveIsReady;
+          const receivePromise = batchingReceiver.receive(1, bigTimeout, bigTimeout, {});
+          await receiveIsReady;
 
-        // batch fulfillment is checked when we receive a message...
-        rheaReceiver.emit(ReceiverEvents.message, {
-          message: { body: "the message" } as RheaMessage,
-        } as EventContext);
+          // batch fulfillment is checked when we receive a message...
+          rheaReceiver.emit(ReceiverEvents.message, {
+            message: { body: "the message" } as RheaMessage,
+          } as EventContext);
 
-        const messages = await receivePromise;
-        assert.deepEqual(
-          messages.map((m) => m.body),
-          ["the message"],
-        );
+          const messages = await receivePromise;
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the message"],
+          );
 
-        assertListenersRemoved(rheaReceiver);
-      }).timeout(5 * 1000);
+          assertListenersRemoved(rheaReceiver);
+        },
+        5 * 1000,
+      );
 
       // in the new world the overall timeout firing means we've received _no_ messages
       // because otherwise it'd be one of the others.
-      it("2. We've waited 'max wait time'", async () => {
-        const receiver = new BatchingReceiver(
-          "serviceBusClientId",
-          createConnectionContextForTests(),
-          "dummyEntityPath",
-          {
-            receiveMode: lockMode,
-            lockRenewer: undefined,
-            skipParsingBodyAsJson: false,
-            skipConvertingDate: false,
-          },
-        );
-        closeables.push(receiver);
+      it(
+        "2. We've waited 'max wait time'",
+        async () => {
+          const receiver = new BatchingReceiver(
+            "serviceBusClientId",
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode,
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
+            },
+          );
+          closeables.push(receiver);
 
-        const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(receiver);
+          const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(receiver);
 
-        const receivePromise = receiver.receive(1, littleTimeout, bigTimeout, {});
+          const receivePromise = receiver.receive(1, littleTimeout, bigTimeout, {});
 
-        await receiveIsReady;
+          await receiveIsReady;
 
-        // force the overall timeout to fire
-        clock.tick(littleTimeout + 1);
+          // force the overall timeout to fire
+          clock.advanceTimersByTime(littleTimeout + 1);
 
-        const messages = await receivePromise;
-        assert.isEmpty(messages);
+          const messages = await receivePromise;
+          assert.isEmpty(messages);
 
-        assertListenersRemoved(rheaReceiver);
-      }).timeout(5 * 1000);
+          assertListenersRemoved(rheaReceiver);
+        },
+        5 * 1000,
+      );
 
       // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
@@ -293,7 +300,7 @@ describe("BatchingReceiver unit tests", () => {
 
           // advance the timeout to _just_ before the expiration of the first one (which must have been set
           // since we just received a message). This'll make it more obvious if I scheduled it a second time.
-          clock.tick(littleTimeout - 1);
+          clock.advanceTimersByTime(littleTimeout - 1);
 
           // now emit a second message - this second message should _not_ change any existing timers
           // or start new ones.
@@ -302,7 +309,7 @@ describe("BatchingReceiver unit tests", () => {
           } as EventContext);
 
           // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
-          clock.tick(1); // make the "no new message arrived within time limit" timer fire.
+          clock.advanceTimersByTime(1); // make the "no new message arrived within time limit" timer fire.
 
           const messages = await receivePromise;
           assert.deepEqual(
@@ -312,62 +319,67 @@ describe("BatchingReceiver unit tests", () => {
 
           assertListenersRemoved(rheaReceiver);
         },
-      ).timeout(5 * 1000);
+        5 * 1000,
+      );
 
       // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-      (lockMode === "receiveAndDelete" ? it : it.skip)(`3b. (without idle timeout)`, async () => {
-        const batchingReceiver = new BatchingReceiver(
-          "serviceBusClientId",
-          createConnectionContextForTests(),
-          "dummyEntityPath",
-          {
-            receiveMode: lockMode,
-            lockRenewer: undefined,
-            skipParsingBodyAsJson: false,
-            skipConvertingDate: false,
-          },
-        );
-        closeables.push(batchingReceiver);
+      (lockMode === "receiveAndDelete" ? it : it.skip)(
+        `3b. (without idle timeout)`,
+        async () => {
+          const batchingReceiver = new BatchingReceiver(
+            "serviceBusClientId",
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode,
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
+            },
+          );
+          closeables.push(batchingReceiver);
 
-        const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(batchingReceiver);
+          const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(batchingReceiver);
 
-        const receivePromise = batchingReceiver.receive(3, bigTimeout, littleTimeout, {});
-        await receiveIsReady;
+          const receivePromise = batchingReceiver.receive(3, bigTimeout, littleTimeout, {});
+          await receiveIsReady;
 
-        // batch fulfillment is checked when we receive a message...
-        rheaReceiver.emit(ReceiverEvents.message, {
-          message: {
-            body: "the first message",
-          } as RheaMessage,
-        } as EventContext);
+          // batch fulfillment is checked when we receive a message...
+          rheaReceiver.emit(ReceiverEvents.message, {
+            message: {
+              body: "the first message",
+            } as RheaMessage,
+          } as EventContext);
 
-        // In the peekLock algorithm we would've resolved the promise here but_ we disable
-        // that in receiveAndDelete. So we'll advance here....
-        clock.tick(littleTimeout);
+          // In the peekLock algorithm we would've resolved the promise here but_ we disable
+          // that in receiveAndDelete. So we'll advance here....
+          clock.advanceTimersByTime(littleTimeout);
 
-        // ...and emit another message _after_ the idle timer would have fired. Now when we advance
-        // the time all the way....
-        rheaReceiver.emit(ReceiverEvents.message, {
-          message: {
-            body: "the second message",
-          } as RheaMessage,
-        } as EventContext);
+          // ...and emit another message _after_ the idle timer would have fired. Now when we advance
+          // the time all the way....
+          rheaReceiver.emit(ReceiverEvents.message, {
+            message: {
+              body: "the second message",
+            } as RheaMessage,
+          } as EventContext);
 
-        clock.tick(bigTimeout);
+          clock.advanceTimersByTime(bigTimeout);
 
-        // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
-        // timer fired.
-        const messages = await receivePromise;
-        assert.deepEqual(
-          messages.map((m) => m.body),
-          ["the first message", "the second message"],
-        );
+          // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
+          // timer fired.
+          const messages = await receivePromise;
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the first message", "the second message"],
+          );
 
-        assertListenersRemoved(rheaReceiver);
-      }).timeout(5 * 1000);
+          assertListenersRemoved(rheaReceiver);
+        },
+        5 * 1000,
+      );
 
       // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
@@ -426,7 +438,7 @@ describe("BatchingReceiver unit tests", () => {
           // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
           // if we resolve() then we know that we ignored the passed in timeouts in favor
           // of what our getRemainingWaitTimeInMs function calculated.
-          clock.tick(arbitraryAmountOfTimeInMs);
+          clock.advanceTimersByTime(arbitraryAmountOfTimeInMs);
 
           const messages = await receivePromise;
           assert.equal(messages.length, 1);
@@ -439,7 +451,7 @@ describe("BatchingReceiver unit tests", () => {
 
       function setupBatchingReceiver(
         batchingReceiver: BatchingReceiver,
-        clockParam?: ReturnType<typeof sinon.useFakeTimers>,
+        clockParam?: ReturnType<typeof vi.useFakeTimers>,
       ): {
         receiveIsReady: Promise<void>;
         rheaReceiver: RheaPromiseReceiver;
@@ -464,7 +476,7 @@ describe("BatchingReceiver unit tests", () => {
     });
   });
 
-  function createFakeReceiver(clock?: ReturnType<typeof sinon.useFakeTimers>): RheaPromiseReceiver {
+  function createFakeReceiver(clock?: ReturnType<typeof vi.useFakeTimers>): RheaPromiseReceiver {
     const fakeRheaReceiver = new EventEmitter() as RheaPromiseReceiver;
     fakeRheaReceiver.drain = false;
 
@@ -483,7 +495,7 @@ describe("BatchingReceiver unit tests", () => {
     fakeRheaReceiver["drainCredit"] = () => {
       fakeRheaReceiver.drain = true;
       fakeRheaReceiver.emit(ReceiverEvents.receiverDrained, undefined);
-      clock?.runAll();
+      clock?.runAllTimers();
     };
 
     fakeRheaReceiver["close"] = (_options) => {
@@ -502,48 +514,48 @@ describe("BatchingReceiver unit tests", () => {
   }
 
   describe("getRemainingWaitTimeInMs", () => {
-    let clock: ReturnType<typeof sinon.useFakeTimers>;
+    let clock: ReturnType<typeof vi.useFakeTimers>;
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers();
+      clock = vi.useFakeTimers();
     });
 
     afterEach(() => {
-      clock.restore();
+      clock.useRealTimers();
     });
 
     it("tests", () => {
       let fn = getRemainingWaitTimeInMsFn(10, 2);
       // 1ms has elapsed so we're comparing 9ms vs 2ms
-      clock.tick(1);
+      clock.advanceTimersByTime(1);
       assert.equal(2, fn());
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 9ms has elapsed so we're comparing 1ms vs 2ms
-      clock.tick(9);
+      clock.advanceTimersByTime(9);
       assert.equal(1, fn());
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 8ms has elapsed so we're comparing 2ms vs 2ms
-      clock.tick(8);
+      clock.advanceTimersByTime(8);
       assert.equal(2, fn());
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 11ms has elapsed so we're comparing -1ms vs 2ms (we'll just treat that as "don't wait, just return what you have")
-      clock.tick(11);
+      clock.advanceTimersByTime(11);
       assert.equal(0, fn());
     });
   });
 
   describe("BatchingReceiverLite", () => {
-    let clock: ReturnType<typeof sinon.useFakeTimers>;
+    let clock: ReturnType<typeof vi.useFakeTimers>;
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers();
+      clock = vi.useFakeTimers();
     });
 
     afterEach(() => {
-      clock.restore();
+      clock.useRealTimers();
     });
 
     it("isReceivingMessages is properly set and unset when receiving operations run", async () => {
@@ -572,7 +584,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isTrue(batchingReceiver.isReceivingMessages);
 
       await receiveIsReady;
-      clock.tick(10 + 1);
+      clock.advanceTimersByTime(10 + 1);
 
       await prm;
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -718,7 +730,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isFalse(rejectWasCalled);
 
       // now unfreeze it (without ticking time forward, just running whatever is eligible _now_)
-      clock.tick(0);
+      clock.advanceTimersByTime(0);
 
       assert.isTrue(resolveWasCalled);
       assert.isFalse(rejectWasCalled);
@@ -773,20 +785,20 @@ describe("BatchingReceiver unit tests", () => {
       // the first call (when there are no received messages) will initiate a drain
       assert.isFalse(fakeRheaReceiver.drain);
 
-      const drainCreditSpy = sinon.spy(fakeRheaReceiver, "drainCredit");
+      const drainCreditSpy = vi.spyOn(fakeRheaReceiver, "drainCredit");
 
       finalAction();
 
-      assert.isTrue(drainCreditSpy.calledOnceWith());
+      assert.equal(drainCreditSpy.mock.calls.length, 1);
 
       // also our fix should leave our # of credits untouched (ie, no +1 effect)
       assert.equal(fakeRheaReceiver.credit, 2);
 
-      drainCreditSpy.resetHistory();
+      drainCreditSpy.mockReset();
 
       // subsequent calls will not initiate drains.
       finalAction();
-      assert.isTrue(drainCreditSpy.notCalled);
+      assert.equal(drainCreditSpy.mock.calls.length, 0);
     });
   });
 

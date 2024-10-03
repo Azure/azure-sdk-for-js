@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import Long from "long";
-import { ServiceBusMessage, delay, ServiceBusSender, ServiceBusReceivedMessage } from "../../src/index.js";
+import {
+  ServiceBusMessage,
+  delay,
+  ServiceBusSender,
+  ServiceBusReceivedMessage,
+} from "../../src/index.js";
 import { InvalidOperationForPeekedMessage } from "../../src/util/errors.js";
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
@@ -23,8 +28,8 @@ import { LinkEntity } from "../../src/core/linkEntity.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { BatchingReceiver } from "../../src/core/batchingReceiver.js";
 import { testLogger } from "./utils/misc.js";
-import { describe, it } from "vitest";
-import { should } from "../public/utils/chai.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { assert, expect, should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -62,11 +67,11 @@ describe("Batching Receiver", () => {
   describe("Batch Receiver - Settle message", function (): void {
     const maxDeliveryCount = 10;
 
-    before(() => {
+    beforeAll(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.after();
     });
 
@@ -387,11 +392,11 @@ describe("Batching Receiver", () => {
   });
 
   describe("Batch Receiver - Settle deadlettered message", function (): void {
-    before(() => {
+    beforeAll(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.after();
     });
 
@@ -556,11 +561,11 @@ describe("Batching Receiver", () => {
   });
 
   describe("Batch Receiver - Multiple Receiver Operations", function (): void {
-    before(() => {
+    beforeAll(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.after();
     });
 
@@ -605,7 +610,7 @@ describe("Batching Receiver", () => {
       const msgs1 = await receiver.receiveMessages(1);
       const msgs2 = await receiver.receiveMessages(1);
 
-      // Results are checked after both receiveMessages are done to ensure that the second call doesnt
+      // Results are checked after both receiveMessages are done to ensure that the second call doesn't
       // affect the result from the first one.
       should.equal(Array.isArray(msgs1), true, "`ReceivedMessages` is not an array");
       should.equal(msgs1.length, 1, "Unexpected number of messages");
@@ -646,11 +651,11 @@ describe("Batching Receiver", () => {
   });
 
   describe("Batch Receiver - Others", function (): void {
-    before(() => {
+    beforeAll(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.after();
     });
 
@@ -810,7 +815,9 @@ describe("Batching Receiver", () => {
       },
     );
 
-    const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
+    const getMessage = (): { body: string } => ({
+      body: `${Date.now()}-${Math.random().toString()}`,
+    });
 
     it(noSessionTestClientType + ": deleteMessages", async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
@@ -923,12 +930,12 @@ describe("Batching Receiver", () => {
 
   describe("Batch Receiver - disconnects", () => {
     describe("Batch Receiver - disconnects (non-session)", function (): void {
-      before(() => {
+      beforeAll(() => {
         console.log(`Entity type: ${noSessionTestClientType}`);
         serviceBusClient = createServiceBusClientForTests();
       });
 
-      after(() => {
+      afterAll(() => {
         return serviceBusClient.test.after();
       });
 
@@ -1179,7 +1186,7 @@ describe("Batching Receiver", () => {
       let sessionSender: ServiceBusSender;
       let sessionReceiver: ServiceBusSessionReceiver;
 
-      before(() => {
+      beforeAll(() => {
         console.log(`Entity type: ${withSessionTestClientType}`);
       });
 
@@ -1468,11 +1475,11 @@ describe("Batching Receiver", () => {
   });
 
   describe("Batch Receiver - drain", function (): void {
-    before(() => {
+    beforeAll(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.after();
     });
 

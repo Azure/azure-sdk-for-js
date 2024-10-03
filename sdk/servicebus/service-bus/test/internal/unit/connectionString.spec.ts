@@ -3,8 +3,7 @@
 
 import { parseServiceBusConnectionString } from "../../../src/util/connectionStringUtils.js";
 import { describe, it } from "vitest";
-
-const assert: typeof chai.assert = chai.assert;
+import { assert } from "../../public/utils/chai.js";
 
 describe("Connection String", () => {
   const expectedNamespace = "my.servicebus.windows.net";

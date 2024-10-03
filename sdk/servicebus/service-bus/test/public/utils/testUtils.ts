@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const assert: typeof chai.assert = chai.assert;
+
 import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src/index.js";
-import { assert } from "vitest";
+import { assert } from "./chai.js";
 
 export class TestMessage {
   static sessionId: string = "my-session";
@@ -68,7 +68,7 @@ export class TestMessage {
   ): void {
     if (sent.applicationProperties) {
       if (!received.applicationProperties) {
-        chai.assert.fail("Received message doesnt have any user properties");
+        chai.assert.fail("Received message doesn't have any user properties");
         return;
       }
       const expectedUserProperties = sent.applicationProperties;

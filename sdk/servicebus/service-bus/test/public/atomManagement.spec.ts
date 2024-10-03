@@ -57,7 +57,7 @@ const serviceApiVersions = ["2021-05", "2017-04"];
 let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
 // TEST_MODE must be set to "live" to run both the versions
-versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
+serviceApiVersions.forEach((serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
     beforeAll(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
@@ -319,7 +319,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         "listRules",
       ].forEach((methodName) => {
         describe(`${methodName}`, (): void => {
-          function getIter() {
+          function getIter(): any {
             let iterator;
             if (methodName.includes("Subscription")) {
               iterator = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
@@ -2461,13 +2461,13 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           testCaseTitle: "Correlation Filter rule options",
           input: {
             filter: {
-              correlationId: "defg",
+              correlationId: "correlationId",
             },
             action: { sqlExpression: "SET sys.label='RED'" },
           },
           output: {
             filter: {
-              correlationId: "defg",
+              correlationId: "correlationId",
               contentType: undefined,
               subject: undefined,
               messageId: undefined,
@@ -2639,7 +2639,6 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           }
         }
       }
-      
     }
 
     async function getEntity(
@@ -2966,7 +2965,6 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           return ruleResponse;
         }
       }
-       
     }
 
     const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");

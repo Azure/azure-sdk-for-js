@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
 
 import { MessageSender } from "../../../src/core/messageSender.js";
 import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
@@ -22,7 +20,8 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { ProcessErrorArgs } from "../../../src/index.js";
 import { ReceiveMode } from "../../../src/models.js";
-import { describe, it } from "vitest";
+import { afterEach, beforeEach, describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 const abortMsgRegex = new RegExp(StandardAbortMessage);
 

@@ -17,7 +17,7 @@ import {
   ServiceBusReceivedMessage,
 } from "../../src/serviceBusMessage.js";
 import { testLogger } from "./utils/misc.js";
-import { describe, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -31,11 +31,11 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   let deadLetterReceiver: ServiceBusReceiver;
   let entityNames: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

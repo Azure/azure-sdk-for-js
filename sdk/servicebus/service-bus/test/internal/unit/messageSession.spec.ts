@@ -21,10 +21,8 @@ import { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
 import { ReceiveMode } from "../../../src/models.js";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { describe, it, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("Message session unit tests", () => {
   describe("receiveMessages", () => {
@@ -34,14 +32,14 @@ describe("Message session unit tests", () => {
       describe(`${lockMode} receive, exit paths`, () => {
         const bigTimeout = 60 * 1000;
         const littleTimeout = 30 * 1000;
-        let clock: ReturnType<typeof sinon.useFakeTimers>;
+        let clock: ReturnType<typeof vi.useFakeTimers>;
 
         beforeEach(() => {
-          clock = sinon.useFakeTimers();
+          clock = vi.useFakeTimers();
         });
 
         afterEach(() => {
-          clock.restore();
+          clock.useRealTimers();
         });
 
         it("1. We received 'max messages'", async () => {
@@ -73,7 +71,7 @@ describe("Message session unit tests", () => {
             messages.map((m) => m.body),
             ["the message"],
           );
-        }).timeout(5 * 1000);
+        });
 
         // in the new world the overall timeout firing means we've received _no_ messages
         // because otherwise it'd be one of the others.
@@ -98,11 +96,11 @@ describe("Message session unit tests", () => {
           await receiveIsReady;
 
           // force the overall timeout to fire
-          clock.tick(littleTimeout);
+          clock.advanceTimersByTime(littleTimeout);
 
           const messages = await receivePromise;
           assert.isEmpty(messages);
-        }).timeout(5 * 1000);
+        });
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
@@ -136,7 +134,7 @@ describe("Message session unit tests", () => {
 
             // advance the timeout to _just_ before the expiration of the first one (which must have been set
             // since we just received a message). This'll make it more obvious if I scheduled it a second time.
-            clock.tick(littleTimeout - 1);
+            clock.advanceTimersByTime(littleTimeout - 1);
 
             // now emit a second message - this second message should _not_ change any existing timers
             // or start new ones.
@@ -145,7 +143,7 @@ describe("Message session unit tests", () => {
             } as EventContext);
 
             // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
-            clock.tick(1); // make the "no new message arrived within time limit" timer fire.
+            clock.advanceTimersByTime(1); // make the "no new message arrived within time limit" timer fire.
 
             const messages = await receivePromise;
             assert.deepEqual(
@@ -153,7 +151,7 @@ describe("Message session unit tests", () => {
               ["the first message", "the second message"],
             );
           },
-        ).timeout(5 * 1000);
+        );
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
@@ -187,7 +185,7 @@ describe("Message session unit tests", () => {
 
           // In the peekLock algorithm we would've resolved the promise here but_ we disable
           // that in receiveAndDelete. So we'll advance here....
-          clock.tick(littleTimeout);
+          clock.advanceTimersByTime(littleTimeout);
 
           // ...and emit another message _after_ the idle timer would have fired. Now when we advance
           // the time all the way....
@@ -197,7 +195,7 @@ describe("Message session unit tests", () => {
             } as RheaMessage,
           } as EventContext);
 
-          clock.tick(bigTimeout);
+          clock.advanceTimersByTime(bigTimeout);
 
           // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
           // timer fired.
@@ -206,7 +204,7 @@ describe("Message session unit tests", () => {
             messages.map((m) => m.body),
             ["the first message", "the second message"],
           );
-        }).timeout(5 * 1000);
+        });
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
@@ -262,20 +260,20 @@ describe("Message session unit tests", () => {
             // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
             // if we resolve() then we know that we ignored the passed in timeouts in favor
             // of what our getRemainingWaitTimeInMs function calculated.
-            clock.tick(arbitraryAmountOfTimeInMs);
+            clock.advanceTimersByTime(arbitraryAmountOfTimeInMs);
 
             const messages = await receivePromise;
             assert.equal(messages.length, 1);
 
             assert.isTrue(wasCalled);
           },
-        ).timeout(5 * 1000);
+        );
       });
     });
 
     function setupFakeReceiver(
       batchingReceiver: MessageSession,
-      clockParam?: ReturnType<typeof sinon.useFakeTimers>,
+      clockParam?: ReturnType<typeof vi.useFakeTimers>,
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
@@ -341,7 +339,7 @@ describe("Message session unit tests", () => {
         },
         drainCredit: () => {
           emitter.emit(ReceiverEvents.receiverDrained, undefined);
-          clockParam?.runAll();
+          clockParam?.runAllTimers();
         },
         get credit() {
           return credit;
@@ -378,7 +376,7 @@ describe("Message session unit tests", () => {
         },
       },
     } as any as EventContext;
-    let processCreditErrorSpy: SinonSpy;
+    let processCreditErrorSpy: MockInstance<any>;
 
     beforeEach(async () => {
       messageSession = await MessageSession.create(
@@ -396,7 +394,7 @@ describe("Message session unit tests", () => {
 
       closeables.push(messageSession);
 
-      processCreditErrorSpy = sinon.spy(
+      processCreditErrorSpy = vi.spyOn(
         messageSession as any as { processCreditError: (err: any) => void },
         "processCreditError",
       );
@@ -490,7 +488,7 @@ describe("Message session unit tests", () => {
         "Error thrown should have come from the call to addCredit()",
       );
 
-      assert.isTrue(processCreditErrorSpy.called);
+      assert.isTrue(processCreditErrorSpy.mock.calls.length > 0);
     });
 
     it("failing to add credits results in a SessionLockLost error", async () => {
@@ -522,7 +520,7 @@ describe("Message session unit tests", () => {
         },
       ]);
 
-      assert.isTrue(processCreditErrorSpy.called);
+      assert.isTrue(processCreditErrorSpy.mock.calls.length > 0);
     });
 
     it("processCreditError doesn't log or forward AbortError's", () => {
@@ -545,7 +543,7 @@ describe("Message session unit tests", () => {
 
       // We allow AbortError to no-op since the user is already aware they
       // are suspending the connection (and thus credit errors will occur)
-      messageSession["processCreditError"](new Error("Somewthing"));
+      messageSession["processCreditError"](new Error("Something"));
 
       if (!err) {
         throw new Error("Expected an error to be passed to _onError");

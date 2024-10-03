@@ -4,7 +4,7 @@ import {
   MockInstrumenter,
   MockTracingSpan,
   createMockTracingContext,
-} from "@azure-tools/test-utils";
+} from "@azure-tools/test-utils-vitest";
 import {
   TRACEPARENT_PROPERTY,
   instrumentMessage,
@@ -14,7 +14,8 @@ import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.j
 import { TracingContext } from "@azure/core-tracing";
 import Long from "long";
 import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, vi, afterEach } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {

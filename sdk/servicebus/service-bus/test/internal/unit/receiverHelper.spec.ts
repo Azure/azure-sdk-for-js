@@ -5,9 +5,7 @@ import { ReceiverHelper } from "../../../src/core/receiverHelper.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { createRheaReceiverForTests } from "./unittestUtils.js";
 import { describe, it } from "vitest";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { assert } from "../../public/utils/chai.js";
 
 describe("ReceiverHelper unit tests", () => {
   const closedReceiver = {
