@@ -61,6 +61,8 @@ steps:
         $services = $prDiff["ChangedServices"] -join " "
       }
 
+      Write-Host "##vso[task.setvariable variable=ChangedServices;]$services"
+
       node eng/tools/rush-runner.js build $services -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries for PR"
     condition: and(succeeded(),eq(variables['Build.Reason'],'PullRequest'))
@@ -81,15 +83,21 @@ steps:
         RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   - script: |
+      node eng/tools/rush-runner.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+    displayName: "Build samples for PR"
+    condition: and(succeeded(),eq(variables['Build.Reason'],'PullRequest'))
+
+  - script: |
       node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
-    displayName: "Build samples"
+    displayName: "Build samples for Service"
+    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
 
   - pwsh: |
       eng/tools/check-api-warning.ps1
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks

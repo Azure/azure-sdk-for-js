@@ -14,7 +14,7 @@ steps:
       filePath: eng/scripts/spell-check-public-apis.ps1
       arguments: -DiffJsonFile $(Build.ArtifactStagingDirectory)/diff/diff.json
       pwsh: true
-    displayName: Spell check public API
+    displayName: Spell check public API for PR
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
   - task: PowerShell@2
@@ -38,9 +38,9 @@ steps:
       ArtifactName: 'package-diffs'
       SbomEnabled: false
 
-  - template: /eng/common/pipelines/templates/steps/verify-readme.yml
+  - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:
-      ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+      PackageInfoFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
