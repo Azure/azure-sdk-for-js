@@ -23,7 +23,7 @@ export const envSetupForPlayback = {
   },
 };
 
-export async function authenticate(version: string, recorder: Recorder): Promise<any> {
+export async function authenticate(recorder: Recorder): Promise<any> {
   const keySuffix = uniqueString();
 
   const keyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
@@ -59,7 +59,6 @@ export async function authenticate(version: string, recorder: Recorder): Promise
     keyVaultUrl,
     credential,
     recorder.configureClientOptions({
-      serviceVersion: version,
       disableChallengeResourceVerification: !isLiveMode(),
     }),
   );

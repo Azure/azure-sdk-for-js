@@ -20,7 +20,7 @@ import {
   keyRotationTransformations,
 } from "../../src/transformations.js";
 import { stringToUint8Array } from "../public/utils/crypto.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
 
 describe("Transformations", () => {
   const releasePolicy = {
@@ -336,10 +336,8 @@ describe("Transformations", () => {
         ],
       };
 
-      assert.deepEqualExcludingEvery(
-        keyRotationTransformations.propertiesToGenerated(publicPolicy),
+      expect(keyRotationTransformations.propertiesToGenerated(publicPolicy)).to.deep.equal(
         expected,
-        ["created", "updated"] as any,
       );
     });
   });

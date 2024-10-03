@@ -51,7 +51,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
     if (isLiveMode()) {
       it("encrypt & decrypt with RSA1_5", async function (ctx) {
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const encryptResult = await cryptoClient.encrypt({
           algorithm: "RSA1_5",
           plaintext: stringToUint8Array(text),
@@ -65,7 +65,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       });
 
       it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function (ctx) {
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const localProvider = new RsaCryptographyProvider(keyVaultKey.key!);
         const encryptResult = await localProvider.encrypt({
           algorithm: "RSA1_5",
@@ -80,7 +80,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       });
 
       it("encrypt & decrypt with RSA-OAEP", async function (ctx) {
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const encryptResult = await cryptoClient.encrypt(
           {
             algorithm: "RSA-OAEP",
@@ -97,7 +97,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       });
 
       it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function (ctx) {
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const localProvider = new RsaCryptographyProvider(keyVaultKey.key!);
         const encryptResult = await localProvider.encrypt({
           algorithm: "RSA-OAEP",
@@ -122,7 +122,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
 
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const encryptResult = await cryptoClientFromKey.encrypt({
           algorithm: "RSA1_5",
           plaintext: stringToUint8Array(text),
@@ -157,7 +157,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           );
           ctx.task.skip();
         }
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
         const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
         const unwrappedText = uint8ArrayToString(unwrappedResult.result);
@@ -260,7 +260,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         console.log("Encryption with RSA is not repeatable");
         ctx.task.skip();
       }
-      const text = this.test!.title;
+      const text = ctx.task.name;
       const encryptResult = await cryptoClient.encrypt("RSA-OAEP", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
@@ -272,7 +272,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         console.log("Encryption with RSA is not repeatable");
         ctx.task.skip();
       }
-      const text = this.test!.title;
+      const text = ctx.task.name;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
@@ -286,7 +286,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         );
         ctx.task.skip();
       }
-      const text = this.test!.title;
+      const text = ctx.task.name;
       const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
       const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
       const unwrappedText = uint8ArrayToString(unwrappedResult.result);
@@ -300,7 +300,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         );
         ctx.task.skip();
       }
-      const text = this.test!.title;
+      const text = ctx.task.name;
       const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
       const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
       const unwrappedText = uint8ArrayToString(unwrappedResult.result);

@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../../src/index.js";
+import {
+  CryptographyClient,
+  KeyClient,
+  KeyVaultKey,
+  SignatureAlgorithm,
+} from "../../../src/index.js";
 import { createHash } from "node:crypto";
 import { authenticate, envSetupForPlayback } from "../utils/testAuthentication.js";
 import TestClient from "../utils/testClient.js";
@@ -122,7 +127,7 @@ describe("Local cryptography public tests", () => {
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
-    const text = Buffer.from(this.test!.title);
+    const text = Buffer.from(ctx.task.name);
     const encrypted = await localCryptoClient.encrypt("RSA1_5", text);
     const unwrapped = await cryptoClient.decrypt("RSA1_5", encrypted.result);
     assert.deepEqual(unwrapped.result, text);
@@ -141,7 +146,7 @@ describe("Local cryptography public tests", () => {
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
-    const text = Buffer.from(this.test!.title);
+    const text = Buffer.from(ctx.task.name);
     const encrypted = await localCryptoClient.encrypt("RSA-OAEP", text);
     const unwrapped = await cryptoClient.decrypt("RSA-OAEP", encrypted.result);
     assert.deepEqual(unwrapped.result, text);
@@ -208,7 +213,7 @@ describe("Local cryptography public tests", () => {
 
         // Sign is not implemented yet.
         // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.
-        const signatureValue = this.test!.title;
+        const signatureValue = ctx.task.name;
         const hash = createHash(rsaProvider.signatureAlgorithmToHashAlgorithm[localAlgorithmName]);
         hash.update(signatureValue);
         const digest = hash.digest();

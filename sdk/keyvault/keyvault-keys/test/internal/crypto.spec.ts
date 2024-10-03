@@ -165,7 +165,7 @@ describe("internal crypto tests", () => {
 
     describe("Encrypt parameter mapping", async function () {
       it("maps parameters correctly when using the previous API", async function (ctx) {
-        const text = stringToUint8Array(this.test!.title!);
+        const text = stringToUint8Array(ctx.task.name!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
         sinon.assert.calledWith(
@@ -179,7 +179,7 @@ describe("internal crypto tests", () => {
       });
 
       it("maps parameters correctly when using the current API", async function (ctx) {
-        const text = stringToUint8Array(this.test!.title!);
+        const text = stringToUint8Array(ctx.task.name!);
 
         await client.encrypt(
           { algorithm: "RSA1_5", plaintext: text },
@@ -199,7 +199,7 @@ describe("internal crypto tests", () => {
 
     describe("Decrypt parameter mapping", async function () {
       it("maps parameters correctly when using the previous API", async function (ctx) {
-        const text = stringToUint8Array(this.test!.title!);
+        const text = stringToUint8Array(ctx.task.name!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
         sinon.assert.calledWith(
@@ -213,7 +213,7 @@ describe("internal crypto tests", () => {
       });
 
       it("maps parameters correctly when using the current API", async function (ctx) {
-        const text = stringToUint8Array(this.test!.title!);
+        const text = stringToUint8Array(ctx.task.name!);
 
         await client.decrypt(
           { algorithm: "RSA1_5", ciphertext: text },

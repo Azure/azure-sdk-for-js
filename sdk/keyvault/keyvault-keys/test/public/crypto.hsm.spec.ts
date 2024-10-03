@@ -55,7 +55,7 @@ onVersions({ minVer: "7.2" }).describe(
           credential,
           recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
-        const text = this.test!.title;
+        const text = ctx.task.name;
         const encryptResult = await cryptoClient.encrypt({
           algorithm: "A256GCM",
           plaintext: stringToUint8Array(text),
@@ -83,7 +83,7 @@ onVersions({ minVer: "7.2" }).describe(
           credential,
           recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
-        const text = this.test!.title;
+        const text = ctx.task.name;
         // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and
         // let the client library generate it for you.
         const iv = stringToUint8Array("xxxxxxxxxxxxxxxx");
