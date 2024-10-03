@@ -62,7 +62,10 @@ export class Validator {
   }
 
   public validateDocumentFilters(documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfo): void {
-
+    documentFilterConjuctionGroupInfo.filters.filters.forEach((filter) => {
+      this.validateFieldNames(filter.fieldName, documentFilterConjuctionGroupInfo.telemetryType);
+      this.validatePredicateAndComparand(filter);
+    });
   }
 
   private isCustomDimOrAnyField(fieldName: string): boolean {

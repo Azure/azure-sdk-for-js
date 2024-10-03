@@ -48,6 +48,7 @@ import {
   isRequestData,
   getSpanExceptionColumns,
   isExceptionData,
+  isDependencyData,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
@@ -454,22 +455,17 @@ export class LiveMetrics {
     if (this.isCollectingData) {
       const columns: RequestData | DependencyData = getSpanData(span);
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
-      if (isRequestData(columns)) {
-        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) || new Map<string, FilterConjunctionGroupInfo[]>();
-      } else {
-        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) || new Map<string, FilterConjunctionGroupInfo[]>();
-      }
-      this.applyDocumentFilters(documentConfiguration, columns);
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
+        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) || new Map<string, FilterConjunctionGroupInfo[]>();
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
       } else {
+        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) || new Map<string, FilterConjunctionGroupInfo[]>();
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Dependency) || [];
       }
+      this.applyDocumentFilters(documentConfiguration, columns);
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
 
-      /* const document: Request | RemoteDependency = getSpanDocument(columns);
-      this.addDocument(document);*/
       const durationMs = hrTimeToMilliseconds(span.duration);
       const success = span.status.code !== SpanStatusCode.ERROR;
 
@@ -494,15 +490,10 @@ export class LiveMetrics {
               event.attributes,
               span.attributes,
             );
-            derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
             documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) || new Map<string, FilterConjunctionGroupInfo[]>();
+            this.applyDocumentFilters(documentConfiguration, exceptionColumns, event.attributes[SEMATTRS_EXCEPTION_TYPE] as string);
+            derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
             this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
-            /* const exceptionDocument: Exception = getLogDocument(
-              exceptionColumns,
-              event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
-            ) as Exception;
-            this.addDocument(exceptionDocument);*/
-            this.applyDocumentFilters(documentConfiguration, exceptionColumns);
             this.totalExceptionCount++;
           }
         });
@@ -518,17 +509,19 @@ export class LiveMetrics {
     if (this.isCollectingData) {
       const columns: TraceData | ExceptionData = getLogData(logRecord);
       let derivedMetricInfos: DerivedMetricInfo[];
+      let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
       if (isExceptionData(columns)) {
+        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) || new Map<string, FilterConjunctionGroupInfo[]>();
+        this.applyDocumentFilters(documentConfiguration, columns, logRecord.attributes[SEMATTRS_EXCEPTION_TYPE] as string);
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
         this.totalExceptionCount++;
       } else {
         // trace
+        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Trace) || new Map<string, FilterConjunctionGroupInfo[]>();
+        this.applyDocumentFilters(documentConfiguration, columns);
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
       }
       this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
-      const exceptionType = String(logRecord.attributes[SEMATTRS_EXCEPTION_TYPE]) || "";
-      const document: Trace | Exception = getLogDocument(columns, exceptionType);
-      this.addDocument(document);
     }
   }
 
@@ -730,7 +723,6 @@ export class LiveMetrics {
               documentFilterGroupInfo.telemetryType,
               new Map<string, FilterConjunctionGroupInfo[]>(),
             );
-            this.validDocumentFilterConjuctionGroupInfos.set(documentFilterGroupInfo.telemetryType, new Map<string, FilterConjunctionGroupInfo[]>());
           }
 
           const innerMap = this.validDocumentFilterConjuctionGroupInfos.get(documentFilterGroupInfo.telemetryType);
@@ -768,14 +760,35 @@ export class LiveMetrics {
     });
   }
 
-  private applyDocumentFilters(documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>, data: TelemetryData): void {
-    // list of stream ids that match
-    // for each entry in document configuration
-    // get the FilterConjunctionGroupInfo[]
-    // for each FilterConjunctionGroupInfo
-    // check if the data matches the filter
-    // add stream id to list
-    // if list not empty, create document, append stream id list, then add this document to the list of documents
+  private applyDocumentFilters(documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>, data: TelemetryData, exceptionType?: string): void {
+    // The documentConfiguration map is never empty as quickpulse sends a default configuration for a telemetry type
+    // if the user never explicitly changes the configuration for that type via UI. It is possible for the filterConjunctionGroupInfo.filters 
+    // to be empty, in which case the document should be created/emitted for that documentStreamId.
+
+    const streamIds: Set<string> = new Set<string>();
+    documentConfiguration.forEach((filterConjunctionGroupInfoList, streamId) => {
+      filterConjunctionGroupInfoList.forEach((filterConjunctionGroupInfo) => {
+        // by going though each filterConjuctionGroupInfo, we are implicitly -OR-ing 
+        // different filterConjunctionGroupInfo within documentStreamInfo. If there are multiple
+        // documentStreamInfos, this logic will -OR- the filtering results of each documentStreamInfo.
+        if (this.filter.checkFilterConjunctionGroup(filterConjunctionGroupInfo, data)) {
+          streamIds.add(streamId);
+        }
+      });
+    });
+
+    if (streamIds.size > 0) {
+      let document: Request | RemoteDependency | Trace | Exception;
+      if (isRequestData(data) || isDependencyData(data)) {
+        document = getSpanDocument(data);
+      } else if (isExceptionData(data) && exceptionType) {
+        document = getLogDocument(data, exceptionType);
+      } else {
+        document = getLogDocument(data);
+      }
+      document.documentStreamIds = [...streamIds];
+      this.addDocument(document);
+    }
   }
 
   private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {

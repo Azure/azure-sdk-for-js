@@ -15,6 +15,7 @@ import {
   Trace,
   KnownDocumentType,
   KnownAggregationType,
+  DocumentFilterConjunctionGroupInfo,
 } from "../../../../src/generated";
 import { Validator } from "../../../../src/metrics/quickpulse/filtering/validator";
 import { Filter } from "../../../../src/metrics/quickpulse/filtering/filter";
@@ -100,6 +101,13 @@ describe("Live Metrics filtering - Validator", () => {
     );
     validator.validateTelemetryType(invalid2.telemetryType); // this shouldn't throw an error as the telemetry type is supported
     assert.throws(() => validator.validateMetricFilters(invalid2), UnexpectedFilterCreateError);
+
+    const invalidDocFilterConjuctionInfo: DocumentFilterConjunctionGroupInfo = {
+      telemetryType: KnownTelemetryType.Request,
+      filters: conjunctionGroup,
+    };
+    validator.validateTelemetryType(invalidDocFilterConjuctionInfo.telemetryType);
+    assert.throws(() => validator.validateDocumentFilters(invalidDocFilterConjuctionInfo), UnexpectedFilterCreateError);
   });
 
   it("The validator rejects invalid filters", () => {
@@ -310,6 +318,11 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
+    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+      telemetryType: KnownTelemetryType.Request,
+      filters: { filters: [] },
+    };
+
     filterInfoList.forEach((filter) => {
       const conjunctionGroup: FilterConjunctionGroupInfo = {
         filters: [filter],
@@ -320,9 +333,17 @@ describe("Live Metrics filtering - Validator", () => {
         () => validator.validateMetricFilters(derivedMetricInfo),
         UnexpectedFilterCreateError || TelemetryTypeError,
       );
+
+      documentFilterConjunctionGroupInfo.filters = conjunctionGroup;
+
+      assert.throws(
+        () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
+        UnexpectedFilterCreateError || TelemetryTypeError,
+      );
     });
 
     derivedMetricInfo.filterGroups = [{ filters: [unknownFieldName] }];
+    documentFilterConjunctionGroupInfo.filters = { filters: [unknownFieldName] };
     const supportedTelemetryTypes: KnownTelemetryType[] = [
       KnownTelemetryType.Request,
       KnownTelemetryType.Dependency,
@@ -336,10 +357,15 @@ describe("Live Metrics filtering - Validator", () => {
         () => validator.validateMetricFilters(derivedMetricInfo),
         UnexpectedFilterCreateError,
       );
+      documentFilterConjunctionGroupInfo.telemetryType = telemetryType;
+      assert.throws(
+        () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
+        UnexpectedFilterCreateError,
+      );
     });
   });
 
-  it("The validator rejects a derivedMetricInfo if the only filterConjunctionGroupInfo has an invalid filter inside it", () => {
+  it("The validator rejects a derivedMetricInfo/documentFilterConjuctionGroupInfo if the only filterConjunctionGroupInfo has an invalid filter inside it", () => {
     const invalidFilter: FilterInfo = {
       fieldName: KnownRequestColumns.Duration,
       predicate: KnownPredicateType.NotEqual,
@@ -355,6 +381,10 @@ describe("Live Metrics filtering - Validator", () => {
     const conjunctionGroup: FilterConjunctionGroupInfo = {
       filters: [validFilter, invalidFilter],
     };
+    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+      telemetryType: KnownTelemetryType.Request,
+      filters: conjunctionGroup,
+    }
 
     const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
@@ -366,6 +396,7 @@ describe("Live Metrics filtering - Validator", () => {
     };
 
     assert.throws(() => validator.validateMetricFilters(derivedMetricInfo), UnexpectedFilterCreateError);
+    assert.throws(() => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo), UnexpectedFilterCreateError);
   });
 
   it("The validator accepts valid filters", () => {
@@ -521,6 +552,12 @@ describe("Live Metrics filtering - Validator", () => {
 
       derivedMetricInfo.filterGroups = [conjunctionGroup];
       validator.validateMetricFilters(derivedMetricInfo);
+
+      const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+        telemetryType: KnownTelemetryType.Request,
+        filters: conjunctionGroup,
+      };
+      validator.validateDocumentFilters(documentFilterConjunctionGroupInfo);
     });
   });
 });
@@ -719,34 +756,40 @@ describe("Live Metrics filtering - Applying valid filters", () => {
 
     // request contains "hi" in multiple fields & filter is contains hi
     // return true
+    assert.ok(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request1));
 
     // request does not contain "hi" in any field & filter is contains hi
     // return false
+    assert.ok(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2) === false);
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request2) === false);
 
     // request does not contain "hi" in any field & filter is does not contain hi
     // return true
     conjunctionGroup.filters = [anyFieldNotContains];
     derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request2));
 
     // request contains "cool" in custom dimensions & filter is contains cool
     // return true
     conjunctionGroup.filters = [anyFieldContainsCool];
     derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request2));
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request2));
 
     // request contains 200 in duration & filter is contains "200".
     // fields are expected to be treated as string
     conjunctionGroup.filters = [anyFieldForNumeric];
     derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request1));
 
     // request contains true in Success & filter is contains "true".
     // fields are expected to be treated as string
     conjunctionGroup.filters = [anyFieldForBoolean];
     derivedMetricInfo.filterGroups = [conjunctionGroup];
+    assert.ok(filterClass.checkFilterConjunctionGroup(conjunctionGroup, request1));
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request1));
   });
 
@@ -1084,7 +1127,12 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       CustomDimensions: new Map<string, string>(),
     };
 
+    const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
+      telemetryType: KnownTelemetryType.Request,
+      filters: { filters: [] },
+    };
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request));
+    assert.ok(filterClass.checkFilterConjunctionGroup(documentFilterConjunctionGroupInfo.filters, request));
   });
 
   it("Can handle multiple filters in a filter conjunction group", () => {
@@ -1535,7 +1583,7 @@ describe("Live Metrics filtering - documents", () => {
 
     const requestDoc: Request = getSpanDocument(request) as Request;
     const dependencyDoc: RemoteDependency = getSpanDocument(dependency) as RemoteDependency;
-    const traceDoc: Trace = getLogDocument(trace, "") as Trace;
+    const traceDoc: Trace = getLogDocument(trace) as Trace;
     const exceptionDoc: Exception = getLogDocument(exception, "Error") as Exception;
 
     assert.equal(requestDoc.url, "https://test.com/hiThere");
