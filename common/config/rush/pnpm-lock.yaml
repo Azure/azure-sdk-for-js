@@ -25127,7 +25127,7 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-MD9tMIfpTC9zx97D7IF1ZXzk/qijL6n58lc0C8cfeQ7y8DQHUx4TGBLW43aDOABJrMO9Oo3M3PCVGS2yVfkOpA==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-wtRhN//7rN8fYN7MR3Gm1g2YY0+GxVwAGSx4aLNkxM7zSNggwYOBwqmT8fDlDSkiewqYbW5jHNWOtwMd4mRecA==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
@@ -25142,6 +25142,7 @@ packages:
       playwright: 1.47.2
       rimraf: 5.0.10
       tslib: 2.7.0
+      tsx: 4.19.1
       typescript: 5.6.2
       vitest: 2.1.1(@types/node@18.19.54)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
