@@ -21,7 +21,7 @@ steps:
   - pwsh: |
       if ("$(ChangedServices)") {
         foreach($service in "$(ChangedServices)".Split(" ")) {
-          node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"
+          node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "$service"
         }
       }
     displayName: "Run Typedocs for PR"
