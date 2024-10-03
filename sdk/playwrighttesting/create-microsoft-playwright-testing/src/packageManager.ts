@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { existsSync } from "fs";
-import { PackageManager } from "./types";
-import { cwd } from "process";
-import { resolve } from "path";
+import { existsSync } from "node:fs";
+import { PackageManager } from "./types.js";
+import { cwd } from "node:process";
+import { resolve } from "node:path";
 
 export class NPM implements PackageManager {
   installDevDependencyCommand = (packageName: string): string => {
