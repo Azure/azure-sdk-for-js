@@ -7,7 +7,6 @@ import {
   KnownPredicateType,
   FilterConjunctionGroupInfo,
 } from "../../../generated";
-import { FilterConjunctionGroupInfo } from "../../../generated/models/mappers";
 import {
   RequestData,
   TelemetryData,

@@ -259,7 +259,6 @@ export class LiveMetrics {
       this.lastSuccessTime = Date.now();
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
-
       if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
         this.updateConfiguration(response);
       }
@@ -761,10 +760,6 @@ export class LiveMetrics {
   }
 
   private applyDocumentFilters(documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>, data: TelemetryData, exceptionType?: string): void {
-    // The documentConfiguration map is never empty as quickpulse sends a default configuration for a telemetry type
-    // if the user never explicitly changes the configuration for that type via UI. It is possible for the filterConjunctionGroupInfo.filters 
-    // to be empty, in which case the document should be created/emitted for that documentStreamId.
-
     const streamIds: Set<string> = new Set<string>();
     documentConfiguration.forEach((filterConjunctionGroupInfoList, streamId) => {
       filterConjunctionGroupInfoList.forEach((filterConjunctionGroupInfo) => {
@@ -777,7 +772,9 @@ export class LiveMetrics {
       });
     });
 
-    if (streamIds.size > 0) {
+    // Emit a document when a telemetry data matches a particular filtering configuration, 
+    // or when filtering configuration is empty.
+    if (streamIds.size > 0 || documentConfiguration.size === 0) {
       let document: Request | RemoteDependency | Trace | Exception;
       if (isRequestData(data) || isDependencyData(data)) {
         document = getSpanDocument(data);
