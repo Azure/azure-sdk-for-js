@@ -12184,7 +12184,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-yKwDdyRmf+ngBuYLW09c8lzcreD+r9OC3ekRTRss1iQ6lZ86A4mr+We6b/6LJgXkmQCZ5GmCIsAdovjqR+m+gQ==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-Q6X9wbW7QeTbk4gw8qkRpVcIdIzZRS1jnI7Cx5WyrQMSFYlbQjNB7xrPeSoGlyGBOAkMmK9KMdV5ECIy0ebKfA==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -22823,7 +22823,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-uQZKarI4x+VvQ+YUCulgYNIn5HF74159u+I0dj966wRkW+btITO21U1FMgAt/mdVtZXnSKWxVMec+JLZp4jpww==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-pEjpXeg8BhzQrU0bFc2SFJy0Gvx7rk4cgWT8rFPsBiV0FvgLX9FU12g+G4kFx7LwTizJ6fXDOERa8vqLNb3gUg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -22835,6 +22835,7 @@ packages:
       '@types/mocha': 10.0.8
       '@types/node': 18.19.54
       '@types/sinon': 17.0.3
+      '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.11.1
@@ -22849,6 +22850,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
       puppeteer: 23.4.1(typescript@5.6.2)
       rimraf: 5.0.10
       sinon: 17.0.1
@@ -22856,14 +22858,23 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
       tslib: 2.7.0
       typescript: 5.6.2
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
     dev: false
 
   file:projects/load-testing.tgz:
