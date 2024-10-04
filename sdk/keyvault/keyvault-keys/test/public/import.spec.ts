@@ -32,7 +32,7 @@ describe("Keys client - import keys", () => {
 
   it("can import a key", async function (ctx) {
     const jsonWebKey = createRsaKey();
-    const keyName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    const keyName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const key = await client.importKey(keyName, jsonWebKey);
     assert.equal(key.key!.e!.toString(), jsonWebKey.e!.toString());
   });

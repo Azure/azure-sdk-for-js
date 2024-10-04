@@ -32,7 +32,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   // The tests follow
 
   it("can wait until a key is recovered", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
 
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -55,7 +55,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   });
 
   it("can resume from a stopped poller", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
     await deletePoller.pollUntilDone();

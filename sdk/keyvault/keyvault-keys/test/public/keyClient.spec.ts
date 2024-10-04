@@ -44,7 +44,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   // The tests follow
 
   it("can create a key while giving a manual type", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const result = await client.createKey(keyName, "RSA");
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
@@ -61,14 +61,14 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a RSA key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const result = await client.createRsaKey(keyName);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
   });
 
   it("can create a RSA key with size", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const options = {
       keySize: 2048,
     };
@@ -78,7 +78,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a RSA key with public exponent", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const options = {
       publicExponent: 3,
     };
@@ -88,14 +88,14 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create an EC key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const result = await client.createEcKey(keyName);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
   });
 
   it("can create an EC key with curve", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const options: CreateEcKeyOptions = {
       curve: "P-256",
     };
@@ -105,7 +105,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a disabled key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const options = {
       enabled: false,
     };
@@ -115,7 +115,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with notBefore", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const date = new Date("2019-01-01");
     const notBefore = new Date(date.getTime() + 5000); // 5 seconds later
     notBefore.setMilliseconds(0);
@@ -133,7 +133,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can create a key with expires", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const date = new Date("2019-01-01");
     const expiresOn = new Date(date.getTime() + 5000); // 5 seconds later
     expiresOn.setMilliseconds(0);
@@ -151,7 +151,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const { version } = (await client.createRsaKey(keyName)).properties;
     const options: UpdateKeyPropertiesOptions = { enabled: false };
     const result = await client.updateKeyProperties(keyName, version!, options);
@@ -159,7 +159,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update a key's properties without specifying a version", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createRsaKey(keyName);
     const options: UpdateKeyPropertiesOptions = { enabled: false };
     const result = await client.updateKeyProperties(keyName, options);
@@ -167,7 +167,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update a key's properties for a specific version", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const { version: previousVersion } = (await client.createRsaKey(keyName)).properties;
     const { version: newVersion } = (await client.createRsaKey(keyName)).properties;
     assert.notEqual(previousVersion, newVersion);
@@ -178,7 +178,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can update a disabled key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const createOptions = {
       enabled: false,
     };
@@ -196,7 +196,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can delete a key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
@@ -216,7 +216,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("delete nonexisting key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     try {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
@@ -231,7 +231,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const getResult = await client.getKey(keyName);
     assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
@@ -239,7 +239,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a specific version of a key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const { version } = (await client.createKey(keyName, "RSA")).properties;
     const options: GetKeyOptions = { version };
     const getResult = await client.getKey(keyName, options);
@@ -252,7 +252,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can get a deleted key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.equal(
@@ -273,7 +273,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can't get a deleted key that doesn't exist", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let error;
     try {
       const poller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -287,7 +287,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   it("can purge a deleted key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();

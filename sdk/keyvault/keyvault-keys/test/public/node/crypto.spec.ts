@@ -111,9 +111,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       });
 
       it("the CryptographyClient can be created from a full KeyVaultKey object", async function (ctx) {
-        const customKeyName = testClient.formatName(
-          `${keyPrefix}-${this!.test!.title}-${keySuffix}`,
-        );
+        const customKeyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
         const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
         const cryptoClientFromKey = new CryptographyClient(
           customKeyVaultKey,
@@ -139,7 +137,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           console.log(
             "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode",
           );
-          ctx.task.skip();
+          ctx.skip();
         }
         const text = "arepa";
         const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
@@ -154,7 +152,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           console.log(
             "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode",
           );
-          ctx.task.skip();
+          ctx.skip();
         }
         const text = ctx.task.name;
         const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
@@ -226,7 +224,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       if (isLiveMode() && env.KEYVAULT_SKU !== "premium") {
         // RSA-HSM keys are only available in the premium KeyVault SKU which is not
         // available in all clouds.
-        ctx.task.skip();
+        ctx.skip();
       }
 
       recorder = new Recorder(ctx);
@@ -257,7 +255,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     it("encrypt & decrypt with an RSA-HSM key and the RSA-OAEP algorithm", async function (ctx) {
       if (!isLiveMode()) {
         console.log("Encryption with RSA is not repeatable");
-        ctx.task.skip();
+        ctx.skip();
       }
       const text = ctx.task.name;
       const encryptResult = await cryptoClient.encrypt("RSA-OAEP", stringToUint8Array(text));
@@ -269,7 +267,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     it("encrypt & decrypt with an RSA-HSM key and the RSA1_5 algorithm", async function (ctx) {
       if (!isLiveMode()) {
         console.log("Encryption with RSA is not repeatable");
-        ctx.task.skip();
+        ctx.skip();
       }
       const text = ctx.task.name;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
@@ -283,7 +281,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         console.log(
           "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live",
         );
-        ctx.task.skip();
+        ctx.skip();
       }
       const text = ctx.task.name;
       const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
@@ -297,7 +295,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         console.log(
           "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live",
         );
-        ctx.task.skip();
+        ctx.skip();
       }
       const text = ctx.task.name;
       const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));

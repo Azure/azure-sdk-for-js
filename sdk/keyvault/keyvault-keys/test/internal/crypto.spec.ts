@@ -233,7 +233,7 @@ describe("internal crypto tests", () => {
     it("throws a validation error when the key is invalid", function (ctx) {
       if (!isNode) {
         // Local cryptography is not supported in the browser
-        ctx.task.skip();
+        ctx.skip();
       }
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
@@ -244,7 +244,7 @@ describe("internal crypto tests", () => {
 
     it("uses the browser replacement when running in the browser", function (ctx) {
       if (isNode) {
-        ctx.task.skip();
+        ctx.skip();
       }
       const rsaProvider = new RsaCryptographyProvider({ kty: "RSA", keyOps: ["encrypt"] });
       assert.throws(

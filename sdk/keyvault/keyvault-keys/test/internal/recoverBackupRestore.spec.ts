@@ -33,7 +33,7 @@ describe("Keys client - restore keys and recover backups", () => {
   // The tests follow
 
   it("can recover a deleted key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.equal(
@@ -54,7 +54,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("fails if one tries to recover a non-existing deleted key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let error;
     try {
       const recoverPoller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
@@ -68,7 +68,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("can generate a backup of a key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
     if (isNodeLike) {
@@ -81,7 +81,7 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("fails to generate a backup of a non-existing key", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let error;
     try {
       await client.backupKey(keyName);
@@ -97,7 +97,7 @@ describe("Keys client - restore keys and recover backups", () => {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
     it("can restore a key with a given backup", async function (ctx) {
-      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       const backup = await client.backupKey(keyName);
       const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);

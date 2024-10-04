@@ -28,7 +28,7 @@ describe("Keys client - create, read, update and delete operations for managed H
     if (!authentication.hsmClient) {
       // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
       // This is only necessary while Managed HSM is in preview.
-      ctx.task.skip();
+      ctx.skip();
     }
 
     hsmClient = authentication.hsmClient;
@@ -41,7 +41,7 @@ describe("Keys client - create, read, update and delete operations for managed H
   });
 
   it("can create an OCT key with options", async function (ctx) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const options: CreateOctKeyOptions = {
       hsm: true,
     };

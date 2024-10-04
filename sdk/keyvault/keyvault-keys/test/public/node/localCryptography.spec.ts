@@ -109,9 +109,9 @@ describe("Local cryptography public tests", () => {
   it("encrypt & decrypt RSA1_5", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      ctx.task.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
@@ -128,9 +128,9 @@ describe("Local cryptography public tests", () => {
   it("encrypt & decrypt RSA-OAEP", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      ctx.task.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
@@ -147,9 +147,9 @@ describe("Local cryptography public tests", () => {
   it("wrapKey & unwrapKey RSA1_5", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      ctx.task.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
@@ -169,9 +169,9 @@ describe("Local cryptography public tests", () => {
   it("wrapKey & unwrapKey RSA-OAEP", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      ctx.task.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
@@ -194,7 +194,7 @@ describe("Local cryptography public tests", () => {
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
       it(localAlgorithmName, async function (ctx): Promise<void> {
-        const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+        const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
         const keyVaultKey = await client.createKey(keyName, "RSA");
         const cryptoClient = new CryptographyClient(
           keyVaultKey.id!,

@@ -30,7 +30,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
     if (!authentication.hsmClient) {
       // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
       // This is only necessary while Managed HSM is in preview.
-      ctx.task.skip();
+      ctx.skip();
     }
 
     hsmClient = authentication.hsmClient;
@@ -72,7 +72,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
 
     it("encrypts and decrypts using AES-CBC", async function (ctx) {
       if (!isNode) {
-        ctx.task.skip();
+        ctx.skip();
       }
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(
