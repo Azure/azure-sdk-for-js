@@ -4532,6 +4532,39 @@ packages:
       - vite
     dev: false
 
+  /@vitest/browser@2.1.2(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.2):
+    resolution: {integrity: sha512-tqpGfz2sfjFFNuZ2iLZ6EGRVnH8z18O93ZIicbLsxDhiLgRNz84UcjSvX4pbheuddW+BJeNbLGdM3BU8vohbEg==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 2.1.2
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.2(msw@2.4.9)
+      '@vitest/utils': 2.1.2
+      magic-string: 0.30.11
+      msw: 2.4.9(typescript@5.5.4)
+      playwright: 1.47.2
+      sirv: 2.0.4
+      tinyrainbow: 1.2.0
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    dev: false
+
   /@vitest/browser@2.1.2(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.2):
     resolution: {integrity: sha512-tqpGfz2sfjFFNuZ2iLZ6EGRVnH8z18O93ZIicbLsxDhiLgRNz84UcjSvX4pbheuddW+BJeNbLGdM3BU8vohbEg==}
     peerDependencies:
@@ -12290,7 +12323,7 @@ packages:
     dev: false
 
   file:projects/ai-inference.tgz:
-    resolution: {integrity: sha512-yKwDdyRmf+ngBuYLW09c8lzcreD+r9OC3ekRTRss1iQ6lZ86A4mr+We6b/6LJgXkmQCZ5GmCIsAdovjqR+m+gQ==, tarball: file:projects/ai-inference.tgz}
+    resolution: {integrity: sha512-Q6X9wbW7QeTbk4gw8qkRpVcIdIzZRS1jnI7Cx5WyrQMSFYlbQjNB7xrPeSoGlyGBOAkMmK9KMdV5ECIy0ebKfA==, tarball: file:projects/ai-inference.tgz}
     name: '@rush-temp/ai-inference'
     version: 0.0.0
     dependencies:
@@ -22929,7 +22962,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-uQZKarI4x+VvQ+YUCulgYNIn5HF74159u+I0dj966wRkW+btITO21U1FMgAt/mdVtZXnSKWxVMec+JLZp4jpww==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-pEjpXeg8BhzQrU0bFc2SFJy0Gvx7rk4cgWT8rFPsBiV0FvgLX9FU12g+G4kFx7LwTizJ6fXDOERa8vqLNb3gUg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -22941,10 +22974,11 @@ packages:
       '@types/mocha': 10.0.8
       '@types/node': 18.19.54
       '@types/sinon': 17.0.3
+      '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.11.1
-      karma: 6.4.4
+      karma: 6.4.4(debug@4.3.7)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22955,6 +22989,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
       puppeteer: 23.4.1(typescript@5.6.2)
       rimraf: 5.0.10
       sinon: 17.0.1
@@ -22962,14 +22997,23 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
       tslib: 2.7.0
       typescript: 5.6.2
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
     dev: false
 
   file:projects/load-testing.tgz:
@@ -25433,7 +25477,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-bgZkbfydCOxjX3NxGbAsLYNps2uI+eq0kl7YZ/yaPb8vSlO54OxaNndlw3YXhfxaEIVU/gZorpCba1agrVzlEw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-qseFMv7dU409oMyS9L9XyK3qTP+dUvmYNe27taFStTecL5Iglm+3icDkMQgEzxFV7XZxHlKK2bI+j5k5LT0n3g==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -25441,8 +25485,8 @@ packages:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
       '@types/node': 18.19.54
-      '@vitest/browser': 1.6.0(playwright@1.47.2)(vitest@1.6.0)
-      '@vitest/coverage-istanbul': 1.6.0(vitest@1.6.0)
+      '@vitest/browser': 2.1.2(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.2)
+      '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.11.1
@@ -25452,15 +25496,17 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.7.0
       typescript: 5.5.4
-      vitest: 1.6.0(@types/node@18.19.54)(@vitest/browser@1.6.0)
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
+      - msw
       - safaridriver
       - sass
       - sass-embedded
@@ -25468,6 +25514,8 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - utf-8-validate
+      - vite
       - webdriverio
     dev: false
 
