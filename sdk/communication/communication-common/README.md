@@ -33,6 +33,7 @@ Depending on your scenario, you may want to initialize the `AzureCommunicationTo
 
 - a static token (suitable for short-lived clients used to e.g. send one-off Chat messages) or
 - a callback function that ensures a continuous authentication state during communications (ideal e.g. for long Calling sessions).
+- a token credential capable of obtaining an Entra user token. You can provide any implementation of [TokenCredential interface](https://learn.microsoft.com/es-mx/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest). It is suitable for scenarios where Entra user access tokens are needed to authenticate with Communication Services.
 
 The tokens supplied to the `AzureCommunicationTokenCredential` either through the constructor or via the token refresher callback can be obtained using the Azure Communication Identity library.
 
@@ -80,6 +81,28 @@ const tokenCredential = new AzureCommunicationTokenCredential({
   token:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
 });
+```
+
+### Create a credential with a token credential capable of obtaining an Entra user token
+
+For scenarios where an Entra user can be used with Communication Services, you need to initialize any implementation of [TokenCredential interface](https://learn.microsoft.com/es-mx/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) and provide it to the ``EntraCommunicationTokenCredentialOptions``.
+Along with this, you must provide the URI of the Azure Communication Services resource and the scopes required for the Entra user token. These scopes determine the permissions granted to the token:
+
+```typescript 
+const options: InteractiveBrowserCredentialInBrowserOptions = {
+      tenantId: "<your-tenant-id>",
+      clientId: "<your-client-id>",
+      redirectUri: "<your-redirect-uri>",
+    };
+const entraTokenCredential = new InteractiveBrowserCredential(options);
+
+const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+    resourceEndpoint: "https://<your-resource>.communication.azure.com",
+    tokenCredential: entraTokenCredential,
+    scopes: ["https://communication.azure.com/clients/VoIP"]
+  };
+
+const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
 ```
 
 ## Troubleshooting
