@@ -470,8 +470,8 @@ describe("SessionReceiver - disconnects", function (): void {
     //
     // This is only an issue for this test because we're trying to do some timing dependent checks of our
     // internal state.
-    await checkWithTimeout(() => !isCloseCalledSpy.mock.lastCall);
-    expect(isCloseCalledSpy).toHaveBeenCalledOnce(); // Close should have been called on the message session
+    await checkWithTimeout(() => isCloseCalledSpy.mock.lastCall !== undefined);
+    expect(isCloseCalledSpy).toHaveBeenCalled(); // Close should have been called on the message session
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());

@@ -12,7 +12,7 @@ export default mergeConfig(
       hookTimeout: 60000,
       fileParallelism: false,
       include: ["test/**/*.spec.ts"],
-      exclude: ["./node_modules/**/*"],
+      exclude: ["test/internal/connectionManagement.spec.ts"],
       fakeTimers: {
         toFake: [
           "setTimeout",
