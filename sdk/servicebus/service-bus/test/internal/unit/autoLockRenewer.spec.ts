@@ -8,16 +8,12 @@ import {
   SendManagementRequestOptions,
 } from "../../../src/core/managementClient.js";
 import { getPromiseResolverForTest } from "./unittestUtils.js";
-import { describe, it, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";
 
 describe("autoLockRenewer unit tests", () => {
-  let clock: ReturnType<typeof vi.useFakeTimers>;
-
   let autoLockRenewer: LockRenewer;
-
   let renewLockSpy: ReturnType<typeof vi.spyOn<ManagementClient, any>>;
-
   let onErrorFake: ReturnType<typeof vi.fn>;
 
   const limits = {
@@ -34,12 +30,18 @@ describe("autoLockRenewer unit tests", () => {
 
   let stopTimerPromise: Promise<void>;
 
-  beforeEach(() => {
-    clock = vi.useFakeTimers();
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
 
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
+  beforeEach(() => {
     // just to avoid any errors where we're dealing with absolute times
     // vs just offsets.
-    clock.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     const managementClient = {
       async renewLock(_lockToken: string, _options?: SendManagementRequestOptions): Promise<Date> {
@@ -101,7 +103,6 @@ describe("autoLockRenewer unit tests", () => {
     );
 
     vi.restoreAllMocks();
-    vi.useRealTimers();
   });
 
   it("standard renewal", async () => {
@@ -115,7 +116,7 @@ describe("autoLockRenewer unit tests", () => {
       onErrorFake,
     );
 
-    clock.advanceTimersByTime(limits.msToNextRenewal - 1); // right before the renew timer would run
+    vi.advanceTimersByTime(limits.msToNextRenewal - 1); // right before the renew timer would run
 
     assert.exists(
       autoLockRenewer["_messageRenewLockTimers"].get(testLinkEntity.name)?.get("message id"),
@@ -124,7 +125,7 @@ describe("autoLockRenewer unit tests", () => {
 
     expect(renewLockSpy).not.toHaveBeenCalled();
 
-    clock.advanceTimersByTime(1); // tick 1 more ms - timeout for the renewal should now fire.
+    vi.advanceTimersByTime(1); // tick 1 more ms - timeout for the renewal should now fire.
 
     await stopTimerPromise;
 
@@ -177,7 +178,7 @@ describe("autoLockRenewer unit tests", () => {
     );
 
     // force one tick - we'll renew the lock, which will extend it's lifetime by limits.nextLockExpirationTime
-    clock.advanceTimersByTime(limits.msToNextRenewal + 1);
+    vi.advanceTimersByTime(limits.msToNextRenewal + 1);
 
     assert.equal(renewLockSpy.mock.calls.length, 1, "You always get one lock renewal");
 
@@ -187,7 +188,7 @@ describe("autoLockRenewer unit tests", () => {
     renewLockSpy.mockReset();
 
     // let's set the time to after our max lock renewal time.
-    clock.advanceTimersByTime(limits.maxAdditionalTimeToRenewLock + 1000);
+    vi.advanceTimersByTime(limits.maxAdditionalTimeToRenewLock + 1000);
     await stopTimerPromise;
 
     assert.isFalse(

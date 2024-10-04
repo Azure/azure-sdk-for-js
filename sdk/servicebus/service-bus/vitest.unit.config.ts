@@ -8,7 +8,21 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      testTimeout: 600000,
+      hookTimeout: 60000,
+      fileParallelism: false,
       include: ["test/internal/unit/**/*.spec.ts"],
+      fakeTimers: {
+        toFake: [
+          "setTimeout",
+          "clearTimeout",
+          "setImmediate",
+          "clearImmediate",
+          "setInterval",
+          "clearInterval",
+          "Date",
+        ],
+      },
     },
   }),
 );

@@ -22,7 +22,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver.js";
 import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs.js";
 import { ReceiveMode } from "../../../src/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
-import { describe, it, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, vi, beforeEach, afterEach, afterAll, beforeAll } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 
 describe("BatchingReceiver unit tests", () => {
@@ -182,19 +182,18 @@ describe("BatchingReceiver unit tests", () => {
    */
   const receiveModes: ReceiveMode[] = ["peekLock", "receiveAndDelete"];
 
+  beforeAll(() => {
+    vi.useFakeTimers();
+  });
+
+  afterAll(() => {
+    vi.useRealTimers();
+  });
+
   receiveModes.forEach((lockMode) => {
     describe(`${lockMode} receive, exit paths`, () => {
       const bigTimeout = 60 * 1000;
       const littleTimeout = 30 * 1000;
-      let clock: ReturnType<typeof vi.useFakeTimers>;
-
-      beforeEach(() => {
-        clock = vi.useFakeTimers();
-      });
-
-      afterEach(() => {
-        clock.useRealTimers();
-      });
 
       it(
         "1. We received 'max messages'",
@@ -258,7 +257,7 @@ describe("BatchingReceiver unit tests", () => {
           await receiveIsReady;
 
           // force the overall timeout to fire
-          clock.advanceTimersByTime(littleTimeout + 1);
+          vi.advanceTimersByTime(littleTimeout + 1);
 
           const messages = await receivePromise;
           assert.isEmpty(messages);
@@ -288,7 +287,7 @@ describe("BatchingReceiver unit tests", () => {
           );
           closeables.push(batchingReceiver);
 
-          const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(batchingReceiver, clock);
+          const { receiveIsReady, rheaReceiver } = setupBatchingReceiver(batchingReceiver);
 
           const receivePromise = batchingReceiver.receive(3, bigTimeout, littleTimeout, {});
           await receiveIsReady;
@@ -300,7 +299,7 @@ describe("BatchingReceiver unit tests", () => {
 
           // advance the timeout to _just_ before the expiration of the first one (which must have been set
           // since we just received a message). This'll make it more obvious if I scheduled it a second time.
-          clock.advanceTimersByTime(littleTimeout - 1);
+          vi.advanceTimersByTime(littleTimeout - 1);
 
           // now emit a second message - this second message should _not_ change any existing timers
           // or start new ones.
@@ -309,7 +308,7 @@ describe("BatchingReceiver unit tests", () => {
           } as EventContext);
 
           // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
-          clock.advanceTimersByTime(1); // make the "no new message arrived within time limit" timer fire.
+          vi.advanceTimersByTime(1); // make the "no new message arrived within time limit" timer fire.
 
           const messages = await receivePromise;
           assert.deepEqual(
@@ -356,7 +355,7 @@ describe("BatchingReceiver unit tests", () => {
 
           // In the peekLock algorithm we would've resolved the promise here but_ we disable
           // that in receiveAndDelete. So we'll advance here....
-          clock.advanceTimersByTime(littleTimeout);
+          vi.advanceTimersByTime(littleTimeout);
 
           // ...and emit another message _after_ the idle timer would have fired. Now when we advance
           // the time all the way....
@@ -366,7 +365,7 @@ describe("BatchingReceiver unit tests", () => {
             } as RheaMessage,
           } as EventContext);
 
-          clock.advanceTimersByTime(bigTimeout);
+          vi.advanceTimersByTime(bigTimeout);
 
           // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
           // timer fired.
@@ -401,10 +400,7 @@ describe("BatchingReceiver unit tests", () => {
           );
           closeables.push(batchingReceiver);
 
-          const { receiveIsReady, rheaReceiver: emitter } = setupBatchingReceiver(
-            batchingReceiver,
-            clock,
-          );
+          const { receiveIsReady, rheaReceiver: emitter } = setupBatchingReceiver(batchingReceiver);
 
           let wasCalled = false;
 
@@ -438,7 +434,7 @@ describe("BatchingReceiver unit tests", () => {
           // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
           // if we resolve() then we know that we ignored the passed in timeouts in favor
           // of what our getRemainingWaitTimeInMs function calculated.
-          clock.advanceTimersByTime(arbitraryAmountOfTimeInMs);
+          vi.advanceTimersByTime(arbitraryAmountOfTimeInMs);
 
           const messages = await receivePromise;
           assert.equal(messages.length, 1);
@@ -449,14 +445,11 @@ describe("BatchingReceiver unit tests", () => {
         },
       );
 
-      function setupBatchingReceiver(
-        batchingReceiver: BatchingReceiver,
-        clockParam?: ReturnType<typeof vi.useFakeTimers>,
-      ): {
+      function setupBatchingReceiver(batchingReceiver: BatchingReceiver): {
         receiveIsReady: Promise<void>;
         rheaReceiver: RheaPromiseReceiver;
       } {
-        const rheaReceiver = createFakeReceiver(clockParam);
+        const rheaReceiver = createFakeReceiver();
 
         batchingReceiver["_link"] = rheaReceiver;
 
@@ -476,7 +469,7 @@ describe("BatchingReceiver unit tests", () => {
     });
   });
 
-  function createFakeReceiver(clock?: ReturnType<typeof vi.useFakeTimers>): RheaPromiseReceiver {
+  function createFakeReceiver(): RheaPromiseReceiver {
     const fakeRheaReceiver = new EventEmitter() as RheaPromiseReceiver;
     fakeRheaReceiver.drain = false;
 
@@ -495,7 +488,7 @@ describe("BatchingReceiver unit tests", () => {
     fakeRheaReceiver["drainCredit"] = () => {
       fakeRheaReceiver.drain = true;
       fakeRheaReceiver.emit(ReceiverEvents.receiverDrained, undefined);
-      clock?.runAllTimers();
+      vi.runAllTimers();
     };
 
     fakeRheaReceiver["close"] = (_options) => {
@@ -514,50 +507,30 @@ describe("BatchingReceiver unit tests", () => {
   }
 
   describe("getRemainingWaitTimeInMs", () => {
-    let clock: ReturnType<typeof vi.useFakeTimers>;
-
-    beforeEach(() => {
-      clock = vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.useRealTimers();
-    });
-
     it("tests", () => {
       let fn = getRemainingWaitTimeInMsFn(10, 2);
       // 1ms has elapsed so we're comparing 9ms vs 2ms
-      clock.advanceTimersByTime(1);
+      vi.advanceTimersByTime(1);
       assert.equal(2, fn());
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 9ms has elapsed so we're comparing 1ms vs 2ms
-      clock.advanceTimersByTime(9);
+      vi.advanceTimersByTime(9);
       assert.equal(1, fn());
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 8ms has elapsed so we're comparing 2ms vs 2ms
-      clock.advanceTimersByTime(8);
+      vi.advanceTimersByTime(8);
       assert.equal(2, fn());
 
       fn = getRemainingWaitTimeInMsFn(10, 2);
       // 11ms has elapsed so we're comparing -1ms vs 2ms (we'll just treat that as "don't wait, just return what you have")
-      clock.advanceTimersByTime(11);
+      vi.advanceTimersByTime(11);
       assert.equal(0, fn());
     });
   });
 
   describe("BatchingReceiverLite", () => {
-    let clock: ReturnType<typeof vi.useFakeTimers>;
-
-    beforeEach(() => {
-      clock = vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.useRealTimers();
-    });
-
     it("isReceivingMessages is properly set and unset when receiving operations run", async () => {
       const fakeRheaReceiver = createFakeReceiver();
 
@@ -584,7 +557,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isTrue(batchingReceiver.isReceivingMessages);
 
       await receiveIsReady;
-      clock.advanceTimersByTime(10 + 1);
+      vi.advanceTimersByTime(10 + 1);
 
       await prm;
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -730,7 +703,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isFalse(rejectWasCalled);
 
       // now unfreeze it (without ticking time forward, just running whatever is eligible _now_)
-      clock.advanceTimersByTime(0);
+      vi.advanceTimersByTime(0);
 
       assert.isTrue(resolveWasCalled);
       assert.isFalse(rejectWasCalled);
@@ -873,6 +846,7 @@ describe("BatchingReceiver unit tests", () => {
     });
 
     fakeRheaReceiver.emit(ReceiverEvents.receiverDrained, {} as EventContext);
+    vi.runAllTimers();
 
     const results = await receiveMessagesPromise;
 
