@@ -9,6 +9,12 @@ import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/cr
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({
+  toSupportTracing: toSupportTracing,
+});
+
 describe("Keys client - create, read, update and delete operations for managed HSM", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
@@ -65,10 +71,9 @@ describe("Keys client - create, read, update and delete operations for managed H
     });
 
     it("supports tracing", async () => {
-      await assert.supportsTracing(
-        (options) => hsmClient.getRandomBytes(1, options),
-        ["KeyClient.getRandomBytes"],
-      );
+      await expect((options: any) => hsmClient.getRandomBytes(1, options)).toSupportTracing([
+        "KeyClient.getRandomBytes",
+      ]);
     });
   });
 

@@ -11,6 +11,12 @@ import { stringToUint8Array, uint8ArrayToString } from "./../utils/crypto.js";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({
+  toSupportTracing: toSupportTracing,
+});
+
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
@@ -184,36 +190,33 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     describe("tracing", () => {
       it("traces through remote cryptography calls", async () => {
         if (isLiveMode()) {
-          await assert.supportsTracing(
-            async (options) => {
-              const encryptResult = await cryptoClient.encrypt(
-                { algorithm: "RSA1_5", plaintext: stringToUint8Array("Hello, world") },
-                options,
-              );
-              await cryptoClient.decrypt(
-                { algorithm: "RSA1_5", ciphertext: encryptResult.result },
-                options,
-              );
+          await expect(async (options: any) => {
+            const encryptResult = await cryptoClient.encrypt(
+              { algorithm: "RSA1_5", plaintext: stringToUint8Array("Hello, world") },
+              options,
+            );
+            await cryptoClient.decrypt(
+              { algorithm: "RSA1_5", ciphertext: encryptResult.result },
+              options,
+            );
 
-              const signResult = await cryptoClient.signData(
-                "RS256",
-                stringToUint8Array("Message"),
-                options,
-              );
-              await cryptoClient.verifyData(
-                "RS256",
-                stringToUint8Array("Message"),
-                signResult.result,
-                options,
-              );
-            },
-            [
-              "CryptographyClient.encrypt",
-              "CryptographyClient.decrypt",
-              "CryptographyClient.signData",
-              "CryptographyClient.verifyData",
-            ],
-          );
+            const signResult = await cryptoClient.signData(
+              "RS256",
+              stringToUint8Array("Message"),
+              options,
+            );
+            await cryptoClient.verifyData(
+              "RS256",
+              stringToUint8Array("Message"),
+              signResult.result,
+              options,
+            );
+          }).toSupportTracing([
+            "CryptographyClient.encrypt",
+            "CryptographyClient.decrypt",
+            "CryptographyClient.signData",
+            "CryptographyClient.verifyData",
+          ]);
         }
       });
     });
