@@ -57,13 +57,25 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
+    assert.throws(
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      TelemetryTypeError,
+    );
     derivedMetricInfo.telemetryType = "\\Random\\Counter";
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
+    assert.throws(
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      TelemetryTypeError,
+    );
     derivedMetricInfo.telemetryType = "Metric";
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
+    assert.throws(
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      TelemetryTypeError,
+    );
     derivedMetricInfo.telemetryType = "does not exist";
-    assert.throws(() => validator.validateTelemetryType(derivedMetricInfo.telemetryType), TelemetryTypeError);
+    assert.throws(
+      () => validator.validateTelemetryType(derivedMetricInfo.telemetryType),
+      TelemetryTypeError,
+    );
   });
 
   it("The validator rejects CustomMetrics projections and filters (not supported in Otel)", () => {
@@ -107,7 +119,10 @@ describe("Live Metrics filtering - Validator", () => {
       filters: conjunctionGroup,
     };
     validator.validateTelemetryType(invalidDocFilterConjuctionInfo.telemetryType);
-    assert.throws(() => validator.validateDocumentFilters(invalidDocFilterConjuctionInfo), UnexpectedFilterCreateError);
+    assert.throws(
+      () => validator.validateDocumentFilters(invalidDocFilterConjuctionInfo),
+      UnexpectedFilterCreateError,
+    );
   });
 
   it("The validator rejects invalid filters", () => {
@@ -384,7 +399,7 @@ describe("Live Metrics filtering - Validator", () => {
     const documentFilterConjunctionGroupInfo: DocumentFilterConjunctionGroupInfo = {
       telemetryType: KnownTelemetryType.Request,
       filters: conjunctionGroup,
-    }
+    };
 
     const derivedMetricInfo: DerivedMetricInfo = {
       id: "random-id",
@@ -395,8 +410,14 @@ describe("Live Metrics filtering - Validator", () => {
       backEndAggregation: "Sum",
     };
 
-    assert.throws(() => validator.validateMetricFilters(derivedMetricInfo), UnexpectedFilterCreateError);
-    assert.throws(() => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo), UnexpectedFilterCreateError);
+    assert.throws(
+      () => validator.validateMetricFilters(derivedMetricInfo),
+      UnexpectedFilterCreateError,
+    );
+    assert.throws(
+      () => validator.validateDocumentFilters(documentFilterConjunctionGroupInfo),
+      UnexpectedFilterCreateError,
+    );
   });
 
   it("The validator accepts valid filters", () => {
@@ -1168,7 +1189,9 @@ describe("Live Metrics filtering - Applying valid filters", () => {
       filters: { filters: [] },
     };
     assert.ok(filterClass.checkMetricFilters(derivedMetricInfo, request));
-    assert.ok(filterClass.checkFilterConjunctionGroup(documentFilterConjunctionGroupInfo.filters, request));
+    assert.ok(
+      filterClass.checkFilterConjunctionGroup(documentFilterConjunctionGroupInfo.filters, request),
+    );
   });
 
   it("Can handle multiple filters in a filter conjunction group", () => {

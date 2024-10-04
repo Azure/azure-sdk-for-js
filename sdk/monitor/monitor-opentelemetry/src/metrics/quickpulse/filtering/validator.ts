@@ -38,9 +38,7 @@ export class Validator {
         "The telemetry type Metric was specified, but this distro does not send custom live metrics to quickpulse.",
       );
     } else if (!(telemetryType in KnownTelemetryType)) {
-      throw new TelemetryTypeError(
-        `'${telemetryType}' is not a valid telemetry type.`,
-      );
+      throw new TelemetryTypeError(`'${telemetryType}' is not a valid telemetry type.`);
     }
   }
 
@@ -61,7 +59,9 @@ export class Validator {
     });
   }
 
-  public validateDocumentFilters(documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfo): void {
+  public validateDocumentFilters(
+    documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfo,
+  ): void {
     documentFilterConjuctionGroupInfo.filters.filters.forEach((filter) => {
       this.validateFieldNames(filter.fieldName, documentFilterConjuctionGroupInfo.telemetryType);
       this.validatePredicateAndComparand(filter);

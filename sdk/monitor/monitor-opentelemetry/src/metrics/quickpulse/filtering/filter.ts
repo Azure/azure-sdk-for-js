@@ -50,7 +50,10 @@ export class Filter {
     return matched;
   }
 
-  public checkFilterConjunctionGroup(filterConjunctionGroupInfo: FilterConjunctionGroupInfo, data: TelemetryData): boolean {
+  public checkFilterConjunctionGroup(
+    filterConjunctionGroupInfo: FilterConjunctionGroupInfo,
+    data: TelemetryData,
+  ): boolean {
     // All of the filters need to match for this to return true (and operation).
     for (const filter of filterConjunctionGroupInfo.filters) {
       if (!this.checkFilter(filter, data)) {

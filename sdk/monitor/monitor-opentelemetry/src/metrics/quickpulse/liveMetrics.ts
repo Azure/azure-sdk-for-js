@@ -137,10 +137,10 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-      model: string;
-      speed: number;
-      times: { user: number; nice: number; sys: number; idle: number; irq: number };
-    }[]
+        model: string;
+        speed: number;
+        times: { user: number; nice: number; sys: number; idle: number; irq: number };
+      }[]
     | undefined;
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
@@ -153,7 +153,10 @@ export class LiveMetrics {
   private validator: Validator = new Validator();
   private filter: Filter = new Filter();
   // type: Map<telemetryType, Map<id, FilterConjunctionGroupInfo[]>>
-  private validDocumentFilterConjuctionGroupInfos: Map<string, Map<string, FilterConjunctionGroupInfo[]>> = new Map();
+  private validDocumentFilterConjuctionGroupInfos: Map<
+    string,
+    Map<string, FilterConjunctionGroupInfo[]>
+  > = new Map();
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param config - Distro configuration.
@@ -179,7 +182,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -456,10 +459,14 @@ export class LiveMetrics {
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
       let derivedMetricInfos: DerivedMetricInfo[];
       if (isRequestData(columns)) {
-        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) || new Map<string, FilterConjunctionGroupInfo[]>();
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
       } else {
-        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) || new Map<string, FilterConjunctionGroupInfo[]>();
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Dependency) || [];
       }
       this.applyDocumentFilters(documentConfiguration, columns);
@@ -489,8 +496,14 @@ export class LiveMetrics {
               event.attributes,
               span.attributes,
             );
-            documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) || new Map<string, FilterConjunctionGroupInfo[]>();
-            this.applyDocumentFilters(documentConfiguration, exceptionColumns, event.attributes[SEMATTRS_EXCEPTION_TYPE] as string);
+            documentConfiguration =
+              this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) ||
+              new Map<string, FilterConjunctionGroupInfo[]>();
+            this.applyDocumentFilters(
+              documentConfiguration,
+              exceptionColumns,
+              event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
+            );
             derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
             this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
             this.totalExceptionCount++;
@@ -510,13 +523,21 @@ export class LiveMetrics {
       let derivedMetricInfos: DerivedMetricInfo[];
       let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
       if (isExceptionData(columns)) {
-        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) || new Map<string, FilterConjunctionGroupInfo[]>();
-        this.applyDocumentFilters(documentConfiguration, columns, logRecord.attributes[SEMATTRS_EXCEPTION_TYPE] as string);
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
+        this.applyDocumentFilters(
+          documentConfiguration,
+          columns,
+          logRecord.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
+        );
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
         this.totalExceptionCount++;
       } else {
         // trace
-        documentConfiguration = this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Trace) || new Map<string, FilterConjunctionGroupInfo[]>();
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Trace) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
         this.applyDocumentFilters(documentConfiguration, columns);
         derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
       }
@@ -717,20 +738,23 @@ export class LiveMetrics {
           this.validator.validateDocumentFilters(documentFilterGroupInfo);
           this.filter.renameExceptionFieldNamesForFiltering(documentFilterGroupInfo.filters);
 
-          if (!this.validDocumentFilterConjuctionGroupInfos.has(documentFilterGroupInfo.telemetryType)) {
+          if (
+            !this.validDocumentFilterConjuctionGroupInfos.has(documentFilterGroupInfo.telemetryType)
+          ) {
             this.validDocumentFilterConjuctionGroupInfos.set(
               documentFilterGroupInfo.telemetryType,
               new Map<string, FilterConjunctionGroupInfo[]>(),
             );
           }
 
-          const innerMap = this.validDocumentFilterConjuctionGroupInfos.get(documentFilterGroupInfo.telemetryType);
+          const innerMap = this.validDocumentFilterConjuctionGroupInfos.get(
+            documentFilterGroupInfo.telemetryType,
+          );
           if (!innerMap?.has(documentStreamInfo.id)) {
             innerMap?.set(documentStreamInfo.id, [documentFilterGroupInfo.filters]);
           } else {
             innerMap.get(documentStreamInfo.id)?.push(documentFilterGroupInfo.filters);
           }
-
         } catch (error) {
           const configError: CollectionConfigurationError = {
             collectionConfigurationErrorType: "",
@@ -759,11 +783,15 @@ export class LiveMetrics {
     });
   }
 
-  private applyDocumentFilters(documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>, data: TelemetryData, exceptionType?: string): void {
+  private applyDocumentFilters(
+    documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>,
+    data: TelemetryData,
+    exceptionType?: string,
+  ): void {
     const streamIds: Set<string> = new Set<string>();
     documentConfiguration.forEach((filterConjunctionGroupInfoList, streamId) => {
       filterConjunctionGroupInfoList.forEach((filterConjunctionGroupInfo) => {
-        // by going though each filterConjuctionGroupInfo, we are implicitly -OR-ing 
+        // by going though each filterConjuctionGroupInfo, we are implicitly -OR-ing
         // different filterConjunctionGroupInfo within documentStreamInfo. If there are multiple
         // documentStreamInfos, this logic will -OR- the filtering results of each documentStreamInfo.
         if (this.filter.checkFilterConjunctionGroup(filterConjunctionGroupInfo, data)) {
@@ -772,7 +800,7 @@ export class LiveMetrics {
       });
     });
 
-    // Emit a document when a telemetry data matches a particular filtering configuration, 
+    // Emit a document when a telemetry data matches a particular filtering configuration,
     // or when filtering configuration is empty.
     if (streamIds.size > 0 || documentConfiguration.size === 0) {
       let document: Request | RemoteDependency | Trace | Exception;
