@@ -294,7 +294,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await client.purgeDeletedKey(keyName);
   });
 
-  onVersions({ minVer: "7.3" }).describe("key rotation", () => {
+  describe("key rotation", () => {
     if (isPublicCloud() || isRecordMode() || isPlaybackMode()) {
       // Key Rotation is a preview feature that is not supported in all clouds yet.
       // Once 7.3 GAs we should be able to run this unconditionally.
@@ -416,7 +416,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     }
   });
 
-  onVersions({ minVer: "7.3" }).describe("releaseKey", () => {
+  describe("releaseKey", () => {
     let attestation: string;
     let encodedReleasePolicy: Uint8Array;
 
@@ -542,6 +542,7 @@ describe("Keys client - create, read, update and delete operations", () => {
         "keyclienttracing",
         `keyclienttracing-${Math.floor(Math.random() * 1000)}`,
       );
+
       await assert.supportsTracing(
         async (options) => {
           await client.createKey(keyName, "RSA", options);
@@ -564,7 +565,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    onVersions({ minVer: "7.3" }).it("traces through key rotation operations", async () => {
+    it("traces through key rotation operations", async () => {
       const keyName = recorder.variable(
         "keyrotationtracing",
         `keyrotationtracing-${Math.floor(Math.random() * 1000)}`,

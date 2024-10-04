@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/core-auth";
 import {
@@ -18,7 +17,7 @@ import { CryptographyProvider } from "../../src/cryptography/models.js";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { RestError, SendRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
@@ -135,8 +134,8 @@ describe("internal crypto tests", () => {
   describe("Parameter passing to encrypt / decrypt", function () {
     let client: CryptographyClient;
     let cryptoProvider: CryptographyProvider;
-    let encryptStub: sinon.SinonStub;
-    let decryptStub: sinon.SinonStub;
+    let encryptStub: MockInstance<typeof cryptoProvider.encrypt>;
+    let decryptStub: MockInstance<typeof cryptoProvider.decrypt>;
 
     beforeEach(() => {
       const key = {
@@ -146,18 +145,18 @@ describe("internal crypto tests", () => {
       };
       client = new CryptographyClient(key, tokenCredential);
       cryptoProvider = new RemoteCryptographyProvider(key, tokenCredential);
-      encryptStub = sinon
-        .stub(cryptoProvider, "encrypt")
-        .returns(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
-      decryptStub = sinon
-        .stub(cryptoProvider, "decrypt")
-        .returns(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
-      vi.spyOn(cryptoProvider, "isSupported").returns(true);
+      encryptStub = vi
+        .spyOn(cryptoProvider, "encrypt")
+        .mockReturnValue(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
+      decryptStub = vi
+        .spyOn(cryptoProvider, "decrypt")
+        .mockReturnValue(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
+      vi.spyOn(cryptoProvider, "isSupported").mockReturnValue(true);
       client["providers"] = [cryptoProvider];
     });
 
     afterEach(() => {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
 
     describe("Encrypt parameter mapping", async function () {
@@ -165,13 +164,9 @@ describe("internal crypto tests", () => {
         const text = stringToUint8Array(ctx.task.name!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
-        sinon.assert.calledWith(
-          encryptStub,
+        expect(encryptStub).toHaveBeenCalledWith(
           { algorithm: "RSA1_5", plaintext: text },
-          operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 },
-            tracingOptions: {},
-          }),
+          expect.objectContaining({ requestOptions: { timeout: 5 } }),
         );
       });
 
@@ -183,13 +178,9 @@ describe("internal crypto tests", () => {
           { requestOptions: { timeout: 5 } },
         );
 
-        sinon.assert.calledWith(
-          encryptStub,
+        expect(encryptStub).toHaveBeenCalledWith(
           { algorithm: "RSA1_5", plaintext: text },
-          operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 },
-            tracingOptions: {},
-          }),
+          expect.objectContaining({ requestOptions: { timeout: 5 } }),
         );
       });
     });
@@ -199,13 +190,9 @@ describe("internal crypto tests", () => {
         const text = stringToUint8Array(ctx.task.name!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
-        sinon.assert.calledWith(
-          decryptStub,
+        expect(decryptStub).toHaveBeenCalledWith(
           { algorithm: "RSA1_5", ciphertext: text },
-          operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 },
-            tracingOptions: {},
-          }),
+          expect.objectContaining({ requestOptions: { timeout: 5 } }),
         );
       });
 
@@ -217,13 +204,9 @@ describe("internal crypto tests", () => {
           { requestOptions: { timeout: 5 } },
         );
 
-        sinon.assert.calledWith(
-          decryptStub,
+        expect(decryptStub).toHaveBeenCalledWith(
           { algorithm: "RSA1_5", ciphertext: text },
-          operationOptionsSinonMatcher({
-            requestOptions: { timeout: 5 },
-            tracingOptions: {},
-          }),
+          expect.objectContaining({ requestOptions: { timeout: 5 } }),
         );
       });
     });
@@ -260,7 +243,7 @@ describe("internal crypto tests", () => {
 
     beforeEach(() => {
       localProvider = new RsaCryptographyProvider({});
-      vi.spyOn(localProvider, "isSupported").returns(true);
+      vi.spyOn(localProvider, "isSupported").mockReturnValue(true);
       for (const operation of [
         "encrypt",
         "decrypt",
@@ -270,15 +253,13 @@ describe("internal crypto tests", () => {
         "signData",
         "verify",
         "verifyData",
-      ]) {
-        sinon
-          .stub(localProvider, operation as keyof RsaCryptographyProvider)
-          .throwsException("Error");
+      ] as const) {
+        vi.spyOn(localProvider, operation).mockRejectedValue("Error");
       }
     });
 
     afterEach(function () {
-      sinon.reset();
+      vi.restoreAllMocks();
     });
 
     describe("hybrid mode", function () {
@@ -321,12 +302,11 @@ describe("internal crypto tests", () => {
               }),
             });
 
-          const sendRequest = sinon
-            .stub()
-            .onFirstCall()
-            .returns(Promise.reject(new RestError("Forbidden", { statusCode: 403 })))
-            .onSecondCall()
-            .callsFake(sendSignRequest);
+          const sendRequest = vi.fn();
+          sendRequest.mockReturnValue(sendSignRequest);
+          sendRequest.mockReturnValueOnce(
+            Promise.reject(new RestError("Forbidden", { statusCode: 403 })),
+          );
 
           const idCryptoClient = new CryptographyClient(
             "https://myvault.vault.azure.net/keys/keyName/id",
@@ -352,7 +332,7 @@ describe("internal crypto tests", () => {
           };
 
           await cryptoClient.encrypt(parameters);
-          assert.isTrue(remoteStub.calledOnceWith(parameters));
+          expect(remoteStub).toHaveBeenCalledWith(parameters);
         });
 
         it("remotes the decrypt operation", async function () {
@@ -363,7 +343,7 @@ describe("internal crypto tests", () => {
             ciphertext: stringToUint8Array("text"),
           };
           await cryptoClient.decrypt(parameters);
-          assert.isTrue(remoteStub.calledOnceWith(parameters));
+          expect(remoteStub).toHaveBeenCalledWith(parameters);
         });
 
         it("remotes the wrapKey operation", async function () {
@@ -371,7 +351,7 @@ describe("internal crypto tests", () => {
 
           const keyToWrap = stringToUint8Array("myKey");
           await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
-          assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", keyToWrap));
+          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", keyToWrap);
         });
 
         it("remotes the unwrapKey operation", async function () {
@@ -379,7 +359,7 @@ describe("internal crypto tests", () => {
 
           const wrappedKey = stringToUint8Array("myKey");
           await cryptoClient.unwrapKey("RSA-OAEP", wrappedKey);
-          assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", wrappedKey));
+          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", wrappedKey);
         });
 
         it("remotes the sign operation", async function () {
@@ -387,7 +367,7 @@ describe("internal crypto tests", () => {
 
           const data = stringToUint8Array("myKey");
           await cryptoClient.sign("PS256", data);
-          assert.isTrue(remoteStub.calledOnceWith("PS256", data));
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data);
         });
 
         it("remotes the signData operation", async function () {
@@ -395,7 +375,7 @@ describe("internal crypto tests", () => {
 
           const data = stringToUint8Array("myKey");
           await cryptoClient.signData("PS256", data);
-          assert.isTrue(remoteStub.calledOnceWith("PS256", data));
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data);
         });
 
         it("remotes the verify operation", async function () {
@@ -404,7 +384,7 @@ describe("internal crypto tests", () => {
           const data = stringToUint8Array("myKey");
           const sig = stringToUint8Array("sig");
           await cryptoClient.verify("PS256", data, sig);
-          assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig);
         });
 
         it("remotes the verifyData operation", async function () {
@@ -413,7 +393,7 @@ describe("internal crypto tests", () => {
           const data = stringToUint8Array("myKey");
           const sig = stringToUint8Array("sig");
           await cryptoClient.verifyData("PS256", data, sig);
-          assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig);
         });
       });
     });
@@ -422,7 +402,7 @@ describe("internal crypto tests", () => {
       beforeEach(() => {
         const jwk: JsonWebKey = {};
         localProvider = new RsaCryptographyProvider(jwk);
-        vi.spyOn(localProvider, "isSupported").returns(true);
+        vi.spyOn(localProvider, "isSupported").mockReturnValue(true);
 
         cryptoClient = new CryptographyClient(jwk);
 
@@ -476,27 +456,3 @@ describe("internal crypto tests", () => {
     });
   });
 });
-
-/**
- * The tests in this suite check that the created options match what createSpan() would create
- * when properly parenting and propagating options.
- *
- * This is slightly trickier with later versions of OpenTelemetry where the created `context`
- * instances are not guaranteed to be comparable even if they are logically the same. So this
- * matcher does the comparisons needed and still maintain sinon.calledWith() compatibility.
- */
-function operationOptionsSinonMatcher<T extends OperationOptions>(
-  expectedPropagatedOptions: T,
-): ReturnType<typeof sinon.match> {
-  return sinon.match((actualOptions: T) => {
-    // check that an actual context was set up (ie, we must have
-    // called `createSpan` to get these new options.)
-    assert.ok(actualOptions.tracingOptions?.tracingContext);
-    delete actualOptions.tracingOptions?.tracingContext;
-
-    assert.deepEqualExcludingEvery(actualOptions, expectedPropagatedOptions, [
-      "spanOptions",
-    ] as any);
-    return true;
-  });
-}

@@ -51,7 +51,7 @@ describe("Keys client - create, read, update and delete operations for managed H
     await testClient.flushKey(keyName);
   });
 
-  onVersions({ minVer: "7.3" }).describe("getRandomBytes", () => {
+  describe("getRandomBytes", () => {
     it("can return the required number of bytes", async () => {
       const result = await hsmClient.getRandomBytes(10);
       assert.exists(result);
