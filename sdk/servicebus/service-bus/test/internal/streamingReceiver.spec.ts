@@ -23,7 +23,7 @@ import { getDeliveryProperty } from "./utils/misc.js";
 import { verifyMessageCount } from "../public/utils/managementUtils.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, vi, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
-import { assert, expect, should } from "../public/utils/chai.js";
+import { expect, should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
@@ -933,7 +933,7 @@ describe(testClientType + ": Streaming - disconnects", function (): void {
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
 
-    assert.equal(processErrorFake.mock.calls.length, 0);
+    expect(processErrorFake).not.toHaveBeenCalled();
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;

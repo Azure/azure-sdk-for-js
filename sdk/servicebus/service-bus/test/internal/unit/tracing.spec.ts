@@ -15,7 +15,7 @@ import { TracingContext } from "@azure/core-tracing";
 import Long from "long";
 import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
 import { describe, it, vi, afterEach } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {
@@ -61,7 +61,7 @@ describe("tracing", () => {
       );
       assert.notExists(spanContext);
       assert.equal(message.applicationProperties?.[TRACEPARENT_PROPERTY], "exists");
-      assert.equal(tracingClientSpy.mock.calls.length, 0);
+      expect(tracingClientSpy).not.toHaveBeenCalled();
     });
 
     it("returns early if the span is not recording", () => {

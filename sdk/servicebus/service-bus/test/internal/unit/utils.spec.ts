@@ -15,7 +15,7 @@ import {
 import { ServiceBusReceivedMessage } from "../../../src/index.js";
 import { tracingClient } from "../../../src/diagnostics/tracing.js";
 import { describe, it, vi, beforeEach } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
@@ -337,7 +337,7 @@ describe("utils", () => {
       };
 
       extractSpanContextFromServiceBusMessage(receivedMessage);
-      assert.equal(tracingClientSpy.mock.calls[0][0], traceparent);
+      expect(tracingClientSpy).toHaveBeenCalledWith(traceparent);
     });
 
     it("should return undefined when ServiceBusMessage is not instrumented", function () {

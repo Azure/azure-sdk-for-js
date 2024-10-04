@@ -18,7 +18,7 @@ import { MessageSession } from "../../../src/session/messageSession.js";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { Constants } from "@azure/core-amqp";
 import { describe, it, vi, afterEach } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("Receiver unit tests", () => {
   it("Receiver should set target in created receiver options", () => {
@@ -328,7 +328,7 @@ describe("Receiver unit tests", () => {
         "original receiver should be intact - we should not create a new one..",
       );
 
-      assert.equal(subscribeStub.mock.calls.length, 1);
+      expect(subscribeStub).toHaveBeenCalledOnce();
     });
 
     it("create() with an existing receiver and that receiver is NOT open()", async () => {

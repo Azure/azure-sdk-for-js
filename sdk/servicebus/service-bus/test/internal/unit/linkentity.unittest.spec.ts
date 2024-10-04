@@ -13,7 +13,7 @@ import { receiverLogger } from "../../../src/log.js";
 import { MessageSession } from "../../../src/session/messageSession.js";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils.js";
 import { describe, it, vi, beforeEach, afterEach } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("LinkEntity unit tests", () => {
   class LinkForTests extends LinkEntity<Receiver> {
@@ -215,10 +215,8 @@ describe("LinkEntity unit tests", () => {
       } catch (err: any) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
         assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
-        assert.isFalse(
-          negotiateClaimSpy.mock.calls.length > 0,
-          "We shouldn't attempt to reopen the link.",
-        );
+        // We shouldn't attempt to re-open the link.
+        expect(negotiateClaimSpy).not.toHaveBeenCalled();
       }
     });
 

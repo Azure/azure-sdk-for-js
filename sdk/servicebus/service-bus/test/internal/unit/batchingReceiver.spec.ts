@@ -23,7 +23,7 @@ import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs
 import { ReceiveMode } from "../../../src/models.js";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
 import { describe, it, vi, beforeEach, afterEach, afterAll, beforeAll } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -762,7 +762,7 @@ describe("BatchingReceiver unit tests", () => {
 
       finalAction();
 
-      assert.equal(drainCreditSpy.mock.calls.length, 1);
+      expect(drainCreditSpy).toHaveBeenCalledOnce();
 
       // also our fix should leave our # of credits untouched (ie, no +1 effect)
       assert.equal(fakeRheaReceiver.credit, 2);
@@ -771,7 +771,7 @@ describe("BatchingReceiver unit tests", () => {
 
       // subsequent calls will not initiate drains.
       finalAction();
-      assert.equal(drainCreditSpy.mock.calls.length, 0);
+      expect(drainCreditSpy).not.toHaveBeenCalledOnce();
     });
   });
 

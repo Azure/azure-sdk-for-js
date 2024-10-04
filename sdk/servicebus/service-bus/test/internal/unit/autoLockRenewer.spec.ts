@@ -129,8 +129,8 @@ describe("autoLockRenewer unit tests", () => {
 
     await stopTimerPromise;
 
-    assert.equal(renewLockSpy.mock.calls.length, 1, "Lock should be renewed a single time");
-    assert.equal(renewLockSpy.mock.calls[0][0], "lock token");
+    expect(renewLockSpy).toHaveBeenCalledOnce(); // Lock should be renewed a single time
+    expect(renewLockSpy).toHaveBeenCalledWith("lock token", { associatedLinkName: "linkName" });
     expect(onErrorFake).not.toHaveBeenCalled();
   });
 
@@ -158,12 +158,10 @@ describe("autoLockRenewer unit tests", () => {
       onErrorFake,
     );
 
-    assert.isFalse(
-      renewLockSpy.mock.calls.length === 1,
-      "No lock renewal - the lockedUntilUtc of this message is longer than the current time + our max auto renewal time",
-    );
-
-    assert.isFalse(onErrorFake.mock.calls.length > 0, "no errors");
+    // No lock renewal - the lockedUntilUtc of this message is longer than the current time + our max auto renewal time
+    expect(renewLockSpy).not.toHaveBeenCalledOnce();
+    // No errors
+    expect(onErrorFake).not.toHaveBeenCalled();
   });
 
   it("renewal timer is not (re)scheduled: the current date has passed our max lock renewal time", async () => {
@@ -180,7 +178,7 @@ describe("autoLockRenewer unit tests", () => {
     // force one tick - we'll renew the lock, which will extend it's lifetime by limits.nextLockExpirationTime
     vi.advanceTimersByTime(limits.msToNextRenewal + 1);
 
-    assert.equal(renewLockSpy.mock.calls.length, 1, "You always get one lock renewal");
+    expect(renewLockSpy).toHaveBeenCalledOnce(); // You always get one lock renewal
 
     // now we'll pretend that we somehow warped into the future - we've exceeded our max time for
     // renewal so we should just stop scheduling timers.
@@ -191,11 +189,8 @@ describe("autoLockRenewer unit tests", () => {
     vi.advanceTimersByTime(limits.maxAdditionalTimeToRenewLock + 1000);
     await stopTimerPromise;
 
-    assert.isFalse(
-      renewLockSpy.mock.calls.length === 1,
-      "No lock renewal. We exceeded the max allowed lock time.",
-    );
-    assert.isFalse(onErrorFake.mock.calls.length > 0, "no errors");
+    expect(renewLockSpy).not.toHaveBeenCalledOnce(); // No lock renewal. We exceeded the max allowed lock time.
+    expect(onErrorFake).not.toHaveBeenCalled(); // No errors
   });
 
   it("invalid message can't renew", () => {
@@ -212,7 +207,7 @@ describe("autoLockRenewer unit tests", () => {
       "Can't start auto lock renewal for message with message id 'my message id' since it does not have a lock token.",
     );
 
-    assert.equal(onErrorFake.mock.calls.length, 1, "Should only have a single error");
+    expect(onErrorFake).toHaveBeenCalledOnce(); // Should only have a single error
   });
 
   describe("AutoLockRenewer.create() does not create an AutoLockRenewer", () => {

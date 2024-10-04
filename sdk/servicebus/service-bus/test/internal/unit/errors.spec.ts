@@ -4,7 +4,7 @@ import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { createServiceBusLogger } from "../../../src/log.js";
 import { describe, it, vi, beforeEach, beforeAll, MockInstance } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { expect } from "../../public/utils/chai.js";
 import { Debugger } from "@azure/logger";
 
 describe("errors", () => {
@@ -29,33 +29,27 @@ describe("errors", () => {
     it(`normal errors go to warning[${i}]`, () => {
       logger.logError(err, "this is a message");
 
-      assert.equal(
-        warningSpy.mock.calls.length,
-        1,
-        "errors are logged to the .warning stream by default",
-      );
-      assert.isFalse(
-        infoSpy.mock.calls.length === 1,
-        "info only gets used for AbortError, not for normal errors",
-      );
-      assert.isTrue(
-        verboseSpy.mock.calls.length === 1,
-        "verbose is used for the stack trace when it's available",
-      );
+      // errors are logged to the .warning stream by default
+      expect(warningSpy).toHaveBeenCalledOnce();
+      // info only gets used for AbortError, not for normal errors
+      expect(infoSpy).not.toHaveBeenCalledOnce();
+      // verbose is used for the stack trace when it's available
+      expect(verboseSpy).toHaveBeenCalledOnce();
 
       // check that we call the stream with the proper args
-      assert.equal(warningSpy.mock.calls[0][0], "this is a message");
-      assert.equal(warningSpy.mock.calls[0][1], ":");
-      assert.equal(warningSpy.mock.calls[0][2].message, err.message);
+      expect(warningSpy).toHaveBeenCalledWith("this is a message", ":", err);
     });
   });
 
   it("abortErrors go to info", () => {
     logger.logError(new AbortError());
 
-    assert.isFalse(warningSpy.mock.calls.length === 1, "AbortError's are not sent to warning");
-    assert.isTrue(infoSpy.mock.calls.length === 1, "AbortError's are sent to info");
-    assert.isTrue(verboseSpy.mock.calls.length === 1, "stack traces are logged to verbose");
+    // AbortError's are not sent to warning
+    expect(warningSpy).not.toHaveBeenCalledOnce();
+    // AbortError's are sent to info
+    expect(infoSpy).toHaveBeenCalledOnce();
+    // stack traces are logged to verbose
+    expect(verboseSpy).toHaveBeenCalledOnce();
   });
 
   const stacktraceLessError = (() => {
@@ -68,12 +62,12 @@ describe("errors", () => {
     it(`no stack trace available, skips verbose[${i}]`, () => {
       logger.logError(err);
 
-      assert.isTrue(warningSpy.mock.calls.length === 1, "logs to warning");
-      assert.isFalse(infoSpy.mock.calls.length === 1, "not logged to info.");
-      assert.isFalse(
-        verboseSpy.mock.calls.length === 1,
-        "no stack trace so we don't log to verbose",
-      );
+      // logs to warning
+      expect(warningSpy).toHaveBeenCalledOnce();
+      // not logged to info.
+      expect(infoSpy).not.toHaveBeenCalled();
+      // no stack trace so we don't log to verbose
+      expect(verboseSpy).not.toHaveBeenCalled();
     });
   });
 });

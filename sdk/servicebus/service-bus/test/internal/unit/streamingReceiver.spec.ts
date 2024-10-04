@@ -7,7 +7,7 @@ import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { assertThrows } from "../../public/utils/testUtils.js";
 import { describe, it, vi } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("StreamingReceiver unit tests", () => {
   const createTestStreamingReceiver = addTestStreamingReceiver();
@@ -125,7 +125,7 @@ describe("StreamingReceiver unit tests", () => {
 
     streamingReceiver["_subscribeImpl"] = subscribeImplMock;
     await streamingReceiver.onDetached(new Error("let's detach"));
-    assert.equal(subscribeImplMock.mock.calls.length, 1);
+    expect(subscribeImplMock).toHaveBeenCalledOnce();
 
     // simulate simultaneous detaches
     streamingReceiver["_isDetaching"] = true;
@@ -134,7 +134,7 @@ describe("StreamingReceiver unit tests", () => {
     await streamingReceiver.onDetached(
       new Error("let's detach but it won't because there's already a onDetached running."),
     );
-    assert.isFalse(subscribeImplMock.mock.calls.length > 0); // we don't do parallel detaches - subsequent ones are just stopped
+    expect(subscribeImplMock).not.toHaveBeenCalled(); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;
   });
 
@@ -176,7 +176,7 @@ describe("StreamingReceiver unit tests", () => {
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
       // was suspended, which will cause us to fail to add credits)
-      assert.isTrue(closeLinkSpy.mock.calls.length > 0);
+      expect(closeLinkSpy).toHaveBeenCalled();
     });
 
     it("subscription.stop() happens after pre-init() should trigger an AbortError since the receiver is suspended", async () => {
@@ -213,10 +213,8 @@ describe("StreamingReceiver unit tests", () => {
         message: "Error 0: AbortError: Receiver was suspended during initialization.",
       });
 
-      assert.isFalse(
-        closeLinkSpy.mock.calls.length > 0,
-        "closeLink should not be called if no link was created",
-      );
+      // closeLink should not be called if no link was created
+      expect(closeLinkSpy).not.toHaveBeenCalled();
 
       assert.deepEqual(errors, [
         {

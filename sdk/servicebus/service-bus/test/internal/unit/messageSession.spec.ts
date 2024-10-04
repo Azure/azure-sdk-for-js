@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { MessageSession } from "../../../src/session/messageSession.js";
 import {
   addCloseablesCleanup,
@@ -22,7 +23,7 @@ import { ReceiveMode } from "../../../src/models.js";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { describe, it, vi, beforeEach, MockInstance, beforeAll, afterAll } from "vitest";
-import { assert } from "../../public/utils/chai.js";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("Message session unit tests - receiveMessages", () => {
   beforeAll(() => {
@@ -488,8 +489,7 @@ describe("Message session unit tests - errors", () => {
     );
 
     assert.isTrue(addCreditWasCalled, "Error thrown should have come from the call to addCredit()");
-
-    assert.isTrue(processCreditErrorSpy.mock.calls.length > 0);
+    expect(processCreditErrorSpy).toHaveBeenCalledOnce();
   });
 
   it("failing to add credits results in a SessionLockLost error", async () => {
@@ -520,8 +520,7 @@ describe("Message session unit tests - errors", () => {
         code: "SessionLockLost",
       },
     ]);
-
-    assert.isTrue(processCreditErrorSpy.mock.calls.length > 0);
+    expect(processCreditErrorSpy).toHaveBeenCalled();
   });
 
   it("processCreditError doesn't log or forward AbortError's", () => {

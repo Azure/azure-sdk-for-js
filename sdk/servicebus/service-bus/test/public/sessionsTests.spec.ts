@@ -22,7 +22,7 @@ import {
 } from "./utils/testutils2.js";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
 import { describe, it, afterEach, afterAll, vi } from "vitest";
-import { assert, should } from "./utils/chai.js";
+import { expect, should } from "./utils/chai.js";
 
 let unexpectedError: Error | undefined;
 
@@ -471,10 +471,7 @@ describe("SessionReceiver - disconnects", function (): void {
     // This is only an issue for this test because we're trying to do some timing dependent checks of our
     // internal state.
     await checkWithTimeout(() => !isCloseCalledSpy.mock.lastCall);
-    assert.isTrue(
-      isCloseCalledSpy.mock.lastCall !== undefined,
-      "Close should have been called on the message session",
-    );
+    expect(isCloseCalledSpy).toHaveBeenCalledOnce(); // Close should have been called on the message session
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());
