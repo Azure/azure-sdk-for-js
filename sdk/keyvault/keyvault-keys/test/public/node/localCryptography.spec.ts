@@ -12,7 +12,6 @@ import TestClient from "../utils/testClient.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
-import { getServiceVersion } from "../utils/common.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Local cryptography public tests", () => {
@@ -27,7 +26,7 @@ describe("Local cryptography public tests", () => {
     recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     client = authentication.client;
     testClient = authentication.testClient;
     credential = authentication.credential;

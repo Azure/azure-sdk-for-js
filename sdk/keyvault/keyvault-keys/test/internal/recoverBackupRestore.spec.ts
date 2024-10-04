@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import { isNodeLike } from "@azure/core-util";
 import { KeyClient } from "../../src/index.js";
-import { getServiceVersion } from "../public/utils/common.js";
 import { testPollerProperties } from "../public/utils/recorderUtils.js";
 import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
@@ -21,7 +20,7 @@ describe("Keys client - restore keys and recover backups", () => {
     recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

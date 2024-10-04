@@ -9,7 +9,6 @@ import { authenticate, envSetupForPlayback } from "../utils/testAuthentication.j
 import TestClient from "../utils/testClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "./../utils/crypto.js";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
-import { getServiceVersion } from "../utils/common.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
@@ -28,7 +27,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       recorder = new Recorder(ctx);
       await recorder.start(envSetupForPlayback);
 
-      const authentication = await authenticate(getServiceVersion(), recorder);
+      const authentication = await authenticate(recorder);
       client = authentication.client;
       testClient = authentication.testClient;
       credential = authentication.credential;
@@ -233,7 +232,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       recorder = new Recorder(ctx);
       await recorder.start(envSetupForPlayback);
 
-      const authentication = await authenticate(getServiceVersion(), recorder);
+      const authentication = await authenticate(recorder);
       client = authentication.client;
       testClient = authentication.testClient;
       credential = authentication.credential;
@@ -340,7 +339,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       recorder = new Recorder(ctx);
       await recorder.start(envSetupForPlayback);
 
-      const authentication = await authenticate(getServiceVersion(), recorder);
+      const authentication = await authenticate(recorder);
       client = authentication.client;
       testClient = authentication.testClient;
       credential = authentication.credential;

@@ -5,7 +5,6 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
-import { getServiceVersion } from "./utils/common.js";
 import { createRsaKey } from "./utils/crypto.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
@@ -19,7 +18,7 @@ describe("Keys client - import keys", () => {
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     suffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

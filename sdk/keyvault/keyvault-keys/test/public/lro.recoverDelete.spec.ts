@@ -3,7 +3,6 @@
 import { Recorder, env } from "@azure-tools/test-recorder";
 
 import { DeletedKey, KeyClient } from "../../src/index.js";
-import { getServiceVersion } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
@@ -20,7 +19,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

@@ -9,7 +9,7 @@ import {
   KeyClient,
   UpdateKeyPropertiesOptions,
 } from "../../src/index.js";
-import { getServiceVersion, isPublicCloud, onVersions } from "./utils/common.js";
+import { isPublicCloud } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
@@ -31,7 +31,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await recorder.start(envSetupForPlayback);
     await recorder.setMatcher("BodilessMatcher");
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -593,7 +593,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    onVersions({ minVer: "7.3" }).it("traces through secure key release", async () => {
+    it("traces through secure key release", async () => {
       await assert.supportsTracing(
         async (options) => {
           try {

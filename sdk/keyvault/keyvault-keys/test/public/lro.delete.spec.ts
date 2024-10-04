@@ -6,7 +6,6 @@ import { DeletedKey, KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
-import { getServiceVersion } from "./utils/common.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - Long Running Operations - delete", () => {
@@ -20,7 +19,7 @@ describe("Keys client - Long Running Operations - delete", () => {
     recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
