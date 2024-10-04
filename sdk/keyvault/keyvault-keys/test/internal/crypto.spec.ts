@@ -68,8 +68,7 @@ describe("internal crypto tests", () => {
         const notBefore = new Date(Date.now() + 60 * 1000 * 60 * 24); // Now + 24h
         key.properties.notBefore = notBefore;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
-        await assert.isRejected(
-          cryptoClient.encrypt("RSA1_5", stringToUint8Array("")),
+        await expect(cryptoClient.encrypt("RSA1_5", stringToUint8Array(""))).rejects.toThrow(
           `Key ${key.id} can't be used before ${notBefore.toISOString()}`,
         );
       });
@@ -78,8 +77,7 @@ describe("internal crypto tests", () => {
         const expiresOn = new Date(Date.now() - 60 * 1000 * 60 * 24); // Now - 24h
         key.properties.expiresOn = expiresOn;
         const cryptoClient = new CryptographyClient(key, tokenCredential);
-        await assert.isRejected(
-          cryptoClient.encrypt("RSA1_5", stringToUint8Array("")),
+        await expect(cryptoClient.encrypt("RSA1_5", stringToUint8Array(""))).rejects.toThrow(
           `Key ${key.id} expired at ${expiresOn.toISOString()}`,
         );
       });
@@ -87,7 +85,7 @@ describe("internal crypto tests", () => {
       it("validates key operations", async () => {
         const cryptoClient = new CryptographyClient(key, tokenCredential);
         key.keyOperations = ["encrypt"];
-        await assert.isRejected(cryptoClient.decrypt("RSA1_5", stringToUint8Array("")));
+        await expect(cryptoClient.decrypt("RSA1_5", stringToUint8Array(""))).rejects.toThrow();
       });
 
       it("parses the vaultUrl", () => {
@@ -114,8 +112,7 @@ describe("internal crypto tests", () => {
     it("validates key operations", async () => {
       const cryptoClient = new CryptographyClient(key);
       key.keyOps = ["encrypt"];
-      await assert.isRejected(
-        cryptoClient.decrypt("RSA1_5", stringToUint8Array("")),
+      await expect(cryptoClient.decrypt("RSA1_5", stringToUint8Array(""))).rejects.toThrow(
         /Operation decrypt is not supported/,
       );
     });
@@ -435,39 +432,45 @@ describe("internal crypto tests", () => {
 
       describe("when a local provider errors", function () {
         it("throws the original encrypt exception", async function () {
-          await assert.isRejected(
+          await expect(
             cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") }),
-          );
+          ).rejects.toThrow();
         });
 
         it("throws the original decrypt exception", async function () {
-          await assert.isRejected(
+          await expect(
             cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") }),
-          );
+          ).rejects.toThrow();
         });
 
         it("throws the original wrapKey exception", async function () {
-          await assert.isRejected(cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array("myKey")));
+          await expect(
+            cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array("myKey")),
+          ).rejects.toThrow();
         });
 
         it("throws the original unwrapKey exception", async function () {
-          await assert.isRejected(cryptoClient.unwrapKey("RSA-OAEP", stringToUint8Array("myKey")));
+          await expect(
+            cryptoClient.unwrapKey("RSA-OAEP", stringToUint8Array("myKey")),
+          ).rejects.toThrow();
         });
         it("throws the original sign exception", async function () {
-          await assert.isRejected(cryptoClient.sign("PS256", stringToUint8Array("data")));
+          await expect(cryptoClient.sign("PS256", stringToUint8Array("data"))).rejects.toThrow();
         });
         it("throws the original signData exception", async function () {
-          await assert.isRejected(cryptoClient.signData("PS256", stringToUint8Array("data")));
+          await expect(
+            cryptoClient.signData("PS256", stringToUint8Array("data")),
+          ).rejects.toThrow();
         });
         it("throws the original verify exception", async function () {
-          await assert.isRejected(
+          await expect(
             cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
-          );
+          ).rejects.toThrow();
         });
         it("throws the original verifyData exception", async function () {
-          await assert.isRejected(
+          await expect(
             cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
-          );
+          ).rejects.toThrow();
         });
       });
     });

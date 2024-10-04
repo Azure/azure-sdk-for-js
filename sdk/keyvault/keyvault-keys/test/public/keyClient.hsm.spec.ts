@@ -59,9 +59,9 @@ describe("Keys client - create, read, update and delete operations for managed H
     });
 
     it("returns an error when bytes is out of range", async () => {
-      await assert.isRejected(hsmClient.getRandomBytes(-1));
-      await assert.isRejected(hsmClient.getRandomBytes(0));
-      await assert.isRejected(hsmClient.getRandomBytes(129));
+      await expect(hsmClient.getRandomBytes(-1)).rejects.toThrow();
+      await expect(hsmClient.getRandomBytes(0)).rejects.toThrow();
+      await expect(hsmClient.getRandomBytes(129)).rejects.toThrow();
     });
 
     it("supports tracing", async () => {
@@ -195,7 +195,9 @@ describe("Keys client - create, read, update and delete operations for managed H
         "exportablenopolicy",
         `exportablenopolicy-${Math.floor(Math.random() * 100000)}`,
       );
-      await assert.isRejected(hsmClient.createRsaKey(keyName, { exportable: true }), /exportable/i);
+      await expect(hsmClient.createRsaKey(keyName, { exportable: true })).rejects.toThrow(
+        /exportable/i,
+      );
     });
 
     it("errors when a key has a release policy but is not exportable", async () => {
@@ -203,12 +205,11 @@ describe("Keys client - create, read, update and delete operations for managed H
         "policynonexportable",
         `policynonexportable-${Math.floor(Math.random() * 100000)}`,
       );
-      await assert.isRejected(
+      await expect(
         hsmClient.createRsaKey(keyName, {
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
         }),
-        /exportable/i,
-      );
+      ).rejects.toThrow(/exportable/i);
     });
   });
 });

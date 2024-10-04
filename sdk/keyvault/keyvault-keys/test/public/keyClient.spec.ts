@@ -384,7 +384,7 @@ describe("Keys client - create, read, update and delete operations", () => {
           "nonexistentkey",
           `nonexistentkey-${Math.floor(Math.random() * 1000)}`,
         );
-        await assert.isRejected(client.getKeyRotationPolicy(keyName));
+        await expect(client.getKeyRotationPolicy(keyName)).rejects.toThrow();
       });
 
       it("supports tracing", async () => {
@@ -477,8 +477,7 @@ describe("Keys client - create, read, update and delete operations", () => {
         "exportablenopolicy",
         `exportablenopolicy-${Math.floor(Math.random() * 1000)}`,
       );
-      await assert.isRejected(
-        client.createRsaKey(keyName, { exportable: true, hsm: true }),
+      await expect(client.createRsaKey(keyName, { exportable: true, hsm: true })).rejects.toThrow(
         /exportable/i,
       );
     });
@@ -488,13 +487,12 @@ describe("Keys client - create, read, update and delete operations", () => {
         "policynonexportable",
         `policynonexportable-${Math.floor(Math.random() * 1000)}`,
       );
-      await assert.isRejected(
+      await expect(
         client.createRsaKey(keyName, {
           hsm: true,
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
         }),
-        /exportable/i,
-      );
+      ).rejects.toThrow(/exportable/i);
     });
 
     it("errors when updating an immutable release policy", async function (ctx) {
@@ -527,15 +525,14 @@ describe("Keys client - create, read, update and delete operations", () => {
         version: "1.0",
       };
 
-      await assert.isRejected(
+      await expect(
         client.updateKeyProperties(createdKey.name, {
           releasePolicy: {
             encodedPolicy: stringToUint8Array(JSON.stringify(newReleasePolicy)),
             immutable: true,
           },
         }),
-        /Immutable Key Release/,
-      );
+      ).rejects.toThrow(/Immutable Key Release/);
     });
   });
 

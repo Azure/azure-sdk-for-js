@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoverDeletedKeyPollOperation, RecoverDeletedKeyPollOperationState } from "./operation.js";
+import {
+  RecoverDeletedKeyPollOperation,
+  RecoverDeletedKeyPollOperationState,
+} from "./operation.js";
 import { KeyVaultKey } from "../../keysModels.js";
 import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller.js";
 
