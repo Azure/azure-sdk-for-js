@@ -7,8 +7,8 @@ import { describe, it, beforeAll } from "vitest";
 import { createClient } from "../utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
 import {
+  AnyApiVersion,
   APIMatrix,
-  APIVersion,
   DeploymentInfo,
   getDeployments,
   maxRetriesOption,
@@ -18,8 +18,8 @@ import { assertAudioResult } from "../utils/asserts.js";
 import { AudioResultFormat } from "../utils/audioTypes.js";
 
 describe("OpenAI", function () {
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
       let deployments: DeploymentInfo[] = [];
 
@@ -37,7 +37,9 @@ describe("OpenAI", function () {
               client = createClient(apiVersion, "vision", { deployment });
               return client.audio.transcriptions.create({ model: "", file }, maxRetriesOption);
             },
-            (audio) => assertAudioResult("json", audio),
+            {
+              validate: (audio) => assertAudioResult("json", audio),
+            },
           );
         });
       });
@@ -51,7 +53,7 @@ describe("OpenAI", function () {
               client = createClient(apiVersion, "vision", { deployment });
               return client.audio.translations.create({ model: "", file }, maxRetriesOption);
             },
-            (audio) => assertAudioResult("json", audio),
+            { validate: (audio) => assertAudioResult("json", audio) },
           );
         });
       });
@@ -78,7 +80,7 @@ describe("OpenAI", function () {
                     maxRetriesOption,
                   );
                 },
-                (audio) => assertAudioResult(format, audio),
+                { validate: (audio) => assertAudioResult(format, audio) },
               );
             });
           });
@@ -99,7 +101,7 @@ describe("OpenAI", function () {
                     maxRetriesOption,
                   );
                 },
-                (audio) => assertAudioResult(format, audio),
+                { validate: (audio) => assertAudioResult(format, audio) },
               );
             });
           });

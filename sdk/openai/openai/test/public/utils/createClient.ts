@@ -15,7 +15,7 @@ import {
   EnvironmentVariableNamesForVision,
   EnvironmentVariableNamesForAudio,
 } from "./envVars.js";
-import { APIVersion, DeploymentType } from "./utils.js";
+import { AnyApiVersion, APIVersion, DeploymentType } from "./utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const scope = "https://cognitiveservices.azure.com/.default";
@@ -53,7 +53,7 @@ const environmentVariableNamesForResourceType = {
 };
 
 export function createClient(
-  apiVersion: APIVersion,
+  apiVersion: AnyApiVersion,
   resourceType: DeploymentType,
   clientOptions?: AzureClientOptions,
 ): AzureOpenAI | OpenAI {
@@ -64,7 +64,7 @@ export function createClient(
       const credential = createTestCredential();
       return new AzureOpenAI({
         azureADTokenProvider: getBearerTokenProvider(credential, scope),
-        apiVersion,
+        apiVersion: apiVersion.name,
         endpoint,
         ...clientOptions,
       });

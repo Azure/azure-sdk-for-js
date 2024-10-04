@@ -6,11 +6,11 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "./utils/asserts.js";
 import { createClient } from "./utils/createClient.js";
 import OpenAI, { AzureOpenAI } from "openai";
-import { APIVersion, isRateLimitRun, Metadata } from "./utils/utils.js";
+import { AnyApiVersion, APIMatrix, isRateLimitRun, Metadata } from "./utils/utils.js";
 
 describe("OpenAIAssistants", () => {
-  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix.filter(({ beta }) => beta)], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
       const model = "gpt-4-1106-preview";
 
@@ -217,7 +217,7 @@ describe("OpenAIAssistants", () => {
           }
           const instructions =
             "Please address the user as Jane Doe. The user has a premium account.";
-          let run = await client.beta.threads.runs.createAndPoll(thread.id, {
+          const run = await client.beta.threads.runs.createAndPoll(thread.id, {
             assistant_id: assistant.id,
             instructions,
           });

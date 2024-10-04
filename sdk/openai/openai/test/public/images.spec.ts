@@ -4,8 +4,8 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { createClient } from "./utils/createClient.js";
 import {
+  AnyApiVersion,
   APIMatrix,
-  APIVersion,
   DeploymentInfo,
   getDeployments,
   getSucceeded,
@@ -17,8 +17,8 @@ import OpenAI, { AzureOpenAI } from "openai";
 import { describe, it, beforeAll } from "vitest";
 
 describe("Images", function () {
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let deployments: DeploymentInfo[] = [];
       let client: AzureOpenAI | OpenAI;
 
@@ -46,7 +46,9 @@ describe("Images", function () {
                   n: numberOfImages,
                   size,
                 }),
-              (item) => assertImagesWithURLs(item, height, width),
+              {
+                validate: (item) => assertImagesWithURLs(item, height, width),
+              },
             ),
             imageGenerationDeployments,
           );
@@ -64,7 +66,7 @@ describe("Images", function () {
                   size,
                   response_format: "b64_json",
                 }),
-              (item) => assertImagesWithJSON(item, height, width),
+              { validate: (item) => assertImagesWithJSON(item, height, width) },
             ),
             imageGenerationDeployments,
           );

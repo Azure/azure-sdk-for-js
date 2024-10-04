@@ -5,11 +5,11 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import OpenAI, { AzureOpenAI, toFile } from "openai";
 import { createClient } from "../utils/createClient.js";
-import { APIVersion } from "../utils/utils.js";
+import { AnyApiVersion, APIMatrix } from "../utils/utils.js";
 
 describe("OpenAIAssistants", () => {
-  matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix.filter(({ beta }) => beta)], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function () {

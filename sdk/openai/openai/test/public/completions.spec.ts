@@ -4,7 +4,7 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
-import { APIMatrix, APIVersion, DeploymentInfo } from "./utils/utils.js";
+import { AnyApiVersion, APIMatrix, DeploymentInfo, isModelInList } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
@@ -31,8 +31,8 @@ describe("Completions", function () {
     deployments = await getDeployments("completions");
   });
 
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function () {
@@ -45,8 +45,10 @@ describe("Completions", function () {
           await withDeployments(
             deployments,
             (deploymentName) => client.completions.create({ model: deploymentName, prompt }),
-            assertCompletions,
-            completionsModelsToSkip,
+            {
+              validate: assertCompletions,
+              filterModels: (model) => !isModelInList(model, completionsModelsToSkip),
+            },
           );
         });
       });
@@ -60,7 +62,7 @@ describe("Completions", function () {
               client.completions.create({ model: deploymentName, prompt, stream: true }),
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
-            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+            { validate: (result) => assertCompletionsStream(result, { allowEmptyChoices: true }) },
           );
         });
 
@@ -131,7 +133,7 @@ describe("Completions", function () {
 
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
-            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+            { validate: (result) => assertCompletionsStream(result, { allowEmptyChoices: true }) },
           );
         });
       });
@@ -186,7 +188,7 @@ describe("Completions", function () {
                     model: deploymentName,
                     messages: pirateMessages,
                   }),
-                assertChatCompletions,
+                { validate: assertChatCompletions },
               ),
               chatCompletionDeployments,
             );
@@ -226,8 +228,10 @@ describe("Completions", function () {
                   messages: weatherMessages,
                 });
               },
-              (result) => assertChatCompletions(result, { functions: true }),
-              functionCallModelsToSkip,
+              {
+                validate: (result) => assertChatCompletions(result, { functions: true }),
+                filterModels: (model) => !isModelInList(model, functionCallModelsToSkip),
+              },
             );
           });
 
@@ -242,9 +246,11 @@ describe("Completions", function () {
                     tool_choice: "none",
                     tools: [{ type: "function", function: getCurrentWeather }],
                   }),
-                (res) => {
-                  assertChatCompletions(res, { functions: false });
-                  assert.isUndefined(res.choices[0].message?.tool_calls);
+                {
+                  validate: (res) => {
+                    assertChatCompletions(res, { functions: false });
+                    assert.isUndefined(res.choices[0].message?.tool_calls);
+                  },
                 },
               ),
               chatCompletionDeployments,
@@ -289,14 +295,16 @@ describe("Completions", function () {
                       },
                     ],
                   }),
-                (res) => {
-                  assertChatCompletions(res, { functions: true });
-                  const toolCalls = res.choices[0].message?.tool_calls;
-                  if (!toolCalls) {
-                    throw new Error("toolCalls should be defined here");
-                  }
-                  assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
-                  assert.isUndefined(res.choices[0].message?.function_call);
+                {
+                  validate: (res) => {
+                    assertChatCompletions(res, { functions: true });
+                    const toolCalls = res.choices[0].message?.tool_calls;
+                    if (!toolCalls) {
+                      throw new Error("toolCalls should be defined here");
+                    }
+                    assert.equal(toolCalls[0].function.name, getCurrentWeather.name);
+                    assert.isUndefined(res.choices[0].message?.function_call);
+                  },
                 },
               ),
               chatCompletionDeployments,
@@ -327,16 +335,18 @@ describe("Completions", function () {
                     messages: [{ role: "user", content: "Give me information about Asset No1" }],
                     tools: [{ type: "function", function: getAssetInfo }],
                   }),
-                (res) => {
-                  assertChatCompletions(res, { functions: true });
-                  const toolCalls = res.choices[0].message?.tool_calls;
-                  if (!toolCalls) {
-                    throw new Error("toolCalls should be defined here");
-                  }
-                  const argument = toolCalls[0].function.arguments;
-                  assert.isTrue(argument?.includes("assetName"));
+                {
+                  validate: (res) => {
+                    assertChatCompletions(res, { functions: true });
+                    const toolCalls = res.choices[0].message?.tool_calls;
+                    if (!toolCalls) {
+                      throw new Error("toolCalls should be defined here");
+                    }
+                    const argument = toolCalls[0].function.arguments;
+                    assert.isTrue(argument?.includes("assetName"));
+                  },
+                  filterModels: (model) => !isModelInList(model, functionCallModelsToSkip),
                 },
-                functionCallModelsToSkip,
               ),
               chatCompletionDeployments,
             );
@@ -358,15 +368,17 @@ describe("Completions", function () {
                     ],
                     response_format: { type: "json_object" },
                   }),
-                (res) => {
-                  assertChatCompletions(res, { functions: false });
-                  const content = res.choices[0].message?.content;
-                  if (!content) assert.fail("Undefined content");
-                  try {
-                    JSON.parse(content);
-                  } catch (e) {
-                    assert.fail(`Invalid JSON: ${content}`);
-                  }
+                {
+                  validate: (res) => {
+                    assertChatCompletions(res, { functions: false });
+                    const content = res.choices[0].message?.content;
+                    if (!content) assert.fail("Undefined content");
+                    try {
+                      JSON.parse(content);
+                    } catch (e) {
+                      assert.fail(`Invalid JSON: ${content}`);
+                    }
+                  },
                 },
               ),
               chatCompletionDeployments,
@@ -383,7 +395,7 @@ describe("Completions", function () {
                     messages: byodMessages,
                     data_sources: [createAzureSearchExtension()],
                   }),
-                assertChatCompletions,
+                { validate: assertChatCompletions },
               ),
               chatCompletionDeployments,
             );
@@ -403,15 +415,17 @@ describe("Completions", function () {
                       stream: true,
                     }),
                   ),
-                (res) =>
-                  assertChatCompletionsList(res, {
-                    // The API returns an empty choice in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyChoices: true,
-                    // The API returns an empty ID in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyId: true,
-                  }),
+                {
+                  validate: (res) =>
+                    assertChatCompletionsList(res, {
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
+                      // The API returns an empty ID in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyId: true,
+                    }),
+                },
               ),
               chatCompletionDeployments,
             );
@@ -430,13 +444,15 @@ describe("Completions", function () {
                       functions: [getCurrentWeather],
                     }),
                   ),
-                (res) =>
-                  assertChatCompletionsList(res, {
-                    functions: true,
-                    // The API returns an empty choice in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyChoices: true,
-                  }),
+                {
+                  validate: (res) =>
+                    assertChatCompletionsList(res, {
+                      functions: true,
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
+                    }),
+                },
               ),
               chatCompletionDeployments,
             );
@@ -455,13 +471,15 @@ describe("Completions", function () {
                       tools: [{ type: "function", function: getCurrentWeather }],
                     }),
                   ),
-                (res) =>
-                  assertChatCompletionsList(res, {
-                    functions: true,
-                    // The API returns an empty choice in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyChoices: true,
-                  }),
+                {
+                  validate: (res) =>
+                    assertChatCompletionsList(res, {
+                      functions: true,
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
+                    }),
+                },
               ),
               chatCompletionDeployments,
             );
@@ -481,7 +499,7 @@ describe("Completions", function () {
                       ...dataSources,
                     }),
                   ),
-                assertChatCompletionsList,
+                { validate: assertChatCompletionsList },
               ),
               chatCompletionDeployments,
             );

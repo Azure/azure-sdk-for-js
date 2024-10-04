@@ -5,8 +5,8 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
 import {
+  AnyApiVersion,
   APIMatrix,
-  APIVersion,
   DeploymentInfo,
   getDeployments,
   withDeployments,
@@ -15,8 +15,8 @@ import OpenAI, { AzureOpenAI } from "openai";
 import { assertEmbeddings } from "./utils/asserts.js";
 
 describe("Embeddings", function () {
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
       let deployments: DeploymentInfo[] = [];
 
@@ -31,7 +31,7 @@ describe("Embeddings", function () {
           await withDeployments(
             deployments,
             (deploymentName) => client.embeddings.create({ model: deploymentName, input: prompt }),
-            assertEmbeddings,
+            { validate: assertEmbeddings },
           );
         });
 
@@ -42,7 +42,7 @@ describe("Embeddings", function () {
             deployments,
             (deploymentName) =>
               client.embeddings.create({ model: deploymentName, input: prompt, dimensions }),
-            (embedding) => assertEmbeddings(embedding, { dimensions }),
+            { validate: (embedding) => assertEmbeddings(embedding, { dimensions }) },
           );
         });
       });
