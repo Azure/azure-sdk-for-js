@@ -254,7 +254,9 @@ describe("internal crypto tests", () => {
         "verify",
         "verifyData",
       ] as const) {
-        vi.spyOn(localProvider, operation).mockRejectedValue("Error");
+        vi.spyOn(localProvider, operation).mockImplementation(() => {
+          throw new Error("Local error");
+        });
       }
     });
 
@@ -303,7 +305,7 @@ describe("internal crypto tests", () => {
             });
 
           const sendRequest = vi.fn();
-          sendRequest.mockReturnValue(sendSignRequest);
+          sendRequest.mockImplementation(sendSignRequest);
           sendRequest.mockReturnValueOnce(
             Promise.reject(new RestError("Forbidden", { statusCode: 403 })),
           );
@@ -324,7 +326,9 @@ describe("internal crypto tests", () => {
 
       describe("when a local provider errors", function () {
         it("remotes the encrypt operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "encrypt");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "encrypt")
+            .mockResolvedValue({ algorithm: "", result: new Uint8Array(0) });
 
           const parameters: EncryptParameters = {
             algorithm: "RSA-OAEP",
@@ -332,68 +336,80 @@ describe("internal crypto tests", () => {
           };
 
           await cryptoClient.encrypt(parameters);
-          expect(remoteStub).toHaveBeenCalledWith(parameters);
+          expect(remoteStub).toHaveBeenCalledWith(parameters, expect.anything());
         });
 
         it("remotes the decrypt operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "decrypt");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "decrypt")
+            .mockResolvedValue({ algorithm: "", result: new Uint8Array(0) });
 
           const parameters: DecryptParameters = {
             algorithm: "RSA-OAEP",
             ciphertext: stringToUint8Array("text"),
           };
           await cryptoClient.decrypt(parameters);
-          expect(remoteStub).toHaveBeenCalledWith(parameters);
+          expect(remoteStub).toHaveBeenCalledWith(parameters, expect.anything());
         });
 
         it("remotes the wrapKey operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "wrapKey");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "wrapKey")
+            .mockResolvedValue({ algorithm: "A128KW", result: new Uint8Array(0) });
 
           const keyToWrap = stringToUint8Array("myKey");
           await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
-          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", keyToWrap);
+          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", keyToWrap, expect.anything());
         });
 
         it("remotes the unwrapKey operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "unwrapKey");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "unwrapKey")
+            .mockResolvedValue({ algorithm: "A128KW", result: new Uint8Array(0) });
 
           const wrappedKey = stringToUint8Array("myKey");
           await cryptoClient.unwrapKey("RSA-OAEP", wrappedKey);
-          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", wrappedKey);
+          expect(remoteStub).toHaveBeenCalledWith("RSA-OAEP", wrappedKey, expect.anything());
         });
 
         it("remotes the sign operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "sign");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "sign")
+            .mockResolvedValue({ algorithm: "PS256", result: new Uint8Array(0) });
 
           const data = stringToUint8Array("myKey");
           await cryptoClient.sign("PS256", data);
-          expect(remoteStub).toHaveBeenCalledWith("PS256", data);
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data, expect.anything());
         });
 
         it("remotes the signData operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "signData");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "signData")
+            .mockResolvedValue({ algorithm: "PS256", result: new Uint8Array(0) });
 
           const data = stringToUint8Array("myKey");
           await cryptoClient.signData("PS256", data);
-          expect(remoteStub).toHaveBeenCalledWith("PS256", data);
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data, expect.anything());
         });
 
         it("remotes the verify operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "verify");
+          const remoteStub = vi.spyOn(remoteProvider, "verify").mockResolvedValue({ result: true });
 
           const data = stringToUint8Array("myKey");
           const sig = stringToUint8Array("sig");
           await cryptoClient.verify("PS256", data, sig);
-          expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig);
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig, expect.anything());
         });
 
         it("remotes the verifyData operation", async function () {
-          const remoteStub = vi.spyOn(remoteProvider, "verifyData");
+          const remoteStub = vi
+            .spyOn(remoteProvider, "verifyData")
+            .mockResolvedValue({ result: true });
 
           const data = stringToUint8Array("myKey");
           const sig = stringToUint8Array("sig");
           await cryptoClient.verifyData("PS256", data, sig);
-          expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig);
+          expect(remoteStub).toHaveBeenCalledWith("PS256", data, sig, expect.anything());
         });
       });
     });
