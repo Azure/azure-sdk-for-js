@@ -30,6 +30,12 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
+      providerOptions: {
+        launch: {
+          bypassCSP: true,
+          args: ["--no-sandbox", "--disable-web-security"],
+        },
+      },
     },
     watch: false,
     coverage: {
