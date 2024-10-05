@@ -1,0 +1,59 @@
+import { SourceFile, SyntaxKind, Node } from "ts-morph";
+import * as ts from "typescript"; // For using TypeScript factory methods
+
+export default function transformer(sourceFile: SourceFile) {
+  // Step 1: Iterate over all AwaitExpression nodes in the source file
+  sourceFile.forEachDescendant((node, traversal) => {
+    if (node.isKind(SyntaxKind.AwaitExpression)) {
+      const expression = node.getExpression();
+
+      // Ensure it's a CallExpression: await assert.isRejected(...)
+      if (expression && expression.getKind() === SyntaxKind.CallExpression) {
+        const callExpression = expression.asKindOrThrow(
+          SyntaxKind.CallExpression
+        );
+        const callee = callExpression.getExpression();
+
+        // Step 2: Ensure the call is assert.isRejected(...)
+        if (
+          callee.getKind() === SyntaxKind.PropertyAccessExpression &&
+          Node.isPropertyAccessExpression(callee) &&
+          Node.isIdentifier(callee.getExpression()) &&
+          callee.getExpression().getText() === "assert" &&
+          callee.getName() === "isRejected"
+        ) {
+          const args = callExpression.getArguments();
+
+          // Step 3: Create the new call: expect(arg1).rejects.toThrow(arg2)
+          const expectCall = ts.factory.createCallExpression(
+            ts.factory.createIdentifier("expect"),
+            undefined,
+            [args[0].compilerNode as ts.Expression]
+          );
+
+          const rejectsAccess = ts.factory.createPropertyAccessExpression(
+            expectCall,
+            ts.factory.createIdentifier("rejects")
+          );
+
+          node.transform(() => {
+            // Step 4: Create the new call: expect(arg1).rejects.toThrow(arg2)
+            return ts.factory.createAwaitExpression(
+              ts.factory.createCallExpression(
+                ts.factory.createPropertyAccessExpression(
+                  rejectsAccess,
+                  ts.factory.createIdentifier("toThrow")
+                ),
+                undefined,
+                args.length > 1 ? [args[1].compilerNode as ts.Expression] : [] // Pass second argument if provided
+              )
+            );
+          });
+
+          // Skip all children of the current node as it was already transformed
+          traversal.skip();
+        }
+      }
+    }
+  });
+}

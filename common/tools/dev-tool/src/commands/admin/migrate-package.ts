@@ -10,6 +10,7 @@ import { existsSync, lstatSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
+import { transformers } from "../../util/admin/migrate-package/transformers";
 
 const log = createPrinter("migrate-package");
 
@@ -209,6 +210,8 @@ function fixTestingImports(packageFolder: string): void {
         }
       }
     }
+
+    transformers.forEach((transformer) => transformer(sourceFile));
     // Save the changes to the source file
     sourceFile.saveSync();
   }
