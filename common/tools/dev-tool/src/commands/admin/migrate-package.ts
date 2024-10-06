@@ -61,6 +61,12 @@ export const commandInfo = makeCommandInfo(
   },
 );
 
+async function commitChanges(projectFolder: string, message: string): Promise<void> {
+  log.info("Committing changes, message: ", message);
+  await run(["git", "add", "."], { cwd: projectFolder });
+  await run(["git", "commit", "-m", `Migration: ${message}`], { cwd: projectFolder });
+}
+
 export default leafCommand(commandInfo, async ({ "package-name": packageName, browser }) => {
   const root = await resolveRoot();
 
@@ -75,12 +81,14 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
 
   const projectFolder = resolve(root, project.projectFolder);
 
+  log.info("Migrating package.json, tsconfig.json, and api-extractor.json");
   await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"));
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
   await fixApiExtractorConfig(resolve(projectFolder, "api-extractor.json"));
-  await cleanupFiles(projectFolder);
-  fixSourceFiles(projectFolder);
-  fixTestingImports(projectFolder);
+  log.info("Done, committing changes");
+  await commitChanges(projectFolder, "Update package.json, tsconfig.json, and api-extractor.json");
+
+  await applyTransformers(projectFolder);
 
   if (browser) {
     await writeBrowserTestConfig(projectFolder);
@@ -88,8 +96,29 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   }
   await writeFile(resolve(projectFolder, "vitest.config.ts"), VITEST_CONFIG);
 
+  await cleanupFiles(projectFolder);
+
   return true;
 });
+
+async function applyTransformers(projectFolder: string): Promise<void> {
+  const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
+
+  for (const transformer of transformers) {
+    log.info(`Applying transformer: ${transformer.name}`);
+    project.getSourceFiles().forEach((sourceFile) => transformer(sourceFile));
+    log.info("Done, committing changes");
+    await commitChanges(projectFolder, `Apply transformer: ${transformer.name}`);
+  }
+
+  transformers.forEach((transformer) => {
+    project.getSourceFiles().forEach((sourceFile) => transformer(sourceFile));
+  });
+  for (const sourceFile of project.getSourceFiles()) {
+    transformers.forEach((transformer) => transformer(sourceFile));
+    sourceFile.saveSync();
+  }
+}
 
 const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
@@ -142,186 +171,112 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
 }
 
-function fixTestingImports(packageFolder: string): void {
-  // Create a new project
-  const project = new Project({
-    tsConfigFilePath: resolve(packageFolder, "tsconfig.json"),
-  });
+// TODO: camelCase all transformer source files
+// TODO: git add and commit after every transformer
 
-  // Iterate over all the source files
-  for (const sourceFile of project.getSourceFiles()) {
-    // Remove if the file is a test utility for chai
-    if (
-      sourceFile.getFilePath().includes("/test") &&
-      !sourceFile.getBaseName().endsWith(".spec.ts")
-    ) {
-      for (const importDeclaration of sourceFile.getImportDeclarations()) {
-        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-        if (["chai", "assert"].includes(moduleSpecifier)) {
-          importDeclaration.remove();
-          sourceFile.addImportDeclaration({
-            namedImports: ["assert"],
-            moduleSpecifier: "vitest",
-          });
-        }
-      }
-    }
+// function fixSourceFiles(project: Project): void {
+//   const sourceLinesToRemove = [
+//     "const should = chai.should();",
+//     "chai.use(chaiAsPromised);",
+//     "chai.use(chaiExclude);",
+//     "const expect = chai.expect;",
+//   ];
 
-    if (sourceFile.getBaseName().endsWith(".spec.ts")) {
-      if (!sourceFile.getImportDeclaration("vitest")) {
-        // If the file ends with .spec.ts, add the import statement
-        const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
-          const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-          return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
-        });
+//   // Iterate over all the source files
+//   for (const sourceFile of project.getSourceFiles()) {
+//     // Iterate over all the statements in the source file
+//     for (const statement of sourceFile.getStatements()) {
+//       // Remove old legacy lines
+//       for (const line of sourceLinesToRemove) {
+//         if (statement.getText() === line) {
+//           statement.remove();
+//         }
+//       }
 
-        const viTestImports = ["describe", "it", "assert"];
-        // Insert typical mocking imports if needed
-        if (hasMocking) {
-          viTestImports.push("expect, vi, beforeEach, afterEach");
-        }
+//       const patternsToReplace = [
+//         { pattern: /\(this: Context\)/g, replace: "(ctx)" },
+//         { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
+//         { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
+//         { pattern: /this\.skip\(\);/g, replace: "ctx.skip();" },
+//       ];
 
-        sourceFile.addImportDeclaration({
-          namedImports: viTestImports,
-          moduleSpecifier: "vitest",
-        });
-      }
-    }
+//       // Replace the patterns in the source file
+//       for (const { pattern, replace } of patternsToReplace) {
+//         if (pattern.test(statement.getText())) {
+//           statement.replaceWithText(statement.getText().replace(pattern, replace));
+//         }
+//       }
+//     }
 
-    const modulesToRemove = ["chai", "chai-as-promised", "chai-exclude", "sinon", "mocha"];
+//     // Iterate over all the import declarations
+//     for (const importExportDeclaration of sourceFile.getImportDeclarations()) {
+//       let moduleSpecifier = importExportDeclaration.getModuleSpecifierValue();
+//       moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
+//       importExportDeclaration.setModuleSpecifier(moduleSpecifier);
+//     }
 
-    // Iterate over all the import declarations
-    for (const importDeclaration of sourceFile.getImportDeclarations()) {
-      const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-      // If the module specifier is legacy, remove the import declaration
-      if (modulesToRemove.includes(moduleSpecifier)) {
-        importDeclaration.remove();
-      } else if (moduleSpecifier === "@azure-tools/test-utils") {
-        // If the module specifier is "@azure-tools/test-utils", remove the "assert" named import
-        const namedImports = importDeclaration.getNamedImports();
-        const assertImport = namedImports.find((namedImport) => namedImport.getName() === "assert");
-        if (assertImport) {
-          assertImport.remove();
-        }
+//     // iterate over all the export declarations
+//     for (const exportDeclaration of sourceFile.getExportDeclarations()) {
+//       let moduleSpecifier = exportDeclaration.getModuleSpecifierValue();
+//       if (moduleSpecifier) {
+//         moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
+//         exportDeclaration.setModuleSpecifier(moduleSpecifier);
+//       }
+//     }
 
-        // If there are no named imports left, remove the entire import declaration
-        if (importDeclaration.getNamedImports().length === 0) {
-          importDeclaration.remove();
-        }
-      }
-    }
+//     // Apply additional transformers
+//     transformers.forEach((transformer) => transformer(sourceFile));
 
-    transformers.forEach((transformer) => transformer(sourceFile));
-    // Save the changes to the source file
-    sourceFile.saveSync();
-  }
-}
+//     // Save the changes to the source file
+//     sourceFile.saveSync();
+//   }
+// }
 
-function fixSourceFiles(packageFolder: string): void {
-  const sourceLinesToRemove = [
-    "const should = chai.should();",
-    "chai.use(chaiAsPromised);",
-    "chai.use(chaiExclude);",
-    "const expect = chai.expect;",
-  ];
+// function fixNodeDeclaration(moduleSpecifier: string): string {
+//   const nodeModules = [
+//     "assert",
+//     "crypto",
+//     "events",
+//     "fs",
+//     "fs/promises",
+//     "http",
+//     "https",
+//     "net",
+//     "os",
+//     "path",
+//     "process",
+//     "stream",
+//     "tls",
+//     "util",
+//   ];
 
-  // Create a new project
-  const project = new Project({
-    tsConfigFilePath: resolve(packageFolder, "tsconfig.json"),
-  });
+//   if (nodeModules.includes(moduleSpecifier)) {
+//     moduleSpecifier = `node:${moduleSpecifier}`;
+//   }
 
-  // Iterate over all the source files
-  for (const sourceFile of project.getSourceFiles()) {
-    // Iterate over all the statements in the source file
-    for (const statement of sourceFile.getStatements()) {
-      // Remove old legacy lines
-      for (const line of sourceLinesToRemove) {
-        if (statement.getText() === line) {
-          statement.remove();
-        }
-      }
+//   return moduleSpecifier;
+// }
 
-      const patternsToReplace = [
-        { pattern: /sinon\.stub/gi, replace: "vi.spyOn" },
-        { pattern: /\(this: Context\)/g, replace: "(ctx)" },
-        { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
-        { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
-        { pattern: /this\.skip\(\);/g, replace: "ctx.task.skip();" },
-      ];
-
-      // Replace the patterns in the source file
-      for (const { pattern, replace } of patternsToReplace) {
-        if (pattern.test(statement.getText())) {
-          statement.replaceWithText(statement.getText().replace(pattern, replace));
-        }
-      }
-    }
-
-    // Iterate over all the import declarations
-    for (const importExportDeclaration of sourceFile.getImportDeclarations()) {
-      let moduleSpecifier = importExportDeclaration.getModuleSpecifierValue();
-      moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
-      importExportDeclaration.setModuleSpecifier(moduleSpecifier);
-    }
-
-    // iterate over all the export declarations
-    for (const exportDeclaration of sourceFile.getExportDeclarations()) {
-      let moduleSpecifier = exportDeclaration.getModuleSpecifierValue();
-      if (moduleSpecifier) {
-        moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
-        exportDeclaration.setModuleSpecifier(moduleSpecifier);
-      }
-    }
-    // Save the changes to the source file
-    sourceFile.saveSync();
-  }
-}
-
-function fixNodeDeclaration(moduleSpecifier: string): string {
-  const nodeModules = [
-    "assert",
-    "crypto",
-    "events",
-    "fs",
-    "fs/promises",
-    "http",
-    "https",
-    "net",
-    "os",
-    "path",
-    "process",
-    "stream",
-    "tls",
-    "util",
-  ];
-
-  if (nodeModules.includes(moduleSpecifier)) {
-    moduleSpecifier = `node:${moduleSpecifier}`;
-  }
-
-  return moduleSpecifier;
-}
-
-function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
-  if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
-    if (!moduleSpecifier.endsWith(".js")) {
-      // If the module specifier ends with "/", add "index.js", otherwise add ".js"
-      if (moduleSpecifier.endsWith("/")) {
-        moduleSpecifier += "index.js";
-      } else {
-        // Check if the module specifier is a directory
-        const path = resolve(sourceFile.getDirectoryPath(), moduleSpecifier);
-        if (existsSync(path) && lstatSync(path).isDirectory()) {
-          moduleSpecifier += "/index.js";
-        } else {
-          moduleSpecifier += ".js";
-        }
-      }
-    }
-  }
-  // Fix the node module declaration as well
-  return fixNodeDeclaration(moduleSpecifier);
-}
+// function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
+//   if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
+//     if (!moduleSpecifier.endsWith(".js")) {
+//       // If the module specifier ends with "/", add "index.js", otherwise add ".js"
+//       if (moduleSpecifier.endsWith("/")) {
+//         moduleSpecifier += "index.js";
+//       } else {
+//         // Check if the module specifier is a directory
+//         const path = resolve(sourceFile.getDirectoryPath(), moduleSpecifier);
+//         if (existsSync(path) && lstatSync(path).isDirectory()) {
+//           moduleSpecifier += "/index.js";
+//         } else {
+//           moduleSpecifier += ".js";
+//         }
+//       }
+//     }
+//   }
+//   // Fix the node module declaration as well
+//   return fixNodeDeclaration(moduleSpecifier);
+// }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
