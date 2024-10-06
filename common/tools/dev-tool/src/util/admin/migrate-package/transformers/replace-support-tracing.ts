@@ -1,7 +1,7 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
-export default function transformer(sourceFile: SourceFile) {
+export default function replaceSupportTracing(sourceFile: SourceFile) {
   // Step 1: Check for any instances of `assert.supportsTracing`
   const supportsTracingExists = sourceFile
     .getDescendantsOfKind(SyntaxKind.CallExpression)
@@ -40,9 +40,7 @@ export default function transformer(sourceFile: SourceFile) {
     const extendCode = `expect.extend({ toSupportTracing })`;
 
     // Insert `expect.extend({ toSupportTracing })` after the last import statement
-    const lastImport = sourceFile.getLastChildByKind(
-      SyntaxKind.ImportDeclaration
-    );
+    const lastImport = sourceFile.getLastChildByKind(SyntaxKind.ImportDeclaration);
     if (lastImport) {
       sourceFile.insertStatements(lastImport.getChildIndex() + 1, [extendCode]);
     }
@@ -51,10 +49,7 @@ export default function transformer(sourceFile: SourceFile) {
   // Step 3: Ensure `expect` is imported from "vitest"
   const expectImportExists = sourceFile
     .getImportDeclarations()
-    .some(
-      (importDeclaration) =>
-        importDeclaration.getModuleSpecifierValue() === "vitest"
-    );
+    .some((importDeclaration) => importDeclaration.getModuleSpecifierValue() === "vitest");
 
   if (!expectImportExists) {
     sourceFile.addImportDeclaration({
@@ -69,9 +64,7 @@ export default function transformer(sourceFile: SourceFile) {
     if (node.isKind(SyntaxKind.AwaitExpression)) {
       const expression = node.getExpression();
       if (Node.isCallExpression(expression)) {
-        const callExpression = expression.asKindOrThrow(
-          SyntaxKind.CallExpression
-        );
+        const callExpression = expression.asKindOrThrow(SyntaxKind.CallExpression);
         const callee = callExpression.getExpression();
 
         if (
@@ -92,13 +85,13 @@ export default function transformer(sourceFile: SourceFile) {
                   ts.factory.createCallExpression(
                     ts.factory.createIdentifier("expect"),
                     undefined,
-                    [asyncFunction.compilerNode as ts.Expression]
+                    [asyncFunction.compilerNode as ts.Expression],
                   ),
-                  ts.factory.createIdentifier("toSupportTracing")
+                  ts.factory.createIdentifier("toSupportTracing"),
                 ),
                 undefined,
-                [methodArray.compilerNode as ts.Expression]
-              )
+                [methodArray.compilerNode as ts.Expression],
+              ),
             );
           });
 
@@ -114,8 +107,7 @@ export default function transformer(sourceFile: SourceFile) {
     .getImportDeclarations()
     .some(
       (importDeclaration) =>
-        importDeclaration.getModuleSpecifierValue() ===
-        "@azure-tools/test-utils-vitest"
+        importDeclaration.getModuleSpecifierValue() === "@azure-tools/test-utils-vitest",
     );
 
   if (!toSupportTracingImportExists) {

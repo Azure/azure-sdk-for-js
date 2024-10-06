@@ -1,7 +1,7 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
-export default function transformer(sourceFile: SourceFile) {
+export default function replaceAssertIsRejected(sourceFile: SourceFile) {
   // Step 1: Iterate over all AwaitExpression nodes in the source file
   sourceFile.forEachDescendant((node, traversal) => {
     if (node.isKind(SyntaxKind.AwaitExpression)) {
@@ -9,9 +9,7 @@ export default function transformer(sourceFile: SourceFile) {
 
       // Ensure it's a CallExpression: await assert.isRejected(...)
       if (expression && expression.getKind() === SyntaxKind.CallExpression) {
-        const callExpression = expression.asKindOrThrow(
-          SyntaxKind.CallExpression
-        );
+        const callExpression = expression.asKindOrThrow(SyntaxKind.CallExpression);
         const callee = callExpression.getExpression();
 
         // Step 2: Ensure the call is assert.isRejected(...)
@@ -28,12 +26,12 @@ export default function transformer(sourceFile: SourceFile) {
           const expectCall = ts.factory.createCallExpression(
             ts.factory.createIdentifier("expect"),
             undefined,
-            [args[0].compilerNode as ts.Expression]
+            [args[0].compilerNode as ts.Expression],
           );
 
           const rejectsAccess = ts.factory.createPropertyAccessExpression(
             expectCall,
-            ts.factory.createIdentifier("rejects")
+            ts.factory.createIdentifier("rejects"),
           );
 
           node.transform(() => {
@@ -42,11 +40,11 @@ export default function transformer(sourceFile: SourceFile) {
               ts.factory.createCallExpression(
                 ts.factory.createPropertyAccessExpression(
                   rejectsAccess,
-                  ts.factory.createIdentifier("toThrow")
+                  ts.factory.createIdentifier("toThrow"),
                 ),
                 undefined,
-                args.length > 1 ? [args[1].compilerNode as ts.Expression] : [] // Pass second argument if provided
-              )
+                args.length > 1 ? [args[1].compilerNode as ts.Expression] : [], // Pass second argument if provided
+              ),
             );
           });
 

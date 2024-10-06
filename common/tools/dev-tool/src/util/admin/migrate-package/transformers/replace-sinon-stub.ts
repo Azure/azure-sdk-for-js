@@ -1,11 +1,10 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
-export default function transformer(sourceFile: SourceFile) {
+export default function replaceSinonStub(sourceFile: SourceFile) {
   // Helper function to perform a case-insensitive check for the 'sinon' identifier
   const isSinonIdentifier = (identifier: string) =>
-    identifier.toLowerCase() === "sinon" ||
-    identifier.toLowerCase() === "sandbox";
+    identifier.toLowerCase() === "sinon" || identifier.toLowerCase() === "sandbox";
 
   // Step 1: Replace `sinon.stub(arg1, "methodName").returns(someValue)`
   // with `vi.spyOn(arg1, "methodName").mockReturnValue(someValue)`
@@ -25,15 +24,11 @@ export default function transformer(sourceFile: SourceFile) {
         const obj = args[0].getText(); // Extract text before replacing the node
         const methodName = args[1].getText(); // Extract text before replacing the node
 
-        const parent = node.getParentIfKind(
-          SyntaxKind.PropertyAccessExpression
-        );
+        const parent = node.getParentIfKind(SyntaxKind.PropertyAccessExpression);
         const methodNameAfterStub = parent?.getName();
 
         if (methodNameAfterStub === "returns") {
-          const returnsCall = parent?.getParentIfKind(
-            SyntaxKind.CallExpression
-          );
+          const returnsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
           if (returnsCall && returnsCall.getArguments().length > 0) {
             const returnValue = returnsCall.getArguments()[0].getText(); // Extract the text
 

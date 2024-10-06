@@ -1,6 +1,6 @@
 import { SourceFile, SyntaxKind } from "ts-morph";
 
-export default function transformer(sourceFile: SourceFile) {
+export default function addViHelper(sourceFile: SourceFile) {
   // Step 1: Find all usages of `vi` in the file
   const viUsages = sourceFile
     .getDescendantsOfKind(SyntaxKind.Identifier)
@@ -14,10 +14,7 @@ export default function transformer(sourceFile: SourceFile) {
   // Step 2: Check if there's already an import of `vi` from `vitest`
   const vitestImport = sourceFile
     .getImportDeclarations()
-    .find(
-      (importDeclaration) =>
-        importDeclaration.getModuleSpecifierValue() === "vitest"
-    );
+    .find((importDeclaration) => importDeclaration.getModuleSpecifierValue() === "vitest");
 
   // Step 3: If `vitest` is imported, check if `vi` is part of the named imports
   const viImported = vitestImport

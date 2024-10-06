@@ -106,9 +106,12 @@ async function applyTransformers(projectFolder: string): Promise<void> {
 
   for (const transformer of transformers) {
     log.info(`Applying transformer: ${transformer.name}`);
-    project.getSourceFiles().forEach((sourceFile) => transformer(sourceFile));
+    for (const sourceFile of project.getSourceFiles()) {
+      transformer(sourceFile);
+      sourceFile.saveSync();
+    }
     log.info("Done, committing changes");
-    await commitChanges(projectFolder, `Apply transformer: ${transformer.name}`);
+    await commitChanges(projectFolder, `Apply transformer: "${transformer.name}"`);
   }
 
   transformers.forEach((transformer) => {
