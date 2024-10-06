@@ -62,6 +62,8 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function commitChanges(projectFolder: string, message: string): Promise<void> {
+  log.info("Formatting files");
+  await run(["rushx", "format"], { cwd: projectFolder });
   log.info("Committing changes, message: ", message);
   await run(["git", "add", "."], { cwd: projectFolder });
   await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
