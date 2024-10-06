@@ -94,13 +94,17 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
 
   await applyTransformers(projectFolder);
 
+  log.info("Migrating test config");
   if (browser) {
     await writeBrowserTestConfig(projectFolder);
     await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
   }
   await writeFile(resolve(projectFolder, "vitest.config.ts"), VITEST_CONFIG);
+  await commitChanges(projectFolder, "Update test config");
 
+  log.info("Cleaning up files");
   await cleanupFiles(projectFolder);
+  await commitChanges(projectFolder, "Clean up files");
 
   return true;
 });
