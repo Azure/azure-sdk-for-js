@@ -1,10 +1,10 @@
-import addViHelper from "./add-vi-helper";
-import fixSourceFile from "./fix-source-file";
-import fixTestingImports from "./fix-testing-imports";
-import replaceAssertIsRejected from "./replace-assert-isRejected";
-import replaceSinonStub from "./replace-sinon-stub";
-import replaceSupportTracing from "./replace-support-tracing";
-import replaceTestUtils from "./replace-test-utils";
+import addViHelper from "./addViHelper";
+import fixSourceFile from "./fixSourceFile";
+import fixTestingImports from "./fixTestingImports";
+import replaceAssertIsRejected from "./replaceChaiAsPromised";
+import replaceSinonStub from "./replaceSinonStubs";
+import replaceSupportTracing from "./replaceSupportsTracing";
+import replaceTestUtils from "./replaceTestUtils";
 
 export const codeMods = [
   fixSourceFile,
