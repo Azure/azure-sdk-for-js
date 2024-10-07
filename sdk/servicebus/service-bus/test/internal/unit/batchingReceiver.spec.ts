@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,

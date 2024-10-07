@@ -10,7 +10,7 @@ import {
 } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 import { getUniqueName } from "../../../src/util/utils.js";
 import { ReceiveOptions } from "../../../src/core/messageReceiver.js";
 import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";

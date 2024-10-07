@@ -8,7 +8,7 @@ import {
   createConnectionContextForTestsWithSessionId,
   defer,
 } from "./unittestUtils.js";
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 import {
   ReceiverEvents,
   EventContext,
