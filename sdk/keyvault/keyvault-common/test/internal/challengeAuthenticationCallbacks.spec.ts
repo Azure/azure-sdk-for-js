@@ -21,7 +21,7 @@ const challengeResponse: SendRequest = async (req) => {
   expect(req.body).toBeNull();
   return {
     headers: createHttpHeaders({
-      "WWW-Authenticate": `Bearer resource="https://vault.azure.net", tenantId="testTenantId"`,
+      "WWW-Authenticate": `Bearer resource="https://vault.azure.net", authorization="http://login.windows.net/testTenantId"`,
     }),
     status: 401,
     request: req,
@@ -51,13 +51,15 @@ const successfulResponseWith =
     };
   };
 
+const TOKEN_EXPIRY = 10000;
+
 const mockCredential: TokenCredential = {
   getToken: async (scopes, options) => {
     const [scope] = Array.isArray(scopes) ? scopes : [scopes];
     expect(scope).toBe("https://vault.azure.net/.default");
     expect(options?.tenantId).toBe("testTenantId");
     expect(options?.enableCae).toBe(true);
-    const later = new Date().getTime() + 100000000;
+    const later = new Date().getTime() + TOKEN_EXPIRY;
 
     if (options?.claims) {
       expect(options.claims).toBe(caeClaims);
@@ -212,6 +214,37 @@ describe("Challenge based authentication tests", function () {
     const rsp = await pipeline.sendRequest({ sendRequest }, request);
     expect(rsp.status).toBe(401);
     expect(rsp.bodyAsText).toBe("CAE challenge 2");
+  });
+
+  it("subsequent calls to getToken do not have claims after the initial call to CAE getToken", async () => {
+    vi.useFakeTimers();
+
+    const sendRequest = vi
+      .fn<SendRequest>()
+      .mockImplementationOnce(challengeResponse)
+      .mockImplementationOnce(caeChallengeResponse)
+      .mockImplementationOnce(
+        successfulResponseWith({ expectAuthorizationHeader: "Bearer cae_token" }),
+      )
+      // This response will happen after we advance the system clock. Another call to getToken will be made. This
+      // call should not have `claims` set, and so the token retrieved from the mock credential will be access_token and not cae_token
+      .mockImplementationOnce(
+        successfulResponseWith({
+          expectAuthorizationHeader: "Bearer access_token",
+          responseBody: "response 2",
+        }),
+      );
+
+    const rsp1 = await pipeline.sendRequest({ sendRequest }, request);
+    expect(rsp1.status).toBe(204);
+
+    // Update system time to force token expiry
+    vi.setSystemTime(new Date().getTime() + TOKEN_EXPIRY);
+    const rsp2 = await pipeline.sendRequest({ sendRequest }, request);
+    expect(rsp2.status).toBe(200);
+    expect(rsp2.bodyAsText).toBe("response 2");
+
+    vi.useRealTimers();
   });
 
   describe("parseWWWAuthenticateHeader tests", () => {
