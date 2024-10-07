@@ -43,6 +43,7 @@ export class TestClient {
   /**
    * The entrypoint of this client, which the tests will call into
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   exampleOperation(options: Options = {}): Promise<PipelineResponse> {
     return this.tracingClient.withSpan("TestClient.outer", options, (updatedOptions) =>
       this.generatedClientOperation(updatedOptions),

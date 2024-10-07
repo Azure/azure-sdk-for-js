@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-tracing",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
   "sdk-type": "client",
   "type": "module",

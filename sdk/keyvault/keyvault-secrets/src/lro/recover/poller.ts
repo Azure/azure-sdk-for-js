@@ -4,9 +4,9 @@
 import {
   RecoverDeletedSecretPollOperation,
   RecoverDeletedSecretPollOperationState,
-} from "./operation";
-import { SecretProperties } from "../../secretsModels";
-import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+} from "./operation.js";
+import { SecretProperties } from "../../secretsModels.js";
+import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller.js";
 
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted

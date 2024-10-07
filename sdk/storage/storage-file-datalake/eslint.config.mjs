@@ -4,6 +4,7 @@ export default [
   ...azsdkEslint.configs.recommended,
   {
     rules: {
+      "@azure/azure-sdk/ts-naming-options": "warn",
       "@azure/azure-sdk/ts-package-json-module": "warn",
     },
   },

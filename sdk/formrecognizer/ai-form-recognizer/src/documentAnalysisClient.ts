@@ -248,6 +248,7 @@ export class DocumentAnalysisClient {
   public async beginAnalyzeDocument(
     model: string | DocumentModel<unknown>,
     document: FormRecognizerRequestBody,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
     return this._tracing.withSpan(
@@ -376,6 +377,7 @@ export class DocumentAnalysisClient {
   public async beginAnalyzeDocumentFromUrl(
     model: string | DocumentModel<unknown>,
     documentUrl: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
     return this._tracing.withSpan(
