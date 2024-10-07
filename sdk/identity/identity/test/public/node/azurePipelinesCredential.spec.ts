@@ -22,7 +22,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -41,14 +41,14 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       "existingServiceConnectionId",
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -63,7 +63,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "invalidSystemAccessToken"
+      "invalidSystemAccessToken",
     );
     const regExpHeader1: RegExp = /"x-vss-e2eid"/gm;
     const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
@@ -71,13 +71,13 @@ describe("AzurePipelinesCredential", function () {
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader1,
-      "error thrown doesn't contain expected header 'x-vss-e2eid'"
+      "error thrown doesn't contain expected header 'x-vss-e2eid'",
     );
 
     await assert.isRejected(
       credential.getToken(scope),
       regExpHeader2,
-      "error thrown doesn't contain expected header 'x-msedge-ref'"
+      "error thrown doesn't contain expected header 'x-msedge-ref'",
     );
   });
 
@@ -91,14 +91,14 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       "clientId",
       existingServiceConnectionId,
-      systemAccessToken
+      systemAccessToken,
     );
     const regExp: RegExp =
       /AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
-      "error thrown doesn't match or promise not rejected"
+      "error thrown doesn't match or promise not rejected",
     );
   });
 
@@ -112,7 +112,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "invalidSystemAccessToken"
+      "invalidSystemAccessToken",
     );
     await assert.isRejected(credential.getToken(scope), /Status code: 401/);
   });

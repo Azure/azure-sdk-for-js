@@ -60,6 +60,7 @@ export class AzurePipelinesCredential implements TokenCredential {
       );
     }
 
+    // Allow these headers to be logged for troubleshooting by AzurePipelines.
     options.loggingOptions = {
       ...options?.loggingOptions,
       additionalAllowedHeaderNames: [
