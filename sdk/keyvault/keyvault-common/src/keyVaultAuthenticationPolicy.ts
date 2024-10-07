@@ -12,6 +12,7 @@ import { WWWAuthenticate, parseWWWAuthenticateHeader } from "./parseWWWAuthentic
 
 import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createTokenCycler } from "./tokenCycler.js";
+import { logger } from "./logger.js";
 
 /**
  * @internal
@@ -152,9 +153,10 @@ export function keyVaultAuthenticationPolicy(
 
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
-      throw new Error(
-        "A 401 response from the service must have a WWW-Authenticate header. This is a service bug.",
+      logger.warning(
+        "keyVaultAuthentication policy encountered a 401 response without a corresponding WWW-Authenticate header. This is unexpected. Not handling the 401 response.",
       );
+      return response;
     }
     const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
 
@@ -213,16 +215,10 @@ export function keyVaultAuthenticationPolicy(
 
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
-      throw new Error(
-        "A 401 response from the service must have a WWW-Authenticate header. This is a service bug.",
-      );
+      return response;
     }
-    const {
-      claims: base64EncodedClaims,
-      error,
-      scope: newScope,
-      tenantId: newTenantId,
-    }: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
+    const { claims: base64EncodedClaims, error }: WWWAuthenticate =
+      parseWWWAuthenticateHeader(challenge) || {};
 
     if (error !== "insufficient_claims" || base64EncodedClaims === undefined) {
       return response;
@@ -230,23 +226,14 @@ export function keyVaultAuthenticationPolicy(
 
     const claims = atob(base64EncodedClaims);
 
-    const scopes = newScope ? [newScope] : challengeState.scopes;
-    const tenantId = newTenantId ?? challengeState.tenantId;
-
-    const accessToken = await getAccessToken(scopes, {
+    const accessToken = await getAccessToken(challengeState.scopes, {
       ...getTokenOptions,
       enableCae: true,
-      tenantId,
+      tenantId: challengeState.tenantId,
       claims,
     });
 
     request.headers.set("Authorization", `Bearer ${accessToken.token}`);
-
-    challengeState = {
-      status: "complete",
-      scopes,
-      tenantId,
-    };
 
     return next(request);
   }
