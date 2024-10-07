@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
