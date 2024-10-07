@@ -22,7 +22,9 @@ const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrume
 require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
-const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
 const provider = new NodeTracerProvider();
@@ -112,14 +114,10 @@ const handleToolCalls = (functionArray) => {
 // any import such as ai-inference has core-tracing as dependency must be imported after the instrumentation is registered
 const ModelClient = require("@azure-rest/ai-inference").default,
   { isUnexpected } = require("@azure-rest/ai-inference");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 async function main() {
-  const credential = new DefaultAzureCredential();
-  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
-  const scopes = ["https://cognitiveservices.azure.com/.default"];
-  const clientOptions = { credentials: { scopes } };
-  const client = ModelClient(modelEndpoint, credential, clientOptions);
+  const client = createModelClient();
 
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
 
@@ -139,6 +137,7 @@ async function main() {
               function: getCurrentWeather,
             },
           ],
+          model: modelName,
         },
         tracingOptions: { tracingContext: context.active() },
       });
@@ -188,6 +187,20 @@ async function main() {
   console.log(toolCallAnswer);
 }
 
+/*
+ * This function creates a model client.
+ */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));
+  } else {
+    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
+  }
+}
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
