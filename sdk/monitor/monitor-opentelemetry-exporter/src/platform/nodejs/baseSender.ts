@@ -161,12 +161,12 @@ export abstract class BaseSender {
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (
-          restError.statusCode &&
-          isRetriable(restError.statusCode) &&
-          !this.isStatsbeatSender
-        ) {
-          this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-          return this.persist(envelopes);
+        restError.statusCode &&
+        isRetriable(restError.statusCode) &&
+        !this.isStatsbeatSender
+      ) {
+        this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
+        return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
         restError.message.includes("Invalid instrumentation key")
