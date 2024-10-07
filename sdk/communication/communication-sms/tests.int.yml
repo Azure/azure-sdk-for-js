@@ -6,15 +6,13 @@ extends:
       PackageName: "@azure/communication-sms"
       ServiceDirectory: communication
       CloudConfig:
-        Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
+        Int:
           SubscriptionConfigurations:
-            - $(sub-config-azure-cloud-test-resources)
-            - $(sub-config-communication-services-cloud-test-resources-common)
-            - $(sub-config-communication-services-cloud-test-resources-js)
-            - $(sub-config-communication-services-sms-cloud-test-resources)
-      Clouds: Public
+            - $(sub-config-communication-int-test-resources-common)
+            - $(sub-config-communication-int-test-resources-js)
+            - $(sub-config-communication-sms-int-test-resources)
+          MatrixFilters:
+            - TestType=^(?!(browser|sample)).*
+      Clouds: Int
       TestResourceDirectories:
         - communication/test-resources/
