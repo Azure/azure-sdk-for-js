@@ -494,6 +494,7 @@ tracingOptions: { tracingContext: context.active() }
 Here is an example:
 
 ```js
+import { context } from "@opentelemetry/api";
 client.path("/chat/completions").post({
       body: {...},
       tracingOptions: { tracingContext: context.active() }
