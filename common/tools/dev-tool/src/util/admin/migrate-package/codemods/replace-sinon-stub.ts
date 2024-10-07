@@ -27,15 +27,18 @@ export default function replaceSinonStub(sourceFile: SourceFile) {
         const parent = node.getParentIfKind(SyntaxKind.PropertyAccessExpression);
         const methodNameAfterStub = parent?.getName();
 
-        if (methodNameAfterStub === "returns") {
+        if (methodNameAfterStub === "returns" || methodNameAfterStub === "resolves") {
           const returnsCall = parent?.getParentIfKind(SyntaxKind.CallExpression);
           if (returnsCall && returnsCall.getArguments().length > 0) {
             const returnValue = returnsCall.getArguments()[0].getText(); // Extract the text
+            const vitestMethod =
+              methodNameAfterStub === "returns" ? "mockReturnValue" : "mockResolvedValue";
 
             // Replace the entire call chain (stub + returns) with spyOn + mockReturnValue
+            // or spyOn + mockResolvedValue depending on the method name
             returnsCall.replaceWithText(`
             vi.spyOn(${obj}, ${methodName})
-            .mockReturnValue(${returnValue})
+            .${vitestMethod}(${returnValue})
           `);
 
             // Skip all children of the current node as it was already transformed

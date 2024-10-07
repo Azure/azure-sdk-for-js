@@ -259,7 +259,6 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await saveJson(packageJsonPath, packageJson);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setScriptsSection(scripts: PackageJson["scripts"]): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
