@@ -79,13 +79,17 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
-          httpRoute as string
-        }`;
+        // AiOperationName max lenght is 1024
+        // https://github.com/MohanGsk/ApplicationInsights-Home/blob/master/EndpointSpecs/Schemas/Bond/ContextTagKeys.bond
+        tags[KnownContextTagKeys.AiOperationName] = String(
+          `${httpMethod as string} ${httpRoute as string}`,
+        ).substring(0, MaxPropertyLengths.TEN_BIT);
       } else if (httpUrl) {
         try {
           const url = new URL(String(httpUrl));
-          tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
+          tags[KnownContextTagKeys.AiOperationName] = String(
+            `${httpMethod} ${url.pathname}`,
+          ).substring(0, MaxPropertyLengths.TEN_BIT);
         } catch {
           /* no-op */
         }
