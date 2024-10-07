@@ -6,13 +6,11 @@ extends:
       PackageName: "@azure-tools/communication-short-codes"
       ServiceDirectory: communication
       CloudConfig:
-        Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
+        Communication:
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-      Clouds: Public
+      Clouds: Communication
+      SupportedClouds: Communication
       TestResourceDirectories:
         - communication/test-resources/
