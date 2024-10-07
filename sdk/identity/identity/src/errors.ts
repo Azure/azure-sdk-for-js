@@ -140,7 +140,6 @@ export class AuthenticationError extends Error {
         errorDescription: "An unknown error occurred and no additional details are available.",
       };
     }
-    console.log(errorResponse.error);
 
     super(
       `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription},`,
