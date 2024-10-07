@@ -6,7 +6,7 @@ import replaceSinonStub from "./replace-sinon-stub";
 import replaceSupportTracing from "./replace-support-tracing";
 import replaceTestUtils from "./replace-test-utils";
 
-export const transformers = [
+export const codeMods = [
   fixSourceFile,
   fixTestingImports,
   addViHelper,

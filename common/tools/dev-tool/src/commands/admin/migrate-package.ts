@@ -2,15 +2,14 @@
 // Licensed under the MIT License
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { Project, SourceFile } from "ts-morph";
+import { Project } from "ts-morph";
 import { createPrinter } from "../../util/printer";
 import { resolveRoot } from "../../util/resolveProject";
 import { readFile, rename, unlink, writeFile } from "node:fs/promises";
-import { existsSync, lstatSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
-import { transformers } from "../../util/admin/migrate-package/transformers";
+import { codeMods } from "../../util/admin/migrate-package/codemods";
 
 const log = createPrinter("migrate-package");
 
@@ -85,6 +84,13 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
 
   const projectFolder = resolve(root, project.projectFolder);
 
+  await prepareFiles(projectFolder, { browser });
+  await applyCodemods(projectFolder);
+
+  return true;
+});
+
+async function prepareFiles(projectFolder: string, options: { browser: boolean }): Promise<void> {
   log.info("Migrating package.json, tsconfig.json, and api-extractor.json");
   await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"));
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
@@ -92,10 +98,8 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   log.info("Done, committing changes");
   await commitChanges(projectFolder, "Update package.json, tsconfig.json, and api-extractor.json");
 
-  await applyTransformers(projectFolder);
-
   log.info("Migrating test config");
-  if (browser) {
+  if (options.browser) {
     await writeBrowserTestConfig(projectFolder);
     await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
   }
@@ -105,29 +109,19 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   log.info("Cleaning up files");
   await cleanupFiles(projectFolder);
   await commitChanges(projectFolder, "Clean up files");
+}
 
-  return true;
-});
-
-async function applyTransformers(projectFolder: string): Promise<void> {
+async function applyCodemods(projectFolder: string): Promise<void> {
   const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
 
-  for (const transformer of transformers) {
-    log.info(`Applying transformer: ${transformer.name}`);
+  for (const mod of codeMods) {
+    log.info(`Applying codeMod: ${mod.name}`);
     for (const sourceFile of project.getSourceFiles()) {
-      transformer(sourceFile);
+      mod(sourceFile);
       sourceFile.saveSync();
     }
     log.info("Done, committing changes");
-    await commitChanges(projectFolder, `Apply transformer: "${transformer.name}"`);
-  }
-
-  transformers.forEach((transformer) => {
-    project.getSourceFiles().forEach((sourceFile) => transformer(sourceFile));
-  });
-  for (const sourceFile of project.getSourceFiles()) {
-    transformers.forEach((transformer) => transformer(sourceFile));
-    sourceFile.saveSync();
+    await commitChanges(projectFolder, `Apply codeMod: "${mod.name}"`);
   }
 }
 
@@ -181,113 +175,6 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
 
   await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
 }
-
-// TODO: camelCase all transformer source files
-// TODO: git add and commit after every transformer
-
-// function fixSourceFiles(project: Project): void {
-//   const sourceLinesToRemove = [
-//     "const should = chai.should();",
-//     "chai.use(chaiAsPromised);",
-//     "chai.use(chaiExclude);",
-//     "const expect = chai.expect;",
-//   ];
-
-//   // Iterate over all the source files
-//   for (const sourceFile of project.getSourceFiles()) {
-//     // Iterate over all the statements in the source file
-//     for (const statement of sourceFile.getStatements()) {
-//       // Remove old legacy lines
-//       for (const line of sourceLinesToRemove) {
-//         if (statement.getText() === line) {
-//           statement.remove();
-//         }
-//       }
-
-//       const patternsToReplace = [
-//         { pattern: /\(this: Context\)/g, replace: "(ctx)" },
-//         { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
-//         { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
-//         { pattern: /this\.skip\(\);/g, replace: "ctx.skip();" },
-//       ];
-
-//       // Replace the patterns in the source file
-//       for (const { pattern, replace } of patternsToReplace) {
-//         if (pattern.test(statement.getText())) {
-//           statement.replaceWithText(statement.getText().replace(pattern, replace));
-//         }
-//       }
-//     }
-
-//     // Iterate over all the import declarations
-//     for (const importExportDeclaration of sourceFile.getImportDeclarations()) {
-//       let moduleSpecifier = importExportDeclaration.getModuleSpecifierValue();
-//       moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
-//       importExportDeclaration.setModuleSpecifier(moduleSpecifier);
-//     }
-
-//     // iterate over all the export declarations
-//     for (const exportDeclaration of sourceFile.getExportDeclarations()) {
-//       let moduleSpecifier = exportDeclaration.getModuleSpecifierValue();
-//       if (moduleSpecifier) {
-//         moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
-//         exportDeclaration.setModuleSpecifier(moduleSpecifier);
-//       }
-//     }
-
-//     // Apply additional transformers
-//     transformers.forEach((transformer) => transformer(sourceFile));
-
-//     // Save the changes to the source file
-//     sourceFile.saveSync();
-//   }
-// }
-
-// function fixNodeDeclaration(moduleSpecifier: string): string {
-//   const nodeModules = [
-//     "assert",
-//     "crypto",
-//     "events",
-//     "fs",
-//     "fs/promises",
-//     "http",
-//     "https",
-//     "net",
-//     "os",
-//     "path",
-//     "process",
-//     "stream",
-//     "tls",
-//     "util",
-//   ];
-
-//   if (nodeModules.includes(moduleSpecifier)) {
-//     moduleSpecifier = `node:${moduleSpecifier}`;
-//   }
-
-//   return moduleSpecifier;
-// }
-
-// function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
-//   if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
-//     if (!moduleSpecifier.endsWith(".js")) {
-//       // If the module specifier ends with "/", add "index.js", otherwise add ".js"
-//       if (moduleSpecifier.endsWith("/")) {
-//         moduleSpecifier += "index.js";
-//       } else {
-//         // Check if the module specifier is a directory
-//         const path = resolve(sourceFile.getDirectoryPath(), moduleSpecifier);
-//         if (existsSync(path) && lstatSync(path).isDirectory()) {
-//           moduleSpecifier += "/index.js";
-//         } else {
-//           moduleSpecifier += ".js";
-//         }
-//       }
-//     }
-//   }
-//   // Fix the node module declaration as well
-//   return fixNodeDeclaration(moduleSpecifier);
-// }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
@@ -463,6 +350,8 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-coverage",
     "karma-env-preprocessor",
     "karma-firefox-launcher",
+    "karma-json-preprocessor",
+    "karma-json-to-file-reporter",
     "karma-junit-reporter",
     "karma-mocha",
     "karma-mocha-reporter",
