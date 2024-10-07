@@ -61,8 +61,6 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function commitChanges(projectFolder: string, message: string): Promise<void> {
-  log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder });
   log.info("Committing changes, message: ", message);
   await run(["git", "add", "."], { cwd: projectFolder });
   await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
@@ -86,6 +84,10 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
 
   await prepareFiles(projectFolder, { browser });
   await applyCodemods(projectFolder);
+
+  log.info("Formatting files");
+  await run(["rushx", "format"], { cwd: projectFolder });
+  await commitChanges(projectFolder, "rushx format");
 
   return true;
 });
