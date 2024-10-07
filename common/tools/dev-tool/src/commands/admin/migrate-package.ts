@@ -97,7 +97,6 @@ async function prepareFiles(projectFolder: string, options: { browser: boolean }
   await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"));
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
   await fixApiExtractorConfig(resolve(projectFolder, "api-extractor.json"));
-  log.info("Done, committing changes");
   await commitChanges(projectFolder, "Update package.json, tsconfig.json, and api-extractor.json");
 
   log.info("Migrating test config");
@@ -122,7 +121,6 @@ async function applyCodemods(projectFolder: string): Promise<void> {
       mod(sourceFile);
       sourceFile.saveSync();
     }
-    log.info("Done, committing changes");
     await commitChanges(projectFolder, `Apply codeMod: "${mod.name}"`);
   }
 }
