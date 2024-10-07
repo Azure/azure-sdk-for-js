@@ -63,7 +63,7 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "systemAccessToken",
+      "invalidSystemAccessToken",
     );
     const regExpHeader1: RegExp = /"x-vss-e2eid"/gm;
     const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
