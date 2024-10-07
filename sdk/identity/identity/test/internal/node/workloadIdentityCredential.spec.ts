@@ -18,12 +18,13 @@ import { assert } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import path from "path";
 import sinon from "sinon";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 describe("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
 
   const scope = "https://vault.azure.net/.default";
-  const tenantId = env.AZURE_TENANT_ID ?? "tenantId";
+  const tenantId = env.AZURE_TENANT_ID ?? PlaybackTenantId;
   const clientId = env.AZURE_CLIENT_ID ?? "clientId";
   const tokenFilePath =
     env.AZURE_FEDERATED_TOKEN_FILE || path.join("assets", "fake-federated-token-file.txt");
