@@ -9,7 +9,7 @@ import { readFile, rename, unlink, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
-import { codeMods } from "../../util/admin/migrate-package/codemods";
+import { codemods } from "../../util/admin/migrate-package/codemods";
 
 const log = createPrinter("migrate-package");
 
@@ -115,13 +115,16 @@ async function prepareFiles(projectFolder: string, options: { browser: boolean }
 async function applyCodemods(projectFolder: string): Promise<void> {
   const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
 
-  for (const mod of codeMods) {
-    log.info(`Applying codeMod: ${mod.name}`);
+  // Apply the codemods, one at a time, to all source files in the project.
+  // Commit the changes after each codemod is applied for ease of reviewing.
+  // For more information on the codemods and how to contribute, see the `codemods` directory.
+  for (const mod of codemods) {
+    log.info(`Applying codemod: ${mod.name}`);
     for (const sourceFile of project.getSourceFiles()) {
       mod(sourceFile);
       sourceFile.saveSync();
     }
-    await commitChanges(projectFolder, `Apply codeMod: "${mod.name}"`);
+    await commitChanges(projectFolder, `Apply codemod: "${mod.name}"`);
   }
 }
 
