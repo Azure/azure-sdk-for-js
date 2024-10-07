@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31254](https://github.com/Azure/azure-sdk-for-js/pull/31254)
+
 ## 4.8.0 (2024-02-14)
 
 ### Other Changes

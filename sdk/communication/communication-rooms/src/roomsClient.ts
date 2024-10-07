@@ -191,6 +191,7 @@ export class RoomsClient {
    * Gets the list of rooms
    * @param options - Operational options
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listRooms(options: ListRoomOptions = {}): PagedAsyncIterableIterator<CommunicationRoom> {
     const { span, updatedOptions } = tracingClient.startSpan("RoomsClient-ListRooms", options);
     try {

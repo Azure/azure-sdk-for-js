@@ -7,15 +7,15 @@ import {
   GetSecretOptions,
   KeyVaultSecret,
   SecretProperties,
-} from "../../secretsModels";
+} from "../../secretsModels.js";
 import {
   KeyVaultSecretPollOperation,
   KeyVaultSecretPollOperationState,
-} from "../keyVaultSecretPoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getSecretFromSecretBundle } from "../../transformations";
+} from "../keyVaultSecretPoller.js";
+import { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { getSecretFromSecretBundle } from "../../transformations.js";
 import { OperationOptions } from "@azure/core-client";
-import { tracingClient } from "../../tracing";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the state of a delete secret's poll operation

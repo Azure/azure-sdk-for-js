@@ -7,7 +7,8 @@
  * @summary Get chat completions with streaming and function call.
  */
 
-import ModelClient, { ChatCompletionsFunctionToolCallOutput } from "@azure-rest/ai-inference";
+import ModelClient from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { createSseStream } from "@azure/core-sse";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,7 +18,9 @@ import { IncomingMessage } from "http";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
-const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 
 interface EventData {
   choices: [
@@ -59,7 +62,7 @@ const getWeatherFunc = (location: string, unit: string): string => {
   return `The temperature in ${location} is 72 degrees ${unit}`;
 }
 
-const updateToolCalls = (toolCallArray: Array<ChatCompletionsFunctionToolCallOutput>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while ( functionArray.length < toolCallArray.length ) {
     functionArray.push(dummyFunction);
@@ -78,7 +81,7 @@ const updateToolCalls = (toolCallArray: Array<ChatCompletionsFunctionToolCallOut
     }
     index++;
   }
-}
+};
 
 const handleToolCalls = (functionArray: Array<any>) => {
   const messageArray = [];
@@ -89,7 +92,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
     switch (func.name) {
       
       case "get_current_weather":
-        content =  getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
+        content = getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
         messageArray.push({
           role: "tool",
           content,
@@ -119,12 +122,7 @@ const streamToString = async (stream: NodeJS.ReadableStream) => {
 
 
 export async function main() {
-  const credential = new DefaultAzureCredential();
-  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
-  const scopes = [ "https://cognitiveservices.azure.com/.default" ];
-  const clientOptions = { credentials: { scopes } };
-  const client = ModelClient(modelEndpoint, credential, clientOptions);
+  const client = createModelClient();
  
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
 
@@ -140,6 +138,7 @@ export async function main() {
             function: getCurrentWeather,
           },
         ],
+        model: modelName,
         stream: true
       }
     }).asNodeStream();
@@ -191,6 +190,21 @@ export async function main() {
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
 
+}
+
+/*
+  * This function creates a model client.
+  */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));      
+  } else {
+    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);      
+  }
 }
 
 main().catch((err) => {
