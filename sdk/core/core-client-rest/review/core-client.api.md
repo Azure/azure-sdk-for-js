@@ -138,10 +138,16 @@ export interface OperationRequestOptions {
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParameter: string,
+pathParameter: string | PathParameterWithOptions,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
+
+// @public
+export interface PathParameterWithOptions {
+    allowReserved?: boolean;
+    value: string;
+}
 
 // @public
 export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods<StreamableMethod>;

@@ -8,6 +8,7 @@ export default [
   {
     files: ["samples-dev/**/*.ts"],
     rules: {
+      "@azure/azure-sdk/ts-naming-options": "warn",
       // Suppresses errors for the custom TSDoc syntax we use for docs
       "tsdoc/syntax": "off",
     },
