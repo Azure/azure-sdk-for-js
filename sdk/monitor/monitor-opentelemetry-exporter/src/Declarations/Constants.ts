@@ -45,7 +45,7 @@ export const ENV_INSTRUMENTATION_KEY = "APPINSIGHTS_INSTRUMENTATIONKEY";
  * Disable Statsbeat environment variable name.
  * @internal
  */
-export const ENV_DISABLE_STATSBEAT = "APPLICATION_INSIGHTS_NO_STATSBEAT";
+export const ENV_DISABLE_STATSBEAT = "APPLICATIONINSIGHTS_STATSBEAT_DISABLED";
 /**
  * Disable OpenTelemetry Resource Metric.
  * @internal
