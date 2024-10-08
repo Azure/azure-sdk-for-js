@@ -2968,7 +2968,7 @@ serviceApiVersions.forEach((serviceVersion) => {
     }
 
     const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
-    describe.skipIf(!premiumNamespace)("Premium Namespaces", () => {
+    describe.runIf(premiumNamespace)("Premium Namespaces", () => {
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
       beforeAll(function () {

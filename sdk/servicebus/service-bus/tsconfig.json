@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "NodeNext",
-    "lib": ["dom", "ES2018.AsyncIterable"],
+    "lib": ["dom"],
     "paths": {
       "@azure/service-bus": ["./src/index"]
     },

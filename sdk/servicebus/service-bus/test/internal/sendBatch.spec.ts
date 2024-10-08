@@ -520,7 +520,7 @@ describe("Send Batch", () => {
 });
 
 const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
-describe.skipIf(!premiumNamespace)("Premium namespaces - Sending", () => {
+describe.runIf(premiumNamespace)("Premium namespaces - Sending", () => {
   let atomClient: ServiceBusAdministrationClient;
 
   beforeAll(function () {
