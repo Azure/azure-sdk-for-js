@@ -5,8 +5,6 @@
 ### Features Added
 - refresh @azure-rest/purview-administration sdk
 
-### Other Changes
-
 ## 1.0.0-beta.1 (2021-10-15)
 
 - This is the initial release of the Azure Purview Administration client sdk.
