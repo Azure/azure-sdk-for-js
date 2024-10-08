@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import sinon from "sinon";
 
-const tokenExchangePath = "/access/entra:exchangeToken";
+const tokenExchangePath = "/access/entra/:exchangeAccessToken?api-version=2024-04-01-preview";
 const resourceEndpoint = "https://contoso.communication.azure.com";
 const entraToken = "entraToken";
 const acsToken = "acsToken";

@@ -93,6 +93,7 @@ const options: InteractiveBrowserCredentialInBrowserOptions = {
       tenantId: "<your-tenant-id>",
       clientId: "<your-client-id>",
       redirectUri: "<your-redirect-uri>",
+      authorityHost: "https://login.microsoftonline.com/<your-tenant-id>",
     };
 const entraTokenCredential = new InteractiveBrowserCredential(options);
 
