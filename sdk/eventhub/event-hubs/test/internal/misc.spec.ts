@@ -28,7 +28,7 @@ describe("Misc tests", function () {
   let producerClient: EventHubProducerClient;
   let hubInfo: EventHubProperties;
   let partitionId: string;
-  let lastEnqueuedOffset: string;
+  let lastEnqueuedOffset: number;
 
   beforeEach(async function () {
     debug("Creating the clients..");
@@ -368,7 +368,7 @@ describe("extractSpanContextFromEventData", function () {
     const eventData: ReceivedEventData = {
       body: "This is a test.",
       enqueuedTimeUtc: new Date(),
-      offset: "0",
+      offset: 0,
       sequenceNumber: 0,
       partitionKey: null,
       properties: {
@@ -386,7 +386,7 @@ describe("extractSpanContextFromEventData", function () {
     const eventData: ReceivedEventData = {
       body: "This is a test.",
       enqueuedTimeUtc: new Date(),
-      offset: "0",
+      offset: 0,
       sequenceNumber: 0,
       partitionKey: null,
       getRawAmqpMessage() {

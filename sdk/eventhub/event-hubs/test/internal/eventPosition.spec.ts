@@ -2,41 +2,51 @@
 // Licensed under the MIT License.
 
 import { earliestEventPosition, latestEventPosition } from "../../src/index.js";
-import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition.js";
+import {
+  EventPosition,
+  getEventPositionFilter,
+  validateEventPositions,
+} from "../../src/eventPosition.js";
 import { describe, it } from "vitest";
 import "../utils/chai.js";
+
+function createPosition(
+  position: Omit<EventPosition, "offset"> & { offset?: number },
+): EventPosition {
+  return position;
+}
 
 describe("EventPosition", function () {
   describe("happy", function () {
     it("should create from an offset with inclusive false", async function () {
       const result = "amqp.annotation.x-opt-offset > '1234'";
-      const pos = { offset: "1234" };
+      const pos = createPosition({ offset: 1234 });
       result.should.equal(getEventPositionFilter(pos));
     });
 
     it("should create from a sequence with inclusive false", async function () {
       const result = "amqp.annotation.x-opt-sequence-number > '0'";
-      const pos = { sequenceNumber: 0 };
+      const pos = createPosition({ sequenceNumber: 0 });
       result.should.equal(getEventPositionFilter(pos));
     });
 
     it("should create from a sequence with inclusive true", async function () {
       const result = "amqp.annotation.x-opt-sequence-number >= '0'";
-      const pos = { sequenceNumber: 0, isInclusive: true };
+      const pos = createPosition({ sequenceNumber: 0, isInclusive: true });
       result.should.equal(getEventPositionFilter(pos));
     });
 
     it("should create from enqueuedTime with Date as Date", async function () {
       const result = "amqp.annotation.x-opt-enqueued-time > '1537406052971'";
       const d = new Date("2018-09-20T01:14:12.971Z");
-      const pos = { enqueuedOn: d };
+      const pos = createPosition({ enqueuedOn: d });
       result.should.equal(getEventPositionFilter(pos));
     });
 
     it("should create from enqueuedTime with Date as number", async function () {
       const result = "amqp.annotation.x-opt-enqueued-time > '1537406052971'";
       const d = new Date("2018-09-20T01:14:12.971Z").getTime();
-      const pos = { enqueuedOn: d };
+      const pos = createPosition({ enqueuedOn: d });
       result.should.equal(getEventPositionFilter(pos));
     });
 
@@ -72,7 +82,7 @@ describe("EventPosition", function () {
 
     it("throws error when event position is passed with both offset and sequence number set", async function () {
       const test = function (): void {
-        validateEventPositions({ offset: "123", sequenceNumber: 456 });
+        validateEventPositions(createPosition({ offset: 123, sequenceNumber: 456 }));
       };
       test.should.throw(
         TypeError,
@@ -82,7 +92,7 @@ describe("EventPosition", function () {
 
     it("throws error when event position is passed with both offset and enqueuedOn set", async function () {
       const test = function (): void {
-        validateEventPositions({ offset: "123", enqueuedOn: 456 });
+        validateEventPositions(createPosition({ offset: 123, enqueuedOn: 456 }));
       };
       test.should.throw(
         TypeError,
@@ -92,7 +102,7 @@ describe("EventPosition", function () {
 
     it("throws error when event position is passed with both sequence number and enqueuedOn set", async function () {
       const test = function (): void {
-        validateEventPositions({ sequenceNumber: 123, enqueuedOn: 456 });
+        validateEventPositions(createPosition({ sequenceNumber: 123, enqueuedOn: 456 }));
       };
       test.should.throw(
         TypeError,
@@ -102,7 +112,7 @@ describe("EventPosition", function () {
 
     it("throws error when empty object is passed in event position map", async function () {
       const test = function (): void {
-        validateEventPositions({ "1": {}, "2": { offset: "123" } });
+        validateEventPositions({ "1": createPosition({}), "2": createPosition({ offset: 123 }) });
       };
       test.should.throw(
         TypeError,
@@ -113,8 +123,8 @@ describe("EventPosition", function () {
     it("throws error when event position map is passed with both offset and sequence number set", async function () {
       const test = function (): void {
         validateEventPositions({
-          "1": { offset: "123", sequenceNumber: 456 },
-          "2": { offset: "123" },
+          "1": createPosition({ offset: 123, sequenceNumber: 456 }),
+          "2": createPosition({ offset: 123 }),
         });
       };
       test.should.throw(
@@ -126,8 +136,8 @@ describe("EventPosition", function () {
     it("throws error when event position map is passed with both offset and enqueuedOn set", async function () {
       const test = function (): void {
         validateEventPositions({
-          "1": { offset: "123", enqueuedOn: 456 },
-          "2": { offset: "123" },
+          "1": createPosition({ offset: 123, enqueuedOn: 456 }),
+          "2": createPosition({ offset: 123 }),
         });
       };
       test.should.throw(
@@ -139,8 +149,8 @@ describe("EventPosition", function () {
     it("throws error when event position map is passed with both sequence number and enqueuedOn set", async function () {
       const test = function (): void {
         validateEventPositions({
-          "1": { sequenceNumber: 123, enqueuedOn: 456 },
-          "2": { offset: "123" },
+          "1": createPosition({ sequenceNumber: 123, enqueuedOn: 456 }),
+          "2": createPosition({ offset: 123 }),
         });
       };
       test.should.throw(

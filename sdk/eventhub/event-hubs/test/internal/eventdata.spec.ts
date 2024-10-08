@@ -267,7 +267,7 @@ describe("EventData", function () {
     it("ReceivedEventData (sequence)", async function () {
       const event: ReceivedEventData = {
         enqueuedTimeUtc: new Date(),
-        offset: "100",
+        offset: 100,
         partitionKey: null,
         sequenceNumber: 1,
         body: ["foo", "bar"],
@@ -287,7 +287,7 @@ describe("EventData", function () {
     it("ReceivedEventData (data)", async function () {
       const event: ReceivedEventData = {
         enqueuedTimeUtc: new Date(),
-        offset: "100",
+        offset: 100,
         partitionKey: null,
         sequenceNumber: 1,
         body: ["foo", "bar"],
@@ -307,7 +307,7 @@ describe("EventData", function () {
     it("ReceivedEventData (value)", async function () {
       const event: ReceivedEventData = {
         enqueuedTimeUtc: new Date(),
-        offset: "100",
+        offset: 100,
         partitionKey: null,
         sequenceNumber: 1,
         body: ["foo", "bar"],

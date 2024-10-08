@@ -121,7 +121,7 @@ describe("Event Processor", function () {
       it("has a checkpoint", async function () {
         const checkpointStore = createCheckpointStore([
           {
-            offset: "1009",
+            offset: 1009,
             sequenceNumber: 1010,
             partitionId: "0",
           },
@@ -134,7 +134,7 @@ describe("Event Processor", function () {
         );
 
         const eventPosition = await processor["_getStartingPosition"]("0");
-        eventPosition!.offset!.should.equal("1009");
+        eventPosition!.offset!.should.equal(1009);
         should.not.exist(eventPosition!.sequenceNumber);
       });
 
@@ -144,7 +144,7 @@ describe("Event Processor", function () {
         // sequence number before but the concept is the same)
         const checkpointStore = createCheckpointStore([
           {
-            offset: "0",
+            offset: 0,
             sequenceNumber: 0,
             partitionId: "0",
           },
@@ -153,26 +153,26 @@ describe("Event Processor", function () {
         const processor = createEventProcessor(checkpointStore);
 
         const eventPosition = await processor["_getStartingPosition"]("0");
-        eventPosition!.offset!.should.equal("0");
+        eventPosition!.offset!.should.equal(0);
         should.not.exist(eventPosition!.sequenceNumber);
       });
 
       it("using a single default event position for any partition", async function () {
-        const processor = createEventProcessor(emptyCheckpointStore, { offset: "1009" });
+        const processor = createEventProcessor(emptyCheckpointStore, { offset: 1009 });
 
         const eventPosition = await processor["_getStartingPosition"]("0");
-        eventPosition!.offset!.should.equal("1009");
+        eventPosition!.offset!.should.equal(1009);
         should.not.exist(eventPosition!.sequenceNumber);
       });
 
       it("using a fallback map", async function () {
-        const fallbackPositions = { "0": { offset: "2001" } };
+        const fallbackPositions = { "0": { offset: 2001 } };
         // we'll purposefully omit "1" which should act as "fallback to the fallback" which is earliest()
 
         const processor = createEventProcessor(emptyCheckpointStore, fallbackPositions);
 
         const eventPositionForPartitionZero = await processor["_getStartingPosition"]("0");
-        eventPositionForPartitionZero!.offset!.should.equal("2001");
+        eventPositionForPartitionZero!.offset!.should.equal(2001);
         should.not.exist(eventPositionForPartitionZero!.sequenceNumber);
 
         const eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
@@ -750,7 +750,7 @@ describe("Event Processor", function () {
         consumerGroup,
         partitionId: "0",
         sequenceNumber: 10,
-        offset: "50",
+        offset: 50,
       };
 
       await inMemoryCheckpointStore.updateCheckpoint(checkpoint);
@@ -962,7 +962,7 @@ describe("Event Processor", function () {
         ...basicProperties,
         sequenceNumber: 1,
         partitionId: "1",
-        offset: "101",
+        offset: 101,
       };
 
       const copyOfOriginalCheckpoint = {

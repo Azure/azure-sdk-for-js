@@ -31,7 +31,7 @@ export interface Checkpoint {
     consumerGroup: string;
     eventHubName: string;
     fullyQualifiedNamespace: string;
-    offset: string;
+    offset: number;
     partitionId: string;
     sequenceNumber: number;
 }
@@ -190,7 +190,6 @@ export class EventHubProducerClient {
 // @public
 export interface EventHubProperties {
     createdOn: Date;
-    isGeoDrEnabled: boolean;
     name: string;
     partitionIds: string[];
 }
@@ -199,7 +198,7 @@ export interface EventHubProperties {
 export interface EventPosition {
     enqueuedOn?: Date | number;
     isInclusive?: boolean;
-    offset?: string | "@latest";
+    offset?: number | "@latest";
     sequenceNumber?: number;
 }
 
@@ -218,7 +217,7 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 // @public
 export interface LastEnqueuedEventProperties {
     enqueuedOn?: Date;
-    offset?: string;
+    offset?: number;
     retrievedOn?: Date;
     sequenceNumber?: number;
 }
@@ -298,7 +297,7 @@ export interface PartitionProperties {
     beginningSequenceNumber: number;
     eventHubName: string;
     isEmpty: boolean;
-    lastEnqueuedOffset: string;
+    lastEnqueuedOffset: number;
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
     partitionId: string;
@@ -324,7 +323,7 @@ export interface ReceivedEventData {
     enqueuedTimeUtc: Date;
     getRawAmqpMessage(): AmqpAnnotatedMessage;
     messageId?: string | number | Buffer;
-    offset: string;
+    offset: number;
     partitionKey: string | null;
     properties?: {
         [key: string]: any;

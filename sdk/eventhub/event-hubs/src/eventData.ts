@@ -90,7 +90,7 @@ export interface EventDataInternal {
   /**
    * The offset of the event.
    */
-  offset?: string;
+  offset?: number;
   /**
    * The sequence number of the event.
    */
@@ -106,7 +106,7 @@ export interface EventDataInternal {
   /**
    * The offset of the last enqueued event.
    */
-  lastEnqueuedOffset?: string;
+  lastEnqueuedOffset?: number;
   /**
    * The enqueued UTC time of the last event.
    */
@@ -405,7 +405,7 @@ export interface ReceivedEventData {
   /**
    * The offset of the event.
    */
-  offset: string;
+  offset: number;
   /**
    * The sequence number of the event.
    */

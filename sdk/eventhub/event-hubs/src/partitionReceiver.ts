@@ -66,7 +66,7 @@ export interface LastEnqueuedEventProperties {
    * The offset of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
-  offset?: string;
+  offset?: number;
   /**
    * The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
@@ -530,7 +530,7 @@ function createRheaOptions(
   if (typeof ownerLevel === "number") {
     rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
-  rheaOptions.desired_capabilities = [Constants.geoReplication];
+  rheaOptions.desired_capabilities = [];
   if (options.trackLastEnqueuedEventProperties) {
     rheaOptions.desired_capabilities.push(Constants.enableReceiverRuntimeMetricName);
   }
