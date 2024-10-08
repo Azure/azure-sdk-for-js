@@ -52,6 +52,12 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownResolutionPolicy {
+    Default = "Default",
+    NxDomainRedirect = "NxDomainRedirect"
+}
+
+// @public
 export enum KnownVirtualNetworkLinkState {
     Completed = "Completed",
     InProgress = "InProgress"
@@ -296,6 +302,9 @@ export type RecordSetsUpdateResponse = RecordSet;
 export type RecordType = "A" | "AAAA" | "CNAME" | "MX" | "PTR" | "SOA" | "SRV" | "TXT";
 
 // @public
+export type ResolutionPolicy = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -344,6 +353,7 @@ export interface VirtualNetworkLink extends TrackedResource {
     etag?: string;
     readonly provisioningState?: ProvisioningState;
     registrationEnabled?: boolean;
+    resolutionPolicy?: ResolutionPolicy;
     virtualNetwork?: SubResource;
     readonly virtualNetworkLinkState?: VirtualNetworkLinkState;
 }

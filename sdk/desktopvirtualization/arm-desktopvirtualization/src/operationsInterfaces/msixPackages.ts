@@ -16,7 +16,7 @@ import {
   MsixPackagesCreateOrUpdateResponse,
   MsixPackagesDeleteOptionalParams,
   MsixPackagesUpdateOptionalParams,
-  MsixPackagesUpdateResponse
+  MsixPackagesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface MsixPackages {
   list(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
+    options?: MsixPackagesListOptionalParams,
   ): PagedAsyncIterableIterator<MsixPackage>;
   /**
    * Get a msixpackage.
@@ -45,7 +45,7 @@ export interface MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    options?: MsixPackagesGetOptionalParams
+    options?: MsixPackagesGetOptionalParams,
   ): Promise<MsixPackagesGetResponse>;
   /**
    * Create or update a MSIX package.
@@ -61,7 +61,7 @@ export interface MsixPackages {
     hostPoolName: string,
     msixPackageFullName: string,
     msixPackage: MsixPackage,
-    options?: MsixPackagesCreateOrUpdateOptionalParams
+    options?: MsixPackagesCreateOrUpdateOptionalParams,
   ): Promise<MsixPackagesCreateOrUpdateResponse>;
   /**
    * Remove an MSIX Package.
@@ -75,7 +75,7 @@ export interface MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    options?: MsixPackagesDeleteOptionalParams
+    options?: MsixPackagesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an  MSIX Package.
@@ -89,6 +89,6 @@ export interface MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    options?: MsixPackagesUpdateOptionalParams
+    options?: MsixPackagesUpdateOptionalParams,
   ): Promise<MsixPackagesUpdateResponse>;
 }

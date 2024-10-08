@@ -381,7 +381,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationListResult,
+      bodyMapper: Mappers.ExpressRouteAuthorizationList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -480,7 +480,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationListResult,
+      bodyMapper: Mappers.ExpressRouteAuthorizationList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
