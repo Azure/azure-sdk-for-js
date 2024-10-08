@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.5.1",
+  "version": "4.6.0",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
@@ -99,7 +99,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.0.0",
-    "@azure/keyvault-common": "^1.0.0",
+    "@azure/keyvault-common": "^2.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
