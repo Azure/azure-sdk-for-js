@@ -14,7 +14,7 @@ export interface PurviewAccountClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `PurviewAccountClient`
- * @param endpoint - The account endpoint of your Purview account. Example: https://{accountName}.purview.azure.com/account/
+ * @param endpoint - The account endpoint of your Purview account. Example: https://\{accountName\}.purview.azure.com/account/
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
@@ -58,9 +58,8 @@ export function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
+        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+          }api-version=${apiVersion}`;
       }
 
       return next(req);
