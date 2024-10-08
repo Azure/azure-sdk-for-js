@@ -21,13 +21,9 @@ export interface PurviewMetadataPoliciesClientOptions extends ClientOptions {
 export function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2021-07-01-preview",
-    ...options
-  }: PurviewMetadataPoliciesClientOptions = {},
+  { apiVersion = "2021-07-01-preview", ...options }: PurviewMetadataPoliciesClientOptions = {},
 ): PurviewMetadataPoliciesClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpoint}/policyStore`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}/policyStore`;
   const userAgentInfo = `azsdk-js-purview-administration-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -45,11 +41,7 @@ export function createClient(
       scopes: options.credentials?.scopes ?? ["user_impersonation"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as PurviewMetadataPoliciesClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewMetadataPoliciesClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
@@ -59,8 +51,9 @@ export function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-          }api-version=${apiVersion}`;
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
       }
 
       return next(req);

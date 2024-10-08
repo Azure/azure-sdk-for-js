@@ -9,16 +9,5 @@ import * as OutputModels from "./outputModels";
 import * as PaginateHelper from "./paginateHelper";
 import * as UnexpectedHelper from "./isUnexpected";
 
-export {
-  createClient,
-  PurviewMetadataPoliciesClientOptions,
-} from "./purviewMetadataPolicies";
-export {
-  Parameters,
-  Responses,
-  Client,
-  Models,
-  OutputModels,
-  PaginateHelper,
-  UnexpectedHelper,
-};
+export { createClient, PurviewMetadataPoliciesClientOptions } from "./purviewMetadataPolicies";
+export { Parameters, Responses, Client, Models, OutputModels, PaginateHelper, UnexpectedHelper };

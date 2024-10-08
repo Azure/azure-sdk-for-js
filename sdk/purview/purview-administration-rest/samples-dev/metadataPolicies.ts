@@ -8,9 +8,7 @@
  * @azsdk-weight 40
  */
 
-import {
-  PurviewMetadataPolicies
-} from "@azure-rest/purview-administration";
+import { PurviewMetadataPolicies } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -34,7 +32,7 @@ async function main() {
 
   for await (const policy of policies) {
     if (Array.isArray(policy)) {
-      console.error('Unexpected array:', policy);
+      console.error("Unexpected array:", policy);
     } else {
       console.log(policy.name);
     }

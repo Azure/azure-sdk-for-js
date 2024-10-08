@@ -35,10 +35,9 @@ export interface AccountsRegenerateAccessKeyMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type AccountsRegenerateAccessKeyParameters =
-  AccountsRegenerateAccessKeyMediaTypesParam &
-    AccountsRegenerateAccessKeyBodyParam &
-    RequestParameters;
+export type AccountsRegenerateAccessKeyParameters = AccountsRegenerateAccessKeyMediaTypesParam &
+  AccountsRegenerateAccessKeyBodyParam &
+  RequestParameters;
 export type CollectionsGetCollectionParameters = RequestParameters;
 
 export interface CollectionsCreateOrUpdateCollectionBodyParam {
@@ -64,8 +63,8 @@ export interface CollectionsListCollectionsQueryParam {
   queryParameters?: CollectionsListCollectionsQueryParamProperties;
 }
 
-export type CollectionsListCollectionsParameters =
-  CollectionsListCollectionsQueryParam & RequestParameters;
+export type CollectionsListCollectionsParameters = CollectionsListCollectionsQueryParam &
+  RequestParameters;
 
 export interface CollectionsListChildCollectionNamesQueryParamProperties {
   $skipToken?: string;

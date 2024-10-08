@@ -55,15 +55,13 @@ export interface AccountsGetAccountProperties {
   get(
     options?: AccountsGetAccountPropertiesParameters,
   ): StreamableMethod<
-    | AccountsGetAccountProperties200Response
-    | AccountsGetAccountPropertiesDefaultResponse
+    AccountsGetAccountProperties200Response | AccountsGetAccountPropertiesDefaultResponse
   >;
   /** Updates an account */
   patch(
     options: AccountsUpdateAccountPropertiesParameters,
   ): StreamableMethod<
-    | AccountsUpdateAccountProperties200Response
-    | AccountsUpdateAccountPropertiesDefaultResponse
+    AccountsUpdateAccountProperties200Response | AccountsUpdateAccountPropertiesDefaultResponse
   >;
 }
 
@@ -71,9 +69,7 @@ export interface AccountsGetAccessKeys {
   /** List the authorization keys associated with this account. */
   post(
     options?: AccountsGetAccessKeysParameters,
-  ): StreamableMethod<
-    AccountsGetAccessKeys200Response | AccountsGetAccessKeysDefaultResponse
-  >;
+  ): StreamableMethod<AccountsGetAccessKeys200Response | AccountsGetAccessKeysDefaultResponse>;
 }
 
 export interface AccountsRegenerateAccessKey {
@@ -81,8 +77,7 @@ export interface AccountsRegenerateAccessKey {
   post(
     options: AccountsRegenerateAccessKeyParameters,
   ): StreamableMethod<
-    | AccountsRegenerateAccessKey200Response
-    | AccountsRegenerateAccessKeyDefaultResponse
+    AccountsRegenerateAccessKey200Response | AccountsRegenerateAccessKeyDefaultResponse
   >;
 }
 
@@ -91,8 +86,7 @@ export interface CollectionsGetCollection {
   get(
     options?: CollectionsGetCollectionParameters,
   ): StreamableMethod<
-    | CollectionsGetCollection200Response
-    | CollectionsGetCollectionDefaultResponse
+    CollectionsGetCollection200Response | CollectionsGetCollectionDefaultResponse
   >;
   /** Creates or updates a collection entity. */
   put(
@@ -105,8 +99,7 @@ export interface CollectionsGetCollection {
   delete(
     options?: CollectionsDeleteCollectionParameters,
   ): StreamableMethod<
-    | CollectionsDeleteCollection204Response
-    | CollectionsDeleteCollectionDefaultResponse
+    CollectionsDeleteCollection204Response | CollectionsDeleteCollectionDefaultResponse
   >;
 }
 
@@ -115,8 +108,7 @@ export interface CollectionsListCollections {
   get(
     options?: CollectionsListCollectionsParameters,
   ): StreamableMethod<
-    | CollectionsListCollections200Response
-    | CollectionsListCollectionsDefaultResponse
+    CollectionsListCollections200Response | CollectionsListCollectionsDefaultResponse
   >;
 }
 
@@ -135,8 +127,7 @@ export interface CollectionsGetCollectionPath {
   get(
     options?: CollectionsGetCollectionPathParameters,
   ): StreamableMethod<
-    | CollectionsGetCollectionPath200Response
-    | CollectionsGetCollectionPathDefaultResponse
+    CollectionsGetCollectionPath200Response | CollectionsGetCollectionPathDefaultResponse
   >;
 }
 
@@ -183,10 +174,7 @@ export interface Routes {
   /** Resource for '/regeneratekeys' has methods for the following verbs: post */
   (path: "/regeneratekeys"): AccountsRegenerateAccessKey;
   /** Resource for '/collections/\{collectionName\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/collections/{collectionName}",
-    collectionName: string,
-  ): CollectionsGetCollection;
+  (path: "/collections/{collectionName}", collectionName: string): CollectionsGetCollection;
   /** Resource for '/collections' has methods for the following verbs: get */
   (path: "/collections"): CollectionsListCollections;
   /** Resource for '/collections/\{collectionName\}/getChildCollectionNames' has methods for the following verbs: get */

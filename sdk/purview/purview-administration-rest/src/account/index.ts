@@ -10,12 +10,4 @@ import * as PaginateHelper from "./paginateHelper";
 import * as UnexpectedHelper from "./isUnexpected";
 
 export { createClient, PurviewAccountClientOptions } from "./purviewAccount";
-export {
-  Parameters,
-  Responses,
-  Client,
-  Models,
-  OutputModels,
-  PaginateHelper,
-  UnexpectedHelper,
-};
+export { Parameters, Responses, Client, Models, OutputModels, PaginateHelper, UnexpectedHelper };

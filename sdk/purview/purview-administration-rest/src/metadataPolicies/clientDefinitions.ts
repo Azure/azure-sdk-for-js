@@ -23,33 +23,25 @@ export interface MetadataRolesList {
   /** Lists roles for Purview Account */
   get(
     options?: MetadataRolesListParameters,
-  ): StreamableMethod<
-    MetadataRolesList200Response | MetadataRolesListDefaultResponse
-  >;
+  ): StreamableMethod<MetadataRolesList200Response | MetadataRolesListDefaultResponse>;
 }
 
 export interface MetadataPolicyListAll {
   /** List or Get metadata policies */
   get(
     options?: MetadataPolicyListAllParameters,
-  ): StreamableMethod<
-    MetadataPolicyListAll200Response | MetadataPolicyListAllDefaultResponse
-  >;
+  ): StreamableMethod<MetadataPolicyListAll200Response | MetadataPolicyListAllDefaultResponse>;
 }
 
 export interface MetadataPolicyUpdate {
   /** Updates a metadata policy */
   put(
     options?: MetadataPolicyUpdateParameters,
-  ): StreamableMethod<
-    MetadataPolicyUpdate200Response | MetadataPolicyUpdateDefaultResponse
-  >;
+  ): StreamableMethod<MetadataPolicyUpdate200Response | MetadataPolicyUpdateDefaultResponse>;
   /** Gets a metadata policy */
   get(
     options?: MetadataPolicyGetParameters,
-  ): StreamableMethod<
-    MetadataPolicyGet200Response | MetadataPolicyGetDefaultResponse
-  >;
+  ): StreamableMethod<MetadataPolicyGet200Response | MetadataPolicyGetDefaultResponse>;
 }
 
 export interface Routes {
@@ -58,10 +50,7 @@ export interface Routes {
   /** Resource for '/metadataPolicies' has methods for the following verbs: get */
   (path: "/metadataPolicies"): MetadataPolicyListAll;
   /** Resource for '/metadataPolicies/\{policyId\}' has methods for the following verbs: put, get */
-  (
-    path: "/metadataPolicies/{policyId}",
-    policyId: string,
-  ): MetadataPolicyUpdate;
+  (path: "/metadataPolicies/{policyId}", policyId: string): MetadataPolicyUpdate;
 }
 
 export type PurviewMetadataPoliciesClient = Client & {

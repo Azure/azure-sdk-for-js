@@ -23,14 +23,10 @@ export function isUnexpected(
   response: MetadataRolesList200Response | MetadataRolesListDefaultResponse,
 ): response is MetadataRolesListDefaultResponse;
 export function isUnexpected(
-  response:
-    | MetadataPolicyListAll200Response
-    | MetadataPolicyListAllDefaultResponse,
+  response: MetadataPolicyListAll200Response | MetadataPolicyListAllDefaultResponse,
 ): response is MetadataPolicyListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | MetadataPolicyUpdate200Response
-    | MetadataPolicyUpdateDefaultResponse,
+  response: MetadataPolicyUpdate200Response | MetadataPolicyUpdateDefaultResponse,
 ): response is MetadataPolicyUpdateDefaultResponse;
 export function isUnexpected(
   response: MetadataPolicyGet200Response | MetadataPolicyGetDefaultResponse,
@@ -82,24 +78,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

@@ -4,10 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import {
-  PurviewAccount,
-  PurviewMetadataPolicies,
-} from "../../../src";
+import { PurviewAccount, PurviewMetadataPolicies } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 import { ClientOptions } from "@azure-rest/core-client";

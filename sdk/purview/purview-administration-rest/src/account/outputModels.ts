@@ -80,8 +80,7 @@ export interface CloudConnectorsOutput {
 }
 
 /** The URIs that are the public endpoints of the account. */
-export interface AccountPropertiesEndpointsOutput
-  extends AccountEndpointsOutput {}
+export interface AccountPropertiesEndpointsOutput extends AccountEndpointsOutput {}
 
 /** The account endpoints */
 export interface AccountEndpointsOutput {
@@ -94,8 +93,7 @@ export interface AccountEndpointsOutput {
 }
 
 /** Gets the resource identifiers of the managed resources. */
-export interface AccountPropertiesManagedResourcesOutput
-  extends ManagedResourcesOutput {}
+export interface AccountPropertiesManagedResourcesOutput extends ManagedResourcesOutput {}
 
 /** The managed resources in customer subscription. */
 export interface ManagedResourcesOutput {
@@ -169,11 +167,7 @@ export interface SystemDataOutput {
   /** The identity that last modified the resource. */
   readonly lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
-  readonly lastModifiedByType?:
-    | "User"
-    | "Application"
-    | "ManagedIdentity"
-    | "Key";
+  readonly lastModifiedByType?: "User" | "Application" | "ManagedIdentity" | "Key";
 }
 
 /** Default error response model */
