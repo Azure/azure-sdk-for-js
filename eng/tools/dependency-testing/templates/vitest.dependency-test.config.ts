@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import path from "node:path";
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../../../vitest.shared.config.ts";
 
@@ -15,7 +14,7 @@ try {
   if (e.code === "ERR_MODULE_NOT_FOUND") {
     // If the file does not exist, log a message and default to an empty config
     console.warn(
-      `vitest.config.ts not found in expected location ${path.resolve(__dirname, "../../vitest.config.ts")} - using default min/max vitest config`,
+      `vitest.config.ts not found in the expected location (sdk/packageDirectory/package/vitest.config.ts) - package's vitest config will not be included`,
     );
   } else {
     // If there's another error, rethrow it
