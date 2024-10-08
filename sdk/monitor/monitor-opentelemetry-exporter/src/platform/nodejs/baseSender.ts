@@ -199,6 +199,9 @@ export abstract class BaseSender {
   private async persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
       const success = await this.persister.push(envelopes);
+      if (!success) {
+        this.networkStatsbeatMetrics?.countWriteFailure();
+      }
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
@@ -237,6 +240,7 @@ export abstract class BaseSender {
         await this.send(envelopes);
       }
     } catch (err: any) {
+      this.networkStatsbeatMetrics?.countReadFailure();
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }
