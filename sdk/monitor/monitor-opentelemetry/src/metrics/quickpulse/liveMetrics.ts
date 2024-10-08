@@ -134,7 +134,7 @@ export class LiveMetrics {
   private lastFailedDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpuUsage: NodeJS.CpuUsage;
-  private lastHrTime: [number, number];
+  private lastHrTime: bigint;
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
   private errorTracker: CollectionConfigurationErrorTracker =
@@ -198,7 +198,7 @@ export class LiveMetrics {
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
     this.lastCpuUsage = process.cpuUsage();
-    this.lastHrTime = process.hrtime();
+    this.lastHrTime = process.hrtime.bigint();
   }
 
   public shutdown(): void {
@@ -628,19 +628,19 @@ export class LiveMetrics {
   }
 
   private getProcessorTimeNormalized(observableResult: ObservableResult): void {
-    const numCpus = os.cpus().length;
+    let numCpus = os.cpus().length;
     const usageDif = process.cpuUsage(this.lastCpuUsage);
-    const elapsedHrTime = process.hrtime(this.lastHrTime);
-
-    this.lastHrTime = process.hrtime();
+    const elapsedTimeNs = process.hrtime.bigint() - this.lastHrTime;
+    this.lastHrTime = process.hrtime.bigint();
     this.lastCpuUsage = process.cpuUsage();
 
-    const usageDifMs = (usageDif.user + usageDif.system) / 1000;
-    const elapsedTimeMs = hrTimeToMilliseconds(elapsedHrTime);
+    const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+    const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+    // just for division safety, don't know a case in which this would actually happen
+    numCpus = numCpus === 0 ? 1 : numCpus;
 
-    const cpuUsage = ((usageDifMs / elapsedTimeMs) / numCpus) * 100;
-    // figure out the calculation and put in the right value
-    observableResult.observe(cpuUsage);
+    const cpuUsagePercent = ((usageDifMs / elapsedTimeMs) / numCpus) * 100;
+    observableResult.observe(cpuUsagePercent);
   }
 
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
