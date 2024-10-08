@@ -180,7 +180,7 @@ export abstract class BaseSender {
         isStatsbeatShutdownStatus(restError.statusCode)
       ) {
         // If the status code is a shutdown status code for statsbeat, shutdown statsbeat and fail silently
-        this.shutdownStatsbeat();
+        this.incrementStatsbeatFailure();
         return { code: ExportResultCode.SUCCESS };
       }
       if (this.isNetworkError(restError)) {
