@@ -103,7 +103,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-certificates/4.8.1`;
+    const packageDetails = `azsdk-js-keyvault-certificates/4.9.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

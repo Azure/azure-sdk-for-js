@@ -22,6 +22,9 @@ export const idempotentProducerAmqpPropertyNames = {
 /** @internal */
 export const receiverIdPropertyName = "com.microsoft:receiver-name";
 
+/** @internal */
+export const geoReplication = "com.microsoft:georeplication";
+
 /**
  * @internal
  */
