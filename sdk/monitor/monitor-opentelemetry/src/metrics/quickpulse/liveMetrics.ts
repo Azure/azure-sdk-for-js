@@ -97,8 +97,8 @@ export class LiveMetrics {
   private requestFailedRateGauge: ObservableGauge | undefined;
   private dependencyRateGauge: ObservableGauge | undefined;
   private dependencyFailedRateGauge: ObservableGauge | undefined;
-  private memoryCommitedGauge: ObservableGauge | undefined;
-  private processorTimeGauge: ObservableGauge | undefined;
+  private processPhysicalBytesGauge: ObservableGauge | undefined;
+  private percentProcessorTimeNormalizedGauge: ObservableGauge | undefined;
   private exceptionsRateGauge: ObservableGauge | undefined;
 
   private documents: DocumentIngress[] = [];
@@ -133,13 +133,8 @@ export class LiveMetrics {
   private lastDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastFailedDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
-  private lastCpus:
-    | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
-    | undefined;
+  private lastCpuUsage: NodeJS.CpuUsage;
+  private lastHrTime: [number, number];
   private statsbeatOptionsUpdated = false;
   private etag: string = "";
   private errorTracker: CollectionConfigurationErrorTracker =
@@ -175,7 +170,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -202,6 +197,8 @@ export class LiveMetrics {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
+    this.lastCpuUsage = process.cpuUsage();
+    this.lastHrTime = process.hrtime();
   }
 
   public shutdown(): void {
@@ -293,7 +290,6 @@ export class LiveMetrics {
       getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
-    this.lastCpus = os.cpus();
     this.totalDependencyCount = 0;
     this.totalExceptionCount = 0;
     this.totalFailedDependencyCount = 0;
@@ -357,15 +353,15 @@ export class LiveMetrics {
       },
     );
 
-    this.memoryCommitedGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES,
+    this.processPhysicalBytesGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES,
       {
         valueType: ValueType.INT,
       },
     );
 
-    this.processorTimeGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME,
+    this.percentProcessorTimeNormalizedGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED,
       {
         valueType: ValueType.DOUBLE,
       },
@@ -384,8 +380,8 @@ export class LiveMetrics {
     this.dependencyRateGauge.addCallback(this.getDependencyRate.bind(this));
     this.dependencyFailedRateGauge.addCallback(this.getDependencyFailedRate.bind(this));
     this.exceptionsRateGauge.addCallback(this.getExceptionRate.bind(this));
-    this.memoryCommitedGauge.addCallback(this.getCommitedMemory.bind(this));
-    this.processorTimeGauge.addCallback(this.getProcessorTime.bind(this));
+    this.processPhysicalBytesGauge.addCallback(this.getPhysicalMemory.bind(this));
+    this.percentProcessorTimeNormalizedGauge.addCallback(this.getProcessorTimeNormalized.bind(this));
   }
 
   /**
@@ -626,69 +622,25 @@ export class LiveMetrics {
     };
   }
 
-  private getCommitedMemory(observableResult: ObservableResult): void {
-    const freeMem = os.freemem();
-    const committedMemory = os.totalmem() - freeMem;
-    observableResult.observe(committedMemory);
+  private getPhysicalMemory(observableResult: ObservableResult): void {
+    const rss = process.memoryUsage.rss();
+    observableResult.observe(rss);
   }
 
-  private getTotalCombinedCpu(
-    cpus: os.CpuInfo[],
-    lastCpus: os.CpuInfo[],
-  ): { combinedTotal: number; totalUser: number; totalIdle: number } {
-    let totalUser = 0;
-    let totalSys = 0;
-    let totalNice = 0;
-    let totalIdle = 0;
-    let totalIrq = 0;
-    for (let i = 0; !!cpus && i < cpus.length; i++) {
-      const cpu = cpus[i];
-      const lastCpu = lastCpus[i];
-      const times = cpu.times;
-      const lastTimes = lastCpu.times;
-      // user cpu time (or) % CPU time spent in user space
-      let user = times.user - lastTimes.user;
-      user = user > 0 ? user : 0; // Avoid negative values
-      totalUser += user;
-      // system cpu time (or) % CPU time spent in kernel space
-      let sys = times.sys - lastTimes.sys;
-      sys = sys > 0 ? sys : 0; // Avoid negative values
-      totalSys += sys;
-      // user nice cpu time (or) % CPU time spent on low priority processes
-      let nice = times.nice - lastTimes.nice;
-      nice = nice > 0 ? nice : 0; // Avoid negative values
-      totalNice += nice;
-      // idle cpu time (or) % CPU time spent idle
-      let idle = times.idle - lastTimes.idle;
-      idle = idle > 0 ? idle : 0; // Avoid negative values
-      totalIdle += idle;
-      // irq (or) % CPU time spent servicing/handling hardware interrupts
-      let irq = times.irq - lastTimes.irq;
-      irq = irq > 0 ? irq : 0; // Avoid negative values
-      totalIrq += irq;
-    }
-    const combinedTotal = totalUser + totalSys + totalNice + totalIdle + totalIrq;
-    return {
-      combinedTotal: combinedTotal,
-      totalUser: totalUser,
-      totalIdle: totalIdle,
-    };
-  }
+  private getProcessorTimeNormalized(observableResult: ObservableResult): void {
+    const numCpus = os.cpus().length;
+    const usageDif = process.cpuUsage(this.lastCpuUsage);
+    const elapsedHrTime = process.hrtime(this.lastHrTime);
 
-  private getProcessorTime(observableResult: ObservableResult): void {
-    // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
-    // to find the delta since the last measurement
-    const cpus = os.cpus();
-    if (cpus && cpus.length && this.lastCpus && cpus.length === this.lastCpus.length) {
-      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpus);
+    this.lastHrTime = process.hrtime();
+    this.lastCpuUsage = process.cpuUsage();
 
-      const value =
-        cpuTotals.combinedTotal > 0
-          ? ((cpuTotals.combinedTotal - cpuTotals.totalIdle) / cpuTotals.combinedTotal) * 100
-          : 0;
-      observableResult.observe(value);
-    }
-    this.lastCpus = cpus;
+    const usageDifMs = (usageDif.user + usageDif.system) / 1000;
+    const elapsedTimeMs = hrTimeToMilliseconds(elapsedHrTime);
+
+    const cpuUsage = ((usageDifMs / elapsedTimeMs) / numCpus) * 100;
+    // figure out the calculation and put in the right value
+    observableResult.observe(cpuUsage);
   }
 
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
