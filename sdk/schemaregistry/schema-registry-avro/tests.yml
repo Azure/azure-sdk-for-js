@@ -6,5 +6,4 @@ extends:
       PackageName: "@azure/schema-registry-avro"
       ServiceDirectory: schemaregistry
       MatrixFilters:
-        - TestType=^(?!sample).*
         - DependencyVersion=^$
