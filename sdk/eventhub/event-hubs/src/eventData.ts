@@ -14,6 +14,7 @@ import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "./util/constants.js";
+import isBuffer from "is-buffer";
 
 /**
  * Describes the delivery annotations.
@@ -389,14 +390,14 @@ export interface EventData {
  */
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function assertIsEventData(data: any): asserts data is EventData {
-  if (data.contentType !== undefined && typeof data.contentType !== "string") {
+  if (data.contentType != null && typeof data.contentType !== "string") {
     throw new Error(
       `Invalid 'contentType': expected 'string' or 'undefined', but received '${typeof data.contentType}'.`,
     );
   }
 
   if (
-    data.correlationId !== undefined &&
+    data.correlationId != null &&
     typeof data.correlationId !== "string" &&
     typeof data.correlationId !== "number" &&
     !Buffer.isBuffer(data.correlationId)
@@ -407,10 +408,10 @@ export function assertIsEventData(data: any): asserts data is EventData {
   }
 
   if (
-    data.messageId !== undefined &&
+    data.messageId != null &&
     typeof data.messageId !== "string" &&
     typeof data.messageId !== "number" &&
-    !Buffer.isBuffer(data.messageId)
+    !isBuffer(data.messageId)
   ) {
     throw new Error(
       `Invalid 'messageId': expected 'string', 'number', 'Buffer', or 'undefined', but received '${typeof data.messageId}'.`,

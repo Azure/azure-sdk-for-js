@@ -1,14 +1,10 @@
 # Release History
 
-## 5.12.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 5.12.1 (2024-10-08)
 
 ### Bugs Fixed
 
-- Revert the change to the definition of the earliest event position.
+- The producer now verifies that the input message follows the expected structure.
 
 ### Other Changes
 
