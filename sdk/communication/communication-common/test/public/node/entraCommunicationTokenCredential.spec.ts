@@ -58,6 +58,24 @@ describe("Entra CommunicationTokenCredential", function () {
     getTokenSpy.restore();
   });
 
+  it("Token exchange is called with default scopes when not passing scopes on AzureCommunicationTokenCredential", async function () {
+    const scope = successApiMock();
+    const defaultScopes = ["https://communication.azure.com/clients/.default"];
+    const getTokenSpy: sinon.SinonSpy = sinon.spy(tokenCredential, "getToken");
+
+    const credential = new AzureCommunicationTokenCredential({
+      resourceEndpoint,
+      tokenCredential,
+    });
+
+    const tokenResult = (await credential.getToken()).token;
+    assert.strictEqual(tokenResult, acsToken);
+    assert.isTrue(getTokenSpy.alwaysCalledWithExactly(defaultScopes, undefined));
+    assert.isTrue(getTokenSpy.callCount > 0);
+    assert.isTrue(scope.isDone());
+    getTokenSpy.restore();
+  });
+
   it("Retries when service is busy", async function () {
     const busy = apiMock().reply(
       503,

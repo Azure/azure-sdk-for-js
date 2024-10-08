@@ -36,7 +36,7 @@ export interface EntraCommunicationTokenCredentialOptions {
   /**
    * The scopes for retrieving the Entra ID access token.
    */
-  scopes: string[];
+  scopes?: string[];
 }
 
 /**
@@ -81,7 +81,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
 
   private async getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     const getTokenOptions = options?.abortSignal ? { abortSignal: options.abortSignal } : undefined;
-    const token = await this.options.tokenCredential.getToken(this.options.scopes, getTokenOptions);
+    const token = await this.options.tokenCredential.getToken(this.options.scopes ? this.options.scopes : ["https://communication.azure.com/clients/.default"], getTokenOptions);
 
     if (token === null) {
       this.result = {
