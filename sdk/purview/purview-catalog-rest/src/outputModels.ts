@@ -175,8 +175,7 @@ export interface ErrorResponseOutput {
 }
 
 /** An instance of an entity along with extended info - like hive_table, hive_database. */
-export interface AtlasEntitiesWithExtInfoOutput
-  extends AtlasEntityExtInfoOutput {
+export interface AtlasEntitiesWithExtInfoOutput extends AtlasEntityExtInfoOutput {
   /** An array of entities. */
   entities?: Array<AtlasEntityOutput>;
 }
@@ -267,8 +266,7 @@ export interface AtlasRelatedTermHeaderOutput {
 }
 
 /** The glossary base object. */
-export interface AtlasGlossaryBaseObjectOutput
-  extends AtlasBaseModelObjectOutput {
+export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutput {
   /** An array of classifications. */
   classifications?: Array<AtlasClassificationOutput>;
   /** The long version description. */
@@ -290,8 +288,7 @@ export interface AtlasBaseModelObjectOutput {
 }
 
 /** The glossary category. */
-export interface AtlasGlossaryCategoryOutput
-  extends AtlasGlossaryBaseObjectOutput {
+export interface AtlasGlossaryCategoryOutput extends AtlasGlossaryBaseObjectOutput {
   /** The glossary header with basic information. */
   anchor?: AtlasGlossaryHeaderOutput;
   /** An array of children categories. */
@@ -912,8 +909,7 @@ export interface AtlasEntityDefOutput extends AtlasStructDefOutput {
  * The relationshipEndDef represents an end of the relationship. The end of the relationship is defined by a type, an
  * attribute name, cardinality and whether it  is the container end of the relationship.
  */
-export interface AtlasRelationshipAttributeDefOutput
-  extends AtlasAttributeDefOutput {
+export interface AtlasRelationshipAttributeDefOutput extends AtlasAttributeDefOutput {
   /** Determines if it is a legacy attribute. */
   isLegacyAttribute?: boolean;
   /** The name of the relationship type. */
@@ -1016,9 +1012,7 @@ export interface AtlasRelationshipEndDefOutput {
 }
 
 /** The definitions of type. */
-export interface AtlasTypeDefOutput
-  extends AtlasBaseTypeDefOutput,
-    AtlasExtraTypeDefOutput {}
+export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTypeDefOutput {}
 
 /** Extra properties for a type. */
 export interface AtlasExtraTypeDefOutput {

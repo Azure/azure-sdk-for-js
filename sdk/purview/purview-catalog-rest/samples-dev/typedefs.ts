@@ -26,7 +26,7 @@ async function main() {
     throw dataSources;
   }
 
-  const atlasTypesDefOutput = dataSources.body as AtlasTypesDefOutput
+  const atlasTypesDefOutput = dataSources.body as AtlasTypesDefOutput;
   if (!atlasTypesDefOutput.entityDefs) {
     throw new Error("entityDefs is not defined");
   }

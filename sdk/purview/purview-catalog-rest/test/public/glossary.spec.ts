@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AtlasGlossaryOutput, getLongRunningPoller, ImportCSVOperationOutput, PurviewCatalogClient } from "../../src";
+import {
+  AtlasGlossaryOutput,
+  getLongRunningPoller,
+  ImportCSVOperationOutput,
+  PurviewCatalogClient,
+} from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -37,7 +42,7 @@ describe("purview catalog glossary test", () => {
     console.log("created glossary: ", glossary);
 
     assert.strictEqual(glossary.status, "200");
-    const atlasGlossaryOutput = glossary.body as AtlasGlossaryOutput
+    const atlasGlossaryOutput = glossary.body as AtlasGlossaryOutput;
     glossaryGuid = glossary.status === "200" ? atlasGlossaryOutput?.guid || "" : "";
   });
 
@@ -76,7 +81,7 @@ describe("purview catalog glossary test", () => {
     }
 
     // console.log(result);
-    const importCSVOperationOutput = result.body as ImportCSVOperationOutput
+    const importCSVOperationOutput = result.body as ImportCSVOperationOutput;
     assert.equal(importCSVOperationOutput.status, "Succeeded");
   });
 

@@ -21,13 +21,9 @@ export interface PurviewCatalogClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2022-03-01-preview",
-    ...options
-  }: PurviewCatalogClientOptions = {},
+  { apiVersion = "2022-03-01-preview", ...options }: PurviewCatalogClientOptions = {},
 ): PurviewCatalogClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${endpoint}/catalog/api`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}/catalog/api`;
   const userAgentInfo = `azsdk-js-purview-catalog-rest/1.0.0-beta.6`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -45,11 +41,7 @@ export default function createClient(
       scopes: options.credentials?.scopes ?? ["user_impersonation"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as PurviewCatalogClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewCatalogClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
@@ -59,8 +51,9 @@ export default function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-          }api-version=${apiVersion}`;
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
       }
 
       return next(req);

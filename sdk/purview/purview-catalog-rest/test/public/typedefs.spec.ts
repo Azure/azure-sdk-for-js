@@ -28,7 +28,7 @@ describe("purview catalog tepedefs test", () => {
       assert.fail(`GET "/atlas/v2/types/typedefs" failed with ${result.status}`);
     }
 
-    const atlasTypesDefOutput = result.body as AtlasTypesDefOutput
+    const atlasTypesDefOutput = result.body as AtlasTypesDefOutput;
     assert.isDefined(atlasTypesDefOutput.entityDefs?.length);
   });
 }).timeout(60000000000);

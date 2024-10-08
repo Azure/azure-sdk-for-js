@@ -205,26 +205,19 @@ const responseMap: Record<string, string[]> = {
   "GET /atlas/v2/entity/guid/{guid}": ["200"],
   "PUT /atlas/v2/entity/guid/{guid}": ["200"],
   "DELETE /atlas/v2/entity/guid/{guid}": ["200"],
-  "GET /atlas/v2/entity/guid/{guid}/classification/{classificationName}": [
-    "200",
-  ],
-  "DELETE /atlas/v2/entity/guid/{guid}/classification/{classificationName}": [
-    "204",
-  ],
+  "GET /atlas/v2/entity/guid/{guid}/classification/{classificationName}": ["200"],
+  "DELETE /atlas/v2/entity/guid/{guid}/classification/{classificationName}": ["204"],
   "GET /atlas/v2/entity/guid/{guid}/classifications": ["200"],
   "POST /atlas/v2/entity/guid/{guid}/classifications": ["204"],
   "PUT /atlas/v2/entity/guid/{guid}/classifications": ["204"],
   "GET /atlas/v2/entity/uniqueAttribute/type/{typeName}": ["200"],
   "PUT /atlas/v2/entity/uniqueAttribute/type/{typeName}": ["200"],
   "DELETE /atlas/v2/entity/uniqueAttribute/type/{typeName}": ["200"],
-  "DELETE /atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}":
-    ["204"],
-  "POST /atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications": [
+  "DELETE /atlas/v2/entity/uniqueAttribute/type/{typeName}/classification/{classificationName}": [
     "204",
   ],
-  "PUT /atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications": [
-    "204",
-  ],
+  "POST /atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications": ["204"],
+  "PUT /atlas/v2/entity/uniqueAttribute/type/{typeName}/classifications": ["204"],
   "POST /atlas/v2/entity/bulk/setClassifications": ["200"],
   "GET /atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}": ["200"],
   "GET /atlas/v2/entity/guid/{guid}/header": ["200"],
@@ -316,25 +309,19 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response:
-    | EntityCreateOrUpdate200Response
-    | EntityCreateOrUpdateDefaultResponse,
+  response: EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse,
 ): response is EntityCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response: EntityListByGuids200Response | EntityListByGuidsDefaultResponse,
 ): response is EntityListByGuidsDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityCreateOrUpdateEntities200Response
-    | EntityCreateOrUpdateEntitiesDefaultResponse,
+  response: EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesDefaultResponse,
 ): response is EntityCreateOrUpdateEntitiesDefaultResponse;
 export function isUnexpected(
   response: EntityDeleteByGuids200Response | EntityDeleteByGuidsDefaultResponse,
 ): response is EntityDeleteByGuidsDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityAddClassification204Response
-    | EntityAddClassificationDefaultResponse,
+  response: EntityAddClassification204Response | EntityAddClassificationDefaultResponse,
 ): response is EntityAddClassificationDefaultResponse;
 export function isUnexpected(
   response: EntityGetByGuid200Response | EntityGetByGuidDefaultResponse,
@@ -348,34 +335,22 @@ export function isUnexpected(
   response: EntityDeleteByGuid200Response | EntityDeleteByGuidDefaultResponse,
 ): response is EntityDeleteByGuidDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityGetClassification200Response
-    | EntityGetClassificationDefaultResponse,
+  response: EntityGetClassification200Response | EntityGetClassificationDefaultResponse,
 ): response is EntityGetClassificationDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityDeleteClassification204Response
-    | EntityDeleteClassificationDefaultResponse,
+  response: EntityDeleteClassification204Response | EntityDeleteClassificationDefaultResponse,
 ): response is EntityDeleteClassificationDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityGetClassifications200Response
-    | EntityGetClassificationsDefaultResponse,
+  response: EntityGetClassifications200Response | EntityGetClassificationsDefaultResponse,
 ): response is EntityGetClassificationsDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityAddClassifications204Response
-    | EntityAddClassificationsDefaultResponse,
+  response: EntityAddClassifications204Response | EntityAddClassificationsDefaultResponse,
 ): response is EntityAddClassificationsDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityUpdateClassifications204Response
-    | EntityUpdateClassificationsDefaultResponse,
+  response: EntityUpdateClassifications204Response | EntityUpdateClassificationsDefaultResponse,
 ): response is EntityUpdateClassificationsDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityGetByUniqueAttributes200Response
-    | EntityGetByUniqueAttributesDefaultResponse,
+  response: EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesDefaultResponse,
 ): response is EntityGetByUniqueAttributesDefaultResponse;
 export function isUnexpected(
   response:
@@ -383,9 +358,7 @@ export function isUnexpected(
     | EntityPartialUpdateEntityByUniqueAttributesDefaultResponse,
 ): response is EntityPartialUpdateEntityByUniqueAttributesDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntityDeleteByUniqueAttribute200Response
-    | EntityDeleteByUniqueAttributeDefaultResponse,
+  response: EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributeDefaultResponse,
 ): response is EntityDeleteByUniqueAttributeDefaultResponse;
 export function isUnexpected(
   response:
@@ -403,9 +376,7 @@ export function isUnexpected(
     | EntityUpdateClassificationsByUniqueAttributeDefaultResponse,
 ): response is EntityUpdateClassificationsByUniqueAttributeDefaultResponse;
 export function isUnexpected(
-  response:
-    | EntitySetClassifications200Response
-    | EntitySetClassificationsDefaultResponse,
+  response: EntitySetClassifications200Response | EntitySetClassificationsDefaultResponse,
 ): response is EntitySetClassificationsDefaultResponse;
 export function isUnexpected(
   response:
@@ -427,14 +398,10 @@ export function isUnexpected(
     | EntityImportBusinessMetadata409Response,
 ): response is EntityImportBusinessMetadata400Response;
 export function isUnexpected(
-  response:
-    | GlossaryListGlossaries200Response
-    | GlossaryListGlossariesDefaultResponse,
+  response: GlossaryListGlossaries200Response | GlossaryListGlossariesDefaultResponse,
 ): response is GlossaryListGlossariesDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryCreateGlossary200Response
-    | GlossaryCreateGlossaryDefaultResponse,
+  response: GlossaryCreateGlossary200Response | GlossaryCreateGlossaryDefaultResponse,
 ): response is GlossaryCreateGlossaryDefaultResponse;
 export function isUnexpected(
   response:
@@ -447,9 +414,7 @@ export function isUnexpected(
     | GlossaryCreateGlossaryCategoryDefaultResponse,
 ): response is GlossaryCreateGlossaryCategoryDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryGetGlossaryCategory200Response
-    | GlossaryGetGlossaryCategoryDefaultResponse,
+  response: GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategoryDefaultResponse,
 ): response is GlossaryGetGlossaryCategoryDefaultResponse;
 export function isUnexpected(
   response:
@@ -467,34 +432,22 @@ export function isUnexpected(
     | GlossaryPartialUpdateGlossaryCategoryDefaultResponse,
 ): response is GlossaryPartialUpdateGlossaryCategoryDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryListRelatedCategories200Response
-    | GlossaryListRelatedCategoriesDefaultResponse,
+  response: GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesDefaultResponse,
 ): response is GlossaryListRelatedCategoriesDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryListCategoryTerms200Response
-    | GlossaryListCategoryTermsDefaultResponse,
+  response: GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsDefaultResponse,
 ): response is GlossaryListCategoryTermsDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryCreateGlossaryTerm200Response
-    | GlossaryCreateGlossaryTermDefaultResponse,
+  response: GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermDefaultResponse,
 ): response is GlossaryCreateGlossaryTermDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryGetGlossaryTerm200Response
-    | GlossaryGetGlossaryTermDefaultResponse,
+  response: GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermDefaultResponse,
 ): response is GlossaryGetGlossaryTermDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryUpdateGlossaryTerm200Response
-    | GlossaryUpdateGlossaryTermDefaultResponse,
+  response: GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermDefaultResponse,
 ): response is GlossaryUpdateGlossaryTermDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryDeleteGlossaryTerm204Response
-    | GlossaryDeleteGlossaryTermDefaultResponse,
+  response: GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermDefaultResponse,
 ): response is GlossaryDeleteGlossaryTermDefaultResponse;
 export function isUnexpected(
   response:
@@ -502,9 +455,7 @@ export function isUnexpected(
     | GlossaryPartialUpdateGlossaryTermDefaultResponse,
 ): response is GlossaryPartialUpdateGlossaryTermDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryCreateGlossaryTerms200Response
-    | GlossaryCreateGlossaryTermsDefaultResponse,
+  response: GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsDefaultResponse,
 ): response is GlossaryCreateGlossaryTermsDefaultResponse;
 export function isUnexpected(
   response:
@@ -512,9 +463,7 @@ export function isUnexpected(
     | GlossaryGetEntitiesAssignedWithTermDefaultResponse,
 ): response is GlossaryGetEntitiesAssignedWithTermDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryAssignTermToEntities204Response
-    | GlossaryAssignTermToEntitiesDefaultResponse,
+  response: GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesDefaultResponse,
 ): response is GlossaryAssignTermToEntitiesDefaultResponse;
 export function isUnexpected(
   response:
@@ -527,22 +476,16 @@ export function isUnexpected(
     | GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse,
 ): response is GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryListRelatedTerms200Response
-    | GlossaryListRelatedTermsDefaultResponse,
+  response: GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsDefaultResponse,
 ): response is GlossaryListRelatedTermsDefaultResponse;
 export function isUnexpected(
   response: GlossaryGetGlossary200Response | GlossaryGetGlossaryDefaultResponse,
 ): response is GlossaryGetGlossaryDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryUpdateGlossary200Response
-    | GlossaryUpdateGlossaryDefaultResponse,
+  response: GlossaryUpdateGlossary200Response | GlossaryUpdateGlossaryDefaultResponse,
 ): response is GlossaryUpdateGlossaryDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryDeleteGlossary204Response
-    | GlossaryDeleteGlossaryDefaultResponse,
+  response: GlossaryDeleteGlossary204Response | GlossaryDeleteGlossaryDefaultResponse,
 ): response is GlossaryDeleteGlossaryDefaultResponse;
 export function isUnexpected(
   response:
@@ -555,19 +498,13 @@ export function isUnexpected(
     | GlossaryListGlossaryCategoriesHeadersDefaultResponse,
 ): response is GlossaryListGlossaryCategoriesHeadersDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryGetDetailedGlossary200Response
-    | GlossaryGetDetailedGlossaryDefaultResponse,
+  response: GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossaryDefaultResponse,
 ): response is GlossaryGetDetailedGlossaryDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryPartialUpdateGlossary200Response
-    | GlossaryPartialUpdateGlossaryDefaultResponse,
+  response: GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossaryDefaultResponse,
 ): response is GlossaryPartialUpdateGlossaryDefaultResponse;
 export function isUnexpected(
-  response:
-    | GlossaryListGlossaryTerms200Response
-    | GlossaryListGlossaryTermsDefaultResponse,
+  response: GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsDefaultResponse,
 ): response is GlossaryListGlossaryTermsDefaultResponse;
 export function isUnexpected(
   response:
@@ -609,19 +546,13 @@ export function isUnexpected(
   response: DiscoveryBrowse200Response | DiscoveryBrowseDefaultResponse,
 ): response is DiscoveryBrowseDefaultResponse;
 export function isUnexpected(
-  response:
-    | DiscoveryAutoComplete200Response
-    | DiscoveryAutoCompleteDefaultResponse,
+  response: DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse,
 ): response is DiscoveryAutoCompleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | LineageGetLineageGraph200Response
-    | LineageGetLineageGraphDefaultResponse,
+  response: LineageGetLineageGraph200Response | LineageGetLineageGraphDefaultResponse,
 ): response is LineageGetLineageGraphDefaultResponse;
 export function isUnexpected(
-  response:
-    | LineageNextPageLineage200Response
-    | LineageNextPageLineageDefaultResponse,
+  response: LineageNextPageLineage200Response | LineageNextPageLineageDefaultResponse,
 ): response is LineageNextPageLineageDefaultResponse;
 export function isUnexpected(
   response:
@@ -672,59 +603,37 @@ export function isUnexpected(
     | TypesGetEntityDefinitionByNameDefaultResponse,
 ): response is TypesGetEntityDefinitionByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetEnumDefByGuid200Response
-    | TypesGetEnumDefByGuidDefaultResponse,
+  response: TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuidDefaultResponse,
 ): response is TypesGetEnumDefByGuidDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetEnumDefByName200Response
-    | TypesGetEnumDefByNameDefaultResponse,
+  response: TypesGetEnumDefByName200Response | TypesGetEnumDefByNameDefaultResponse,
 ): response is TypesGetEnumDefByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetRelationshipDefByGuid200Response
-    | TypesGetRelationshipDefByGuidDefaultResponse,
+  response: TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuidDefaultResponse,
 ): response is TypesGetRelationshipDefByGuidDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetRelationshipDefByName200Response
-    | TypesGetRelationshipDefByNameDefaultResponse,
+  response: TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNameDefaultResponse,
 ): response is TypesGetRelationshipDefByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetStructDefByGuid200Response
-    | TypesGetStructDefByGuidDefaultResponse,
+  response: TypesGetStructDefByGuid200Response | TypesGetStructDefByGuidDefaultResponse,
 ): response is TypesGetStructDefByGuidDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetStructDefByName200Response
-    | TypesGetStructDefByNameDefaultResponse,
+  response: TypesGetStructDefByName200Response | TypesGetStructDefByNameDefaultResponse,
 ): response is TypesGetStructDefByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetTypeDefinitionByGuid200Response
-    | TypesGetTypeDefinitionByGuidDefaultResponse,
+  response: TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuidDefaultResponse,
 ): response is TypesGetTypeDefinitionByGuidDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetTypeDefinitionByName200Response
-    | TypesGetTypeDefinitionByNameDefaultResponse,
+  response: TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNameDefaultResponse,
 ): response is TypesGetTypeDefinitionByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesDeleteTypeByName204Response
-    | TypesDeleteTypeByNameDefaultResponse,
+  response: TypesDeleteTypeByName204Response | TypesDeleteTypeByNameDefaultResponse,
 ): response is TypesDeleteTypeByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetAllTypeDefinitions200Response
-    | TypesGetAllTypeDefinitionsDefaultResponse,
+  response: TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsDefaultResponse,
 ): response is TypesGetAllTypeDefinitionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesCreateTypeDefinitions200Response
-    | TypesCreateTypeDefinitionsDefaultResponse,
+  response: TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsDefaultResponse,
 ): response is TypesCreateTypeDefinitionsDefaultResponse;
 export function isUnexpected(
   response:
@@ -732,9 +641,7 @@ export function isUnexpected(
     | TypesUpdateAtlasTypeDefinitionsDefaultResponse,
 ): response is TypesUpdateAtlasTypeDefinitionsDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesDeleteTypeDefinitions204Response
-    | TypesDeleteTypeDefinitionsDefaultResponse,
+  response: TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsDefaultResponse,
 ): response is TypesDeleteTypeDefinitionsDefaultResponse;
 export function isUnexpected(
   response:
@@ -742,24 +649,16 @@ export function isUnexpected(
     | TypesListTypeDefinitionHeadersDefaultResponse,
 ): response is TypesListTypeDefinitionHeadersDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetTermTemplateDefByGuid200Response
-    | TypesGetTermTemplateDefByGuidDefaultResponse,
+  response: TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuidDefaultResponse,
 ): response is TypesGetTermTemplateDefByGuidDefaultResponse;
 export function isUnexpected(
-  response:
-    | TypesGetTermTemplateDefByName200Response
-    | TypesGetTermTemplateDefByNameDefaultResponse,
+  response: TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNameDefaultResponse,
 ): response is TypesGetTermTemplateDefByNameDefaultResponse;
 export function isUnexpected(
-  response:
-    | CollectionCreateOrUpdate200Response
-    | CollectionCreateOrUpdateDefaultResponse,
+  response: CollectionCreateOrUpdate200Response | CollectionCreateOrUpdateDefaultResponse,
 ): response is CollectionCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response:
-    | CollectionCreateOrUpdateBulk200Response
-    | CollectionCreateOrUpdateBulkDefaultResponse,
+  response: CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkDefaultResponse,
 ): response is CollectionCreateOrUpdateBulkDefaultResponse;
 export function isUnexpected(
   response:
@@ -1090,24 +989,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;
