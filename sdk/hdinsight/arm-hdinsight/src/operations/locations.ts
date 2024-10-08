@@ -25,7 +25,7 @@ import {
   LocationsCheckNameAvailabilityResponse,
   ClusterCreateRequestValidationParameters,
   LocationsValidateClusterCreateRequestOptionalParams,
-  LocationsValidateClusterCreateRequestResponse
+  LocationsValidateClusterCreateRequestResponse,
 } from "../models";
 
 /** Class containing Locations operations. */
@@ -47,11 +47,11 @@ export class LocationsImpl implements Locations {
    */
   getCapabilities(
     location: string,
-    options?: LocationsGetCapabilitiesOptionalParams
+    options?: LocationsGetCapabilitiesOptionalParams,
   ): Promise<LocationsGetCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      getCapabilitiesOperationSpec
+      getCapabilitiesOperationSpec,
     );
   }
 
@@ -62,11 +62,11 @@ export class LocationsImpl implements Locations {
    */
   listUsages(
     location: string,
-    options?: LocationsListUsagesOptionalParams
+    options?: LocationsListUsagesOptionalParams,
   ): Promise<LocationsListUsagesResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listUsagesOperationSpec
+      listUsagesOperationSpec,
     );
   }
 
@@ -77,11 +77,11 @@ export class LocationsImpl implements Locations {
    */
   listBillingSpecs(
     location: string,
-    options?: LocationsListBillingSpecsOptionalParams
+    options?: LocationsListBillingSpecsOptionalParams,
   ): Promise<LocationsListBillingSpecsResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listBillingSpecsOperationSpec
+      listBillingSpecsOperationSpec,
     );
   }
 
@@ -94,11 +94,11 @@ export class LocationsImpl implements Locations {
   getAzureAsyncOperationStatus(
     location: string,
     operationId: string,
-    options?: LocationsGetAzureAsyncOperationStatusOptionalParams
+    options?: LocationsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<LocationsGetAzureAsyncOperationStatusResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getAzureAsyncOperationStatusOperationSpec
+      getAzureAsyncOperationStatusOperationSpec,
     );
   }
 
@@ -111,11 +111,11 @@ export class LocationsImpl implements Locations {
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityCheckRequestParameters,
-    options?: LocationsCheckNameAvailabilityOptionalParams
+    options?: LocationsCheckNameAvailabilityOptionalParams,
   ): Promise<LocationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -128,11 +128,11 @@ export class LocationsImpl implements Locations {
   validateClusterCreateRequest(
     location: string,
     parameters: ClusterCreateRequestValidationParameters,
-    options?: LocationsValidateClusterCreateRequestOptionalParams
+    options?: LocationsValidateClusterCreateRequestOptionalParams,
   ): Promise<LocationsValidateClusterCreateRequestResponse> {
     return this.client.sendOperationRequest(
       { location, parameters, options },
-      validateClusterCreateRequestOperationSpec
+      validateClusterCreateRequestOperationSpec,
     );
   }
 }
@@ -140,133 +140,127 @@ export class LocationsImpl implements Locations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getCapabilitiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/capabilities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/capabilities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesResult
+      bodyMapper: Mappers.CapabilitiesResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUsagesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsagesListResult
+      bodyMapper: Mappers.UsagesListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBillingSpecsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/billingSpecs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/billingSpecs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingResponseListResult
+      bodyMapper: Mappers.BillingResponseListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAzureAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/azureasyncoperations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/azureasyncoperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AsyncOperationResult
+      bodyMapper: Mappers.AsyncOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.operationId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailabilityCheckResult
+      bodyMapper: Mappers.NameAvailabilityCheckResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const validateClusterCreateRequestOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterCreateValidationResult
+      bodyMapper: Mappers.ClusterCreateValidationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
 export interface ApiCenterApiDefinitionAddedEventData {
@@ -3781,6 +3781,8 @@ export interface StorageLifecyclePolicyCompletedEventData {
   tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
+  /** Execution statistics of a specific policy action in a Blob Management cycle. */
+  tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
 
 /** Execution statistics of a specific policy action in a Blob Management cycle. */

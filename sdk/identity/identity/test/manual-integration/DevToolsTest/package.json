@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/node": "^14.0.0",
-    "typescript": "catalog:",
+    "typescript": "~5.6.2",
     "rimraf": "latest"
   }
 }

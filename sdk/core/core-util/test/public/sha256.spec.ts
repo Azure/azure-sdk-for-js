@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { computeSha256Hash, computeSha256Hmac } from "../../src/index.js";
 import { describe, it, assert } from "vitest";

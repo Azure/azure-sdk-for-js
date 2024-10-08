@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationOptions } from "@azure/core-client";
 import { TokenCredential } from "@azure/core-auth";
@@ -484,6 +484,7 @@ export class CryptographyClient {
   public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: SignOptions = {},
   ): Promise<SignResult> {
     return tracingClient.withSpan(
@@ -521,6 +522,7 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan(

@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {

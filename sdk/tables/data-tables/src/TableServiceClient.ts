@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetPropertiesResponse,
@@ -27,7 +27,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "@azure/core-auth";
-import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { COSMOS_SCOPE, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { Service, Table } from "./generated";
 import {
   injectSecondaryEndpointHeader,
@@ -48,6 +48,7 @@ import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenti
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -159,6 +160,7 @@ export class TableServiceClient {
     options?: TableServiceClientOptions,
   ) {
     this.url = url;
+    const isCosmos = isCosmosEndpoint(this.url);
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
@@ -187,7 +189,8 @@ export class TableServiceClient {
     }
 
     if (isTokenCredential(credential)) {
-      setTokenChallengeAuthenticationPolicy(client.pipeline, credential, STORAGE_SCOPE);
+      const scope = isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE;
+      setTokenChallengeAuthenticationPolicy(client.pipeline, credential, scope);
     }
 
     if (options?.version) {
@@ -204,6 +207,7 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     return tracingClient.withSpan("TableServiceClient.getStatistics", options, (updatedOptions) =>
       this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions)),
@@ -215,6 +219,7 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.getProperties", options, (updatedOptions) =>
       this.service.getProperties(updatedOptions),
@@ -241,6 +246,7 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createTable(name: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "TableServiceClient.createTable",
@@ -260,6 +266,7 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public deleteTable(name: string, options: OperationOptions = {}): Promise<void> {
     return tracingClient.withSpan(
       "TableServiceClient.deleteTable",

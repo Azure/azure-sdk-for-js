@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   Instrumenter,
@@ -24,6 +24,9 @@ export function createDefaultTracingSpan(): TracingSpan {
       // noop
     },
     setStatus: () => {
+      // noop
+    },
+    addEvent: () => {
       // noop
     },
   };

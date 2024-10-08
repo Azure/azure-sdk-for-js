@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
@@ -292,7 +292,7 @@ export class ServiceBusTestHelpers {
         try {
           TestMessage.checkMessageContents(sentMessage, receivedMessage, entityNames.usesSessions);
           return true;
-        } catch (err: any) {
+        } catch {
           return false;
         }
       });

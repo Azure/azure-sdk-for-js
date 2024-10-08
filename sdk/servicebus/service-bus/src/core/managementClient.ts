@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import Long from "long";
 import {
@@ -269,7 +269,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const { abortSignal } = options;
         const aborter = new AbortController();
 
-        const abortListener = () => {
+        const abortListener = (): void => {
           aborter.abort();
         };
         abortSignal?.addEventListener("abort", abortListener);

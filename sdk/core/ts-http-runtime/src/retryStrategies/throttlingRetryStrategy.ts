@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PipelineResponse } from "../index.js";
 import { parseHeaderValueAsNumber } from "../util/helpers.js";

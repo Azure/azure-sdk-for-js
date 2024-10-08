@@ -570,7 +570,9 @@
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility",
       // Add Identity to decoupledLocalDependencies so that dev-tool uses the package from npm, avoiding a cyclic dependency.
-      "decoupledLocalDependencies": ["@azure/identity"]
+      "decoupledLocalDependencies": [
+        "@azure/identity"
+      ]
     },
     {
       "packageName": "@azure/eventgrid",
@@ -610,7 +612,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -801,11 +805,6 @@
     {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
-      "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
       "versionPolicyName": "utility"
     },
     {
@@ -2236,7 +2235,7 @@
     {
       "packageName": "@azure/create-microsoft-playwright-testing",
       "projectFolder": "sdk/playwrighttesting/create-microsoft-playwright-testing",
-      "versionPolicyName": "utility"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/microsoft-playwright-testing",
@@ -2277,6 +2276,21 @@
       "packageName": "@azure-rest/batch",
       "projectFolder": "sdk/batch/batch-rest",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-computeschedule",
+      "projectFolder": "sdk/computeschedule/arm-computeschedule",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-fabric",
+      "projectFolder": "sdk/fabric/arm-fabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-trustedsigning",
+      "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
+      "versionPolicyName": "management"
     }
   ]
 }

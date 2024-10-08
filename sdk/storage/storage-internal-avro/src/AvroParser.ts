@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // TODO: Do a review of the Object usage and non-interfaces
-/* eslint-disable @typescript-eslint/ban-types, @azure/azure-sdk/ts-use-interface-parameters */
+/* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AvroReadable } from "./AvroReadable";
@@ -264,11 +264,12 @@ export abstract class AvroType {
   public abstract read(
     stream: AvroReadable,
     options?: AvroParserReadOptions,
-  ): Promise<Object | null>; // eslint-disable-line @typescript-eslint/ban-types
+  ): Promise<Object | null>; // eslint-disable-line @typescript-eslint/no-wrapper-object-types
 
   /**
    * Determines the AvroType from the Avro Schema.
    */
+  // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   public static fromSchema(schema: string | Object): AvroType {
     if (typeof schema === "string") {
       return AvroType.fromStringSchema(schema);
@@ -304,7 +305,7 @@ export abstract class AvroType {
     // Primitives can be defined as strings or objects
     try {
       return AvroType.fromStringSchema(type);
-    } catch (err: any) {
+    } catch {
       // eslint-disable-line no-empty
     }
 
@@ -355,6 +356,7 @@ class AvroPrimitiveType extends AvroType {
     this._primitive = primitive;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   public read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object | null> {
     switch (this._primitive) {
       case AvroPrimitive.NULL:
@@ -387,6 +389,7 @@ class AvroEnumType extends AvroType {
     this._symbols = symbols;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   public async read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object> {
     const value = await AvroParser.readInt(stream, options);
     return this._symbols[value];
@@ -404,8 +407,8 @@ class AvroUnionType extends AvroType {
   public async read(
     stream: AvroReadable,
     options: AvroParserReadOptions = {},
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   ): Promise<Object | null> {
-    // eslint-disable-line @typescript-eslint/ban-types
     const typeIndex = await AvroParser.readInt(stream, options);
     return this._types[typeIndex].read(stream, options);
   }
@@ -419,10 +422,12 @@ class AvroMapType extends AvroType {
     this._itemType = itemType;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   public read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object> {
     const readItemMethod = (
       s: AvroReadable,
       opts?: AvroParserReadOptions,
+      // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     ): Promise<Object | null> => {
       return this._itemType.read(s, opts);
     };
@@ -440,7 +445,9 @@ class AvroRecordType extends AvroType {
     this._name = name;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
   public async read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object> {
+    // eslint-disable-next-line @typescript-eslint/no-wrapper-object-types
     const record: Record<string, Object | null> = {};
     record["$schema"] = this._name;
     for (const key in this._fields) {

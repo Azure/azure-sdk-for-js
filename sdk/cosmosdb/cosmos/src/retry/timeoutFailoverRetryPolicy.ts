@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { RetryPolicy } from "./RetryPolicy";
 import { StatusCodes } from "../common/statusCodes";
 import { GlobalEndpointManager } from "../globalEndpointManager";

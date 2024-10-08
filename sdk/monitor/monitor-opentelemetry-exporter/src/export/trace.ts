@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
@@ -43,6 +43,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * @param spans - Spans to export.
    * @param resultCallback - Result callback.
    */
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void,

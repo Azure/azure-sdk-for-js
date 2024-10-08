@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/98b600498947073c18c2ac5eb7c3c658db5a1a59/specification/storage/data-plane/Microsoft.FileStorage/stable/2024-11-04/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/01cdfdeddde46530577179da69bfad6a6783ce0a/specification/storage/data-plane/Microsoft.FileStorage/stable/2024-11-04/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.2"
-package-version: 12.25.0-beta.2
+package-version: 12.25.1
 ```
 
 ## Customizations for Track 2 Generator

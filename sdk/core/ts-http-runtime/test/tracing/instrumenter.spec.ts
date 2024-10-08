@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Instrumenter, TracingSpan } from "../../src/tracing/interfaces.js";
 import {
@@ -72,6 +72,8 @@ describe("Instrumenter", () => {
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       span.recordException(new Error("test"));
+      assert.exists(span.addEvent);
+      span.addEvent?.("I said Span not Spren!", { attributes: { foo: "Bar" } });
       span.end();
       assert.isFalse(span.isRecording());
     });

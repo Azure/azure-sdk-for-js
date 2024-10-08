@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, expect } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders.js";

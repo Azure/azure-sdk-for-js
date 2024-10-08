@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import { streamToBuffer2 } from "./utils/utils.node";

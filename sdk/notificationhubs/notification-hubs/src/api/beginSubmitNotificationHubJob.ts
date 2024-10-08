@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
+import { CancelOnProgress, OperationState, PollerLike } from "@azure/core-lro";
 import { NotificationHubJob, NotificationHubJobPoller } from "../models/notificationHubJob.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { PolledOperationOptions } from "../models/options.js";
@@ -38,12 +38,13 @@ export async function beginSubmitNotificationHubJob(
   const processProgressCallbacks = async (): Promise<void> =>
     progressCallbacks.forEach((h) => h(state));
   let resultPromise: Promise<NotificationHubJob> | undefined;
-  let cancelJob: (() => void) | undefined;
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
-  const poller: SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob> = {
-    async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+  const poller: PollerLike<OperationState<NotificationHubJob>, NotificationHubJob> = {
+    async poll(options?: {
+      abortSignal?: AbortSignalLike;
+    }): Promise<OperationState<NotificationHubJob>> {
       submittedJob = await getNotificationHubJob(context, submittedJob.jobId!, options);
       if (submittedJob.status === "Running" || submittedJob.status === "Started") {
         state.status = "running";
@@ -67,6 +68,8 @@ export async function beginSubmitNotificationHubJob(
       if (state.status === "failed") {
         throw state.error;
       }
+
+      return state;
     },
 
     pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<NotificationHubJob> {
@@ -84,9 +87,9 @@ export async function beginSubmitNotificationHubJob(
         }
 
         try {
-          if (!poller.isDone()) {
+          if (!poller.isDone) {
             await poller.poll({ abortSignal });
-            while (!poller.isDone()) {
+            while (!poller.isDone) {
               await delay(currentPollIntervalInMs, { abortSignal });
               await poller.poll({ abortSignal });
             }
@@ -96,7 +99,7 @@ export async function beginSubmitNotificationHubJob(
         }
         switch (state.status) {
           case "succeeded":
-            return poller.getResult() as NotificationHubJob;
+            return poller.result as NotificationHubJob;
           case "canceled":
             throw new Error("Operation was canceled");
           case "failed":
@@ -117,30 +120,45 @@ export async function beginSubmitNotificationHubJob(
       return () => progressCallbacks.delete(s);
     },
 
-    isDone(): boolean {
+    get isDone(): boolean {
       return ["succeeded", "failed", "canceled"].includes(state.status);
     },
 
-    stopPolling(): void {
-      abortController.abort();
-      cancelJob?.();
-    },
-
-    isStopped(): boolean {
-      return resultPromise === undefined;
-    },
-
-    getOperationState(): OperationState<NotificationHubJob> {
+    get operationState(): OperationState<NotificationHubJob> | undefined {
       return state;
     },
 
-    getResult(): NotificationHubJob | undefined {
+    get result(): NotificationHubJob | undefined {
       return state.result;
     },
 
-    toString() {
+    async serialize(): Promise<string> {
       return JSON.stringify({ state });
     },
+
+    async submitted() {
+      // No-op
+      return;
+    },
+
+    then<TResult1 = NotificationHubJob, TResult2 = never>(
+      onfulfilled?:
+        | ((value: NotificationHubJob) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+    ): Promise<TResult1 | TResult2> {
+      return poller.pollUntilDone().then(onfulfilled, onrejected);
+    },
+    catch<TResult2 = never>(
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+    ): Promise<NotificationHubJob | TResult2> {
+      return poller.pollUntilDone().catch(onrejected);
+    },
+    finally(onfinally?: (() => void) | undefined | null): Promise<NotificationHubJob> {
+      return poller.pollUntilDone().finally(onfinally);
+    },
+    [Symbol.toStringTag]: "Poller",
   };
 
   return poller;

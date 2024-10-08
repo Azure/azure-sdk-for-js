@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The response for the Onco Phenotype request. */
 export interface OncoPhenotypeResultOutput {

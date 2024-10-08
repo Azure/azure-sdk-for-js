@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Disable eslint for declaration merging using namespace
 /* eslint-disable @typescript-eslint/no-shadow */

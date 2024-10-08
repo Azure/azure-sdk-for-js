@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PipelineResponse } from "@azure/core-rest-pipeline";
 
@@ -25,4 +25,12 @@ export async function getImageDimensionsFromResponse(
 ): Promise<Dimensions> {
   const buffer = await getResponseBuffer(response);
   return { width: buffer.readInt32BE(16), height: buffer.readInt32BE(20) };
+}
+
+export function getImageDimensionsFromString(data: string): Dimensions {
+  // Width in PNG is byte 16 - 19
+  const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
+  // Height in PNG is byte 20 - 23
+  const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
+  return { width: actualWidth, height: actualHeight };
 }

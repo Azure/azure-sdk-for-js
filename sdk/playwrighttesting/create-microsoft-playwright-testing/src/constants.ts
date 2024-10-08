@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Language } from "./types";
+import { Language } from "./types.js";
 
 export const Languages = {
   TypeScript: "TypeScript" as Language,

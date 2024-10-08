@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EventData } from "./eventData.js";
 import { EventHubProducerClient } from "./eventHubProducerClient.js";
@@ -405,6 +405,7 @@ export class EventHubBufferedProducerClient {
    */
   async enqueueEvents(
     events: EventData[] | AmqpAnnotatedMessage[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: EnqueueEventOptions = {},
   ): Promise<number> {
     for (const event of events) {

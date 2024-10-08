@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
 import { TokenCredential } from "@azure/core-auth";
 
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -16,12 +16,12 @@ import {
   GetSecretsOptionalParams,
   KnownDeletionRecoveryLevel,
   SecretBundle,
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
+} from "./generated/models/index.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 
-import { DeleteSecretPoller } from "./lro/delete/poller";
-import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
+import { DeleteSecretPoller } from "./lro/delete/poller.js";
+import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
 
 import {
   BackupSecretOptions,
@@ -42,10 +42,10 @@ import {
   SecretProperties,
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
-} from "./secretsModels";
-import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
-import { getSecretFromSecretBundle } from "./transformations";
-import { tracingClient } from "./tracing";
+} from "./secretsModels.js";
+import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier.js";
+import { getSecretFromSecretBundle } from "./transformations.js";
+import { tracingClient } from "./tracing.js";
 
 export {
   SecretClientOptions,

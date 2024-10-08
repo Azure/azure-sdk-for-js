@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { KeyCredential } from "@azure/core-auth";
 import { DEFAULT_API_VERSION } from "./constants";

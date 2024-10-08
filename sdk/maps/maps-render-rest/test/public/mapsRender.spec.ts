@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
@@ -147,7 +147,7 @@ describe("MapsRender", () => {
   });
 
   it("can get static image", async function () {
-    const response = await client.path("/map/static/{format}", "png").get({
+    const response = await client.path("/map/static").get({
       queryParameters: {
         layer: "basic",
         style: "main",

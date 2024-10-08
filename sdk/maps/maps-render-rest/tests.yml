@@ -5,5 +5,6 @@ extends:
     parameters:
       PackageName: "@azure-rest/maps-render"
       ServiceDirectory: maps
+      Location: 'eastus'
       SupportedClouds: 'Public,Canary'
       UseFederatedAuth: true

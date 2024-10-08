@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
@@ -190,9 +190,7 @@ describe("#LiveMetrics", () => {
     const documents = autoCollect.getDocuments();
     assert.strictEqual(documents.length, 16, "documents count");
     // assert.strictEqual(JSON.stringify(documents), "documents count");
-    assert.strictEqual(documents[0].documentType, "Exception");
-    assert.strictEqual((documents[0] as Exception).exceptionType, "undefined");
-    assert.strictEqual((documents[0] as Exception).exceptionMessage, "undefined");
+    assert.strictEqual(documents[0].documentType, "Trace");
     assert.strictEqual(documents[0].properties?.length, 0);
     for (let i = 1; i < 5; i++) {
       assert.strictEqual(documents[i].documentType, "Exception");

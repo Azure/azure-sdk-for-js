@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // TODO: Do a review of non-interfaces
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
@@ -162,7 +162,7 @@ export class AvroReader {
           this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream, {
             abortSignal: options.abortSignal,
           });
-        } catch (err: any) {
+        } catch {
           // We hit the end of the stream.
           this._itemsRemainingInBlock = 0;
         }

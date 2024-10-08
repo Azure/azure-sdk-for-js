@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithAutoscaleConfig.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithAutoscaleConfig.json
  */
 async function createHdInsightClusterWithAutoscaleConfiguration() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -114,7 +114,7 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -123,7 +123,7 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopAdlsGen2.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopAdlsGen2.json
  */
 async function createHadoopClusterWithAzureDataLakeStorageGen2() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -203,7 +203,7 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -212,7 +212,7 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopSshPassword.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopSshPassword.json
  */
 async function createHadoopOnLinuxClusterWithSshPassword() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -292,7 +292,7 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -301,7 +301,7 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopSshPublicKey.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopSshPublicKey.json
  */
 async function createHadoopOnLinuxClusterWithSshPublicKey() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -381,7 +381,7 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -390,7 +390,7 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateKafkaClusterWithKafkaRestProxy.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateKafkaClusterWithKafkaRestProxy.json
  */
 async function createKafkaClusterWithKafkaRestProxy() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -485,7 +485,7 @@ async function createKafkaClusterWithKafkaRestProxy() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -494,7 +494,7 @@ async function createKafkaClusterWithKafkaRestProxy() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopSecureHadoop.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopSecureHadoop.json
  */
 async function createSecureHadoopCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -604,7 +604,7 @@ async function createSecureHadoopCluster() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -613,7 +613,7 @@ async function createSecureHadoopCluster() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxSparkSshPassword.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxSparkSshPassword.json
  */
 async function createSparkOnLinuxClusterWithSshPassword() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -682,7 +682,7 @@ async function createSparkOnLinuxClusterWithSshPassword() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -691,7 +691,7 @@ async function createSparkOnLinuxClusterWithSshPassword() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithTLS12.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithTLS12.json
  */
 async function createClusterWithTls12() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -768,7 +768,7 @@ async function createClusterWithTls12() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -777,7 +777,7 @@ async function createClusterWithTls12() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithAvailabilityZones.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithAvailabilityZones.json
  */
 async function createClusterWithAvailabilityZones() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subId";
@@ -891,7 +891,7 @@ async function createClusterWithAvailabilityZones() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -900,7 +900,7 @@ async function createClusterWithAvailabilityZones() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithComputeIsolationProperties.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithComputeIsolationProperties.json
  */
 async function createClusterWithComputeIsolationProperties() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subId";
@@ -970,7 +970,7 @@ async function createClusterWithComputeIsolationProperties() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -979,7 +979,7 @@ async function createClusterWithComputeIsolationProperties() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithEncryptionAtHost.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithEncryptionAtHost.json
  */
 async function createClusterWithEncryptionAtHost() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -1056,7 +1056,7 @@ async function createClusterWithEncryptionAtHost() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1065,7 +1065,7 @@ async function createClusterWithEncryptionAtHost() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithEncryptionInTransit.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithEncryptionInTransit.json
  */
 async function createClusterWithEncryptionInTransit() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -1142,7 +1142,7 @@ async function createClusterWithEncryptionInTransit() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1151,7 +1151,7 @@ async function createClusterWithEncryptionInTransit() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithCustomNetworkProperties.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithCustomNetworkProperties.json
  */
 async function createClusterWithNetworkProperties() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subId";
@@ -1210,6 +1210,7 @@ async function createClusterWithNetworkProperties() {
       },
       networkProperties: {
         privateLink: "Enabled",
+        publicIpTag: { ipTagType: "FirstPartyUsage", tag: "/<TagName>" },
         resourceProviderConnection: "Outbound",
       },
       osType: "Linux",
@@ -1231,7 +1232,7 @@ async function createClusterWithNetworkProperties() {
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomUUID as v4RandomUUID } from "node:crypto";
 import { generateUUID } from "./uuidUtils.common.js";

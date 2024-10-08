@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";

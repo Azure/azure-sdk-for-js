@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   PipelineResponse,
@@ -30,7 +30,6 @@ import { CreateRuleOptions } from "../serializers/ruleResourceSerializer";
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   serialize(requestBodyInJson: object): Record<string, unknown>;
 
   deserialize(response: FullOperationResponse): Promise<FullOperationResponse>;

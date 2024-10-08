@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AvroReadable, AvroReadableReadOptions } from "./AvroReadable";
 import { AbortError } from "@azure/abort-controller";

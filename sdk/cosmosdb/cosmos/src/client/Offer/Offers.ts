@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { ClientContext } from "../../ClientContext";
 import { ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";

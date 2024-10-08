@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";

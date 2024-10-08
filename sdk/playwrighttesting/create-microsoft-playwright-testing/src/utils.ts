@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { exec } from "child_process";
-import fs from "fs";
-import path, { extname } from "path";
-import { CLIArguments, PlaywrightServiceInitConfig } from "./types";
-import { ErrorMessages, Extensions, Languages } from "./constants";
+import { exec } from "node:child_process";
+import fs from "node:fs";
+import path, { extname } from "node:path";
+import { CLIArguments, PlaywrightServiceInitConfig } from "./types.js";
+import { ErrorMessages, Extensions, Languages } from "./constants.js";
 
 export const executeCommand = (command: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {

@@ -1,6 +1,6 @@
 # Release History
 
-## 12.25.0-beta.2 (Unreleased)
+## 12.25.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,17 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.25.0 (2024-09-22)
+
+### Features Added
+
+- Includes all features released in 12.25.0-beta.1.
+- Added support for customer provided key in BlockBlobClient.uploadStream().
+
+### Other Changes
+
+- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
 
 ## 12.25.0-beta.1 (2024-08-09)
 

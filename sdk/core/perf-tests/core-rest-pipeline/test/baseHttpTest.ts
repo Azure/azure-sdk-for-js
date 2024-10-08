@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import express from "express";
 import { PerfOptionDictionary, PerfTest } from "@azure-tools/test-perf";

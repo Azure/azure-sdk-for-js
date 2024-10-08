@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PlaywrightServiceInitConfig } from "../types";
-import { PlaywrightServiceInitialize } from "../initialize";
+import { PlaywrightServiceInitConfig } from "../types.js";
+import { PlaywrightServiceInitialize } from "../initialize.js";
 import {
   getLanguageAndConfigInfoFromConfigurationFile,
   getLanguageAndConfigInfoFromDirectory,
   parseCLIArguments,
-} from "../utils";
+} from "../utils.js";
 
 export const init = async (): Promise<void> => {
   const options = parseCLIArguments();

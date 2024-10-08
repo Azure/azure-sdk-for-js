@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { API_VERSION, ServiceEnvironmentVariable } from "../../src/common/constants";
+import {
+  API_VERSION,
+  InternalEnvironmentVariables,
+  MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION,
+  ServiceEnvironmentVariable,
+} from "../../src/common/constants";
 import * as utils from "../../src/utils/utils";
 import {
   getAccessToken,
@@ -13,15 +18,19 @@ import {
   exitWithFailureMessage,
   fetchOrValidateAccessToken,
   emitReportingUrl,
+  populateValuesFromServiceUrl,
 } from "../../src/utils/utils";
 import * as EntraIdAccessTokenModule from "../../src/common/entraIdAccessToken";
 import sinon from "sinon";
 import { expect } from "@azure-tools/test-utils";
+import * as packageManager from "../../src/utils/packageManager";
 
 describe("Service Utils", () => {
   let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] =
+      MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION;
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error");
     sandbox.stub(console, "log");
@@ -102,7 +111,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -114,7 +123,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -127,7 +136,7 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
@@ -140,21 +149,61 @@ describe("Service Utils", () => {
       throw new Error();
     });
 
-    expect(() => validateMptPAT()).to.throw();
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should be no-op if MPT PAT is valid", () => {
+    const processExitStub = sandbox.stub(process, "exit");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10 });
 
-    expect(() => validateMptPAT()).not.to.throw();
-
+    expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
+    processExitStub.restore();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
+  it("Should exit with an error message if the MPT PAT and service URL are from different workspaces", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    sandbox
+      .stub(utils, "parseJwt")
+      .returns({ aid: "eastasia_c24330dd-9249-4ae8-9ba9-b5766060427c" });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+    expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
+    expect(exitStub.calledWith(1)).to.be.true;
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+
+  it("should be no-op if the MPT PAT and service URL are from same workspaces", () => {
+    const processExitStub = sandbox.stub(process, "exit");
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    sandbox
+      .stub(utils, "parseJwt")
+      .returns({ aid: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "", accountId: "eastasia_8bda26b5-300f-4f4f-810d-eae055e4a69b" });
+
+    expect(() => validateMptPAT(exitWithFailureMessage)).not.to.throw();
+    processExitStub.restore();
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+  it("should not exit the process if workspace URL is mismatched", () => {
+    const exitStub = sandbox.stub(process, "exit");
+    process.env["PLAYWRIGHT_SERVICE_URL"] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/wrong-id/browsers";
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.deep.equal({ region: "eastus", accountId: "wrong-id" });
+    expect(exitStub.notCalled).to.be.true;
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
   it("should return entra access token (not close to expiry)", async () => {
     const tokenMock = "test";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = tokenMock;
@@ -259,7 +308,7 @@ describe("Service Utils", () => {
     });
     const consoleErrorSpy = sandbox.stub(console, "error");
 
-    exitWithFailureMessage("error message");
+    exitWithFailureMessage({ key: "error", message: "error message" });
 
     expect(exitStub.called).to.be.true;
     expect(consoleErrorSpy.calledWith("error message")).to.be.true;
@@ -297,5 +346,137 @@ describe("Service Utils", () => {
       );
       delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     });
+  });
+
+  it("should return version info with major only", () => {
+    const version = "1";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(0);
+    expect(versionInfo.patch).to.equal(0);
+  });
+
+  it("should return version info with major, minor only", () => {
+    const version = "1.47";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(47);
+    expect(versionInfo.patch).to.equal(0);
+  });
+
+  it("should return version info with major, minor and patch", () => {
+    const version = "1.47.1";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(47);
+    expect(versionInfo.patch).to.equal(1);
+  });
+
+  it("should remove extra characters from version", () => {
+    const version = "1.47.1-beta";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(1);
+    expect(versionInfo.minor).to.equal(47);
+    expect(versionInfo.patch).to.equal(1);
+  });
+
+  it("should return version info with empty version", () => {
+    const version = "";
+    const versionInfo = utils.getVersionInfo(version);
+    expect(versionInfo.major).to.equal(0);
+    expect(versionInfo.minor).to.equal(0);
+    expect(versionInfo.patch).to.equal(0);
+  });
+
+  it("should exit with error message if installed version is less than minimum supported version", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("1.46.0");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).to.throw();
+    expect(exitStub.calledWith(1)).to.be.true;
+  });
+
+  it("should be no-op if installed version is greater than minimum supported version (patch change)", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("1.47.1");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should be no-op if installed version is greater than minimum supported version (minor change)", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("1.48.0");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should be no-op if installed version is greater than minimum supported version (major change)", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns("2.0.0");
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should be no-op if installed version is equal to minimum supported version", () => {
+    sandbox.stub(utils, "getPlaywrightVersion").returns(MINIMUM_SUPPORTED_PLAYWRIGHT_VERSION);
+    const exitStub = sandbox.stub(process, "exit").callsFake(() => {
+      throw new Error();
+    });
+
+    expect(() => utils.validatePlaywrightVersion()).not.to.throw();
+    expect(exitStub.called).to.be.false;
+  });
+
+  it("should return playwright version from env variable", () => {
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.2.0";
+    expect(utils.getPlaywrightVersion()).to.equal("1.2.0");
+  });
+
+  it("should fetch playwright version and set it in env variable", () => {
+    const mockVersion = "1.2.3";
+    delete process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION];
+    sandbox.stub(packageManager, "getPackageManager").returns({
+      runCommand: sinon.stub().returns("echo"),
+      getVersionFromStdout: sinon.stub().returns(mockVersion),
+    });
+
+    const version = utils.getPlaywrightVersion();
+    expect(version).to.equal(mockVersion);
+    expect(process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]).to.equal(mockVersion);
+  });
+
+  it("should return region and accountId from a valid service URL", () => {
+    process.env["PLAYWRIGHT_SERVICE_URL"] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.deep.equal({ region: "eastus", accountId: "1234" });
+
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
+
+  it("should return null for an invalid service URL", () => {
+    process.env["PLAYWRIGHT_SERVICE_URL"] = "invalid-url";
+
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.be.null;
+
+    delete process.env["PLAYWRIGHT_SERVICE_URL"];
+  });
+
+  it("should return null if PLAYWRIGHT_SERVICE_URL is not set", () => {
+    const result = populateValuesFromServiceUrl();
+    expect(result).to.be.null;
   });
 });
