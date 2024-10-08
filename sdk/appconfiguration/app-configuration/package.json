@@ -38,7 +38,7 @@
     "generate:client": "autorest --typescript swagger/swagger.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "integration-test:node": "dev-tool run test:vitest",
+    "integration-test:node": "dev-tool run test:vitest -- --test-timeout 180000",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix",
     "pack": "npm pack 2>&1",

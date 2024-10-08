@@ -20,7 +20,7 @@ import {
   toSortedArray,
   toSortedLabelsArray,
 } from "./utils/testHelpers.js";
-import { describe, it, assert, beforeEach, afterEach, afterAll } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, afterAll, beforeAll } from "vitest";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -457,8 +457,6 @@ describe("AppConfigurationClient", () => {
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
     it.skip("accepts  operation options", async function (ctx) {
-      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "getConfigTest",
@@ -580,11 +578,13 @@ describe("AppConfigurationClient", () => {
       listConfigSettingB: "",
     };
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       if (!isPlaybackMode()) {
         await deleteEverySetting();
       }
-      
+    });
+
+    beforeEach(async () => {
       keys.listConfigSettingA = recorder.variable(
         `listConfigSetting${count}A`,
         `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
@@ -602,7 +602,7 @@ describe("AppConfigurationClient", () => {
       listConfigSettingA = await client.addConfigurationSetting(productionASettingId);
     });
 
-    afterEach(async () => {
+    afterAll(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA], client);
       } catch (e: any) {
@@ -1048,7 +1048,6 @@ describe("AppConfigurationClient", () => {
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
       //
       // Remove the following line if you want to hit the live service.
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isLiveMode()) ctx.skip();
 
       const key = recorder.variable(
@@ -1143,8 +1142,6 @@ describe("AppConfigurationClient", () => {
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
     it.skip("accepts  operation options", async function (ctx) {
-      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
@@ -1322,8 +1319,6 @@ describe("AppConfigurationClient", () => {
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
     it.skip("accepts  operation options", async function (ctx) {
-      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });

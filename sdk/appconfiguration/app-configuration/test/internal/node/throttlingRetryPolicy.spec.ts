@@ -11,7 +11,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, beforeEach } from "vitest";
+import { describe, it, assert, beforeEach, expect } from "vitest";
 
 describe("Should not retry forever", () => {
   let client: AppConfigurationClient;
@@ -40,27 +40,20 @@ describe("Should not retry forever", () => {
     const key = randomUUID();
     const numberOfSettings = 200;
     const promises = [];
-    let errorWasThrown = false;
-    try {
-      for (let index = 0; index < numberOfSettings; index++) {
-        promises.push(
-          client.addConfigurationSetting(
-            {
-              key: key + "-" + index,
-              value: "added",
-            },
-            {
-              abortSignal: AbortSignal.timeout(1000),
-            },
-          ),
-        );
-      }
-      await Promise.all(promises);
-    } catch (error: any) {
-      errorWasThrown = true;
-      assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
+    for (let index = 0; index < numberOfSettings; index++) {
+      promises.push(
+        client.addConfigurationSetting(
+          {
+            key: key + "-" + index,
+            value: "added",
+          },
+          {
+            abortSignal: AbortSignal.timeout(1000),
+          },
+        ),
+      );
     }
-    assert.equal(errorWasThrown, true, "Error was not thrown");
+    await expect(Promise.all(promises)).rejects.toThrow(/The operation was aborted/);
   });
 
   it("should not retry forever without abortSignal", async () => {

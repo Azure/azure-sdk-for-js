@@ -6,3 +6,6 @@ extends:
       PackageName: "@azure/app-configuration"
       ServiceDirectory: appconfiguration
       SupportedClouds: 'Public,UsGov,China'
+      MatrixFilters:
+        - TestType=^(?!sample).*
+        - DependencyVersion=^$

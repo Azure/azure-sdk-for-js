@@ -4,7 +4,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { AppConfigurationClient } from "../../src/appConfigurationClient.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("supports tracing", () => {
   let client: AppConfigurationClient;
@@ -49,7 +49,6 @@ describe("supports tracing", () => {
     try {
       await client.setReadOnly({ key: key }, false);
       await client.deleteConfigurationSetting({ key: key });
-      assert.ok(true);
     } catch (e: any) {
       // empty because key is already deleted
     }
