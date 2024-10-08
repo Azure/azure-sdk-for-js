@@ -5,6 +5,7 @@
 ### Features Added
 
 - Adds `deleteMessages` which deletes messages from the queue.
+- Add the experimental diagnostic feature `omitMessageBody` via a module-level function `peekMessages()` under `./experimental` subpath export.
 
 ### Breaking Changes
 
