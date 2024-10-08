@@ -158,7 +158,7 @@ export function keyVaultAuthenticationPolicy(
       );
       return response;
     }
-    const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge) || {};
+    const parsedChallenge: WWWAuthenticate = parseWWWAuthenticateHeader(challenge);
 
     const scope = parsedChallenge.resource
       ? parsedChallenge.resource + "/.default"
@@ -218,7 +218,7 @@ export function keyVaultAuthenticationPolicy(
       return response;
     }
     const { claims: base64EncodedClaims, error }: WWWAuthenticate =
-      parseWWWAuthenticateHeader(challenge) || {};
+      parseWWWAuthenticateHeader(challenge);
 
     if (error !== "insufficient_claims" || base64EncodedClaims === undefined) {
       return response;
