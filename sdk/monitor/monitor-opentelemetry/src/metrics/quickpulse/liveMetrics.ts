@@ -170,7 +170,7 @@ export class LiveMetrics {
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString ||
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
+        process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"],
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -381,7 +381,9 @@ export class LiveMetrics {
     this.dependencyFailedRateGauge.addCallback(this.getDependencyFailedRate.bind(this));
     this.exceptionsRateGauge.addCallback(this.getExceptionRate.bind(this));
     this.processPhysicalBytesGauge.addCallback(this.getPhysicalMemory.bind(this));
-    this.percentProcessorTimeNormalizedGauge.addCallback(this.getProcessorTimeNormalized.bind(this));
+    this.percentProcessorTimeNormalizedGauge.addCallback(
+      this.getProcessorTimeNormalized.bind(this),
+    );
   }
 
   /**
@@ -639,7 +641,7 @@ export class LiveMetrics {
     // just for division safety, don't know a case in which this would actually happen
     numCpus = numCpus === 0 ? 1 : numCpus;
 
-    const cpuUsagePercent = ((usageDifMs / elapsedTimeMs) / numCpus) * 100;
+    const cpuUsagePercent = (usageDifMs / elapsedTimeMs / numCpus) * 100;
     observableResult.observe(cpuUsagePercent);
   }
 

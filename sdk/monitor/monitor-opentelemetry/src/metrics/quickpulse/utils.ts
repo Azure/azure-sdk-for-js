@@ -226,15 +226,20 @@ export function resourceMetricsToQuickpulseDataPoint(
         }
         metricPoints.push(metricPoint);
 
-        if (metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES || metricPoint.name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED) {
+        if (
+          metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES ||
+          metricPoint.name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED
+        ) {
           const oldMetricPoint: MetricPoint = {
             weight: 1,
-            name: metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES ? QuickPulseMetricNames.COMMITTED_BYTES : QuickPulseMetricNames.PROCESSOR_TIME,
+            name:
+              metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES
+                ? QuickPulseMetricNames.COMMITTED_BYTES
+                : QuickPulseMetricNames.PROCESSOR_TIME,
             value: dataPoint.value as number,
           };
           metricPoints.push(oldMetricPoint);
         }
-
       });
     });
   });

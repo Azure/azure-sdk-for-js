@@ -7,7 +7,10 @@ import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
 import { InternalConfig } from "../../../../src/shared";
-import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "../../../../src/metrics/quickpulse/types";
+import {
+  QuickPulseMetricNames,
+  QuickPulseOpenTelemetryMetricNames,
+} from "../../../../src/metrics/quickpulse/types";
 /* eslint-disable-next-line @typescript-eslint/no-redeclare */
 import { Exception, RemoteDependency, Request } from "../../../../src/generated";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
@@ -228,20 +231,37 @@ describe("#LiveMetrics", () => {
       assert.equal((documents[i].properties as any)[0].value, "test");
     }
 
-    // testing that the old/new names for the perf counters appear in the monitoring data point, 
+    // testing that the old/new names for the perf counters appear in the monitoring data point,
     // with the values of the process counters
-    const monitoringDataPoints =
-      resourceMetricsToQuickpulseDataPoint(resourceMetrics, autoCollect["quickpulseExporter"]["baseMonitoringDataPoint"], documents, [], new Map<string, number>());
+    const monitoringDataPoints = resourceMetricsToQuickpulseDataPoint(
+      resourceMetrics,
+      autoCollect["quickpulseExporter"]["baseMonitoringDataPoint"],
+      documents,
+      [],
+      new Map<string, number>(),
+    );
     assert.ok(monitoringDataPoints[0].metrics?.length === 11);
-    assert.ok(monitoringDataPoints[0].metrics[6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString());
+    assert.ok(
+      monitoringDataPoints[0].metrics[6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
+    );
     assert.ok(monitoringDataPoints[0].metrics[6].value > 0);
-    assert.ok(monitoringDataPoints[0].metrics[7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString());
-    assert.ok(monitoringDataPoints[0].metrics[7].value === monitoringDataPoints[0].metrics[6].value);
-    assert.ok(monitoringDataPoints[0].metrics[8].name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString());
+    assert.ok(
+      monitoringDataPoints[0].metrics[7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
+    );
+    assert.ok(
+      monitoringDataPoints[0].metrics[7].value === monitoringDataPoints[0].metrics[6].value,
+    );
+    assert.ok(
+      monitoringDataPoints[0].metrics[8].name ===
+        QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
+    );
     assert.ok(monitoringDataPoints[0].metrics[8].value >= 0);
-    assert.ok(monitoringDataPoints[0].metrics[9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString());
-    assert.ok(monitoringDataPoints[0].metrics[9].value === monitoringDataPoints[0].metrics[8].value);
-
+    assert.ok(
+      monitoringDataPoints[0].metrics[9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
+    );
+    assert.ok(
+      monitoringDataPoints[0].metrics[9].value === monitoringDataPoints[0].metrics[8].value,
+    );
   });
 
   it("should retrieve meter provider", () => {
