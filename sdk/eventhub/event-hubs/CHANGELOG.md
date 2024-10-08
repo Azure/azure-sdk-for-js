@@ -6,8 +6,6 @@
 
 - The producer now verifies that the input message follows the expected structure.
 
-### Other Changes
-
 ## 5.13.0-beta.2 (2024-06-27)
 
 ### Bugs Fixed
