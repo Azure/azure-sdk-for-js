@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 import {
@@ -9,7 +9,6 @@ import {
   KeyClient,
   UpdateKeyPropertiesOptions,
 } from "../../src/index.js";
-import { isPublicCloud } from "./utils/common.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
@@ -301,122 +300,115 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   describe("key rotation", () => {
-    if (isPublicCloud() || isRecordMode() || isPlaybackMode()) {
-      // Key Rotation is a preview feature that is not supported in all clouds yet.
-      // Once 7.3 GAs we should be able to run this unconditionally.
-      it("rotateKey supports rotating a key", async () => {
-        const keyName = recorder.variable(
-          "keyrotate",
-          `keyrotate-${Math.floor(Math.random() * 1000)}`,
-        );
-        const key = await client.createKey(keyName, "RSA");
-        const rotatedKey = await client.rotateKey(keyName);
+    it("rotateKey supports rotating a key", async () => {
+      const keyName = recorder.variable(
+        "keyrotate",
+        `keyrotate-${Math.floor(Math.random() * 1000)}`,
+      );
+      const key = await client.createKey(keyName, "RSA");
+      const rotatedKey = await client.rotateKey(keyName);
 
-        // A new version is created, and the key material is rotated (RSA key, check n and e).
-        assert.notEqual(rotatedKey.id, key.id);
-        assert.notEqual(rotatedKey.properties.version, key.properties.version);
-        assert.notEqual(rotatedKey.key?.n, key.key?.n);
+      // A new version is created, and the key material is rotated (RSA key, check n and e).
+      assert.notEqual(rotatedKey.id, key.id);
+      assert.notEqual(rotatedKey.properties.version, key.properties.version);
+      assert.notEqual(rotatedKey.key?.n, key.key?.n);
+    });
+
+    it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
+      const keyName = recorder.variable(
+        "keyrotationpolicy",
+        `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`,
+      );
+      const key = await client.createKey(keyName, "RSA");
+
+      const rotationPolicy = await client.updateKeyRotationPolicy(key.name, {
+        expiresIn: "P90D",
+        lifetimeActions: [
+          {
+            action: "Rotate",
+            timeBeforeExpiry: "P30D",
+          },
+        ],
       });
 
-      it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
-        const keyName = recorder.variable(
-          "keyrotationpolicy",
-          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`,
-        );
-        const key = await client.createKey(keyName, "RSA");
+      const fetchedPolicy = await client.getKeyRotationPolicy(keyName);
 
-        const rotationPolicy = await client.updateKeyRotationPolicy(key.name, {
-          expiresIn: "P90D",
-          lifetimeActions: [
-            {
-              action: "Rotate",
-              timeBeforeExpiry: "P30D",
-            },
-          ],
-        });
+      assert.deepEqual(fetchedPolicy, rotationPolicy);
+    });
 
-        const fetchedPolicy = await client.getKeyRotationPolicy(keyName);
+    it("updateKeyRotationPolicy supports updating an existing policy", async () => {
+      const keyName = recorder.variable(
+        "keyrotationpolicy",
+        `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`,
+      );
+      const key = await client.createKey(keyName, "RSA");
 
-        assert.deepEqual(fetchedPolicy, rotationPolicy);
+      // Create a policy which we will override later.
+      await client.updateKeyRotationPolicy(key.name, {
+        lifetimeActions: [
+          {
+            action: "Rotate",
+            timeAfterCreate: "P2M",
+          },
+        ],
       });
 
-      it("updateKeyRotationPolicy supports updating an existing policy", async () => {
-        const keyName = recorder.variable(
-          "keyrotationpolicy",
-          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`,
-        );
-        const key = await client.createKey(keyName, "RSA");
-
-        // Create a policy which we will override later.
-        await client.updateKeyRotationPolicy(key.name, {
-          lifetimeActions: [
-            {
-              action: "Rotate",
-              timeAfterCreate: "P2M",
-            },
-          ],
-        });
-
-        const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
-          expiresIn: "P90D",
-          lifetimeActions: [
-            {
-              action: "Notify",
-              timeBeforeExpiry: "P30D",
-            },
-          ],
-        });
-
-        assert.deepEqual(updatedPolicy, {
-          id: updatedPolicy.id,
-          createdOn: updatedPolicy.createdOn,
-          updatedOn: updatedPolicy.updatedOn,
-          expiresIn: "P90D",
-          lifetimeActions: [
-            {
-              timeAfterCreate: undefined,
-              action: "Notify",
-              timeBeforeExpiry: "P30D",
-            },
-          ],
-        });
+      const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
+        expiresIn: "P90D",
+        lifetimeActions: [
+          {
+            action: "Notify",
+            timeBeforeExpiry: "P30D",
+          },
+        ],
       });
 
-      it("throws when attempting to fetch a policy of a non-existent key", async () => {
-        const keyName = recorder.variable(
-          "nonexistentkey",
-          `nonexistentkey-${Math.floor(Math.random() * 1000)}`,
-        );
-        await expect(client.getKeyRotationPolicy(keyName)).rejects.toThrow();
+      assert.deepEqual(updatedPolicy, {
+        id: updatedPolicy.id,
+        createdOn: updatedPolicy.createdOn,
+        updatedOn: updatedPolicy.updatedOn,
+        expiresIn: "P90D",
+        lifetimeActions: [
+          {
+            timeAfterCreate: undefined,
+            action: "Notify",
+            timeBeforeExpiry: "P30D",
+          },
+        ],
       });
+    });
 
-      it("supports tracing", async () => {
-        const keyName = recorder.variable(
-          "rotationpolicytracing",
-          `rotationpolicytracing-${Math.floor(Math.random() * 1000)}`,
+    it("throws when attempting to fetch a policy of a non-existent key", async () => {
+      const keyName = recorder.variable(
+        "nonexistentkey",
+        `nonexistentkey-${Math.floor(Math.random() * 1000)}`,
+      );
+      await expect(client.getKeyRotationPolicy(keyName)).rejects.toThrow();
+    });
+
+    it("supports tracing", async () => {
+      const keyName = recorder.variable(
+        "rotationpolicytracing",
+        `rotationpolicytracing-${Math.floor(Math.random() * 1000)}`,
+      );
+      const key = await client.createKey(keyName, "RSA");
+
+      await expect(async (options: any) => {
+        await client.updateKeyRotationPolicy(
+          key.name,
+          {
+            lifetimeActions: [
+              {
+                action: "Rotate",
+                timeAfterCreate: "P2M",
+              },
+            ],
+          },
+          options,
         );
-        const key = await client.createKey(keyName, "RSA");
-
-        await expect(async (options: any) => {
-          await client.updateKeyRotationPolicy(
-            key.name,
-            {
-              lifetimeActions: [
-                {
-                  action: "Rotate",
-                  timeAfterCreate: "P2M",
-                },
-              ],
-            },
-            options,
-          );
-          await client.getKeyRotationPolicy(key.name, options);
-        }).toSupportTracing([
-          "KeyClient.updateKeyRotationPolicy",
-          "KeyClient.getKeyRotationPolicy",
-        ]);
-      });
-    }
+        await client.getKeyRotationPolicy(key.name, options);
+      }).toSupportTracing(["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"]);
+    });
   });
 
   describe("releaseKey", () => {
