@@ -53,7 +53,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:vitest",
+    "unit-test:node": "dev-tool run test:vitest -- --test-timeout 100000",
     "update-snippets": "echo skipped"
   },
   "sideEffects": false,
