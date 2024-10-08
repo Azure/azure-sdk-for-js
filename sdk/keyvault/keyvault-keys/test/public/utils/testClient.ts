@@ -22,8 +22,7 @@ export default class TestClient implements TestClientInterface {
     await this.client.purgeDeletedKey(keyName);
   }
   public async flushKey(keyName: string): Promise<void> {
-    const that = this;
-    const poller = await that.client.beginDeleteKey(keyName, testPollerProperties);
+    const poller = await this.client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeKey(keyName);
   }
