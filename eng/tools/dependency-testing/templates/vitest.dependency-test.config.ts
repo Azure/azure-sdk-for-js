@@ -4,26 +4,34 @@
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../../../vitest.shared.config.ts";
 
-// The idea is as follows:
+// The goal of this file is to create a unified test configuration for Vitest
+// by combining a base configuration shared across packages with package-specific settings.
+// This ensures that we maintain consistent test behavior when running min/max tests,
+// while allowing for individual package overrides where necessary.
 
-// 1. Try to load the package vite config from the package's vitest.config.ts file, using an empty object if it fails to load
+// 1. Try to load the package-specific vitest config, if available.
+// This allows each package to have its own tailored test configuration,
+// but it's optional. If the package config isn't present, we proceed with a default setup.
 let packageConfig = {};
 try {
   packageConfig = (await import("../../vitest.config.ts")).default;
 } catch (e: any) {
   if (e.code === "ERR_MODULE_NOT_FOUND") {
-    // If the file does not exist, log a message and default to an empty config
+    // If no specific config is found, we log this fact.
+    // This ensures developers know when package-specific settings are missing,
+    // but it's not an error — we simply default to the shared config.
     console.warn(
       `vitest.config.ts not found in the expected location (sdk/packageDirectory/package/vitest.config.ts) - package's vitest config will not be included`,
     );
   } else {
-    // If there's another error, rethrow it
+    // Any other error here indicates a real issue, so we rethrow it.
     throw e;
   }
 }
 
-// Taking the base vite config and merging it with the vitest template config we have here
-const config = mergeConfig(
+// 2. Merge the shared base config with some standard test settings for min/max tests.
+// These settings apply to all packages unless specifically overridden,
+const baseConfig = mergeConfig(
   viteConfig,
   defineConfig({
     test: {
@@ -33,5 +41,7 @@ const config = mergeConfig(
   }),
 );
 
-// Finally, the default export mixes in the package config with the merged config, producing the final result
-export default mergeConfig(mergedTestConfig, packageConfig);
+// 3. Merge the package-specific config with the base config to produce the final result.
+// This allows for package-level customizations while still adhering to the shared setup,
+// ensuring consistency across the entire codebase.
+export default mergeConfig(baseConfig, packageConfig);
