@@ -21,7 +21,7 @@ try {
     // This ensures developers know when package-specific settings are missing,
     // but it's not an error — we simply default to the shared config.
     console.warn(
-      `vitest.config.ts not found in the expected location (sdk/packageDirectory/package/vitest.config.ts) - package's vitest config will not be included`,
+      `vitest.config.ts not found in the expected location (sdk/<service-directory>/<package-directory>/vitest.config.ts) - package's vitest config will not be included`,
     );
   } else {
     // Any other error here indicates a real issue, so we rethrow it.
@@ -44,4 +44,8 @@ const baseConfig = mergeConfig(
 // 3. Merge the package-specific config with the base config to produce the final result.
 // This allows for package-level customizations while still adhering to the shared setup,
 // ensuring consistency across the entire codebase.
-export default mergeConfig(baseConfig, packageConfig);
+const finalViteConfig = mergeConfig(baseConfig, packageConfig);
+
+console.log({ finalViteConfig });
+
+export default finalViteConfig;
