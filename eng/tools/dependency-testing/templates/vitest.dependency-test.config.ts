@@ -46,6 +46,7 @@ const baseConfig = mergeConfig(
 // ensuring consistency across the entire codebase.
 const finalViteConfig = mergeConfig(baseConfig, packageConfig);
 
-console.log({ finalViteConfig });
+console.log("Using the following Vitest configuration:");
+console.log(JSON.stringify(finalViteConfig, null, 2));
 
 export default finalViteConfig;
