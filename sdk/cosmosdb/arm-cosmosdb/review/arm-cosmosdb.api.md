@@ -644,11 +644,6 @@ export interface ClientEncryptionPolicy {
 }
 
 // @public
-export interface CloudError {
-    error?: ErrorResponse;
-}
-
-// @public
 export interface ClusterKey {
     name?: string;
     orderBy?: string;
@@ -1463,9 +1458,23 @@ export type DedicatedGatewayType = string;
 export type DefaultConsistencyLevel = "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
 export interface ErrorResponse {
-    code?: string;
-    message?: string;
+    error?: ErrorDetail;
 }
 
 // @public (undocumented)
