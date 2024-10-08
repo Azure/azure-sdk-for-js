@@ -66,7 +66,7 @@ export interface LastEnqueuedEventProperties {
    * The offset of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
-  offset?: number;
+  offset?: string;
   /**
    * The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
@@ -410,7 +410,7 @@ function convertAMQPMesage(data: EventDataInternal): ReceivedEventData {
 function setEventProps(eventProps: LastEnqueuedEventProperties, data: EventDataInternal): void {
   eventProps.sequenceNumber = data.lastSequenceNumber;
   eventProps.enqueuedOn = data.lastEnqueuedTime;
-  eventProps.offset = data.lastEnqueuedOffset;
+  eventProps.offset = `${data.lastEnqueuedOffset}`;
   eventProps.retrievedOn = data.retrievalTime;
 }
 

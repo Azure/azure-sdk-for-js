@@ -217,7 +217,7 @@ export interface GetPartitionPropertiesOptions extends OperationOptions {
 // @public
 export interface LastEnqueuedEventProperties {
     enqueuedOn?: Date;
-    offset?: number;
+    offset?: string;
     retrievedOn?: Date;
     sequenceNumber?: number;
 }
