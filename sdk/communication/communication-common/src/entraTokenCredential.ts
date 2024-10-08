@@ -113,12 +113,15 @@ export class EntraTokenCredential implements AcsTokenCredential {
     options?: { abortSignal: AbortSignalLike },
   ): Promise<AccessToken> {
     const request = createPipelineRequest({
-      url: `${resourceEndpoint}/access/entra:exchangeToken`,
+      url: `${resourceEndpoint}/access/entra/:exchangeAccessToken?api-version=2024-04-01-preview`,
       method: "POST",
       headers: createHttpHeaders({
         Authorization: `Bearer ${entraToken}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
       }),
       abortSignal: options?.abortSignal,
+      body: JSON.stringify({}),
     });
     const response = await this.client.pipeline.sendRequest(this.httpClient, request);
 
