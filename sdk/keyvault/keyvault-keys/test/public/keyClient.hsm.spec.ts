@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
@@ -7,12 +8,12 @@ import TestClient from "./utils/testClient.js";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels.js";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({
-  toSupportTracing: toSupportTracing,
+  toSupportTracing,
 });
 
 describe("Keys client - create, read, update and delete operations for managed HSM", () => {
@@ -188,11 +189,16 @@ describe("Keys client - create, read, update and delete operations for managed H
       });
 
       assert.exists(updatedKey.properties.releasePolicy?.encodedPolicy);
-      const decodedReleasePolicy = JSON.parse(
-        uint8ArrayToString(updatedKey.properties.releasePolicy!.encodedPolicy!),
-      );
 
-      assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
+      // Release policy is sanitized by the test recorder, so we can't compare the exact value in playback mode
+
+      if (!isPlaybackMode()) {
+        const decodedReleasePolicy = JSON.parse(
+          uint8ArrayToString(updatedKey.properties.releasePolicy!.encodedPolicy!),
+        );
+
+        assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
+      }
     });
 
     it("errors when key is exportable without a release policy", async () => {
