@@ -1,6 +1,6 @@
 # Release History
 
-## 4.4.0-beta.2 (Unreleased)
+## 4.4.0 (Unreleased)
 
 ### Features Added
 
@@ -11,6 +11,8 @@
 - Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
 
 ### Other Changes
+
+- Move `geoReplication` feature to `experimental` subpath export so we can publish GA versions from main branch.
 
 ## 4.4.0-beta.1 (2024-06-06)
 
