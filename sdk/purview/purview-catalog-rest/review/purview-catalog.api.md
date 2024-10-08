@@ -4,16 +4,18 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { OperationState } from '@azure/core-lro';
 import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AtlasAttributeDef {
     cardinality?: "SINGLE" | "LIST" | "SET";
     constraints?: Array<AtlasConstraintDef>;
@@ -30,7 +32,7 @@ export interface AtlasAttributeDef {
     valuesMinCount?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasAttributeDefOutput {
     cardinality?: "SINGLE" | "LIST" | "SET";
     constraints?: Array<AtlasConstraintDefOutput>;
@@ -47,17 +49,17 @@ export interface AtlasAttributeDefOutput {
     valuesMinCount?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasBaseModelObject {
     guid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasBaseModelObjectOutput {
     guid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasBaseTypeDef {
     category?: "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
     createdBy?: string;
@@ -75,7 +77,7 @@ export interface AtlasBaseTypeDef {
     version?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasBaseTypeDefOutput {
     category?: "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
     createdBy?: string;
@@ -93,15 +95,15 @@ export interface AtlasBaseTypeDefOutput {
     version?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasBusinessMetadataDef extends AtlasStructDef {
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasBusinessMetadataDefOutput extends AtlasStructDefOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasClassification extends AtlasStruct {
     entityGuid?: string;
     entityStatus?: "ACTIVE" | "DELETED";
@@ -111,21 +113,21 @@ export interface AtlasClassification extends AtlasStruct {
     validityPeriods?: Array<TimeBoundary>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasClassificationDef extends AtlasStructDef {
     entityTypes?: Array<string>;
     subTypes?: Array<string>;
     superTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasClassificationDefOutput extends AtlasStructDefOutput {
     entityTypes?: Array<string>;
     subTypes?: Array<string>;
     superTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasClassificationOutput extends AtlasStructOutput {
     entityGuid?: string;
     entityStatus?: "ACTIVE" | "DELETED";
@@ -135,33 +137,33 @@ export interface AtlasClassificationOutput extends AtlasStructOutput {
     validityPeriods?: Array<TimeBoundaryOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasClassificationsOutput extends PListOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasConstraintDef {
     params?: Record<string, Record<string, unknown>>;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasConstraintDefOutput {
     params?: Record<string, Record<string, unknown>>;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntitiesWithExtInfo extends AtlasEntityExtInfo {
     entities?: Array<AtlasEntity>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntitiesWithExtInfoOutput extends AtlasEntityExtInfoOutput {
     entities?: Array<AtlasEntityOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntity extends AtlasStruct {
     businessAttributes?: Record<string, Record<string, unknown>>;
     classifications?: Array<AtlasClassification>;
@@ -185,31 +187,31 @@ export interface AtlasEntity extends AtlasStruct {
     version?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityDef extends AtlasStructDef {
     relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDef>;
     subTypes?: Array<string>;
     superTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityDefOutput extends AtlasStructDefOutput {
     relationshipAttributeDefs?: Array<AtlasRelationshipAttributeDefOutput>;
     subTypes?: Array<string>;
     superTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityExtInfo {
     referredEntities?: Record<string, AtlasEntity>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityExtInfoOutput {
     referredEntities?: Record<string, AtlasEntityOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityHeader extends AtlasStruct {
     classificationNames?: Array<string>;
     classifications?: Array<AtlasClassification>;
@@ -222,7 +224,7 @@ export interface AtlasEntityHeader extends AtlasStruct {
     status?: "ACTIVE" | "DELETED";
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityHeaderOutput extends AtlasStructOutput {
     classificationNames?: Array<string>;
     classifications?: Array<AtlasClassificationOutput>;
@@ -235,12 +237,12 @@ export interface AtlasEntityHeaderOutput extends AtlasStructOutput {
     status?: "ACTIVE" | "DELETED";
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityHeaders {
     guidHeaderMap?: Record<string, AtlasEntityHeader>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityOutput extends AtlasStructOutput {
     businessAttributes?: Record<string, Record<string, unknown>>;
     classifications?: Array<AtlasClassificationOutput>;
@@ -264,43 +266,43 @@ export interface AtlasEntityOutput extends AtlasStructOutput {
     version?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityWithExtInfo extends AtlasEntityExtInfo {
     entity?: AtlasEntity;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEntityWithExtInfoOutput extends AtlasEntityExtInfoOutput {
     entity?: AtlasEntityOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEnumDef extends AtlasBaseTypeDef {
     defaultValue?: string;
     elementDefs?: Array<AtlasEnumElementDef>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEnumDefOutput extends AtlasBaseTypeDefOutput {
     defaultValue?: string;
     elementDefs?: Array<AtlasEnumElementDefOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEnumElementDef {
     description?: string;
     ordinal?: number;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasEnumElementDefOutput {
     description?: string;
     ordinal?: number;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasExtraTypeDef {
     attributeDefs?: Array<AtlasAttributeDef>;
     defaultValue?: string;
@@ -315,7 +317,7 @@ export interface AtlasExtraTypeDef {
     superTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasExtraTypeDefOutput {
     attributeDefs?: Array<AtlasAttributeDefOutput>;
     defaultValue?: string;
@@ -330,7 +332,7 @@ export interface AtlasExtraTypeDefOutput {
     superTypes?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossary extends AtlasGlossaryBaseObject {
     categories?: Array<AtlasRelatedCategoryHeader>;
     language?: string;
@@ -338,7 +340,7 @@ export interface AtlasGlossary extends AtlasGlossaryBaseObject {
     usage?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryBaseObject extends AtlasBaseModelObject {
     classifications?: Array<AtlasClassification>;
     lastModifiedTS?: string;
@@ -348,7 +350,7 @@ export interface AtlasGlossaryBaseObject extends AtlasBaseModelObject {
     shortDescription?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutput {
     classifications?: Array<AtlasClassificationOutput>;
     lastModifiedTS?: string;
@@ -358,7 +360,7 @@ export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutpu
     shortDescription?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryCategory extends AtlasGlossaryBaseObject {
     anchor?: AtlasGlossaryHeader;
     childrenCategories?: Array<AtlasRelatedCategoryHeader>;
@@ -366,7 +368,7 @@ export interface AtlasGlossaryCategory extends AtlasGlossaryBaseObject {
     terms?: Array<AtlasRelatedTermHeader>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryCategoryOutput extends AtlasGlossaryBaseObjectOutput {
     anchor?: AtlasGlossaryHeaderOutput;
     childrenCategories?: Array<AtlasRelatedCategoryHeaderOutput>;
@@ -374,33 +376,33 @@ export interface AtlasGlossaryCategoryOutput extends AtlasGlossaryBaseObjectOutp
     terms?: Array<AtlasRelatedTermHeaderOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryExtInfo extends AtlasGlossary {
     categoryInfo?: Record<string, AtlasGlossaryCategory>;
     termInfo?: Record<string, AtlasGlossaryTerm>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryExtInfoOutput extends AtlasGlossaryOutput {
     categoryInfo?: Record<string, AtlasGlossaryCategoryOutput>;
     termInfo?: Record<string, AtlasGlossaryTermOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryHeader {
     displayText?: string;
     glossaryGuid?: string;
     relationGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryHeaderOutput {
     displayText?: string;
     glossaryGuid?: string;
     relationGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryOutput extends AtlasGlossaryBaseObjectOutput {
     categories?: Array<AtlasRelatedCategoryHeaderOutput>;
     language?: string;
@@ -408,7 +410,7 @@ export interface AtlasGlossaryOutput extends AtlasGlossaryBaseObjectOutput {
     usage?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryTerm extends AtlasGlossaryBaseObject {
     abbreviation?: string;
     anchor?: AtlasGlossaryHeader;
@@ -441,7 +443,7 @@ export interface AtlasGlossaryTerm extends AtlasGlossaryBaseObject {
     validValuesFor?: Array<AtlasRelatedTermHeader>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasGlossaryTermOutput extends AtlasGlossaryBaseObjectOutput {
     abbreviation?: string;
     anchor?: AtlasGlossaryHeaderOutput;
@@ -474,7 +476,7 @@ export interface AtlasGlossaryTermOutput extends AtlasGlossaryBaseObjectOutput {
     validValuesFor?: Array<AtlasRelatedTermHeaderOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasLineageInfoOutput {
     baseEntityGuid?: string;
     childrenCount?: number;
@@ -488,21 +490,21 @@ export interface AtlasLineageInfoOutput {
     widthCounts?: Record<string, Record<string, Record<string, unknown>>>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasObjectId {
     guid?: string;
     typeName?: string;
     uniqueAttributes?: Record<string, Record<string, unknown>>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasObjectIdOutput {
     guid?: string;
     typeName?: string;
     uniqueAttributes?: Record<string, Record<string, unknown>>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelatedCategoryHeader {
     categoryGuid?: string;
     description?: string;
@@ -511,7 +513,7 @@ export interface AtlasRelatedCategoryHeader {
     relationGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelatedCategoryHeaderOutput {
     categoryGuid?: string;
     description?: string;
@@ -520,7 +522,7 @@ export interface AtlasRelatedCategoryHeaderOutput {
     relationGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelatedObjectId extends AtlasObjectId {
     displayText?: string;
     entityStatus?: "ACTIVE" | "DELETED";
@@ -531,7 +533,7 @@ export interface AtlasRelatedObjectId extends AtlasObjectId {
     relationshipType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelatedObjectIdOutput extends AtlasObjectIdOutput {
     displayText?: string;
     entityStatus?: "ACTIVE" | "DELETED";
@@ -542,7 +544,7 @@ export interface AtlasRelatedObjectIdOutput extends AtlasObjectIdOutput {
     relationshipType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelatedTermHeader {
     description?: string;
     displayText?: string;
@@ -554,7 +556,7 @@ export interface AtlasRelatedTermHeader {
     termGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelatedTermHeaderOutput {
     description?: string;
     displayText?: string;
@@ -566,7 +568,7 @@ export interface AtlasRelatedTermHeaderOutput {
     termGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationship extends AtlasStruct {
     createdBy?: string;
     createTime?: number;
@@ -582,19 +584,19 @@ export interface AtlasRelationship extends AtlasStruct {
     version?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipAttributeDef extends AtlasAttributeDef {
     isLegacyAttribute?: boolean;
     relationshipTypeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipAttributeDefOutput extends AtlasAttributeDefOutput {
     isLegacyAttribute?: boolean;
     relationshipTypeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipDef extends AtlasStructDef {
     endDef1?: AtlasRelationshipEndDef;
     endDef2?: AtlasRelationshipEndDef;
@@ -602,7 +604,7 @@ export interface AtlasRelationshipDef extends AtlasStructDef {
     relationshipLabel?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipDefOutput extends AtlasStructDefOutput {
     endDef1?: AtlasRelationshipEndDefOutput;
     endDef2?: AtlasRelationshipEndDefOutput;
@@ -610,7 +612,7 @@ export interface AtlasRelationshipDefOutput extends AtlasStructDefOutput {
     relationshipLabel?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipEndDef {
     cardinality?: "SINGLE" | "LIST" | "SET";
     description?: string;
@@ -620,7 +622,7 @@ export interface AtlasRelationshipEndDef {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipEndDefOutput {
     cardinality?: "SINGLE" | "LIST" | "SET";
     description?: string;
@@ -630,7 +632,7 @@ export interface AtlasRelationshipEndDefOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipOutput extends AtlasStructOutput {
     createdBy?: string;
     createTime?: number;
@@ -646,37 +648,37 @@ export interface AtlasRelationshipOutput extends AtlasStructOutput {
     version?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasRelationshipWithExtInfoOutput {
     referredEntities?: Record<string, AtlasEntityHeaderOutput>;
     relationship?: AtlasRelationshipOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasStruct {
     attributes?: Record<string, Record<string, unknown>>;
     lastModifiedTS?: string;
     typeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasStructDef extends AtlasBaseTypeDef {
     attributeDefs?: Array<AtlasAttributeDef>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasStructDefOutput extends AtlasBaseTypeDefOutput {
     attributeDefs?: Array<AtlasAttributeDefOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasStructOutput {
     attributes?: Record<string, Record<string, unknown>>;
     lastModifiedTS?: string;
     typeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTermAssignmentHeader {
     confidence?: number;
     createdBy?: string;
@@ -690,7 +692,7 @@ export interface AtlasTermAssignmentHeader {
     termGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTermAssignmentHeaderOutput {
     confidence?: number;
     createdBy?: string;
@@ -704,7 +706,7 @@ export interface AtlasTermAssignmentHeaderOutput {
     termGuid?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTermCategorizationHeader {
     categoryGuid?: string;
     description?: string;
@@ -713,7 +715,7 @@ export interface AtlasTermCategorizationHeader {
     status?: "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTermCategorizationHeaderOutput {
     categoryGuid?: string;
     description?: string;
@@ -722,22 +724,22 @@ export interface AtlasTermCategorizationHeaderOutput {
     status?: "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTypeDef extends AtlasBaseTypeDef, AtlasExtraTypeDef {
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTypeDefHeaderOutput {
     category?: "PRIMITIVE" | "OBJECT_ID_TYPE" | "ENUM" | "STRUCT" | "CLASSIFICATION" | "ENTITY" | "ARRAY" | "MAP" | "RELATIONSHIP" | "TERM_TEMPLATE";
     guid?: string;
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTypeDefOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTypesDef {
     businessMetadataDefs?: Array<AtlasBusinessMetadataDef>;
     classificationDefs?: Array<AtlasClassificationDef>;
@@ -748,7 +750,7 @@ export interface AtlasTypesDef {
     termTemplateDefs?: Array<TermTemplateDef>;
 }
 
-// @public (undocumented)
+// @public
 export interface AtlasTypesDefOutput {
     businessMetadataDefs?: Array<AtlasBusinessMetadataDefOutput>;
     classificationDefs?: Array<AtlasClassificationDefOutput>;
@@ -759,26 +761,26 @@ export interface AtlasTypesDefOutput {
     termTemplateDefs?: Array<TermTemplateDefOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AutoCompleteRequest {
     filter?: Record<string, unknown>;
     keywords?: string;
     limit?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AutoCompleteResultOutput {
     // (undocumented)
     value?: Array<AutoCompleteResultValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AutoCompleteResultValueOutput {
     queryPlusText?: string;
     text?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BrowseRequest {
     entityType?: string;
     limit?: number;
@@ -786,14 +788,14 @@ export interface BrowseRequest {
     path?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BrowseResultOutput {
     "@search.count"?: number;
     // (undocumented)
     value?: Array<BrowseResultValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface BrowseResultOwnerOutput {
     contactType?: string;
     displayName?: string;
@@ -801,7 +803,7 @@ export interface BrowseResultOwnerOutput {
     mail?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BrowseResultValueOutput {
     entityType?: string;
     id?: string;
@@ -813,12 +815,15 @@ export interface BrowseResultValueOutput {
 }
 
 // @public (undocumented)
+export function buildMultiCollection(items: string[], parameterName: string): string;
+
+// @public
 export interface BulkImportResponseOutput {
     failedImportInfoList?: Array<ImportInfoOutput>;
     successImportInfoList?: Array<ImportInfoOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ClassificationAssociateRequest {
     classification?: AtlasClassification;
     entityGuids?: Array<string>;
@@ -826,7 +831,7 @@ export interface ClassificationAssociateRequest {
 
 // @public (undocumented)
 export interface CollectionCreateOrUpdate {
-    post(options: CollectionCreateOrUpdateParameters): Promise<CollectionCreateOrUpdate200Response | CollectionCreateOrUpdatedefaultResponse>;
+    post(options: CollectionCreateOrUpdateParameters): StreamableMethod<CollectionCreateOrUpdate200Response | CollectionCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -844,7 +849,7 @@ export interface CollectionCreateOrUpdateBodyParam {
 
 // @public (undocumented)
 export interface CollectionCreateOrUpdateBulk {
-    post(options: CollectionCreateOrUpdateBulkParameters): Promise<CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkdefaultResponse>;
+    post(options: CollectionCreateOrUpdateBulkParameters): StreamableMethod<CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkDefaultResponse>;
 }
 
 // @public
@@ -861,11 +866,11 @@ export interface CollectionCreateOrUpdateBulkBodyParam {
 }
 
 // @public
-export interface CollectionCreateOrUpdateBulkdefaultResponse extends HttpResponse {
+export interface CollectionCreateOrUpdateBulkDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -877,11 +882,11 @@ export interface CollectionCreateOrUpdateBulkMediaTypesParam {
 export type CollectionCreateOrUpdateBulkParameters = CollectionCreateOrUpdateBulkMediaTypesParam & CollectionCreateOrUpdateBulkBodyParam & RequestParameters;
 
 // @public
-export interface CollectionCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface CollectionCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -894,7 +899,7 @@ export type CollectionCreateOrUpdateParameters = CollectionCreateOrUpdateMediaTy
 
 // @public (undocumented)
 export interface CollectionMoveEntitiesToCollection {
-    post(options: CollectionMoveEntitiesToCollectionParameters): Promise<CollectionMoveEntitiesToCollection200Response | CollectionMoveEntitiesToCollectiondefaultResponse>;
+    post(options: CollectionMoveEntitiesToCollectionParameters): StreamableMethod<CollectionMoveEntitiesToCollection200Response | CollectionMoveEntitiesToCollectionDefaultResponse>;
 }
 
 // @public
@@ -911,11 +916,11 @@ export interface CollectionMoveEntitiesToCollectionBodyParam {
 }
 
 // @public
-export interface CollectionMoveEntitiesToCollectiondefaultResponse extends HttpResponse {
+export interface CollectionMoveEntitiesToCollectionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -926,30 +931,30 @@ export interface CollectionMoveEntitiesToCollectionMediaTypesParam {
 // @public (undocumented)
 export type CollectionMoveEntitiesToCollectionParameters = CollectionMoveEntitiesToCollectionMediaTypesParam & CollectionMoveEntitiesToCollectionBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ContactBasic {
     id?: string;
     info?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ContactBasicOutput {
     id?: string;
     info?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ContactSearchResultValueOutput {
     contactType?: string;
     id?: string;
     info?: string;
 }
 
-// @public (undocumented)
-function createClient(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogClient;
+// @public
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewCatalogClientOptions): PurviewCatalogClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface DateFormat {
     availableLocales?: Array<string>;
     // (undocumented)
@@ -963,7 +968,7 @@ export interface DateFormat {
     timeZone?: TimeZone;
 }
 
-// @public (undocumented)
+// @public
 export interface DateFormatOutput {
     availableLocales?: Array<string>;
     // (undocumented)
@@ -979,7 +984,7 @@ export interface DateFormatOutput {
 
 // @public (undocumented)
 export interface DiscoveryAutoComplete {
-    post(options: DiscoveryAutoCompleteParameters): Promise<DiscoveryAutoComplete200Response | DiscoveryAutoCompletedefaultResponse>;
+    post(options: DiscoveryAutoCompleteParameters): StreamableMethod<DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse>;
 }
 
 // @public
@@ -996,11 +1001,11 @@ export interface DiscoveryAutoCompleteBodyParam {
 }
 
 // @public
-export interface DiscoveryAutoCompletedefaultResponse extends HttpResponse {
+export interface DiscoveryAutoCompleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1013,7 +1018,7 @@ export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteMediaTypesPar
 
 // @public (undocumented)
 export interface DiscoveryBrowse {
-    post(options: DiscoveryBrowseParameters): Promise<DiscoveryBrowse200Response | DiscoveryBrowsedefaultResponse>;
+    post(options: DiscoveryBrowseParameters): StreamableMethod<DiscoveryBrowse200Response | DiscoveryBrowseDefaultResponse>;
 }
 
 // @public
@@ -1030,11 +1035,11 @@ export interface DiscoveryBrowseBodyParam {
 }
 
 // @public
-export interface DiscoveryBrowsedefaultResponse extends HttpResponse {
+export interface DiscoveryBrowseDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1047,7 +1052,7 @@ export type DiscoveryBrowseParameters = DiscoveryBrowseMediaTypesParam & Discove
 
 // @public (undocumented)
 export interface DiscoveryQuery {
-    post(options: DiscoveryQueryParameters): Promise<DiscoveryQuery200Response | DiscoveryQuerydefaultResponse>;
+    post(options: DiscoveryQueryParameters): StreamableMethod<DiscoveryQuery200Response | DiscoveryQueryDefaultResponse>;
 }
 
 // @public
@@ -1064,11 +1069,11 @@ export interface DiscoveryQueryBodyParam {
 }
 
 // @public
-export interface DiscoveryQuerydefaultResponse extends HttpResponse {
+export interface DiscoveryQueryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1081,7 +1086,7 @@ export type DiscoveryQueryParameters = DiscoveryQueryMediaTypesParam & Discovery
 
 // @public (undocumented)
 export interface DiscoverySuggest {
-    post(options: DiscoverySuggestParameters): Promise<DiscoverySuggest200Response | DiscoverySuggestdefaultResponse>;
+    post(options: DiscoverySuggestParameters): StreamableMethod<DiscoverySuggest200Response | DiscoverySuggestDefaultResponse>;
 }
 
 // @public
@@ -1098,11 +1103,11 @@ export interface DiscoverySuggestBodyParam {
 }
 
 // @public
-export interface DiscoverySuggestdefaultResponse extends HttpResponse {
+export interface DiscoverySuggestDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1115,13 +1120,11 @@ export type DiscoverySuggestParameters = DiscoverySuggestMediaTypesParam & Disco
 
 // @public (undocumented)
 export interface EntityAddClassification {
-    post(options: EntityAddClassificationParameters): Promise<EntityAddClassification204Response | EntityAddClassificationdefaultResponse>;
+    post(options: EntityAddClassificationParameters): StreamableMethod<EntityAddClassification204Response | EntityAddClassificationDefaultResponse>;
 }
 
 // @public
 export interface EntityAddClassification204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1132,11 +1135,11 @@ export interface EntityAddClassificationBodyParam {
 }
 
 // @public
-export interface EntityAddClassificationdefaultResponse extends HttpResponse {
+export interface EntityAddClassificationDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1150,8 +1153,6 @@ export type EntityAddClassificationParameters = EntityAddClassificationMediaType
 // @public
 export interface EntityAddClassifications204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -1162,14 +1163,12 @@ export interface EntityAddClassificationsBodyParam {
 
 // @public (undocumented)
 export interface EntityAddClassificationsByUniqueAttribute {
-    post(options: EntityAddClassificationsByUniqueAttributeParameters): Promise<EntityAddClassificationsByUniqueAttribute204Response | EntityAddClassificationsByUniqueAttributedefaultResponse>;
-    put(options: EntityUpdateClassificationsByUniqueAttributeParameters): Promise<EntityUpdateClassificationsByUniqueAttribute204Response | EntityUpdateClassificationsByUniqueAttributedefaultResponse>;
+    post(options: EntityAddClassificationsByUniqueAttributeParameters): StreamableMethod<EntityAddClassificationsByUniqueAttribute204Response | EntityAddClassificationsByUniqueAttributeDefaultResponse>;
+    put(options: EntityUpdateClassificationsByUniqueAttributeParameters): StreamableMethod<EntityUpdateClassificationsByUniqueAttribute204Response | EntityUpdateClassificationsByUniqueAttributeDefaultResponse>;
 }
 
 // @public
 export interface EntityAddClassificationsByUniqueAttribute204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1180,11 +1179,11 @@ export interface EntityAddClassificationsByUniqueAttributeBodyParam {
 }
 
 // @public
-export interface EntityAddClassificationsByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityAddClassificationsByUniqueAttributeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1207,11 +1206,11 @@ export interface EntityAddClassificationsByUniqueAttributeQueryParamProperties {
 }
 
 // @public
-export interface EntityAddClassificationsdefaultResponse extends HttpResponse {
+export interface EntityAddClassificationsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1224,8 +1223,6 @@ export type EntityAddClassificationsParameters = EntityAddClassificationsMediaTy
 
 // @public
 export interface EntityAddLabel204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1245,8 +1242,6 @@ export type EntityAddLabelParameters = EntityAddLabelMediaTypesParam & EntityAdd
 
 // @public
 export interface EntityAddLabelsByUniqueAttribute204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1278,15 +1273,11 @@ export interface EntityAddLabelsByUniqueAttributeQueryParamProperties {
 // @public
 export interface EntityAddOrUpdateBusinessMetadata204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
 export interface EntityAddOrUpdateBusinessMetadataAttributes204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1330,7 +1321,7 @@ export interface EntityAddOrUpdateBusinessMetadataQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityCreateOrUpdate {
-    post(options: EntityCreateOrUpdateParameters): Promise<EntityCreateOrUpdate200Response | EntityCreateOrUpdatedefaultResponse>;
+    post(options: EntityCreateOrUpdateParameters): StreamableMethod<EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1347,11 +1338,11 @@ export interface EntityCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface EntityCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface EntityCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public
@@ -1368,11 +1359,11 @@ export interface EntityCreateOrUpdateEntitiesBodyParam {
 }
 
 // @public
-export interface EntityCreateOrUpdateEntitiesdefaultResponse extends HttpResponse {
+export interface EntityCreateOrUpdateEntitiesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1393,28 +1384,24 @@ export type EntityCreateOrUpdateParameters = EntityCreateOrUpdateMediaTypesParam
 
 // @public (undocumented)
 export interface EntityDeleteBusinessMetadata {
-    delete(options?: EntityDeleteBusinessMetadataParameters): Promise<EntityDeleteBusinessMetadata204Response>;
-    post(options?: EntityAddOrUpdateBusinessMetadataParameters): Promise<EntityAddOrUpdateBusinessMetadata204Response>;
+    delete(options?: EntityDeleteBusinessMetadataParameters): StreamableMethod<EntityDeleteBusinessMetadata204Response>;
+    post(options?: EntityAddOrUpdateBusinessMetadataParameters): StreamableMethod<EntityAddOrUpdateBusinessMetadata204Response>;
 }
 
 // @public
 export interface EntityDeleteBusinessMetadata204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityDeleteBusinessMetadataAttributes {
-    delete(options?: EntityDeleteBusinessMetadataAttributesParameters): Promise<EntityDeleteBusinessMetadataAttributes204Response>;
-    post(options?: EntityAddOrUpdateBusinessMetadataAttributesParameters): Promise<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
+    delete(options?: EntityDeleteBusinessMetadataAttributesParameters): StreamableMethod<EntityDeleteBusinessMetadataAttributes204Response>;
+    post(options?: EntityAddOrUpdateBusinessMetadataAttributesParameters): StreamableMethod<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
 }
 
 // @public
 export interface EntityDeleteBusinessMetadataAttributes204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1454,11 +1441,11 @@ export interface EntityDeleteByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityDeleteByGuiddefaultResponse extends HttpResponse {
+export interface EntityDeleteByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1473,11 +1460,11 @@ export interface EntityDeleteByGuids200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityDeleteByGuidsdefaultResponse extends HttpResponse {
+export interface EntityDeleteByGuidsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1491,7 +1478,7 @@ export interface EntityDeleteByGuidsQueryParam {
 
 // @public (undocumented)
 export interface EntityDeleteByGuidsQueryParamProperties {
-    guid: Array<string>;
+    guid: string;
 }
 
 // @public
@@ -1503,11 +1490,11 @@ export interface EntityDeleteByUniqueAttribute200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityDeleteByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityDeleteByUniqueAttributeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1527,30 +1514,26 @@ export interface EntityDeleteByUniqueAttributeQueryParamProperties {
 // @public
 export interface EntityDeleteClassification204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public (undocumented)
 export interface EntityDeleteClassificationByUniqueAttribute {
-    delete(options?: EntityDeleteClassificationByUniqueAttributeParameters): Promise<EntityDeleteClassificationByUniqueAttribute204Response | EntityDeleteClassificationByUniqueAttributedefaultResponse>;
+    delete(options?: EntityDeleteClassificationByUniqueAttributeParameters): StreamableMethod<EntityDeleteClassificationByUniqueAttribute204Response | EntityDeleteClassificationByUniqueAttributeDefaultResponse>;
 }
 
 // @public
 export interface EntityDeleteClassificationByUniqueAttribute204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface EntityDeleteClassificationByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityDeleteClassificationByUniqueAttributeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1568,11 +1551,11 @@ export interface EntityDeleteClassificationByUniqueAttributeQueryParamProperties
 }
 
 // @public
-export interface EntityDeleteClassificationdefaultResponse extends HttpResponse {
+export interface EntityDeleteClassificationDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1580,15 +1563,13 @@ export type EntityDeleteClassificationParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityDeleteLabels {
-    delete(options?: EntityDeleteLabelsParameters): Promise<EntityDeleteLabels204Response>;
-    post(options?: EntitySetLabelsParameters): Promise<EntitySetLabels204Response>;
-    put(options?: EntityAddLabelParameters): Promise<EntityAddLabel204Response>;
+    delete(options?: EntityDeleteLabelsParameters): StreamableMethod<EntityDeleteLabels204Response>;
+    post(options?: EntitySetLabelsParameters): StreamableMethod<EntitySetLabels204Response>;
+    put(options?: EntityAddLabelParameters): StreamableMethod<EntityAddLabel204Response>;
 }
 
 // @public
 export interface EntityDeleteLabels204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1600,15 +1581,13 @@ export interface EntityDeleteLabelsBodyParam {
 
 // @public (undocumented)
 export interface EntityDeleteLabelsByUniqueAttribute {
-    delete(options?: EntityDeleteLabelsByUniqueAttributeParameters): Promise<EntityDeleteLabelsByUniqueAttribute204Response>;
-    post(options?: EntitySetLabelsByUniqueAttributeParameters): Promise<EntitySetLabelsByUniqueAttribute204Response>;
-    put(options?: EntityAddLabelsByUniqueAttributeParameters): Promise<EntityAddLabelsByUniqueAttribute204Response>;
+    delete(options?: EntityDeleteLabelsByUniqueAttributeParameters): StreamableMethod<EntityDeleteLabelsByUniqueAttribute204Response>;
+    post(options?: EntitySetLabelsByUniqueAttributeParameters): StreamableMethod<EntitySetLabelsByUniqueAttribute204Response>;
+    put(options?: EntityAddLabelsByUniqueAttributeParameters): StreamableMethod<EntityAddLabelsByUniqueAttribute204Response>;
 }
 
 // @public
 export interface EntityDeleteLabelsByUniqueAttribute204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1647,9 +1626,9 @@ export type EntityDeleteLabelsParameters = EntityDeleteLabelsMediaTypesParam & E
 
 // @public (undocumented)
 export interface EntityGetByGuid {
-    delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response | EntityDeleteByGuiddefaultResponse>;
-    get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response | EntityGetByGuiddefaultResponse>;
-    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): Promise<EntityPartialUpdateEntityAttributeByGuid200Response | EntityPartialUpdateEntityAttributeByGuiddefaultResponse>;
+    delete(options?: EntityDeleteByGuidParameters): StreamableMethod<EntityDeleteByGuid200Response | EntityDeleteByGuidDefaultResponse>;
+    get(options?: EntityGetByGuidParameters): StreamableMethod<EntityGetByGuid200Response | EntityGetByGuidDefaultResponse>;
+    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): StreamableMethod<EntityPartialUpdateEntityAttributeByGuid200Response | EntityPartialUpdateEntityAttributeByGuidDefaultResponse>;
 }
 
 // @public
@@ -1661,11 +1640,11 @@ export interface EntityGetByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityGetByGuiddefaultResponse extends HttpResponse {
+export interface EntityGetByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1685,9 +1664,9 @@ export interface EntityGetByGuidQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityGetByUniqueAttributes {
-    delete(options?: EntityDeleteByUniqueAttributeParameters): Promise<EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributedefaultResponse>;
-    get(options?: EntityGetByUniqueAttributesParameters): Promise<EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesdefaultResponse>;
-    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): Promise<EntityPartialUpdateEntityByUniqueAttributes200Response | EntityPartialUpdateEntityByUniqueAttributesdefaultResponse>;
+    delete(options?: EntityDeleteByUniqueAttributeParameters): StreamableMethod<EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributeDefaultResponse>;
+    get(options?: EntityGetByUniqueAttributesParameters): StreamableMethod<EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesDefaultResponse>;
+    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): StreamableMethod<EntityPartialUpdateEntityByUniqueAttributes200Response | EntityPartialUpdateEntityByUniqueAttributesDefaultResponse>;
 }
 
 // @public
@@ -1699,11 +1678,11 @@ export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityGetByUniqueAttributesdefaultResponse extends HttpResponse {
+export interface EntityGetByUniqueAttributesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1724,8 +1703,8 @@ export interface EntityGetByUniqueAttributesQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityGetClassification {
-    delete(options?: EntityDeleteClassificationParameters): Promise<EntityDeleteClassification204Response | EntityDeleteClassificationdefaultResponse>;
-    get(options?: EntityGetClassificationParameters): Promise<EntityGetClassification200Response | EntityGetClassificationdefaultResponse>;
+    delete(options?: EntityDeleteClassificationParameters): StreamableMethod<EntityDeleteClassification204Response | EntityDeleteClassificationDefaultResponse>;
+    get(options?: EntityGetClassificationParameters): StreamableMethod<EntityGetClassification200Response | EntityGetClassificationDefaultResponse>;
 }
 
 // @public
@@ -1737,11 +1716,11 @@ export interface EntityGetClassification200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityGetClassificationdefaultResponse extends HttpResponse {
+export interface EntityGetClassificationDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1749,9 +1728,9 @@ export type EntityGetClassificationParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetClassifications {
-    get(options?: EntityGetClassificationsParameters): Promise<EntityGetClassifications200Response | EntityGetClassificationsdefaultResponse>;
-    post(options: EntityAddClassificationsParameters): Promise<EntityAddClassifications204Response | EntityAddClassificationsdefaultResponse>;
-    put(options: EntityUpdateClassificationsParameters): Promise<EntityUpdateClassifications204Response | EntityUpdateClassificationsdefaultResponse>;
+    get(options?: EntityGetClassificationsParameters): StreamableMethod<EntityGetClassifications200Response | EntityGetClassificationsDefaultResponse>;
+    post(options: EntityAddClassificationsParameters): StreamableMethod<EntityAddClassifications204Response | EntityAddClassificationsDefaultResponse>;
+    put(options: EntityUpdateClassificationsParameters): StreamableMethod<EntityUpdateClassifications204Response | EntityUpdateClassificationsDefaultResponse>;
 }
 
 // @public
@@ -1763,11 +1742,11 @@ export interface EntityGetClassifications200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityGetClassificationsdefaultResponse extends HttpResponse {
+export interface EntityGetClassificationsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1775,7 +1754,7 @@ export type EntityGetClassificationsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetEntitiesByUniqueAttributes {
-    get(options?: EntityGetEntitiesByUniqueAttributesParameters): Promise<EntityGetEntitiesByUniqueAttributes200Response | EntityGetEntitiesByUniqueAttributesdefaultResponse>;
+    get(options?: EntityGetEntitiesByUniqueAttributesParameters): StreamableMethod<EntityGetEntitiesByUniqueAttributes200Response | EntityGetEntitiesByUniqueAttributesDefaultResponse>;
 }
 
 // @public
@@ -1787,11 +1766,11 @@ export interface EntityGetEntitiesByUniqueAttributes200Response extends HttpResp
 }
 
 // @public
-export interface EntityGetEntitiesByUniqueAttributesdefaultResponse extends HttpResponse {
+export interface EntityGetEntitiesByUniqueAttributesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1812,7 +1791,7 @@ export interface EntityGetEntitiesByUniqueAttributesQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityGetHeader {
-    get(options?: EntityGetHeaderParameters): Promise<EntityGetHeader200Response | EntityGetHeaderdefaultResponse>;
+    get(options?: EntityGetHeaderParameters): StreamableMethod<EntityGetHeader200Response | EntityGetHeaderDefaultResponse>;
 }
 
 // @public
@@ -1824,11 +1803,11 @@ export interface EntityGetHeader200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityGetHeaderdefaultResponse extends HttpResponse {
+export interface EntityGetHeaderDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1836,7 +1815,7 @@ export type EntityGetHeaderParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetSampleBusinessMetadataTemplate {
-    get(options?: EntityGetSampleBusinessMetadataTemplateParameters): Promise<EntityGetSampleBusinessMetadataTemplate200Response | EntityGetSampleBusinessMetadataTemplate400Response>;
+    get(options?: EntityGetSampleBusinessMetadataTemplateParameters): StreamableMethod<EntityGetSampleBusinessMetadataTemplate200Response | EntityGetSampleBusinessMetadataTemplate400Response>;
 }
 
 // @public
@@ -1849,8 +1828,6 @@ export interface EntityGetSampleBusinessMetadataTemplate200Response extends Http
 // @public
 export interface EntityGetSampleBusinessMetadataTemplate400Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "400";
 }
 
@@ -1859,7 +1836,7 @@ export type EntityGetSampleBusinessMetadataTemplateParameters = RequestParameter
 
 // @public (undocumented)
 export interface EntityImportBusinessMetadata {
-    post(options?: EntityImportBusinessMetadataParameters): Promise<EntityImportBusinessMetadata200Response | EntityImportBusinessMetadata400Response | EntityImportBusinessMetadata409Response>;
+    post(options?: EntityImportBusinessMetadataParameters): StreamableMethod<EntityImportBusinessMetadata200Response | EntityImportBusinessMetadata400Response | EntityImportBusinessMetadata409Response>;
 }
 
 // @public
@@ -1873,15 +1850,11 @@ export interface EntityImportBusinessMetadata200Response extends HttpResponse {
 // @public
 export interface EntityImportBusinessMetadata400Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "400";
 }
 
 // @public
 export interface EntityImportBusinessMetadata409Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "409";
 }
@@ -1894,7 +1867,7 @@ export interface EntityImportBusinessMetadataBodyParam {
 
 // @public (undocumented)
 export interface EntityImportBusinessMetadataFormBody {
-    uploadedInputStream?: string | Uint8Array;
+    uploadedInputStream?: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 // @public (undocumented)
@@ -1907,9 +1880,9 @@ export type EntityImportBusinessMetadataParameters = EntityImportBusinessMetadat
 
 // @public (undocumented)
 export interface EntityListByGuids {
-    delete(options: EntityDeleteByGuidsParameters): Promise<EntityDeleteByGuids200Response | EntityDeleteByGuidsdefaultResponse>;
-    get(options: EntityListByGuidsParameters): Promise<EntityListByGuids200Response | EntityListByGuidsdefaultResponse>;
-    post(options: EntityCreateOrUpdateEntitiesParameters): Promise<EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesdefaultResponse>;
+    delete(options: EntityDeleteByGuidsParameters): StreamableMethod<EntityDeleteByGuids200Response | EntityDeleteByGuidsDefaultResponse>;
+    get(options: EntityListByGuidsParameters): StreamableMethod<EntityListByGuids200Response | EntityListByGuidsDefaultResponse>;
+    post(options: EntityCreateOrUpdateEntitiesParameters): StreamableMethod<EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesDefaultResponse>;
 }
 
 // @public
@@ -1921,11 +1894,11 @@ export interface EntityListByGuids200Response extends HttpResponse {
 }
 
 // @public
-export interface EntityListByGuidsdefaultResponse extends HttpResponse {
+export interface EntityListByGuidsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -1939,13 +1912,13 @@ export interface EntityListByGuidsQueryParam {
 
 // @public (undocumented)
 export interface EntityListByGuidsQueryParamProperties {
-    excludeRelationshipTypes?: Array<string>;
-    guid: Array<string>;
+    excludeRelationshipTypes?: string;
+    guid: string;
     ignoreRelationships?: boolean;
     minExtInfo?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface EntityMutationResponseOutput {
     guidAssignments?: Record<string, string>;
     mutatedEntities?: Record<string, Array<AtlasEntityHeaderOutput>>;
@@ -1966,11 +1939,11 @@ export interface EntityPartialUpdateEntityAttributeByGuidBodyParam {
 }
 
 // @public
-export interface EntityPartialUpdateEntityAttributeByGuiddefaultResponse extends HttpResponse {
+export interface EntityPartialUpdateEntityAttributeByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2006,11 +1979,11 @@ export interface EntityPartialUpdateEntityByUniqueAttributesBodyParam {
 }
 
 // @public
-export interface EntityPartialUpdateEntityByUniqueAttributesdefaultResponse extends HttpResponse {
+export interface EntityPartialUpdateEntityByUniqueAttributesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2034,7 +2007,7 @@ export interface EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties
 
 // @public (undocumented)
 export interface EntitySetClassifications {
-    post(options: EntitySetClassificationsParameters): Promise<EntitySetClassifications200Response | EntitySetClassificationsdefaultResponse>;
+    post(options: EntitySetClassificationsParameters): StreamableMethod<EntitySetClassifications200Response | EntitySetClassificationsDefaultResponse>;
 }
 
 // @public
@@ -2051,11 +2024,11 @@ export interface EntitySetClassificationsBodyParam {
 }
 
 // @public
-export interface EntitySetClassificationsdefaultResponse extends HttpResponse {
+export interface EntitySetClassificationsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2069,8 +2042,6 @@ export type EntitySetClassificationsParameters = EntitySetClassificationsMediaTy
 // @public
 export interface EntitySetLabels204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -2081,8 +2052,6 @@ export interface EntitySetLabelsBodyParam {
 
 // @public
 export interface EntitySetLabelsByUniqueAttribute204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2122,8 +2091,6 @@ export type EntitySetLabelsParameters = EntitySetLabelsMediaTypesParam & EntityS
 // @public
 export interface EntityUpdateClassifications204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -2135,8 +2102,6 @@ export interface EntityUpdateClassificationsBodyParam {
 // @public
 export interface EntityUpdateClassificationsByUniqueAttribute204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -2146,11 +2111,11 @@ export interface EntityUpdateClassificationsByUniqueAttributeBodyParam {
 }
 
 // @public
-export interface EntityUpdateClassificationsByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityUpdateClassificationsByUniqueAttributeDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2173,11 +2138,11 @@ export interface EntityUpdateClassificationsByUniqueAttributeQueryParamPropertie
 }
 
 // @public
-export interface EntityUpdateClassificationsdefaultResponse extends HttpResponse {
+export interface EntityUpdateClassificationsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2188,7 +2153,7 @@ export interface EntityUpdateClassificationsMediaTypesParam {
 // @public (undocumented)
 export type EntityUpdateClassificationsParameters = EntityUpdateClassificationsMediaTypesParam & EntityUpdateClassificationsBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ErrorResponseOutput {
     errorCode?: string;
     errorMessage?: string;
@@ -2196,12 +2161,10 @@ export interface ErrorResponseOutput {
 }
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2212,11 +2175,11 @@ export interface GlossaryAssignTermToEntitiesBodyParam {
 }
 
 // @public
-export interface GlossaryAssignTermToEntitiesdefaultResponse extends HttpResponse {
+export interface GlossaryAssignTermToEntitiesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2242,7 +2205,7 @@ export interface GlossaryCreateGlossaryBodyParam {
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategories {
-    post(options: GlossaryCreateGlossaryCategoriesParameters): Promise<GlossaryCreateGlossaryCategories200Response | GlossaryCreateGlossaryCategoriesdefaultResponse>;
+    post(options: GlossaryCreateGlossaryCategoriesParameters): StreamableMethod<GlossaryCreateGlossaryCategories200Response | GlossaryCreateGlossaryCategoriesDefaultResponse>;
 }
 
 // @public
@@ -2259,11 +2222,11 @@ export interface GlossaryCreateGlossaryCategoriesBodyParam {
 }
 
 // @public
-export interface GlossaryCreateGlossaryCategoriesdefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryCategoriesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2276,7 +2239,7 @@ export type GlossaryCreateGlossaryCategoriesParameters = GlossaryCreateGlossaryC
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategory {
-    post(options: GlossaryCreateGlossaryCategoryParameters): Promise<GlossaryCreateGlossaryCategory200Response | GlossaryCreateGlossaryCategorydefaultResponse>;
+    post(options: GlossaryCreateGlossaryCategoryParameters): StreamableMethod<GlossaryCreateGlossaryCategory200Response | GlossaryCreateGlossaryCategoryDefaultResponse>;
 }
 
 // @public
@@ -2293,11 +2256,11 @@ export interface GlossaryCreateGlossaryCategoryBodyParam {
 }
 
 // @public
-export interface GlossaryCreateGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryCategoryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2309,11 +2272,11 @@ export interface GlossaryCreateGlossaryCategoryMediaTypesParam {
 export type GlossaryCreateGlossaryCategoryParameters = GlossaryCreateGlossaryCategoryMediaTypesParam & GlossaryCreateGlossaryCategoryBodyParam & RequestParameters;
 
 // @public
-export interface GlossaryCreateGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2326,7 +2289,7 @@ export type GlossaryCreateGlossaryParameters = GlossaryCreateGlossaryMediaTypesP
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTerm {
-    post(options: GlossaryCreateGlossaryTermParameters): Promise<GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermdefaultResponse>;
+    post(options: GlossaryCreateGlossaryTermParameters): StreamableMethod<GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermDefaultResponse>;
 }
 
 // @public
@@ -2343,11 +2306,11 @@ export interface GlossaryCreateGlossaryTermBodyParam {
 }
 
 // @public
-export interface GlossaryCreateGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryTermDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2371,7 +2334,7 @@ export interface GlossaryCreateGlossaryTermQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTerms {
-    post(options: GlossaryCreateGlossaryTermsParameters): Promise<GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsdefaultResponse>;
+    post(options: GlossaryCreateGlossaryTermsParameters): StreamableMethod<GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsDefaultResponse>;
 }
 
 // @public
@@ -2388,11 +2351,11 @@ export interface GlossaryCreateGlossaryTermsBodyParam {
 }
 
 // @public
-export interface GlossaryCreateGlossaryTermsdefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryTermsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2417,36 +2380,32 @@ export interface GlossaryCreateGlossaryTermsQueryParamProperties {
 // @public
 export interface GlossaryDeleteGlossary204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
 export interface GlossaryDeleteGlossaryCategory204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface GlossaryDeleteGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryDeleteGlossaryCategoryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export type GlossaryDeleteGlossaryCategoryParameters = RequestParameters;
 
 // @public
-export interface GlossaryDeleteGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryDeleteGlossaryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2455,17 +2414,15 @@ export type GlossaryDeleteGlossaryParameters = RequestParameters;
 // @public
 export interface GlossaryDeleteGlossaryTerm204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface GlossaryDeleteGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryDeleteGlossaryTermDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2473,8 +2430,6 @@ export type GlossaryDeleteGlossaryTermParameters = RequestParameters;
 
 // @public
 export interface GlossaryDeleteTermAssignmentFromEntities204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2485,11 +2440,11 @@ export interface GlossaryDeleteTermAssignmentFromEntitiesBodyParam {
 }
 
 // @public
-export interface GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse extends HttpResponse {
+export interface GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2502,7 +2457,7 @@ export type GlossaryDeleteTermAssignmentFromEntitiesParameters = GlossaryDeleteT
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsv {
-    post(options: GlossaryExportGlossaryTermsAsCsvParameters): Promise<GlossaryExportGlossaryTermsAsCsv200Response | GlossaryExportGlossaryTermsAsCsvdefaultResponse>;
+    post(options: GlossaryExportGlossaryTermsAsCsvParameters): StreamableMethod<GlossaryExportGlossaryTermsAsCsv200Response | GlossaryExportGlossaryTermsAsCsvDefaultResponse>;
 }
 
 // @public
@@ -2518,11 +2473,9 @@ export interface GlossaryExportGlossaryTermsAsCsvBodyParam {
 }
 
 // @public
-export interface GlossaryExportGlossaryTermsAsCsvdefaultResponse extends HttpResponse {
+export interface GlossaryExportGlossaryTermsAsCsvDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2546,7 +2499,7 @@ export interface GlossaryExportGlossaryTermsAsCsvQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetDetailedGlossary {
-    get(options?: GlossaryGetDetailedGlossaryParameters): Promise<GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossarydefaultResponse>;
+    get(options?: GlossaryGetDetailedGlossaryParameters): StreamableMethod<GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossaryDefaultResponse>;
 }
 
 // @public
@@ -2558,11 +2511,11 @@ export interface GlossaryGetDetailedGlossary200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryGetDetailedGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryGetDetailedGlossaryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2581,10 +2534,10 @@ export interface GlossaryGetDetailedGlossaryQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetEntitiesAssignedWithTerm {
-    delete(options: GlossaryDeleteTermAssignmentFromEntitiesParameters): Promise<GlossaryDeleteTermAssignmentFromEntities204Response | GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse>;
-    get(options?: GlossaryGetEntitiesAssignedWithTermParameters): Promise<GlossaryGetEntitiesAssignedWithTerm200Response | GlossaryGetEntitiesAssignedWithTermdefaultResponse>;
-    post(options: GlossaryAssignTermToEntitiesParameters): Promise<GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesdefaultResponse>;
-    put(options: GlossaryRemoveTermAssignmentFromEntitiesParameters): Promise<GlossaryRemoveTermAssignmentFromEntities204Response | GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse>;
+    delete(options: GlossaryDeleteTermAssignmentFromEntitiesParameters): StreamableMethod<GlossaryDeleteTermAssignmentFromEntities204Response | GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse>;
+    get(options?: GlossaryGetEntitiesAssignedWithTermParameters): StreamableMethod<GlossaryGetEntitiesAssignedWithTerm200Response | GlossaryGetEntitiesAssignedWithTermDefaultResponse>;
+    post(options: GlossaryAssignTermToEntitiesParameters): StreamableMethod<GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesDefaultResponse>;
+    put(options: GlossaryRemoveTermAssignmentFromEntitiesParameters): StreamableMethod<GlossaryRemoveTermAssignmentFromEntities204Response | GlossaryRemoveTermAssignmentFromEntitiesDefaultResponse>;
 }
 
 // @public
@@ -2596,11 +2549,11 @@ export interface GlossaryGetEntitiesAssignedWithTerm200Response extends HttpResp
 }
 
 // @public
-export interface GlossaryGetEntitiesAssignedWithTermdefaultResponse extends HttpResponse {
+export interface GlossaryGetEntitiesAssignedWithTermDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2621,9 +2574,9 @@ export interface GlossaryGetEntitiesAssignedWithTermQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetGlossary {
-    delete(options?: GlossaryDeleteGlossaryParameters): Promise<GlossaryDeleteGlossary204Response | GlossaryDeleteGlossarydefaultResponse>;
-    get(options?: GlossaryGetGlossaryParameters): Promise<GlossaryGetGlossary200Response | GlossaryGetGlossarydefaultResponse>;
-    put(options: GlossaryUpdateGlossaryParameters): Promise<GlossaryUpdateGlossary200Response | GlossaryUpdateGlossarydefaultResponse>;
+    delete(options?: GlossaryDeleteGlossaryParameters): StreamableMethod<GlossaryDeleteGlossary204Response | GlossaryDeleteGlossaryDefaultResponse>;
+    get(options?: GlossaryGetGlossaryParameters): StreamableMethod<GlossaryGetGlossary200Response | GlossaryGetGlossaryDefaultResponse>;
+    put(options: GlossaryUpdateGlossaryParameters): StreamableMethod<GlossaryUpdateGlossary200Response | GlossaryUpdateGlossaryDefaultResponse>;
 }
 
 // @public
@@ -2636,9 +2589,9 @@ export interface GlossaryGetGlossary200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryCategory {
-    delete(options?: GlossaryDeleteGlossaryCategoryParameters): Promise<GlossaryDeleteGlossaryCategory204Response | GlossaryDeleteGlossaryCategorydefaultResponse>;
-    get(options?: GlossaryGetGlossaryCategoryParameters): Promise<GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategorydefaultResponse>;
-    put(options: GlossaryUpdateGlossaryCategoryParameters): Promise<GlossaryUpdateGlossaryCategory200Response | GlossaryUpdateGlossaryCategorydefaultResponse>;
+    delete(options?: GlossaryDeleteGlossaryCategoryParameters): StreamableMethod<GlossaryDeleteGlossaryCategory204Response | GlossaryDeleteGlossaryCategoryDefaultResponse>;
+    get(options?: GlossaryGetGlossaryCategoryParameters): StreamableMethod<GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategoryDefaultResponse>;
+    put(options: GlossaryUpdateGlossaryCategoryParameters): StreamableMethod<GlossaryUpdateGlossaryCategory200Response | GlossaryUpdateGlossaryCategoryDefaultResponse>;
 }
 
 // @public
@@ -2650,22 +2603,22 @@ export interface GlossaryGetGlossaryCategory200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryGetGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryGetGlossaryCategoryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export type GlossaryGetGlossaryCategoryParameters = RequestParameters;
 
 // @public
-export interface GlossaryGetGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryGetGlossaryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2673,9 +2626,9 @@ export type GlossaryGetGlossaryParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryTerm {
-    delete(options?: GlossaryDeleteGlossaryTermParameters): Promise<GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermdefaultResponse>;
-    get(options?: GlossaryGetGlossaryTermParameters): Promise<GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermdefaultResponse>;
-    put(options: GlossaryUpdateGlossaryTermParameters): Promise<GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermdefaultResponse>;
+    delete(options?: GlossaryDeleteGlossaryTermParameters): StreamableMethod<GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermDefaultResponse>;
+    get(options?: GlossaryGetGlossaryTermParameters): StreamableMethod<GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermDefaultResponse>;
+    put(options: GlossaryUpdateGlossaryTermParameters): StreamableMethod<GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermDefaultResponse>;
 }
 
 // @public
@@ -2687,11 +2640,11 @@ export interface GlossaryGetGlossaryTerm200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryGetGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryGetGlossaryTermDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2705,13 +2658,13 @@ export interface GlossaryGetGlossaryTermQueryParam {
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryTermQueryParamProperties {
-    excludeRelationshipTypes?: Array<string>;
+    excludeRelationshipTypes?: string;
     includeTermHierarchy?: boolean;
 }
 
 // @public (undocumented)
 export interface GlossaryGetImportCsvOperationStatus {
-    get(options?: GlossaryGetImportCsvOperationStatusParameters): Promise<GlossaryGetImportCsvOperationStatus200Response | GlossaryGetImportCsvOperationStatusdefaultResponse>;
+    get(options?: GlossaryGetImportCsvOperationStatusParameters): StreamableMethod<GlossaryGetImportCsvOperationStatus200Response | GlossaryGetImportCsvOperationStatusDefaultResponse>;
 }
 
 // @public
@@ -2723,11 +2676,11 @@ export interface GlossaryGetImportCsvOperationStatus200Response extends HttpResp
 }
 
 // @public
-export interface GlossaryGetImportCsvOperationStatusdefaultResponse extends HttpResponse {
+export interface GlossaryGetImportCsvOperationStatusDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2735,7 +2688,7 @@ export type GlossaryGetImportCsvOperationStatusParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsv {
-    post(options: GlossaryImportGlossaryTermsViaCsvParameters): Promise<GlossaryImportGlossaryTermsViaCsv202Response | GlossaryImportGlossaryTermsViaCsvdefaultResponse>;
+    post(options: GlossaryImportGlossaryTermsViaCsvParameters): StreamableMethod<GlossaryImportGlossaryTermsViaCsv202Response | GlossaryImportGlossaryTermsViaCsvDefaultResponse>;
 }
 
 // @public
@@ -2754,7 +2707,7 @@ export interface GlossaryImportGlossaryTermsViaCsvBodyParam {
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName {
-    post(options: GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters): Promise<GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response | GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse>;
+    post(options: GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters): StreamableMethod<GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response | GlossaryImportGlossaryTermsViaCsvByGlossaryNameDefaultResponse>;
 }
 
 // @public
@@ -2772,16 +2725,16 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam {
 }
 
 // @public
-export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameFormBody {
-    file: string | Uint8Array;
+    file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 // @public (undocumented)
@@ -2804,16 +2757,16 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProper
 }
 
 // @public
-export interface GlossaryImportGlossaryTermsViaCsvdefaultResponse extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCsvDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvFormBody {
-    file: string | Uint8Array;
+    file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 // @public (undocumented)
@@ -2837,7 +2790,7 @@ export interface GlossaryImportGlossaryTermsViaCsvQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListCategoryTerms {
-    get(options?: GlossaryListCategoryTermsParameters): Promise<GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsdefaultResponse>;
+    get(options?: GlossaryListCategoryTermsParameters): StreamableMethod<GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsDefaultResponse>;
 }
 
 // @public
@@ -2849,11 +2802,11 @@ export interface GlossaryListCategoryTerms200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryListCategoryTermsdefaultResponse extends HttpResponse {
+export interface GlossaryListCategoryTermsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2874,8 +2827,8 @@ export interface GlossaryListCategoryTermsQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaries {
-    get(options?: GlossaryListGlossariesParameters): Promise<GlossaryListGlossaries200Response | GlossaryListGlossariesdefaultResponse>;
-    post(options: GlossaryCreateGlossaryParameters): Promise<GlossaryCreateGlossary200Response | GlossaryCreateGlossarydefaultResponse>;
+    get(options?: GlossaryListGlossariesParameters): StreamableMethod<GlossaryListGlossaries200Response | GlossaryListGlossariesDefaultResponse>;
+    post(options: GlossaryCreateGlossaryParameters): StreamableMethod<GlossaryCreateGlossary200Response | GlossaryCreateGlossaryDefaultResponse>;
 }
 
 // @public
@@ -2887,11 +2840,11 @@ export interface GlossaryListGlossaries200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryListGlossariesdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossariesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2913,7 +2866,7 @@ export interface GlossaryListGlossariesQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaryCategories {
-    get(options?: GlossaryListGlossaryCategoriesParameters): Promise<GlossaryListGlossaryCategories200Response | GlossaryListGlossaryCategoriesdefaultResponse>;
+    get(options?: GlossaryListGlossaryCategoriesParameters): StreamableMethod<GlossaryListGlossaryCategories200Response | GlossaryListGlossaryCategoriesDefaultResponse>;
 }
 
 // @public
@@ -2925,16 +2878,16 @@ export interface GlossaryListGlossaryCategories200Response extends HttpResponse 
 }
 
 // @public
-export interface GlossaryListGlossaryCategoriesdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryCategoriesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
 export interface GlossaryListGlossaryCategoriesHeaders {
-    get(options?: GlossaryListGlossaryCategoriesHeadersParameters): Promise<GlossaryListGlossaryCategoriesHeaders200Response | GlossaryListGlossaryCategoriesHeadersdefaultResponse>;
+    get(options?: GlossaryListGlossaryCategoriesHeadersParameters): StreamableMethod<GlossaryListGlossaryCategoriesHeaders200Response | GlossaryListGlossaryCategoriesHeadersDefaultResponse>;
 }
 
 // @public
@@ -2946,11 +2899,11 @@ export interface GlossaryListGlossaryCategoriesHeaders200Response extends HttpRe
 }
 
 // @public
-export interface GlossaryListGlossaryCategoriesHeadersdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryCategoriesHeadersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -2987,7 +2940,7 @@ export interface GlossaryListGlossaryCategoriesQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaryTermHeaders {
-    get(options?: GlossaryListGlossaryTermHeadersParameters): Promise<GlossaryListGlossaryTermHeaders200Response | GlossaryListGlossaryTermHeadersdefaultResponse>;
+    get(options?: GlossaryListGlossaryTermHeadersParameters): StreamableMethod<GlossaryListGlossaryTermHeaders200Response | GlossaryListGlossaryTermHeadersDefaultResponse>;
 }
 
 // @public
@@ -2999,11 +2952,11 @@ export interface GlossaryListGlossaryTermHeaders200Response extends HttpResponse
 }
 
 // @public
-export interface GlossaryListGlossaryTermHeadersdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryTermHeadersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3024,7 +2977,7 @@ export interface GlossaryListGlossaryTermHeadersQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaryTerms {
-    get(options?: GlossaryListGlossaryTermsParameters): Promise<GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsdefaultResponse>;
+    get(options?: GlossaryListGlossaryTermsParameters): StreamableMethod<GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsDefaultResponse>;
 }
 
 // @public
@@ -3036,11 +2989,11 @@ export interface GlossaryListGlossaryTerms200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryListGlossaryTermsdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryTermsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3062,7 +3015,7 @@ export interface GlossaryListGlossaryTermsQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListRelatedCategories {
-    get(options?: GlossaryListRelatedCategoriesParameters): Promise<GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesdefaultResponse>;
+    get(options?: GlossaryListRelatedCategoriesParameters): StreamableMethod<GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesDefaultResponse>;
 }
 
 // @public
@@ -3074,11 +3027,11 @@ export interface GlossaryListRelatedCategories200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryListRelatedCategoriesdefaultResponse extends HttpResponse {
+export interface GlossaryListRelatedCategoriesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3099,7 +3052,7 @@ export interface GlossaryListRelatedCategoriesQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListRelatedTerms {
-    get(options?: GlossaryListRelatedTermsParameters): Promise<GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsdefaultResponse>;
+    get(options?: GlossaryListRelatedTermsParameters): StreamableMethod<GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsDefaultResponse>;
 }
 
 // @public
@@ -3111,11 +3064,11 @@ export interface GlossaryListRelatedTerms200Response extends HttpResponse {
 }
 
 // @public
-export interface GlossaryListRelatedTermsdefaultResponse extends HttpResponse {
+export interface GlossaryListRelatedTermsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3136,7 +3089,7 @@ export interface GlossaryListRelatedTermsQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListTermsByGlossaryName {
-    get(options?: GlossaryListTermsByGlossaryNameParameters): Promise<GlossaryListTermsByGlossaryName200Response | GlossaryListTermsByGlossaryNamedefaultResponse>;
+    get(options?: GlossaryListTermsByGlossaryNameParameters): StreamableMethod<GlossaryListTermsByGlossaryName200Response | GlossaryListTermsByGlossaryNameDefaultResponse>;
 }
 
 // @public
@@ -3148,11 +3101,11 @@ export interface GlossaryListTermsByGlossaryName200Response extends HttpResponse
 }
 
 // @public
-export interface GlossaryListTermsByGlossaryNamedefaultResponse extends HttpResponse {
+export interface GlossaryListTermsByGlossaryNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3173,7 +3126,7 @@ export interface GlossaryListTermsByGlossaryNameQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossary {
-    put(options: GlossaryPartialUpdateGlossaryParameters): Promise<GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossarydefaultResponse>;
+    put(options: GlossaryPartialUpdateGlossaryParameters): StreamableMethod<GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossaryDefaultResponse>;
 }
 
 // @public
@@ -3191,7 +3144,7 @@ export interface GlossaryPartialUpdateGlossaryBodyParam {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryCategory {
-    put(options: GlossaryPartialUpdateGlossaryCategoryParameters): Promise<GlossaryPartialUpdateGlossaryCategory200Response | GlossaryPartialUpdateGlossaryCategorydefaultResponse>;
+    put(options: GlossaryPartialUpdateGlossaryCategoryParameters): StreamableMethod<GlossaryPartialUpdateGlossaryCategory200Response | GlossaryPartialUpdateGlossaryCategoryDefaultResponse>;
 }
 
 // @public
@@ -3208,11 +3161,11 @@ export interface GlossaryPartialUpdateGlossaryCategoryBodyParam {
 }
 
 // @public
-export interface GlossaryPartialUpdateGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryCategoryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3224,11 +3177,11 @@ export interface GlossaryPartialUpdateGlossaryCategoryMediaTypesParam {
 export type GlossaryPartialUpdateGlossaryCategoryParameters = GlossaryPartialUpdateGlossaryCategoryMediaTypesParam & GlossaryPartialUpdateGlossaryCategoryBodyParam & RequestParameters;
 
 // @public
-export interface GlossaryPartialUpdateGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3252,7 +3205,7 @@ export interface GlossaryPartialUpdateGlossaryQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryTerm {
-    put(options: GlossaryPartialUpdateGlossaryTermParameters): Promise<GlossaryPartialUpdateGlossaryTerm200Response | GlossaryPartialUpdateGlossaryTermdefaultResponse>;
+    put(options: GlossaryPartialUpdateGlossaryTermParameters): StreamableMethod<GlossaryPartialUpdateGlossaryTerm200Response | GlossaryPartialUpdateGlossaryTermDefaultResponse>;
 }
 
 // @public
@@ -3269,11 +3222,11 @@ export interface GlossaryPartialUpdateGlossaryTermBodyParam {
 }
 
 // @public
-export interface GlossaryPartialUpdateGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryTermDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3298,8 +3251,6 @@ export interface GlossaryPartialUpdateGlossaryTermQueryParamProperties {
 // @public
 export interface GlossaryRemoveTermAssignmentFromEntities204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -3309,11 +3260,11 @@ export interface GlossaryRemoveTermAssignmentFromEntitiesBodyParam {
 }
 
 // @public
-export interface GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse extends HttpResponse {
+export interface GlossaryRemoveTermAssignmentFromEntitiesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3351,11 +3302,11 @@ export interface GlossaryUpdateGlossaryCategoryBodyParam {
 }
 
 // @public
-export interface GlossaryUpdateGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryUpdateGlossaryCategoryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3367,11 +3318,11 @@ export interface GlossaryUpdateGlossaryCategoryMediaTypesParam {
 export type GlossaryUpdateGlossaryCategoryParameters = GlossaryUpdateGlossaryCategoryMediaTypesParam & GlossaryUpdateGlossaryCategoryBodyParam & RequestParameters;
 
 // @public
-export interface GlossaryUpdateGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryUpdateGlossaryDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3396,11 +3347,11 @@ export interface GlossaryUpdateGlossaryTermBodyParam {
 }
 
 // @public
-export interface GlossaryUpdateGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryUpdateGlossaryTermDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3428,7 +3379,7 @@ export interface ImportCSVOperationErrorOutput {
     errorMessage?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImportCSVOperationOutput {
     createTime?: string;
     // (undocumented)
@@ -3446,7 +3397,7 @@ export interface ImportCSVOperationPropertiesOutput {
     totalTermsDetected?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ImportInfoOutput {
     childObjectName?: string;
     importStatus?: "SUCCESS" | "FAILED";
@@ -3455,8 +3406,293 @@ export interface ImportInfoOutput {
 }
 
 // @public (undocumented)
+export function isUnexpected(response: EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse): response is EntityCreateOrUpdateDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityListByGuids200Response | EntityListByGuidsDefaultResponse): response is EntityListByGuidsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesDefaultResponse): response is EntityCreateOrUpdateEntitiesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityDeleteByGuids200Response | EntityDeleteByGuidsDefaultResponse): response is EntityDeleteByGuidsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityAddClassification204Response | EntityAddClassificationDefaultResponse): response is EntityAddClassificationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetByGuid200Response | EntityGetByGuidDefaultResponse): response is EntityGetByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityPartialUpdateEntityAttributeByGuid200Response | EntityPartialUpdateEntityAttributeByGuidDefaultResponse): response is EntityPartialUpdateEntityAttributeByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityDeleteByGuid200Response | EntityDeleteByGuidDefaultResponse): response is EntityDeleteByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetClassification200Response | EntityGetClassificationDefaultResponse): response is EntityGetClassificationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityDeleteClassification204Response | EntityDeleteClassificationDefaultResponse): response is EntityDeleteClassificationDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetClassifications200Response | EntityGetClassificationsDefaultResponse): response is EntityGetClassificationsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityAddClassifications204Response | EntityAddClassificationsDefaultResponse): response is EntityAddClassificationsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityUpdateClassifications204Response | EntityUpdateClassificationsDefaultResponse): response is EntityUpdateClassificationsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesDefaultResponse): response is EntityGetByUniqueAttributesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityPartialUpdateEntityByUniqueAttributes200Response | EntityPartialUpdateEntityByUniqueAttributesDefaultResponse): response is EntityPartialUpdateEntityByUniqueAttributesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributeDefaultResponse): response is EntityDeleteByUniqueAttributeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityDeleteClassificationByUniqueAttribute204Response | EntityDeleteClassificationByUniqueAttributeDefaultResponse): response is EntityDeleteClassificationByUniqueAttributeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityAddClassificationsByUniqueAttribute204Response | EntityAddClassificationsByUniqueAttributeDefaultResponse): response is EntityAddClassificationsByUniqueAttributeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityUpdateClassificationsByUniqueAttribute204Response | EntityUpdateClassificationsByUniqueAttributeDefaultResponse): response is EntityUpdateClassificationsByUniqueAttributeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntitySetClassifications200Response | EntitySetClassificationsDefaultResponse): response is EntitySetClassificationsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetEntitiesByUniqueAttributes200Response | EntityGetEntitiesByUniqueAttributesDefaultResponse): response is EntityGetEntitiesByUniqueAttributesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetHeader200Response | EntityGetHeaderDefaultResponse): response is EntityGetHeaderDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityGetSampleBusinessMetadataTemplate200Response | EntityGetSampleBusinessMetadataTemplate400Response): response is EntityGetSampleBusinessMetadataTemplate400Response;
+
+// @public (undocumented)
+export function isUnexpected(response: EntityImportBusinessMetadata200Response | EntityImportBusinessMetadata400Response | EntityImportBusinessMetadata409Response): response is EntityImportBusinessMetadata400Response;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListGlossaries200Response | GlossaryListGlossariesDefaultResponse): response is GlossaryListGlossariesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryCreateGlossary200Response | GlossaryCreateGlossaryDefaultResponse): response is GlossaryCreateGlossaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryCreateGlossaryCategories200Response | GlossaryCreateGlossaryCategoriesDefaultResponse): response is GlossaryCreateGlossaryCategoriesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryCreateGlossaryCategory200Response | GlossaryCreateGlossaryCategoryDefaultResponse): response is GlossaryCreateGlossaryCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategoryDefaultResponse): response is GlossaryGetGlossaryCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryUpdateGlossaryCategory200Response | GlossaryUpdateGlossaryCategoryDefaultResponse): response is GlossaryUpdateGlossaryCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryDeleteGlossaryCategory204Response | GlossaryDeleteGlossaryCategoryDefaultResponse): response is GlossaryDeleteGlossaryCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryPartialUpdateGlossaryCategory200Response | GlossaryPartialUpdateGlossaryCategoryDefaultResponse): response is GlossaryPartialUpdateGlossaryCategoryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesDefaultResponse): response is GlossaryListRelatedCategoriesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsDefaultResponse): response is GlossaryListCategoryTermsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermDefaultResponse): response is GlossaryCreateGlossaryTermDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermDefaultResponse): response is GlossaryGetGlossaryTermDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermDefaultResponse): response is GlossaryUpdateGlossaryTermDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermDefaultResponse): response is GlossaryDeleteGlossaryTermDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryPartialUpdateGlossaryTerm200Response | GlossaryPartialUpdateGlossaryTermDefaultResponse): response is GlossaryPartialUpdateGlossaryTermDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsDefaultResponse): response is GlossaryCreateGlossaryTermsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryGetEntitiesAssignedWithTerm200Response | GlossaryGetEntitiesAssignedWithTermDefaultResponse): response is GlossaryGetEntitiesAssignedWithTermDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesDefaultResponse): response is GlossaryAssignTermToEntitiesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryRemoveTermAssignmentFromEntities204Response | GlossaryRemoveTermAssignmentFromEntitiesDefaultResponse): response is GlossaryRemoveTermAssignmentFromEntitiesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryDeleteTermAssignmentFromEntities204Response | GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse): response is GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsDefaultResponse): response is GlossaryListRelatedTermsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryGetGlossary200Response | GlossaryGetGlossaryDefaultResponse): response is GlossaryGetGlossaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryUpdateGlossary200Response | GlossaryUpdateGlossaryDefaultResponse): response is GlossaryUpdateGlossaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryDeleteGlossary204Response | GlossaryDeleteGlossaryDefaultResponse): response is GlossaryDeleteGlossaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListGlossaryCategories200Response | GlossaryListGlossaryCategoriesDefaultResponse): response is GlossaryListGlossaryCategoriesDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListGlossaryCategoriesHeaders200Response | GlossaryListGlossaryCategoriesHeadersDefaultResponse): response is GlossaryListGlossaryCategoriesHeadersDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossaryDefaultResponse): response is GlossaryGetDetailedGlossaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossaryDefaultResponse): response is GlossaryPartialUpdateGlossaryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsDefaultResponse): response is GlossaryListGlossaryTermsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListGlossaryTermHeaders200Response | GlossaryListGlossaryTermHeadersDefaultResponse): response is GlossaryListGlossaryTermHeadersDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryImportGlossaryTermsViaCsv202Response | GlossaryImportGlossaryTermsViaCsvDefaultResponse): response is GlossaryImportGlossaryTermsViaCsvDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response | GlossaryImportGlossaryTermsViaCsvByGlossaryNameDefaultResponse): response is GlossaryImportGlossaryTermsViaCsvByGlossaryNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryGetImportCsvOperationStatus200Response | GlossaryGetImportCsvOperationStatusDefaultResponse): response is GlossaryGetImportCsvOperationStatusDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryExportGlossaryTermsAsCsv200Response | GlossaryExportGlossaryTermsAsCsvDefaultResponse): response is GlossaryExportGlossaryTermsAsCsvDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GlossaryListTermsByGlossaryName200Response | GlossaryListTermsByGlossaryNameDefaultResponse): response is GlossaryListTermsByGlossaryNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DiscoveryQuery200Response | DiscoveryQueryDefaultResponse): response is DiscoveryQueryDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DiscoverySuggest200Response | DiscoverySuggestDefaultResponse): response is DiscoverySuggestDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DiscoveryBrowse200Response | DiscoveryBrowseDefaultResponse): response is DiscoveryBrowseDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse): response is DiscoveryAutoCompleteDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LineageGetLineageGraph200Response | LineageGetLineageGraphDefaultResponse): response is LineageGetLineageGraphDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LineageNextPageLineage200Response | LineageNextPageLineageDefaultResponse): response is LineageNextPageLineageDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: LineageGetLineageByUniqueAttribute200Response | LineageGetLineageByUniqueAttribute400Response | LineageGetLineageByUniqueAttribute404Response): response is LineageGetLineageByUniqueAttribute400Response;
+
+// @public (undocumented)
+export function isUnexpected(response: RelationshipCreate200Response | RelationshipCreateDefaultResponse): response is RelationshipCreateDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RelationshipUpdate200Response | RelationshipUpdateDefaultResponse): response is RelationshipUpdateDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RelationshipGet200Response | RelationshipGetDefaultResponse): response is RelationshipGetDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: RelationshipDelete204Response | RelationshipDeleteDefaultResponse): response is RelationshipDeleteDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response): response is TypesGetBusinessMetadataDefByGuid404Response;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response): response is TypesGetBusinessMetadataDefByName404Response;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetClassificationDefByGuid200Response | TypesGetClassificationDefByGuidDefaultResponse): response is TypesGetClassificationDefByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetClassificationDefByName200Response | TypesGetClassificationDefByNameDefaultResponse): response is TypesGetClassificationDefByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetEntityDefinitionByGuid200Response | TypesGetEntityDefinitionByGuidDefaultResponse): response is TypesGetEntityDefinitionByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetEntityDefinitionByName200Response | TypesGetEntityDefinitionByNameDefaultResponse): response is TypesGetEntityDefinitionByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuidDefaultResponse): response is TypesGetEnumDefByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetEnumDefByName200Response | TypesGetEnumDefByNameDefaultResponse): response is TypesGetEnumDefByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuidDefaultResponse): response is TypesGetRelationshipDefByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNameDefaultResponse): response is TypesGetRelationshipDefByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetStructDefByGuid200Response | TypesGetStructDefByGuidDefaultResponse): response is TypesGetStructDefByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetStructDefByName200Response | TypesGetStructDefByNameDefaultResponse): response is TypesGetStructDefByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuidDefaultResponse): response is TypesGetTypeDefinitionByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNameDefaultResponse): response is TypesGetTypeDefinitionByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesDeleteTypeByName204Response | TypesDeleteTypeByNameDefaultResponse): response is TypesDeleteTypeByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsDefaultResponse): response is TypesGetAllTypeDefinitionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsDefaultResponse): response is TypesCreateTypeDefinitionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesUpdateAtlasTypeDefinitions200Response | TypesUpdateAtlasTypeDefinitionsDefaultResponse): response is TypesUpdateAtlasTypeDefinitionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsDefaultResponse): response is TypesDeleteTypeDefinitionsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesListTypeDefinitionHeaders200Response | TypesListTypeDefinitionHeadersDefaultResponse): response is TypesListTypeDefinitionHeadersDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuidDefaultResponse): response is TypesGetTermTemplateDefByGuidDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNameDefaultResponse): response is TypesGetTermTemplateDefByNameDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CollectionCreateOrUpdate200Response | CollectionCreateOrUpdateDefaultResponse): response is CollectionCreateOrUpdateDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkDefaultResponse): response is CollectionCreateOrUpdateBulkDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: CollectionMoveEntitiesToCollection200Response | CollectionMoveEntitiesToCollectionDefaultResponse): response is CollectionMoveEntitiesToCollectionDefaultResponse;
+
+// @public (undocumented)
 export interface LineageGetLineageByUniqueAttribute {
-    get(options: LineageGetLineageByUniqueAttributeParameters): Promise<LineageGetLineageByUniqueAttribute200Response | LineageGetLineageByUniqueAttribute400Response | LineageGetLineageByUniqueAttribute404Response>;
+    get(options: LineageGetLineageByUniqueAttributeParameters): StreamableMethod<LineageGetLineageByUniqueAttribute200Response | LineageGetLineageByUniqueAttribute400Response | LineageGetLineageByUniqueAttribute404Response>;
 }
 
 // @public
@@ -3470,15 +3706,11 @@ export interface LineageGetLineageByUniqueAttribute200Response extends HttpRespo
 // @public
 export interface LineageGetLineageByUniqueAttribute400Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "400";
 }
 
 // @public
 export interface LineageGetLineageByUniqueAttribute404Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "404";
 }
@@ -3503,7 +3735,7 @@ export interface LineageGetLineageByUniqueAttributeQueryParamProperties {
 
 // @public (undocumented)
 export interface LineageGetLineageGraph {
-    get(options: LineageGetLineageGraphParameters): Promise<LineageGetLineageGraph200Response | LineageGetLineageGraphdefaultResponse>;
+    get(options: LineageGetLineageGraphParameters): StreamableMethod<LineageGetLineageGraph200Response | LineageGetLineageGraphDefaultResponse>;
 }
 
 // @public
@@ -3515,11 +3747,11 @@ export interface LineageGetLineageGraph200Response extends HttpResponse {
 }
 
 // @public
-export interface LineageGetLineageGraphdefaultResponse extends HttpResponse {
+export interface LineageGetLineageGraphDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3542,7 +3774,7 @@ export interface LineageGetLineageGraphQueryParamProperties {
 
 // @public (undocumented)
 export interface LineageNextPageLineage {
-    get(options: LineageNextPageLineageParameters): Promise<LineageNextPageLineage200Response | LineageNextPageLineagedefaultResponse>;
+    get(options: LineageNextPageLineageParameters): StreamableMethod<LineageNextPageLineage200Response | LineageNextPageLineageDefaultResponse>;
 }
 
 // @public
@@ -3554,11 +3786,11 @@ export interface LineageNextPageLineage200Response extends HttpResponse {
 }
 
 // @public
-export interface LineageNextPageLineagedefaultResponse extends HttpResponse {
+export interface LineageNextPageLineageDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3578,7 +3810,7 @@ export interface LineageNextPageLineageQueryParamProperties {
     offset?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface LineageRelationOutput {
     fromEntityId?: string;
     relationshipId?: string;
@@ -3590,7 +3822,7 @@ export interface MoveEntitiesRequest {
     entityGuids?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface NumberFormat {
     availableLocales?: Array<string>;
     currency?: string;
@@ -3608,7 +3840,7 @@ export interface NumberFormat {
     roundingMode?: "UP" | "DOWN" | "CEILING" | "FLOOR" | "HALF_UP" | "HALF_DOWN" | "HALF_EVEN" | "UNNECESSARY";
 }
 
-// @public (undocumented)
+// @public
 export interface NumberFormatOutput {
     availableLocales?: Array<string>;
     currency?: string;
@@ -3626,14 +3858,14 @@ export interface NumberFormatOutput {
     roundingMode?: "UP" | "DOWN" | "CEILING" | "FLOOR" | "HALF_UP" | "HALF_DOWN" | "HALF_EVEN" | "UNNECESSARY";
 }
 
-// @public (undocumented)
+// @public
 export interface ParentRelationOutput {
     childEntityId?: string;
     parentEntityId?: string;
     relationshipId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PListOutput {
     list?: Array<Record<string, unknown>>;
     pageSize?: number;
@@ -3648,10 +3880,15 @@ export type PurviewCatalogClient = Client & {
     path: Routes;
 };
 
+// @public
+export interface PurviewCatalogClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
 // @public (undocumented)
 export interface RelationshipCreate {
-    post(options: RelationshipCreateParameters): Promise<RelationshipCreate200Response | RelationshipCreatedefaultResponse>;
-    put(options: RelationshipUpdateParameters): Promise<RelationshipUpdate200Response | RelationshipUpdatedefaultResponse>;
+    post(options: RelationshipCreateParameters): StreamableMethod<RelationshipCreate200Response | RelationshipCreateDefaultResponse>;
+    put(options: RelationshipUpdateParameters): StreamableMethod<RelationshipUpdate200Response | RelationshipUpdateDefaultResponse>;
 }
 
 // @public
@@ -3668,11 +3905,11 @@ export interface RelationshipCreateBodyParam {
 }
 
 // @public
-export interface RelationshipCreatedefaultResponse extends HttpResponse {
+export interface RelationshipCreateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3686,17 +3923,15 @@ export type RelationshipCreateParameters = RelationshipCreateMediaTypesParam & R
 // @public
 export interface RelationshipDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface RelationshipDeletedefaultResponse extends HttpResponse {
+export interface RelationshipDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3704,8 +3939,8 @@ export type RelationshipDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface RelationshipGet {
-    delete(options?: RelationshipDeleteParameters): Promise<RelationshipDelete204Response | RelationshipDeletedefaultResponse>;
-    get(options?: RelationshipGetParameters): Promise<RelationshipGet200Response | RelationshipGetdefaultResponse>;
+    delete(options?: RelationshipDeleteParameters): StreamableMethod<RelationshipDelete204Response | RelationshipDeleteDefaultResponse>;
+    get(options?: RelationshipGetParameters): StreamableMethod<RelationshipGet200Response | RelationshipGetDefaultResponse>;
 }
 
 // @public
@@ -3717,11 +3952,11 @@ export interface RelationshipGet200Response extends HttpResponse {
 }
 
 // @public
-export interface RelationshipGetdefaultResponse extends HttpResponse {
+export interface RelationshipGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3752,11 +3987,11 @@ export interface RelationshipUpdateBodyParam {
 }
 
 // @public
-export interface RelationshipUpdatedefaultResponse extends HttpResponse {
+export interface RelationshipUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -3767,13 +4002,13 @@ export interface RelationshipUpdateMediaTypesParam {
 // @public (undocumented)
 export type RelationshipUpdateParameters = RelationshipUpdateMediaTypesParam & RelationshipUpdateBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ResourceLink {
     displayName?: string;
     url?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceLinkOutput {
     displayName?: string;
     url?: string;
@@ -3856,20 +4091,20 @@ export interface Routes {
     (path: "/collections/{collection}/entity/moveHere", collection: string): CollectionMoveEntitiesToCollection;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchFacetItem {
     count?: number;
     facet?: string;
     sort?: Record<string, unknown>;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchFacetItemValueOutput {
     count?: number;
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchFacetResultValueOutput {
     // (undocumented)
     assetType?: Array<SearchFacetItemValueOutput>;
@@ -3887,7 +4122,7 @@ export interface SearchFacetResultValueOutput {
     term?: Array<SearchFacetItemValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchHighlightsOutput {
     // (undocumented)
     description?: Array<string>;
@@ -3901,7 +4136,7 @@ export interface SearchHighlightsOutput {
     qualifiedName?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchRequest {
     // (undocumented)
     facets?: Array<SearchFacetItem>;
@@ -3920,7 +4155,7 @@ export interface SearchRequestTaxonomySetting {
     facet?: SearchFacetItem;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchResultOutput {
     "@search.count"?: number;
     "@search.facets"?: SearchFacetResultValueOutput;
@@ -3928,7 +4163,7 @@ export interface SearchResultOutput {
     value?: Array<SearchResultValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SearchResultValueOutput {
     "@search.highlights"?: SearchHighlightsOutput;
     "@search.score"?: number;
@@ -3946,20 +4181,42 @@ export interface SearchResultValueOutput {
     term?: Array<TermSearchResultValueOutput>;
 }
 
-// @public (undocumented)
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SuggestRequest {
     filter?: Record<string, unknown>;
     keywords?: string;
     limit?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SuggestResultOutput {
     // (undocumented)
     value?: Array<SuggestResultValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SuggestResultValueOutput {
     "@search.score"?: number;
     "@search.text"?: string;
@@ -3976,36 +4233,36 @@ export interface SuggestResultValueOutput {
     term?: Array<TermSearchResultValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface TermSearchResultValueOutput {
     glossaryName?: string;
     guid?: string;
     name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TermTemplateDef extends AtlasStructDef {
 }
 
-// @public (undocumented)
+// @public
 export interface TermTemplateDefOutput extends AtlasStructDefOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface TimeBoundary {
     endTime?: string;
     startTime?: string;
     timeZone?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeBoundaryOutput {
     endTime?: string;
     startTime?: string;
     timeZone?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeZone {
     availableIds?: Array<string>;
     default?: TimeZone;
@@ -4015,7 +4272,7 @@ export interface TimeZone {
     rawOffset?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeZoneOutput {
     availableIds?: Array<string>;
     default?: TimeZoneOutput;
@@ -4039,11 +4296,11 @@ export interface TypesCreateTypeDefinitionsBodyParam {
 }
 
 // @public
-export interface TypesCreateTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesCreateTypeDefinitionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4057,17 +4314,15 @@ export type TypesCreateTypeDefinitionsParameters = TypesCreateTypeDefinitionsMed
 // @public
 export interface TypesDeleteTypeByName204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface TypesDeleteTypeByNamedefaultResponse extends HttpResponse {
+export interface TypesDeleteTypeByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4075,8 +4330,6 @@ export type TypesDeleteTypeByNameParameters = RequestParameters;
 
 // @public
 export interface TypesDeleteTypeDefinitions204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4087,11 +4340,11 @@ export interface TypesDeleteTypeDefinitionsBodyParam {
 }
 
 // @public
-export interface TypesDeleteTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesDeleteTypeDefinitionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4104,10 +4357,10 @@ export type TypesDeleteTypeDefinitionsParameters = TypesDeleteTypeDefinitionsMed
 
 // @public (undocumented)
 export interface TypesGetAllTypeDefinitions {
-    delete(options: TypesDeleteTypeDefinitionsParameters): Promise<TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsdefaultResponse>;
-    get(options?: TypesGetAllTypeDefinitionsParameters): Promise<TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsdefaultResponse>;
-    post(options: TypesCreateTypeDefinitionsParameters): Promise<TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsdefaultResponse>;
-    put(options: TypesUpdateAtlasTypeDefinitionsParameters): Promise<TypesUpdateAtlasTypeDefinitions200Response | TypesUpdateAtlasTypeDefinitionsdefaultResponse>;
+    delete(options: TypesDeleteTypeDefinitionsParameters): StreamableMethod<TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsDefaultResponse>;
+    get(options?: TypesGetAllTypeDefinitionsParameters): StreamableMethod<TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsDefaultResponse>;
+    post(options: TypesCreateTypeDefinitionsParameters): StreamableMethod<TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsDefaultResponse>;
+    put(options: TypesUpdateAtlasTypeDefinitionsParameters): StreamableMethod<TypesUpdateAtlasTypeDefinitions200Response | TypesUpdateAtlasTypeDefinitionsDefaultResponse>;
 }
 
 // @public
@@ -4119,11 +4372,11 @@ export interface TypesGetAllTypeDefinitions200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetAllTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesGetAllTypeDefinitionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4143,7 +4396,7 @@ export interface TypesGetAllTypeDefinitionsQueryParamProperties {
 
 // @public (undocumented)
 export interface TypesGetBusinessMetadataDefByGuid {
-    get(options?: TypesGetBusinessMetadataDefByGuidParameters): Promise<TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response>;
+    get(options?: TypesGetBusinessMetadataDefByGuidParameters): StreamableMethod<TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response>;
 }
 
 // @public
@@ -4157,8 +4410,6 @@ export interface TypesGetBusinessMetadataDefByGuid200Response extends HttpRespon
 // @public
 export interface TypesGetBusinessMetadataDefByGuid404Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "404";
 }
 
@@ -4167,7 +4418,7 @@ export type TypesGetBusinessMetadataDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetBusinessMetadataDefByName {
-    get(options?: TypesGetBusinessMetadataDefByNameParameters): Promise<TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response>;
+    get(options?: TypesGetBusinessMetadataDefByNameParameters): StreamableMethod<TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response>;
 }
 
 // @public
@@ -4181,8 +4432,6 @@ export interface TypesGetBusinessMetadataDefByName200Response extends HttpRespon
 // @public
 export interface TypesGetBusinessMetadataDefByName404Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "404";
 }
 
@@ -4191,7 +4440,7 @@ export type TypesGetBusinessMetadataDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetClassificationDefByGuid {
-    get(options?: TypesGetClassificationDefByGuidParameters): Promise<TypesGetClassificationDefByGuid200Response | TypesGetClassificationDefByGuiddefaultResponse>;
+    get(options?: TypesGetClassificationDefByGuidParameters): StreamableMethod<TypesGetClassificationDefByGuid200Response | TypesGetClassificationDefByGuidDefaultResponse>;
 }
 
 // @public
@@ -4203,11 +4452,11 @@ export interface TypesGetClassificationDefByGuid200Response extends HttpResponse
 }
 
 // @public
-export interface TypesGetClassificationDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetClassificationDefByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4215,7 +4464,7 @@ export type TypesGetClassificationDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetClassificationDefByName {
-    get(options?: TypesGetClassificationDefByNameParameters): Promise<TypesGetClassificationDefByName200Response | TypesGetClassificationDefByNamedefaultResponse>;
+    get(options?: TypesGetClassificationDefByNameParameters): StreamableMethod<TypesGetClassificationDefByName200Response | TypesGetClassificationDefByNameDefaultResponse>;
 }
 
 // @public
@@ -4227,11 +4476,11 @@ export interface TypesGetClassificationDefByName200Response extends HttpResponse
 }
 
 // @public
-export interface TypesGetClassificationDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetClassificationDefByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4239,7 +4488,7 @@ export type TypesGetClassificationDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEntityDefinitionByGuid {
-    get(options?: TypesGetEntityDefinitionByGuidParameters): Promise<TypesGetEntityDefinitionByGuid200Response | TypesGetEntityDefinitionByGuiddefaultResponse>;
+    get(options?: TypesGetEntityDefinitionByGuidParameters): StreamableMethod<TypesGetEntityDefinitionByGuid200Response | TypesGetEntityDefinitionByGuidDefaultResponse>;
 }
 
 // @public
@@ -4251,11 +4500,11 @@ export interface TypesGetEntityDefinitionByGuid200Response extends HttpResponse 
 }
 
 // @public
-export interface TypesGetEntityDefinitionByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetEntityDefinitionByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4263,7 +4512,7 @@ export type TypesGetEntityDefinitionByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEntityDefinitionByName {
-    get(options?: TypesGetEntityDefinitionByNameParameters): Promise<TypesGetEntityDefinitionByName200Response | TypesGetEntityDefinitionByNamedefaultResponse>;
+    get(options?: TypesGetEntityDefinitionByNameParameters): StreamableMethod<TypesGetEntityDefinitionByName200Response | TypesGetEntityDefinitionByNameDefaultResponse>;
 }
 
 // @public
@@ -4275,11 +4524,11 @@ export interface TypesGetEntityDefinitionByName200Response extends HttpResponse 
 }
 
 // @public
-export interface TypesGetEntityDefinitionByNamedefaultResponse extends HttpResponse {
+export interface TypesGetEntityDefinitionByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4287,7 +4536,7 @@ export type TypesGetEntityDefinitionByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEnumDefByGuid {
-    get(options?: TypesGetEnumDefByGuidParameters): Promise<TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuiddefaultResponse>;
+    get(options?: TypesGetEnumDefByGuidParameters): StreamableMethod<TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuidDefaultResponse>;
 }
 
 // @public
@@ -4299,11 +4548,11 @@ export interface TypesGetEnumDefByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetEnumDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetEnumDefByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4311,7 +4560,7 @@ export type TypesGetEnumDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEnumDefByName {
-    get(options?: TypesGetEnumDefByNameParameters): Promise<TypesGetEnumDefByName200Response | TypesGetEnumDefByNamedefaultResponse>;
+    get(options?: TypesGetEnumDefByNameParameters): StreamableMethod<TypesGetEnumDefByName200Response | TypesGetEnumDefByNameDefaultResponse>;
 }
 
 // @public
@@ -4323,11 +4572,11 @@ export interface TypesGetEnumDefByName200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetEnumDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetEnumDefByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4335,7 +4584,7 @@ export type TypesGetEnumDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetRelationshipDefByGuid {
-    get(options?: TypesGetRelationshipDefByGuidParameters): Promise<TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuiddefaultResponse>;
+    get(options?: TypesGetRelationshipDefByGuidParameters): StreamableMethod<TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuidDefaultResponse>;
 }
 
 // @public
@@ -4347,11 +4596,11 @@ export interface TypesGetRelationshipDefByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetRelationshipDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetRelationshipDefByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4359,7 +4608,7 @@ export type TypesGetRelationshipDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetRelationshipDefByName {
-    get(options?: TypesGetRelationshipDefByNameParameters): Promise<TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNamedefaultResponse>;
+    get(options?: TypesGetRelationshipDefByNameParameters): StreamableMethod<TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNameDefaultResponse>;
 }
 
 // @public
@@ -4371,11 +4620,11 @@ export interface TypesGetRelationshipDefByName200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetRelationshipDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetRelationshipDefByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4383,7 +4632,7 @@ export type TypesGetRelationshipDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetStructDefByGuid {
-    get(options?: TypesGetStructDefByGuidParameters): Promise<TypesGetStructDefByGuid200Response | TypesGetStructDefByGuiddefaultResponse>;
+    get(options?: TypesGetStructDefByGuidParameters): StreamableMethod<TypesGetStructDefByGuid200Response | TypesGetStructDefByGuidDefaultResponse>;
 }
 
 // @public
@@ -4395,11 +4644,11 @@ export interface TypesGetStructDefByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetStructDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetStructDefByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4407,7 +4656,7 @@ export type TypesGetStructDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetStructDefByName {
-    get(options?: TypesGetStructDefByNameParameters): Promise<TypesGetStructDefByName200Response | TypesGetStructDefByNamedefaultResponse>;
+    get(options?: TypesGetStructDefByNameParameters): StreamableMethod<TypesGetStructDefByName200Response | TypesGetStructDefByNameDefaultResponse>;
 }
 
 // @public
@@ -4419,11 +4668,11 @@ export interface TypesGetStructDefByName200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetStructDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetStructDefByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4431,7 +4680,7 @@ export type TypesGetStructDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTermTemplateDefByGuid {
-    get(options?: TypesGetTermTemplateDefByGuidParameters): Promise<TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuiddefaultResponse>;
+    get(options?: TypesGetTermTemplateDefByGuidParameters): StreamableMethod<TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuidDefaultResponse>;
 }
 
 // @public
@@ -4443,11 +4692,11 @@ export interface TypesGetTermTemplateDefByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetTermTemplateDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetTermTemplateDefByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4455,7 +4704,7 @@ export type TypesGetTermTemplateDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTermTemplateDefByName {
-    get(options?: TypesGetTermTemplateDefByNameParameters): Promise<TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNamedefaultResponse>;
+    get(options?: TypesGetTermTemplateDefByNameParameters): StreamableMethod<TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNameDefaultResponse>;
 }
 
 // @public
@@ -4467,11 +4716,11 @@ export interface TypesGetTermTemplateDefByName200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetTermTemplateDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetTermTemplateDefByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4479,7 +4728,7 @@ export type TypesGetTermTemplateDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTypeDefinitionByGuid {
-    get(options?: TypesGetTypeDefinitionByGuidParameters): Promise<TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuiddefaultResponse>;
+    get(options?: TypesGetTypeDefinitionByGuidParameters): StreamableMethod<TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuidDefaultResponse>;
 }
 
 // @public
@@ -4491,11 +4740,11 @@ export interface TypesGetTypeDefinitionByGuid200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetTypeDefinitionByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetTypeDefinitionByGuidDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4503,8 +4752,8 @@ export type TypesGetTypeDefinitionByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTypeDefinitionByName {
-    delete(options?: TypesDeleteTypeByNameParameters): Promise<TypesDeleteTypeByName204Response | TypesDeleteTypeByNamedefaultResponse>;
-    get(options?: TypesGetTypeDefinitionByNameParameters): Promise<TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNamedefaultResponse>;
+    delete(options?: TypesDeleteTypeByNameParameters): StreamableMethod<TypesDeleteTypeByName204Response | TypesDeleteTypeByNameDefaultResponse>;
+    get(options?: TypesGetTypeDefinitionByNameParameters): StreamableMethod<TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNameDefaultResponse>;
 }
 
 // @public
@@ -4516,11 +4765,11 @@ export interface TypesGetTypeDefinitionByName200Response extends HttpResponse {
 }
 
 // @public
-export interface TypesGetTypeDefinitionByNamedefaultResponse extends HttpResponse {
+export interface TypesGetTypeDefinitionByNameDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4528,7 +4777,7 @@ export type TypesGetTypeDefinitionByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesListTypeDefinitionHeaders {
-    get(options?: TypesListTypeDefinitionHeadersParameters): Promise<TypesListTypeDefinitionHeaders200Response | TypesListTypeDefinitionHeadersdefaultResponse>;
+    get(options?: TypesListTypeDefinitionHeadersParameters): StreamableMethod<TypesListTypeDefinitionHeaders200Response | TypesListTypeDefinitionHeadersDefaultResponse>;
 }
 
 // @public
@@ -4540,11 +4789,11 @@ export interface TypesListTypeDefinitionHeaders200Response extends HttpResponse 
 }
 
 // @public
-export interface TypesListTypeDefinitionHeadersdefaultResponse extends HttpResponse {
+export interface TypesListTypeDefinitionHeadersDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)
@@ -4576,11 +4825,11 @@ export interface TypesUpdateAtlasTypeDefinitionsBodyParam {
 }
 
 // @public
-export interface TypesUpdateAtlasTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesUpdateAtlasTypeDefinitionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
-    status: "500";
+    status: string;
 }
 
 // @public (undocumented)

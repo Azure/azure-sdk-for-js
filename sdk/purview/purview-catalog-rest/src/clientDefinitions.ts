@@ -110,49 +110,49 @@ import {
 } from "./parameters";
 import {
   EntityCreateOrUpdate200Response,
-  EntityCreateOrUpdatedefaultResponse,
+  EntityCreateOrUpdateDefaultResponse,
   EntityListByGuids200Response,
-  EntityListByGuidsdefaultResponse,
+  EntityListByGuidsDefaultResponse,
   EntityCreateOrUpdateEntities200Response,
-  EntityCreateOrUpdateEntitiesdefaultResponse,
+  EntityCreateOrUpdateEntitiesDefaultResponse,
   EntityDeleteByGuids200Response,
-  EntityDeleteByGuidsdefaultResponse,
+  EntityDeleteByGuidsDefaultResponse,
   EntityAddClassification204Response,
-  EntityAddClassificationdefaultResponse,
+  EntityAddClassificationDefaultResponse,
   EntityGetByGuid200Response,
-  EntityGetByGuiddefaultResponse,
+  EntityGetByGuidDefaultResponse,
   EntityPartialUpdateEntityAttributeByGuid200Response,
-  EntityPartialUpdateEntityAttributeByGuiddefaultResponse,
+  EntityPartialUpdateEntityAttributeByGuidDefaultResponse,
   EntityDeleteByGuid200Response,
-  EntityDeleteByGuiddefaultResponse,
+  EntityDeleteByGuidDefaultResponse,
   EntityGetClassification200Response,
-  EntityGetClassificationdefaultResponse,
+  EntityGetClassificationDefaultResponse,
   EntityDeleteClassification204Response,
-  EntityDeleteClassificationdefaultResponse,
+  EntityDeleteClassificationDefaultResponse,
   EntityGetClassifications200Response,
-  EntityGetClassificationsdefaultResponse,
+  EntityGetClassificationsDefaultResponse,
   EntityAddClassifications204Response,
-  EntityAddClassificationsdefaultResponse,
+  EntityAddClassificationsDefaultResponse,
   EntityUpdateClassifications204Response,
-  EntityUpdateClassificationsdefaultResponse,
+  EntityUpdateClassificationsDefaultResponse,
   EntityGetByUniqueAttributes200Response,
-  EntityGetByUniqueAttributesdefaultResponse,
+  EntityGetByUniqueAttributesDefaultResponse,
   EntityPartialUpdateEntityByUniqueAttributes200Response,
-  EntityPartialUpdateEntityByUniqueAttributesdefaultResponse,
+  EntityPartialUpdateEntityByUniqueAttributesDefaultResponse,
   EntityDeleteByUniqueAttribute200Response,
-  EntityDeleteByUniqueAttributedefaultResponse,
+  EntityDeleteByUniqueAttributeDefaultResponse,
   EntityDeleteClassificationByUniqueAttribute204Response,
-  EntityDeleteClassificationByUniqueAttributedefaultResponse,
+  EntityDeleteClassificationByUniqueAttributeDefaultResponse,
   EntityAddClassificationsByUniqueAttribute204Response,
-  EntityAddClassificationsByUniqueAttributedefaultResponse,
+  EntityAddClassificationsByUniqueAttributeDefaultResponse,
   EntityUpdateClassificationsByUniqueAttribute204Response,
-  EntityUpdateClassificationsByUniqueAttributedefaultResponse,
+  EntityUpdateClassificationsByUniqueAttributeDefaultResponse,
   EntitySetClassifications200Response,
-  EntitySetClassificationsdefaultResponse,
+  EntitySetClassificationsDefaultResponse,
   EntityGetEntitiesByUniqueAttributes200Response,
-  EntityGetEntitiesByUniqueAttributesdefaultResponse,
+  EntityGetEntitiesByUniqueAttributesDefaultResponse,
   EntityGetHeader200Response,
-  EntityGetHeaderdefaultResponse,
+  EntityGetHeaderDefaultResponse,
   EntityDeleteBusinessMetadata204Response,
   EntityAddOrUpdateBusinessMetadata204Response,
   EntityDeleteBusinessMetadataAttributes204Response,
@@ -169,150 +169,150 @@ import {
   EntitySetLabelsByUniqueAttribute204Response,
   EntityAddLabelsByUniqueAttribute204Response,
   GlossaryListGlossaries200Response,
-  GlossaryListGlossariesdefaultResponse,
+  GlossaryListGlossariesDefaultResponse,
   GlossaryCreateGlossary200Response,
-  GlossaryCreateGlossarydefaultResponse,
+  GlossaryCreateGlossaryDefaultResponse,
   GlossaryCreateGlossaryCategories200Response,
-  GlossaryCreateGlossaryCategoriesdefaultResponse,
+  GlossaryCreateGlossaryCategoriesDefaultResponse,
   GlossaryCreateGlossaryCategory200Response,
-  GlossaryCreateGlossaryCategorydefaultResponse,
+  GlossaryCreateGlossaryCategoryDefaultResponse,
   GlossaryGetGlossaryCategory200Response,
-  GlossaryGetGlossaryCategorydefaultResponse,
+  GlossaryGetGlossaryCategoryDefaultResponse,
   GlossaryUpdateGlossaryCategory200Response,
-  GlossaryUpdateGlossaryCategorydefaultResponse,
+  GlossaryUpdateGlossaryCategoryDefaultResponse,
   GlossaryDeleteGlossaryCategory204Response,
-  GlossaryDeleteGlossaryCategorydefaultResponse,
+  GlossaryDeleteGlossaryCategoryDefaultResponse,
   GlossaryPartialUpdateGlossaryCategory200Response,
-  GlossaryPartialUpdateGlossaryCategorydefaultResponse,
+  GlossaryPartialUpdateGlossaryCategoryDefaultResponse,
   GlossaryListRelatedCategories200Response,
-  GlossaryListRelatedCategoriesdefaultResponse,
+  GlossaryListRelatedCategoriesDefaultResponse,
   GlossaryListCategoryTerms200Response,
-  GlossaryListCategoryTermsdefaultResponse,
+  GlossaryListCategoryTermsDefaultResponse,
   GlossaryCreateGlossaryTerm200Response,
-  GlossaryCreateGlossaryTermdefaultResponse,
+  GlossaryCreateGlossaryTermDefaultResponse,
   GlossaryGetGlossaryTerm200Response,
-  GlossaryGetGlossaryTermdefaultResponse,
+  GlossaryGetGlossaryTermDefaultResponse,
   GlossaryUpdateGlossaryTerm200Response,
-  GlossaryUpdateGlossaryTermdefaultResponse,
+  GlossaryUpdateGlossaryTermDefaultResponse,
   GlossaryDeleteGlossaryTerm204Response,
-  GlossaryDeleteGlossaryTermdefaultResponse,
+  GlossaryDeleteGlossaryTermDefaultResponse,
   GlossaryPartialUpdateGlossaryTerm200Response,
-  GlossaryPartialUpdateGlossaryTermdefaultResponse,
+  GlossaryPartialUpdateGlossaryTermDefaultResponse,
   GlossaryCreateGlossaryTerms200Response,
-  GlossaryCreateGlossaryTermsdefaultResponse,
+  GlossaryCreateGlossaryTermsDefaultResponse,
   GlossaryGetEntitiesAssignedWithTerm200Response,
-  GlossaryGetEntitiesAssignedWithTermdefaultResponse,
+  GlossaryGetEntitiesAssignedWithTermDefaultResponse,
   GlossaryAssignTermToEntities204Response,
-  GlossaryAssignTermToEntitiesdefaultResponse,
+  GlossaryAssignTermToEntitiesDefaultResponse,
   GlossaryRemoveTermAssignmentFromEntities204Response,
-  GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse,
+  GlossaryRemoveTermAssignmentFromEntitiesDefaultResponse,
   GlossaryDeleteTermAssignmentFromEntities204Response,
-  GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse,
+  GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse,
   GlossaryListRelatedTerms200Response,
-  GlossaryListRelatedTermsdefaultResponse,
+  GlossaryListRelatedTermsDefaultResponse,
   GlossaryGetGlossary200Response,
-  GlossaryGetGlossarydefaultResponse,
+  GlossaryGetGlossaryDefaultResponse,
   GlossaryUpdateGlossary200Response,
-  GlossaryUpdateGlossarydefaultResponse,
+  GlossaryUpdateGlossaryDefaultResponse,
   GlossaryDeleteGlossary204Response,
-  GlossaryDeleteGlossarydefaultResponse,
+  GlossaryDeleteGlossaryDefaultResponse,
   GlossaryListGlossaryCategories200Response,
-  GlossaryListGlossaryCategoriesdefaultResponse,
+  GlossaryListGlossaryCategoriesDefaultResponse,
   GlossaryListGlossaryCategoriesHeaders200Response,
-  GlossaryListGlossaryCategoriesHeadersdefaultResponse,
+  GlossaryListGlossaryCategoriesHeadersDefaultResponse,
   GlossaryGetDetailedGlossary200Response,
-  GlossaryGetDetailedGlossarydefaultResponse,
+  GlossaryGetDetailedGlossaryDefaultResponse,
   GlossaryPartialUpdateGlossary200Response,
-  GlossaryPartialUpdateGlossarydefaultResponse,
+  GlossaryPartialUpdateGlossaryDefaultResponse,
   GlossaryListGlossaryTerms200Response,
-  GlossaryListGlossaryTermsdefaultResponse,
+  GlossaryListGlossaryTermsDefaultResponse,
   GlossaryListGlossaryTermHeaders200Response,
-  GlossaryListGlossaryTermHeadersdefaultResponse,
+  GlossaryListGlossaryTermHeadersDefaultResponse,
   GlossaryImportGlossaryTermsViaCsv202Response,
-  GlossaryImportGlossaryTermsViaCsvdefaultResponse,
+  GlossaryImportGlossaryTermsViaCsvDefaultResponse,
   GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response,
-  GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse,
+  GlossaryImportGlossaryTermsViaCsvByGlossaryNameDefaultResponse,
   GlossaryGetImportCsvOperationStatus200Response,
-  GlossaryGetImportCsvOperationStatusdefaultResponse,
+  GlossaryGetImportCsvOperationStatusDefaultResponse,
   GlossaryExportGlossaryTermsAsCsv200Response,
-  GlossaryExportGlossaryTermsAsCsvdefaultResponse,
+  GlossaryExportGlossaryTermsAsCsvDefaultResponse,
   GlossaryListTermsByGlossaryName200Response,
-  GlossaryListTermsByGlossaryNamedefaultResponse,
+  GlossaryListTermsByGlossaryNameDefaultResponse,
   DiscoveryQuery200Response,
-  DiscoveryQuerydefaultResponse,
+  DiscoveryQueryDefaultResponse,
   DiscoverySuggest200Response,
-  DiscoverySuggestdefaultResponse,
+  DiscoverySuggestDefaultResponse,
   DiscoveryBrowse200Response,
-  DiscoveryBrowsedefaultResponse,
+  DiscoveryBrowseDefaultResponse,
   DiscoveryAutoComplete200Response,
-  DiscoveryAutoCompletedefaultResponse,
+  DiscoveryAutoCompleteDefaultResponse,
   LineageGetLineageGraph200Response,
-  LineageGetLineageGraphdefaultResponse,
+  LineageGetLineageGraphDefaultResponse,
   LineageNextPageLineage200Response,
-  LineageNextPageLineagedefaultResponse,
+  LineageNextPageLineageDefaultResponse,
   LineageGetLineageByUniqueAttribute200Response,
   LineageGetLineageByUniqueAttribute400Response,
   LineageGetLineageByUniqueAttribute404Response,
   RelationshipCreate200Response,
-  RelationshipCreatedefaultResponse,
+  RelationshipCreateDefaultResponse,
   RelationshipUpdate200Response,
-  RelationshipUpdatedefaultResponse,
+  RelationshipUpdateDefaultResponse,
   RelationshipGet200Response,
-  RelationshipGetdefaultResponse,
+  RelationshipGetDefaultResponse,
   RelationshipDelete204Response,
-  RelationshipDeletedefaultResponse,
+  RelationshipDeleteDefaultResponse,
   TypesGetBusinessMetadataDefByGuid200Response,
   TypesGetBusinessMetadataDefByGuid404Response,
   TypesGetBusinessMetadataDefByName200Response,
   TypesGetBusinessMetadataDefByName404Response,
   TypesGetClassificationDefByGuid200Response,
-  TypesGetClassificationDefByGuiddefaultResponse,
+  TypesGetClassificationDefByGuidDefaultResponse,
   TypesGetClassificationDefByName200Response,
-  TypesGetClassificationDefByNamedefaultResponse,
+  TypesGetClassificationDefByNameDefaultResponse,
   TypesGetEntityDefinitionByGuid200Response,
-  TypesGetEntityDefinitionByGuiddefaultResponse,
+  TypesGetEntityDefinitionByGuidDefaultResponse,
   TypesGetEntityDefinitionByName200Response,
-  TypesGetEntityDefinitionByNamedefaultResponse,
+  TypesGetEntityDefinitionByNameDefaultResponse,
   TypesGetEnumDefByGuid200Response,
-  TypesGetEnumDefByGuiddefaultResponse,
+  TypesGetEnumDefByGuidDefaultResponse,
   TypesGetEnumDefByName200Response,
-  TypesGetEnumDefByNamedefaultResponse,
+  TypesGetEnumDefByNameDefaultResponse,
   TypesGetRelationshipDefByGuid200Response,
-  TypesGetRelationshipDefByGuiddefaultResponse,
+  TypesGetRelationshipDefByGuidDefaultResponse,
   TypesGetRelationshipDefByName200Response,
-  TypesGetRelationshipDefByNamedefaultResponse,
+  TypesGetRelationshipDefByNameDefaultResponse,
   TypesGetStructDefByGuid200Response,
-  TypesGetStructDefByGuiddefaultResponse,
+  TypesGetStructDefByGuidDefaultResponse,
   TypesGetStructDefByName200Response,
-  TypesGetStructDefByNamedefaultResponse,
+  TypesGetStructDefByNameDefaultResponse,
   TypesGetTypeDefinitionByGuid200Response,
-  TypesGetTypeDefinitionByGuiddefaultResponse,
+  TypesGetTypeDefinitionByGuidDefaultResponse,
   TypesGetTypeDefinitionByName200Response,
-  TypesGetTypeDefinitionByNamedefaultResponse,
+  TypesGetTypeDefinitionByNameDefaultResponse,
   TypesDeleteTypeByName204Response,
-  TypesDeleteTypeByNamedefaultResponse,
+  TypesDeleteTypeByNameDefaultResponse,
   TypesGetAllTypeDefinitions200Response,
-  TypesGetAllTypeDefinitionsdefaultResponse,
+  TypesGetAllTypeDefinitionsDefaultResponse,
   TypesCreateTypeDefinitions200Response,
-  TypesCreateTypeDefinitionsdefaultResponse,
+  TypesCreateTypeDefinitionsDefaultResponse,
   TypesUpdateAtlasTypeDefinitions200Response,
-  TypesUpdateAtlasTypeDefinitionsdefaultResponse,
+  TypesUpdateAtlasTypeDefinitionsDefaultResponse,
   TypesDeleteTypeDefinitions204Response,
-  TypesDeleteTypeDefinitionsdefaultResponse,
+  TypesDeleteTypeDefinitionsDefaultResponse,
   TypesListTypeDefinitionHeaders200Response,
-  TypesListTypeDefinitionHeadersdefaultResponse,
+  TypesListTypeDefinitionHeadersDefaultResponse,
   TypesGetTermTemplateDefByGuid200Response,
-  TypesGetTermTemplateDefByGuiddefaultResponse,
+  TypesGetTermTemplateDefByGuidDefaultResponse,
   TypesGetTermTemplateDefByName200Response,
-  TypesGetTermTemplateDefByNamedefaultResponse,
+  TypesGetTermTemplateDefByNameDefaultResponse,
   CollectionCreateOrUpdate200Response,
-  CollectionCreateOrUpdatedefaultResponse,
+  CollectionCreateOrUpdateDefaultResponse,
   CollectionCreateOrUpdateBulk200Response,
-  CollectionCreateOrUpdateBulkdefaultResponse,
+  CollectionCreateOrUpdateBulkDefaultResponse,
   CollectionMoveEntitiesToCollection200Response,
-  CollectionMoveEntitiesToCollectiondefaultResponse,
+  CollectionMoveEntitiesToCollectionDefaultResponse,
 } from "./responses";
-import { Client } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface EntityCreateOrUpdate {
   /**
@@ -322,14 +322,18 @@ export interface EntityCreateOrUpdate {
    */
   post(
     options: EntityCreateOrUpdateParameters,
-  ): Promise<EntityCreateOrUpdate200Response | EntityCreateOrUpdatedefaultResponse>;
+  ): StreamableMethod<
+    EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse
+  >;
 }
 
 export interface EntityListByGuids {
   /** List entities in bulk identified by its GUIDs. */
   get(
     options: EntityListByGuidsParameters,
-  ): Promise<EntityListByGuids200Response | EntityListByGuidsdefaultResponse>;
+  ): StreamableMethod<
+    EntityListByGuids200Response | EntityListByGuidsDefaultResponse
+  >;
   /**
    * Create or update entities in Atlas in bulk.
    * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
@@ -337,25 +341,34 @@ export interface EntityListByGuids {
    */
   post(
     options: EntityCreateOrUpdateEntitiesParameters,
-  ): Promise<EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesdefaultResponse>;
+  ): StreamableMethod<
+    | EntityCreateOrUpdateEntities200Response
+    | EntityCreateOrUpdateEntitiesDefaultResponse
+  >;
   /** Delete a list of entities in bulk identified by their GUIDs or unique attributes. */
   delete(
     options: EntityDeleteByGuidsParameters,
-  ): Promise<EntityDeleteByGuids200Response | EntityDeleteByGuidsdefaultResponse>;
+  ): StreamableMethod<
+    EntityDeleteByGuids200Response | EntityDeleteByGuidsDefaultResponse
+  >;
 }
 
 export interface EntityAddClassification {
   /** Associate a classification to multiple entities in bulk. */
   post(
     options: EntityAddClassificationParameters,
-  ): Promise<EntityAddClassification204Response | EntityAddClassificationdefaultResponse>;
+  ): StreamableMethod<
+    EntityAddClassification204Response | EntityAddClassificationDefaultResponse
+  >;
 }
 
 export interface EntityGetByGuid {
   /** Get complete definition of an entity given its GUID. */
   get(
     options?: EntityGetByGuidParameters,
-  ): Promise<EntityGetByGuid200Response | EntityGetByGuiddefaultResponse>;
+  ): StreamableMethod<
+    EntityGetByGuid200Response | EntityGetByGuidDefaultResponse
+  >;
   /**
    * Update entity partially - create or update entity attribute identified by its GUID.
    * Supports only primitive attribute type and entity references.
@@ -364,40 +377,56 @@ export interface EntityGetByGuid {
    */
   put(
     options: EntityPartialUpdateEntityAttributeByGuidParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityPartialUpdateEntityAttributeByGuid200Response
-    | EntityPartialUpdateEntityAttributeByGuiddefaultResponse
+    | EntityPartialUpdateEntityAttributeByGuidDefaultResponse
   >;
   /** Delete an entity identified by its GUID. */
   delete(
     options?: EntityDeleteByGuidParameters,
-  ): Promise<EntityDeleteByGuid200Response | EntityDeleteByGuiddefaultResponse>;
+  ): StreamableMethod<
+    EntityDeleteByGuid200Response | EntityDeleteByGuidDefaultResponse
+  >;
 }
 
 export interface EntityGetClassification {
   /** List classifications for a given entity represented by a GUID. */
   get(
     options?: EntityGetClassificationParameters,
-  ): Promise<EntityGetClassification200Response | EntityGetClassificationdefaultResponse>;
+  ): StreamableMethod<
+    EntityGetClassification200Response | EntityGetClassificationDefaultResponse
+  >;
   /** Delete a given classification from an existing entity represented by a GUID. */
   delete(
     options?: EntityDeleteClassificationParameters,
-  ): Promise<EntityDeleteClassification204Response | EntityDeleteClassificationdefaultResponse>;
+  ): StreamableMethod<
+    | EntityDeleteClassification204Response
+    | EntityDeleteClassificationDefaultResponse
+  >;
 }
 
 export interface EntityGetClassifications {
   /** List classifications for a given entity represented by a GUID. */
   get(
     options?: EntityGetClassificationsParameters,
-  ): Promise<EntityGetClassifications200Response | EntityGetClassificationsdefaultResponse>;
+  ): StreamableMethod<
+    | EntityGetClassifications200Response
+    | EntityGetClassificationsDefaultResponse
+  >;
   /** Add classifications to an existing entity represented by a GUID. */
   post(
     options: EntityAddClassificationsParameters,
-  ): Promise<EntityAddClassifications204Response | EntityAddClassificationsdefaultResponse>;
+  ): StreamableMethod<
+    | EntityAddClassifications204Response
+    | EntityAddClassificationsDefaultResponse
+  >;
   /** Update classifications to an existing entity represented by a guid. */
   put(
     options: EntityUpdateClassificationsParameters,
-  ): Promise<EntityUpdateClassifications204Response | EntityUpdateClassificationsdefaultResponse>;
+  ): StreamableMethod<
+    | EntityUpdateClassifications204Response
+    | EntityUpdateClassificationsDefaultResponse
+  >;
 }
 
 export interface EntityGetByUniqueAttributes {
@@ -411,7 +440,10 @@ export interface EntityGetByUniqueAttributes {
    */
   get(
     options?: EntityGetByUniqueAttributesParameters,
-  ): Promise<EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesdefaultResponse>;
+  ): StreamableMethod<
+    | EntityGetByUniqueAttributes200Response
+    | EntityGetByUniqueAttributesDefaultResponse
+  >;
   /**
    * Update entity partially - Allow a subset of attributes to be updated on
    * an entity which is identified by its type and unique attribute  eg: Referenceable.qualifiedName.
@@ -424,9 +456,9 @@ export interface EntityGetByUniqueAttributes {
    */
   put(
     options: EntityPartialUpdateEntityByUniqueAttributesParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityPartialUpdateEntityByUniqueAttributes200Response
-    | EntityPartialUpdateEntityByUniqueAttributesdefaultResponse
+    | EntityPartialUpdateEntityByUniqueAttributesDefaultResponse
   >;
   /**
    * Delete an entity identified by its type and unique attributes.
@@ -438,8 +470,9 @@ export interface EntityGetByUniqueAttributes {
    */
   delete(
     options?: EntityDeleteByUniqueAttributeParameters,
-  ): Promise<
-    EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributedefaultResponse
+  ): StreamableMethod<
+    | EntityDeleteByUniqueAttribute200Response
+    | EntityDeleteByUniqueAttributeDefaultResponse
   >;
 }
 
@@ -447,9 +480,9 @@ export interface EntityDeleteClassificationByUniqueAttribute {
   /** Delete a given classification from an entity identified by its type and unique attributes. */
   delete(
     options?: EntityDeleteClassificationByUniqueAttributeParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityDeleteClassificationByUniqueAttribute204Response
-    | EntityDeleteClassificationByUniqueAttributedefaultResponse
+    | EntityDeleteClassificationByUniqueAttributeDefaultResponse
   >;
 }
 
@@ -457,16 +490,16 @@ export interface EntityAddClassificationsByUniqueAttribute {
   /** Add classification to the entity identified by its type and unique attributes. */
   post(
     options: EntityAddClassificationsByUniqueAttributeParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityAddClassificationsByUniqueAttribute204Response
-    | EntityAddClassificationsByUniqueAttributedefaultResponse
+    | EntityAddClassificationsByUniqueAttributeDefaultResponse
   >;
   /** Update classification on an entity identified by its type and unique attributes. */
   put(
     options: EntityUpdateClassificationsByUniqueAttributeParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityUpdateClassificationsByUniqueAttribute204Response
-    | EntityUpdateClassificationsByUniqueAttributedefaultResponse
+    | EntityUpdateClassificationsByUniqueAttributeDefaultResponse
   >;
 }
 
@@ -474,7 +507,10 @@ export interface EntitySetClassifications {
   /** Set classifications on entities in bulk. */
   post(
     options: EntitySetClassificationsParameters,
-  ): Promise<EntitySetClassifications200Response | EntitySetClassificationsdefaultResponse>;
+  ): StreamableMethod<
+    | EntitySetClassifications200Response
+    | EntitySetClassificationsDefaultResponse
+  >;
 }
 
 export interface EntityGetEntitiesByUniqueAttributes {
@@ -493,9 +529,9 @@ export interface EntityGetEntitiesByUniqueAttributes {
    */
   get(
     options?: EntityGetEntitiesByUniqueAttributesParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityGetEntitiesByUniqueAttributes200Response
-    | EntityGetEntitiesByUniqueAttributesdefaultResponse
+    | EntityGetEntitiesByUniqueAttributesDefaultResponse
   >;
 }
 
@@ -503,36 +539,38 @@ export interface EntityGetHeader {
   /** Get entity header given its GUID. */
   get(
     options?: EntityGetHeaderParameters,
-  ): Promise<EntityGetHeader200Response | EntityGetHeaderdefaultResponse>;
+  ): StreamableMethod<
+    EntityGetHeader200Response | EntityGetHeaderDefaultResponse
+  >;
 }
 
 export interface EntityDeleteBusinessMetadata {
   /** Remove business metadata from an entity. */
   delete(
     options?: EntityDeleteBusinessMetadataParameters,
-  ): Promise<EntityDeleteBusinessMetadata204Response>;
+  ): StreamableMethod<EntityDeleteBusinessMetadata204Response>;
   /** Add business metadata to an entity. */
   post(
     options?: EntityAddOrUpdateBusinessMetadataParameters,
-  ): Promise<EntityAddOrUpdateBusinessMetadata204Response>;
+  ): StreamableMethod<EntityAddOrUpdateBusinessMetadata204Response>;
 }
 
 export interface EntityDeleteBusinessMetadataAttributes {
   /** Delete business metadata attributes from an entity. */
   delete(
     options?: EntityDeleteBusinessMetadataAttributesParameters,
-  ): Promise<EntityDeleteBusinessMetadataAttributes204Response>;
+  ): StreamableMethod<EntityDeleteBusinessMetadataAttributes204Response>;
   /** Add or update business metadata attributes */
   post(
     options?: EntityAddOrUpdateBusinessMetadataAttributesParameters,
-  ): Promise<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
+  ): StreamableMethod<EntityAddOrUpdateBusinessMetadataAttributes204Response>;
 }
 
 export interface EntityGetSampleBusinessMetadataTemplate {
   /** Get the sample Template for uploading/creating bulk BusinessMetaData */
   get(
     options?: EntityGetSampleBusinessMetadataTemplateParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityGetSampleBusinessMetadataTemplate200Response
     | EntityGetSampleBusinessMetadataTemplate400Response
   >;
@@ -542,7 +580,7 @@ export interface EntityImportBusinessMetadata {
   /** Upload the file for creating Business Metadata in BULK */
   post(
     options?: EntityImportBusinessMetadataParameters,
-  ): Promise<
+  ): StreamableMethod<
     | EntityImportBusinessMetadata200Response
     | EntityImportBusinessMetadata400Response
     | EntityImportBusinessMetadata409Response
@@ -551,45 +589,56 @@ export interface EntityImportBusinessMetadata {
 
 export interface EntityDeleteLabels {
   /** delete given labels to a given entity */
-  delete(options?: EntityDeleteLabelsParameters): Promise<EntityDeleteLabels204Response>;
+  delete(
+    options?: EntityDeleteLabelsParameters,
+  ): StreamableMethod<EntityDeleteLabels204Response>;
   /** Set labels to a given entity */
-  post(options?: EntitySetLabelsParameters): Promise<EntitySetLabels204Response>;
+  post(
+    options?: EntitySetLabelsParameters,
+  ): StreamableMethod<EntitySetLabels204Response>;
   /** add given labels to a given entity */
-  put(options?: EntityAddLabelParameters): Promise<EntityAddLabel204Response>;
+  put(
+    options?: EntityAddLabelParameters,
+  ): StreamableMethod<EntityAddLabel204Response>;
 }
 
 export interface EntityDeleteLabelsByUniqueAttribute {
   /** Delete given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be removed. If any labels in labels set are non-existing labels, they will be ignored, only existing labels will be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
   delete(
     options?: EntityDeleteLabelsByUniqueAttributeParameters,
-  ): Promise<EntityDeleteLabelsByUniqueAttribute204Response>;
+  ): StreamableMethod<EntityDeleteLabelsByUniqueAttribute204Response>;
   /** Set labels to a given entity identified by its type and unique attributes, if labels is null/empty, existing labels will all be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: POST /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
   post(
     options?: EntitySetLabelsByUniqueAttributeParameters,
-  ): Promise<EntitySetLabelsByUniqueAttribute204Response>;
+  ): StreamableMethod<EntitySetLabelsByUniqueAttribute204Response>;
   /** Add given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be added. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
   put(
     options?: EntityAddLabelsByUniqueAttributeParameters,
-  ): Promise<EntityAddLabelsByUniqueAttribute204Response>;
+  ): StreamableMethod<EntityAddLabelsByUniqueAttribute204Response>;
 }
 
 export interface GlossaryListGlossaries {
   /** Get all glossaries registered with Atlas. */
   get(
     options?: GlossaryListGlossariesParameters,
-  ): Promise<GlossaryListGlossaries200Response | GlossaryListGlossariesdefaultResponse>;
+  ): StreamableMethod<
+    GlossaryListGlossaries200Response | GlossaryListGlossariesDefaultResponse
+  >;
   /** Create a glossary. */
   post(
     options: GlossaryCreateGlossaryParameters,
-  ): Promise<GlossaryCreateGlossary200Response | GlossaryCreateGlossarydefaultResponse>;
+  ): StreamableMethod<
+    GlossaryCreateGlossary200Response | GlossaryCreateGlossaryDefaultResponse
+  >;
 }
 
 export interface GlossaryCreateGlossaryCategories {
   /** Create glossary category in bulk. */
   post(
     options: GlossaryCreateGlossaryCategoriesParameters,
-  ): Promise<
-    GlossaryCreateGlossaryCategories200Response | GlossaryCreateGlossaryCategoriesdefaultResponse
+  ): StreamableMethod<
+    | GlossaryCreateGlossaryCategories200Response
+    | GlossaryCreateGlossaryCategoriesDefaultResponse
   >;
 }
 
@@ -597,8 +646,9 @@ export interface GlossaryCreateGlossaryCategory {
   /** Create a glossary category. */
   post(
     options: GlossaryCreateGlossaryCategoryParameters,
-  ): Promise<
-    GlossaryCreateGlossaryCategory200Response | GlossaryCreateGlossaryCategorydefaultResponse
+  ): StreamableMethod<
+    | GlossaryCreateGlossaryCategory200Response
+    | GlossaryCreateGlossaryCategoryDefaultResponse
   >;
 }
 
@@ -606,18 +656,23 @@ export interface GlossaryGetGlossaryCategory {
   /** Get specific glossary category by its GUID. */
   get(
     options?: GlossaryGetGlossaryCategoryParameters,
-  ): Promise<GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategorydefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryGetGlossaryCategory200Response
+    | GlossaryGetGlossaryCategoryDefaultResponse
+  >;
   /** Update the given glossary category by its GUID. */
   put(
     options: GlossaryUpdateGlossaryCategoryParameters,
-  ): Promise<
-    GlossaryUpdateGlossaryCategory200Response | GlossaryUpdateGlossaryCategorydefaultResponse
+  ): StreamableMethod<
+    | GlossaryUpdateGlossaryCategory200Response
+    | GlossaryUpdateGlossaryCategoryDefaultResponse
   >;
   /** Delete a glossary category. */
   delete(
     options?: GlossaryDeleteGlossaryCategoryParameters,
-  ): Promise<
-    GlossaryDeleteGlossaryCategory204Response | GlossaryDeleteGlossaryCategorydefaultResponse
+  ): StreamableMethod<
+    | GlossaryDeleteGlossaryCategory204Response
+    | GlossaryDeleteGlossaryCategoryDefaultResponse
   >;
 }
 
@@ -625,9 +680,9 @@ export interface GlossaryPartialUpdateGlossaryCategory {
   /** Update the glossary category partially. */
   put(
     options: GlossaryPartialUpdateGlossaryCategoryParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryPartialUpdateGlossaryCategory200Response
-    | GlossaryPartialUpdateGlossaryCategorydefaultResponse
+    | GlossaryPartialUpdateGlossaryCategoryDefaultResponse
   >;
 }
 
@@ -635,8 +690,9 @@ export interface GlossaryListRelatedCategories {
   /** Get all related categories (parent and children). Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
   get(
     options?: GlossaryListRelatedCategoriesParameters,
-  ): Promise<
-    GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesdefaultResponse
+  ): StreamableMethod<
+    | GlossaryListRelatedCategories200Response
+    | GlossaryListRelatedCategoriesDefaultResponse
   >;
 }
 
@@ -644,37 +700,52 @@ export interface GlossaryListCategoryTerms {
   /** Get all terms associated with the specific category. */
   get(
     options?: GlossaryListCategoryTermsParameters,
-  ): Promise<GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryListCategoryTerms200Response
+    | GlossaryListCategoryTermsDefaultResponse
+  >;
 }
 
 export interface GlossaryCreateGlossaryTerm {
   /** Create a glossary term. */
   post(
     options: GlossaryCreateGlossaryTermParameters,
-  ): Promise<GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryCreateGlossaryTerm200Response
+    | GlossaryCreateGlossaryTermDefaultResponse
+  >;
 }
 
 export interface GlossaryGetGlossaryTerm {
   /** Get a specific glossary term by its GUID. */
   get(
     options?: GlossaryGetGlossaryTermParameters,
-  ): Promise<GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermdefaultResponse>;
+  ): StreamableMethod<
+    GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermDefaultResponse
+  >;
   /** Update the given glossary term by its GUID. */
   put(
     options: GlossaryUpdateGlossaryTermParameters,
-  ): Promise<GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryUpdateGlossaryTerm200Response
+    | GlossaryUpdateGlossaryTermDefaultResponse
+  >;
   /** Delete a glossary term. */
   delete(
     options?: GlossaryDeleteGlossaryTermParameters,
-  ): Promise<GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryDeleteGlossaryTerm204Response
+    | GlossaryDeleteGlossaryTermDefaultResponse
+  >;
 }
 
 export interface GlossaryPartialUpdateGlossaryTerm {
   /** Update the glossary term partially. */
   put(
     options: GlossaryPartialUpdateGlossaryTermParameters,
-  ): Promise<
-    GlossaryPartialUpdateGlossaryTerm200Response | GlossaryPartialUpdateGlossaryTermdefaultResponse
+  ): StreamableMethod<
+    | GlossaryPartialUpdateGlossaryTerm200Response
+    | GlossaryPartialUpdateGlossaryTermDefaultResponse
   >;
 }
 
@@ -682,34 +753,40 @@ export interface GlossaryCreateGlossaryTerms {
   /** Create glossary terms in bulk. */
   post(
     options: GlossaryCreateGlossaryTermsParameters,
-  ): Promise<GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryCreateGlossaryTerms200Response
+    | GlossaryCreateGlossaryTermsDefaultResponse
+  >;
 }
 
 export interface GlossaryGetEntitiesAssignedWithTerm {
   /** Get all related objects assigned with the specified term. */
   get(
     options?: GlossaryGetEntitiesAssignedWithTermParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryGetEntitiesAssignedWithTerm200Response
-    | GlossaryGetEntitiesAssignedWithTermdefaultResponse
+    | GlossaryGetEntitiesAssignedWithTermDefaultResponse
   >;
   /** Assign the given term to the provided list of related objects. */
   post(
     options: GlossaryAssignTermToEntitiesParameters,
-  ): Promise<GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryAssignTermToEntities204Response
+    | GlossaryAssignTermToEntitiesDefaultResponse
+  >;
   /** Delete the term assignment for the given list of related objects. */
   put(
     options: GlossaryRemoveTermAssignmentFromEntitiesParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryRemoveTermAssignmentFromEntities204Response
-    | GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse
+    | GlossaryRemoveTermAssignmentFromEntitiesDefaultResponse
   >;
   /** Delete the term assignment for the given list of related objects. */
   delete(
     options: GlossaryDeleteTermAssignmentFromEntitiesParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryDeleteTermAssignmentFromEntities204Response
-    | GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse
+    | GlossaryDeleteTermAssignmentFromEntitiesDefaultResponse
   >;
 }
 
@@ -717,30 +794,40 @@ export interface GlossaryListRelatedTerms {
   /** Get all related terms for a specific term by its GUID. Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
   get(
     options?: GlossaryListRelatedTermsParameters,
-  ): Promise<GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryListRelatedTerms200Response
+    | GlossaryListRelatedTermsDefaultResponse
+  >;
 }
 
 export interface GlossaryGetGlossary {
   /** Get a specific Glossary by its GUID. */
   get(
     options?: GlossaryGetGlossaryParameters,
-  ): Promise<GlossaryGetGlossary200Response | GlossaryGetGlossarydefaultResponse>;
+  ): StreamableMethod<
+    GlossaryGetGlossary200Response | GlossaryGetGlossaryDefaultResponse
+  >;
   /** Update the given glossary. */
   put(
     options: GlossaryUpdateGlossaryParameters,
-  ): Promise<GlossaryUpdateGlossary200Response | GlossaryUpdateGlossarydefaultResponse>;
+  ): StreamableMethod<
+    GlossaryUpdateGlossary200Response | GlossaryUpdateGlossaryDefaultResponse
+  >;
   /** Delete a glossary. */
   delete(
     options?: GlossaryDeleteGlossaryParameters,
-  ): Promise<GlossaryDeleteGlossary204Response | GlossaryDeleteGlossarydefaultResponse>;
+  ): StreamableMethod<
+    GlossaryDeleteGlossary204Response | GlossaryDeleteGlossaryDefaultResponse
+  >;
 }
 
 export interface GlossaryListGlossaryCategories {
   /** Get the categories belonging to a specific glossary. */
   get(
     options?: GlossaryListGlossaryCategoriesParameters,
-  ): Promise<
-    GlossaryListGlossaryCategories200Response | GlossaryListGlossaryCategoriesdefaultResponse
+  ): StreamableMethod<
+    | GlossaryListGlossaryCategories200Response
+    | GlossaryListGlossaryCategoriesDefaultResponse
   >;
 }
 
@@ -748,9 +835,9 @@ export interface GlossaryListGlossaryCategoriesHeaders {
   /** Get the category headers belonging to a specific glossary. */
   get(
     options?: GlossaryListGlossaryCategoriesHeadersParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryListGlossaryCategoriesHeaders200Response
-    | GlossaryListGlossaryCategoriesHeadersdefaultResponse
+    | GlossaryListGlossaryCategoriesHeadersDefaultResponse
   >;
 }
 
@@ -758,15 +845,19 @@ export interface GlossaryGetDetailedGlossary {
   /** Get a specific glossary with detailed information. */
   get(
     options?: GlossaryGetDetailedGlossaryParameters,
-  ): Promise<GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossarydefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryGetDetailedGlossary200Response
+    | GlossaryGetDetailedGlossaryDefaultResponse
+  >;
 }
 
 export interface GlossaryPartialUpdateGlossary {
   /** Update the glossary partially. Some properties such as qualifiedName are not allowed to be updated. */
   put(
     options: GlossaryPartialUpdateGlossaryParameters,
-  ): Promise<
-    GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossarydefaultResponse
+  ): StreamableMethod<
+    | GlossaryPartialUpdateGlossary200Response
+    | GlossaryPartialUpdateGlossaryDefaultResponse
   >;
 }
 
@@ -774,15 +865,19 @@ export interface GlossaryListGlossaryTerms {
   /** Get terms belonging to a specific glossary. */
   get(
     options?: GlossaryListGlossaryTermsParameters,
-  ): Promise<GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsdefaultResponse>;
+  ): StreamableMethod<
+    | GlossaryListGlossaryTerms200Response
+    | GlossaryListGlossaryTermsDefaultResponse
+  >;
 }
 
 export interface GlossaryListGlossaryTermHeaders {
   /** Get term headers belonging to a specific glossary. */
   get(
     options?: GlossaryListGlossaryTermHeadersParameters,
-  ): Promise<
-    GlossaryListGlossaryTermHeaders200Response | GlossaryListGlossaryTermHeadersdefaultResponse
+  ): StreamableMethod<
+    | GlossaryListGlossaryTermHeaders200Response
+    | GlossaryListGlossaryTermHeadersDefaultResponse
   >;
 }
 
@@ -790,8 +885,9 @@ export interface GlossaryImportGlossaryTermsViaCsv {
   /** Import Glossary Terms from local csv file */
   post(
     options: GlossaryImportGlossaryTermsViaCsvParameters,
-  ): Promise<
-    GlossaryImportGlossaryTermsViaCsv202Response | GlossaryImportGlossaryTermsViaCsvdefaultResponse
+  ): StreamableMethod<
+    | GlossaryImportGlossaryTermsViaCsv202Response
+    | GlossaryImportGlossaryTermsViaCsvDefaultResponse
   >;
 }
 
@@ -799,9 +895,9 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName {
   /** Import Glossary Terms from local csv file by glossaryName */
   post(
     options: GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response
-    | GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse
+    | GlossaryImportGlossaryTermsViaCsvByGlossaryNameDefaultResponse
   >;
 }
 
@@ -809,9 +905,9 @@ export interface GlossaryGetImportCsvOperationStatus {
   /** Get the status of import csv operation */
   get(
     options?: GlossaryGetImportCsvOperationStatusParameters,
-  ): Promise<
+  ): StreamableMethod<
     | GlossaryGetImportCsvOperationStatus200Response
-    | GlossaryGetImportCsvOperationStatusdefaultResponse
+    | GlossaryGetImportCsvOperationStatusDefaultResponse
   >;
 }
 
@@ -819,8 +915,9 @@ export interface GlossaryExportGlossaryTermsAsCsv {
   /** Export Glossary Terms as csv file */
   post(
     options: GlossaryExportGlossaryTermsAsCsvParameters,
-  ): Promise<
-    GlossaryExportGlossaryTermsAsCsv200Response | GlossaryExportGlossaryTermsAsCsvdefaultResponse
+  ): StreamableMethod<
+    | GlossaryExportGlossaryTermsAsCsv200Response
+    | GlossaryExportGlossaryTermsAsCsvDefaultResponse
   >;
 }
 
@@ -828,8 +925,9 @@ export interface GlossaryListTermsByGlossaryName {
   /** Get terms by glossary name. */
   get(
     options?: GlossaryListTermsByGlossaryNameParameters,
-  ): Promise<
-    GlossaryListTermsByGlossaryName200Response | GlossaryListTermsByGlossaryNamedefaultResponse
+  ): StreamableMethod<
+    | GlossaryListTermsByGlossaryName200Response
+    | GlossaryListTermsByGlossaryNameDefaultResponse
   >;
 }
 
@@ -837,42 +935,54 @@ export interface DiscoveryQuery {
   /** Gets data using search. */
   post(
     options: DiscoveryQueryParameters,
-  ): Promise<DiscoveryQuery200Response | DiscoveryQuerydefaultResponse>;
+  ): StreamableMethod<
+    DiscoveryQuery200Response | DiscoveryQueryDefaultResponse
+  >;
 }
 
 export interface DiscoverySuggest {
   /** Get search suggestions by query criteria. */
   post(
     options: DiscoverySuggestParameters,
-  ): Promise<DiscoverySuggest200Response | DiscoverySuggestdefaultResponse>;
+  ): StreamableMethod<
+    DiscoverySuggest200Response | DiscoverySuggestDefaultResponse
+  >;
 }
 
 export interface DiscoveryBrowse {
   /** Browse entities by path or entity type. */
   post(
     options: DiscoveryBrowseParameters,
-  ): Promise<DiscoveryBrowse200Response | DiscoveryBrowsedefaultResponse>;
+  ): StreamableMethod<
+    DiscoveryBrowse200Response | DiscoveryBrowseDefaultResponse
+  >;
 }
 
 export interface DiscoveryAutoComplete {
   /** Get auto complete options. */
   post(
     options: DiscoveryAutoCompleteParameters,
-  ): Promise<DiscoveryAutoComplete200Response | DiscoveryAutoCompletedefaultResponse>;
+  ): StreamableMethod<
+    DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse
+  >;
 }
 
 export interface LineageGetLineageGraph {
   /** Get lineage info of the entity specified by GUID. */
   get(
     options: LineageGetLineageGraphParameters,
-  ): Promise<LineageGetLineageGraph200Response | LineageGetLineageGraphdefaultResponse>;
+  ): StreamableMethod<
+    LineageGetLineageGraph200Response | LineageGetLineageGraphDefaultResponse
+  >;
 }
 
 export interface LineageNextPageLineage {
   /** Return immediate next page lineage info about entity with pagination */
   get(
     options: LineageNextPageLineageParameters,
-  ): Promise<LineageNextPageLineage200Response | LineageNextPageLineagedefaultResponse>;
+  ): StreamableMethod<
+    LineageNextPageLineage200Response | LineageNextPageLineageDefaultResponse
+  >;
 }
 
 export interface LineageGetLineageByUniqueAttribute {
@@ -887,7 +997,7 @@ export interface LineageGetLineageByUniqueAttribute {
    */
   get(
     options: LineageGetLineageByUniqueAttributeParameters,
-  ): Promise<
+  ): StreamableMethod<
     | LineageGetLineageByUniqueAttribute200Response
     | LineageGetLineageByUniqueAttribute400Response
     | LineageGetLineageByUniqueAttribute404Response
@@ -898,30 +1008,39 @@ export interface RelationshipCreate {
   /** Create a new relationship between entities. */
   post(
     options: RelationshipCreateParameters,
-  ): Promise<RelationshipCreate200Response | RelationshipCreatedefaultResponse>;
+  ): StreamableMethod<
+    RelationshipCreate200Response | RelationshipCreateDefaultResponse
+  >;
   /** Update an existing relationship between entities. */
   put(
     options: RelationshipUpdateParameters,
-  ): Promise<RelationshipUpdate200Response | RelationshipUpdatedefaultResponse>;
+  ): StreamableMethod<
+    RelationshipUpdate200Response | RelationshipUpdateDefaultResponse
+  >;
 }
 
 export interface RelationshipGet {
   /** Get relationship information between entities by its GUID. */
   get(
     options?: RelationshipGetParameters,
-  ): Promise<RelationshipGet200Response | RelationshipGetdefaultResponse>;
+  ): StreamableMethod<
+    RelationshipGet200Response | RelationshipGetDefaultResponse
+  >;
   /** Delete a relationship between entities by its GUID. */
   delete(
     options?: RelationshipDeleteParameters,
-  ): Promise<RelationshipDelete204Response | RelationshipDeletedefaultResponse>;
+  ): StreamableMethod<
+    RelationshipDelete204Response | RelationshipDeleteDefaultResponse
+  >;
 }
 
 export interface TypesGetBusinessMetadataDefByGuid {
   /** Get the businessMetadata definition for the given guid */
   get(
     options?: TypesGetBusinessMetadataDefByGuidParameters,
-  ): Promise<
-    TypesGetBusinessMetadataDefByGuid200Response | TypesGetBusinessMetadataDefByGuid404Response
+  ): StreamableMethod<
+    | TypesGetBusinessMetadataDefByGuid200Response
+    | TypesGetBusinessMetadataDefByGuid404Response
   >;
 }
 
@@ -929,8 +1048,9 @@ export interface TypesGetBusinessMetadataDefByName {
   /** Get the businessMetadata definition by it's name (unique) */
   get(
     options?: TypesGetBusinessMetadataDefByNameParameters,
-  ): Promise<
-    TypesGetBusinessMetadataDefByName200Response | TypesGetBusinessMetadataDefByName404Response
+  ): StreamableMethod<
+    | TypesGetBusinessMetadataDefByName200Response
+    | TypesGetBusinessMetadataDefByName404Response
   >;
 }
 
@@ -938,8 +1058,9 @@ export interface TypesGetClassificationDefByGuid {
   /** Get the classification definition for the given GUID. */
   get(
     options?: TypesGetClassificationDefByGuidParameters,
-  ): Promise<
-    TypesGetClassificationDefByGuid200Response | TypesGetClassificationDefByGuiddefaultResponse
+  ): StreamableMethod<
+    | TypesGetClassificationDefByGuid200Response
+    | TypesGetClassificationDefByGuidDefaultResponse
   >;
 }
 
@@ -947,8 +1068,9 @@ export interface TypesGetClassificationDefByName {
   /** Get the classification definition by its name (unique). */
   get(
     options?: TypesGetClassificationDefByNameParameters,
-  ): Promise<
-    TypesGetClassificationDefByName200Response | TypesGetClassificationDefByNamedefaultResponse
+  ): StreamableMethod<
+    | TypesGetClassificationDefByName200Response
+    | TypesGetClassificationDefByNameDefaultResponse
   >;
 }
 
@@ -956,8 +1078,9 @@ export interface TypesGetEntityDefinitionByGuid {
   /** Get the Entity definition for the given GUID. */
   get(
     options?: TypesGetEntityDefinitionByGuidParameters,
-  ): Promise<
-    TypesGetEntityDefinitionByGuid200Response | TypesGetEntityDefinitionByGuiddefaultResponse
+  ): StreamableMethod<
+    | TypesGetEntityDefinitionByGuid200Response
+    | TypesGetEntityDefinitionByGuidDefaultResponse
   >;
 }
 
@@ -965,8 +1088,9 @@ export interface TypesGetEntityDefinitionByName {
   /** Get the entity definition by its name (unique). */
   get(
     options?: TypesGetEntityDefinitionByNameParameters,
-  ): Promise<
-    TypesGetEntityDefinitionByName200Response | TypesGetEntityDefinitionByNamedefaultResponse
+  ): StreamableMethod<
+    | TypesGetEntityDefinitionByName200Response
+    | TypesGetEntityDefinitionByNameDefaultResponse
   >;
 }
 
@@ -974,22 +1098,27 @@ export interface TypesGetEnumDefByGuid {
   /** Get the enum definition for the given GUID. */
   get(
     options?: TypesGetEnumDefByGuidParameters,
-  ): Promise<TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuiddefaultResponse>;
+  ): StreamableMethod<
+    TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuidDefaultResponse
+  >;
 }
 
 export interface TypesGetEnumDefByName {
   /** Get the enum definition by its name (unique). */
   get(
     options?: TypesGetEnumDefByNameParameters,
-  ): Promise<TypesGetEnumDefByName200Response | TypesGetEnumDefByNamedefaultResponse>;
+  ): StreamableMethod<
+    TypesGetEnumDefByName200Response | TypesGetEnumDefByNameDefaultResponse
+  >;
 }
 
 export interface TypesGetRelationshipDefByGuid {
   /** Get the relationship definition for the given GUID. */
   get(
     options?: TypesGetRelationshipDefByGuidParameters,
-  ): Promise<
-    TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuiddefaultResponse
+  ): StreamableMethod<
+    | TypesGetRelationshipDefByGuid200Response
+    | TypesGetRelationshipDefByGuidDefaultResponse
   >;
 }
 
@@ -997,8 +1126,9 @@ export interface TypesGetRelationshipDefByName {
   /** Get the relationship definition by its name (unique). */
   get(
     options?: TypesGetRelationshipDefByNameParameters,
-  ): Promise<
-    TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNamedefaultResponse
+  ): StreamableMethod<
+    | TypesGetRelationshipDefByName200Response
+    | TypesGetRelationshipDefByNameDefaultResponse
   >;
 }
 
@@ -1006,64 +1136,87 @@ export interface TypesGetStructDefByGuid {
   /** Get the struct definition for the given GUID. */
   get(
     options?: TypesGetStructDefByGuidParameters,
-  ): Promise<TypesGetStructDefByGuid200Response | TypesGetStructDefByGuiddefaultResponse>;
+  ): StreamableMethod<
+    TypesGetStructDefByGuid200Response | TypesGetStructDefByGuidDefaultResponse
+  >;
 }
 
 export interface TypesGetStructDefByName {
   /** Get the struct definition by its name (unique). */
   get(
     options?: TypesGetStructDefByNameParameters,
-  ): Promise<TypesGetStructDefByName200Response | TypesGetStructDefByNamedefaultResponse>;
+  ): StreamableMethod<
+    TypesGetStructDefByName200Response | TypesGetStructDefByNameDefaultResponse
+  >;
 }
 
 export interface TypesGetTypeDefinitionByGuid {
   /** Get the type definition for the given GUID. */
   get(
     options?: TypesGetTypeDefinitionByGuidParameters,
-  ): Promise<TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuiddefaultResponse>;
+  ): StreamableMethod<
+    | TypesGetTypeDefinitionByGuid200Response
+    | TypesGetTypeDefinitionByGuidDefaultResponse
+  >;
 }
 
 export interface TypesGetTypeDefinitionByName {
   /** Get the type definition by its name (unique). */
   get(
     options?: TypesGetTypeDefinitionByNameParameters,
-  ): Promise<TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNamedefaultResponse>;
+  ): StreamableMethod<
+    | TypesGetTypeDefinitionByName200Response
+    | TypesGetTypeDefinitionByNameDefaultResponse
+  >;
   /** Delete API for type identified by its name. */
   delete(
     options?: TypesDeleteTypeByNameParameters,
-  ): Promise<TypesDeleteTypeByName204Response | TypesDeleteTypeByNamedefaultResponse>;
+  ): StreamableMethod<
+    TypesDeleteTypeByName204Response | TypesDeleteTypeByNameDefaultResponse
+  >;
 }
 
 export interface TypesGetAllTypeDefinitions {
   /** Get all type definitions in Atlas in bulk. */
   get(
     options?: TypesGetAllTypeDefinitionsParameters,
-  ): Promise<TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsdefaultResponse>;
+  ): StreamableMethod<
+    | TypesGetAllTypeDefinitions200Response
+    | TypesGetAllTypeDefinitionsDefaultResponse
+  >;
   /**
    * Create all atlas type definitions in bulk, only new definitions will be created.
    * Any changes to the existing definitions will be discarded.
    */
   post(
     options: TypesCreateTypeDefinitionsParameters,
-  ): Promise<TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsdefaultResponse>;
+  ): StreamableMethod<
+    | TypesCreateTypeDefinitions200Response
+    | TypesCreateTypeDefinitionsDefaultResponse
+  >;
   /** Update all types in bulk, changes detected in the type definitions would be persisted. */
   put(
     options: TypesUpdateAtlasTypeDefinitionsParameters,
-  ): Promise<
-    TypesUpdateAtlasTypeDefinitions200Response | TypesUpdateAtlasTypeDefinitionsdefaultResponse
+  ): StreamableMethod<
+    | TypesUpdateAtlasTypeDefinitions200Response
+    | TypesUpdateAtlasTypeDefinitionsDefaultResponse
   >;
   /** Delete API for all types in bulk. */
   delete(
     options: TypesDeleteTypeDefinitionsParameters,
-  ): Promise<TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsdefaultResponse>;
+  ): StreamableMethod<
+    | TypesDeleteTypeDefinitions204Response
+    | TypesDeleteTypeDefinitionsDefaultResponse
+  >;
 }
 
 export interface TypesListTypeDefinitionHeaders {
   /** List all type definitions returned as a list of minimal information header. */
   get(
     options?: TypesListTypeDefinitionHeadersParameters,
-  ): Promise<
-    TypesListTypeDefinitionHeaders200Response | TypesListTypeDefinitionHeadersdefaultResponse
+  ): StreamableMethod<
+    | TypesListTypeDefinitionHeaders200Response
+    | TypesListTypeDefinitionHeadersDefaultResponse
   >;
 }
 
@@ -1071,8 +1224,9 @@ export interface TypesGetTermTemplateDefByGuid {
   /** Get the term template definition for the given GUID. */
   get(
     options?: TypesGetTermTemplateDefByGuidParameters,
-  ): Promise<
-    TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuiddefaultResponse
+  ): StreamableMethod<
+    | TypesGetTermTemplateDefByGuid200Response
+    | TypesGetTermTemplateDefByGuidDefaultResponse
   >;
 }
 
@@ -1080,8 +1234,9 @@ export interface TypesGetTermTemplateDefByName {
   /** Get the term template definition by its name (unique). */
   get(
     options?: TypesGetTermTemplateDefByNameParameters,
-  ): Promise<
-    TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNamedefaultResponse
+  ): StreamableMethod<
+    | TypesGetTermTemplateDefByName200Response
+    | TypesGetTermTemplateDefByNameDefaultResponse
   >;
 }
 
@@ -1093,7 +1248,10 @@ export interface CollectionCreateOrUpdate {
    */
   post(
     options: CollectionCreateOrUpdateParameters,
-  ): Promise<CollectionCreateOrUpdate200Response | CollectionCreateOrUpdatedefaultResponse>;
+  ): StreamableMethod<
+    | CollectionCreateOrUpdate200Response
+    | CollectionCreateOrUpdateDefaultResponse
+  >;
 }
 
 export interface CollectionCreateOrUpdateBulk {
@@ -1104,16 +1262,19 @@ export interface CollectionCreateOrUpdateBulk {
    */
   post(
     options: CollectionCreateOrUpdateBulkParameters,
-  ): Promise<CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkdefaultResponse>;
+  ): StreamableMethod<
+    | CollectionCreateOrUpdateBulk200Response
+    | CollectionCreateOrUpdateBulkDefaultResponse
+  >;
 }
 
 export interface CollectionMoveEntitiesToCollection {
   /** Move existing entities to the target collection. */
   post(
     options: CollectionMoveEntitiesToCollectionParameters,
-  ): Promise<
+  ): StreamableMethod<
     | CollectionMoveEntitiesToCollection200Response
-    | CollectionMoveEntitiesToCollectiondefaultResponse
+    | CollectionMoveEntitiesToCollectionDefaultResponse
   >;
 }
 
@@ -1133,7 +1294,10 @@ export interface Routes {
     classificationName: string,
   ): EntityGetClassification;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/classifications' has methods for the following verbs: get, post, put */
-  (path: "/atlas/v2/entity/guid/{guid}/classifications", guid: string): EntityGetClassifications;
+  (
+    path: "/atlas/v2/entity/guid/{guid}/classifications",
+    guid: string,
+  ): EntityGetClassifications;
   /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}",
@@ -1175,9 +1339,14 @@ export interface Routes {
     path: "/atlas/v2/entity/businessmetadata/import/template",
   ): EntityGetSampleBusinessMetadataTemplate;
   /** Resource for '/atlas/v2/entity/businessmetadata/import' has methods for the following verbs: post */
-  (path: "/atlas/v2/entity/businessmetadata/import"): EntityImportBusinessMetadata;
+  (
+    path: "/atlas/v2/entity/businessmetadata/import",
+  ): EntityImportBusinessMetadata;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/labels' has methods for the following verbs: delete, post, put */
-  (path: "/atlas/v2/entity/guid/{guid}/labels", guid: string): EntityDeleteLabels;
+  (
+    path: "/atlas/v2/entity/guid/{guid}/labels",
+    guid: string,
+  ): EntityDeleteLabels;
   /** Resource for '/atlas/v2/entity/uniqueAttribute/type/\{typeName\}/labels' has methods for the following verbs: delete, post, put */
   (
     path: "/atlas/v2/entity/uniqueAttribute/type/{typeName}/labels",
@@ -1212,7 +1381,10 @@ export interface Routes {
   /** Resource for '/atlas/v2/glossary/term' has methods for the following verbs: post */
   (path: "/atlas/v2/glossary/term"): GlossaryCreateGlossaryTerm;
   /** Resource for '/atlas/v2/glossary/term/\{termGuid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryGetGlossaryTerm;
+  (
+    path: "/atlas/v2/glossary/term/{termGuid}",
+    termGuid: string,
+  ): GlossaryGetGlossaryTerm;
   /** Resource for '/atlas/v2/glossary/term/\{termGuid\}/partial' has methods for the following verbs: put */
   (
     path: "/atlas/v2/glossary/term/{termGuid}/partial",
@@ -1226,9 +1398,15 @@ export interface Routes {
     termGuid: string,
   ): GlossaryGetEntitiesAssignedWithTerm;
   /** Resource for '/atlas/v2/glossary/terms/\{termGuid\}/related' has methods for the following verbs: get */
-  (path: "/atlas/v2/glossary/terms/{termGuid}/related", termGuid: string): GlossaryListRelatedTerms;
+  (
+    path: "/atlas/v2/glossary/terms/{termGuid}/related",
+    termGuid: string,
+  ): GlossaryListRelatedTerms;
   /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}' has methods for the following verbs: get, put, delete */
-  (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryGetGlossary;
+  (
+    path: "/atlas/v2/glossary/{glossaryGuid}",
+    glossaryGuid: string,
+  ): GlossaryGetGlossary;
   /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/categories' has methods for the following verbs: get */
   (
     path: "/atlas/v2/glossary/{glossaryGuid}/categories",
@@ -1326,13 +1504,25 @@ export interface Routes {
     name: string,
   ): TypesGetClassificationDefByName;
   /** Resource for '/atlas/v2/types/entitydef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesGetEntityDefinitionByGuid;
+  (
+    path: "/atlas/v2/types/entitydef/guid/{guid}",
+    guid: string,
+  ): TypesGetEntityDefinitionByGuid;
   /** Resource for '/atlas/v2/types/entitydef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/entitydef/name/{name}", name: string): TypesGetEntityDefinitionByName;
+  (
+    path: "/atlas/v2/types/entitydef/name/{name}",
+    name: string,
+  ): TypesGetEntityDefinitionByName;
   /** Resource for '/atlas/v2/types/enumdef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/enumdef/guid/{guid}", guid: string): TypesGetEnumDefByGuid;
+  (
+    path: "/atlas/v2/types/enumdef/guid/{guid}",
+    guid: string,
+  ): TypesGetEnumDefByGuid;
   /** Resource for '/atlas/v2/types/enumdef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/enumdef/name/{name}", name: string): TypesGetEnumDefByName;
+  (
+    path: "/atlas/v2/types/enumdef/name/{name}",
+    name: string,
+  ): TypesGetEnumDefByName;
   /** Resource for '/atlas/v2/types/relationshipdef/guid/\{guid\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/types/relationshipdef/guid/{guid}",
@@ -1344,25 +1534,49 @@ export interface Routes {
     name: string,
   ): TypesGetRelationshipDefByName;
   /** Resource for '/atlas/v2/types/structdef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/structdef/guid/{guid}", guid: string): TypesGetStructDefByGuid;
+  (
+    path: "/atlas/v2/types/structdef/guid/{guid}",
+    guid: string,
+  ): TypesGetStructDefByGuid;
   /** Resource for '/atlas/v2/types/structdef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/structdef/name/{name}", name: string): TypesGetStructDefByName;
+  (
+    path: "/atlas/v2/types/structdef/name/{name}",
+    name: string,
+  ): TypesGetStructDefByName;
   /** Resource for '/atlas/v2/types/typedef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesGetTypeDefinitionByGuid;
+  (
+    path: "/atlas/v2/types/typedef/guid/{guid}",
+    guid: string,
+  ): TypesGetTypeDefinitionByGuid;
   /** Resource for '/atlas/v2/types/typedef/name/\{name\}' has methods for the following verbs: get, delete */
-  (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesGetTypeDefinitionByName;
+  (
+    path: "/atlas/v2/types/typedef/name/{name}",
+    name: string,
+  ): TypesGetTypeDefinitionByName;
   /** Resource for '/atlas/v2/types/typedefs' has methods for the following verbs: get, post, put, delete */
   (path: "/atlas/v2/types/typedefs"): TypesGetAllTypeDefinitions;
   /** Resource for '/atlas/v2/types/typedefs/headers' has methods for the following verbs: get */
   (path: "/atlas/v2/types/typedefs/headers"): TypesListTypeDefinitionHeaders;
   /** Resource for '/types/termtemplatedef/guid/\{guid\}' has methods for the following verbs: get */
-  (path: "/types/termtemplatedef/guid/{guid}", guid: string): TypesGetTermTemplateDefByGuid;
+  (
+    path: "/types/termtemplatedef/guid/{guid}",
+    guid: string,
+  ): TypesGetTermTemplateDefByGuid;
   /** Resource for '/types/termtemplatedef/name/\{name\}' has methods for the following verbs: get */
-  (path: "/types/termtemplatedef/name/{name}", name: string): TypesGetTermTemplateDefByName;
+  (
+    path: "/types/termtemplatedef/name/{name}",
+    name: string,
+  ): TypesGetTermTemplateDefByName;
   /** Resource for '/collections/\{collection\}/entity' has methods for the following verbs: post */
-  (path: "/collections/{collection}/entity", collection: string): CollectionCreateOrUpdate;
+  (
+    path: "/collections/{collection}/entity",
+    collection: string,
+  ): CollectionCreateOrUpdate;
   /** Resource for '/collections/\{collection\}/entity/bulk' has methods for the following verbs: post */
-  (path: "/collections/{collection}/entity/bulk", collection: string): CollectionCreateOrUpdateBulk;
+  (
+    path: "/collections/{collection}/entity/bulk",
+    collection: string,
+  ): CollectionCreateOrUpdateBulk;
   /** Resource for '/collections/\{collection\}/entity/moveHere' has methods for the following verbs: post */
   (
     path: "/collections/{collection}/entity/moveHere",

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getLongRunningPoller, PurviewCatalogClient } from "../../src";
+import { AtlasGlossaryOutput, getLongRunningPoller, ImportCSVOperationOutput, PurviewCatalogClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -37,7 +37,8 @@ describe("purview catalog glossary test", () => {
     console.log("created glossary: ", glossary);
 
     assert.strictEqual(glossary.status, "200");
-    glossaryGuid = glossary.status === "200" ? glossary?.body?.guid || "" : "";
+    const atlasGlossaryOutput = glossary.body as AtlasGlossaryOutput
+    glossaryGuid = glossary.status === "200" ? atlasGlossaryOutput?.guid || "" : "";
   });
 
   it("should work with LRO helper", async () => {
@@ -63,7 +64,7 @@ describe("purview catalog glossary test", () => {
       });
 
     console.log("LRO init resp: ", initialResponse);
-    const poller = getLongRunningPoller(client, initialResponse, {
+    const poller = await getLongRunningPoller(client, initialResponse, {
       intervalInMs: 100,
     });
 
@@ -75,7 +76,8 @@ describe("purview catalog glossary test", () => {
     }
 
     // console.log(result);
-    assert.equal(result.body.status, "Succeeded");
+    const importCSVOperationOutput = result.body as ImportCSVOperationOutput
+    assert.equal(importCSVOperationOutput.status, "Succeeded");
   });
 
   it("Should delete a glossary", async () => {

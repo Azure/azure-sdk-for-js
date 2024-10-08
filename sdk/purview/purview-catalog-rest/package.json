@@ -4,14 +4,7 @@
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Purview Catalog service.",
   "version": "1.0.0-beta.6",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -41,9 +34,7 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Purview Scanning rest",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
@@ -84,10 +75,11 @@
   "dependencies": {
     "@azure-rest/core-client": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-lro": "^2.5.0",
+    "@azure/core-lro": "^3.1.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@azure/abort-controller": "^2.1.2"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^1.0.0",

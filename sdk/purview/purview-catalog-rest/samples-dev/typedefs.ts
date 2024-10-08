@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import PurviewCatalog from "@azure-rest/purview-catalog";
+import PurviewCatalog, { AtlasTypesDefOutput } from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -26,11 +26,12 @@ async function main() {
     throw dataSources;
   }
 
-  if (!dataSources.body.entityDefs) {
+  const atlasTypesDefOutput = dataSources.body as AtlasTypesDefOutput
+  if (!atlasTypesDefOutput.entityDefs) {
     throw new Error("entityDefs is not defined");
   }
 
-  console.log(dataSources.body.entityDefs.map((ds) => ds.name).join("\n"));
+  console.log(atlasTypesDefOutput.entityDefs.map((ds) => ds.name).join("\n"));
 }
 
 main().catch(console.error);
