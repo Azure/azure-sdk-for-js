@@ -24,6 +24,7 @@ describe("supports tracing", () => {
       "noLabelTests",
       `noLabelTests${Math.floor(Math.random() * 1000)}`,
     );
+    /* eslint-disable */
     /** 
     await assert.supportsTracing(
       async (options) => {
@@ -46,6 +47,7 @@ describe("supports tracing", () => {
       ],
     );
     */
+    /* eslint-enable */
     try {
       await client.setReadOnly({ key: key }, false);
       await client.deleteConfigurationSetting({ key: key });
