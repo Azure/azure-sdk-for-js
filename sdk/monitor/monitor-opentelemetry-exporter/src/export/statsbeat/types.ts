@@ -132,7 +132,7 @@ export enum StatsbeatFeatureType {
 }
 
 /**
- * Breeze retriable status codes.
+ * Status codes indicating that we should shutdown statsbeat
  * @internal
  */
 export function isStatsbeatShutdownStatus(statusCode: number): boolean {
