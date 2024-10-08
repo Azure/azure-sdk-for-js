@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.0 (Unreleased)
+## 1.7.2 (Unreleased)
 
 ### Features Added
 - Support for Live Metrics Filtering
