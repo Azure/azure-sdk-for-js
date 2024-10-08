@@ -653,6 +653,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshot(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
@@ -669,6 +670,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -717,6 +719,7 @@ export class AppConfigurationClient {
    */
   recoverSnapshot(
     name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -753,6 +756,7 @@ export class AppConfigurationClient {
    */
   archiveSnapshot(
     name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(

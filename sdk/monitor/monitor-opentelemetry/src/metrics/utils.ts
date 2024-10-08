@@ -14,6 +14,15 @@ import {
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_USER_AGENT,
   SEMATTRS_HTTP_STATUS_CODE,
+  DBSYSTEMVALUES_DB2,
+  DBSYSTEMVALUES_DERBY,
+  DBSYSTEMVALUES_MARIADB,
+  DBSYSTEMVALUES_MSSQL,
+  DBSYSTEMVALUES_ORACLE,
+  DBSYSTEMVALUES_SQLITE,
+  DBSYSTEMVALUES_OTHER_SQL,
+  DBSYSTEMVALUES_HSQLDB,
+  DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
 import {
   MetricDependencyDimensions,
@@ -102,6 +111,20 @@ export function getDependencyTarget(attributes: Attributes): string {
     return String(netPeerName);
   }
   return "";
+}
+
+export function isSqlDB(dbSystem: string): boolean {
+  return (
+    dbSystem === DBSYSTEMVALUES_DB2 ||
+    dbSystem === DBSYSTEMVALUES_DERBY ||
+    dbSystem === DBSYSTEMVALUES_MARIADB ||
+    dbSystem === DBSYSTEMVALUES_MSSQL ||
+    dbSystem === DBSYSTEMVALUES_ORACLE ||
+    dbSystem === DBSYSTEMVALUES_SQLITE ||
+    dbSystem === DBSYSTEMVALUES_OTHER_SQL ||
+    dbSystem === DBSYSTEMVALUES_HSQLDB ||
+    dbSystem === DBSYSTEMVALUES_H2
+  );
 }
 
 export function isExceptionTelemetry(logRecord: LogRecord): boolean {

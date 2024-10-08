@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support for MQTT event handling
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -917,6 +917,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/trustedsigning/arm-trustedsigning/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/visualstudio/arm-visualstudio/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1068,7 +1071,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @sgellock
 
 # ServiceLabel: %Cloud Shell %Service Attention
-#/<NotInRepo>/          @maertendMSFT
+#/<NotInRepo>/          @mbifeld
 
 # ServiceLabel: %Cognitive - Text Analytics %Service Attention
 #/<NotInRepo>/          @assafi

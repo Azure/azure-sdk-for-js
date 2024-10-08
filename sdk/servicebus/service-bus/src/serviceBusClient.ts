@@ -476,6 +476,7 @@ export class ServiceBusClient {
    * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   createSender(queueOrTopicName: string, options: ServiceBusSenderOptions = {}): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
