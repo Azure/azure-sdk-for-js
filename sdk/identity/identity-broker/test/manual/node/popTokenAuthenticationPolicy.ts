@@ -84,7 +84,7 @@ export interface ChallengeCallbacks {
 /**
  * Options to configure the popTokenAuthenticationPolicy
  */
-export interface popTokenAuthenticationPolicyOptions {
+export interface PopTokenAuthenticationPolicyOptions {
   /**
    * The TokenCredential implementation that can supply the pop token.
    */
@@ -139,7 +139,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
  * then apply it to the Authorization header of a request as a pop token.
  */
 export function popTokenAuthenticationPolicy(
-  options: popTokenAuthenticationPolicyOptions
+  options: PopTokenAuthenticationPolicyOptions,
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
   const logger = options.logger;
@@ -176,7 +176,7 @@ export function popTokenAuthenticationPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "pop token authentication is not permitted for non-TLS protected (non-https) URLs."
+          "pop token authentication is not permitted for non-TLS protected (non-https) URLs.",
         );
       }
 
@@ -209,7 +209,6 @@ export function popTokenAuthenticationPolicy(
         });
 
         if (shouldSendRequest) {
-          //put breakpoint here and check the header here, check if you have access token
           return next(request);
         }
       }

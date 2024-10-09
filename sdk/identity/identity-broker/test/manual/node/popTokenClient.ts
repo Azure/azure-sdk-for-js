@@ -27,7 +27,7 @@ export async function sendGraphRequest(credential: TokenCredential): Promise<Pip
       challengeCallbacks: {
         authorizeRequestOnChallenge: authorizeRequestOnPopTokenChallenge,
       },
-    })
+    }),
   );
 
   const req = createPipelineRequest({
