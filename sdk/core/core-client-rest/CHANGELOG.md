@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Allow `number` path parameters.
+
 ### Other Changes
 
 ## 2.3.0 (2024-10-03)

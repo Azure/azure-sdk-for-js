@@ -138,7 +138,7 @@ export interface OperationRequestOptions {
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParameter: string | PathParameterWithOptions,
+pathParameter: string | number | PathParameterWithOptions,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
@@ -146,7 +146,7 @@ pathParameter: string | PathParameterWithOptions,
 // @public
 export interface PathParameterWithOptions {
     allowReserved?: boolean;
-    value: string;
+    value: string | number;
 }
 
 // @public
