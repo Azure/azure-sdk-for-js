@@ -7,7 +7,6 @@ import { AzureMonitorExporterOptions } from "../config";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_CONNECTION_STRING,
-  ENV_DISABLE_STATSBEAT,
 } from "../Declarations/Constants";
 
 /**
@@ -72,7 +71,7 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
-    this.trackStatsbeat = !this.isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT];
+    this.trackStatsbeat = !this.isStatsbeatExporter;
 
     diag.debug("AzureMonitorExporter was successfully setup");
   }

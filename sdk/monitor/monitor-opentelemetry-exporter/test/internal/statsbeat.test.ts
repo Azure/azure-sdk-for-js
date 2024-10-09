@@ -446,12 +446,13 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
     });
 
-    describe("Disable Statsbeat", () => {
+    describe("Disable Non-Essential Statsbeat", () => {
       it("should disable statsbeat when the environement variable is set", () => {
         process.env[ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
-        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);
-        assert.ok(!exporter["sender"]["longIntervalStatsbeatMetrics"]);
+        assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["readFailureGauge"]);
+        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["writeFailureGauge"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
       });
     });
