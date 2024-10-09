@@ -1,4 +1,4 @@
-# Release History 
+# Release History
 
 ## 1.7.2 (Unreleased)
 
