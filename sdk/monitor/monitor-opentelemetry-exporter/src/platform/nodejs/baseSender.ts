@@ -199,9 +199,6 @@ export abstract class BaseSender {
   private async persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
       const success = await this.persister.push(envelopes);
-      if (!success) {
-        this.networkStatsbeatMetrics?.countWriteFailure();
-      }
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
@@ -209,6 +206,7 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           };
     } catch (ex: any) {
+      this.networkStatsbeatMetrics?.countWriteFailure();
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
