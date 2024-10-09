@@ -47,7 +47,7 @@ export interface GetTokenOptions {
     proofOfPossessionOptions?: {
         nonce: string;
         resourceRequestMethod: HttpMethods;
-        resourceRequestUri: string;
+        resourceRequestUrl: string;
     };
     requestOptions?: {
         timeout?: number;

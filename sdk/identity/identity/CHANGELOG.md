@@ -1,10 +1,10 @@
 # Release History
 
-## 4.5.0 (Unreleased)
+## 4.5.0 (2024-10-10)
 
 ### Features Added
 
-### Bugs Fixed
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for native broker scenarios in `InteractiveBrowserCredential` to be used with plugin `@azure/identity-broker` #30961.
 
 ### Breaking Changes
 

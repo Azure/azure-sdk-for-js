@@ -179,8 +179,7 @@ export function popTokenAuthenticationPolicy(
           "pop token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
-      console.log("within the send request - request url", request.url);
-      console.log("within the send request - request method", request.method);
+
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
@@ -196,8 +195,6 @@ export function popTokenAuthenticationPolicy(
         error = err;
         response = err.response;
       }
-      console.log("first response");
-      console.dir(response);
       if (
         callbacks.authorizeRequestOnChallenge &&
         response?.status === 401 &&
@@ -210,24 +207,10 @@ export function popTokenAuthenticationPolicy(
           getAccessToken,
           logger,
         });
-        console.log(
-          "within the send request - should request url",
-          (shouldSendRequest as any).request.url
-        );
-        console.log(
-          "within the send request - ahould request method",
-          (shouldSendRequest as any).request.method
-        );
-        if ((shouldSendRequest as any).isPossible) {
+
+        if (shouldSendRequest) {
           //put breakpoint here and check the header here, check if you have access token
-          const res2 = await next((shouldSendRequest as any).request);
-          console.log("Response 2");
-          console.log(res2.request.headers.get("Authorization"));
-          console.log((shouldSendRequest as any).request.headers.get("Authorization"));
-          console.log("Response => ")
-          console.dir(res2)
-          console.log(res2.bodyAsText)
-          return res2;
+          return next(request);
         }
       }
 

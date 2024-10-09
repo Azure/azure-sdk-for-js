@@ -11,6 +11,9 @@ import { nativeBrokerPlugin } from "../../../src";
 import { isNodeLike } from "@azure/core-util";
 // import { assert } from "@azure-tools/test-utils";
 import { sendGraphRequest } from "./popTokenClient";
+import { setLogLevel } from "@azure/logger";
+import { assert } from "@azure-tools/test-utils";
+setLogLevel("verbose")
 
 describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
   beforeEach(async function (this: Mocha.Context) {});
@@ -33,24 +36,11 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
           parentWindowHandle: winHandle,
         },
       };
-      //const scope = "https://graph.microsoft.com/.default";
 
       const credential = new InteractiveBrowserCredential(interactiveBrowserCredentialOptions);
-
-      try {
-         await sendGraphRequest(credential)
-        // const accessToken = await credential.getToken(scope, {
-        //   proofOfPossessionOptions: {
-        //     resourceRequestMethod: "GET",
-        //     resourceRequestUri: "https://graph.microsoft.com/v1.0/me",
-        //     nonce: "uhkgf",
-        //   },
-        // });
-        // assert.exists(accessToken.token);
-        // assert.equal(accessToken.tokenType, "pop");
-      } catch (e) {
-        console.log(e);
-      }
+      const response = await sendGraphRequest(credential)
+      assert.equal(response.status, 200);
+      assert.exists(response.bodyAsText);
     } else {
       this.skip();
     }
