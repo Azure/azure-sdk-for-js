@@ -67,19 +67,19 @@ export interface GetTokenOptions {
     /**
      * The nonce value required for PoP token requests.
      * This is typically retrieved from the WWW-Authenticate header of a 401 challenge response.
-     * This is used in combination with {@link resourceRequestUri} and {@link resourceRequestMethod} to generate the PoP token.
+     * This is used in combination with {@link resourceRequestUrl} and {@link resourceRequestMethod} to generate the PoP token.
      */
     nonce: string;
     /**
      * The HTTP method of the request.
-     * This is used in combination with {@link resourceRequestUri} and {@link nonce} to generate the PoP token.
+     * This is used in combination with {@link resourceRequestUrl} and {@link nonce} to generate the PoP token.
      */
     resourceRequestMethod: HttpMethods;
     /**
-     * The URI of the request.
+     * The URL of the request.
      * This is used in combination with {@link resourceRequestMethod} and {@link nonce} to generate the PoP token.
      */
-    resourceRequestUri: string;
+    resourceRequestUrl: string;
   };
 }
 

@@ -3,7 +3,7 @@
 
 /**
  * @summary Demonstrates usage of @azure/identity-broker and @azure/identity
- * packages for WAM MSA support.
+ * packages for SHR Pop support in WAM scenario with a custom Pop Token Authentication Policy.
  */
 
 const { InteractiveBrowserCredential, useIdentityPlugin } = require("@azure/identity");
@@ -212,8 +212,7 @@ function delay(delayInMs, value, options) {
 //# sourceMappingURL=popTokenCycler.js.map
 async function authorizeRequestOnClaimChallenge(onChallengeOptions) {
     const { scopes, response } = onChallengeOptions;
-    const logger = onChallengeOptions.logger; //|| coreClientLogger;
-    console.log("authorizeRequestPopClaimChallenge func is called");
+    const logger = onChallengeOptions.logger;
     const challenge = response.headers.get("WWW-Authenticate");
     if (!challenge) {
         logger?.info(`The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`);
@@ -227,7 +226,6 @@ async function authorizeRequestOnClaimChallenge(onChallengeOptions) {
     }
     // Check if the nonce was found
     const nonce = nonceMatch[1];
-    console.log("Extracted nonce:", nonce);
     const accessToken = await onChallengeOptions.getAccessToken(scopes, {
         proofOfPossessionOptions: {
             nonce: nonce,
@@ -235,8 +233,6 @@ async function authorizeRequestOnClaimChallenge(onChallengeOptions) {
             resourceRequestUri: onChallengeOptions.request.url
         }
     });
-    console.log("we found access token");
-    console.dir(accessToken);
     if (!accessToken) {
         return false;
     }
@@ -386,9 +382,8 @@ async function sendGraphRequest(credential) {
   });
   const client = createDefaultHttpClient();
   const result = await pipeline.sendRequest(client, req);
-  // assert something on the result
-  result.status;
-  result.bodyAsText;
+  console.log(`Result status from Graph request => ${result.status}`);
+  console.log(`Result body from Graph request => ${result.bodyAsText}`);
 }
 app.on('ready', async () => {
   let winHandle = createWindow()
@@ -404,7 +399,6 @@ app.on('ready', async () => {
   );
 
   try {
-    console.log(winHandle);
     const credential = new InteractiveBrowserCredential({
       clientId: process.env.AZURE_CLIENT_ID || "client",
       authorityHost: process.env.AZURE_AUTHORITY_HOST,
@@ -414,7 +408,6 @@ app.on('ready', async () => {
         parentWindowHandle: winHandle,
         legacyEnableMsaPassthrough: true
       }
-      //redirectUri: "http://localhost:1337"
     });
 
     // This is the scope we will use to get a token from the Microsoft Entra token endpoint.
@@ -423,9 +416,7 @@ app.on('ready', async () => {
     // scope for you automatically.
     // const scope = process.env.AAD_TEST_SCOPE ?? "https://graph.microsoft.com/.default";
 
-    const token = await sendGraphRequest(credential);
-
-    console.log(`Token: ${token.token}: ${token.expiresOnTimestamp}`);
+    await sendGraphRequest(credential);
   }
   catch (e) {
     console.log(e);

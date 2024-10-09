@@ -472,7 +472,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       (silentRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
       (silentRequest as any).authenticationScheme = "pop";
       (silentRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
-      (silentRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUri;
+      (silentRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent(silentRequest);
@@ -816,7 +816,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
         (interactiveRequest as any).authenticationScheme = "pop";
         (interactiveRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
-        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUri;
+        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
       }
       try {
         return await app.acquireTokenInteractive(interactiveRequest);
@@ -855,7 +855,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
         (interactiveRequest as any).authenticationScheme = "pop";
         (interactiveRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
-        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUri;
+        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
       }
       return app.acquireTokenInteractive(interactiveRequest);
     });

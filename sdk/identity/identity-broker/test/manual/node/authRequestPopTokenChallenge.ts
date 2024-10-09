@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthorizeRequestOnChallengeOptions, PipelineRequest } from "@azure/core-rest-pipeline";
+import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 
 export async function authorizeRequestOnPopTokenChallenge(
   onChallengeOptions: AuthorizeRequestOnChallengeOptions
-): Promise<onChallengeResult> {
+): Promise<boolean> {
   const { scopes, response } = onChallengeOptions;
   const logger = onChallengeOptions.logger;
   const challenge = response.headers.get("WWW-Authenticate");
@@ -13,39 +13,29 @@ export async function authorizeRequestOnPopTokenChallenge(
     logger?.info(
       `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
     );
-    return { isPossible: false };
+    return false;
   }
   // Use regular expression to match the nonce value
   const nonceMatch = challenge.match(/nonce="([^"]*)"/);
   if (!nonceMatch) {
-    return { isPossible: false };
+    return false;
   }
   const nonce = nonceMatch[1];
 
-  console.log("within the challenge request url", onChallengeOptions.request.url);
-  console.log("within the challenge request method", onChallengeOptions.request.method);
   const accessToken = await onChallengeOptions.getAccessToken(scopes, {
     proofOfPossessionOptions: {
       nonce: nonce,
       resourceRequestMethod: onChallengeOptions.request.method,
-      resourceRequestUri: onChallengeOptions.request.url,
+      resourceRequestUrl: onChallengeOptions.request.url,
     },
   });
-  console.log("we found access token");
-  console.dir(accessToken);
   if (!accessToken) {
-    return { isPossible: false };
+    return false;
   }
 
   onChallengeOptions.request.headers.set(
     "Authorization",
     `${accessToken.tokenType} ${accessToken.token}`
   );
-  console.log(onChallengeOptions.request.headers.get("Authorization"));
-  return { isPossible: true, request: onChallengeOptions.request };
+  return true;
 }
-
-export type onChallengeResult = {
-  isPossible: boolean;
-  request?: PipelineRequest;
-};

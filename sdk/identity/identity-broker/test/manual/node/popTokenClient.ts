@@ -11,14 +11,15 @@ import {
   createEmptyPipeline,
   createPipelineRequest,
   createDefaultHttpClient,
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { authorizeRequestOnPopTokenChallenge } from "./authRequestPopTokenChallenge";
 
-export async function sendGraphRequest(credential: TokenCredential) {
+export async function sendGraphRequest(credential: TokenCredential): Promise<PipelineResponse> {
   const pipeline = createEmptyPipeline();
-  // how to create pop policy?
+  // create pop token policy
   pipeline.addPolicy(
     popTokenAuthenticationPolicy({
       credential,
@@ -34,7 +35,6 @@ export async function sendGraphRequest(credential: TokenCredential) {
   });
 
   const client = createDefaultHttpClient();
-  const result = await pipeline.sendRequest(client, req);
-  console.log(result.status);
-  console.log(result.bodyAsText);
+  const response = await pipeline.sendRequest(client, req);
+  return response;
 }
