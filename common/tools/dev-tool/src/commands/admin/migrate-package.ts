@@ -122,7 +122,7 @@ async function applyCodemods(projectFolder: string): Promise<void> {
     log.info(`Applying codemod: ${mod.name}`);
     for (const sourceFile of project.getSourceFiles()) {
       mod(sourceFile);
-      sourceFile.saveSync();
+      await sourceFile.save();
     }
     await commitChanges(projectFolder, `Apply codemod: "${mod.name}"`);
   }
