@@ -27,7 +27,7 @@ export class TestResult {
 export type WebTestConfig = {
   jobName: string;
   projectName: string;
-  browserType: string;
+  browserType ?: string;
   os: string;
 };
 
