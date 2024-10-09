@@ -15,6 +15,11 @@ parameters:
   - stage: LintBicepFiles
     displayName: Lint Bicep Files
 
+    variables:
+      - template: /eng/pipelines/templates/variables/image.yml
+      - name: DATE
+        value: 0
+
     pool:
       # AzureFileCopy requires Windows
       name: $(WINDOWSPOOL)
@@ -51,7 +56,3 @@ parameters:
               containerName: 'azure-sdk-for-js'
               blobPrefix: 'bicep-lint-warnings/$(DATE)'
               AdditionalArgumentsForBlobCopy: '--overwrite=true'
-    variables:
-      - template: /eng/pipelines/templates/variables/image.yml
-      - name: DATE
-        value: 0
