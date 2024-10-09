@@ -9,11 +9,8 @@ import {
 import { env } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src";
 import { isNodeLike } from "@azure/core-util";
-// import { assert } from "@azure-tools/test-utils";
 import { sendGraphRequest } from "./popTokenClient";
-import { setLogLevel } from "@azure/logger";
 import { assert } from "@azure-tools/test-utils";
-setLogLevel("verbose")
 
 describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
   beforeEach(async function (this: Mocha.Context) {});
@@ -38,7 +35,7 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
       };
 
       const credential = new InteractiveBrowserCredential(interactiveBrowserCredentialOptions);
-      const response = await sendGraphRequest(credential)
+      const response = await sendGraphRequest(credential);
       assert.equal(response.status, 200);
       assert.exists(response.bodyAsText);
     } else {
@@ -46,4 +43,3 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
     }
   });
 });
-

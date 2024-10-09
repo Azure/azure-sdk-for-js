@@ -4,14 +4,14 @@
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 
 export async function authorizeRequestOnPopTokenChallenge(
-  onChallengeOptions: AuthorizeRequestOnChallengeOptions
+  onChallengeOptions: AuthorizeRequestOnChallengeOptions,
 ): Promise<boolean> {
   const { scopes, response } = onChallengeOptions;
   const logger = onChallengeOptions.logger;
   const challenge = response.headers.get("WWW-Authenticate");
   if (!challenge) {
     logger?.info(
-      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`,
     );
     return false;
   }
@@ -35,7 +35,7 @@ export async function authorizeRequestOnPopTokenChallenge(
 
   onChallengeOptions.request.headers.set(
     "Authorization",
-    `${accessToken.tokenType} ${accessToken.token}`
+    `${accessToken.tokenType} ${accessToken.token}`,
   );
   return true;
 }
