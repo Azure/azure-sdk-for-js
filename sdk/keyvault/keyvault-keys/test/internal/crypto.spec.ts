@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/core-auth";
 import {
   CryptographyClient,
@@ -213,26 +212,11 @@ describe("internal crypto tests", () => {
   });
 
   describe("RSA local cryptography tests", function () {
-    it("throws a validation error when the key is invalid", function (ctx) {
-      if (!isNode) {
-        // Local cryptography is not supported in the browser
-        ctx.skip();
-      }
+    it("throws a validation error when the key is invalid", function () {
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
         () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
         "Key type does not match the algorithm RSA",
-      );
-    });
-
-    it("uses the browser replacement when running in the browser", function (ctx) {
-      if (isNode) {
-        ctx.skip();
-      }
-      const rsaProvider = new RsaCryptographyProvider({ kty: "RSA", keyOps: ["encrypt"] });
-      assert.throws(
-        () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
-        /not supported in the browser/,
       );
     });
   });

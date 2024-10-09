@@ -8,8 +8,6 @@ import {
   KeyVaultKey,
 } from "../../src/index.js";
 import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto.js";
-import { isNodeLike } from "@azure/core-util";
-import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider.js";
 import TestClient from "../public/utils/testClient.js";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
@@ -17,33 +15,13 @@ import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptog
 import { ClientSecretCredential } from "@azure/identity";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
-describe("AesCryptographyProvider browser tests", function () {
-  it.skipIf(isNodeLike)(
-    "uses the browser replacement when running in the browser",
-    async function () {
-      const aesProvider = new AesCryptographyProvider({});
-      expect(() =>
-        aesProvider.encrypt({
-          algorithm: "A256CBCPAD",
-          plaintext: stringToUint8Array("foo"),
-          iv: stringToUint8Array("foo"),
-        }),
-      ).toThrow(/not supported in the browser/);
-    },
-  );
-});
-
 describe("AesCryptographyProvider internal tests", function () {
   for (const keySize of [128, 192, 256]) {
     let cryptoClient: CryptographyClient;
     const encryptionAlgorithm = `A${keySize}CBCPAD` as AesCbcEncryptionAlgorithm;
     let jwk: JsonWebKey;
 
-    beforeEach(function (ctx) {
-      if (!isNodeLike) {
-        ctx.skip();
-      }
-
+    beforeEach(function () {
       jwk = {
         keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
         k: getKey(keySize >> 3), // Generate a symmetric key for testing

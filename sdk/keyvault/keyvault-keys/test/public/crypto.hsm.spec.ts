@@ -8,8 +8,7 @@ import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import TestClient from "./utils/testClient.js";
-import { isNode } from "@azure/core-util";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)", () => {
   let hsmClient: KeyClient;
@@ -71,9 +70,6 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
     });
 
     it("encrypts and decrypts using AES-CBC", async function (ctx) {
-      if (!isNode) {
-        ctx.skip();
-      }
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(
         keyVaultKey.id!,

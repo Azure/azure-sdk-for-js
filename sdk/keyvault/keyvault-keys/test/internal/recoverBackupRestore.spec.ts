@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isNodeLike } from "@azure/core-util";
 import { KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "../public/utils/recorderUtils.js";
 import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
 import TestClient from "../public/utils/testClient.js";
 import { RestoreKeyBackupPoller } from "../public/utils/lro/restore/poller.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `backupRestore${env.KEY_NAME || "KeyName"}`;
@@ -71,11 +70,7 @@ describe("Keys client - restore keys and recover backups", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
-    if (isNodeLike) {
-      assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
-    } else {
-      assert.equal(result!.constructor, Uint8Array, "Unexpected return value from backupKey()");
-    }
+    assert.equal(Buffer.isBuffer(result), true, "Unexpected return value from backupKey()");
     assert.ok(result!.length > 0, "Unexpected length of buffer from backupKey()");
     await testClient.flushKey(keyName);
   });
