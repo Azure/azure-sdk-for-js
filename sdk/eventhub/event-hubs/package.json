@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.13.0-beta.3",
+  "version": "5.13.0",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -103,7 +103,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:~",
-    "@azure/core-amqp": "4.4.0-beta.1",
+    "@azure/core-amqp": "workspace:~",
     "@azure/core-auth": "workspace:~",
     "@azure/core-tracing": "workspace:~",
     "@azure/core-util": "workspace:~",

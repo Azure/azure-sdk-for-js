@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LocalCryptographyUnsupportedError } from "./models";
+import { LocalCryptographyUnsupportedError } from "./models.js";
 
 /**
  * @internal
