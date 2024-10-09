@@ -1,4 +1,4 @@
-# Azure Purview Administration rest client library samples for JavaScript
+# Azure Purview Administration rest client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Purview Administration rest in some common scenarios.
 
@@ -47,8 +47,8 @@ npx cross-env ENDPOINT="<endpoint>" node accountCollections.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accountcollections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/accountCollections.js
-[metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/metadataPolicies.js
+[accountcollections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1-beta/javascript/accountCollections.js
+[metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1-beta/javascript/metadataPolicies.js
 [apiref]: https://docs.microsoft.com/rest/api/purview/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurepurviewinstance]: https://docs.microsoft.com/azure/purview/create-catalog-portal
