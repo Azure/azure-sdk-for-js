@@ -23,8 +23,7 @@ import { LATEST_API_VERSION } from "./constants.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models/index.js";
 import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
 import { tracingClient } from "./tracing.js";
@@ -87,15 +86,11 @@ export class KeyVaultAccessControlClient {
 
     this.client = new KeyVaultClient(serviceVersion, clientOptions);
 
-    this.client.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({
-        credential,
-        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
-        // returned by the challenge, so pass an empty array as a placeholder.
-        scopes: [],
-        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      }),
-    );
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   /**

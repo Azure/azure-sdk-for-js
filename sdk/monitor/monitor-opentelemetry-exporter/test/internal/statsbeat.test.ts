@@ -332,7 +332,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const scopeMetrics = resourceMetrics.scopeMetrics;
         assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
         const metrics = scopeMetrics[0].metrics;
-        assert.strictEqual(metrics.length, 6, "Metrics count");
+        assert.strictEqual(metrics.length, 8, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.FAILURE_COUNT);
         assert.strictEqual(metrics[2].descriptor.name, StatsbeatCounter.RETRY_COUNT);
@@ -361,6 +361,9 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat.countThrottle(439);
         statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
         statsbeat.countException({ name: "Statsbeat2", message: "Second Statsbeat Exception" });
+        statsbeat.countReadFailure();
+        statsbeat.countWriteFailure();
+        statsbeat.countWriteFailure();
 
         await new Promise((resolve) => setTimeout(resolve, 500));
         assert.ok(mockExport.called);
@@ -369,7 +372,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const metrics = scopeMetrics[0].metrics;
 
         assert.ok(metrics, "Statsbeat metrics not properly initialized");
-        assert.strictEqual(metrics.length, 6);
+        assert.strictEqual(metrics.length, 8);
         // Represents the last observation called for each callback
         // Successful
         assert.strictEqual(metrics[0].dataPoints[0].value, 4);
@@ -407,6 +410,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Average Duration
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
+
+        // Disk Read Failure
+        assert.strictEqual(metrics[6].dataPoints[0].value, 1);
+
+        // Disk Write Failure
+        assert.strictEqual(metrics[7].dataPoints[0].value, 2);
       });
 
       it("should track long interval statsbeats", async () => {
