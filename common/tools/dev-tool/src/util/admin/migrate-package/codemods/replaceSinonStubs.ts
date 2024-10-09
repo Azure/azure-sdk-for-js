@@ -1,6 +1,17 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
+/**
+ * Replaces usages of `sinon.stub` with `vi.spyOn` and `sinon.restore` with `vi.restoreAllMocks`
+ *
+ * Examples:
+ *
+ * 1. sinon.stub(obj, "methodName").returns(someValue) => vi.spyOn(obj, "methodName").mockReturnValue(someValue)
+ * 2. sinon.stub(obj, "methodName").resolves(someValue) => vi.spyOn(obj, "methodName").mockResolvedValue(someValue)
+ * 3. sinon.stub(obj, "methodName").throwsException(someError) => vi.spyOn(obj, "methodName").mockRejectedValue(someError)
+ * 4. sinon.restore() => vi.restoreAllMocks()
+ * 5. sandbox.restore() => vi.restoreAllMocks()
+ */
 export default function replaceSinonStub(sourceFile: SourceFile) {
   // Helper function to perform a case-insensitive check for the 'sinon' identifier
   const isSinonIdentifier = (identifier: string) =>

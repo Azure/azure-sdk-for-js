@@ -19,3 +19,13 @@ If you have a codemod that you think would be useful, please add it to this dire
 Feel free to contribute codemods that may not always apply as long as they are safe to run. For example, a codemod that removes a deprecated API that is no longer used in the codebase or something that is specific to certain packages. The goal here is to incrementally improve the migration experience and reduce the manual work required.
 
 In order to include your codemode in the migration process, please add it to the `codemods` array in `index.ts`
+
+## FAQ
+
+### Errors and how to resolve them
+
+#### InvalidOperationError: Attempted to get information from a node that was removed or forgotten
+
+This can happen when a node is removed or modified in the source tree, but the iteration over the tree is still ongoing. When attempting to access any of its children nodes, you will see this error. To resolve this correctly, use the `traversal` property of `forEachDescendant` to skip all children if the node is removed or replaced.
+
+There are additional ways to control traversal (skip all children, stop altogether, etc) and you can find more information in the [ts-morph documentation](https://ts-morph.com/navigation/#traversal-control).

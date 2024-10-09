@@ -1,5 +1,8 @@
 import { SourceFile, SyntaxKind } from "ts-morph";
 
+/**
+ * Adds an import statement for `vi` from `vitest` if it's used in the file
+ */
 export default function addViHelper(sourceFile: SourceFile) {
   // Step 1: Find all usages of `vi` in the file
   const viUsages = sourceFile
@@ -36,6 +39,4 @@ export default function addViHelper(sourceFile: SourceFile) {
       moduleSpecifier: "vitest",
     });
   }
-
-  // No need to return anything, ts-morph applies changes directly to the source file
 }

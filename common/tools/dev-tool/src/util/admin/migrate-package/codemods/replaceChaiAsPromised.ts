@@ -1,6 +1,17 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
+/**
+ * Converts usages of `assert.isRejected` from chai-as-promised to `expect(...).rejects.toThrow(...)`
+ *
+ * Examples:
+ *
+ * 1. await assert.isRejected(promise, error) => await expect(promise).rejects.toThrow(error)
+ * 2. await assert.isRejected(promise, "errorMessage") => await expect(promise).rejects.toThrow("errorMessage")
+ * 3. await assert.isRejected(promise) => await expect(promise).rejects.toThrow()
+ *
+ * Does _not_ handle cases where `assert.isRejected` is not `await`ed which is an incorrect usage anyway.
+ */
 export default function replaceAssertIsRejected(sourceFile: SourceFile) {
   // Step 1: Iterate over all AwaitExpression nodes in the source file
   sourceFile.forEachDescendant((node, traversal) => {

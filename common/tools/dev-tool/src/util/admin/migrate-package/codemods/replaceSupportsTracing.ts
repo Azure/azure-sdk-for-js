@@ -1,6 +1,17 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
 import * as ts from "typescript"; // For using TypeScript factory methods
 
+/**
+ * Replaces usages of `assert.supportsTracing` with `expect(...).toSupportTracing(...)`
+ * and adds the necessary import statements if needed.
+ *
+ * Examples:
+ *
+ * 1. await assert.supportsTracing(async () => { ... }, ["methodName"]) => await expect(async () => { ... }).toSupportTracing(["methodName"])
+ * 2. await assert.supportsTracing(async () => { ... }, ["methodName", "methodName2"]) => await expect(async () => { ... }).toSupportTracing(["methodName", "methodName2"])
+ *
+ * An import for `expect` from "vitest" and `toSupportTracing` from "@azure-tools/test-utils-vitest" will be added if not already present. The two will be wired together using `expect.extend({ toSupportTracing })`.
+ */
 export default function replaceSupportTracing(sourceFile: SourceFile) {
   // Step 1: Check for any instances of `assert.supportsTracing`
   const supportsTracingExists = sourceFile
