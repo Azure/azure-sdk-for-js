@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import nock from "nock";
-import { AzureCommunicationTokenCredential, EntraCommunicationTokenCredentialOptions } from "../../../src";
+import {
+  AzureCommunicationTokenCredential,
+  EntraCommunicationTokenCredentialOptions,
+} from "../../../src";
 import { assert } from "chai";
 import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import sinon from "sinon";
@@ -65,7 +68,7 @@ describe("Entra CommunicationTokenCredential", function () {
 
     const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
       resourceEndpoint: resourceEndpoint,
-      tokenCredential: tokenCredential
+      tokenCredential: tokenCredential,
     };
 
     const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
