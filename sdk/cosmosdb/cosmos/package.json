@@ -109,7 +109,7 @@
     "@types/node": "catalog:",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^17.0.0",
+    "@types/sinon": "catalog:",
     "@types/sinonjs__fake-timers": "~8.1.2",
     "@types/underscore": "^1.8.8",
     "chai": "~4.3.8",
@@ -121,7 +121,7 @@
     "nock": "^13.5.5",
     "requirejs": "^2.3.5",
     "rimraf": "catalog:",
-    "sinon": "^17.0.0",
+    "sinon": "catalog:",
     "source-map-support": "^0.5.21",
     "ts-node": "catalog:",
     "typescript": "catalog:"

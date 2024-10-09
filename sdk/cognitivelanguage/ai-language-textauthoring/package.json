@@ -82,7 +82,7 @@
     "eslint": "catalog:",
     "mkdirp": "catalog:",
     "mocha": "catalog:",
-    "nyc": "^17.0.0",
+    "nyc": "catalog:",
     "rimraf": "catalog:",
     "source-map-support": "^0.5.9",
     "ts-node": "catalog:",

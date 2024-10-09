@@ -75,7 +75,7 @@
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/qs": "^6.5.3",
-    "@types/sinon": "^17.0.0",
+    "@types/sinon": "catalog:",
     "@types/uuid": "^8.0.0",
     "cross-env": "catalog:",
     "dotenv": "catalog:",
@@ -84,7 +84,7 @@
     "mocha": "catalog:",
     "puppeteer": "^23.0.2",
     "rimraf": "catalog:",
-    "sinon": "^17.0.0",
+    "sinon": "catalog:",
     "ts-node": "catalog:",
     "typescript": "catalog:",
     "util": "^0.12.1"

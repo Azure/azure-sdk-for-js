@@ -93,9 +93,9 @@
     "eslint": "catalog:",
     "mocha": "catalog:",
     "nock": "^13.5.4",
-    "nyc": "^17.0.0",
+    "nyc": "catalog:",
     "rimraf": "catalog:",
-    "sinon": "^17.0.0",
+    "sinon": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"
   },

@@ -48,6 +48,9 @@ catalogs:
     '@types/node':
       specifier: ^18.0.0
       version: 18.19.45
+    '@types/sinon':
+      specifier: ^17.0.0
+      version: 17.0.3
     '@vitest/browser':
       specifier: ^2.0.5
       version: 2.0.5
@@ -66,18 +69,60 @@ catalogs:
     eslint:
       specifier: ^9.9.0
       version: 9.12.0
+    karma:
+      specifier: ^6.2.0
+      version: 6.4.4
+    karma-chrome-launcher:
+      specifier: ^3.0.0
+      version: 3.2.0
+    karma-coverage:
+      specifier: ^2.0.0
+      version: 2.2.1
+    karma-env-preprocessor:
+      specifier: ^0.1.1
+      version: 0.1.1
+    karma-firefox-launcher:
+      specifier: ^1.1.0
+      version: 1.3.0
+    karma-json-preprocessor:
+      specifier: ^0.3.3
+      version: 0.3.3
+    karma-json-to-file-reporter:
+      specifier: ^1.0.1
+      version: 1.0.1
+    karma-junit-reporter:
+      specifier: ^2.0.1
+      version: 2.0.1
+    karma-mocha:
+      specifier: ^2.0.1
+      version: 2.0.1
+    karma-mocha-reporter:
+      specifier: ^2.2.5
+      version: 2.2.5
+    karma-source-map-support:
+      specifier: ~1.4.0
+      version: 1.4.0
+    karma-sourcemap-loader:
+      specifier: ^0.3.8
+      version: 0.3.8
     mkdirp:
       specifier: ^3.0.1
       version: 3.0.1
     mocha:
       specifier: ^10.0.0
       version: 10.7.3
+    nyc:
+      specifier: ^17.0.0
+      version: 17.0.0
     playwright:
       specifier: ^1.46.1
       version: 1.46.1
     rimraf:
       specifier: ^5.0.5
       version: 5.0.10
+    sinon:
+      specifier: ^19.0.0
+      version: 19.0.2
     ts-node:
       specifier: ^10.0.0
       version: 10.9.2
@@ -544,40 +589,40 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -586,7 +631,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -908,34 +953,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -944,7 +989,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -1297,13 +1342,13 @@ importers:
         specifier: workspace:~
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/eventgrid':
-        specifier: ^5.7.0
+        specifier: workspace:~
         version: link:../../eventgrid/eventgrid
       '@azure/identity':
         specifier: workspace:~
         version: link:../../identity/identity
       '@azure/keyvault-secrets':
-        specifier: ^4.8.0
+        specifier: workspace:~
         version: link:../../keyvault/keyvault-secrets
       '@microsoft/api-extractor':
         specifier: 'catalog:'
@@ -1318,7 +1363,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -1330,44 +1375,44 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       tsx:
         specifier: 'catalog:'
         version: 4.19.1
@@ -1935,35 +1980,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.4.4
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -1971,7 +2016,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -2205,46 +2250,46 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -3670,7 +3715,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -3688,34 +3733,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -3724,14 +3769,14 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -3818,7 +3863,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -3839,47 +3884,47 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -3948,7 +3993,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -4356,7 +4401,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -4374,44 +4419,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -4489,7 +4534,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -4507,47 +4552,47 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -4628,7 +4673,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -4649,50 +4694,50 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -4752,7 +4797,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -4770,31 +4815,31 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
@@ -4803,14 +4848,14 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -4885,43 +4930,43 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -5006,7 +5051,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -5024,37 +5069,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       process:
         specifier: ^0.11.10
@@ -5063,8 +5108,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -5136,7 +5181,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -5157,50 +5202,50 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -5281,35 +5326,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -5317,7 +5362,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -5402,35 +5447,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -5438,7 +5483,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -5523,7 +5568,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -5541,44 +5586,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -5656,7 +5701,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.3.2
@@ -5677,44 +5722,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -5783,7 +5828,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -5798,10 +5843,10 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       mkdirp:
         specifier: 'catalog:'
@@ -5810,14 +5855,14 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -5895,7 +5940,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.3.2
@@ -5916,44 +5961,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -6025,7 +6070,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -6043,44 +6088,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -6161,7 +6206,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.3.2
@@ -6182,44 +6227,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -6291,7 +6336,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -6309,44 +6354,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -6582,34 +6627,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -6618,7 +6663,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -6864,7 +6909,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -7259,37 +7304,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -7487,34 +7532,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -7523,7 +7568,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -7684,35 +7729,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -7720,7 +7765,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -8722,7 +8767,7 @@ importers:
         specifier: ^1.1.0
         version: 1.1.4
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/sinonjs__fake-timers':
         specifier: ~8.1.2
@@ -8758,8 +8803,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -10488,40 +10533,40 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -10530,7 +10575,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -10901,7 +10946,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -10922,44 +10967,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -11332,46 +11377,46 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -11605,40 +11650,40 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -11647,7 +11692,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -11954,40 +11999,40 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -12142,7 +12187,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -12163,44 +12208,44 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -12278,7 +12323,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -12299,44 +12344,44 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -12405,7 +12450,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -12426,37 +12471,37 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       prettier:
         specifier: ^2.5.1
@@ -12465,8 +12510,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -13365,7 +13410,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -13383,31 +13428,31 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       magic-string:
         specifier: ~0.30.10
@@ -13416,7 +13461,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       prettier:
         specifier: ^3.3.3
@@ -13428,8 +13473,8 @@ importers:
         specifier: ^4.0.0
         version: 4.21.0
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -14392,34 +14437,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -14428,7 +14473,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -14510,34 +14555,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -14546,7 +14591,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -14628,35 +14673,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -14664,7 +14709,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -15135,7 +15180,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/stoppable':
         specifier: ^1.1.0
@@ -15162,28 +15207,28 @@ importers:
         specifier: ^9.0.0
         version: 9.0.2
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
@@ -15192,7 +15237,7 @@ importers:
         specifier: ^2.1.3
         version: 2.1.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -15201,8 +15246,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -15268,7 +15313,7 @@ importers:
         specifier: ^6.5.3
         version: 6.9.15
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       cross-env:
         specifier: 'catalog:'
@@ -15292,8 +15337,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -15347,7 +15392,7 @@ importers:
         specifier: ^6.5.3
         version: 6.9.15
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -15374,8 +15419,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -15414,7 +15459,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -15639,7 +15684,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -15657,41 +15702,41 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -15751,7 +15796,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -15766,50 +15811,50 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -16586,7 +16631,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       cross-env:
         specifier: 'catalog:'
@@ -16601,43 +16646,43 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -16646,8 +16691,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -16725,7 +16770,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       cross-env:
         specifier: 'catalog:'
@@ -16737,37 +16782,37 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -16776,8 +16821,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -17452,34 +17497,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -17488,7 +17533,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -18696,34 +18741,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -18732,7 +18777,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -18814,34 +18859,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -18850,7 +18895,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -18932,34 +18977,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -18968,7 +19013,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -19056,34 +19101,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -19092,7 +19137,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -19390,7 +19435,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -19408,44 +19453,44 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -19767,37 +19812,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -20201,7 +20246,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.3
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -20216,47 +20261,47 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -20385,7 +20430,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       dotenv:
         specifier: 'catalog:'
@@ -20400,14 +20445,14 @@ importers:
         specifier: ^13.5.4
         version: 13.5.5
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       tsx:
         specifier: 'catalog:'
         version: 4.19.1
@@ -20491,14 +20536,14 @@ importers:
         specifier: ^13.5.4
         version: 13.5.5
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       tsx:
         specifier: 'catalog:'
         version: 4.19.1
@@ -20597,34 +20642,34 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -20664,7 +20709,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -20710,7 +20755,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       typescript:
         specifier: ~5.6.2
@@ -20741,7 +20786,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -21273,34 +21318,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -21309,7 +21354,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -22559,7 +22604,7 @@ importers:
         specifier: ^2.4.9
         version: 2.4.9
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       cross-env:
         specifier: 'catalog:'
@@ -22574,8 +22619,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       typescript:
         specifier: ^5.5.3
         version: 5.5.4
@@ -22623,7 +22668,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       cross-env:
         specifier: 'catalog:'
@@ -22638,8 +22683,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       typescript:
         specifier: ^5.5.3
         version: 5.5.4
@@ -23374,34 +23419,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -23410,7 +23455,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -23489,34 +23534,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -23525,7 +23570,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -23601,35 +23646,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -23637,7 +23682,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -23716,34 +23761,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -23752,7 +23797,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -23837,34 +23882,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -23873,7 +23918,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -23952,34 +23997,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -23988,7 +24033,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -24134,7 +24179,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -24155,44 +24200,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -24917,40 +24962,40 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -25692,43 +25737,43 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -25819,43 +25864,43 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       process:
         specifier: ^0.11.10
@@ -25937,43 +25982,43 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -26250,7 +26295,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -26268,50 +26313,50 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.3.3)
@@ -26979,7 +27024,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/uuid':
         specifier: ^8.0.0
@@ -27015,31 +27060,31 @@ importers:
         specifier: ^7.0.0
         version: 7.0.5
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
@@ -27048,7 +27093,7 @@ importers:
         specifier: ^2.24.0
         version: 2.30.1
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       promise:
         specifier: ^8.0.3
@@ -27060,8 +27105,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -27218,34 +27263,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -27254,7 +27299,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -28215,7 +28260,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -28252,7 +28297,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -28289,7 +28334,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -28395,37 +28440,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -28507,7 +28552,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -28528,43 +28573,43 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -28573,8 +28618,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -28664,7 +28709,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -28688,40 +28733,40 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-ie-launcher:
         specifier: ^1.0.0
         version: 1.0.0(karma@6.4.4)
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -28730,8 +28775,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -28821,7 +28866,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -28842,37 +28887,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -28881,8 +28926,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -28945,37 +28990,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -29084,37 +29129,37 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -29938,7 +29983,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -29956,47 +30001,47 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -30062,7 +30107,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -30080,46 +30125,46 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -30195,7 +30240,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -30213,53 +30258,53 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -30340,40 +30385,40 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -30437,34 +30482,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
@@ -30546,40 +30591,40 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -30655,7 +30700,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -30673,44 +30718,44 @@ importers:
         specifier: ^2.0.3
         version: 2.0.4
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -30746,7 +30791,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -30907,40 +30952,40 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.4.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.1.1
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-edge-launcher:
         specifier: ^0.4.2
         version: 0.4.2(karma@6.4.4)
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -31068,16 +31113,16 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       rimraf:
         specifier: 'catalog:'
@@ -31260,7 +31305,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       cross-env:
         specifier: 'catalog:'
@@ -31269,23 +31314,23 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       ts-node:
         specifier: 'catalog:'
         version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
@@ -31418,7 +31463,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       chai:
         specifier: 'catalog:'
@@ -31436,47 +31481,47 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -31512,7 +31557,7 @@ importers:
         specifier: ^9.9.0
         version: 9.12.0
       rimraf:
-        specifier: ^5.0.5
+        specifier: 'catalog:'
         version: 5.0.10
       ts-node:
         specifier: 'catalog:'
@@ -31743,34 +31788,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -31779,7 +31824,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -31858,34 +31903,34 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
@@ -31894,7 +31939,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -31970,35 +32015,35 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
         specifier: ^2.1.2
         version: 2.1.3
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-source-map-support:
-        specifier: ~1.4.0
+        specifier: 'catalog:'
         version: 1.4.0
       karma-sourcemap-loader:
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: 'catalog:'
+        version: 0.3.8
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
@@ -32006,7 +32051,7 @@ importers:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       rimraf:
         specifier: 'catalog:'
@@ -32374,7 +32419,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/ws':
         specifier: ^8.2.0
@@ -32392,37 +32437,37 @@ importers:
         specifier: 'catalog:'
         version: 9.12.0
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
         version: 10.7.3
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -32431,8 +32476,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -32504,7 +32549,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/ws':
         specifier: ^7.4.5
@@ -32525,37 +32570,37 @@ importers:
         specifier: ^4.16.3
         version: 4.19.2
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
@@ -32564,7 +32609,7 @@ importers:
         specifier: ^9.1.5
         version: 9.3.1
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       puppeteer:
         specifier: ^23.0.2
@@ -32573,8 +32618,8 @@ importers:
         specifier: 'catalog:'
         version: 5.0.10
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -32643,7 +32688,7 @@ importers:
         specifier: 'catalog:'
         version: 18.19.45
       '@types/sinon':
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.3
       '@types/ws':
         specifier: ^7.4.5
@@ -32667,43 +32712,43 @@ importers:
         specifier: ^4.16.3
         version: 4.19.2
       karma:
-        specifier: ^6.2.0
+        specifier: 'catalog:'
         version: 6.4.4(debug@4.3.6)
       karma-chrome-launcher:
-        specifier: ^3.0.0
+        specifier: 'catalog:'
         version: 3.2.0
       karma-coverage:
-        specifier: ^2.0.0
+        specifier: 'catalog:'
         version: 2.2.1
       karma-edge-launcher:
         specifier: ^0.4.2
         version: 0.4.2(karma@6.4.4)
       karma-env-preprocessor:
-        specifier: ^0.1.1
+        specifier: 'catalog:'
         version: 0.1.1
       karma-firefox-launcher:
-        specifier: ^1.1.0
+        specifier: 'catalog:'
         version: 1.3.0
       karma-ie-launcher:
         specifier: ^1.0.0
         version: 1.0.0(karma@6.4.4)
       karma-json-preprocessor:
-        specifier: ^0.3.3
+        specifier: 'catalog:'
         version: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter:
-        specifier: ^1.0.1
+        specifier: 'catalog:'
         version: 1.0.1
       karma-junit-reporter:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1(karma@6.4.4(debug@4.3.6))
       karma-mocha:
-        specifier: ^2.0.1
+        specifier: 'catalog:'
         version: 2.0.1
       karma-mocha-reporter:
-        specifier: ^2.2.5
+        specifier: 'catalog:'
         version: 2.2.5(karma@6.4.4(debug@4.3.6))
       karma-sourcemap-loader:
-        specifier: ^0.3.8
+        specifier: 'catalog:'
         version: 0.3.8
       mocha:
         specifier: 'catalog:'
@@ -32712,7 +32757,7 @@ importers:
         specifier: ^9.1.5
         version: 9.3.1
       nyc:
-        specifier: ^17.0.0
+        specifier: 'catalog:'
         version: 17.0.0
       protobufjs-cli:
         specifier: ^1.1.1
@@ -32727,8 +32772,8 @@ importers:
         specifier: ^4.0.0
         version: 4.21.0
       sinon:
-        specifier: ^17.0.0
-        version: 17.0.2
+        specifier: 'catalog:'
+        version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
@@ -34367,17 +34412,17 @@ packages:
   '@rushstack/ts-command-line@4.22.6':
     resolution: {integrity: sha512-QSRqHT/IfoC5nk9zn6+fgyqOPXHME0BfchII9EUPR19pocsNp/xSbeBCbD3PIR2Lg+Q5qk7OFqk1VhWPMdKHJg==}
 
-  '@sinonjs/commons@2.0.0':
-    resolution: {integrity: sha512-uLa0j859mMrg2slwQYdO/AkrOfmH+X6LTVmNTS9CqexuE2IvVORIkSpJLqePAbEnKJ77aMmCwr1NUZ57120Xcg==}
-
   '@sinonjs/commons@3.0.1':
     resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
 
   '@sinonjs/fake-timers@11.2.2':
     resolution: {integrity: sha512-G2piCSxQ7oWOxwGSAyFHfPIsyeJGXYtc6mFbnFA+kRXkiEnTl8c/8jul2S329iFBnDI9HGoeWWAZvuvOkZccgw==}
 
-  '@sinonjs/samsam@8.0.0':
-    resolution: {integrity: sha512-Bp8KUVlLp8ibJZrnvq2foVhP0IVX2CIprMJPK0vqGqgrDa0OHVKeZyBykqskkrdxV6yKBPmGasO8LVjAKR3Gew==}
+  '@sinonjs/fake-timers@13.0.2':
+    resolution: {integrity: sha512-4Bb+oqXZTSTZ1q27Izly9lv8B9dlV61CROxPiVtywwzv5SnytJqhvYe6FclHYuXml4cd1VHPo1zd5PmTeJozvA==}
+
+  '@sinonjs/samsam@8.0.2':
+    resolution: {integrity: sha512-v46t/fwnhejRSFTGqbpn9u+LQ9xJDse10gNnPgAcxgdoCDMXj/G2asWAC/8Qs+BAZDicX+MNZouXT1A7c83kVw==}
 
   '@sinonjs/text-encoding@0.7.3':
     resolution: {integrity: sha512-DE427ROAphMQzU4ENbliGYrBSYPXF+TtLg9S8vzeA+OF4ZKzoDdzfL8sxuMUGS/lgRhM6j1URSk9ghf7Xo1tyA==}
@@ -35395,6 +35440,10 @@ packages:
     resolution: {integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==}
     engines: {node: '>=0.3.1'}
 
+  diff@7.0.0:
+    resolution: {integrity: sha512-PJWHUb1RFevKCwaFA9RlG5tCd+FO5iRh9A8HEtkmBH2Li03iJriB6m6JIN4rGz3K3JLawI7/veA1xzRKP6ISBw==}
+    engines: {node: '>=0.3.1'}
+
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
@@ -36396,9 +36445,6 @@ packages:
   karma-sourcemap-loader@0.3.8:
     resolution: {integrity: sha512-zorxyAakYZuBcHRJE+vbrK2o2JXLFWK8VVjiT/6P+ltLBUGUvqTEkUiQ119MGdOrK7mrmxXHZF1/pfT6GgIZ6g==}
 
-  karma-sourcemap-loader@0.4.0:
-    resolution: {integrity: sha512-xCRL3/pmhAYF3I6qOrcn0uhbQevitc2DERMPH82FMnG+4WReoGcGFZb1pURf2a5apyrOHRdvD+O6K7NljqKHyA==}
-
   karma@6.4.4:
     resolution: {integrity: sha512-LrtUxbdvt1gOpo3gxG+VAJlJAEMhbWlM4YrFQgql98FwF7+K8K12LYO4hnDdUkNjeztYrOXEMqgTajSWgmtI/w==}
     engines: {node: '>= 10'}
@@ -36747,8 +36793,8 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
 
-  nise@5.1.9:
-    resolution: {integrity: sha512-qOnoujW4SV6e40dYxJOb3uvuoPHtmLzIk4TFo+j0jPJoC+5Z9xja5qH5JZobEPsa8+YYphMrOSwnrshEhG2qww==}
+  nise@6.1.1:
+    resolution: {integrity: sha512-aMSAzLVY7LyeM60gvBS423nBmIPP+Wy7St7hsb+8/fc1HmeoHJfLO8CKse4u3BtOZvQLJghYPI2i/1WZrEj5/g==}
 
   nock@13.5.5:
     resolution: {integrity: sha512-XKYnqUrCwXC8DGG1xX4YH5yNIrlh9c065uaMZZHUoeUUINTOyt+x/G+ezYk0Ft6ExSREVIs+qBJDK503viTfFA==}
@@ -36951,6 +36997,10 @@ packages:
 
   path-to-regexp@6.2.2:
     resolution: {integrity: sha512-GQX3SSMokngb36+whdpRXE+3f9V8UzyAorlYvOGx87ufGHehNTn5lCxrKtLyZ4Yl/wEKnNnr98ZzOwwDZV5ogw==}
+
+  path-to-regexp@8.2.0:
+    resolution: {integrity: sha512-TdrF7fW9Rphjq4RjrW0Kp2AW0Ahwu9sRGTkS6bvDi0SCwZlEZYmcfDbEsTz8RVk0EHIS/Vd1bv3JhG+1xZuAyQ==}
+    engines: {node: '>=16'}
 
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
@@ -37420,9 +37470,8 @@ packages:
   simple-get@4.0.1:
     resolution: {integrity: sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==}
 
-  sinon@17.0.2:
-    resolution: {integrity: sha512-uihLiaB9FhzesElPDFZA7hDcNABzsVHwr3YfmM9sBllVwab3l0ltGlRV1XhpNfIacNDLGD1QRZNLs5nU5+hTuA==}
-    deprecated: There
+  sinon@19.0.2:
+    resolution: {integrity: sha512-euuToqM+PjO4UgXeLETsfQiuoyPXlqFezr6YZDFwHR3t4qaX0fZUe1MfPMznTL5f8BWrVS89KduLdMUsxFCO6g==}
 
   sirv@2.0.4:
     resolution: {integrity: sha512-94Bdh3cC2PKrbgSOUqTiGPWVZeSiXfKOVZNJniWoqrWrRkB1CJzBU3NEbiTsPcYy1lDsANA/THzS+9WBiy5nfQ==}
@@ -40133,10 +40182,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@sinonjs/commons@2.0.0':
-    dependencies:
-      type-detect: 4.0.8
-
   '@sinonjs/commons@3.0.1':
     dependencies:
       type-detect: 4.0.8
@@ -40145,9 +40190,13 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@sinonjs/samsam@8.0.0':
+  '@sinonjs/fake-timers@13.0.2':
     dependencies:
-      '@sinonjs/commons': 2.0.0
+      '@sinonjs/commons': 3.0.1
+
+  '@sinonjs/samsam@8.0.2':
+    dependencies:
+      '@sinonjs/commons': 3.0.1
       lodash.get: 4.4.2
       type-detect: 4.1.0
 
@@ -41319,6 +41368,8 @@ snapshots:
   diff@4.0.2: {}
 
   diff@5.2.0: {}
+
+  diff@7.0.0: {}
 
   dir-glob@3.0.1:
     dependencies:
@@ -42516,14 +42567,10 @@ snapshots:
     dependencies:
       graceful-fs: 4.2.11
 
-  karma-sourcemap-loader@0.4.0:
-    dependencies:
-      graceful-fs: 4.2.11
-
   karma@6.4.4(debug@4.3.6):
     dependencies:
       '@colors/colors': 1.5.0
-      body-parser: 1.20.2
+      body-parser: 1.20.3
       braces: 3.0.3
       chokidar: 3.6.0
       connect: 3.7.0
@@ -42923,13 +42970,13 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  nise@5.1.9:
+  nise@6.1.1:
     dependencies:
       '@sinonjs/commons': 3.0.1
-      '@sinonjs/fake-timers': 11.2.2
+      '@sinonjs/fake-timers': 13.0.2
       '@sinonjs/text-encoding': 0.7.3
       just-extend: 6.2.0
-      path-to-regexp: 6.2.2
+      path-to-regexp: 8.2.0
 
   nock@13.5.5:
     dependencies:
@@ -43177,6 +43224,8 @@ snapshots:
   path-to-regexp@0.1.7: {}
 
   path-to-regexp@6.2.2: {}
+
+  path-to-regexp@8.2.0: {}
 
   path-type@4.0.0: {}
 
@@ -43727,13 +43776,13 @@ snapshots:
       once: 1.4.0
       simple-concat: 1.0.1
 
-  sinon@17.0.2:
+  sinon@19.0.2:
     dependencies:
       '@sinonjs/commons': 3.0.1
-      '@sinonjs/fake-timers': 11.2.2
-      '@sinonjs/samsam': 8.0.0
-      diff: 5.2.0
-      nise: 5.1.9
+      '@sinonjs/fake-timers': 13.0.2
+      '@sinonjs/samsam': 8.0.2
+      diff: 7.0.0
+      nise: 6.1.1
       supports-color: 7.2.0
 
   sirv@2.0.4:
