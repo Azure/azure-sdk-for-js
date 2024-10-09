@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
 import {
   DeletedKeyBundle,
   DeletedKeyItem,
   KeyRotationPolicy as GeneratedKeyRotationPolicy,
   KeyBundle,
-} from "../../src/generated";
+} from "../../src/generated/index.js";
 import {
   DeletedKey,
   KeyProperties,
   KeyRotationPolicy,
   KeyRotationPolicyProperties,
   KeyVaultKey,
-} from "../../src/keysModels";
+} from "../../src/keysModels.js";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem,
   keyRotationTransformations,
-} from "../../src/transformations";
-import { stringToUint8Array } from "../public/utils/crypto";
+} from "../../src/transformations.js";
+import { stringToUint8Array } from "../public/utils/crypto.js";
+import { describe, it, assert, expect } from "vitest";
 
 describe("Transformations", () => {
   const releasePolicy = {
@@ -337,10 +336,8 @@ describe("Transformations", () => {
         ],
       };
 
-      assert.deepEqualExcludingEvery(
-        keyRotationTransformations.propertiesToGenerated(publicPolicy),
+      expect(keyRotationTransformations.propertiesToGenerated(publicPolicy)).to.deep.equal(
         expected,
-        ["created", "updated"] as any,
       );
     });
   });

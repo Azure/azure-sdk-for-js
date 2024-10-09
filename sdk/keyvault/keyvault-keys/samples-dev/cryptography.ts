@@ -5,7 +5,7 @@
  * @summary Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
  */
 
-import { createHash } from "crypto";
+import { createHash } from "node:crypto";
 
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";

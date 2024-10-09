@@ -16,6 +16,10 @@ export class NetworkStatsbeat {
 
   public totalSuccesfulRequestCount: number;
 
+  public totalReadFailureCount: number;
+
+  public totalWriteFailureCount: number;
+
   public totalFailedRequestCount: { statusCode: number; count: number }[];
 
   public retryCount: { statusCode: number; count: number }[];
@@ -35,6 +39,8 @@ export class NetworkStatsbeat {
     this.host = host;
     this.totalRequestCount = 0;
     this.totalSuccesfulRequestCount = 0;
+    this.totalReadFailureCount = 0;
+    this.totalWriteFailureCount = 0;
     this.totalFailedRequestCount = [];
     this.retryCount = [];
     this.exceptionCount = [];
@@ -66,6 +72,8 @@ export enum StatsbeatCounter {
   THROTTLE_COUNT = "Throttle_Count",
   EXCEPTION_COUNT = "Exception_Count",
   AVERAGE_DURATION = "Request_Duration",
+  READ_FAILURE_COUNT = "Read_Failure_Count",
+  WRITE_FAILURE_COUNT = "Write_Failure_Count",
   ATTACH = "Attach",
   FEATURE = "Feature",
 }
