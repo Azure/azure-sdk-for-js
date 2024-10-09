@@ -9,17 +9,17 @@ pr:
       - '**/*.bicep'
       - eng/pipelines/bicep-warnings.yml
 
-variables:
-  - template: /eng/pipelines/templates/variables/image.yml
-
-stages:
+extends: /eng/pipelines/templates/stages/1es-redirect.yml
+parameters:
+  stages:
   - stage: LintBicepFiles
     displayName: Lint Bicep Files
 
     pool:
       # AzureFileCopy requires Windows
       name: $(WINDOWSPOOL)
-      vmImage: $(WINDOWSVMIMAGE)
+      image: $(WINDOWSVMIMAGE)
+      os: windows
 
     jobs:
       - job: LintBicep
@@ -36,7 +36,7 @@ stages:
               sed '/^$/N;/^\n$/D;' lint-warnings.txt > lint-warnings-${DATE}.txt
             displayName: 'Rename Lint Warnings File with Date'
 
-          - task: PublishPipelineArtifact@1
+          - task: 1ES.PublishPipelineArtifact@1
             inputs:
               targetPath: 'lint-warnings-$(DATE).txt'
               artifactName: 'bicep-lint-warnings-$(DATE)'
@@ -51,3 +51,7 @@ stages:
               containerName: 'azure-sdk-for-js'
               blobPrefix: 'bicep-lint-warnings/$(DATE)'
               AdditionalArgumentsForBlobCopy: '--overwrite=true'
+    variables:
+      - template: /eng/pipelines/templates/variables/image.yml
+      - name: DATE
+        value: 0
