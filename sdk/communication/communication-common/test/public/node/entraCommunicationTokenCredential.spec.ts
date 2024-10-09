@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import nock from "nock";
-import { AzureCommunicationTokenCredential } from "../../../src";
+import { AzureCommunicationTokenCredential, EntraCommunicationTokenCredentialOptions } from "../../../src";
 import { assert } from "chai";
 import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import sinon from "sinon";
@@ -63,10 +63,12 @@ describe("Entra CommunicationTokenCredential", function () {
     const defaultScopes = ["https://communication.azure.com/clients/.default"];
     const getTokenSpy: sinon.SinonSpy = sinon.spy(tokenCredential, "getToken");
 
-    const credential = new AzureCommunicationTokenCredential({
-      resourceEndpoint,
-      tokenCredential,
-    });
+    const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+      resourceEndpoint: resourceEndpoint,
+      tokenCredential: tokenCredential
+    };
+
+    const credential = new AzureCommunicationTokenCredential(entraTokenCredentialOptions);
 
     const tokenResult = (await credential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);

@@ -24,7 +24,7 @@ export interface ExchangeTokenResponse {
   };
 }
 
-export interface EntraCommunicationTokenCredentialOptions {
+export interface EntraCommunicationTokenCredentialOptionsInterface {
   /**
    * The Azure Communication Service resource endpoint URL, e.g. https://myResource.communication.azure.com.
    */
@@ -39,6 +39,24 @@ export interface EntraCommunicationTokenCredentialOptions {
   scopes?: string[];
 }
 
+export class EntraCommunicationTokenCredentialOptions implements EntraCommunicationTokenCredentialOptionsInterface {  
+
+  constructor(
+    public resourceEndpoint: string,
+    public tokenCredential: TokenCredential,
+    public scopes?: string[]
+  ) {
+    this.resourceEndpoint = resourceEndpoint;
+    this.tokenCredential = tokenCredential;
+    if (scopes) {
+      this.scopes = scopes;
+    }
+    else{
+      this.scopes = ["https://communication.azure.com/clients/.default"];
+    }
+  }
+}
+
 /**
  * EntraTokenCredential
  */
@@ -51,7 +69,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
   private client: Client;
   private httpClient: HttpClient;
 
-  constructor(private options: EntraCommunicationTokenCredentialOptions) {
+  constructor(private options: EntraCommunicationTokenCredentialOptionsInterface) {
     this.client = getClient(options.resourceEndpoint);
     this.httpClient = createDefaultHttpClient();
 
@@ -88,7 +106,11 @@ export class EntraTokenCredential implements AcsTokenCredential {
         entraToken: undefined,
         acsToken: { token: "", expiresOnTimestamp: 0 },
       };
-    } else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
+    }
+    else if (this.result.acsToken.token !== "") {
+      return this.result.acsToken;
+    } 
+    else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
       const acsToken = await this.exchangeEntraToken(
         this.options.resourceEndpoint,
         token.token,
@@ -104,7 +126,10 @@ export class EntraTokenCredential implements AcsTokenCredential {
   }
 
   public dispose(): void {
-    /* intentionally empty */
+    this.result = {
+      entraToken: undefined,
+      acsToken: { token: "", expiresOnTimestamp: 0 },
+    };
   }
 
   private async exchangeEntraToken(
@@ -127,7 +152,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
 
     if (response.status !== 200 || !response.bodyAsText) {
       throw new Error(
-        `Failed to exchange entra token. Status: ${response.status}, Body: ${response.bodyAsText}`,
+        `Service request failed. Status: ${response.status}, Body: ${response.bodyAsText}`,
       );
     }
     const json = JSON.parse(response.bodyAsText) as ExchangeTokenResponse;
