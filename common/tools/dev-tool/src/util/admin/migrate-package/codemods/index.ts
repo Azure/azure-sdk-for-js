@@ -9,9 +9,9 @@ import replaceTestUtils from "./replaceTestUtils";
 export const codemods = [
   fixSourceFile,
   fixTestingImports,
-  addViHelper,
   replaceAssertIsRejected,
   replaceSinonStub,
+  addViHelper,
   replaceSupportTracing,
   replaceTestUtils,
 ];

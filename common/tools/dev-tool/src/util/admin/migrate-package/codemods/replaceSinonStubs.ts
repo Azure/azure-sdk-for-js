@@ -58,6 +58,12 @@ export default function replaceSinonStub(sourceFile: SourceFile) {
             // Skip all children of the current node as it was already transformed
             traversal.skip();
           }
+        } else if (methodNameAfterStub === undefined) {
+          // Replace the entire call chain (sinon.stub) with spyOn
+          node.replaceWithText(`vi.spyOn(${obj}, ${methodName})`);
+
+          // Skip all children of the current node as it was already transformed
+          traversal.skip();
         }
       } else if (
         ts.isPropertyAccessExpression(callee.compilerNode) &&
