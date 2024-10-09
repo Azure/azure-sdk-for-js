@@ -423,8 +423,8 @@ catalog:
   '@opentelemetry/semantic-conventions': ^1.26.0
   '@opentelemetry/winston-transport': ^0.6.0
   '@types/node': ^18.0.0
-  '@vitest/browser': ^2.0.5
-  '@vitest/coverage-istanbul': ^2.0.5
+  '@vitest/browser': ^2.1.2
+  '@vitest/coverage-istanbul': ^2.1.2
   dotenv: ^16.4.5
   eslint: ^9.9.0
   playwright: ^1.46.1
@@ -432,7 +432,7 @@ catalog:
   tshy: ^2.0.0
   tslib: ^2.7.0
   typescript: ~5.6.2
-  vitest: ^2.0.5
+  vitest: ^2.1.2
   # legacy packages
   '@types/chai': ^4.3.16
   '@types/mocha': ^10.0.0
