@@ -1,7 +1,6 @@
 packages:
   - common/tools/dev-tool
   - common/tools/eslint-plugin-azure-sdk
-  - common/tools/eslint-plugin-azure-sdk-helper
   - common/tools/vite-plugin-browser-test-map
   - sdk/core/abort-controller
   - sdk/core/core-amqp

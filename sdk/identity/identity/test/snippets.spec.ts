@@ -13,6 +13,7 @@ import {
   OnBehalfOfCredential,
   useIdentityPlugin,
 } from "@azure/identity";
+// @ts-ignore
 import { KeyClient } from "@azure/keyvault-keys";
 import { setLogLevel } from "@azure/logger";
 import dotenv from "dotenv";

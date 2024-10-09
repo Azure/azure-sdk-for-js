@@ -58,9 +58,10 @@
   "dependencies": {
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/abort-controller": "workspace:~",
+    "@azure/core-client": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",
-    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/api": "catalog:",
     "@types/chai": "catalog:",
     "@types/chai-as-promised": "^7.1.4",
     "chai": "catalog:",
