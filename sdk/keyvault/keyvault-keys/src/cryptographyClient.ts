@@ -10,7 +10,7 @@ import {
   KeyOperation,
   KeyVaultKey,
   KnownKeyOperations,
-} from "./keysModels";
+} from "./keysModels.js";
 import {
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
@@ -32,15 +32,15 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "./cryptographyClientModels";
-import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
-import { randomBytes } from "./cryptography/crypto";
-import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
-import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
-import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
-import { tracingClient } from "./tracing";
+} from "./cryptographyClientModels.js";
+import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
+import { randomBytes } from "./cryptography/crypto.js";
+import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
+import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
+import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
+import { tracingClient } from "./tracing.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
