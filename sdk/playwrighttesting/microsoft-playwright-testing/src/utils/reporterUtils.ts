@@ -158,7 +158,7 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserType: browserName ? browserName.toUpperCase() : '',
+      browserType: browserName ? browserName.toUpperCase() : "",
       os: this.getOsName(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
