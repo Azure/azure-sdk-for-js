@@ -172,7 +172,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 5,
+      invariantVersion: 5, // 5 means we support live metrics filtering of metrics and documents
       instance: instance,
       roleName: roleName,
       machineName: machineName,

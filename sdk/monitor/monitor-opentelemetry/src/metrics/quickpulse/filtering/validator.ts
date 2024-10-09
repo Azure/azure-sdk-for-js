@@ -9,6 +9,7 @@ import {
   FilterInfo,
   KnownPredicateType,
   DocumentFilterConjunctionGroupInfo,
+  FilterConjunctionGroupInfo,
 } from "../../../generated";
 import { getMsFromFilterTimestampString } from "../utils";
 
@@ -62,7 +63,9 @@ export class Validator {
   public validateDocumentFilters(
     documentFilterConjuctionGroupInfo: DocumentFilterConjunctionGroupInfo,
   ): void {
-    documentFilterConjuctionGroupInfo.filters.filters.forEach((filter) => {
+    const filterConjunctionGroupInfo: FilterConjunctionGroupInfo =
+      documentFilterConjuctionGroupInfo.filters;
+    filterConjunctionGroupInfo.filters.forEach((filter) => {
       this.validateFieldNames(filter.fieldName, documentFilterConjuctionGroupInfo.telemetryType);
       this.validatePredicateAndComparand(filter);
     });
