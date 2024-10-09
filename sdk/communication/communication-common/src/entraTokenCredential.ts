@@ -17,6 +17,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
+import { createCommunicationAuthPolicy } from "./credential/communicationAuthPolicy";
 
 export interface ExchangeTokenResponse {
   identity: string;
@@ -26,7 +27,7 @@ export interface ExchangeTokenResponse {
   };
 }
 
-export interface EntraCommunicationTokenCredentialOptionsInterface {
+export interface EntraCommunicationTokenCredentialOptions {
   /**
    * The Azure Communication Service resource endpoint URL, e.g. https://myResource.communication.azure.com.
    */
@@ -42,27 +43,6 @@ export interface EntraCommunicationTokenCredentialOptionsInterface {
 }
 
 /**
- * Implements the EntraCommunicationTokenCredentialOptions interface to add a default value to the scopes.
- */
-export class EntraCommunicationTokenCredentialOptions
-  implements EntraCommunicationTokenCredentialOptionsInterface
-{
-  constructor(
-    public resourceEndpoint: string,
-    public tokenCredential: TokenCredential,
-    public scopes?: string[],
-  ) {
-    this.resourceEndpoint = resourceEndpoint;
-    this.tokenCredential = tokenCredential;
-    if (scopes) {
-      this.scopes = scopes;
-    } else {
-      this.scopes = ["https://communication.azure.com/clients/.default"];
-    }
-  }
-}
-
-/**
  * EntraTokenCredential
  */
 export class EntraTokenCredential implements AcsTokenCredential {
@@ -74,7 +54,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
   private client: Client;
   private httpClient: HttpClient;
 
-  constructor(private options: EntraCommunicationTokenCredentialOptionsInterface) {
+  constructor(private options: EntraCommunicationTokenCredentialOptions) {
     this.client = getClient(options.resourceEndpoint);
     this.httpClient = createDefaultHttpClient();
 
@@ -104,26 +84,18 @@ export class EntraTokenCredential implements AcsTokenCredential {
 
   private async getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     const getTokenOptions = options?.abortSignal ? { abortSignal: options.abortSignal } : undefined;
-    const token = await this.options.tokenCredential.getToken(
-      this.options.scopes
-        ? this.options.scopes
-        : ["https://communication.azure.com/clients/.default"],
-      getTokenOptions,
-    );
-    const policyOptions: BearerTokenAuthenticationPolicyOptions = {
-      credential: this.options.tokenCredential,
-      scopes: this.options.scopes
-        ? this.options.scopes
-        : ["https://communication.azure.com/clients/.default"],
-    };
-    this.client.pipeline.addPolicy(bearerTokenAuthenticationPolicy(policyOptions));
+    const token = await this.options.tokenCredential.getToken(this.options.scopes ? this.options.scopes : ["https://communication.azure.com/clients/.default"], getTokenOptions);
 
     if (token === null) {
       this.result = {
         entraToken: undefined,
         acsToken: { token: "", expiresOnTimestamp: 0 },
       };
-    } else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
+    }
+    else if (this.result.acsToken.token !== "") {
+      return this.result.acsToken;
+    } 
+    else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
       const acsToken = await this.exchangeEntraToken(
         this.options.resourceEndpoint,
         token.token,
@@ -156,7 +128,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
       headers: createHttpHeaders({
         Authorization: `Bearer ${entraToken}`,
         "Content-Type": "application/json",
-        Accept: "application/json",
+        "Accept": "application/json",
       }),
       abortSignal: options?.abortSignal,
       body: JSON.stringify({}),
