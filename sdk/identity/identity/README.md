@@ -47,7 +47,7 @@ Most of the credential types offered by `@azure/identity` use the [Microsoft Aut
 
 The `@azure/identity` credential types are implementations of [@azure/core-auth](https://www.npmjs.com/package/@azure/core-auth)'s `TokenCredential` class. In principle, any object with a `getToken` method that satisfies `getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>` works as a `TokenCredential`. This means developers can write their own credential types to support authentication cases not covered by `@azure/identity`. To learn more, see [Custom Credentials](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#custom-credentials).
 
-Though our credential types support many advanced cases, developers may want to use [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) directly:
+Though our credential types support many advanced scenarios, developers may want to use [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) directly instead. Consider using MSAL.js in the following scenarios:
 
 - Developers who want full control of the authentication protocol and its configuration.
 - Our credential types are designed to be used with Azure SDK clients with intelligent caching and token refreshing handled at the core HTTP layer. If you find yourself having to use `getToken` directly, you may benefit from using MSAL.js for more control over the authentication flow and token caching.
