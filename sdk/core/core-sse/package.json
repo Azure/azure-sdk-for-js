@@ -94,7 +94,7 @@
     "express": "^4.19.2",
     "playwright": "catalog:",
     "rimraf": "catalog:",
-    "tsx": "^4.17.0",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

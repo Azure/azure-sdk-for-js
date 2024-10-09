@@ -135,7 +135,7 @@
     "chai-as-promised": "^8.0.0",
     "chai-exclude": "^3.0.0",
     "copyfiles": "^2.4.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "catalog:",
     "debug": "^4.1.1",
     "dotenv": "catalog:",
     "eslint": "catalog:",
@@ -143,7 +143,7 @@
     "playwright": "catalog:",
     "rimraf": "catalog:",
     "tshy": "catalog:",
-    "tsx": "^4.16.2",
+    "tsx": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "ws": "^8.2.0"

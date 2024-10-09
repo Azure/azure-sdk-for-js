@@ -81,7 +81,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure-rest/core-client": "^1.0.0",
+    "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:~",
     "@azure/core-paging": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",
@@ -96,18 +96,18 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/identity": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
-    "@types/chai": "^4.1.6",
-    "@types/mocha": "^10.0.0",
+    "@types/chai": "catalog:",
+    "@types/mocha": "catalog:",
     "@types/node": "catalog:",
-    "chai": "^4.2.0",
-    "cross-env": "^7.0.3",
+    "chai": "catalog:",
+    "cross-env": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "mocha": "^10.0.0",
+    "mocha": "catalog:",
     "nyc": "^17.0.0",
     "rimraf": "catalog:",
     "source-map-support": "^0.5.9",
-    "ts-node": "^10.0.0",
+    "ts-node": "catalog:",
     "typescript": "catalog:"
   }
 }

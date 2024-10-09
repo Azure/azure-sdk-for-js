@@ -52,7 +52,7 @@
     "@azure/abort-controller": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",
-    "@opentelemetry/api": "catalog:"
+    "@opentelemetry/api": "catalog:",
     "tslib": "catalog:",
     "vitest": "catalog:"
   },

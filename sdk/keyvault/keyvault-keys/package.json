@@ -123,10 +123,10 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:~",
     "@azure/identity": "workspace:~",
     "@microsoft/api-extractor": "catalog:",
-    "@types/mocha": "^10.0.0",
+    "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/sinon": "^17.0.0",
-    "cross-env": "^7.0.2",
+    "cross-env": "catalog:",
     "dayjs": "^1.10.7",
     "dotenv": "catalog:",
     "eslint": "catalog:",
@@ -141,13 +141,13 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^10.0.0",
+    "mocha": "catalog:",
     "nyc": "^17.0.0",
     "puppeteer": "^23.0.2",
     "rimraf": "catalog:",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
-    "ts-node": "^10.0.0",
+    "ts-node": "catalog:",
     "typescript": "catalog:"
   }
 }

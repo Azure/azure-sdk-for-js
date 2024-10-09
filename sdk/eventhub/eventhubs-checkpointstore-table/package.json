@@ -92,7 +92,7 @@
     "@vitest/coverage-istanbul": "catalog:",
     "buffer": "^6.0.3",
     "chai-as-promised": "^8.0.0",
-    "cross-env": "^7.0.3",
+    "cross-env": "catalog:",
     "debug": "^4.1.1",
     "dotenv": "catalog:",
     "eslint": "catalog:",

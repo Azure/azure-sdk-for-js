@@ -61,7 +61,7 @@
     "disableDocsMs": true
   },
   "dependencies": {
-    "@azure-rest/core-client": "^1.4.0",
+    "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:~",
     "@azure/core-paging": "workspace:~",
     "@azure/core-rest-pipeline": "workspace:~",

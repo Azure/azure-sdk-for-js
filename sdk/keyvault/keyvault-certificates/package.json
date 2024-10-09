@@ -119,7 +119,7 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "cross-env": "^7.0.3",
+    "cross-env": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:",

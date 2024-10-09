@@ -103,7 +103,7 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "cross-env": "^7.0.2",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:",
     "rimraf": "catalog:",

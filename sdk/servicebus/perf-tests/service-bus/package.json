@@ -17,10 +17,10 @@
     "@azure/dev-tool": "workspace:~",
     "@types/node": "catalog:",
     "@types/uuid": "^8.0.0",
-    "cross-env": "^7.0.2",
+    "cross-env": "catalog:",
     "eslint": "catalog:",
     "rimraf": "catalog:",
-    "ts-node": "^10.0.0",
+    "ts-node": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:"
   },
