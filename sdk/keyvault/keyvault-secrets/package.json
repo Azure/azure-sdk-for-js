@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-secrets",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.8.1",
+  "version": "4.9.0",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's secrets.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/README.md",
@@ -102,7 +102,7 @@
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",
     "@azure/core-util": "workspace:~",
-    "@azure/keyvault-common": "^1.0.0",
+    "@azure/keyvault-common": "workspace:~",
     "@azure/logger": "workspace:~",
     "tslib": "catalog:"
   },

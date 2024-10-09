@@ -1,6 +1,6 @@
 {
   "name": "@azure/opentelemetry-instrumentation-azure-sdk",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
   "type": "module",
