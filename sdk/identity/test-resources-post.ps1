@@ -57,7 +57,7 @@ Write-Host "Working directory: $workingFolder"
 if ($CI) {
   Write-Host "Logging in to service principal"
   az cloud set --name $Environment
-  az login --service-principal -u $env:TestApplicationId --tenant $env:TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
+  az login --service-principal -u $TestApplicationId --tenant $TenantId --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
   az account set --subscription $SubscriptionId
 }
 
