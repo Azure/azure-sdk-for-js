@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { types } from "avsc";
 import * as avro from "avsc";
-
 /**
  * Custom logical type used to encode native Date objects as longs.
  *
@@ -10,7 +10,7 @@ import * as avro from "avsc";
  * appropriate resolver).
  *
  */
-export class DateType extends avro.types.LogicalType {
+export class DateType extends types.LogicalType {
   _fromValue(val: string): Date {
     const date = new Date(val);
     if (isNaN(+date)) {
