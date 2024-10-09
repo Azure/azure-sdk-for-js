@@ -1,7 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference lib="dom" />
+declare global {
+  interface Navigator {
+    platform: string;
+  }
+}
+
+declare const self: {
+  navigator: {
+    platform: string;
+  };
+};
 
 /**
  * @internal
