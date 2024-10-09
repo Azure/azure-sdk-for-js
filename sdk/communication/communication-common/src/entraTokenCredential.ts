@@ -10,14 +10,11 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Client, getClient } from "@azure-rest/core-client";
 import {
-  BearerTokenAuthenticationPolicyOptions,
   HttpClient,
-  bearerTokenAuthenticationPolicy,
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { createCommunicationAuthPolicy } from "./credential/communicationAuthPolicy";
 
 export interface ExchangeTokenResponse {
   identity: string;
@@ -92,9 +89,6 @@ export class EntraTokenCredential implements AcsTokenCredential {
         acsToken: { token: "", expiresOnTimestamp: 0 },
       };
     }
-    else if (this.result.acsToken.token !== "") {
-      return this.result.acsToken;
-    } 
     else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
       const acsToken = await this.exchangeEntraToken(
         this.options.resourceEndpoint,
