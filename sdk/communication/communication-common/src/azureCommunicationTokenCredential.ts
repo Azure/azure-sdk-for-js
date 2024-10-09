@@ -13,6 +13,10 @@ import {
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";
+import {
+  EntraCommunicationTokenCredentialOptions,
+  EntraTokenCredential,
+} from "./entraTokenCredential";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.
@@ -33,11 +37,25 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    * @param refreshOptions - Options to configure refresh and opt-in to proactive refreshing.
    */
   constructor(refreshOptions: CommunicationTokenRefreshOptions);
-  constructor(tokenOrRefreshOptions: string | CommunicationTokenRefreshOptions) {
-    if (typeof tokenOrRefreshOptions === "string") {
-      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptions));
+  /**
+   * Creates an instance of CommunicationTokenCredential with an Entra ID token credential. In most cases, you might want to use InteractiveBrowserCredential to sign in your user.
+   * @param entraOptions - Options to configure the Entra ID token credential.
+   */
+  constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
+  constructor(
+    tokenOrRefreshOptionsOrEntraOptions:
+      | string
+      | CommunicationTokenRefreshOptions
+      | EntraCommunicationTokenCredentialOptions,
+  ) {
+    if (typeof tokenOrRefreshOptionsOrEntraOptions === "string") {
+      this.tokenCredential = new StaticTokenCredential(
+        parseToken(tokenOrRefreshOptionsOrEntraOptions),
+      );
+    } else if ("tokenRefresher" in tokenOrRefreshOptionsOrEntraOptions) {
+      this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptionsOrEntraOptions);
     } else {
-      this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptions);
+      this.tokenCredential = new EntraTokenCredential(tokenOrRefreshOptionsOrEntraOptions);
     }
   }
 
