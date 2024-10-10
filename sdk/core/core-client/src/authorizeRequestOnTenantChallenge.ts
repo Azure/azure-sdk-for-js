@@ -27,7 +27,7 @@ const Constants = {
 
 function isUuid(text: string): boolean {
   return /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/.test(
-    text
+    text,
   );
 }
 
@@ -37,7 +37,7 @@ function isUuid(text: string): boolean {
  * Handling has specific features for storage that departs to the general AAD challenge docs.
  **/
 export const authorizeRequestOnTenantChallenge: (
-  challengeOptions: AuthorizeRequestOnChallengeOptions
+  challengeOptions: AuthorizeRequestOnChallengeOptions,
 ) => Promise<boolean> = async (challengeOptions) => {
   const requestOptions = requestToOptions(challengeOptions.request);
   const challenge = getChallenge(challengeOptions.response);
@@ -59,7 +59,7 @@ export const authorizeRequestOnTenantChallenge: (
 
     challengeOptions.request.headers.set(
       Constants.HeaderConstants.AUTHORIZATION,
-      `${getTokenType(accessToken)} ${accessToken.token}`
+      `${getTokenType(accessToken)} ${accessToken.token}`,
     );
     return true;
   }
@@ -88,7 +88,7 @@ function extractTenantId(challengeInfo: Challenge): string | undefined {
  */
 function buildScopes(
   challengeOptions: AuthorizeRequestOnChallengeOptions,
-  challengeInfo: Challenge
+  challengeInfo: Challenge,
 ): string[] {
   if (!challengeInfo.resource_id) {
     return challengeOptions.scopes;
@@ -134,7 +134,7 @@ function parseChallenge(challenge: string): Challenge {
   const bearerChallenge = challenge.slice("Bearer ".length);
   const challengeParts = `${bearerChallenge.trim()} `.split(" ").filter((x) => x);
   const keyValuePairs = challengeParts.map((keyValue) =>
-    (([key, value]) => ({ [key]: value }))(keyValue.trim().split("="))
+    (([key, value]) => ({ [key]: value }))(keyValue.trim().split("=")),
   );
   // Key-value pairs to plain object:
   return keyValuePairs.reduce((a, b) => ({ ...a, ...b }), {} as Challenge);
