@@ -80,6 +80,7 @@
     "@azure/core-rest-pipeline": "workspace:~",
     "@azure/core-tracing": "workspace:~",
     "@azure/logger": "workspace:~",
+    "@azure-rest/core-client": "workspace:~",
     "tslib": "catalog:"
   },
   "devDependencies": {

@@ -25693,6 +25693,9 @@ importers:
 
   sdk/schemaregistry/schema-registry:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: workspace:~
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -28013,8 +28016,8 @@ importers:
   sdk/standbypool/arm-standbypool:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:~
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -28022,8 +28025,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: catalog:core-lroV2
-        version: 2.7.2
+        specifier: workspace:~
+        version: link:../../core/core-lro
       '@azure/core-paging':
         specifier: workspace:~
         version: link:../../core/core-paging
@@ -28035,59 +28038,56 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: catalog:test-credentialV1
-        version: 1.2.0
+        specifier: workspace:~
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
+        specifier: workspace:~
+        version: link:../../test-utils/recorder
       '@azure/dev-tool':
         specifier: workspace:~
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:~
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: workspace:~
         version: link:../../identity/identity
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
-      '@types/chai':
-        specifier: 'catalog:'
-        version: 4.3.17
-      '@types/mocha':
-        specifier: 'catalog:'
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      chai:
+      '@vitest/browser':
         specifier: 'catalog:'
-        version: 4.5.0
-      cross-env:
+        version: 2.0.5(playwright@1.46.1)(typescript@5.6.3)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
         specifier: 'catalog:'
-        version: 7.0.3
+        version: 2.0.5(vitest@2.0.5)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      esm:
-        specifier: ^3.2.18
-        version: 3.2.25
+      eslint:
+        specifier: 'catalog:'
+        version: 9.12.0
       mkdirp:
         specifier: 'catalog:'
         version: 3.0.1
-      mocha:
+      playwright:
         specifier: 'catalog:'
-        version: 10.7.3
+        version: 1.46.1
       rimraf:
         specifier: 'catalog:'
         version: 5.0.10
-      ts-node:
+      tshy:
         specifier: 'catalog:'
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
+        version: 2.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: ^3.4.9
-        version: 3.19.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
   sdk/storage/arm-storage:
     dependencies:
