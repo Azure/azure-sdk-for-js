@@ -18,7 +18,7 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 import "dotenv/config";
 
 export async function main() {
-  console.log("== Chat Completions Sample with Tool Calling ==");
+  console.log("== Batch Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
