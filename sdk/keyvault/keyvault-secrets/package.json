@@ -93,36 +93,50 @@
     }
   },
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/core-client": "^1.5.0",
-    "@azure/core-http-compat": "^2.0.1",
-    "@azure/core-lro": "^2.2.0",
-    "@azure/core-paging": "^1.1.1",
-    "@azure/core-rest-pipeline": "^1.8.0",
-    "@azure/core-tracing": "^1.0.0",
-    "@azure/core-util": "^1.0.0",
-    "@azure/keyvault-common": "^2.0.0",
-    "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "@azure/abort-controller": "workspace:~",
+    "@azure/core-auth": "workspace:~",
+    "@azure/core-client": "workspace:~",
+    "@azure/core-http-compat": "workspace:~",
+    "@azure/core-lro": "catalog:core-lroV2",
+    "@azure/core-paging": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-tracing": "workspace:~",
+    "@azure/core-util": "workspace:~",
+    "@azure/keyvault-common": "workspace:~",
+    "@azure/logger": "workspace:~",
+    "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.1.0",
-    "@azure-tools/test-utils-vitest": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
-    "@microsoft/api-extractor": "^7.31.1",
-    "@types/node": "^18.0.0",
-    "@vitest/coverage-istanbul": "^2.1.1",
-    "cross-env": "^7.0.2",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
-    "playwright": "^1.47.2",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.6.2",
-    "vitest": "^2.1.1"
+    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
+    "@azure-tools/test-utils": "workspace:~",
+    "@azure/dev-tool": "workspace:~",
+    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/identity": "workspace:~",
+    "@microsoft/api-extractor": "catalog:",
+    "@types/mocha": "catalog:",
+    "@types/node": "catalog:",
+    "@types/sinon": "catalog:",
+    "cross-env": "catalog:",
+    "dotenv": "catalog:",
+    "eslint": "catalog:",
+    "karma": "catalog:",
+    "karma-chrome-launcher": "catalog:",
+    "karma-coverage": "catalog:",
+    "karma-env-preprocessor": "catalog:",
+    "karma-firefox-launcher": "catalog:",
+    "karma-junit-reporter": "catalog:",
+    "karma-mocha": "catalog:",
+    "karma-mocha-reporter": "catalog:",
+    "karma-sourcemap-loader": "catalog:",
+    "mocha": "catalog:",
+    "nyc": "catalog:",
+    "puppeteer": "^23.0.2",
+    "rimraf": "catalog:",
+    "sinon": "catalog:",
+    "source-map-support": "^0.5.9",
+    "ts-node": "catalog:",
+    "typescript": "catalog:"
   },
   "type": "module",
   "tshy": {
@@ -135,7 +149,8 @@
       "commonjs"
     ],
     "esmDialects": [
-      "browser"
+      "browser",
+      "react-native"
     ],
     "selfLink": false
   },
@@ -145,6 +160,10 @@
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",

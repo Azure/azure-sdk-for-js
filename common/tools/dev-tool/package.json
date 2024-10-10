@@ -45,7 +45,7 @@
   "dependencies": {
     "@_ts/max": "npm:typescript@latest",
     "@_ts/min": "npm:typescript@~4.2.4",
-    "@azure/identity": "^4.4.1",
+    "@azure/identity": "npm:@azure/identity@4.4.1",
     "@microsoft/api-extractor": "^7.42.3",
     "@microsoft/api-extractor-model": "^7.29.8",
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -85,7 +85,7 @@
     "@types/minimist": "^1.2.5",
     "@types/node": "^18.0.0",
     "@types/semver": "^7.5.8",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.1.2",
     "autorest": "^3.7.1",
     "builtin-modules": "^3.1.0",
     "cross-env": "^7.0.3",
@@ -93,6 +93,6 @@
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
     "typescript-eslint": "~8.2.0",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.2"
   }
 }

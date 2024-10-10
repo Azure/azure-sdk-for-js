@@ -10,17 +10,18 @@
     "@azure/service-bus": "^1.1.10",
     "@azure/service-bus-v7": "npm:@azure/service-bus@^7.0.0",
     "@azure-tools/test-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
-    "dotenv": "^16.0.0",
+    "dotenv": "catalog:",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
+    "@azure/dev-tool": "workspace:~",
     "@types/node": "^8.0.0",
     "@types/uuid": "^8.0.0",
-    "eslint": "^9.9.0",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
     "ts-node": "^8.3.0",
-    "tslib": "^2.0.0",
-    "typescript": "~5.6.2"
+    "tslib": "catalog:",
+    "typescript": "catalog:"
   },
   "private": true,
   "scripts": {

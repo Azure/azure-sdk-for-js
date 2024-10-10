@@ -32,14 +32,14 @@
   "dependencies": {
     "@azure/event-hubs": "^5.12.0",
     "@azure/abort-controller": "^2.1.2",
-    "@azure/identity": "^4.3.0",
+    "@azure/identity": "^4.4.1",
     "express": "^4.19.2",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^18.0.0",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.6.2"
+    "rimraf": "catalog:",
+    "typescript": "^5.5.3"
   }
 }

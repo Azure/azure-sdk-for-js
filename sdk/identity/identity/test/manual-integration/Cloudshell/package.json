@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "workspace:~",
     "@azure/keyvault-secrets": "^4.0.2"
   }
 }
