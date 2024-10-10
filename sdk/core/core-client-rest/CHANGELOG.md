@@ -6,8 +6,6 @@
 
 - Allow `number` path parameters. PR [#31352](https://github.com/Azure/azure-sdk-for-js/pull/31352/files)
 
-### Other Changes
-
 ## 2.3.0 (2024-10-03)
 
 ### Features Added
