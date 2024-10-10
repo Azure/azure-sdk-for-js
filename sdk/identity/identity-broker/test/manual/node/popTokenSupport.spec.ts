@@ -13,9 +13,6 @@ import { sendGraphRequest } from "./popTokenClient";
 import { assert } from "@azure-tools/test-utils";
 
 describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
-  beforeEach(async function (this: Mocha.Context) {});
-  afterEach(async function () {});
-
   it("supports pop token authentication", async function (this: Mocha.Context) {
     if (isNodeLike) {
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
