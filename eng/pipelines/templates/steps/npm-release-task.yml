@@ -1,5 +1,4 @@
 parameters:
-  ArtifactName: ''
   Artifact: {}
   Registry: ''
   PathToArtifacts: ''
@@ -47,3 +46,11 @@ steps:
         arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
         pwsh: true
       condition: succeeded()
+
+  - task: Powershell@2
+    displayName: Verify package tags
+    inputs:
+      targetType: filePath
+      filePath: eng/scripts/verify-npm-tags.ps1
+      arguments: -packageName ${{parameters.Artifact.name}} -workingDirectory $(System.DefaultWorkingDirectory)
+      pwsh: true
