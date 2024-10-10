@@ -6,7 +6,7 @@ import {
   createHash as cryptoCreateHash,
   createVerify as cryptoCreateVerify,
   randomBytes as cryptoRandomBytes,
-} from "crypto";
+} from "node:crypto";
 
 /**
  * @internal

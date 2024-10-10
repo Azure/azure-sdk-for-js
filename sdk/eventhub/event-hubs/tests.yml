@@ -6,7 +6,6 @@ extends:
       PackageName: "@azure/event-hubs"
       ServiceDirectory: eventhub
       MatrixFilters:
-        - TestType=^(?!sample).*
         - DependencyVersion=^$
       UseFederatedAuth: true
       Clouds: 'Public,Canary'

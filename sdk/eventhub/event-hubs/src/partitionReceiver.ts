@@ -35,7 +35,7 @@ import { createAbortablePromise } from "@azure/core-util";
 import { TimerLoop } from "./util/timerLoop.js";
 import { getRandomName } from "./util/utils.js";
 import { withAuth } from "./withAuth.js";
-import { receiverIdPropertyName } from "./util/constants.js";
+import { geoReplication, receiverIdPropertyName } from "./util/constants.js";
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -530,7 +530,7 @@ function createRheaOptions(
   if (typeof ownerLevel === "number") {
     rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
-  rheaOptions.desired_capabilities = [Constants.geoReplication];
+  rheaOptions.desired_capabilities = [geoReplication];
   if (options.trackLastEnqueuedEventProperties) {
     rheaOptions.desired_capabilities.push(Constants.enableReceiverRuntimeMetricName);
   }

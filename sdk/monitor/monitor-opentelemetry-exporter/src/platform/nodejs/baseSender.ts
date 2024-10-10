@@ -206,6 +206,7 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           };
     } catch (ex: any) {
+      this.networkStatsbeatMetrics?.countWriteFailure();
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -237,6 +238,7 @@ export abstract class BaseSender {
         await this.send(envelopes);
       }
     } catch (err: any) {
+      this.networkStatsbeatMetrics?.countReadFailure();
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }

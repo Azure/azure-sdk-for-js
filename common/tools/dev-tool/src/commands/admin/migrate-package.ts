@@ -52,10 +52,15 @@ export const commandInfo = makeCommandInfo(
       description: "The name of the package to migrate",
       kind: "string",
     },
+    browser: {
+      description: "Generate browser test config",
+      kind: "boolean",
+      default: true,
+    },
   },
 );
 
-export default leafCommand(commandInfo, async ({ "package-name": packageName }) => {
+export default leafCommand(commandInfo, async ({ "package-name": packageName, browser }) => {
   const root = await resolveRoot();
 
   const rushJson = await getRushJson();
@@ -76,10 +81,11 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
   fixSourceFiles(projectFolder);
   fixTestingImports(projectFolder);
 
-  // TODO: Check if browser supported
-  await writeBrowserTestConfig(projectFolder);
+  if (browser) {
+    await writeBrowserTestConfig(projectFolder);
+    await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
+  }
   await writeFile(resolve(projectFolder, "vitest.config.ts"), VITEST_CONFIG);
-  await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
 
   return true;
 });
@@ -132,10 +138,7 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
     },
   };
 
-  await writeFile(
-    resolve(packageFolder, "test.browser.config.json"),
-    JSON.stringify(testConfig, null, 2),
-  );
+  await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
 }
 
 function fixTestingImports(packageFolder: string): void {
@@ -329,7 +332,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
   // TODO: Clean up the betaTrimmedFilePath
   delete apiExtractorJson.dtsRollup.betaTrimmedFilePath;
 
-  await writeFile(apiExtractorJsonPath, JSON.stringify(apiExtractorJson, null, 2));
+  await saveJson(apiExtractorJsonPath, apiExtractorJson);
 }
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
@@ -352,18 +355,18 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
   tsConfig.compilerOptions.moduleResolution = "NodeNext";
   tsConfig.compilerOptions.rootDir = ".";
   tsConfig.include = [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
-    "./test/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
+    "test/**/*.ts",
   ];
 
   // Remove old options
   delete tsConfig.compilerOptions.outDir;
   delete tsConfig.compilerOptions.declarationDir;
 
-  await writeFile(tsconfigPath, JSON.stringify(tsConfig, null, 2));
+  await saveJson(tsconfigPath, tsConfig);
 }
 
 async function upgradePackageJson(projectFolder: string, packageJsonPath: string): Promise<void> {
@@ -388,7 +391,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   setFilesSection(packageJson);
 
   // Set scripts
-  setScriptsSection(packageJson);
+  setScriptsSection(packageJson.scripts);
 
   // Rename files and rewrite browser field
   await renameFieldFiles("browser", "browser", projectFolder, packageJson);
@@ -397,18 +400,23 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   delete packageJson["react-native"];
 
   // Save the updated package.json
-  await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+  await saveJson(packageJsonPath, packageJson);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function setScriptsSection(packageJson: any): void {
-  packageJson.scripts["build"] =
-    "npm run clean && dev-tool run build-package && dev-tool run extract-api";
+function setScriptsSection(scripts: PackageJson["scripts"]): void {
+  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
-  // TODO: Check if web package or not
-  packageJson.scripts["unit-test:browser"] =
+  scripts["unit-test:browser"] =
     "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
-  packageJson.scripts["unit-test:node"] = "dev-tool run test:vitest --no-test-proxy";
+  scripts["unit-test:node"] = "dev-tool run test:vitest";
+
+  for (const script of Object.keys(scripts)) {
+    if (scripts[script].includes("tsc -p .")) {
+      log.info(`Replacing usage of "tsc -p ." with "dev-tool run build-package" in ${script}`);
+      scripts[script] = scripts[script].replace("tsc -p .", "dev-tool run build-package");
+    }
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -441,18 +449,22 @@ function addTypeScriptHybridizer(packageJson: any): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function addNewPackages(packageJson: any): Promise<void> {
-  const newPackages = [
-    "@vitest/browser",
-    "@vitest/coverage-istanbul",
-    "playwright",
-    "tshy",
-    "vitest",
-  ];
+  const newPackages = {
+    "@azure-tools/test-utils-vitest": "1.0.0",
+    "@vitest/browser": undefined,
+    "@vitest/coverage-istanbul": undefined,
+    playwright: undefined,
+    vitest: undefined,
+  };
 
-  for (const newPackage of newPackages) {
-    const latestVersion = await run(["npm", "view", newPackage, "version"], {
-      captureOutput: true,
-    });
+  for (const [newPackage, desiredMinVersion] of Object.entries(newPackages)) {
+    let latestVersion = desiredMinVersion;
+    if (!latestVersion) {
+      // Get the latest version from npm
+      latestVersion = await run(["npm", "view", newPackage, "version"], {
+        captureOutput: true,
+      });
+    }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
@@ -495,6 +507,7 @@ function removeLegacyPackages(packageJson: any): void {
     "@types/mocha",
     "@types/chai",
     "@types/sinon",
+    "@azure-tools/test-utils",
   ];
   for (const legacyPackage of legacyPackages) {
     if (packageJson.devDependencies[legacyPackage]) {
@@ -553,4 +566,9 @@ async function renameFieldFiles(
       }
     }
   }
+}
+
+function saveJson(filePath: string, json: unknown): ReturnType<typeof writeFile> {
+  const fileContents = JSON.stringify(json, null, 2) + "\n"; // ensure file ends in blank line per repo rules
+  return writeFile(filePath, fileContents);
 }
