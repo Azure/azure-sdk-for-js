@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { HttpMethods } from '@azure/core-util';
 
 // @public
 export interface AccessToken {
@@ -36,11 +37,6 @@ export class AzureSASCredential implements SASCredential {
     update(newSignature: string): void;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "computeTokenType" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
-export function computeTokenType(accessToken: AccessToken): string;
-
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
@@ -61,7 +57,9 @@ export interface GetTokenOptions {
 }
 
 // @public
-export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
+export function getTokenType(accessToken: AccessToken): string;
+
+export { HttpMethods }
 
 // @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
