@@ -21657,7 +21657,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-+HzH3P5PeM6fLWGWcyUDI/2d8ZPr9uOkjf5IMXXW+7viY/TpMMadf9ku/1GCqLksadjfRwGOJqfMJwVoXWYigw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-yW/R7Rl6hIEIRoR/caeCWhfzKpDSzNNV77UPTLAvMl+t41K1IwDoGrYmJ5TPdBzOcmeYsn07tZM5Xy5ccZRlSA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -21858,7 +21858,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-m1V0PP5WR2Ox0RzHWDizwSFANg0zj8UuBqVt6ECtSO6DgfiCj9FuSaIpOKwhvb+prOV4GGC4IihtwBaORDQPGg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-E5T7p54ydN4pbBQjPz+UzCj6PUDNj+iqi90FrUdD6qsiqS5dziR3+g9r7Q8lxAC5x2NUOXYhjRKMCdJDqA01Cg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     id: file:projects/eventhubs-checkpointstore-blob.tgz
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
@@ -21910,7 +21910,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz(chai@4.3.10):
-    resolution: {integrity: sha512-aTiThbGjLc8XtCtTW8nlwpFiTXyhXPRPdynjmMoe8xmsJ6DOhQRuHkFH/FcfN7lh7W5wBJ9pQhtekB+RVT+EsQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-V1emnGbZyyoBAzpas9KZnQL5U2a1Fho4j1gVO2gYlN9kMZvSFl0EP327wpbSulVxQwdN2JIWMtDamSV8vJ6Viw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     id: file:projects/eventhubs-checkpointstore-table.tgz
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
@@ -22565,7 +22565,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-Cw39bOZcIkaw/i3kT3oYQxxSTDpDaAYSqEamTwWjF+yeG77NMYTdWlEuRkg4gYEJ26MuvjHGhtsIWMfnGgPeeQ==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-RywMefxlSihx/iyVMgwGmkPipzRpgOgTz3uUDbFU6oOgeVyH0s23dgPD8RYY6jKJgVXt8MGnsfqTbHUone5uZA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -22577,6 +22577,8 @@ packages:
       '@types/mocha': 10.0.8
       '@types/node': 18.19.54
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.2(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.2)
+      '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       cross-env: 7.0.3
       dayjs: 1.11.13
       dotenv: 16.4.5
@@ -22594,6 +22596,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
       puppeteer: 23.5.1(typescript@5.6.2)
       rimraf: 5.0.10
       sinon: 17.0.1
@@ -22601,14 +22604,27 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.54)(typescript@5.6.2)
       tslib: 2.7.0
       typescript: 5.6.2
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/keyvault-secrets.tgz:
@@ -23558,7 +23574,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-mlZ0Y8bABujnWzTOls485/NJ+dbE+y/V54Y0jExTdcKOuZ9IMzovsHr0eGT9wQ7fRB9Wcpypc4x1ZgAfdoDzwQ==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-xJ607pXMvCPGs/rvbyCA8m2VLtyxfuVRJeAoxYZYItvJzcnR7SSkn22bsR8HzYAPyhpOytTW3ml8CO9Oggk6pQ==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -24210,7 +24226,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-NrcgDuOX9Erm7IH2YbLPlb6yvDbQ1ZtLazcEyZnz6lqgNKstETm5zjyF358q1hi0l+bPWnxszbx5qvUKqJC0Ow==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-w38Mjm5jUF2PTGhMcbn7l4oi2JoQsExuPE8CUosRyZE2vvOnN2Mh4dLgJYINp6LOauPJD04a2yYwZeU4sAUA6g==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -24284,7 +24300,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-json.tgz:
-    resolution: {integrity: sha512-zMhIdAv1iElRZPhOnMULxuEaX0E9jb2JPJKcoPbWC75e9IvOmBH/0AX2XlHSFrnooDAaqCtFcaRalQKoE+3OIQ==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-3rzGwMksNdCfVYA5bBf8EYvAOU4joF5YgIy3RyTJwhM9LfxcAOsvFx0MUfVkqiDAoCMHb3TX7e88K7QJOlIxqQ==, tarball: file:projects/schema-registry-json.tgz}
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
