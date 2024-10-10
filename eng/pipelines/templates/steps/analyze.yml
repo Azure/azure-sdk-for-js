@@ -75,7 +75,7 @@ steps:
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
-      Artifacts: ${{ parameters.Artifacts }}
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - script: |
       node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
