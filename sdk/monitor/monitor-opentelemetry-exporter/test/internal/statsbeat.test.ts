@@ -4,7 +4,11 @@
 import * as assert from "assert";
 import { ExportResultCode } from "@opentelemetry/core";
 import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils";
-import { DEFAULT_BREEZE_ENDPOINT, ENV_DISABLE_STATSBEAT, LEGACY_ENV_DISABLE_STATSBEAT } from "../../src/Declarations/Constants";
+import {
+  DEFAULT_BREEZE_ENDPOINT,
+  ENV_DISABLE_STATSBEAT,
+  LEGACY_ENV_DISABLE_STATSBEAT,
+} from "../../src/Declarations/Constants";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
 // @ts-expect-error Need to ignore this while we do not import types
