@@ -38,6 +38,7 @@
     "@types/node": "catalog:",
     "chai": "catalog:",
     "cross-env": "catalog:",
+    "dotenv": "catalog:",
     "mkdirp": "catalog:",
     "mocha": "catalog:",
     "rimraf": "catalog:",
