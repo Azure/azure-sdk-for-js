@@ -18,7 +18,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const key = process.env["KEY"] || "<key>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
 const provider = new NodeTracerProvider();
@@ -35,20 +36,23 @@ registerInstrumentations({
 
 // any import such as ai-inference has core-tracing as dependency must be imported after the instrumentation is registered
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   console.log("== Chat Completions Sample ==");
 
-  const tracer = trace.getTracer('sample', '0.1.0');
+  const tracer = trace.getTracer("sample", "0.1.0");
+
+  const client = createModelClient();
 
   const response = await tracer.startActiveSpan('main', async (span) => {
-    const client = ModelClient(endpoint, new AzureKeyCredential(key));
     return client.path("/chat/completions").post({
       body: {
         messages: [{ role: "user", content: "What's the weather like in Boston?" }],
         temperature: 1.0,
         max_tokens: 1000,
-        top_p: 1.0
+        top_p: 1.0,
+        model: modelName
       },
       tracingOptions: { tracingContext: context.active() }
     }).then((response) => {
@@ -63,6 +67,21 @@ async function main() {
 
   for (const choice of response.body.choices) {
     console.log(choice.message.content);
+  }
+}
+
+/*
+  * This function creates a model client.
+  */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));      
+  } else {
+    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);      
   }
 }
 

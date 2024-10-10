@@ -5,7 +5,7 @@
  * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";

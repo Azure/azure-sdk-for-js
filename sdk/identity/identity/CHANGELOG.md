@@ -1,6 +1,21 @@
 # Release History
 
+## 4.5.0 (Unreleased)
+
+### Features Added
+
+### Bugs Fixed
+
+### Breaking Changes
+
+- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided.
+
+### Other Changes
+
+- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message.
+
 <!-- dev-tool snippets ignore -->
+
 ## 4.5.0-beta.3 (2024-09-18)
 
 ### Features Added
