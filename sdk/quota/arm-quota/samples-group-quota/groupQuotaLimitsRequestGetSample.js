@@ -13,22 +13,29 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets the GroupQuotas for the name passed. It will return the GroupQuotas properties only. The details on group quota can be access from the group quota APIs.
+ * This sample demonstrates how to Get API to check the status of a GroupQuota request by requestId.
  *
- * @summary Gets the GroupQuotas for the name passed. It will return the GroupQuotas properties only. The details on group quota can be access from the group quota APIs.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotas/GetGroupQuotas.json
+ * @summary Get API to check the status of a GroupQuota request by requestId.
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotaLimitsRequests/GroupQuotaLimitsRequests_Get.json
  */
-async function groupQuotasGetRequestForCompute() {
+async function groupQuotaLimitsRequestsGet() {
+  // REPLACE THESE VALUES
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
+  const requestId = "requestId";
+  
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.groupQuotas.get(managementGroupId, groupQuotaName);
+  const result = await client.groupQuotaLimitsRequest.get(
+    managementGroupId,
+    groupQuotaName,
+    requestId,
+  );
   console.log(result);
 }
 
 async function main() {
-  groupQuotasGetRequestForCompute();
+  groupQuotaLimitsRequestsGet();
 }
 
 main().catch(console.error);
