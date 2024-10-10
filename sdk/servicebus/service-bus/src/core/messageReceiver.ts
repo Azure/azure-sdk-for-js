@@ -8,22 +8,22 @@ import {
   RetryOptions,
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
-import { receiverLogger as logger } from "../log";
-import { LinkEntity, ReceiverType } from "./linkEntity";
-import { ConnectionContext } from "../connectionContext";
-import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { getUniqueName } from "../util/utils";
-import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
-import { DispositionStatusOptions } from "./managementClient";
+import { receiverLogger as logger } from "../log.js";
+import { LinkEntity, ReceiverType } from "./linkEntity.js";
+import { ConnectionContext } from "../connectionContext.js";
+import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { getUniqueName } from "../util/utils.js";
+import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models.js";
+import { DispositionStatusOptions } from "./managementClient.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   onMessageSettled,
   DeferredPromiseAndTimer,
   ReceiverHandlers,
   createReceiverOptions,
-} from "./shared";
-import { LockRenewer } from "./autoLockRenewer";
-import { translateServiceBusError } from "../serviceBusError";
+} from "./shared.js";
+import { LockRenewer } from "./autoLockRenewer.js";
+import { translateServiceBusError } from "../serviceBusError.js";
 
 /**
  * @internal

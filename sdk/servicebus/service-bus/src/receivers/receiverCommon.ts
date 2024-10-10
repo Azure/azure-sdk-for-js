@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageHandlers, ProcessErrorArgs } from "../models";
-import { ServiceBusReceiver } from "./receiver";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { createServiceBusLogger, logger, receiverLogger, ServiceBusLogger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
+import { MessageHandlers, ProcessErrorArgs } from "../models.js";
+import { ServiceBusReceiver } from "./receiver.js";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import { createServiceBusLogger, logger, receiverLogger, ServiceBusLogger } from "../log.js";
+import { translateServiceBusError } from "../serviceBusError.js";
 import {
   DeadLetterOptions,
   DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../serviceBusMessage";
-import { DispositionStatusOptions } from "../core/managementClient";
-import { ConnectionContext } from "../connectionContext";
+} from "../serviceBusMessage.js";
+import { DispositionStatusOptions } from "../core/managementClient.js";
+import { ConnectionContext } from "../connectionContext.js";
 import {
   Constants,
   ErrorNameConditionMapper,
@@ -23,11 +23,11 @@ import {
   RetryOperationType,
   RetryOptions,
 } from "@azure/core-amqp";
-import { MessageAlreadySettled } from "../util/errors";
+import { MessageAlreadySettled } from "../util/errors.js";
 import { delay, isDefined } from "@azure/core-util";
 import { TracingSpanLink } from "@azure/core-tracing";
-import { toSpanOptions, tracingClient } from "../diagnostics/tracing";
-import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage";
+import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
+import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
 
 /**
  * @internal

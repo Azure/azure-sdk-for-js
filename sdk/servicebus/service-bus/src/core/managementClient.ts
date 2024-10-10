@@ -24,7 +24,7 @@ import {
   RetryOptions,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { ConnectionContext } from "../connectionContext";
+import { ConnectionContext } from "../connectionContext.js";
 import {
   DispositionType,
   ServiceBusReceivedMessage,
@@ -34,10 +34,10 @@ import {
   fromRheaMessage,
   updateScheduledTime,
   updateMessageId,
-} from "../serviceBusMessage";
-import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
-import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
-import { toBuffer, waitForSendable } from "../util/utils";
+} from "../serviceBusMessage.js";
+import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity.js";
+import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log.js";
+import { toBuffer, waitForSendable } from "../util/utils.js";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
@@ -45,22 +45,22 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch,
-} from "../util/errors";
-import { max32BitNumber } from "../util/constants";
+} from "../util/errors.js";
+import { max32BitNumber } from "../util/constants.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
-import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ReceiveMode } from "../models";
-import { translateServiceBusError } from "../serviceBusError";
-import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
+import { ReceiveMode } from "../models.js";
+import { translateServiceBusError } from "../serviceBusError.js";
+import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer.js";
 import { delay, isDefined, isObjectWithProperties } from "@azure/core-util";
 import {
   RuleProperties,
   SqlRuleAction,
   SqlRuleFilter,
-} from "../serializers/ruleResourceSerializer";
-import { ListRequestOptions } from "../serviceBusAtomManagementClient";
+} from "../serializers/ruleResourceSerializer.js";
+import { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
 
 /**
  * @internal

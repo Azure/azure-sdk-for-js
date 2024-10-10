@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { TracingContext, TracingSpanLink, TracingSpanOptions } from "@azure/core-tracing";
-import { ConnectionContext } from "../connectionContext";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusReceiver } from "../receivers/receiver";
-import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
-import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing";
+import { ConnectionContext } from "../connectionContext.js";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import { ServiceBusReceiver } from "../receivers/receiver.js";
+import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage.js";
+import { MessagingOperationNames, toSpanOptions, tracingClient } from "./tracing.js";
 
 /**
  * @internal

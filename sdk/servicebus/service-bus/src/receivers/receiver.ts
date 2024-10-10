@@ -9,10 +9,10 @@ import {
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
-} from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { ServiceBusReceivedMessage } from "../serviceBusMessage";
-import { ConnectionContext } from "../connectionContext";
+} from "../models.js";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import { ServiceBusReceivedMessage } from "../serviceBusMessage.js";
+import { ConnectionContext } from "../connectionContext.js";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
@@ -22,10 +22,10 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
-} from "../util/errors";
-import { ReceiveOptions } from "../core/messageReceiver";
-import { StreamingReceiver } from "../core/streamingReceiver";
-import { BatchingReceiver } from "../core/batchingReceiver";
+} from "../util/errors.js";
+import { ReceiveOptions } from "../core/messageReceiver.js";
+import { StreamingReceiver } from "../core/streamingReceiver.js";
+import { BatchingReceiver } from "../core/batchingReceiver.js";
 import {
   abandonMessage,
   assertValidMessageHandlers,
@@ -33,16 +33,16 @@ import {
   deadLetterMessage,
   deferMessage,
   getMessageIterator,
-} from "./receiverCommon";
+} from "./receiverCommon.js";
 import Long from "long";
-import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
+import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import { LockRenewer } from "../core/autoLockRenewer";
-import { receiverLogger as logger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
-import { ensureValidIdentifier } from "../util/utils";
-import { toSpanOptions, tracingClient } from "../diagnostics/tracing";
-import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage";
+import { LockRenewer } from "../core/autoLockRenewer.js";
+import { receiverLogger as logger } from "../log.js";
+import { translateServiceBusError } from "../serviceBusError.js";
+import { ensureValidIdentifier } from "../util/utils.js";
+import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
+import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
 import { TracingSpanLink } from "@azure/core-tracing";
 
 /**

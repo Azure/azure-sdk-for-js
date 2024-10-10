@@ -25,13 +25,13 @@ import {
   PipelinePolicy,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { CorrelationRuleFilter } from "./core/managementClient";
-import { administrationLogger as logger } from "./log";
+import { CorrelationRuleFilter } from "./core/managementClient.js";
+import { administrationLogger as logger } from "./log.js";
 import {
   buildNamespace,
   NamespaceProperties,
   NamespaceResourceSerializer,
-} from "./serializers/namespaceResourceSerializer";
+} from "./serializers/namespaceResourceSerializer.js";
 import {
   buildQueue,
   buildQueueOptions,
@@ -41,7 +41,7 @@ import {
   QueueProperties,
   QueueResourceSerializer,
   QueueRuntimeProperties,
-} from "./serializers/queueResourceSerializer";
+} from "./serializers/queueResourceSerializer.js";
 import {
   buildRule,
   CreateRuleOptions,
@@ -50,7 +50,7 @@ import {
   RuleResourceSerializer,
   SqlRuleAction,
   SqlRuleFilter,
-} from "./serializers/ruleResourceSerializer";
+} from "./serializers/ruleResourceSerializer.js";
 import {
   buildSubscription,
   buildSubscriptionOptions,
@@ -60,7 +60,7 @@ import {
   SubscriptionProperties,
   SubscriptionResourceSerializer,
   SubscriptionRuntimeProperties,
-} from "./serializers/subscriptionResourceSerializer";
+} from "./serializers/subscriptionResourceSerializer.js";
 import {
   buildTopic,
   buildTopicOptions,
@@ -70,12 +70,12 @@ import {
   TopicProperties,
   TopicResourceSerializer,
   TopicRuntimeProperties,
-} from "./serializers/topicResourceSerializer";
-import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
-import * as Constants from "./util/constants";
-import { parseURL } from "./util/parseUrl";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { tracingClient } from "./diagnostics/tracing";
+} from "./serializers/topicResourceSerializer.js";
+import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper.js";
+import * as Constants from "./util/constants.js";
+import { parseURL } from "./util/parseUrl.js";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials.js";
+import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";
 import {
   formatUserAgentPrefix,
@@ -83,8 +83,8 @@ import {
   isAbsoluteUrl,
   isJSONLikeObject,
   ServiceBusAtomAPIVersion,
-} from "./util/utils";
-import { HttpResponse } from "./util/compat";
+} from "./util/utils.js";
+import { HttpResponse } from "./util/compat/index.js";
 
 /**
  * Request options for list<entity-type>() operations

@@ -7,26 +7,26 @@ import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
-} from "./constructorHelpers";
-import { ConnectionContext } from "./connectionContext";
+} from "./constructorHelpers.js";
+import { ConnectionContext } from "./connectionContext.js";
 import {
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
   ReceiveMode,
   ServiceBusSenderOptions,
-} from "./models";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
+} from "./models.js";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver.js";
 import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
-} from "./receivers/sessionReceiver";
-import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager";
-import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
-import { entityPathMisMatchError } from "./util/errors";
-import { MessageSession } from "./session/messageSession";
+} from "./receivers/sessionReceiver.js";
+import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager.js";
+import { ServiceBusSender, ServiceBusSenderImpl } from "./sender.js";
+import { entityPathMisMatchError } from "./util/errors.js";
+import { MessageSession } from "./session/messageSession.js";
 import { isDefined } from "@azure/core-util";
-import { isCredential } from "./util/typeGuards";
-import { ensureValidIdentifier } from "./util/utils";
+import { isCredential } from "./util/typeGuards.js";
+import { ensureValidIdentifier } from "./util/utils.js";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
