@@ -3,7 +3,7 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { NotificationContent } from "./models.js";
+import { NotificationContent } from "./models";
 
 export interface GetMediaHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

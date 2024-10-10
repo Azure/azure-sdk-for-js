@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger.js";
+import { logger } from "./logger";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { MessagesServiceClient } from "./clientDefinitions.js";
+import { MessagesServiceClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
 export interface MessagesServiceClientOptions extends ClientOptions {

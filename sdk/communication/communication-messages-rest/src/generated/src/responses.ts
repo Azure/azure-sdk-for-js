@@ -7,7 +7,7 @@ import {
   RepeatabilityResultOutput,
   SendMessageResultOutput,
   PagedMessageTemplateItemOutput,
-} from "./outputModels.js";
+} from "./outputModels";
 
 export interface GetMedia200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
