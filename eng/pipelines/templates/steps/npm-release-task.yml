@@ -52,5 +52,5 @@ steps:
     inputs:
       targetType: filePath
       filePath: eng/scripts/verify-npm-tags.ps1
-      arguments: -packageArtifact '${{ convertToJson(parameters.Artifact) }}' -workingDirectory $(System.DefaultWorkingDirectory)
+      arguments: -packageName ${{parameters.Artifact.name}} -workingDirectory $(System.DefaultWorkingDirectory)
       pwsh: true
