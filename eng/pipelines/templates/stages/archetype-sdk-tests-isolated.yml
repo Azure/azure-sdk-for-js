@@ -44,7 +44,7 @@ parameters:
       Public:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
         ServiceConnection: azure-sdk-tests
-        SubscriptionConfigurationFilePaths: 
+        SubscriptionConfigurationFilePaths:
           - eng/common/TestResources/sub-config/AzurePublicMsft.json
       Preview:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
@@ -77,6 +77,9 @@ parameters:
   - name: UseFederatedAuth
     type: boolean
     default: true
+  - name: PersistOidcToken
+    type: boolean
+    default: false
 
 stages:
   - ${{ each cloud in parameters.CloudConfig }}:
@@ -105,6 +108,7 @@ stages:
                 TestResourceDirectories: ${{ parameters.TestResourceDirectories }}
                 PublishCodeCoverage: ${{ parameters.PublishCodeCoverage }}
                 UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
+                PersistOidcToken: ${{ parameters.PersistOidcToken }}
                 PreSteps:
                   - ${{ parameters.PreSteps }}
                 PostSteps:
