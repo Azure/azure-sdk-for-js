@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { TracingContext } from "./tracing.js";
+import { HttpMethods } from "@azure/core-util";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -135,20 +136,6 @@ export function getTokenType(accessToken: AccessToken): string {
   if (isPopToken(accessToken)) return "pop";
   return "Bearer";
 }
-
-/**
- * @public
- * Supported HTTP methods to use when making requests.
- */
-export type HttpMethods =
-  | "GET"
-  | "PUT"
-  | "POST"
-  | "DELETE"
-  | "PATCH"
-  | "HEAD"
-  | "OPTIONS"
-  | "TRACE";
 
 /**
  * Tests an object to determine whether it implements TokenCredential.
