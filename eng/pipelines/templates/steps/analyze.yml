@@ -23,7 +23,7 @@ steps:
     inputs:
       targetType: 'filePath'
       filePath: eng/scripts/spell-check-public-api.ps1
-      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      arguments: -ServiceDirectory $(ChangedServices)
       pwsh: true
     displayName: Spell check public APIs
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -80,19 +80,19 @@ steps:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
 
   - template: /eng/pipelines/templates/steps/run-eslint.yml
     parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      ServiceDirectory: $(ChangedServices)
 
   - pwsh: |
-      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
   - script: |
-      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)"
+      node eng/tools/rush-runner.js audit $(ChangedServices) -packages "$(ArtifactPackageNames)"
     condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
     displayName: "Audit libraries"
 
