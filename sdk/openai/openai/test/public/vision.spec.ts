@@ -6,15 +6,15 @@ import { assert, describe, beforeEach, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
 import { assertChatCompletions } from "./utils/asserts.js";
 import {
+  AnyApiVersion,
   APIMatrix,
-  APIVersion,
   DeploymentInfo,
   getDeployments,
+  isModelInList,
   withDeployments,
 } from "./utils/utils.js";
 import OpenAI, { AzureOpenAI } from "openai";
 import { logger } from "@azure/identity";
-import { RestError } from "@azure/core-rest-pipeline";
 import { visionModelsToSkip } from "./utils/models.js";
 
 describe("OpenAI", function () {
@@ -24,8 +24,8 @@ describe("OpenAI", function () {
     deployments = await getDeployments("vision");
   });
 
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
-    describe(`[${apiVersion}] Client`, () => {
+  matrix([APIMatrix], async function (apiVersion: AnyApiVersion) {
+    describe(`[${apiVersion.name}] Client`, () => {
       let client: AzureOpenAI | OpenAI;
 
       beforeEach(async function () {
@@ -60,22 +60,17 @@ describe("OpenAI", function () {
                   },
                 ],
               }),
-            (res) => {
-              assertChatCompletions(res);
-              try {
+            {
+              validate: (res) => {
+                logger.info("The content returned is:", res.choices[0].message?.content);
+                assertChatCompletions(res);
                 assert.isTrue(
                   res.choices[0].message?.content?.includes("snow") ||
                     res.choices[0].message?.content?.includes("icy"),
                 );
-              } catch (error: any) {
-                if (error.name === "AssertionError") {
-                  logger.info("The content returned is:", res.choices[0].message?.content);
-                } else {
-                  throw new RestError("Unexpceted error encounterd", error);
-                }
-              }
+              },
+              filterModels: (model) => !isModelInList(model, visionModelsToSkip),
             },
-            visionModelsToSkip,
           );
         });
       });
