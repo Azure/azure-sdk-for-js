@@ -19,7 +19,7 @@ steps:
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
-      Artifacts: ${{ parameters.Artifacts }}
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
