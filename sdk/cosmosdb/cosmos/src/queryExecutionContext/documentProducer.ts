@@ -34,6 +34,9 @@ export class DocumentProducer {
   public generation: number = 0;
   private respHeaders: CosmosHeaders;
   private internalExecutionContext: DefaultQueryExecutionContext;
+  public startEpk: string;
+  public endEpk: string;
+  public populateEpkRangeHeaders: boolean;
 
   /**
    * Provides the Target Partition Range Query Execution Context.
@@ -50,6 +53,9 @@ export class DocumentProducer {
     targetPartitionKeyRange: PartitionKeyRange,
     options: FeedOptions,
     correlatedActivityId: string,
+    startEpk?: string,
+    endEpk?: string,
+    populateEpkRangeHeaders?: boolean,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -69,6 +75,9 @@ export class DocumentProducer {
       this.fetchFunction,
       correlatedActivityId,
     );
+    this.startEpk = startEpk;
+    this.endEpk = endEpk;
+    this.populateEpkRangeHeaders = populateEpkRangeHeaders;
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
@@ -102,6 +111,8 @@ export class DocumentProducer {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
     diagnosticNode.addData({ partitionKeyRangeId: this.targetPartitionKeyRange.id });
     const id = getIdFromLink(this.collectionLink);
+    const startEpk = this.populateEpkRangeHeaders ? this.startEpk : undefined;
+    const endEpk = this.populateEpkRangeHeaders ? this.endEpk : undefined;
 
     return this.clientContext.queryFeed({
       path,
@@ -113,6 +124,8 @@ export class DocumentProducer {
       diagnosticNode,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"],
       correlatedActivityId: correlatedActivityId,
+      startEpk: startEpk,
+      endEpk: endEpk,
     });
   };
 
