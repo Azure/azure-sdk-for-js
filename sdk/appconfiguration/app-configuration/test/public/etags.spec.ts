@@ -12,6 +12,7 @@ import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 
+//  a different new comment
 describe("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
