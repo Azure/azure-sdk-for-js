@@ -28,9 +28,10 @@ hive_database,hive_db_1,bmWithAllTypes.attr8,"Awesome Attribute 1",name`);
 
     const response = await client.path("/atlas/v2/entity/businessmetadata/import").post({
       contentType: "multipart/form-data",
-      body: {
-        file: createFile(fileContent, "template_2.csv"),
-      },
+      body: [{
+        name: "file",
+        body: { file: createFile(fileContent, "template_2.csv"), }
+      }],
     });
     assert.strictEqual(isUnexpected(response), false);
   });
