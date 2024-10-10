@@ -58,6 +58,10 @@ function createRecorderStartOptions(): RecorderStartOptions {
       generalSanitizers,
       bodyKeySanitizers: [bodyKeySanitizer],
     },
+    removeCentralSanitizers: [
+      "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+      "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    ],
   };
 }
 
