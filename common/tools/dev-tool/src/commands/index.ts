@@ -13,12 +13,13 @@ const log = createPrinter("dev-tool");
 export const baseCommands = {
   admin: () => import("./admin"),
   about: () => import("./about"),
+  "check-package": () => import("./check-package"),
+  customization: () => import("./customization"),
+  migrate: () => import("./migrate"),
   package: () => import("./package"),
   samples: () => import("./samples"),
   "test-proxy": () => import("./test-proxy"),
   run: () => import("./run"),
-  migrate: () => import("./migrate"),
-  customization: () => import("./customization"),
 } as const;
 
 /**
@@ -34,7 +35,7 @@ export const baseCommand = async (...args: string[]): Promise<void> => {
   const status = await subCommand(baseCommandInfo, baseCommands)(...args);
 
   if (!status) {
-    log.error("Errors occured. See the output above.");
+    log.error("Errors occurred. See the output above.");
     process.exit(1);
   }
 };
