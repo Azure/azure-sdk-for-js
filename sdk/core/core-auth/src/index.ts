@@ -16,7 +16,7 @@ export {
   AccessToken,
   HttpMethods,
   isTokenCredential,
-  computeTokenType,
+  getTokenType as computeTokenType,
 } from "./tokenCredential.js";
 
 export { TracingContext } from "./tracing.js";
