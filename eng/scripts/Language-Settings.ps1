@@ -40,6 +40,10 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
+    # necessary because we find the artifact configuration from the ci.yml file based upon the artifactname, which is
+    # not populated at time of constructor for the package properties default population of ArtifactDetails
+    $pkgProp.InitializeCIArtifacts()
+
     return $pkgProp
   }
   return $null
