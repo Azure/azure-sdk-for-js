@@ -9,8 +9,9 @@ pr:
       - '**/*.bicep'
       - eng/pipelines/bicep-warnings.yml
 
-extends: /eng/pipelines/templates/stages/1es-redirect.yml
-parameters:
+extends:
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
+  parameters:
   stages:
   - stage: LintBicepFiles
     displayName: Lint Bicep Files
