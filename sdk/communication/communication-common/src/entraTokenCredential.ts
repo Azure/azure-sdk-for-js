@@ -82,6 +82,8 @@ export class EntraTokenCredential implements AcsTokenCredential {
   private async getTokenInternal(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     const getTokenOptions = options?.abortSignal ? { abortSignal: options.abortSignal } : undefined;
     const token = await this.options.tokenCredential.getToken(this.options.scopes ? this.options.scopes : ["https://communication.azure.com/clients/.default"], getTokenOptions);
+    const currentDateTime = new Date(Date.now());
+    const tokenExpiresOn = new Date(this.result.acsToken.expiresOnTimestamp);
 
     if (token === null) {
       this.result = {
@@ -89,7 +91,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
         acsToken: { token: "", expiresOnTimestamp: 0 },
       };
     }
-    else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken) {
+    else if (this.result.acsToken.token === "" || token.token !== this.result.entraToken || tokenExpiresOn < currentDateTime) {
       const acsToken = await this.exchangeEntraToken(
         this.options.resourceEndpoint,
         token.token,

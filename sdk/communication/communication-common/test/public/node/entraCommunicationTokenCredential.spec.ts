@@ -116,7 +116,7 @@ describe("Entra CommunicationTokenCredential", function () {
       scopes,
     };
     let entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
-    const exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
+    let exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
 
     let tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
@@ -151,7 +151,43 @@ describe("Entra CommunicationTokenCredential", function () {
       scopes,
     };
     entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
+    exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
     
+    tokenResult = (await entraTokenCredential.getToken()).token;
+    assert.strictEqual(tokenResult, acsToken);
+    assert.isTrue(exchangeTokenSpy.callCount > 0);
+    exchangeTokenSpy.restore();
+  });
+
+  it("Token exchange gets called again when acs token expires", async function () {
+    const currentDateTime = new Date(Date.now());
+    currentDateTime.setHours(currentDateTime.getHours() - 1); 
+    const successApiMockExpiredTime = () =>
+      apiMock().reply(200, {
+        accessToken: {
+          token: acsToken,
+          expiresOn: currentDateTime.toISOString(),
+        },
+      });
+
+    let scope = successApiMockExpiredTime();
+    const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+      resourceEndpoint: resourceEndpoint,
+      tokenCredential: tokenCredential,
+      scopes,
+    };
+    const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
+    const exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
+
+    let tokenResult = (await entraTokenCredential.getToken()).token;
+    assert.strictEqual(tokenResult, acsToken);
+    assert.isTrue(exchangeTokenSpy.callCount > 0);
+    assert.isTrue(scope.isDone());
+
+
+    scope = successApiMock();
+    exchangeTokenSpy.resetHistory();
+
     tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
     assert.isTrue(exchangeTokenSpy.callCount > 0);
