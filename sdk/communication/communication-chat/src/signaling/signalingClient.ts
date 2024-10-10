@@ -11,8 +11,7 @@ export interface SignalingClientOptions {
   gatewayApiVersion?: string;
 }
 
-export interface TrouterConfigClientOptions extends ChatClientOptions {
-}
+export interface TrouterConfigClientOptions extends ChatClientOptions {}
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
@@ -22,14 +21,19 @@ export const getSignalingClient = (
 ): SignalingClient | undefined => {
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
-    return new CommunicationSignalingClient(credential, logger, {
-      resourceEndpoint: options?.resourceEndpoint ?? undefined,
-      gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
-    }, {
-      httpClient: trouterConfigClientOptions?.httpClient ?? undefined,
-      additionalPolicies: trouterConfigClientOptions?.additionalPolicies ?? undefined,
-      userAgentOptions: trouterConfigClientOptions?.userAgentOptions ?? undefined,
-    });
+    return new CommunicationSignalingClient(
+      credential,
+      logger,
+      {
+        resourceEndpoint: options?.resourceEndpoint ?? undefined,
+        gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
+      },
+      {
+        httpClient: trouterConfigClientOptions?.httpClient ?? undefined,
+        additionalPolicies: trouterConfigClientOptions?.additionalPolicies ?? undefined,
+        userAgentOptions: trouterConfigClientOptions?.userAgentOptions ?? undefined,
+      },
+    );
   }
 
   // In node js

@@ -103,7 +103,7 @@ export class ChatClient {
       credential,
       logger,
       this.clientOptions.signalingClientOptions,
-      options
+      options,
     );
   }
 
