@@ -44,7 +44,7 @@ if ($validDev) {
   Write-Host "Dev version should be: $validDev, current dev version: $currentDev"
   if ($validDev -ne $currentDev) {
     Write-Host "Changing dev version from $currentDev to $validDev"
-    # TODO: add npm command for tag change
+    npm dist-tag add $packageName@$validDev dev
   }
 }
 
@@ -52,7 +52,7 @@ if ($validNext) {
   Write-Host "Next version should be: $validNext, current next version: $currentNext"
   if ($validNext -ne $currentNext) {
     Write-Host "Changing next version from $currentNext to $validNext"
-    # TODO: add npm command for tag change
+    npm dist-tag add $packageName@$validNext next
   }
 }
 
@@ -60,6 +60,6 @@ if ($validLatest) {
   Write-Host "Latest version should be: $validLatest, current latest version: $currentLatest"
   if ($validLatest -ne $currentLatest) {
     Write-Host "Changing latest version from $currentLatest to $validLatest"
-    # TODO: add npm command for tag change
+    npm dist-tag add $packageName@$validLatest latest
   }
 }
