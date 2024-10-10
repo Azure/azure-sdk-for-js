@@ -75,7 +75,7 @@ export interface EndpointCredential {
 // @public (undocumented)
 export interface EntraCommunicationTokenCredentialOptions {
     resourceEndpoint: string;
-    scopes: string[];
+    scopes?: string[];
     tokenCredential: TokenCredential;
 }
 
