@@ -8,7 +8,7 @@
  * @azsdk-weight 100
  */
 
-import { AzureOpenAI } from "openai"; 
+import { AzureOpenAI } from "openai";
 import fs from "fs";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
