@@ -36,7 +36,9 @@ export class AzureSASCredential implements SASCredential {
     update(newSignature: string): void;
 }
 
-// @public
+// Warning: (ae-internal-missing-underscore) The name "computeTokenType" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
 export function computeTokenType(accessToken: AccessToken): string;
 
 // @public
@@ -61,17 +63,11 @@ export interface GetTokenOptions {
 // @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
-// @public (undocumented)
-export function isBearerToken(accessToken: AccessToken): boolean;
-
 // @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
 // @public
 export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;
-
-// @public (undocumented)
-export function isPopToken(accessToken: AccessToken): boolean;
 
 // @public
 export function isSASCredential(credential: unknown): credential is SASCredential;
