@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-edgezones",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Azure Edgezones Service",
   "engines": {
     "node": ">=18.0.0"
