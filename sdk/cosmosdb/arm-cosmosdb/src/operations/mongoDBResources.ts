@@ -2223,7 +2223,7 @@ const updateMongoDBDatabaseThroughputOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.updateThroughputParameters,
@@ -2257,7 +2257,7 @@ const migrateMongoDBDatabaseToAutoscaleOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2289,7 +2289,7 @@ const migrateMongoDBDatabaseToManualThroughputOperationSpec: coreClient.Operatio
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2471,7 +2471,7 @@ const migrateMongoDBCollectionToAutoscaleOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2504,7 +2504,7 @@ const migrateMongoDBCollectionToManualThroughputOperationSpec: coreClient.Operat
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -2527,7 +2527,7 @@ const getMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MongoRoleDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2558,7 +2558,7 @@ const createUpdateMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MongoRoleDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.createUpdateMongoRoleDefinitionParameters,
@@ -2583,7 +2583,7 @@ const deleteMongoRoleDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2605,7 +2605,7 @@ const listMongoRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MongoRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2626,7 +2626,7 @@ const getMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MongoUserDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2657,7 +2657,7 @@ const createUpdateMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MongoUserDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.createUpdateMongoUserDefinitionParameters,
@@ -2682,7 +2682,7 @@ const deleteMongoUserDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2704,7 +2704,7 @@ const listMongoUserDefinitionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.MongoUserDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -2735,7 +2735,7 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.BackupInformation,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     requestBody: Parameters.location,
