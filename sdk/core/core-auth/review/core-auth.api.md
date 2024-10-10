@@ -5,12 +5,14 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { HttpMethods } from '@azure/core-util';
 
 // @public
 export interface AccessToken {
     expiresOnTimestamp: number;
     refreshAfterTimestamp?: number;
     token: string;
+    tokenType?: string;
 }
 
 // @public
@@ -40,6 +42,11 @@ export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
     claims?: string;
     enableCae?: boolean;
+    proofOfPossessionOptions?: {
+        nonce: string;
+        resourceRequestMethod: HttpMethods;
+        resourceRequestUrl: string;
+    };
     requestOptions?: {
         timeout?: number;
     };
@@ -48,6 +55,11 @@ export interface GetTokenOptions {
         tracingContext?: TracingContext;
     };
 }
+
+// @public
+export function getTokenType(accessToken: AccessToken): string;
+
+export { HttpMethods }
 
 // @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;

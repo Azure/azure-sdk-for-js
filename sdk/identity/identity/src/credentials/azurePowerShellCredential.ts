@@ -218,6 +218,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         return {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
+          tokenType: "Bearer",
         };
       } catch (err: any) {
         if (isNotInstalledError(err)) {

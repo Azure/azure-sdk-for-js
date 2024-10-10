@@ -197,6 +197,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           return {
             token: resp.token,
             expiresOnTimestamp: new Date(resp.expiresOn).getTime(),
+            tokenType: "Bearer",
           };
         } catch (e: any) {
           if (obj.stderr) {

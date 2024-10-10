@@ -103,6 +103,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           const validToken = {
             token: "test_token",
             expiresOnTimestamp: new Date().getTime(),
+            tokenType: "Bearer",
           };
           Sinon.stub(tokenExchangeMsi, "isAvailable").resolves(true);
           Sinon.stub(tokenExchangeMsi, "getToken").resolves(validToken);

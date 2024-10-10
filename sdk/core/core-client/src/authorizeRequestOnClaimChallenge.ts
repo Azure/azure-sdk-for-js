@@ -4,6 +4,7 @@
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { logger as coreClientLogger } from "./log.js";
 import { decodeStringToString } from "./base64.js";
+import { getTokenType } from "@azure/core-auth";
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.
@@ -94,6 +95,9 @@ export async function authorizeRequestOnClaimChallenge(
     return false;
   }
 
-  onChallengeOptions.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+  onChallengeOptions.request.headers.set(
+    "Authorization",
+    `${getTokenType(accessToken)} ${accessToken.token}`,
+  );
   return true;
 }

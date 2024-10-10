@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
+export { HttpMethods } from "@azure/core-util";
 export { AzureKeyCredential } from "./azureKeyCredential.js";
 export { KeyCredential, isKeyCredential } from "./keyCredential.js";
 export {
@@ -15,6 +15,7 @@ export {
   GetTokenOptions,
   AccessToken,
   isTokenCredential,
+  getTokenType,
 } from "./tokenCredential.js";
 
 export { TracingContext } from "./tracing.js";

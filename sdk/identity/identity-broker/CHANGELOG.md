@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.0 (2024-10-10)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for `InteractiveBrowserCredential` native broker scenarios. #30961
 
 ## 1.0.1 (2024-06-10)
 
