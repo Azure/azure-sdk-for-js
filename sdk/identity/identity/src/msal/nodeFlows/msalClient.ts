@@ -11,6 +11,7 @@ import {
   defaultLoggerCallback,
   ensureValidMsalToken,
   getAuthority,
+  getAuthorityHost,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
@@ -85,7 +86,7 @@ export interface MsalClient {
     scopes: string[],
     userAssertionToken: string,
     clientCredentials: string | CertificateParts | (() => Promise<string>),
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken>;
 
   /**
@@ -96,7 +97,7 @@ export interface MsalClient {
    */
   getTokenByInteractiveRequest(
     scopes: string[],
-    options: GetTokenInteractiveOptions,
+    options: GetTokenInteractiveOptions
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a user's username and password.
@@ -111,7 +112,7 @@ export interface MsalClient {
     scopes: string[],
     username: string,
     password: string,
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by prompting the user to authenticate using a device code.
@@ -124,7 +125,7 @@ export interface MsalClient {
   getTokenByDeviceCode(
     scopes: string[],
     userPromptCallback: DeviceCodePromptCallback,
-    options?: GetTokenWithSilentAuthOptions,
+    options?: GetTokenWithSilentAuthOptions
   ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client certificate.
@@ -137,7 +138,7 @@ export interface MsalClient {
   getTokenByClientCertificate(
     scopes: string[],
     certificate: CertificateParts,
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken>;
 
   /**
@@ -151,7 +152,7 @@ export interface MsalClient {
   getTokenByClientAssertion(
     scopes: string[],
     clientAssertion: () => Promise<string>,
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken>;
 
   /**
@@ -165,7 +166,7 @@ export interface MsalClient {
   getTokenByClientSecret(
     scopes: string[],
     clientSecret: string,
-    options?: GetTokenOptions,
+    options?: GetTokenOptions
   ): Promise<AccessToken>;
 
   /**
@@ -185,7 +186,7 @@ export interface MsalClient {
     redirectUri: string,
     authorizationCode: string,
     clientSecret?: string,
-    options?: GetTokenWithSilentAuthOptions,
+    options?: GetTokenWithSilentAuthOptions
   ): Promise<AccessToken>;
 
   /**
@@ -260,19 +261,16 @@ export const interactiveBrowserMockable = {
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
-  msalClientOptions: MsalClientOptions = {},
+  msalClientOptions: MsalClientOptions = {}
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(
     msalClientOptions.logger ?? msalLogger,
     tenantId,
-    clientId,
+    clientId
   );
 
   // TODO: move and reuse getIdentityClientAuthorityHost
-  const authority = getAuthority(
-    resolvedTenant,
-    msalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
-  );
+  const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({
     ...msalClientOptions.tokenCredentialOptions,
@@ -287,7 +285,7 @@ export function generateMsalConfiguration(
       knownAuthorities: getKnownAuthorities(
         resolvedTenant,
         authority,
-        msalClientOptions.disableInstanceDiscovery,
+        msalClientOptions.disableInstanceDiscovery
       ),
     },
     system: {
@@ -338,7 +336,7 @@ interface MsalClientState {
 export function createMsalClient(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: MsalClientOptions = {},
+  createMsalClientOptions: MsalClientOptions = {}
 ): MsalClient {
   const state: MsalClientState = {
     msalConfig: generateMsalConfiguration(clientId, tenantId, createMsalClientOptions),
@@ -351,7 +349,7 @@ export function createMsalClient(
 
   const publicApps: Map<string, msal.PublicClientApplication> = new Map();
   async function getPublicApp(
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<msal.PublicClientApplication> {
     const appKey = options.enableCae ? "CAE" : "default";
 
@@ -363,7 +361,7 @@ export function createMsalClient(
 
     // Initialize a new app and cache it
     state.logger.getToken.info(
-      `Creating new PublicClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`,
+      `Creating new PublicClientApplication with CAE ${options.enableCae ? "enabled" : "disabled"}.`
     );
 
     const cachePlugin = options.enableCae
@@ -385,14 +383,14 @@ export function createMsalClient(
 
   const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
   async function getConfidentialApp(
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<msal.ConfidentialClientApplication> {
     const appKey = options.enableCae ? "CAE" : "default";
 
     let confidentialClientApp = confidentialApps.get(appKey);
     if (confidentialClientApp) {
       state.logger.getToken.info(
-        "Existing ConfidentialClientApplication found in cache, returning it.",
+        "Existing ConfidentialClientApplication found in cache, returning it."
       );
       return confidentialClientApp;
     }
@@ -401,7 +399,7 @@ export function createMsalClient(
     state.logger.getToken.info(
       `Creating new ConfidentialClientApplication with CAE ${
         options.enableCae ? "enabled" : "disabled"
-      }.`,
+      }.`
     );
 
     const cachePlugin = options.enableCae
@@ -424,11 +422,11 @@ export function createMsalClient(
   async function getTokenSilent(
     app: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: string[],
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
       state.logger.getToken.info(
-        "No cached account found in local state, attempting to load it from MSAL cache.",
+        "No cached account found in local state, attempting to load it from MSAL cache."
       );
       const cache = app.getTokenCache();
       const accounts = await cache.getAllAccounts();
@@ -468,11 +466,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
     }
 
-    if(options.proofOfPossessionOptions){
+    if (options.proofOfPossessionOptions) {
       (silentRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
       (silentRequest as any).authenticationScheme = "pop";
-      (silentRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
-      (silentRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+      (silentRequest as any).resourceRequestMethod =
+        options.proofOfPossessionOptions.resourceRequestMethod;
+      (silentRequest as any).resourceRequestUri =
+        options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent(silentRequest);
@@ -484,7 +484,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   function calculateRequestAuthority(options?: GetTokenOptions): string | undefined {
     if (options?.tenantId) {
-      return getAuthority(options.tenantId, createMsalClientOptions.authorityHost);
+      return getAuthority(options.tenantId, getAuthorityHost(createMsalClientOptions));
     }
     return state.msalConfig.auth.authority;
   }
@@ -503,7 +503,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: Array<string>,
     options: GetTokenWithSilentAuthOptions,
-    onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>,
+    onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>
   ): Promise<AccessToken> {
     let response: msal.AuthenticationResult | null = null;
     try {
@@ -540,14 +540,14 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       token: response.accessToken,
       expiresOnTimestamp: response.expiresOn.getTime(),
       refreshAfterTimestamp: response.refreshOn?.getTime(),
-      tokenType: response.tokenType
+      tokenType: response.tokenType,
     };
   }
 
   async function getTokenByClientSecret(
     scopes: string[],
     clientSecret: string,
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using client secret`);
 
@@ -568,7 +568,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: response.tokenType
+        tokenType: response.tokenType,
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -578,7 +578,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   async function getTokenByClientAssertion(
     scopes: string[],
     clientAssertion: () => Promise<string>,
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using client assertion`);
 
@@ -601,7 +601,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: response.tokenType
+        tokenType: response.tokenType,
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -611,7 +611,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   async function getTokenByClientCertificate(
     scopes: string[],
     certificate: CertificateParts,
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using client certificate`);
 
@@ -632,7 +632,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: response.tokenType
+        tokenType: response.tokenType,
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -642,7 +642,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   async function getTokenByDeviceCode(
     scopes: string[],
     deviceCodeCallback: DeviceCodePromptCallback,
-    options: GetTokenWithSilentAuthOptions = {},
+    options: GetTokenWithSilentAuthOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using device code`);
 
@@ -671,7 +671,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     username: string,
     password: string,
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using username and password`);
 
@@ -702,7 +702,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     redirectUri: string,
     authorizationCode: string,
     clientSecret?: string,
-    options: GetTokenWithSilentAuthOptions = {},
+    options: GetTokenWithSilentAuthOptions = {}
   ): Promise<AccessToken> {
     state.logger.getToken.info(`Attempting to acquire token using authorization code`);
 
@@ -731,7 +731,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     userAssertionToken: string,
     clientCredentials: string | CertificateParts | (() => Promise<string>),
-    options: GetTokenOptions = {},
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     msalLogger.getToken.info(`Attempting to acquire token on behalf of another user`);
 
@@ -764,7 +764,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: response.tokenType
+        tokenType: response.tokenType,
       };
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
@@ -773,7 +773,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
   async function getTokenByInteractiveRequest(
     scopes: string[],
-    options: GetTokenInteractiveOptions = {},
+    options: GetTokenInteractiveOptions = {}
   ): Promise<AccessToken> {
     msalLogger.getToken.info(`Attempting to acquire token interactively`);
 
@@ -786,18 +786,18 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
      * If the default broker account is not available, the method will fall back to interactive authentication.
      */
     async function getBrokeredToken(
-      useDefaultBrokerAccount: boolean,
+      useDefaultBrokerAccount: boolean
     ): Promise<msal.AuthenticationResult> {
       msalLogger.verbose("Authentication will resume through the broker");
       const interactiveRequest = createBaseInteractiveRequest();
       if (state.pluginConfiguration.broker.parentWindowHandle) {
         interactiveRequest.windowHandle = Buffer.from(
-          state.pluginConfiguration.broker.parentWindowHandle,
+          state.pluginConfiguration.broker.parentWindowHandle
         );
       } else {
         // this is a bug, as the pluginConfiguration handler should validate this case.
         msalLogger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
         );
       }
 
@@ -812,11 +812,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         msalLogger.verbose("Attempting broker authentication without the default broker account");
       }
 
-      if(options.proofOfPossessionOptions){
+      if (options.proofOfPossessionOptions) {
         (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
         (interactiveRequest as any).authenticationScheme = "pop";
-        (interactiveRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
-        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+        (interactiveRequest as any).resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        (interactiveRequest as any).resourceRequestUri =
+          options.proofOfPossessionOptions.resourceRequestUrl;
       }
       try {
         return await app.acquireTokenInteractive(interactiveRequest);
@@ -851,11 +853,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (state.pluginConfiguration.broker.isEnabled) {
         return getBrokeredToken(state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false);
       }
-      if(options.proofOfPossessionOptions){
+      if (options.proofOfPossessionOptions) {
         (interactiveRequest as any).shrNonce = options.proofOfPossessionOptions.nonce;
         (interactiveRequest as any).authenticationScheme = "pop";
-        (interactiveRequest as any).resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
-        (interactiveRequest as any).resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+        (interactiveRequest as any).resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        (interactiveRequest as any).resourceRequestUri =
+          options.proofOfPossessionOptions.resourceRequestUrl;
       }
       return app.acquireTokenInteractive(interactiveRequest);
     });
