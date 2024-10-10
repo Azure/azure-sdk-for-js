@@ -12,7 +12,7 @@ import {
   SchemaRegistryClient,
 } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { testGroup, testSchemaIds } from "./dummies";
+import { testGroup, testSchemaIds } from "./dummies.js";
 import { v4 as uuid } from "uuid";
 import { Recorder, assertEnvironmentVariable, env, isLiveMode } from "@azure-tools/test-recorder";
 import {
