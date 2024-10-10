@@ -398,7 +398,10 @@ export type PathParameters<
     // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
     // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
     // We spread the second path params to end up with a single dimension tuple at the end.
-    [pathParameter: string | PathParameterWithOptions, ...pathParameters: PathParameters<Tail>]
+    [
+      pathParameter: string | number | PathParameterWithOptions,
+      ...pathParameters: PathParameters<Tail>,
+    ]
   : // When the path doesn't match the template, it means that we have no path parameters so we return
     // an empty tuple.
     [];
@@ -438,7 +441,7 @@ export interface PathParameterWithOptions {
   /**
    * The value of the parameter.
    */
-  value: string;
+  value: string | number;
 
   /**
    * Whether to allow for reserved characters in the value. If set to true, special characters such as '/' in the parameter's value will not be URL encoded.
