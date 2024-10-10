@@ -125,13 +125,13 @@ export function isPopToken(accessToken: AccessToken): boolean {
 }
 
 /**
- * @internal
- * Computes Token type "Bearer" or "Pop".
+ * @public
+ * Gets the Token type "Bearer" or "Pop".
  * Used for authentication headers.
  * @param accessToken - Access token
  * @returns token type
  */
-export function computeTokenType(accessToken: AccessToken): string {
+export function getTokenType(accessToken: AccessToken): string {
   if (isPopToken(accessToken)) return "pop";
   return "Bearer";
 }
