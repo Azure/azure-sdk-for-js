@@ -4,6 +4,17 @@ steps:
   # Package-Properties folder now contains the package properties for the packages that should be built or tested.
   # if targeting has been set by matrix, this value will already be populated, can't override it. Handle these cases here.
   - pwsh: |
+      # fix the parameter here don't just keep using the diff file directly, we need to rationalize between using this or the service directory
+      # depending if we're in a PR or not. this will work for some smoke testing though.
+      $prDiff = Get-Content $(Build.ArtifactStagingDirectory)/diff/diff.json | ConvertFrom-Json -AsHashTable
+
+      $services = "auto"
+      if ($prDiff["ChangedServices"]) {
+        $services = $prDiff["ChangedServices"] -join " "
+      }
+
+      Write-Host "##vso[task.setvariable variable=ChangedServices;]$services"
+
       Get-ChildItem -R "${{ parameters.PackageInfo }}"
 
       $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
@@ -17,6 +28,6 @@ steps:
     condition: eq(variables['ArtifactPackageNames'], '')
 
   - pwsh: |
-      Write-Host "This run is targeting: `n$(ArtifactPackageNames)"
+      Write-Host "This run is targeting: `n$(ArtifactPackageNames) in [$(ChangedServices)]"
     displayName: Resolve Targeted Packages
     condition: ne(variables['ArtifactPackageNames'], '')
