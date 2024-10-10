@@ -40,7 +40,7 @@ export interface EntraCommunicationTokenCredentialOptions {
 }
 
 /**
- * EntraTokenCredential
+ * Represents a credential that exchanges an Entra token for an Azure Communication Services (ACS) token, enabling access to ACS resources.
  */
 export class EntraTokenCredential implements AcsTokenCredential {
   private isPending: Promise<AccessToken> | null;
