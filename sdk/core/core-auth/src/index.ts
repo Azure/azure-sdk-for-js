@@ -16,8 +16,6 @@ export {
   AccessToken,
   HttpMethods,
   isTokenCredential,
-  isBearerToken,
-  isPopToken,
   computeTokenType,
 } from "./tokenCredential.js";
 
