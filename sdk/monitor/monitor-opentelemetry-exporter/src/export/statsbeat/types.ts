@@ -138,3 +138,15 @@ export enum StatsbeatFeatureType {
   FEATURE = 0,
   INSTRUMENTATION = 1,
 }
+
+/**
+ * Status codes indicating that we should shutdown statsbeat
+ * @internal
+ */
+export function isStatsbeatShutdownStatus(statusCode: number): boolean {
+  return (
+    statusCode === 401 || // Unauthorized
+    statusCode === 403 || // Forbidden
+    statusCode === 503 // Server Unavailable
+  );
+}
