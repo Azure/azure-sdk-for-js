@@ -25,10 +25,10 @@ import {
   StatsbeatOptions,
 } from "./types";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
-import { ENV_DISABLE_STATSBEAT, LEGACY_ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants";
+import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
-  private disableNonEssentialStatsbeat: boolean = !!(process.env[ENV_DISABLE_STATSBEAT] || process.env[LEGACY_ENV_DISABLE_STATSBEAT]);
+  private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
   private commonProperties: CommonStatsbeatProperties;
   private networkProperties: NetworkStatsbeatProperties;
   private isInitialized: boolean = false;

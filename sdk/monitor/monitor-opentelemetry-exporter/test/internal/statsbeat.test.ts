@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { ExportResultCode } from "@opentelemetry/core";
 import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils";
-import { DEFAULT_BREEZE_ENDPOINT, ENV_DISABLE_STATSBEAT } from "../../src/Declarations/Constants";
+import { DEFAULT_BREEZE_ENDPOINT, ENV_DISABLE_STATSBEAT, LEGACY_ENV_DISABLE_STATSBEAT } from "../../src/Declarations/Constants";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
 // @ts-expect-error Need to ignore this while we do not import types
@@ -454,6 +454,14 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["readFailureGauge"]);
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]?.["writeFailureGauge"]);
         delete process.env[ENV_DISABLE_STATSBEAT];
+      });
+
+      it("should disable all statsbeat when the legacy environement variable is set", () => {
+        process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);
+        assert.ok(!exporter["sender"]["longIntervalStatsbeatMetrics"]);
+        delete process.env[LEGACY_ENV_DISABLE_STATSBEAT];
       });
     });
   });
