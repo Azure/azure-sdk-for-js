@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentProducer } from "./documentProducer";
+import type { DocumentProducer } from "./documentProducer2";
 import type { ExecutionContext } from "./ExecutionContext";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 

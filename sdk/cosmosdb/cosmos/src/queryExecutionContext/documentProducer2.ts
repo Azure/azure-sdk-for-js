@@ -22,7 +22,7 @@ import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./index";
 
 /** @hidden */
-export class DocumentProducer2 {
+export class DocumentProducer {
   private collectionLink: string;
   private query: string | SqlQuerySpec;
   public targetPartitionKeyRange: PartitionKeyRange;
@@ -119,7 +119,7 @@ export class DocumentProducer2 {
     if (this.fetchResults.length !== 0) {
       const fetchResult = this.fetchResults[0];
       if (fetchResult.fetchResultType === FetchResultType.Exception) {
-        if (DocumentProducer2._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
+        if (DocumentProducer._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
           return true;
         }
       }
@@ -169,6 +169,7 @@ export class DocumentProducer2 {
     try {
       const { result: resources, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode);
+      console.log("resources", resources);
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -191,7 +192,7 @@ export class DocumentProducer2 {
       }
       mergeHeaders(this.respHeaders, headerResponse);
     } catch (err: any) {
-      if (DocumentProducer2._needPartitionKeyRangeCacheRefresh(err)) {
+      if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
         // Split just happend
         // Buffer the error so the execution context can still get the feedResponses in the itemBuffer
         const bufferedError = new FetchResult(undefined, err);
