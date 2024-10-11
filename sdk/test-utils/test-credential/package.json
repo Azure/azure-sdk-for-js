@@ -56,8 +56,8 @@
   "dependencies": {
     "@azure-tools/test-recorder": "workspace:~",
     "@azure/core-auth": "workspace:~",
+    "@azure/identity": "npm:@azure/identity@4.4.1",
     "@azure/core-util": "workspace:~",
-    "@azure/identity": "workspace:~",
     "tslib": "catalog:"
   },
   "devDependencies": {

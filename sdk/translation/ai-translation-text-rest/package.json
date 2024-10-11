@@ -104,7 +104,6 @@
     "karma-firefox-launcher": "catalog:",
     "karma-junit-reporter": "catalog:",
     "karma-mocha": "catalog:",
-    "karma-mocha": "catalog:",
     "karma-mocha-reporter": "catalog:",
     "karma-source-map-support": "catalog:",
     "karma-sourcemap-loader": "catalog:",
