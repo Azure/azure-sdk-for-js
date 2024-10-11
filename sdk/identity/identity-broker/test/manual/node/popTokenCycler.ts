@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * A function that gets a promise of an access token and allows providing
@@ -110,7 +109,6 @@ export function createTokenCycler(
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
-  let tenantId: string | undefined;
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
@@ -128,20 +126,7 @@ export function createTokenCycler(
     get isRefreshing(): boolean {
       return refreshWorker !== null;
     },
-    /**
-     * Produces true if the cycler SHOULD refresh (we are within the refresh
-     * window and not already refreshing)
-     */
-    get shouldRefresh(): boolean {
-      if (cycler.isRefreshing) {
-        return false;
-      }
-      if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
-        return true;
-      }
 
-      return (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now();
-    },
     /**
      * Produces true if the cycler MUST refresh (null or nearly-expired
      * token).
@@ -177,7 +162,6 @@ export function createTokenCycler(
         .then((_token) => {
           refreshWorker = null;
           token = _token;
-          tenantId = getTokenOptions.tenantId;
           return token;
         })
         .catch((reason) => {
@@ -186,7 +170,6 @@ export function createTokenCycler(
           // new retry chain.
           refreshWorker = null;
           token = null;
-          tenantId = undefined;
           throw reason;
         });
     }
@@ -199,14 +182,11 @@ export function createTokenCycler(
     // Simple rules:
     // - If we MUST refresh, then return the refresh task, blocking
     //   the pipeline until a token is available.
-    // - If we SHOULD refresh, then run refresh but don't return it
-    //   (we can still use the cached token).
     // - Return the token, since it's fine if we didn't return in
     //   step 1.
     //
 
     const hasClaimChallenge = Boolean(tokenOptions.claims);
-    const tenantIdChanged = tenantId !== tokenOptions.tenantId;
 
     if (hasClaimChallenge) {
       // If we've received a claim, we know the existing token isn't valid
@@ -214,17 +194,12 @@ export function createTokenCycler(
       token = null;
     }
 
-    // If the tenantId passed in token options is different to the one we have
-    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
-    // refresh the token with the new tenantId or token.
-    const mustRefresh = tenantIdChanged || hasClaimChallenge || cycler.mustRefresh;
+    // If we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
+    // refresh the token with the new token.
+    const mustRefresh = hasClaimChallenge || cycler.mustRefresh;
 
     if (mustRefresh) {
       return refresh(scopes, tokenOptions);
-    }
-
-    if (cycler.shouldRefresh) {
-      refresh(scopes, tokenOptions);
     }
 
     return token as AccessToken;
@@ -233,49 +208,17 @@ export function createTokenCycler(
 
 export function delay<T>(
   delayInMs: number,
-  value?: T,
-  options?: {
-    abortSignal?: AbortSignalLike;
-    abortErrorMsg?: string;
-  },
+  value?: T
 ): Promise<T | void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
-    let onAborted: (() => void) | undefined = undefined;
-
-    const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(
-          options?.abortErrorMsg ? options?.abortErrorMsg : "The operation was aborted.",
-        ),
-      );
-    };
-
-    const removeListeners = (): void => {
-      if (options?.abortSignal && onAborted) {
-        options.abortSignal.removeEventListener("abort", onAborted);
-      }
-    };
-
-    onAborted = (): void => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-      removeListeners();
-      return rejectOnAbort();
-    };
-
-    if (options?.abortSignal && options.abortSignal.aborted) {
-      return rejectOnAbort();
+    if (timer) {
+      clearTimeout(timer);
     }
 
     timer = setTimeout(() => {
-      removeListeners();
       resolve(value);
     }, delayInMs);
 
-    if (options?.abortSignal) {
-      options.abortSignal.addEventListener("abort", onAborted);
-    }
   });
 }
