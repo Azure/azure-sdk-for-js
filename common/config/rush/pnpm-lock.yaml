@@ -24289,7 +24289,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-M6X3YkorzHKNwRIwb09YkFQG1sNHYzJ+Fv93xkhu2LHVPVn9HSkyVbK7w/d+wZLrk62l1ZeboRAItoe5vfknww==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-w38Mjm5jUF2PTGhMcbn7l4oi2JoQsExuPE8CUosRyZE2vvOnN2Mh4dLgJYINp6LOauPJD04a2yYwZeU4sAUA6g==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -24299,11 +24299,14 @@ packages:
       '@azure/identity': 4.4.1
       '@azure/schema-registry': 1.2.0
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.24.0)
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.8
       '@types/node': 18.19.54
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.2(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.2)
+      '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       avsc: 5.7.7
       buffer: 6.0.3
       chai: 4.3.10
@@ -24325,6 +24328,7 @@ packages:
       lru-cache: 10.4.3
       mocha: 10.7.3
       nyc: 17.1.0
+      playwright: 1.47.2
       process: 0.11.10
       rimraf: 5.0.10
       stream: 0.0.3
@@ -24332,14 +24336,30 @@ packages:
       tslib: 2.7.0
       typescript: 5.6.2
       uuid: 8.3.2
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
       - '@swc/core'
       - '@swc/wasm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - rollup
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/schema-registry-json.tgz:
