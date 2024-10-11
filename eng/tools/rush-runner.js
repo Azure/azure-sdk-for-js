@@ -195,7 +195,7 @@ if (serviceDirs.length === 0) {
     case "unit-test":
     case "integration-test":
       var rushCommandFlag = "--impacted-by";
-      if (isReducedTestScopeEnabled) {
+      if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
         // If a service is configured to have reduced test matrix then run rush test only for those projects
         rushCommandFlag = "--only";
       }
