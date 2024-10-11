@@ -3900,6 +3900,12 @@ packages:
       '@types/chai': 4.3.20
     dev: false
 
+  /@types/chai-as-promised@8.0.1:
+    resolution: {integrity: sha512-dAlDhLjJlABwAVYObo9TPWYTRg9NaQM5CXeaeJYcYAkvzUf0JRLIiog88ao2Wqy/20WUnhbbUZcgvngEbJ3YXQ==}
+    dependencies:
+      '@types/chai': 4.3.20
+    dev: false
+
   /@types/chai@4.3.20:
     resolution: {integrity: sha512-/pC9HAB5I/xMlc5FP77qjCnI16ChlJfW0tGa0IUcFn38VJrTV6DeZ60NU5KZBtaOZqjdpwTWohz5HU1RrhiYxQ==}
     dev: false
@@ -6713,6 +6719,16 @@ packages:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
     dev: false
 
+  /follow-redirects@1.15.9:
+    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects@1.15.9(debug@4.3.7):
     resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
     engines: {node: '>=4.0'}
@@ -7133,6 +7149,17 @@ packages:
       debug: 4.3.7(supports-color@8.1.1)
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /http-proxy@1.18.1:
+    resolution: {integrity: sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      eventemitter3: 4.0.7
+      follow-redirects: 1.15.9
+      requires-port: 1.0.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /http-proxy@1.18.1(debug@4.3.7):
@@ -7784,7 +7811,7 @@ packages:
       karma: '>=0.9'
     dependencies:
       edge-launcher: 1.2.2
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
     dev: false
 
   /karma-env-preprocessor@0.1.1:
@@ -7809,7 +7836,7 @@ packages:
     peerDependencies:
       karma: '>=0.9'
     dependencies:
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       lodash: 4.17.21
     dev: false
 
@@ -7818,7 +7845,7 @@ packages:
     peerDependencies:
       karma: '>=0.9'
     dependencies:
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
     dev: false
 
   /karma-json-to-file-reporter@1.0.1:
@@ -7833,7 +7860,7 @@ packages:
     peerDependencies:
       karma: '>=0.9'
     dependencies:
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       path-is-absolute: 1.0.1
       xmlbuilder: 12.0.0
     dev: false
@@ -7844,7 +7871,7 @@ packages:
       karma: '>=0.13'
     dependencies:
       chalk: 2.4.2
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       log-symbols: 2.2.0
       strip-ansi: 4.0.0
     dev: false
@@ -7871,6 +7898,42 @@ packages:
     resolution: {integrity: sha512-xCRL3/pmhAYF3I6qOrcn0uhbQevitc2DERMPH82FMnG+4WReoGcGFZb1pURf2a5apyrOHRdvD+O6K7NljqKHyA==}
     dependencies:
       graceful-fs: 4.2.11
+    dev: false
+
+  /karma@6.4.4:
+    resolution: {integrity: sha512-LrtUxbdvt1gOpo3gxG+VAJlJAEMhbWlM4YrFQgql98FwF7+K8K12LYO4hnDdUkNjeztYrOXEMqgTajSWgmtI/w==}
+    engines: {node: '>= 10'}
+    hasBin: true
+    dependencies:
+      '@colors/colors': 1.5.0
+      body-parser: 1.20.3
+      braces: 3.0.3
+      chokidar: 3.6.0
+      connect: 3.7.0
+      di: 0.0.1
+      dom-serialize: 2.2.1
+      glob: 7.2.3
+      graceful-fs: 4.2.11
+      http-proxy: 1.18.1
+      isbinaryfile: 4.0.10
+      lodash: 4.17.21
+      log4js: 6.9.1
+      mime: 2.6.0
+      minimatch: 3.1.2
+      mkdirp: 0.5.6
+      qjobs: 1.2.0
+      range-parser: 1.2.1
+      rimraf: 3.0.2
+      socket.io: 4.8.0
+      source-map: 0.6.1
+      tmp: 0.2.3
+      ua-parser-js: 0.7.39
+      yargs: 16.2.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /karma@6.4.4(debug@4.3.7):
@@ -11717,7 +11780,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -11767,7 +11830,7 @@ packages:
       csv-parse: 5.5.6
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -11813,7 +11876,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -11899,7 +11962,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -11948,7 +12011,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12043,7 +12106,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12095,7 +12158,7 @@ packages:
       decompress: 4.2.1
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12170,7 +12233,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12217,7 +12280,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12262,7 +12325,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12309,7 +12372,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12397,7 +12460,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12526,7 +12589,7 @@ packages:
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -12925,7 +12988,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -13732,7 +13795,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -14070,7 +14133,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -17149,7 +17212,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -18775,7 +18838,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -19935,7 +19998,7 @@ packages:
       eslint: 9.12.0
       inherits: 2.0.4
       jsrsasign: 11.1.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20025,7 +20088,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20070,7 +20133,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20118,7 +20181,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20166,7 +20229,7 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 4.0.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20209,7 +20272,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20257,7 +20320,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20302,7 +20365,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20350,7 +20413,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20396,7 +20459,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20444,7 +20507,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20490,7 +20553,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20533,7 +20596,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-env-preprocessor: 0.1.1
       mkdirp: 3.0.1
       mocha: 10.7.3
@@ -20573,7 +20636,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20619,7 +20682,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20666,7 +20729,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20711,7 +20774,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -20786,7 +20849,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21367,7 +21430,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21412,7 +21475,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21576,7 +21639,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21736,7 +21799,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21784,7 +21847,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21831,7 +21894,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -21979,7 +22042,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22068,7 +22131,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22116,7 +22179,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22164,7 +22227,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22321,7 +22384,7 @@ packages:
       inherits: 2.0.4
       jsonwebtoken: 9.0.2
       jws: 4.0.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22369,7 +22432,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22415,7 +22478,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22683,7 +22746,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22788,7 +22851,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22835,7 +22898,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22883,7 +22946,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -22931,7 +22994,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -23001,7 +23064,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -23047,7 +23110,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -23129,7 +23192,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -23265,7 +23328,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -23920,7 +23983,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -23966,7 +24029,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24012,7 +24075,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24057,7 +24120,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24105,7 +24168,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24151,7 +24214,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24198,7 +24261,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24251,7 +24314,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24316,7 +24379,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24358,7 +24421,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24404,7 +24467,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24435,7 +24498,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-JFdGj0Z1xaVcRKdCZwGoPy3XQJJvVcdpt1kwaFDsRkcmNyUUE6v9fxjPsIVQCnFe+va3cVNJLP96IQgaDfl2hQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-pHzHfr/J+Kbw+HqhNl3m/Wou/6YAsQcwYc9dU/gEA+iAHFs5EZVgiU6TBWhNaqAfqH6Z3qVAdryXEvd0n7GxCg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -24444,8 +24507,9 @@ packages:
       '@azure/core-amqp': 4.3.2
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.24.0)
       '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
+      '@types/chai-as-promised': 8.0.1
       '@types/debug': 4.1.12
       '@types/is-buffer': 2.0.2
       '@types/mocha': 10.0.8
@@ -24453,10 +24517,12 @@ packages:
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
+      '@vitest/browser': 2.1.2(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.2)
+      '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       buffer: 6.0.3
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
-      chai-exclude: 2.1.1(chai@4.3.10)
+      chai: 5.1.1
+      chai-as-promised: 8.0.0(chai@5.1.1)
+      chai-exclude: 3.0.0(chai@5.1.1)
       cross-env: 7.0.3
       debug: 4.3.7(supports-color@8.1.1)
       dotenv: 16.4.5
@@ -24478,6 +24544,7 @@ packages:
       mocha: 10.7.3
       moment: 2.30.1
       nyc: 17.1.0
+      playwright: 1.47.2
       process: 0.11.10
       promise: 8.3.0
       puppeteer: 23.5.1(typescript@5.6.2)
@@ -24488,14 +24555,29 @@ packages:
       tslib: 2.7.0
       typescript: 5.6.2
       uuid: 8.3.2
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
       ws: 8.18.0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - rollup
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
@@ -24517,7 +24599,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24568,7 +24650,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24617,7 +24699,7 @@ packages:
       events: 3.3.0
       execa: 6.1.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24667,7 +24749,7 @@ packages:
       eslint: 9.12.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24711,7 +24793,7 @@ packages:
       es6-promise: 4.2.8
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24757,7 +24839,7 @@ packages:
       es6-promise: 4.2.8
       eslint: 9.12.0
       inherits: 2.0.4
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24803,7 +24885,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24852,7 +24934,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24902,7 +24984,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24950,7 +25032,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -24989,7 +25071,7 @@ packages:
       '@types/node': 18.19.54
       cross-env: 7.0.3
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -25032,7 +25114,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -25075,7 +25157,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-edge-launcher: 0.4.2(karma@6.4.4)
@@ -25176,7 +25258,7 @@ packages:
       '@types/node': 18.19.54
       eslint: 9.12.0
       fs-extra: 11.2.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -25292,7 +25374,7 @@ packages:
       chai-exclude: 2.1.1(chai@4.3.10)
       cross-env: 7.0.3
       eslint: 9.12.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -25431,7 +25513,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       express: 4.21.0
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
@@ -25525,7 +25607,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.12.0
       jsonwebtoken: 9.0.2
-      karma: 6.4.4(debug@4.3.7)
+      karma: 6.4.4
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1

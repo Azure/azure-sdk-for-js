@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { senderLogger as logger } from "../log";
+import { senderLogger as logger } from "../log.js";
 import {
   AmqpError,
   AwaitableSender,
@@ -20,18 +20,18 @@ import {
   retry,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
-import { ConnectionContext } from "../connectionContext";
-import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
-import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateMessageBatchOptions } from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage.js";
+import { ConnectionContext } from "../connectionContext.js";
+import { LinkEntity } from "./linkEntity.js";
+import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils.js";
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
+import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch.js";
+import { CreateMessageBatchOptions } from "../models.js";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { isDefined } from "@azure/core-util";
-import { defaultDataTransformer } from "../dataTransformer";
+import { defaultDataTransformer } from "../dataTransformer.js";
 
 /**
  * @internal
