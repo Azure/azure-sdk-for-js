@@ -1,5 +1,10 @@
 # Release History
     
+## 1.0.1 (2024-09-26)
+
+### Features Added
+- support userAgentInfo
+
 ## 1.0.0 (2024-09-26)
 
 ### Features Added

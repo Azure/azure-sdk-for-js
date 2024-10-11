@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { ClientOptions, Client, getClient } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
 
-export interface DocumentDBContext extends Client {}
+export interface DocumentDBContext extends Client { }
 
 /** Optional parameters for the client. */
 export interface MongoClusterManagementClientOptionalParams extends ClientOptions {
@@ -21,7 +21,8 @@ export function createMongoClusterManagement(
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
+  const userAgentInfo = `azsdk-js-arm-mongocluster/1.0.1`;
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}` : `azsdk-js-api ${userAgentInfo}`;
   const { apiVersion: _, ...updatedOptions } = {
     ...options,
     userAgentOptions: { userAgentPrefix },
@@ -40,9 +41,8 @@ export function createMongoClusterManagement(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
+        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+          }api-version=${apiVersion}`;
       }
 
       return next(req);
