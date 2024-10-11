@@ -1,29 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import chai from "chai";
-const should = chai.should();
-const assert: typeof chai.assert = chai.assert;
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
 import {
   OperationOptions,
   ServiceBusAdministrationClient,
   ServiceBusClient,
   ServiceBusMessage,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
 import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
-import { getEnvVarValue } from "../public/utils/envVarUtils";
+} from "../public/utils/testutils2.js";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
+import { getEnvVarValue } from "../public/utils/envVarUtils.js";
 import { delay } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { assert, should } from "../public/utils/chai.js";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -33,11 +30,11 @@ describe("Send Batch", () => {
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
   const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -522,15 +519,12 @@ describe("Send Batch", () => {
   });
 });
 
-describe("Premium namespaces - Sending", () => {
-  const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+describe.runIf(premiumNamespace)("Premium namespaces - Sending", () => {
   let atomClient: ServiceBusAdministrationClient;
 
-  before(function (this: Mocha.Context) {
-    if (!premiumNamespace) {
-      this.skip();
-    }
-    atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
+  beforeAll(function () {
+    atomClient = new ServiceBusAdministrationClient(premiumNamespace!, createTestCredential());
   });
   let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClient;
@@ -546,11 +540,11 @@ describe("Premium namespaces - Sending", () => {
       ? TestClientType.UnpartitionedQueueWithSessions
       : TestClientType.UnpartitionedTopicWithSessions;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = new ServiceBusClient(premiumNamespace || "", createTestCredential());
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
   });
 
