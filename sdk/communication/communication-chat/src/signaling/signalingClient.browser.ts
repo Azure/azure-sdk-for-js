@@ -4,13 +4,12 @@
 import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
-import { SignalingClientOptions, TrouterConfigClientOptions } from "./signalingClient";
+import { SignalingClientOptions } from "./signalingClient";
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger,
-  options?: SignalingClientOptions,
-  trouterConfigClientOptions?: TrouterConfigClientOptions,
+  options?: SignalingClientOptions
 ): SignalingClient | undefined => {
   return new CommunicationSignalingClient(
     credential,
@@ -18,11 +17,8 @@ export const getSignalingClient = (
     {
       resourceEndpoint: options?.resourceEndpoint ?? undefined,
       gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
-    },
-    {
-      httpClient: trouterConfigClientOptions?.httpClient ?? undefined,
-      additionalPolicies: trouterConfigClientOptions?.additionalPolicies ?? undefined,
-      userAgentOptions: trouterConfigClientOptions?.userAgentOptions ?? undefined,
-    },
+      additionalPolicies: options?.additionalPolicies ?? undefined,
+      userAgentOptions: options?.userAgentOptions ?? undefined,
+    }
   );
 };

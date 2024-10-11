@@ -6,18 +6,15 @@ import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
 import { ChatClientOptions } from "../models/options";
 
-export interface SignalingClientOptions {
+export interface SignalingClientOptions extends ChatClientOptions {
   resourceEndpoint?: string;
   gatewayApiVersion?: string;
 }
-
-export interface TrouterConfigClientOptions extends ChatClientOptions {}
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger,
   options?: SignalingClientOptions,
-  trouterConfigClientOptions?: TrouterConfigClientOptions,
 ): SignalingClient | undefined => {
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
@@ -27,12 +24,9 @@ export const getSignalingClient = (
       {
         resourceEndpoint: options?.resourceEndpoint ?? undefined,
         gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
-      },
-      {
-        httpClient: trouterConfigClientOptions?.httpClient ?? undefined,
-        additionalPolicies: trouterConfigClientOptions?.additionalPolicies ?? undefined,
-        userAgentOptions: trouterConfigClientOptions?.userAgentOptions ?? undefined,
-      },
+        additionalPolicies: options?.additionalPolicies ?? undefined,
+        userAgentOptions: options?.userAgentOptions ?? undefined,
+      }
     );
   }
 
