@@ -22,6 +22,7 @@ extends:
       PackageName: "@azure/identity"
       ServiceDirectory: identity
       TimeoutInMinutes: 120
+      UseFederatedAuth: false
       SupportedClouds: 'Public,UsGov,China,Canary'
       CloudConfig:
         Public:
