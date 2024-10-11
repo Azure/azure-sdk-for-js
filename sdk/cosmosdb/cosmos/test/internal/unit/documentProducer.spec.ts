@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 // import assert from "assert";
-import { DocumentProducer2, FetchResult, SqlQuerySpec } from "../../../src/queryExecutionContext";
+import { DocumentProducer, FetchResult, SqlQuerySpec } from "../../../src/queryExecutionContext";
 import { MockedClientContext } from "../../public/common/MockClientContext";
 import { ClientContext, PartitionKeyRange } from "../../../src";
 import assert from "assert";
@@ -20,7 +20,7 @@ describe("11Test DocumentProducer", function () {
   };
 
   it("fetchBufferedItems should return first item", async function () {
-    let documentProducer = new DocumentProducer2(
+    let documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
       sqlQuerySpec,
@@ -46,7 +46,7 @@ describe("11Test DocumentProducer", function () {
   });
 
   it("fetchNextItem should return first item", async function () {
-    let documentProducer = new DocumentProducer2(
+    let documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
       sqlQuerySpec,
@@ -74,7 +74,7 @@ describe("11Test DocumentProducer", function () {
   });
 
   it("peak item should return first item", async function () {
-    let documentProducer = new DocumentProducer2(
+    let documentProducer = new DocumentProducer(
       mockedClientContext,
       "mockCollectionLink",
       sqlQuerySpec,

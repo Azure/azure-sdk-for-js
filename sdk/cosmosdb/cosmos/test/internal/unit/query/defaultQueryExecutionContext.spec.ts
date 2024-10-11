@@ -3,12 +3,12 @@
 import {
   FetchFunctionCallback,
   DefaultQueryExecutionContext,
-} from "../../../src/queryExecutionContext";
-import { FeedOptions } from "../../../src";
+} from "../../../../src/queryExecutionContext";
+import { FeedOptions } from "../../../../src";
 import assert from "assert";
-import { sleep } from "../../../src/common";
-import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";
-import { getEmptyCosmosDiagnostics } from "../../../src/utils/diagnostics";
+import { sleep } from "../../../../src/common";
+import { createDummyDiagnosticNode } from "../../../public/common/TestHelpers";
+import { getEmptyCosmosDiagnostics } from "../../../../src/utils/diagnostics";
 
 describe("defaultQueryExecutionContext", function () {
   it("should not buffer items if bufferItems is false", async function () {
