@@ -28033,6 +28033,9 @@ importers:
 
   sdk/standbypool/arm-standbypool:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: workspace:~
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: workspace:~
         version: link:../../core/abort-controller
@@ -28051,6 +28054,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: workspace:~
         version: link:../../core/core-rest-pipeline
+      '@azure/logger':
+        specifier: workspace:~
+        version: link:../../core/logger
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
