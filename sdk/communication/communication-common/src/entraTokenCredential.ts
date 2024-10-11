@@ -87,7 +87,7 @@ export class EntraTokenCredential implements AcsTokenCredential {
         : ["https://communication.azure.com/clients/.default"],
       getTokenOptions,
     );
-    const currentDateTime = new Date(Date.now());
+    const currentDateTime = new Date();
     const tokenExpiresOn = new Date(this.result.acsToken.expiresOnTimestamp);
 
     if (token === null) {

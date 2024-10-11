@@ -91,38 +91,48 @@ describe("Entra CommunicationTokenCredential", function () {
       scopes,
     };
     const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
-    const exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
 
     let tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(exchangeTokenSpy.callCount > 0);
     assert.isTrue(scope.isDone());
 
     scope = successApiMock();
-    exchangeTokenSpy.restore();
-    exchangeTokenSpy.resetHistory();
 
     tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(exchangeTokenSpy.callCount === 0);
-    exchangeTokenSpy.restore();
+    assert.isFalse(scope.isDone());
   });
 
   it("Token exchange gets called again when Entra token changes", async function () {
+    let passNewToken = false;
+    const customTokenCredential: TokenCredential = {
+      getToken: async (_scopes: string, _options?: GetTokenOptions) => {
+        return {
+          token: passNewToken ? newEntraToken : entraToken,
+          expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
+        };
+      },
+    };
     let scope = successApiMock();
-    let entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
+    const entraTokenCredentialOptions: EntraCommunicationTokenCredentialOptions = {
       resourceEndpoint: resourceEndpoint,
-      tokenCredential: tokenCredential,
+      tokenCredential: customTokenCredential,
       scopes,
     };
-    let entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
-    let exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
+    const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
 
     let tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(exchangeTokenSpy.callCount > 0);
     assert.isTrue(scope.isDone());
 
+    scope = successApiMock();
+
+    // Token exchange doesn't get called again when Entra token doesn't change
+    tokenResult = (await entraTokenCredential.getToken()).token;
+    assert.strictEqual(tokenResult, acsToken);
+    assert.isFalse(scope.isDone());
+
+    passNewToken = true;
     const apiMockNewToken = () =>
       nock(resourceEndpoint)
         .post(tokenExchangePath)
@@ -137,36 +147,20 @@ describe("Entra CommunicationTokenCredential", function () {
       });
 
     scope = successApiMockNewToken();
-    const acsTokenCredential: TokenCredential = {
-      getToken: async (_scopes: string, _options?: GetTokenOptions) => {
-        return {
-          token: newEntraToken,
-          expiresOnTimestamp: Date.now() + 60 * 60 * 1000,
-        };
-      },
-    };
-    entraTokenCredentialOptions = {
-      resourceEndpoint: resourceEndpoint,
-      tokenCredential: acsTokenCredential,
-      scopes,
-    };
-    entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
-    exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
 
+    // Token exchange gets called again when Entra token changes
     tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(exchangeTokenSpy.callCount > 0);
-    exchangeTokenSpy.restore();
+    assert.isTrue(scope.isDone());
   });
 
   it("Token exchange gets called again when acs token expires", async function () {
-    const currentDateTime = new Date(Date.now());
-    currentDateTime.setHours(currentDateTime.getHours() - 1);
+    const expiredDate = new Date(Date.now() - 1000 * 60);
     const successApiMockExpiredTime = () =>
       apiMock().reply(200, {
         accessToken: {
           token: acsToken,
-          expiresOn: currentDateTime.toISOString(),
+          expiresOn: expiredDate.toISOString(),
         },
       });
 
@@ -177,20 +171,16 @@ describe("Entra CommunicationTokenCredential", function () {
       scopes,
     };
     const entraTokenCredential = new EntraTokenCredential(entraTokenCredentialOptions);
-    const exchangeTokenSpy = sinon.spy(entraTokenCredential as any, "exchangeEntraToken");
 
     let tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(exchangeTokenSpy.callCount > 0);
     assert.isTrue(scope.isDone());
 
     scope = successApiMock();
-    exchangeTokenSpy.resetHistory();
 
     tokenResult = (await entraTokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, acsToken);
-    assert.isTrue(exchangeTokenSpy.callCount > 0);
-    exchangeTokenSpy.restore();
+    assert.isTrue(scope.isDone());
   });
 
   it("Retries when service is busy", async function () {
@@ -262,37 +252,7 @@ describe("Entra CommunicationTokenCredential", function () {
   it("Continues when abort signal isn't aborted", () => testAbortSignal(false));
 
   it("It retries only 3 times when service is busy", async function () {
-    let busy = apiMock().reply(
-      503,
-      {
-        error: "Service Unavailable",
-      },
-      {
-        "Retry-After": "0",
-      },
-    );
-
-    busy = apiMock().reply(
-      503,
-      {
-        error: "Service Unavailable",
-      },
-      {
-        "Retry-After": "0",
-      },
-    );
-
-    busy = apiMock().reply(
-      503,
-      {
-        error: "Service Unavailable",
-      },
-      {
-        "Retry-After": "0",
-      },
-    );
-
-    busy = apiMock().reply(
+    const busy = apiMock().times(4).reply(
       503,
       {
         error: "Service Unavailable",
