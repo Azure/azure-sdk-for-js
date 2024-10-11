@@ -28,7 +28,7 @@ export async function main() {
 
   // Upload a file with "batch" purpose
   let file = await client.files.create({
-    file: fs.createReadStream("batchinput.jsonl"),
+    file: fs.createReadStream("./assets/batchInput.jsonl"),
     purpose: "batch",
   });
 
