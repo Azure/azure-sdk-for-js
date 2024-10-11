@@ -1,6 +1,6 @@
 param (
   [Parameter(mandatory = $true)]
-  $packageName,
+  $artifactName,
   [Parameter(mandatory = $true)]
   $workingDirectory
 )
@@ -11,6 +11,11 @@ param (
 #'@azure/video-indexer-widgets' no alpha, no beta, GA
 #'@azure/template' alpha, beta, GA
 #$pkgProps.PackageId
+
+. (Join-Path $PSScriptRoot "../common/scripts/common.ps1")
+
+$packageProperties = Get-PkgProperties -PackageName $artifactName
+$packageName =  $packageProperties.Name
 Write-Host "Verify npm tag versions for package $packageName"
 $packageVersions = npm view $packageName versions --json | ConvertFrom-Json
 $validDev = $packageVersions | ? { $_ -match "alpha" } | Select-Object -Last 1
