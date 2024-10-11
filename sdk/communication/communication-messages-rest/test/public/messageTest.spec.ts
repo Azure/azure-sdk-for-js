@@ -108,7 +108,7 @@ describe("Notification Messages Test", () => {
       mediaUri: "https://www.w3schools.com/w3css/img_lights.jpg",
       channelRegistrationId: env.CHANNEL_ID || "",
       to: [env.RECIPIENT_PHONE_NUMBER || ""],
-      caption: "awesome"
+      caption: "awesome",
     };
 
     const result = await client.path("/messages/notifications:send").post({

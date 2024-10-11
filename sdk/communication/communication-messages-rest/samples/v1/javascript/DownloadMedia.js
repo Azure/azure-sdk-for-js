@@ -29,5 +29,5 @@ async function main() {
 
 main().catch((error) => {
   console.error("Encountered an error while sending message: ", error);
-  process.exit(1);
+  throw error;
 });

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a media message
+ * @summary Send a video message
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -11,7 +11,7 @@ import NotificationClient, { Send202Response } from "@azure-rest/communication-m
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+async function main(): Promise<void> {
     const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
     const endpoint = process.env.ACS_URL || "";
     const client = NotificationClient(endpoint, credential);
@@ -21,8 +21,9 @@ async function main() {
         body: {
             channelRegistrationId: process.env.CHANNEL_ID || "",
             to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-            kind: "image",
-            mediaUri: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+            kind: "video",
+            mediaUri: "https://sample-videos.com/video321/mp4/480/big_buck_bunny_480p_1mb.mp4",
+            caption: "happy time!!"
         }
     });
 
@@ -31,7 +32,7 @@ async function main() {
     if (result.status === "202") {
         const response:Send202Response = result as Send202Response;
         response.body.receipts.forEach((receipt) => {
-            console.log("Message sent to:"+receipt.to+" with message id:"+receipt.messageId);
+            console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
         });
     } else {
         throw new Error("Failed to send message");
@@ -41,5 +42,5 @@ async function main() {
 
 main().catch((error) => {
     console.error("Encountered an error while sending message: ", error);
-    process.exit(1);
+    throw error;
 });

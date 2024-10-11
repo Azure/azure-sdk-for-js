@@ -24,7 +24,7 @@ export default function createClient(
   { apiVersion = "2024-08-30", ...options }: MessagesServiceClientOptions = {},
 ): MessagesServiceClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-communication-messages-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-communication-messages-rest/1.1.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
