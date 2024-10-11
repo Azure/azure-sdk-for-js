@@ -784,6 +784,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: workspace:~
         version: link:../../core/core-rest-pipeline
+      '@azure/core-tracing':
+        specifier: workspace:~
+        version: link:../../core/core-tracing
       '@azure/logger':
         specifier: workspace:~
         version: link:../../core/logger
@@ -815,9 +818,24 @@ importers:
       '@azure/identity':
         specifier: workspace:~
         version: link:../../identity/identity
+      '@azure/monitor-opentelemetry-exporter':
+        specifier: workspace:~
+        version: link:../../monitor/monitor-opentelemetry-exporter
+      '@azure/opentelemetry-instrumentation-azure-sdk':
+        specifier: workspace:~
+        version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
+      '@opentelemetry/api':
+        specifier: 'catalog:'
+        version: 1.9.0
+      '@opentelemetry/instrumentation':
+        specifier: 'catalog:'
+        version: 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node':
+        specifier: 'catalog:'
+        version: 1.26.0(@opentelemetry/api@1.9.0)
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
@@ -831,7 +849,7 @@ importers:
         specifier: latest
         version: 3.7.1
       cross-env:
-        specifier: 7.0.3
+        specifier: 'catalog:'
         version: 7.0.3
       dotenv:
         specifier: 'catalog:'
