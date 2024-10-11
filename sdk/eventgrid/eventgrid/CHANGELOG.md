@@ -1,6 +1,16 @@
 # Release History
 
-## 5.7.0 (2024-09-23)
+## 5.8.0 (2024-09-23)
+
+### Other Changes
+
+- A new property `onBehalfOfCallee` is added to the `AcsIncomingCallEventData` interface.
+
+### Bugs Fixed
+
+- The property `serializedName` has been removed from `MediaJobOutputProgressEventData` & `MediaJobScheduledEventData` models.
+
+## 5.7.0 (2024-10-14)
 
 ### Other Changes
 
