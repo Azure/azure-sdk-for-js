@@ -46,9 +46,11 @@
   ],
   "words": [
     "AMQP",
+    "azuresdkdocs",
     "BRCPF",
     "Brcpf",
     "CONTOSO",
+    "docfx"
     "DTDL",
     "ECONNRESET",
     "ESDNI",
@@ -66,6 +68,7 @@
     "Kubernetes",
     "Localizable",
     "Lucene",
+    "mgmt",
     "MPNS",
     "MSRC",
     "Mibps",
@@ -78,6 +81,7 @@
     "Petabit",
     "Picometer",
     "Plregon",
+    "psobject",
     "Rasterize",
     "Resourceid",
     "Rollup",
