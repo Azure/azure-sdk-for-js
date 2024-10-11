@@ -3,16 +3,20 @@
 
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import chai from "chai";
-import { ServiceBusClient, ServiceBusReceiver, parseServiceBusConnectionString } from "../../src";
-import { getEnvVars } from "../public/utils/envVarUtils";
-import { TestClientType } from "../public/utils/testUtils";
+import {
+  ServiceBusClient,
+  ServiceBusReceiver,
+  parseServiceBusConnectionString,
+} from "../../src/index.js";
+import { getEnvVars } from "../public/utils/envVarUtils.js";
+import { TestClientType } from "../public/utils/testUtils.js";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
   ServiceBusTestHelpers,
-} from "../public/utils/testutils2";
-const assert: typeof chai.assert = chai.assert;
+} from "../public/utils/testutils2.js";
+import { afterAll, beforeAll, describe, it } from "vitest";
+import { assert } from "../public/utils/chai.js";
 
 type UnpackReturnType<T extends (...args: any) => any> =
   ReturnType<T> extends Promise<infer U> ? U : never;
@@ -25,12 +29,12 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       let tempClient: ServiceBusClientForTests;
       let entities: UnpackReturnType<ServiceBusTestHelpers["createTestEntities"]>;
 
-      before(async () => {
+      beforeAll(async () => {
         tempClient = createServiceBusClientForTests();
         entities = await tempClient.test.createTestEntities(entityType);
       });
 
-      after(async () => {
+      afterAll(async () => {
         await tempClient.test.afterEach();
         await tempClient.test.after();
       });
@@ -112,7 +116,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       let sasConnectionString: string;
       let sharedAccessSignature: string;
 
-      before(async () => {
+      beforeAll(async () => {
         tempClient = createServiceBusClientForTests();
         entities = await tempClient.test.createTestEntities(entityType);
 
@@ -130,7 +134,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         );
       });
 
-      after(async () => {
+      afterAll(async () => {
         await tempClient.test.afterEach();
         await tempClient.test.after();
       });
