@@ -7,8 +7,7 @@
  * @summary create and retrieve batch content.
  */
 
-import { AzureOpenAI } from "openai"; 
-import fs from "fs";
+import { AzureOpenAI, toFile } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
@@ -17,7 +16,7 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 import "dotenv/config";
 
 export async function main() {
-  console.log("== Chat Completions Sample with Tool Calling ==");
+  console.log("== Batch Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
@@ -25,9 +24,11 @@ export async function main() {
   const apiVersion = "2024-08-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 
+  const batchContent = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deployment}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
+
   // Upload a file with "batch" purpose
   let file = await client.files.create({
-    file: fs.createReadStream("batchinput.jsonl"),
+    file: await toFile(Buffer.from(batchContent), "batch.jsonl"),
     purpose: "batch",
   });
 
