@@ -15,8 +15,7 @@ class PlaywrightServiceConfig {
   constructor() {
     this.serviceOs = (process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] ||
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
-    this.runId =
-      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] || getDefaultRunId();
+    this.runId = process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] || ''; 
     this.timeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
     this.slowMo = DefaultConnectOptionsConstants.DEFAULT_SLOW_MO;
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
@@ -26,9 +25,14 @@ class PlaywrightServiceConfig {
     if (options?.exposeNetwork) {
       this.exposeNetwork = options.exposeNetwork;
     }
-    if (options?.runId) {
-      this.runId = options.runId;
-      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = this.runId;
+    if (!process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]) {
+      if (options?.runId) {
+        this.runId = options.runId;
+        process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = this.runId;
+      } else {
+        this.runId = getDefaultRunId();
+        process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = this.runId;
+      }
     }
     if (options?.os) {
       this.serviceOs = options.os;
