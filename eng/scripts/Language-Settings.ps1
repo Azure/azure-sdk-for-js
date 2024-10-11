@@ -40,6 +40,10 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
+    # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
+    # of the class. however, due to the fact that we set the ArtifactName _after_ the constructor is called,
+    # we need to call it again here to ensure the CI artifacts are properly initialized
+    $pkgProp.InitializeCIArtifacts()
     return $pkgProp
   }
   return $null
