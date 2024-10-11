@@ -82,7 +82,7 @@ export async function executeAtomXmlOperation(
   if (requestObject) {
     request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });
     if (request.method === "PUT") {
-      request.headers.set("content-length", Buffer.byteLength(request.body));
+      request.headers.set("content-length", Buffer.byteLength(request.body as string));
     }
   }
 
