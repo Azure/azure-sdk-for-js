@@ -2071,6 +2071,8 @@ export interface AcsIncomingCallEventData {
   customContext: AcsIncomingCallCustomContext;
   /** Signed incoming call context. */
   incomingCallContext: string;
+  /** The communication identifier of the user on behalf of whom the call is made. */
+  onBehalfOfCallee: CommunicationIdentifierModel;
   /** CorrelationId (CallId). */
   correlationId: string;
 }
@@ -2415,7 +2417,7 @@ export interface AcsMessageInteractiveListReplyContent {
   listItemId: string;
   /** The title of the selected list item */
   title: string;
-  /** The sescription of the selected row */
+  /** The description of the selected row */
   description: string;
 }
 
