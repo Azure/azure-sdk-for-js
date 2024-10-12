@@ -30,7 +30,8 @@ hive_database,hive_db_1,bmWithAllTypes.attr8,"Awesome Attribute 1",name`);
       contentType: "multipart/form-data",
       body: [{
         name: "file",
-        body: { file: createFile(fileContent, "template_2.csv"), }
+        body: fileContent,
+        filename: "template_2.csv"
       }],
     });
     assert.strictEqual(isUnexpected(response), false);
