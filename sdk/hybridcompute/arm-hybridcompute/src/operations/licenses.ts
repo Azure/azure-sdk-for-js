@@ -27,6 +27,8 @@ import {
   LicensesListBySubscriptionNextOptionalParams,
   LicensesListBySubscriptionOptionalParams,
   LicensesListBySubscriptionResponse,
+  LicensesValidateLicenseOptionalParams,
+  LicensesValidateLicenseResponse,
   LicensesCreateOrUpdateOptionalParams,
   LicensesCreateOrUpdateResponse,
   LicenseUpdate,
@@ -173,6 +175,87 @@ export class LicensesImpl implements Licenses {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
+  }
+
+  /**
+   * The operation to validate a license.
+   * @param parameters Parameters supplied to the license validation operation.
+   * @param options The options parameters.
+   */
+  async beginValidateLicense(
+    parameters: License,
+    options?: LicensesValidateLicenseOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LicensesValidateLicenseResponse>,
+      LicensesValidateLicenseResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<LicensesValidateLicenseResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { parameters, options },
+      spec: validateLicenseOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LicensesValidateLicenseResponse,
+      OperationState<LicensesValidateLicenseResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * The operation to validate a license.
+   * @param parameters Parameters supplied to the license validation operation.
+   * @param options The options parameters.
+   */
+  async beginValidateLicenseAndWait(
+    parameters: License,
+    options?: LicensesValidateLicenseOptionalParams,
+  ): Promise<LicensesValidateLicenseResponse> {
+    const poller = await this.beginValidateLicense(parameters, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -524,6 +607,33 @@ export class LicensesImpl implements Licenses {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const validateLicenseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/validateLicense",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.License,
+    },
+    201: {
+      bodyMapper: Mappers.License,
+    },
+    202: {
+      bodyMapper: Mappers.License,
+    },
+    204: {
+      bodyMapper: Mappers.License,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses/{licenseName}",
   httpMethod: "PUT",
