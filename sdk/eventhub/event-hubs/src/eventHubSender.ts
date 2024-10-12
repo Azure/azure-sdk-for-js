@@ -428,9 +428,8 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
-    srOptions.desired_capabilities = [];
     if (this._isIdempotentProducer) {
-      srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
+      srOptions.desired_capabilities = [idempotentProducerAmqpPropertyNames.capability];
       const idempotentProperties = generateIdempotentLinkProperties(
         this._userProvidedPublishingOptions,
         this._localPublishingProperties,
