@@ -9,7 +9,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import {
   CancelOnProgress,
   CreateHttpPollerOptions,
-  LongRunningOperation,
+  RunningOperation,
   OperationResponse,
   OperationState,
   createHttpPoller,
@@ -106,7 +106,7 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
   options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {},
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
   const abortController = new AbortController();
-  const poller: LongRunningOperation<TResult> = {
+  const poller: RunningOperation<TResult> = {
     sendInitialRequest: async () => {
       // In the case of Rest Clients we are building the LRO poller object from a response that's the reason
       // we are not triggering the initial request here, just extracting the information from the
