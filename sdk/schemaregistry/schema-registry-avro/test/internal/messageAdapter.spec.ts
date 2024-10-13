@@ -7,10 +7,10 @@ import {
   EventDataAdapterParameters,
   createEventDataAdapter,
 } from "@azure/event-hubs";
-import { AssertEqualKeys } from "../utils/utils";
-import { MessageAdapter } from "../../src/models";
-import { assert } from "chai";
-import { matrix } from "@azure-tools/test-utils";
+import { AssertEqualKeys } from "../utils/utils.js";
+import { MessageAdapter } from "../../src/models.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert } from "vitest";
 
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
   return typeof obj.produce === "function" && typeof obj.consume === "function";

@@ -45,18 +45,17 @@ export class Filter {
     // Just to be safe, handling the multiple filter conjunction group case as an or operation.
     let matched = false;
     derivedMetricInfo.filterGroups.forEach((filterConjunctionGroup) => {
-      matched = matched || this.checkFilterConjunctionGroup(filterConjunctionGroup.filters, data);
+      matched = matched || this.checkFilterConjunctionGroup(filterConjunctionGroup, data);
     });
     return matched;
   }
 
-  /* public static checkDocumentFilters(documentStreamInfo: DocumentStreamInfo, data: TelemetryData): boolean {
-    return true; // to be implemented
-  }*/
-
-  private checkFilterConjunctionGroup(filters: FilterInfo[], data: TelemetryData): boolean {
+  public checkFilterConjunctionGroup(
+    filterConjunctionGroupInfo: FilterConjunctionGroupInfo,
+    data: TelemetryData,
+  ): boolean {
     // All of the filters need to match for this to return true (and operation).
-    for (const filter of filters) {
+    for (const filter of filterConjunctionGroupInfo.filters) {
       if (!this.checkFilter(filter, data)) {
         return false;
       }
