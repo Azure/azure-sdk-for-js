@@ -9,12 +9,12 @@
   "license": "ISC",
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
-    "@azure/service-bus": "workspace:~",
+    "@azure/service-bus": "workspace:*",
     "dotenv": "catalog:",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "@types/uuid": "^8.0.0",
     "cross-env": "catalog:",

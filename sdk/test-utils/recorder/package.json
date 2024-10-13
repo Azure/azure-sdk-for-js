@@ -59,16 +59,16 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/test-utils/recorder/",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-client": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/core-util": "workspace:~",
-    "@azure/logger": "workspace:~"
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-util": "workspace:*",
+    "@azure/logger": "workspace:*"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",

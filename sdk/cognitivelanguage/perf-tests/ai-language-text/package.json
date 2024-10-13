@@ -10,11 +10,11 @@
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
     "@azure/ai-language-text": "^1.1.0",
-    "@azure/identity": "workspace:~",
+    "@azure/identity": "workspace:*",
     "dotenv": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",

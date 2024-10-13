@@ -68,17 +68,17 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-tracing": "workspace:~",
-    "@azure/logger": "workspace:~",
+    "@azure/core-tracing": "workspace:*",
+    "@azure/logger": "workspace:*",
     "@opentelemetry/api": "catalog:",
     "@opentelemetry/core": "catalog:",
     "@opentelemetry/instrumentation": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@opentelemetry/sdk-trace-base": "catalog:",
     "@opentelemetry/sdk-trace-node": "catalog:",

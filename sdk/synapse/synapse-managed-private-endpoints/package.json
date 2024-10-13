@@ -7,11 +7,11 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-managed-private-endpoints/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-client": "workspace:~",
-    "@azure/core-paging": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/core-tracing": "workspace:~",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-paging": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-tracing": "workspace:*",
     "tslib": "catalog:"
   },
   "keywords": [
@@ -47,9 +47,9 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure-tools/test-utils": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure-tools/test-utils": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:",
     "@types/chai-as-promised": "^7.1.0",

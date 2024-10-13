@@ -10,8 +10,8 @@
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
     "@azure/app-configuration": "1.5.0-beta.2",
-    "@azure/core-util": "workspace:~",
-    "@azure/identity": "workspace:~",
+    "@azure/core-util": "workspace:*",
+    "@azure/identity": "workspace:*",
     "@azure/template": "^1.0.11-beta.1 || ^1.0.12-beta.1",
     "dotenv": "^16.0.0"
   },

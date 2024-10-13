@@ -8,15 +8,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:~",
-    "@azure/core-amqp": "workspace:~",
-    "@azure/event-hubs": "workspace:~",
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/core-amqp": "workspace:*",
+    "@azure/event-hubs": "workspace:*",
     "dotenv": "catalog:",
     "moment": "^2.24.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "@types/uuid": "^8.0.0",
     "cross-env": "catalog:",

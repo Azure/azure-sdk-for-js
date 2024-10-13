@@ -64,9 +64,9 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-utils": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure-tools/test-utils": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/prompts": "^2.4.9",

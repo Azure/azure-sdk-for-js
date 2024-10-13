@@ -50,12 +50,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/logger": "workspace:~",
+    "@azure/logger": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/express": "^4.16.0",
     "@types/express-serve-static-core": "^4.17.19",

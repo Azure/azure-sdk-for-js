@@ -17,6 +17,6 @@
     "ts-node": "latest"
   },
   "dependencies": {
-    "@azure/identity": "workspace:~"
+    "@azure/identity": "workspace:*"
   }
 }

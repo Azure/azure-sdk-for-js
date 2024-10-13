@@ -74,13 +74,13 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/abort-controller": "workspace:~",
+    "@azure/abort-controller": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/vite-plugin-browser-test-map": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure-tools/vite-plugin-browser-test-map": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",

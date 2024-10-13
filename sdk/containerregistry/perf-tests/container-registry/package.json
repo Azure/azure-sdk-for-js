@@ -12,7 +12,7 @@
     "dotenv": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",

@@ -81,8 +81,8 @@
     }
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@opentelemetry/instrumentation": "catalog:",
     "@opentelemetry/instrumentation-http": "catalog:",
@@ -100,9 +100,9 @@
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-client": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
     "@opentelemetry/api": "catalog:",
     "@opentelemetry/api-logs": "catalog:",
     "@opentelemetry/core": "catalog:",

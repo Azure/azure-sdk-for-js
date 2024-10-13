@@ -50,8 +50,8 @@
     "update-snippets": "echo skipped"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
-    "@azure/identity": "workspace:~",
+    "@azure/identity": "workspace:*",
     "@azure/storage-blob": "^12.25.0",
     "mime": "^4.0.4",
     "tslib": "catalog:"

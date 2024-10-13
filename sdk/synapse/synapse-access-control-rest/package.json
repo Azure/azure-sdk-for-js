@@ -8,9 +8,9 @@
   "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-paging": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-paging": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
     "tslib": "catalog:"
   },
   "//metadata": {
@@ -42,10 +42,10 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure/core-util": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/identity": "workspace:~",
+    "@azure/core-util": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/identity": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:",
     "@types/chai-as-promised": "^7.1.0",

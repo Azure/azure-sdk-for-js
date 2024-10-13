@@ -8,14 +8,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:~",
-    "@azure/identity": "workspace:~",
-    "@azure/keyvault-secrets": "workspace:~",
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/identity": "workspace:*",
+    "@azure/keyvault-secrets": "workspace:*",
     "dotenv": "catalog:",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "@types/uuid": "^8.0.0",
     "cross-env": "catalog:",

@@ -61,8 +61,8 @@
     "selfLink": false
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
@@ -75,7 +75,7 @@
     "vitest": "catalog:"
   },
   "dependencies": {
-    "@azure/abort-controller": "workspace:~",
+    "@azure/abort-controller": "workspace:*",
     "rhea": "^3.0.2",
     "tslib": "catalog:"
   },

@@ -69,16 +69,16 @@
     "update-snippets": "echo skipped"
   },
   "dependencies": {
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/identity": "workspace:~",
-    "@azure/logger": "workspace:~",
-    "@azure/storage-blob": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/identity": "workspace:*",
+    "@azure/logger": "workspace:*",
+    "@azure/storage-blob": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-utils": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure-tools/test-utils": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@playwright/test": "^1.43.1",
     "@types/debug": "^4.1.12",

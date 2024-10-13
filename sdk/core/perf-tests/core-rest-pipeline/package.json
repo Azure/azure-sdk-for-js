@@ -9,14 +9,14 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:~",
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
     "dotenv": "catalog:",
     "undici": "^6.0.1"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/express": "^4.17.13",
     "@types/node": "catalog:",
     "concurrently": "^9.0.1",

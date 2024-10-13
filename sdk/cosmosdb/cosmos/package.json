@@ -85,11 +85,11 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
-    "@azure/abort-controller": "workspace:~",
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/core-tracing": "workspace:~",
-    "@azure/core-util": "workspace:~",
+    "@azure/abort-controller": "workspace:*",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-tracing": "workspace:*",
+    "@azure/core-util": "workspace:*",
     "fast-json-stable-stringify": "^2.1.0",
     "jsbi": "^4.3.0",
     "priorityqueuejs": "^2.0.0",
@@ -97,10 +97,10 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/identity": "workspace:~",
-    "@azure/logger": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/identity": "workspace:*",
+    "@azure/logger": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@sinonjs/fake-timers": "^11.0.0",
     "@types/chai": "~4.3.6",

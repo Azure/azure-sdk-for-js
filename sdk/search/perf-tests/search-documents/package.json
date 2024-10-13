@@ -8,13 +8,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:~",
-    "@azure/identity": "workspace:~",
-    "@azure/search-documents": "workspace:~",
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/identity": "workspace:*",
+    "@azure/search-documents": "workspace:*",
     "dotenv": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",

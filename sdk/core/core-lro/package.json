@@ -89,15 +89,15 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "@azure/abort-controller": "workspace:~",
-    "@azure/core-util": "workspace:~",
-    "@azure/logger": "workspace:~",
+    "@azure/abort-controller": "workspace:*",
+    "@azure/core-util": "workspace:*",
+    "@azure/logger": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",

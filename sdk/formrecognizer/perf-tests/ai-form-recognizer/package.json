@@ -9,15 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:~",
-    "@azure/ai-form-recognizer": "workspace:~",
-    "@azure/core-util": "workspace:~",
-    "@azure/identity": "workspace:~",
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/ai-form-recognizer": "workspace:*",
+    "@azure/core-util": "workspace:*",
+    "@azure/identity": "workspace:*",
     "dotenv": "catalog:",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:~",
+    "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "cross-env": "catalog:",
     "eslint": "catalog:",

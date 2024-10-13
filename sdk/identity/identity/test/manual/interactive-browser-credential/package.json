@@ -12,8 +12,8 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "@azure/identity": "workspace:~",
-    "@azure/service-bus": "workspace:~",
+    "@azure/identity": "workspace:*",
+    "@azure/service-bus": "workspace:*",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "tslib": "2.4.1"
