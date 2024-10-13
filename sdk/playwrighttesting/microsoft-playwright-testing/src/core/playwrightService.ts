@@ -104,6 +104,7 @@ const getServiceConfig = (
         timeout: playwrightServiceConfig.timeout,
         exposeNetwork: playwrightServiceConfig.exposeNetwork,
         slowMo: playwrightServiceConfig.slowMo,
+        runName: playwrightServiceConfig.runName
       },
     },
     ...globalFunctions,
