@@ -15,7 +15,7 @@ export class EnvironmentVariables {
   shardId: string | undefined;
   region: string | undefined;
   constructor() {
-    this.runId = process.env["PLAYWRIGHT_SERVICE_RUN_ID"]!;
+    this.runId = process.env["_MPT_SERVICE_RUN_ID"]!;
     this.correlationId = randomUUID();
   }
 }

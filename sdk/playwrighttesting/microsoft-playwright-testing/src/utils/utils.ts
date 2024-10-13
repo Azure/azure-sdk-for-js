@@ -64,7 +64,7 @@ export const getServiceBaseURL = (): string | undefined => {
 
 export const getDefaultRunId = (): string => {
   const runId = ReporterUtils.getRunId(CIInfoProvider.getCIInfo());
-  process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = runId;
+  process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = runId;
   return runId;
 };
 
