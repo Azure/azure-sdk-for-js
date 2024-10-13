@@ -1,15 +1,13 @@
 /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
-"use strict";
-
-var $protobuf = require("protobufjs/minimal");
+import * as $protobuf from "protobufjs/minimal";
 
 // Common aliases
-var $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+const $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
 
 // Exported root namespace
-var $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
+const $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
 
-$root.UpstreamMessage = (function() {
+export const UpstreamMessage = $root.UpstreamMessage = (() => {
 
     /**
      * Properties of an UpstreamMessage.
@@ -32,7 +30,7 @@ $root.UpstreamMessage = (function() {
      */
     function UpstreamMessage(properties) {
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
@@ -78,7 +76,7 @@ $root.UpstreamMessage = (function() {
     UpstreamMessage.prototype.sequenceAckMessage = null;
 
     // OneOf field names bound to virtual getters and setters
-    var $oneOfFields;
+    let $oneOfFields;
 
     /**
      * UpstreamMessage message.
@@ -155,9 +153,9 @@ $root.UpstreamMessage = (function() {
     UpstreamMessage.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage();
+        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage();
         while (reader.pos < end) {
-            var tag = reader.uint32();
+            let tag = reader.uint32();
             switch (tag >>> 3) {
             case 1: {
                     message.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.decode(reader, reader.uint32());
@@ -214,11 +212,11 @@ $root.UpstreamMessage = (function() {
     UpstreamMessage.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        var properties = {};
+        let properties = {};
         if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.SendToGroupMessage.verify(message.sendToGroupMessage);
+                let error = $root.UpstreamMessage.SendToGroupMessage.verify(message.sendToGroupMessage);
                 if (error)
                     return "sendToGroupMessage." + error;
             }
@@ -228,7 +226,7 @@ $root.UpstreamMessage = (function() {
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.EventMessage.verify(message.eventMessage);
+                let error = $root.UpstreamMessage.EventMessage.verify(message.eventMessage);
                 if (error)
                     return "eventMessage." + error;
             }
@@ -238,7 +236,7 @@ $root.UpstreamMessage = (function() {
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.JoinGroupMessage.verify(message.joinGroupMessage);
+                let error = $root.UpstreamMessage.JoinGroupMessage.verify(message.joinGroupMessage);
                 if (error)
                     return "joinGroupMessage." + error;
             }
@@ -248,7 +246,7 @@ $root.UpstreamMessage = (function() {
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.LeaveGroupMessage.verify(message.leaveGroupMessage);
+                let error = $root.UpstreamMessage.LeaveGroupMessage.verify(message.leaveGroupMessage);
                 if (error)
                     return "leaveGroupMessage." + error;
             }
@@ -258,7 +256,7 @@ $root.UpstreamMessage = (function() {
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.UpstreamMessage.SequenceAckMessage.verify(message.sequenceAckMessage);
+                let error = $root.UpstreamMessage.SequenceAckMessage.verify(message.sequenceAckMessage);
                 if (error)
                     return "sequenceAckMessage." + error;
             }
@@ -277,7 +275,7 @@ $root.UpstreamMessage = (function() {
     UpstreamMessage.fromObject = function fromObject(object) {
         if (object instanceof $root.UpstreamMessage)
             return object;
-        var message = new $root.UpstreamMessage();
+        let message = new $root.UpstreamMessage();
         if (object.sendToGroupMessage != null) {
             if (typeof object.sendToGroupMessage !== "object")
                 throw TypeError(".UpstreamMessage.sendToGroupMessage: object expected");
@@ -318,7 +316,7 @@ $root.UpstreamMessage = (function() {
     UpstreamMessage.toObject = function toObject(message, options) {
         if (!options)
             options = {};
-        var object = {};
+        let object = {};
         if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
             object.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.toObject(message.sendToGroupMessage, options);
             if (options.oneofs)
@@ -395,7 +393,7 @@ $root.UpstreamMessage = (function() {
          */
         function SendToGroupMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -433,7 +431,7 @@ $root.UpstreamMessage = (function() {
         SendToGroupMessage.prototype.noEcho = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(SendToGroupMessage.prototype, "_ackId", {
@@ -509,9 +507,9 @@ $root.UpstreamMessage = (function() {
         SendToGroupMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SendToGroupMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SendToGroupMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.group = reader.string();
@@ -564,7 +562,7 @@ $root.UpstreamMessage = (function() {
         SendToGroupMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.group != null && message.hasOwnProperty("group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
@@ -574,7 +572,7 @@ $root.UpstreamMessage = (function() {
                     return "ackId: integer|Long expected";
             }
             if (message.data != null && message.hasOwnProperty("data")) {
-                var error = $root.MessageData.verify(message.data);
+                let error = $root.MessageData.verify(message.data);
                 if (error)
                     return "data." + error;
             }
@@ -597,7 +595,7 @@ $root.UpstreamMessage = (function() {
         SendToGroupMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.UpstreamMessage.SendToGroupMessage)
                 return object;
-            var message = new $root.UpstreamMessage.SendToGroupMessage();
+            let message = new $root.UpstreamMessage.SendToGroupMessage();
             if (object.group != null)
                 message.group = String(object.group);
             if (object.ackId != null)
@@ -631,7 +629,7 @@ $root.UpstreamMessage = (function() {
         SendToGroupMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults) {
                 object.group = "";
                 object.data = null;
@@ -706,7 +704,7 @@ $root.UpstreamMessage = (function() {
          */
         function EventMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -736,7 +734,7 @@ $root.UpstreamMessage = (function() {
         EventMessage.prototype.ackId = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(EventMessage.prototype, "_ackId", {
@@ -804,9 +802,9 @@ $root.UpstreamMessage = (function() {
         EventMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.EventMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.EventMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.event = reader.string();
@@ -855,12 +853,12 @@ $root.UpstreamMessage = (function() {
         EventMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.event != null && message.hasOwnProperty("event"))
                 if (!$util.isString(message.event))
                     return "event: string expected";
             if (message.data != null && message.hasOwnProperty("data")) {
-                var error = $root.MessageData.verify(message.data);
+                let error = $root.MessageData.verify(message.data);
                 if (error)
                     return "data." + error;
             }
@@ -883,7 +881,7 @@ $root.UpstreamMessage = (function() {
         EventMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.UpstreamMessage.EventMessage)
                 return object;
-            var message = new $root.UpstreamMessage.EventMessage();
+            let message = new $root.UpstreamMessage.EventMessage();
             if (object.event != null)
                 message.event = String(object.event);
             if (object.data != null) {
@@ -915,7 +913,7 @@ $root.UpstreamMessage = (function() {
         EventMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults) {
                 object.event = "";
                 object.data = null;
@@ -984,7 +982,7 @@ $root.UpstreamMessage = (function() {
          */
         function JoinGroupMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -1006,7 +1004,7 @@ $root.UpstreamMessage = (function() {
         JoinGroupMessage.prototype.ackId = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(JoinGroupMessage.prototype, "_ackId", {
@@ -1072,9 +1070,9 @@ $root.UpstreamMessage = (function() {
         JoinGroupMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.JoinGroupMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.JoinGroupMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.group = reader.string();
@@ -1119,7 +1117,7 @@ $root.UpstreamMessage = (function() {
         JoinGroupMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.group != null && message.hasOwnProperty("group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
@@ -1142,7 +1140,7 @@ $root.UpstreamMessage = (function() {
         JoinGroupMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.UpstreamMessage.JoinGroupMessage)
                 return object;
-            var message = new $root.UpstreamMessage.JoinGroupMessage();
+            let message = new $root.UpstreamMessage.JoinGroupMessage();
             if (object.group != null)
                 message.group = String(object.group);
             if (object.ackId != null)
@@ -1169,7 +1167,7 @@ $root.UpstreamMessage = (function() {
         JoinGroupMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults)
                 object.group = "";
             if (message.group != null && message.hasOwnProperty("group"))
@@ -1234,7 +1232,7 @@ $root.UpstreamMessage = (function() {
          */
         function LeaveGroupMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -1256,7 +1254,7 @@ $root.UpstreamMessage = (function() {
         LeaveGroupMessage.prototype.ackId = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(LeaveGroupMessage.prototype, "_ackId", {
@@ -1322,9 +1320,9 @@ $root.UpstreamMessage = (function() {
         LeaveGroupMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.LeaveGroupMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.LeaveGroupMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.group = reader.string();
@@ -1369,7 +1367,7 @@ $root.UpstreamMessage = (function() {
         LeaveGroupMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.group != null && message.hasOwnProperty("group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
@@ -1392,7 +1390,7 @@ $root.UpstreamMessage = (function() {
         LeaveGroupMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.UpstreamMessage.LeaveGroupMessage)
                 return object;
-            var message = new $root.UpstreamMessage.LeaveGroupMessage();
+            let message = new $root.UpstreamMessage.LeaveGroupMessage();
             if (object.group != null)
                 message.group = String(object.group);
             if (object.ackId != null)
@@ -1419,7 +1417,7 @@ $root.UpstreamMessage = (function() {
         LeaveGroupMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults)
                 object.group = "";
             if (message.group != null && message.hasOwnProperty("group"))
@@ -1483,7 +1481,7 @@ $root.UpstreamMessage = (function() {
          */
         function SequenceAckMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -1552,9 +1550,9 @@ $root.UpstreamMessage = (function() {
         SequenceAckMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SequenceAckMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UpstreamMessage.SequenceAckMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.sequenceId = reader.uint64();
@@ -1612,7 +1610,7 @@ $root.UpstreamMessage = (function() {
         SequenceAckMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.UpstreamMessage.SequenceAckMessage)
                 return object;
-            var message = new $root.UpstreamMessage.SequenceAckMessage();
+            let message = new $root.UpstreamMessage.SequenceAckMessage();
             if (object.sequenceId != null)
                 if ($util.Long)
                     (message.sequenceId = $util.Long.fromValue(object.sequenceId)).unsigned = true;
@@ -1637,10 +1635,10 @@ $root.UpstreamMessage = (function() {
         SequenceAckMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults)
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
+                    let long = new $util.Long(0, 0, true);
                     object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.sequenceId = options.longs === String ? "0" : 0;
@@ -1684,7 +1682,7 @@ $root.UpstreamMessage = (function() {
     return UpstreamMessage;
 })();
 
-$root.DownstreamMessage = (function() {
+export const DownstreamMessage = $root.DownstreamMessage = (() => {
 
     /**
      * Properties of a DownstreamMessage.
@@ -1705,7 +1703,7 @@ $root.DownstreamMessage = (function() {
      */
     function DownstreamMessage(properties) {
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
@@ -1735,7 +1733,7 @@ $root.DownstreamMessage = (function() {
     DownstreamMessage.prototype.systemMessage = null;
 
     // OneOf field names bound to virtual getters and setters
-    var $oneOfFields;
+    let $oneOfFields;
 
     /**
      * DownstreamMessage message.
@@ -1808,9 +1806,9 @@ $root.DownstreamMessage = (function() {
     DownstreamMessage.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage();
+        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage();
         while (reader.pos < end) {
-            var tag = reader.uint32();
+            let tag = reader.uint32();
             switch (tag >>> 3) {
             case 1: {
                     message.ackMessage = $root.DownstreamMessage.AckMessage.decode(reader, reader.uint32());
@@ -1859,11 +1857,11 @@ $root.DownstreamMessage = (function() {
     DownstreamMessage.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        var properties = {};
+        let properties = {};
         if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
             properties.message = 1;
             {
-                var error = $root.DownstreamMessage.AckMessage.verify(message.ackMessage);
+                let error = $root.DownstreamMessage.AckMessage.verify(message.ackMessage);
                 if (error)
                     return "ackMessage." + error;
             }
@@ -1873,7 +1871,7 @@ $root.DownstreamMessage = (function() {
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.DownstreamMessage.DataMessage.verify(message.dataMessage);
+                let error = $root.DownstreamMessage.DataMessage.verify(message.dataMessage);
                 if (error)
                     return "dataMessage." + error;
             }
@@ -1883,7 +1881,7 @@ $root.DownstreamMessage = (function() {
                 return "message: multiple values";
             properties.message = 1;
             {
-                var error = $root.DownstreamMessage.SystemMessage.verify(message.systemMessage);
+                let error = $root.DownstreamMessage.SystemMessage.verify(message.systemMessage);
                 if (error)
                     return "systemMessage." + error;
             }
@@ -1902,7 +1900,7 @@ $root.DownstreamMessage = (function() {
     DownstreamMessage.fromObject = function fromObject(object) {
         if (object instanceof $root.DownstreamMessage)
             return object;
-        var message = new $root.DownstreamMessage();
+        let message = new $root.DownstreamMessage();
         if (object.ackMessage != null) {
             if (typeof object.ackMessage !== "object")
                 throw TypeError(".DownstreamMessage.ackMessage: object expected");
@@ -1933,7 +1931,7 @@ $root.DownstreamMessage = (function() {
     DownstreamMessage.toObject = function toObject(message, options) {
         if (!options)
             options = {};
-        var object = {};
+        let object = {};
         if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
             object.ackMessage = $root.DownstreamMessage.AckMessage.toObject(message.ackMessage, options);
             if (options.oneofs)
@@ -1999,7 +1997,7 @@ $root.DownstreamMessage = (function() {
          */
         function AckMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -2029,7 +2027,7 @@ $root.DownstreamMessage = (function() {
         AckMessage.prototype.error = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(AckMessage.prototype, "_error", {
@@ -2097,9 +2095,9 @@ $root.DownstreamMessage = (function() {
         AckMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.ackId = reader.uint64();
@@ -2148,7 +2146,7 @@ $root.DownstreamMessage = (function() {
         AckMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.ackId != null && message.hasOwnProperty("ackId"))
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -2158,7 +2156,7 @@ $root.DownstreamMessage = (function() {
             if (message.error != null && message.hasOwnProperty("error")) {
                 properties._error = 1;
                 {
-                    var error = $root.DownstreamMessage.AckMessage.ErrorMessage.verify(message.error);
+                    let error = $root.DownstreamMessage.AckMessage.ErrorMessage.verify(message.error);
                     if (error)
                         return "error." + error;
                 }
@@ -2177,7 +2175,7 @@ $root.DownstreamMessage = (function() {
         AckMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.DownstreamMessage.AckMessage)
                 return object;
-            var message = new $root.DownstreamMessage.AckMessage();
+            let message = new $root.DownstreamMessage.AckMessage();
             if (object.ackId != null)
                 if ($util.Long)
                     (message.ackId = $util.Long.fromValue(object.ackId)).unsigned = true;
@@ -2209,10 +2207,10 @@ $root.DownstreamMessage = (function() {
         AckMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults) {
                 if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
+                    let long = new $util.Long(0, 0, true);
                     object.ackId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
                 } else
                     object.ackId = options.longs === String ? "0" : 0;
@@ -2279,7 +2277,7 @@ $root.DownstreamMessage = (function() {
              */
             function ErrorMessage(properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
@@ -2358,9 +2356,9 @@ $root.DownstreamMessage = (function() {
             ErrorMessage.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
+                    let tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1: {
                             message.name = reader.string();
@@ -2425,7 +2423,7 @@ $root.DownstreamMessage = (function() {
             ErrorMessage.fromObject = function fromObject(object) {
                 if (object instanceof $root.DownstreamMessage.AckMessage.ErrorMessage)
                     return object;
-                var message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
+                let message = new $root.DownstreamMessage.AckMessage.ErrorMessage();
                 if (object.name != null)
                     message.name = String(object.name);
                 if (object.message != null)
@@ -2445,7 +2443,7 @@ $root.DownstreamMessage = (function() {
             ErrorMessage.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
-                var object = {};
+                let object = {};
                 if (options.defaults) {
                     object.name = "";
                     object.message = "";
@@ -2511,7 +2509,7 @@ $root.DownstreamMessage = (function() {
          */
         function DataMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -2549,7 +2547,7 @@ $root.DownstreamMessage = (function() {
         DataMessage.prototype.sequenceId = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         // Virtual OneOf for proto3 optional field
         Object.defineProperty(DataMessage.prototype, "_group", {
@@ -2625,9 +2623,9 @@ $root.DownstreamMessage = (function() {
         DataMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.DataMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.DataMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.from = reader.string();
@@ -2680,7 +2678,7 @@ $root.DownstreamMessage = (function() {
         DataMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.from != null && message.hasOwnProperty("from"))
                 if (!$util.isString(message.from))
                     return "from: string expected";
@@ -2690,7 +2688,7 @@ $root.DownstreamMessage = (function() {
                     return "group: string expected";
             }
             if (message.data != null && message.hasOwnProperty("data")) {
-                var error = $root.MessageData.verify(message.data);
+                let error = $root.MessageData.verify(message.data);
                 if (error)
                     return "data." + error;
             }
@@ -2713,7 +2711,7 @@ $root.DownstreamMessage = (function() {
         DataMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.DownstreamMessage.DataMessage)
                 return object;
-            var message = new $root.DownstreamMessage.DataMessage();
+            let message = new $root.DownstreamMessage.DataMessage();
             if (object.from != null)
                 message.from = String(object.from);
             if (object.group != null)
@@ -2747,7 +2745,7 @@ $root.DownstreamMessage = (function() {
         DataMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (options.defaults) {
                 object.from = "";
                 object.data = null;
@@ -2821,7 +2819,7 @@ $root.DownstreamMessage = (function() {
          */
         function SystemMessage(properties) {
             if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                     if (properties[keys[i]] != null)
                         this[keys[i]] = properties[keys[i]];
         }
@@ -2843,7 +2841,7 @@ $root.DownstreamMessage = (function() {
         SystemMessage.prototype.disconnectedMessage = null;
 
         // OneOf field names bound to virtual getters and setters
-        var $oneOfFields;
+        let $oneOfFields;
 
         /**
          * SystemMessage message.
@@ -2914,9 +2912,9 @@ $root.DownstreamMessage = (function() {
         SystemMessage.decode = function decode(reader, length) {
             if (!(reader instanceof $Reader))
                 reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage();
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage();
             while (reader.pos < end) {
-                var tag = reader.uint32();
+                let tag = reader.uint32();
                 switch (tag >>> 3) {
                 case 1: {
                         message.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.decode(reader, reader.uint32());
@@ -2961,11 +2959,11 @@ $root.DownstreamMessage = (function() {
         SystemMessage.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            var properties = {};
+            let properties = {};
             if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
                 properties.message = 1;
                 {
-                    var error = $root.DownstreamMessage.SystemMessage.ConnectedMessage.verify(message.connectedMessage);
+                    let error = $root.DownstreamMessage.SystemMessage.ConnectedMessage.verify(message.connectedMessage);
                     if (error)
                         return "connectedMessage." + error;
                 }
@@ -2975,7 +2973,7 @@ $root.DownstreamMessage = (function() {
                     return "message: multiple values";
                 properties.message = 1;
                 {
-                    var error = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.verify(message.disconnectedMessage);
+                    let error = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.verify(message.disconnectedMessage);
                     if (error)
                         return "disconnectedMessage." + error;
                 }
@@ -2994,7 +2992,7 @@ $root.DownstreamMessage = (function() {
         SystemMessage.fromObject = function fromObject(object) {
             if (object instanceof $root.DownstreamMessage.SystemMessage)
                 return object;
-            var message = new $root.DownstreamMessage.SystemMessage();
+            let message = new $root.DownstreamMessage.SystemMessage();
             if (object.connectedMessage != null) {
                 if (typeof object.connectedMessage !== "object")
                     throw TypeError(".DownstreamMessage.SystemMessage.connectedMessage: object expected");
@@ -3020,7 +3018,7 @@ $root.DownstreamMessage = (function() {
         SystemMessage.toObject = function toObject(message, options) {
             if (!options)
                 options = {};
-            var object = {};
+            let object = {};
             if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
                 object.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.toObject(message.connectedMessage, options);
                 if (options.oneofs)
@@ -3081,7 +3079,7 @@ $root.DownstreamMessage = (function() {
              */
             function ConnectedMessage(properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
@@ -3170,9 +3168,9 @@ $root.DownstreamMessage = (function() {
             ConnectedMessage.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
+                    let tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1: {
                             message.connectionId = reader.string();
@@ -3244,7 +3242,7 @@ $root.DownstreamMessage = (function() {
             ConnectedMessage.fromObject = function fromObject(object) {
                 if (object instanceof $root.DownstreamMessage.SystemMessage.ConnectedMessage)
                     return object;
-                var message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
+                let message = new $root.DownstreamMessage.SystemMessage.ConnectedMessage();
                 if (object.connectionId != null)
                     message.connectionId = String(object.connectionId);
                 if (object.userId != null)
@@ -3266,7 +3264,7 @@ $root.DownstreamMessage = (function() {
             ConnectedMessage.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
-                var object = {};
+                let object = {};
                 if (options.defaults) {
                     object.connectionId = "";
                     object.userId = "";
@@ -3329,7 +3327,7 @@ $root.DownstreamMessage = (function() {
              */
             function DisconnectedMessage(properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
@@ -3398,9 +3396,9 @@ $root.DownstreamMessage = (function() {
             DisconnectedMessage.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
+                    let tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 2: {
                             message.reason = reader.string();
@@ -3458,7 +3456,7 @@ $root.DownstreamMessage = (function() {
             DisconnectedMessage.fromObject = function fromObject(object) {
                 if (object instanceof $root.DownstreamMessage.SystemMessage.DisconnectedMessage)
                     return object;
-                var message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
+                let message = new $root.DownstreamMessage.SystemMessage.DisconnectedMessage();
                 if (object.reason != null)
                     message.reason = String(object.reason);
                 return message;
@@ -3476,7 +3474,7 @@ $root.DownstreamMessage = (function() {
             DisconnectedMessage.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
-                var object = {};
+                let object = {};
                 if (options.defaults)
                     object.reason = "";
                 if (message.reason != null && message.hasOwnProperty("reason"))
@@ -3519,7 +3517,7 @@ $root.DownstreamMessage = (function() {
     return DownstreamMessage;
 })();
 
-$root.MessageData = (function() {
+export const MessageData = $root.MessageData = (() => {
 
     /**
      * Properties of a MessageData.
@@ -3541,7 +3539,7 @@ $root.MessageData = (function() {
      */
     function MessageData(properties) {
         if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+            for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                 if (properties[keys[i]] != null)
                     this[keys[i]] = properties[keys[i]];
     }
@@ -3579,7 +3577,7 @@ $root.MessageData = (function() {
     MessageData.prototype.jsonData = null;
 
     // OneOf field names bound to virtual getters and setters
-    var $oneOfFields;
+    let $oneOfFields;
 
     /**
      * MessageData data.
@@ -3654,9 +3652,9 @@ $root.MessageData = (function() {
     MessageData.decode = function decode(reader, length) {
         if (!(reader instanceof $Reader))
             reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.MessageData();
+        let end = length === undefined ? reader.len : reader.pos + length, message = new $root.MessageData();
         while (reader.pos < end) {
-            var tag = reader.uint32();
+            let tag = reader.uint32();
             switch (tag >>> 3) {
             case 1: {
                     message.textData = reader.string();
@@ -3709,7 +3707,7 @@ $root.MessageData = (function() {
     MessageData.verify = function verify(message) {
         if (typeof message !== "object" || message === null)
             return "object expected";
-        var properties = {};
+        let properties = {};
         if (message.textData != null && message.hasOwnProperty("textData")) {
             properties.data = 1;
             if (!$util.isString(message.textData))
@@ -3727,7 +3725,7 @@ $root.MessageData = (function() {
                 return "data: multiple values";
             properties.data = 1;
             {
-                var error = $root.google.protobuf.Any.verify(message.protobufData);
+                let error = $root.google.protobuf.Any.verify(message.protobufData);
                 if (error)
                     return "protobufData." + error;
             }
@@ -3753,7 +3751,7 @@ $root.MessageData = (function() {
     MessageData.fromObject = function fromObject(object) {
         if (object instanceof $root.MessageData)
             return object;
-        var message = new $root.MessageData();
+        let message = new $root.MessageData();
         if (object.textData != null)
             message.textData = String(object.textData);
         if (object.binaryData != null)
@@ -3783,7 +3781,7 @@ $root.MessageData = (function() {
     MessageData.toObject = function toObject(message, options) {
         if (!options)
             options = {};
-        var object = {};
+        let object = {};
         if (message.textData != null && message.hasOwnProperty("textData")) {
             object.textData = message.textData;
             if (options.oneofs)
@@ -3836,14 +3834,14 @@ $root.MessageData = (function() {
     return MessageData;
 })();
 
-$root.google = (function() {
+export const google = $root.google = (() => {
 
     /**
      * Namespace google.
      * @exports google
      * @namespace
      */
-    var google = {};
+    const google = {};
 
     google.protobuf = (function() {
 
@@ -3852,7 +3850,7 @@ $root.google = (function() {
          * @memberof google
          * @namespace
          */
-        var protobuf = {};
+        const protobuf = {};
 
         protobuf.Any = (function() {
 
@@ -3874,7 +3872,7 @@ $root.google = (function() {
              */
             function Any(properties) {
                 if (properties)
-                    for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null)
                             this[keys[i]] = properties[keys[i]];
             }
@@ -3953,9 +3951,9 @@ $root.google = (function() {
             Any.decode = function decode(reader, length) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                var end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Any();
+                let end = length === undefined ? reader.len : reader.pos + length, message = new $root.google.protobuf.Any();
                 while (reader.pos < end) {
-                    var tag = reader.uint32();
+                    let tag = reader.uint32();
                     switch (tag >>> 3) {
                     case 1: {
                             message.type_url = reader.string();
@@ -4020,7 +4018,7 @@ $root.google = (function() {
             Any.fromObject = function fromObject(object) {
                 if (object instanceof $root.google.protobuf.Any)
                     return object;
-                var message = new $root.google.protobuf.Any();
+                let message = new $root.google.protobuf.Any();
                 if (object.type_url != null)
                     message.type_url = String(object.type_url);
                 if (object.value != null)
@@ -4043,7 +4041,7 @@ $root.google = (function() {
             Any.toObject = function toObject(message, options) {
                 if (!options)
                     options = {};
-                var object = {};
+                let object = {};
                 if (options.defaults) {
                     object.type_url = "";
                     if (options.bytes === String)
@@ -4096,4 +4094,4 @@ $root.google = (function() {
     return google;
 })();
 
-module.exports = $root;
+export { $root as default };
