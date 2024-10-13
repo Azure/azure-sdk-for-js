@@ -14799,8 +14799,8 @@ importers:
   sdk/hybridcompute/arm-hybridcompute:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:~
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:~
         version: link:../../core/core-auth
@@ -25827,8 +25827,8 @@ importers:
         specifier: workspace:~
         version: link:../../core/logger
       '@azure/schema-registry':
-        specifier: 1.2.0
-        version: 1.2.0
+        specifier: workspace:~
+        version: link:../schema-registry
       avsc:
         specifier: ^5.5.1
         version: 5.7.7
@@ -25840,14 +25840,17 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: catalog:test-credentialV1
-        version: 1.2.0
-      '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:~
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:~
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:~
+        version: link:../../test-utils/test-utils-vitest
+      '@azure-tools/vite-plugin-browser-test-map':
+        specifier: workspace:~
+        version: link:../../../common/tools/vite-plugin-browser-test-map
       '@azure/core-rest-pipeline':
         specifier: workspace:~
         version: link:../../core/core-rest-pipeline
@@ -25858,38 +25861,32 @@ importers:
         specifier: workspace:~
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/event-hubs':
-        specifier: ^5.8.0
-        version: 5.12.0
+        specifier: workspace:~
+        version: link:../../eventhub/event-hubs
       '@azure/identity':
         specifier: workspace:~
         version: link:../../identity/identity
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
-      '@types/chai':
-        specifier: 'catalog:'
-        version: 4.3.17
-      '@types/chai-as-promised':
-        specifier: ^7.1.0
-        version: 7.1.8
-      '@types/mocha':
-        specifier: 'catalog:'
-        version: 10.0.7
+      '@rollup/plugin-inject':
+        specifier: ^5.0.5
+        version: 5.0.5(rollup@4.24.0)
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
       '@types/uuid':
         specifier: ^8.3.0
         version: 8.3.4
-      buffer:
-        specifier: ^6.0.0
-        version: 6.0.3
-      chai:
+      '@vitest/browser':
         specifier: 'catalog:'
-        version: 4.5.0
-      chai-as-promised:
-        specifier: ^7.1.1
-        version: 7.1.2(chai@4.5.0)
+        version: 2.0.5(playwright@1.46.1)(typescript@5.6.3)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.0.5(vitest@2.0.5)
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
       cross-env:
         specifier: 'catalog:'
         version: 7.0.3
@@ -25899,45 +25896,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
+      playwright:
         specifier: 'catalog:'
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: 'catalog:'
-        version: 3.2.0
-      karma-coverage:
-        specifier: 'catalog:'
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: 'catalog:'
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: 'catalog:'
-        version: 1.3.0
-      karma-json-preprocessor:
-        specifier: 'catalog:'
-        version: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter:
-        specifier: 'catalog:'
-        version: 1.0.1
-      karma-junit-reporter:
-        specifier: 'catalog:'
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: 'catalog:'
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: 'catalog:'
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: 'catalog:'
-        version: 0.3.8
-      mocha:
-        specifier: 'catalog:'
-        version: 10.7.3
-      nyc:
-        specifier: 'catalog:'
-        version: 17.0.0
+        version: 1.46.1
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -25947,15 +25908,15 @@ importers:
       stream:
         specifier: ^0.0.3
         version: 0.0.3
-      ts-node:
-        specifier: 'catalog:'
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
       uuid:
         specifier: ^8.3.0
         version: 8.3.2
+      vitest:
+        specifier: 'catalog:'
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
   sdk/schemaregistry/schema-registry-json:
     dependencies:
@@ -32953,10 +32914,6 @@ packages:
     resolution: {integrity: sha512-D1ujjaIiXPhePvjKlG+iYazYxLwPHSxD8WOJluCwptElcj1PslF70nmXDJw3udCLTYDbDgV+SrGpAHnJsyuh3Q==}
     engines: {node: '>=8.0.0'}
 
-  '@azure/core-amqp@4.3.2':
-    resolution: {integrity: sha512-I8sI81E0o38zYjdXcM8cnnvveM6X3f90zqi51zSuD+ZX96P6ZsW8jEXpd/1E7aEUG+MuFGnsEx0iPPS53Lpfnw==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/core-auth@1.7.2':
     resolution: {integrity: sha512-Igm/S3fDYmnMq1uKS38Ae1/m37B3zigdlZw+kocwEhh5GjyKjPrXKO2J6rzpC1wAxrNil/jX9BJRqBshyjnF3g==}
     engines: {node: '>=18.0.0'}
@@ -32991,10 +32948,6 @@ packages:
 
   '@azure/core-util@1.9.2':
     resolution: {integrity: sha512-l1Qrqhi4x1aekkV+OlcqsJa4AnAkj5p0JV8omgwjaV9OAbP41lvrMvs+CptfetKkeEaGRGSzby7sjPZEX7+kkQ==}
-    engines: {node: '>=18.0.0'}
-
-  '@azure/event-hubs@5.12.0':
-    resolution: {integrity: sha512-mGQjaYYPvPW+sz2C1Bl2/07n4tsln1j8I8ELAeSjJQeQoc+fS4sLDlW3diWFFiX2bJh0BavkNLnqTT7mE0W5Ww==}
     engines: {node: '>=18.0.0'}
 
   '@azure/functions@3.5.1':
@@ -33050,10 +33003,6 @@ packages:
   '@azure/openai@1.0.0-beta.12':
     resolution: {integrity: sha512-qKblxr6oVa8GsyNzY+/Ub9VmEsPYKhBrUrPaNEQiM+qrxnBPVm9kaeqGFFb/U78Q2zOabmhF9ctYt3xBW0nWnQ==}
     engines: {node: '>=18.0.0'}
-
-  '@azure/schema-registry@1.2.0':
-    resolution: {integrity: sha512-c0941sREjSPE6/KMVd3vrLYKwwjrKZabOP/i1YOoBS4RquFIi3aA4wUPBvsVhOs4JzN79Ztcn7/ZvO4HyzrSVQ==}
-    engines: {node: '>=12.0.0'}
 
   '@babel/code-frame@7.25.7':
     resolution: {integrity: sha512-0xZJFNE5XMpENsgfHYTw8FbX4kv53mFLn2i3XPoq69LyhYSCBJtitaHx9QnsVTrsogI4Z3+HtEfZ2/GFPOtf5g==}
@@ -38570,21 +38519,6 @@ snapshots:
       tslib: 2.7.0
       uuid: 8.3.2
 
-  '@azure/core-amqp@4.3.2':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.7.2
-      '@azure/core-util': 1.9.2
-      '@azure/logger': 1.1.4
-      buffer: 6.0.3
-      events: 3.3.0
-      process: 0.11.10
-      rhea: 3.0.2
-      rhea-promise: 3.0.3
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/core-auth@1.7.2':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -38647,23 +38581,6 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       tslib: 2.7.0
-
-  '@azure/event-hubs@5.12.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-amqp': 4.3.2
-      '@azure/core-auth': 1.7.2
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.2
-      '@azure/logger': 1.1.4
-      buffer: 6.0.3
-      is-buffer: 2.0.5
-      jssha: 3.3.1
-      process: 0.11.10
-      rhea-promise: 3.0.3
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
 
   '@azure/functions@3.5.1':
     dependencies:
@@ -38772,17 +38689,6 @@ snapshots:
       '@azure/core-rest-pipeline': 1.16.3
       '@azure/core-sse': 2.1.3
       '@azure/core-util': 1.9.2
-      '@azure/logger': 1.1.4
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/schema-registry@1.2.0':
-    dependencies:
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
       '@azure/logger': 1.1.4
       tslib: 2.7.0
     transitivePeerDependencies:
