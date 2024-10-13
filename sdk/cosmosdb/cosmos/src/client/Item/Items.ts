@@ -5,14 +5,7 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import {
-  getIdFromLink,
-  getPathFromLink,
-  isItemResourceValid,
-  ResourceType,
-  StatusCodes,
-  SubStatusCodes,
-} from "../../common";
+import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
