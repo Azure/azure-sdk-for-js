@@ -16,7 +16,8 @@ export interface ErrorBody {
  */
 export interface PartitionedQueryExecutionInfo {
   partitionedQueryExecutionInfoVersion: number;
-  queryInfo: QueryInfo;
+  queryInfo?: QueryInfo;
+  hybridSearchQueryInfo?: HybridSearchQueryInfo;
   queryRanges: QueryRange[];
 }
 
@@ -49,6 +50,14 @@ export interface QueryInfo {
    * determines whether the query is of non streaming orderby type.
    */
   hasNonStreamingOrderBy: boolean;
+}
+
+export interface HybridSearchQueryInfo {
+  globalStatisticsQuery: string;
+  componentQueryInfos: QueryInfo[];
+  take: number;
+  skip: number;
+  requiresGlobalStatistics: boolean;
 }
 
 export type GroupByExpressions = string[];
