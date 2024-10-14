@@ -6,13 +6,13 @@
 
 - Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for native broker scenarios in `InteractiveBrowserCredential` to be used with plugin `@azure/identity-broker` #30961.
 
-### Breaking Changes
+### Bugs Fixed
 
-- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided.
+- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided #31209.
 
 ### Other Changes
 
-- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message.
+- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message #31209.
 
 <!-- dev-tool snippets ignore -->
 
