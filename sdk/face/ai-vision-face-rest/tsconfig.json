@@ -4,7 +4,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
-    "paths": { "@azure-rest/ai-vision-face": ["./src/index"] }
+    "paths": { "@azure-rest/ai-vision-face": ["./src/index"] },
+    "skipLibCheck": true
   },
   "include": [
     "./src/**/*.ts",
