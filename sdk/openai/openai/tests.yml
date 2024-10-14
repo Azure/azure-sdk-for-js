@@ -9,6 +9,9 @@ extends:
     CloudConfig:
       Public:
         ServiceConnection: azure-sdk-tests-openai
+    MatrixFilters:
+      - TestType=^(?!sample).*
+      - DependencyVersion=^$
     TimeoutInMinutes: "120"
     EnvVars:
       AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
