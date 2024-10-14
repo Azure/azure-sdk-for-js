@@ -1,5 +1,15 @@
 # Release History
 
+## 5.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.8.0 (2024-10-14)
 
 ### Other Changes
