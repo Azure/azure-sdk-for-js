@@ -35,7 +35,6 @@ class PlaywrightServiceConfig {
         process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = this.runId;
       } else {
         this.runId = getAndSetRunId();
-        process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = this.runId;
       }
     }
     if (options?.os) {

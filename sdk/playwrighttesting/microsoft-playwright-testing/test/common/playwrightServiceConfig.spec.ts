@@ -128,8 +128,9 @@ describe("PlaywrightServiceConfig", () => {
   it("should use runId from environment variable if already set", () => {
     process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = "existing-run-id";
     const playwrightServiceConfig = new PlaywrightServiceConfig();
-    playwrightServiceConfig.setOptions();
-
+    playwrightServiceConfig.setOptions({
+      runId: "option-run-id",
+    });
     expect(playwrightServiceConfig.runId).to.equal("existing-run-id");
     expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(
       "existing-run-id",
