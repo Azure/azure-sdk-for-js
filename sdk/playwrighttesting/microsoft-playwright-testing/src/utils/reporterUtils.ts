@@ -54,7 +54,7 @@ class ReporterUtils {
 
   public async getTestRunObject(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = new TestRun();
-    const runName = this.envVariables.runName || await this.getRunName(ciInfo);
+    const runName = this.envVariables.runName || (await this.getRunName(ciInfo));
     if (ReporterUtils.isNullOrEmpty(this.envVariables.runId)) {
       if (!ReporterUtils.isNullOrEmpty(runName)) {
         this.envVariables.runId = runName;

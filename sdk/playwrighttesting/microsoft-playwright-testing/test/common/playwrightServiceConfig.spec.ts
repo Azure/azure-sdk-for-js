@@ -3,6 +3,7 @@
 
 import {
   DefaultConnectOptionsConstants,
+  InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
 } from "../../src/common/constants";
 import { PlaywrightServiceConfig } from "../../src/common/playwrightServiceConfig";
@@ -33,6 +34,7 @@ describe("PlaywrightServiceConfig", () => {
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
     expect(playwrightServiceConfig.runId).to.exist;
+    expect(playwrightServiceConfig.runName).to.be.undefined;
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
@@ -51,14 +53,16 @@ describe("PlaywrightServiceConfig", () => {
   it("should set service config object with values from env variables", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] = "windows";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = "runId";
-
+    process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = "runName";
     const playwrightServiceConfig = new PlaywrightServiceConfig();
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
     expect(playwrightServiceConfig.runId).to.equal("runId");
+    expect(playwrightServiceConfig.runName).to.equal("runName");
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
   });
 
   it("should set service config object with values from options", () => {
@@ -66,6 +70,7 @@ describe("PlaywrightServiceConfig", () => {
     playwrightServiceConfig.setOptions({
       os: "windows",
       runId: "runId",
+      runName: "runName",
       slowMo: 100,
       timeout: 200,
       exposeNetwork: "localhost",
@@ -73,6 +78,7 @@ describe("PlaywrightServiceConfig", () => {
 
     expect(playwrightServiceConfig.serviceOs).to.equal("windows");
     expect(playwrightServiceConfig.runId).to.equal("runId");
+    expect(playwrightServiceConfig.runName).to.equal("runName");
     expect(playwrightServiceConfig.slowMo).to.equal(100);
     expect(playwrightServiceConfig.timeout).to.equal(200);
     expect(playwrightServiceConfig.exposeNetwork).to.equal("localhost");
@@ -80,6 +86,7 @@ describe("PlaywrightServiceConfig", () => {
     expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS]).to.equal("windows");
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
   });
 
@@ -91,6 +98,7 @@ describe("PlaywrightServiceConfig", () => {
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
     expect(playwrightServiceConfig.runId).to.exist;
+    expect(playwrightServiceConfig.runName).to.be.undefined;
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
@@ -103,6 +111,29 @@ describe("PlaywrightServiceConfig", () => {
     );
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS];
+  });
+  it("should set runName from options if provided and environment variable is not set", () => {
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    playwrightServiceConfig.setOptions({
+      runName: "custom-run-name",
+    });
+    expect(playwrightServiceConfig.runName).to.equal("custom-run-name");
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME]).to.equal(
+      "custom-run-name",
+    );
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
+  });
+  it("should use runName from environment variable if already set", () => {
+    process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = "existing-run-name";
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    playwrightServiceConfig.setOptions();
+
+    expect(playwrightServiceConfig.runName).to.equal("existing-run-name");
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME]).to.equal(
+      "existing-run-name",
+    );
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME];
   });
 });

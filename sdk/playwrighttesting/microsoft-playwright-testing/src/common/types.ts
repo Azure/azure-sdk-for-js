@@ -229,12 +229,12 @@ export type PlaywrightServiceAdditionalOptions = {
    */
   credential?: TokenCredential;
   /**
-  * @public
-  *
-  * Run name for the test run.
-  *
-  * @defaultValue ` random UUID,`
-  */
+   * @public
+   *
+   * Run name for the test run.
+   *
+   * @defaultValue ` random UUID,`
+   */
   runName?: string;
 };
 
