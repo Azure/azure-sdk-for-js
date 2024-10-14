@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FabricClient } from "@azure/arm-fabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const { FabricClient } = require("@azure/arm-fabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list FabricCapacity resources by resource group
@@ -15,9 +15,7 @@ async function listCapacitiesByResourceGroup() {
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fabricCapacities.listByResourceGroup(
-    "TestRG",
-  )) {
+  for await (let item of client.fabricCapacities.listByResourceGroup("TestRG")) {
     resArray.push(item);
   }
 
