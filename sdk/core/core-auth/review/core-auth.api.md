@@ -12,7 +12,7 @@ export interface AccessToken {
     expiresOnTimestamp: number;
     refreshAfterTimestamp?: number;
     token: string;
-    tokenType?: string;
+    tokenType?: "Bearer" | "pop";
 }
 
 // @public

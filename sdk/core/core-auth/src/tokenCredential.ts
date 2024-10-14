@@ -103,8 +103,8 @@ export interface AccessToken {
    */
   refreshAfterTimestamp?: number;
 
-  /** Type of token - Bearer or pop */
-  tokenType?: string;
+  /** Type of token - `Bearer` or `pop` */
+  tokenType?: "Bearer" | "pop";
 }
 
 /**
