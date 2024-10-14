@@ -5,9 +5,10 @@ extends:
   parameters:
     PackageName: "@azure/openai"
     ServiceDirectory: openai
-    MatrixFilters:
-      - TestType=^(?!sample).*
-      - DependencyVersion=^$
+    Clouds: 'Public'
+    CloudConfig:
+      Public:
+        ServiceConnection: azure-sdk-tests-openai
     TimeoutInMinutes: "120"
     EnvVars:
       AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
