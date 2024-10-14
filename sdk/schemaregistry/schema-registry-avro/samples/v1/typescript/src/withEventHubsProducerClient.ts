@@ -63,7 +63,7 @@ const schemaDescription: SchemaDescription = {
 export async function main() {
   // Create a credential
   const credential = new DefaultAzureCredential();
-  
+
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
