@@ -32,7 +32,8 @@ const eventHubJsonHostName = process.env["EVENTHUB_JSON_HOST_NAME"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
 // The name of the Event Hub consumer group from which you want to process events
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || EventHubConsumerClient.defaultConsumerGroupName;
+const consumerGroup =
+  process.env["CONSUMER_GROUP_NAME"] || EventHubConsumerClient.defaultConsumerGroupName;
 
 // Sample Json Schema for user with first and last names
 const schemaObject = {
@@ -92,7 +93,8 @@ export async function main() {
       processEvents: async (events, context) => {
         for (const event of events) {
           console.log(
-            `Received event: '${JSON.stringify(event)}' from partition: '${context.partitionId
+            `Received event: '${JSON.stringify(event)}' from partition: '${
+              context.partitionId
             }' and consumer group: '${context.consumerGroup}'`,
           );
           if (event.contentType !== undefined && event.body) {

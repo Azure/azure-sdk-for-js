@@ -63,10 +63,7 @@ export async function main() {
   const credential = new DefaultAzureCredential();
 
   // Create a new client
-  const client = new SchemaRegistryClient(
-    schemaRegistryFullyQualifiedNamespace,
-    credential,
-  );
+  const client = new SchemaRegistryClient(schemaRegistryFullyQualifiedNamespace, credential);
 
   // Register the schema. This would generally have been done somewhere else.
   await client.registerSchema(schemaDescription);
