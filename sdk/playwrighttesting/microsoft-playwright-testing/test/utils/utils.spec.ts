@@ -74,9 +74,10 @@ describe("Service Utils", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
+    const runName = "runName";
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${runId}&os=${os}&api-version=${API_VERSION}`;
-    expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${runId}&runName=${runName}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });

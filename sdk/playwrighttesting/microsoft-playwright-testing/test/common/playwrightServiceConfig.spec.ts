@@ -34,7 +34,7 @@ describe("PlaywrightServiceConfig", () => {
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
     expect(playwrightServiceConfig.runId).to.exist;
-    expect(playwrightServiceConfig.runName).to.be.undefined;
+    expect(playwrightServiceConfig.runName).to.equal("");
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
@@ -98,7 +98,7 @@ describe("PlaywrightServiceConfig", () => {
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS,
     );
     expect(playwrightServiceConfig.runId).to.exist;
-    expect(playwrightServiceConfig.runName).to.be.undefined;
+    expect(playwrightServiceConfig.runName).to.equal("");
     expect(playwrightServiceConfig.timeout).to.equal(
       DefaultConnectOptionsConstants.DEFAULT_TIMEOUT,
     );
