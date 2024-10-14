@@ -75,7 +75,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
-    "@azure/core-util": "^1.1.0",
+    "@azure/core-util": "^1.11.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {

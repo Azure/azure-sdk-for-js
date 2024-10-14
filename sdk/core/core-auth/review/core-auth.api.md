@@ -56,9 +56,6 @@ export interface GetTokenOptions {
     };
 }
 
-// @public
-export function getTokenType(accessToken: AccessToken): string;
-
 export { HttpMethods }
 
 // @public

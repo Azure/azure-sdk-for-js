@@ -7,7 +7,7 @@ import {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 
-import { GetTokenOptions, getTokenType } from "@azure/core-auth";
+import { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * A set of constants used internally when processing requests.
@@ -59,7 +59,7 @@ export const authorizeRequestOnTenantChallenge: (
 
     challengeOptions.request.headers.set(
       Constants.HeaderConstants.AUTHORIZATION,
-      `${getTokenType(accessToken)} ${accessToken.token}`,
+      `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
     );
     return true;
   }

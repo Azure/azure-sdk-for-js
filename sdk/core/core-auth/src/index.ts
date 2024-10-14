@@ -15,7 +15,6 @@ export {
   GetTokenOptions,
   AccessToken,
   isTokenCredential,
-  getTokenType,
 } from "./tokenCredential.js";
 
 export { TracingContext } from "./tracing.js";
