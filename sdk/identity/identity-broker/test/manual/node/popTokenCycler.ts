@@ -206,10 +206,7 @@ export function createTokenCycler(
   };
 }
 
-export function delay<T>(
-  delayInMs: number,
-  value?: T
-): Promise<T | void> {
+export function delay<T>(delayInMs: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
     if (timer) {
@@ -219,6 +216,5 @@ export function delay<T>(
     timer = setTimeout(() => {
       resolve(value);
     }, delayInMs);
-
   });
 }
