@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { randomUUID } from "crypto";
+import { InternalEnvironmentVariables } from "./constants";
 
 export class EnvironmentVariables {
   get accessToken(): string {
@@ -15,7 +16,7 @@ export class EnvironmentVariables {
   shardId: string | undefined;
   region: string | undefined;
   constructor() {
-    this.runId = process.env["_MPT_SERVICE_RUN_ID"]!;
+    this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]!;
     this.correlationId = randomUUID();
   }
 }
