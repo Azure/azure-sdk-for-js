@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@azure/communication-chat": "^1.5.2"
+  }
+}
