@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContext } from "../connectionContext";
-import { receiverLogger as logger } from "../log";
-import { ServiceBusMessageImpl } from "../serviceBusMessage";
-import { calculateRenewAfterDuration } from "../util/utils";
-import { LinkEntity } from "./linkEntity";
-import { OnErrorNoContext } from "./messageReceiver";
+import { ConnectionContext } from "../connectionContext.js";
+import { receiverLogger as logger } from "../log.js";
+import { ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { calculateRenewAfterDuration } from "../util/utils.js";
+import { LinkEntity } from "./linkEntity.js";
+import { OnErrorNoContext } from "./messageReceiver.js";
 
 /**
  * @internal

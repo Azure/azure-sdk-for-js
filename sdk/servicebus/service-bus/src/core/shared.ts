@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { Delivery, ReceiverOptions, Source } from "rhea-promise";
-import { translateServiceBusError } from "../serviceBusError";
-import { receiverLogger } from "../log";
-import { ReceiveMode } from "../models";
+import { translateServiceBusError } from "../serviceBusError.js";
+import { receiverLogger } from "../log.js";
+import { ReceiveMode } from "../models.js";
 import { Constants } from "@azure/core-amqp";
 
 /**

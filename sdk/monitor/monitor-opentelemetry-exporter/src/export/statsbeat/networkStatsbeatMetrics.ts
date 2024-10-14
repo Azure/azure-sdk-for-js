@@ -25,8 +25,10 @@ import {
   StatsbeatOptions,
 } from "./types";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
+import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
+  private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
   private commonProperties: CommonStatsbeatProperties;
   private networkProperties: NetworkStatsbeatProperties;
   private isInitialized: boolean = false;
@@ -53,8 +55,8 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private exceptionCountGauge: ObservableGauge;
   private averageDurationGauge: ObservableGauge;
   // Non-essential Statsbeat Gauges
-  private readFailureGauge: ObservableGauge;
-  private writeFailureGauge: ObservableGauge;
+  private readFailureGauge: ObservableGauge | undefined;
+  private writeFailureGauge: ObservableGauge | undefined;
 
   // Network attributes
   private connectionString: string;
@@ -109,12 +111,14 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     this.averageDurationGauge = this.networkStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.AVERAGE_DURATION,
     );
-    this.readFailureGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.READ_FAILURE_COUNT,
-    );
-    this.writeFailureGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.WRITE_FAILURE_COUNT,
-    );
+    if (!this.disableNonEssentialStatsbeat) {
+      this.readFailureGauge = this.networkStatsbeatMeter.createObservableGauge(
+        StatsbeatCounter.READ_FAILURE_COUNT,
+      );
+      this.writeFailureGauge = this.networkStatsbeatMeter.createObservableGauge(
+        StatsbeatCounter.WRITE_FAILURE_COUNT,
+      );
+    }
 
     this.commonProperties = {
       os: this.os,
@@ -157,8 +161,10 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       this.networkStatsbeatMeter.addBatchObservableCallback(this.exceptionCallback.bind(this), [
         this.exceptionCountGauge,
       ]);
-      this.readFailureGauge.addCallback(this.readFailureCallback.bind(this));
-      this.writeFailureGauge.addCallback(this.writeFailureCallback.bind(this));
+      if (!this.disableNonEssentialStatsbeat) {
+        this.readFailureGauge?.addCallback(this.readFailureCallback.bind(this));
+        this.writeFailureGauge?.addCallback(this.writeFailureCallback.bind(this));
+      }
       this.averageDurationGauge.addCallback(this.durationCallback.bind(this));
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
@@ -173,7 +179,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     counter.totalSuccesfulRequestCount = 0;
   }
 
-  private failureCallback(observableResult: BatchObservableResult) {
+  private failureCallback(observableResult: BatchObservableResult): void {
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     /*
       Takes the failureCountGauge, value (of the counter), and attributes
@@ -330,7 +336,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   public countReadFailure(): void {
-    if (!this.isInitialized) {
+    if (!this.isInitialized || this.disableNonEssentialStatsbeat) {
       return;
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
@@ -338,7 +344,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   public countWriteFailure(): void {
-    if (!this.isInitialized) {
+    if (!this.isInitialized || this.disableNonEssentialStatsbeat) {
       return;
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
