@@ -2291,6 +2291,11 @@
       "packageName": "@azure/arm-trustedsigning",
       "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerorchestratorruntime",
+      "projectFolder": "sdk/kubernetesruntime/arm-containerorchestratorruntime",
+      "versionPolicyName": "management"
     }
   ]
 }
