@@ -40,6 +40,10 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
+    # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
+    # of the class. however, due to the fact that we set the ArtifactName _after_ the constructor is called,
+    # we need to call it again here to ensure the CI artifacts are properly initialized
+    $pkgProp.InitializeCIArtifacts()
     return $pkgProp
   }
   return $null
@@ -249,7 +253,7 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
 }
 
 # PackageName: Pass full package name e.g. @azure/abort-controller
-# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
+# You can obtain full package name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
 function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   try {
     $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
