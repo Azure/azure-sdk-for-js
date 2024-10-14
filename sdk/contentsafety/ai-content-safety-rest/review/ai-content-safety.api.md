@@ -98,17 +98,13 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
+    categories?: ImageCategory[];
     image: ImageData_2;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
-export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
-    image: ImageDataOutput;
-    outputType?: string;
-}
+export type AnalyzeImageOutputType = "FourSeverityLevels";
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -154,20 +150,14 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 // @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategory[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputType;
     text: string;
 }
 
 // @public
-export interface AnalyzeTextOptionsOutput {
-    blocklistNames?: string[];
-    categories?: string[];
-    haltOnBlocklistHit?: boolean;
-    outputType?: string;
-    text: string;
-}
+export type AnalyzeTextOutputType = "FourSeverityLevels" | "EightSeverityLevels";
 
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
@@ -184,7 +174,12 @@ export type ContentSafetyClient = Client & {
 };
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ContentSafetyClient;
+export interface ContentSafetyClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ContentSafetyClientOptions): ContentSafetyClient;
 export default createClient;
 
 // @public
@@ -330,9 +325,15 @@ export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type ImageCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
+
+// @public
+export type ImageCategoryOutput = "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // @public
 interface ImageData_2 {
@@ -340,12 +341,6 @@ interface ImageData_2 {
     content?: string;
 }
 export { ImageData_2 as ImageData }
-
-// @public
-export interface ImageDataOutput {
-    blobUrl?: string;
-    content?: string;
-}
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
@@ -561,9 +556,15 @@ export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
 export interface TextCategoriesAnalysisOutput {
-    category: string;
+    category: TextCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type TextCategory = "Hate" | "SelfHarm" | "Sexual" | "Violence";
+
+// @public
+export type TextCategoryOutput = "Hate" | "SelfHarm" | "Sexual" | "Violence";
 
 // (No @packageDocumentation comment for this package)
 
