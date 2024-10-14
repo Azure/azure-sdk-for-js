@@ -5,8 +5,6 @@ extends:
     parameters:
       PackageName: "@azure/service-bus"
       ServiceDirectory: servicebus
-      MatrixFilters:
-        - DependencyVersion=^$
       UseFederatedAuth: true
       TimeoutInMinutes: 120
       Clouds: 'Public,Canary'
