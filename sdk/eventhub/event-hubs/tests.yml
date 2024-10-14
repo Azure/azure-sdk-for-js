@@ -5,8 +5,6 @@ extends:
     parameters:
       PackageName: "@azure/event-hubs"
       ServiceDirectory: eventhub
-      MatrixFilters:
-        - DependencyVersion=^$
       UseFederatedAuth: true
       Clouds: 'Public,Canary'
       TimeoutInMinutes: 90
