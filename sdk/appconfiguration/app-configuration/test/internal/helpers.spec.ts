@@ -9,7 +9,7 @@ import {
   featureFlagContentType,
   secretReferenceContentType,
   ConfigurationSettingId,
-} from "../../src";
+} from "../../src/index.js";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
@@ -22,11 +22,11 @@ import {
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-} from "../../src/internal/helpers";
-import { FeatureFlagValue } from "../../src/featureFlag";
+} from "../../src/internal/helpers.js";
+import { FeatureFlagValue } from "../../src/featureFlag.js";
 import { WebResourceLike } from "@azure/core-http-compat";
-import { SecretReferenceValue } from "../../src/secretReference";
-import { assert } from "chai";
+import { SecretReferenceValue } from "../../src/secretReference.js";
+import { describe, it, assert } from "vitest";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
