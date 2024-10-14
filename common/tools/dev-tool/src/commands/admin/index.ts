@@ -9,5 +9,6 @@ export default subCommand(commandInfo, {
   "create-migration": () => import("./create-migration"),
   "stage-migrations": () => import("./stage-migrations"),
   "migrate-package": () => import("./migrate-package"),
+  "sort-dependencies": () => import("./sort-dependencies"),
   list: () => import("./list"),
 });

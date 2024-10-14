@@ -10,16 +10,26 @@
   "dependencies": {
     "@azure-tools/test-perf": "^1.0.0",
     "@azure/identity": "^4.0.1",
+    "@azure-tools/test-perf": "^1.0.0",
+    "@azure/identity": "workspace:*",
     "@azure/schema-registry": "1.3.0",
     "@azure/schema-registry-avro": "^1.0.0",
+    "dotenv": "catalog:"
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "workspace:*",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "rimraf": "catalog:",
     "@azure/dev-tool": "^1.0.0",
     "@types/node": "^18.0.0",
     "eslint": "^9.9.0",
-    "rimraf": "^5.0.5",
-    "ts-node": "^10.0.0",
+    "rimraf": "catalog:",
+    "ts-node": "catalog:",
+    "tslib": "catalog:",
+    "typescript": "catalog:"
     "tslib": "^2.2.0",
     "typescript": "~5.6.2"
   },
