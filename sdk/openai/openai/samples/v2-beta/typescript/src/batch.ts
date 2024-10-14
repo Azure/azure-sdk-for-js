@@ -27,7 +27,7 @@ export async function main() {
   const batchContent = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deployment}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
 
   // Upload a file with "batch" purpose
-  let file = await client.files.create({
+  const file = await client.files.create({
     file: await toFile(Buffer.from(batchContent), "batch.jsonl"),
     purpose: "batch",
   });
