@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fetch User API Key from internal database, if it was generated and stored while creating the Elasticsearch Organization.
  *
  * @summary Fetch User API Key from internal database, if it was generated and stored while creating the Elasticsearch Organization.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Organizations_GetApiKey.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Organizations_GetApiKey.json
  */
 async function organizationsGetApiKey() {
   const subscriptionId =

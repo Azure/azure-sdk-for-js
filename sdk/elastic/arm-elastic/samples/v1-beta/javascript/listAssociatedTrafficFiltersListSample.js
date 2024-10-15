@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the list of all associated traffic filters for the given deployment.
  *
  * @summary Get the list of all associated traffic filters for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/AssociatedFiltersForDeployment_list.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/AssociatedFiltersForDeployment_list.json
  */
 async function listAssociatedTrafficFiltersList() {
   const subscriptionId =

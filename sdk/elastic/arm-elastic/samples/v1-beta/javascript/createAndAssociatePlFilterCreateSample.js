@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create and Associate private link traffic filter for the given deployment.
  *
  * @summary Create and Associate private link traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/PrivateLinkTrafficFilters_Create.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/PrivateLinkTrafficFilters_Create.json
  */
 async function createAndAssociatePlFilterCreate() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function createAndAssociatePlFilterCreate() {
   const result = await client.createAndAssociatePLFilter.beginCreateAndWait(
     resourceGroupName,
     monitorName,
-    options
+    options,
   );
   console.log(result);
 }

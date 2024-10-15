@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DetachTrafficFilterUpdateOptionalParams,
-  MicrosoftElastic
+  MicrosoftElastic,
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Detach traffic filter for the given deployment.
  *
  * @summary Detach traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/DetachTrafficFilters_Update.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/DetachTrafficFilters_Update.json
  */
 async function detachTrafficFilterUpdate() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function detachTrafficFilterUpdate() {
   const result = await client.detachTrafficFilter.beginUpdateAndWait(
     resourceGroupName,
     monitorName,
-    options
+    options,
   );
   console.log(result);
 }

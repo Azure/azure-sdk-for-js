@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create and Associate IP traffic filter for the given deployment.
  *
  * @summary Create and Associate IP traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/IPTrafficFilter_Create.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/IPTrafficFilter_Create.json
  */
 async function createAndAssociateIPFilterCreate() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function createAndAssociateIPFilterCreate() {
   const result = await client.createAndAssociateIPFilter.beginCreateAndWait(
     resourceGroupName,
     monitorName,
-    options
+    options,
   );
   console.log(result);
 }

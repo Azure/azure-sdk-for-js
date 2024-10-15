@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a list of available versions for a region.
  *
  * @summary Get a list of available versions for a region.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/ElasticVersions_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/ElasticVersions_List.json
  */
 async function elasticVersionsList() {
   const subscriptionId =

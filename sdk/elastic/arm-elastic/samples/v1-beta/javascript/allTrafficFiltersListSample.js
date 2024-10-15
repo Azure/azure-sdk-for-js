@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the list of all traffic filters for the account.
  *
  * @summary Get the list of all traffic filters for the account.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/AllTrafficFilters_list.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/AllTrafficFilters_list.json
  */
 async function allTrafficFiltersList() {
   const subscriptionId =

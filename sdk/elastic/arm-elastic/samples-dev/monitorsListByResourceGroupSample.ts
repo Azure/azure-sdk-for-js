@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all monitors under the specified resource group.
  *
  * @summary List all monitors under the specified resource group.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_ListByResourceGroup.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitors_ListByResourceGroup.json
  */
 async function monitorsListByResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function monitorsListByResourceGroup() {
   const client = new MicrosoftElastic(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.monitors.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a monitor resource.
  *
  * @summary Create a monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_Create.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitors_Create.json
  */
 async function monitorsCreate() {
   const subscriptionId =

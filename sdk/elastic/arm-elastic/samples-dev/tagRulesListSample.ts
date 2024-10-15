@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the tag rules for a given monitor resource.
  *
  * @summary List the tag rules for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TagRules_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/TagRules_List.json
  */
 async function tagRulesList() {
   const subscriptionId =

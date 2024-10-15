@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create User inside elastic deployment which are used by customers to perform operations on the elastic deployment
  *
  * @summary Create User inside elastic deployment which are used by customers to perform operations on the elastic deployment
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/ExternalUserInfo.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/ExternalUserInfo.json
  */
 async function externalUserCreateOrUpdate() {
   const subscriptionId =

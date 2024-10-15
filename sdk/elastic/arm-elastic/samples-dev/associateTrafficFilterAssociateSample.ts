@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AssociateTrafficFilterAssociateOptionalParams,
-  MicrosoftElastic
+  MicrosoftElastic,
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Associate traffic filter for the given deployment.
  *
  * @summary Associate traffic filter for the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/AssociateTrafficFilter_Update.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/AssociateTrafficFilter_Update.json
  */
 async function associateTrafficFilterAssociate() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function associateTrafficFilterAssociate() {
   const result = await client.associateTrafficFilter.beginAssociateAndWait(
     resourceGroupName,
     monitorName,
-    options
+    options,
   );
   console.log(result);
 }

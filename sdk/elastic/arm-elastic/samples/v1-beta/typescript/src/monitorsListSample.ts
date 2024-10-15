@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all monitors under the specified subscription.
  *
  * @summary List all monitors under the specified subscription.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitors_List.json
  */
 async function monitorsList() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a monitor resource.
  *
  * @summary Delete a monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_Delete.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitors_Delete.json
  */
 async function monitorsDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function monitorsDelete() {
   const client = new MicrosoftElastic(credential, subscriptionId);
   const result = await client.monitors.beginDeleteAndWait(
     resourceGroupName,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a tag rule set for a given monitor resource.
  *
  * @summary Create or update a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TagRules_CreateOrUpdate.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/TagRules_CreateOrUpdate.json
  */
 async function tagRulesCreateOrUpdate() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function tagRulesCreateOrUpdate() {
   const result = await client.tagRules.createOrUpdate(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }

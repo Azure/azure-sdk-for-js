@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List of upgradable versions for a given monitor resource.
  *
  * @summary List of upgradable versions for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/UpgradableVersions_Details.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/UpgradableVersions_Details.json
  */
 async function upgradableVersionsDetails() {
   const subscriptionId =

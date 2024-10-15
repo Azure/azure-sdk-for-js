@@ -10632,7 +10632,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -14994,7 +14994,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-0+hpUWNMaoP/gT8V3pZTcTbRk4TctbkqRAgtksqaSdy7eRGlA0+AiJ6ykWHP0hg9OCZsXv66Z/PRB7H/EOVDMw==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-X93jbsCZIh97E4ls+piUs7YDCxuy41Z0diVdXITuQXxtD5roIp9qNwNG1bi8tnd3VNz9FnIk9i5VxMvYB5dwig==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -15012,9 +15012,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'

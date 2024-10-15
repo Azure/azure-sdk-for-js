@@ -12,8 +12,18 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftElastic } from "../microsoftElastic";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   OrganizationsGetApiKeyOptionalParams,
-  OrganizationsGetApiKeyResponse
+  OrganizationsGetApiKeyResponse,
+  OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  OrganizationsGetElasticToAzureSubscriptionMappingResponse,
+  OrganizationsResubscribeOptionalParams,
+  OrganizationsResubscribeResponse,
 } from "../models";
 
 /** Class containing Organizations operations. */
@@ -34,33 +44,185 @@ export class OrganizationsImpl implements Organizations {
    * @param options The options parameters.
    */
   getApiKey(
-    options?: OrganizationsGetApiKeyOptionalParams
+    options?: OrganizationsGetApiKeyOptionalParams,
   ): Promise<OrganizationsGetApiKeyResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getApiKeyOperationSpec
+      getApiKeyOperationSpec,
     );
+  }
+
+  /**
+   * Get Elastic Organization To Azure Subscription Mapping details for the logged-in user.
+   * @param options The options parameters.
+   */
+  getElasticToAzureSubscriptionMapping(
+    options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  ): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      getElasticToAzureSubscriptionMappingOperationSpec,
+    );
+  }
+
+  /**
+   * Resubscribe the Elasticsearch Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginResubscribe(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: OrganizationsResubscribeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<OrganizationsResubscribeResponse>,
+      OrganizationsResubscribeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<OrganizationsResubscribeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, options },
+      spec: resubscribeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      OrganizationsResubscribeResponse,
+      OperationState<OrganizationsResubscribeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Resubscribe the Elasticsearch Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginResubscribeAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: OrganizationsResubscribeOptionalParams,
+  ): Promise<OrganizationsResubscribeResponse> {
+    const poller = await this.beginResubscribe(
+      resourceGroupName,
+      monitorName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getApiKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getOrganizationApiKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UserApiKeyResponse
+      bodyMapper: Mappers.UserApiKeyResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const getElasticToAzureSubscriptionMappingOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/getElasticOrganizationToAzureSubscriptionMapping",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper:
+          Mappers.ElasticOrganizationToAzureSubscriptionMappingResponse,
+      },
+      default: {
+        bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+      },
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const resubscribeOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/resubscribe",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ElasticMonitorResource,
+    },
+    201: {
+      bodyMapper: Mappers.ElasticMonitorResource,
+    },
+    202: {
+      bodyMapper: Mappers.ElasticMonitorResource,
+    },
+    204: {
+      bodyMapper: Mappers.ElasticMonitorResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body9,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };

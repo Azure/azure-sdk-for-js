@@ -6,9 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OrganizationsGetApiKeyOptionalParams,
-  OrganizationsGetApiKeyResponse
+  OrganizationsGetApiKeyResponse,
+  OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  OrganizationsGetElasticToAzureSubscriptionMappingResponse,
+  OrganizationsResubscribeOptionalParams,
+  OrganizationsResubscribeResponse,
 } from "../models";
 
 /** Interface representing a Organizations. */
@@ -19,6 +24,40 @@ export interface Organizations {
    * @param options The options parameters.
    */
   getApiKey(
-    options?: OrganizationsGetApiKeyOptionalParams
+    options?: OrganizationsGetApiKeyOptionalParams,
   ): Promise<OrganizationsGetApiKeyResponse>;
+  /**
+   * Get Elastic Organization To Azure Subscription Mapping details for the logged-in user.
+   * @param options The options parameters.
+   */
+  getElasticToAzureSubscriptionMapping(
+    options?: OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams,
+  ): Promise<OrganizationsGetElasticToAzureSubscriptionMappingResponse>;
+  /**
+   * Resubscribe the Elasticsearch Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  beginResubscribe(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: OrganizationsResubscribeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<OrganizationsResubscribeResponse>,
+      OrganizationsResubscribeResponse
+    >
+  >;
+  /**
+   * Resubscribe the Elasticsearch Organization.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  beginResubscribeAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: OrganizationsResubscribeOptionalParams,
+  ): Promise<OrganizationsResubscribeResponse>;
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DetachAndDeleteTrafficFilterDeleteOptionalParams,
-  MicrosoftElastic
+  MicrosoftElastic,
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Detach and Delete traffic filter from the given deployment.
  *
  * @summary Detach and Delete traffic filter from the given deployment.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/DetachAndDeleteTrafficFilter_Delete.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/DetachAndDeleteTrafficFilter_Delete.json
  */
 async function detachAndDeleteTrafficFilterDelete() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function detachAndDeleteTrafficFilterDelete() {
   const monitorName = "myMonitor";
   const rulesetId = "31d91b5afb6f4c2eaaf104c97b1991dd";
   const options: DetachAndDeleteTrafficFilterDeleteOptionalParams = {
-    rulesetId
+    rulesetId,
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
   const result = await client.detachAndDeleteTrafficFilter.delete(
     resourceGroupName,
     monitorName,
-    options
+    options,
   );
   console.log(result);
 }

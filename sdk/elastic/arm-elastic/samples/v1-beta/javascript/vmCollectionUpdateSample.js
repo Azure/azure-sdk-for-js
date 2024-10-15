@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the vm details that will be monitored by the Elastic monitor resource.
  *
  * @summary Update the vm details that will be monitored by the Elastic monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/VMCollection_Update.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/VMCollection_Update.json
  */
 async function vmCollectionUpdate() {
   const subscriptionId =

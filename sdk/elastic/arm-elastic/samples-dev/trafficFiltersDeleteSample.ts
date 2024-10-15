@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TrafficFiltersDeleteOptionalParams,
-  MicrosoftElastic
+  MicrosoftElastic,
 } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Delete traffic filter from the account.
  *
  * @summary Delete traffic filter from the account.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TrafficFilters_Delete.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/TrafficFilters_Delete.json
  */
 async function trafficFiltersDelete() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function trafficFiltersDelete() {
   const result = await client.trafficFilters.delete(
     resourceGroupName,
     monitorName,
-    options
+    options,
   );
   console.log(result);
 }

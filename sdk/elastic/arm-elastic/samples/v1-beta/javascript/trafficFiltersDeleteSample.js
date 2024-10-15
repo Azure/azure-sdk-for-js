@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete traffic filter from the account.
  *
  * @summary Delete traffic filter from the account.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TrafficFilters_Delete.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/TrafficFilters_Delete.json
  */
 async function trafficFiltersDelete() {
   const subscriptionId =

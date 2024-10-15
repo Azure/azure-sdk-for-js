@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the properties of a specific monitor resource.
  *
  * @summary Get the properties of a specific monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_Get.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitors_Get.json
  */
 async function monitorsGet() {
   const subscriptionId =

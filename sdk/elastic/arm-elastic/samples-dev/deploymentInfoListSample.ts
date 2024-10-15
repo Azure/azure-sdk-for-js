@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fetch information regarding Elastic cloud deployment corresponding to the Elastic monitor resource.
  *
  * @summary Fetch information regarding Elastic cloud deployment corresponding to the Elastic monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/DeploymentInfo_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/DeploymentInfo_List.json
  */
 async function deploymentInfoList() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deploymentInfoList() {
   const client = new MicrosoftElastic(credential, subscriptionId);
   const result = await client.deploymentInfo.list(
     resourceGroupName,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }

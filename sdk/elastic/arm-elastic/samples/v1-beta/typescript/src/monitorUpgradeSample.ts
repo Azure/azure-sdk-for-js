@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Upgradable version for a monitor resource.
  *
  * @summary Upgradable version for a monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitor_Upgrade.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitor_Upgrade.json
  */
 async function monitorUpgrade() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function monitorUpgrade() {
   const client = new MicrosoftElastic(credential, subscriptionId);
   const result = await client.monitor.beginUpgradeAndWait(
     resourceGroupName,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }

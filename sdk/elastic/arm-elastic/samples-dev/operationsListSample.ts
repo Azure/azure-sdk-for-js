@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all operations provided by Microsoft.Elastic.
  *
  * @summary List all operations provided by Microsoft.Elastic.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Operations_List.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Operations_List.json
  */
 async function operationsList() {
   const subscriptionId =

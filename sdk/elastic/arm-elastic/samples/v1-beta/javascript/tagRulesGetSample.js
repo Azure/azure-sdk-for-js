@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a tag rule set for a given monitor resource.
  *
  * @summary Get a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TagRules_Get.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/TagRules_Get.json
  */
 async function tagRulesGet() {
   const subscriptionId =

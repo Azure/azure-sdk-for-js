@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a monitor resource.
  *
  * @summary Update a monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/Monitors_Update.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/Monitors_Update.json
  */
 async function monitorsUpdate() {
   const subscriptionId =
@@ -25,7 +25,7 @@ async function monitorsUpdate() {
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.monitors.update(resourceGroupName, monitorName);
+  const result = await client.monitors.beginUpdateAndWait(resourceGroupName, monitorName);
   console.log(result);
 }
 

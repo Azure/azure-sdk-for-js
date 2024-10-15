@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a tag rule set for a given monitor resource.
  *
  * @summary Delete a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2023-02-01-preview/examples/TagRules_Delete.json
+ * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/TagRules_Delete.json
  */
 async function tagRulesDelete() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function tagRulesDelete() {
   const result = await client.tagRules.beginDeleteAndWait(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }
