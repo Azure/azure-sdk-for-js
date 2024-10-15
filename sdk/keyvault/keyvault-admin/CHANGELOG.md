@@ -1,14 +1,10 @@
 # Release History
 
-## 4.6.0 (Unreleased)
+## 4.6.0 (2024-10-15)
 
 ### Features Added
 
 - Add support for Continuous Access Evaluation (CAE). [#31140](https://github.com/Azure/azure-sdk-for-js/pull/31140)
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
