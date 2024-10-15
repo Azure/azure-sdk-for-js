@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Added support for service version 2025-01-05.
+- Added generateUserDelegationSasUrl() to BlobClient and ContainerClient.
+- Added BlobErrorCode.BlobAccessTierNotSupportedForAccountType enum value.
+
 ### Breaking Changes
 
 ### Bugs Fixed

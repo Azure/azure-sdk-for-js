@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2025-01-05.
+- Added generateUserDelegationSasUrl() for DataLakeFileSystemClient, DataLakeFileClient, and DataLakeDirectoryClient.
+
 ### Breaking Changes
 
 ### Bugs Fixed
