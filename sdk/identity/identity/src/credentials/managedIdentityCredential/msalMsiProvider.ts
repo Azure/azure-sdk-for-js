@@ -238,7 +238,7 @@ export class MsalMsiProvider {
           token: token.accessToken,
           refreshAfterTimestamp: token.refreshOn?.getTime(),
           tokenType: "Bearer",
-        };
+        } as AccessToken;
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));
 

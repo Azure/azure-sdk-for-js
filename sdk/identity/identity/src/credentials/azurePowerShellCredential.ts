@@ -219,7 +219,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
           tokenType: "Bearer",
-        };
+        } as AccessToken;
       } catch (err: any) {
         if (isNotInstalledError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
