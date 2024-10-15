@@ -3,7 +3,7 @@
 
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode, Link, Attributes, SpanContext, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import {
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
@@ -414,7 +414,12 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
-        if (span.kind === SpanKind.SERVER) {
+        let isValidParent = false;
+        const parentSpanContext: SpanContext | undefined = span.parentSpanId ? span.spanContext() : undefined;
+        if (parentSpanContext) {
+          isValidParent = isValidTraceId(parentSpanContext.traceId) && isValidSpanId(parentSpanContext.spanId);
+        }
+        if (!isValidParent || parentSpanContext?.isRemote) {
           name = "Microsoft.ApplicationInsights.Exception";
           baseType = "ExceptionData";
           let typeName = "";
