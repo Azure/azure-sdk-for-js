@@ -13,19 +13,22 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const fs = require("fs");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+const { AzureKeyCredential } = require("@azure/core-auth");
+dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const modelName = process.env["MODEL_NAME"] || "<model_name>";
-const imageFilePath = "<image_file_path>";
-const imageFormat = "<image_format>"; //"jpeg", "png", etc.
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
+
+const imageFilePath = "sample1.png";
+const imageFormat = "png"; //"jpeg", "png", etc.
 
 async function main() {
   console.log("== Chat Completions Sample ==");
-  const credential = new DefaultAzureCredential();
 
-  const client = ModelClient(endpoint, credential);
+  const client = createModelClient();
 
   const response = await client.path("/chat/completions").post({
     body: {
@@ -73,6 +76,21 @@ function getImageDataUrl(imageFile, imageFormat) {
     console.error(`Could not read '${imageFile}'.`);
     console.error("Set the correct path to the image file before running this sample.");
     process.exit(1);
+  }
+}
+
+/*
+ * This function creates a model client.
+ */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));
+  } else {
+    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
 

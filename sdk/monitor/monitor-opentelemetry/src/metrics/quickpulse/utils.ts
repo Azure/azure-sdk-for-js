@@ -452,8 +452,8 @@ export function getLogData(log: LogRecord): ExceptionData | TraceData {
   }
 }
 
-export function getLogDocument(data: TelemetryData, exceptionType: string): Trace | Exception {
-  if (isExceptionData(data)) {
+export function getLogDocument(data: TelemetryData, exceptionType?: string): Trace | Exception {
+  if (isExceptionData(data) && exceptionType) {
     return {
       documentType: KnownDocumentType.Exception,
       exceptionMessage: data.Message,

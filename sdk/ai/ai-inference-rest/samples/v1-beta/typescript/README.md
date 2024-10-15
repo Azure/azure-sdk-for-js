@@ -11,17 +11,17 @@ urlFragment: ai-inference-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Inference in some common scenarios.
 
-| **File Name**                                     | **Description**                                           |
-| ------------------------------------------------- | --------------------------------------------------------- |
-| [chatCompletions.ts][chatcompletions]             | Get chat completions.                                     |
-| [embeddings.ts][embeddings]                       | Get embeddings.                                           |
-| [getModelInfo.ts][getmodelinfo]                   | Get model info.                                           |
-| [imageFileCompletions.ts][imagefilecompletions]   | Get chat completions with image file.                     |
-| [streamChatCompletions.ts][streamchatcompletions] | List chat completions.                                    |
-| [streamingToolCall.ts][streamingtoolcall]         | Get chat completions with streaming and function call.    |
-| [telemetry.ts][telemetry]                         | Get instrumentation by open telemetry.                    |
-| [telemetryWithToolCall.ts][telemetrywithtoolcall] | Get instrumentation by open telemetry with function call. |
-| [toolCall.ts][toolcall]                           | Get chat completions with function call.                  |
+| **File Name**                                     | **Description**                                               |
+| ------------------------------------------------- | ------------------------------------------------------------- |
+| [chatCompletions.ts][chatcompletions]             | Get chat completions.                                         |
+| [embeddings.ts][embeddings]                       | Get embeddings.                                               |
+| [getModelInfo.ts][getmodelinfo]                   | Get model info.                                               |
+| [imageFileCompletions.ts][imagefilecompletions]   | Get chat completions with image file.                         |
+| [streamChatCompletions.ts][streamchatcompletions] | List chat completions.                                        |
+| [streamingToolCall.ts][streamingtoolcall]         | Get chat completions with streaming and function call.        |
+| [telemetry.ts][telemetry]                         | get instrumentation by open telemetry.                        |
+| [telemetryWithToolCall.ts][telemetrywithtoolcall] | Get chat completions with function call with instrumentation. |
+| [toolCall.ts][toolcall]                           | Get chat completions with function call.                      |
 
 ## Prerequisites
 
@@ -66,7 +66,7 @@ node dist/chatCompletions.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" node dist/chatCompletions.js
+npx cross-env ENDPOINT="<endpoint>" KEY="<key>" MODEL_NAME="<model name>" node dist/chatCompletions.js
 ```
 
 ## Next Steps

@@ -7,7 +7,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 
 /**
  * The sync token header, as described here:

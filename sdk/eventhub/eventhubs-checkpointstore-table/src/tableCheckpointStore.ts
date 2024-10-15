@@ -229,7 +229,7 @@ export class TableCheckpointStore implements CheckpointStore {
         eventHubName,
         fullyQualifiedNamespace,
         partitionId: entity.rowKey,
-        offset: parseInt(entity.offset, 10),
+        offset: entity.offset,
         sequenceNumber: parseInt(entity.sequencenumber, 10),
       });
     }
