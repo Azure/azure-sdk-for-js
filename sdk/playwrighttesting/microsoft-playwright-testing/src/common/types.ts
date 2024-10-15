@@ -233,7 +233,7 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * Run name for the test run.
    *
-   * @defaultValue ` random UUID,`
+   * @defaultValue `guid`
    */
   runName?: string;
 };
