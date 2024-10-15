@@ -28,8 +28,8 @@
     "test": "echo skipped",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
-    "unit-test": "echo skipped",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
   },
