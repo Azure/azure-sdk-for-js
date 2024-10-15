@@ -12,8 +12,8 @@
  */
 
 import { ServiceBusClient } from "@azure/service-bus";
-import { peekMessages } from "@azure/service-bus/experimental";
 import { DefaultAzureCredential } from "@azure/identity";
+import "@azure/service-bus/experimental";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -23,7 +23,7 @@ dotenv.config();
 const fqdn = process.env.SERVICEBUS_FQDN || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
 
@@ -35,7 +35,7 @@ export async function main() {
     // For locking and/or removal, look at the `receiveMessagesLoop` or `receiveMessagesStreaming` samples,
     // which cover using a receiver with a `receiveMode`.
     console.log(`Attempting to peek 10 messages at a time`);
-    const peekedMessages = await peekMessages(queueReceiver, 10, {
+    const peekedMessages = await queueReceiver.peekMessages(10, {
       omitMessageBody: true,
     });
 
