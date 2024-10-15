@@ -8803,7 +8803,7 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.67.3:
+  /openai@4.67.3(zod@3.23.8):
     resolution: {integrity: sha512-HT2tZgjLgRqbLQNKmYtjdF/4TQuiBvg1oGvTDhwpSEQzxo6/oM1us8VQ53vBK2BiKvCxFuq6gKGG70qfwrNhKg==}
     hasBin: true
     peerDependencies:
@@ -8819,6 +8819,7 @@ packages:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
+      zod: 3.23.8
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -23019,7 +23020,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-ryp9FwJiV8LG+/87VqFapwN2raP91si+sIYMSs2yMD8iEjaZVEwkz2agO2ol0W+BVk7b8hDpsCE81ThuTh5mMg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-S/8KsjmzvHJmCmdi5jcy5C7NmYSjbfTXHWilTmxSfZzEL31BjGSG4XcHPepVL97FlnZ+3Lx97vHMFccekvIO2g==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -23030,12 +23031,13 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.12.0
-      openai: 4.67.3
+      openai: 4.67.3(zod@3.23.8)
       playwright: 1.48.0
       rimraf: 3.0.2
       tslib: 2.7.0
       typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.55)(@vitest/browser@2.1.3)
+      zod: 3.23.8
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23057,7 +23059,6 @@ packages:
       - utf-8-validate
       - vite
       - webdriverio
-      - zod
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
@@ -24237,7 +24238,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-SUsQnAA/geN3tUNpcVlFI+/vnrIcbnEYN/xfR5sWlu+qTJ6Hh0tqGofCusgJTlzfZyLSm/hv2GW6c3/Yj8iung==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-e+GSDtmAiZZkAHoCQZQAEWsR4wCqZTTbBfC85vnIBIVdlBTho8fI5YywC7VMtYylhd3J2SF/wWl7PGqbz/1MoA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
