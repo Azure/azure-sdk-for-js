@@ -10,7 +10,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { KeyCredential } from "@azure/core-auth";
 import { createCommunicationAccessKeyCredentialPolicy } from "../../src/index.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { set } from "mockdate";
 import { describe, it, assert } from "vitest";
 
@@ -84,7 +84,7 @@ async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<s
 
   assert.equal(dateHeader, "Wed, 13 Apr 2022 18:09:12 GMT");
   assert.equal(hashHeader, "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=");
-  if (isNode) {
+  if (isNodeLike) {
     assert.isNotEmpty(hostHeader);
   }
   return authHeader;

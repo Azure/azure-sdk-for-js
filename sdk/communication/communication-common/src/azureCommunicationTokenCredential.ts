@@ -3,14 +3,14 @@
 
 import {
   AutoRefreshTokenCredential,
-  CommunicationTokenRefreshOptions,
+  type CommunicationTokenRefreshOptions,
 } from "./autoRefreshTokenCredential.js";
-import {
+import type {
   CommunicationGetTokenOptions,
   CommunicationTokenCredential,
   TokenCredential,
 } from "./communicationTokenCredential.js";
-import { AccessToken } from "@azure/core-auth";
+import type { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential.js";
 import { parseToken } from "./tokenParser.js";
 

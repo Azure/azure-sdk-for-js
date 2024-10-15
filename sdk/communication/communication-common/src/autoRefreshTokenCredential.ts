@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential.js";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AccessToken } from "@azure/core-auth";
+import type {
+  CommunicationGetTokenOptions,
+  TokenCredential,
+} from "./communicationTokenCredential.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AccessToken } from "@azure/core-auth";
 import { parseToken } from "./tokenParser.js";
 
 /**
