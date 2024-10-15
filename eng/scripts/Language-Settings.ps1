@@ -40,6 +40,16 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
+
+    $lookup = @{
+      'core' = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
+      'test-utils' = @('@azure-tests/perf-storage-blob', '@azure/arm-eventgrid', '@azure/ai-text-analytics', '@azure/identity', '@azure/template')
+      'identity' = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
+    }
+    if ($lookup.ContainsKey($pkgProp.ServiceDirectory))) {
+      $pkgProp.AdditionalPackages = $lookup[$pkgProp.ServiceDirectory]
+    }
+
     # necessary because we find the artifact configuration from the ci.yml file based upon the artifactname, which is
     # not populated at time of constructor for the package properties default population of ArtifactDetails
     $pkgProp.InitializeCIArtifacts()

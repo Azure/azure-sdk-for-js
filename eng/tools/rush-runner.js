@@ -181,8 +181,14 @@ if (serviceDirs.length === 0) {
       // if this is build:test for any non-configured package service then all impacted projects downstream and it's dependents should be built
       var rushCommandFlag = "--impacted-by";
       if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
-        // reduced preconfigured set of projects and it's required projects
-        rushCommandFlag = "--to";
+        // if we include a core package, then we should only target the packages that are passed in
+        if (serviceDirs.indexOf("core") !== -1) {
+          rushCommandFlag = "--to";
+        }
+        // otherwise we pull other packages in by dependency
+        else {
+          rushCommandFlag = "--from";
+        }
       }
       else if (actionComponents.length == 1) {
         rushCommandFlag = "--from";
