@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy";
+import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy.js";
 /**
  * Creates a pipeline policy to authenticate request based
  * on the credential passed in.

@@ -12,7 +12,7 @@ import {
   isMicrosoftTeamsUserIdentifier,
   isPhoneNumberIdentifier,
   isUnknownIdentifier,
-} from "../../src";
+} from "../../src/index.js";
 import { assert } from "chai";
 
 describe("Identifier models", function () {

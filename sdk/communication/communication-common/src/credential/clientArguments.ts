@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { parseConnectionString } from "./connectionString";
+import { parseConnectionString } from "./connectionString.js";
 
 const isValidEndpoint = (host: string): boolean => {
   const url = new URL(host);
