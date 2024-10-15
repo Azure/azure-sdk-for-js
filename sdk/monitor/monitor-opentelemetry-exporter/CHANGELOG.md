@@ -6,6 +6,8 @@
 
 - Enforce property length limits on telemetry using truncation.
 - Updated OTel dependencies.
+- Update Statsbeat shutdown logic to include more status codes for shutdown.
+- Add non-essential statsbeat metrics.
 
 ## 1.0.0-beta.25 (2024-08-14)
 

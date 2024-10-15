@@ -3,12 +3,15 @@
 ## 1.7.2 (Unreleased)
 
 ### Features Added
+- Support for Live Metrics Filtering
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- Update to using the logRecordProcessors property.
 
 ## 1.7.1 (2024-09-13)
 

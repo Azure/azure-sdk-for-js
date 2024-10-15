@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a ScalingPlanPersonalSchedule.
  *
  * @summary Create or update a ScalingPlanPersonalSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPersonalSchedule_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPersonalSchedule_Create.json
  */
 async function scalingPlanPersonalSchedulesCreate() {
   const subscriptionId =
@@ -58,7 +58,7 @@ async function scalingPlanPersonalSchedulesCreate() {
     resourceGroupName,
     scalingPlanName,
     scalingPlanScheduleName,
-    scalingPlanSchedule
+    scalingPlanSchedule,
   );
   console.log(result);
 }

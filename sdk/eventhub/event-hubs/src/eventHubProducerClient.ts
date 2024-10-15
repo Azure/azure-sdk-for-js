@@ -26,7 +26,7 @@ import {
   validateProducerPartitionSettings,
 } from "./util/error.js";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, EventDataInternal } from "./eventData.js";
+import { assertIsEventData, EventData, EventDataInternal } from "./eventData.js";
 import { EventHubSender } from "./eventHubSender.js";
 import { OperationOptions } from "./util/operationOptions.js";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
@@ -410,6 +410,7 @@ export class EventHubProducerClient {
       if (!Array.isArray(batch)) {
         batch = [batch];
       }
+      batch.forEach(assertIsEventData);
       if (batch.some((event) => isDefined((event as EventDataInternal)._publishedSequenceNumber))) {
         throw new Error(idempotentSomeAlreadyPublished);
       }

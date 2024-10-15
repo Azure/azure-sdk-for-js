@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperation, PollOperationState } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-client";
-import { KeyPollerOptions, KeyVaultKey } from "../../../../../src";
+import { KeyPollerOptions, KeyVaultKey } from "../../../../../src/index.js";
 
 /**
  * Options sent to the beginRestoreKeyBackup method.

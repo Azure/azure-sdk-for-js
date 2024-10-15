@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SessionHostsDeleteOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Remove a SessionHost.
  *
  * @summary Remove a SessionHost.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/SessionHost_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/SessionHost_Delete.json
  */
 async function sessionHostDelete() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function sessionHostDelete() {
     resourceGroupName,
     hostPoolName,
     sessionHostName,
-    options
+    options,
   );
   console.log(result);
 }

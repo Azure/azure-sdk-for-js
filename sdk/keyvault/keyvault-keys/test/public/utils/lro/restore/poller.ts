@@ -8,8 +8,8 @@ import {
   RestoreKeyBackupPollOperationState,
   TestKeyClientInterface,
   makeRestoreKeyBackupPollOperation,
-} from "./operation";
-import { KeyVaultKey } from "../../../../../src";
+} from "./operation.js";
+import { KeyVaultKey } from "../../../../../src/index.js";
 
 export interface RestoreKeyBackupPollerOptions {
   client: TestKeyClientInterface;

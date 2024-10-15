@@ -6,6 +6,7 @@ import { ServiceAuth, ServiceOS } from "./constants";
 import type { TokenCredential } from "@azure/identity";
 
 export type JwtPayload = {
+  aid?: string;
   iss?: string;
   sub?: string;
   aud?: string[] | string;

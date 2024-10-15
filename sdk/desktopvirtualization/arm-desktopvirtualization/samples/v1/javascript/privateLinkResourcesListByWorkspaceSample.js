@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List the private link resources available for this workspace.
  *
  * @summary List the private link resources available for this workspace.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateLinkResources_ListByWorkspace.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateLinkResources_ListByWorkspace.json
  */
 async function privateLinkResourcesListByWorkspace() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function privateLinkResourcesListByWorkspace() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listByWorkspace(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   )) {
     resArray.push(item);
   }

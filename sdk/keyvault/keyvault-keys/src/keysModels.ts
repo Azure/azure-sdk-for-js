@@ -9,9 +9,9 @@ import {
   JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
-import { KeyCurveName } from "./cryptographyClientModels";
+import { KeyCurveName } from "./cryptographyClientModels.js";
 
 export { KeyType, KnownKeyTypes, KeyOperation };
 
