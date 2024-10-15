@@ -1218,13 +1218,13 @@ describe("spanUtils.ts", () => {
     });
   });
   describe("#spanEventsToEnvelopes", () => {
-    it("should create exception envelope for server exception events", () => {
+    it("should create exception envelope for remote exception events", () => {
       const testError = new Error("test error");
       const span = new Span(
         tracer,
         ROOT_CONTEXT,
         "parent span",
-        { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+        { traceId: "traceid", spanId: "spanId", traceFlags: 0, isRemote: true },
         SpanKind.SERVER,
         "parentSpanId",
       );
