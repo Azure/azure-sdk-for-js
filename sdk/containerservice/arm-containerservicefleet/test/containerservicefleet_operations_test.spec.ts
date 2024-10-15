@@ -58,14 +58,13 @@ describe("containerservicefleet test", () => {
     await recorder.stop();
   });
 
-  it.only("operations list test", async function () {
+  it("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
-
 
   it("fleets create test", async function () {
     const res = await client.fleets.beginCreateOrUpdateAndWait(
