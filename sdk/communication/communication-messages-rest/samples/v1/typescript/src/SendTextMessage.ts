@@ -12,7 +12,7 @@ import NotificationClient, { Send202Response } from "@azure-rest/communication-m
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+async function main(): Promise<void> {
     const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING || "";
     const client = NotificationClient(connectionString);
     console.log("Sending message...");
@@ -31,7 +31,7 @@ async function main() {
     if (result.status === "202") {
         const response:Send202Response = result as Send202Response;
         response.body.receipts.forEach((receipt) => {
-            console.log("Message sent to:"+receipt.to+" with message id:"+receipt.messageId);
+            console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
         });
     } else {
         throw new Error("Failed to send message");
@@ -41,5 +41,5 @@ async function main() {
 
 main().catch((error) => {
     console.error("Encountered an error while sending message: ", error);
-    process.exit(1);
+    throw error;
 });
