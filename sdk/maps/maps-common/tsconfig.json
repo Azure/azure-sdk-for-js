@@ -5,6 +5,5 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "exclude": ["node_modules"],
   "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }
