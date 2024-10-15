@@ -32,6 +32,7 @@ steps:
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
+      ServiceDirectoryFilter: 'auto'
 
   - script: |
       node common/scripts/install-run-rush.js install
