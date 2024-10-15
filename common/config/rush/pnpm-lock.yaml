@@ -22375,22 +22375,42 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-QTGx27nGInZVoS4OHMkY8FtN0OfgxM+LDQYtDkppHoMTF4aLM0JlHn9tWI4pg/6OQvEtVg4Gqu5kiVjcINU9EA==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-1PywCPJAh+pZFKdmsJpTveC/k3Quz075DDV9RpQwi6pZwvu9YW4faJoOzxxiM8ulM8aY1c8gvlZ0ATxe4zVHlw==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.55)
       '@types/node': 18.19.55
+      '@vitest/browser': 2.1.3(playwright@1.48.0)(typescript@5.6.3)(vitest@2.1.3)
+      '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       eslint: 9.12.0
+      playwright: 1.48.0
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      tslib: 2.7.0
       typescript: 5.6.3
+      vitest: 2.1.3(@types/node@18.19.55)(@vitest/browser@2.1.3)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/maps-geolocation.tgz:
