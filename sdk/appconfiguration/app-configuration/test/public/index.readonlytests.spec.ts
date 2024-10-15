@@ -8,10 +8,9 @@ import {
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   startRecorder,
-} from "./utils/testHelpers";
-import { AppConfigurationClient } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "./utils/testHelpers.js";
+import { AppConfigurationClient } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
@@ -22,8 +21,8 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label",
   };
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
     testConfigSetting.key = recorder.variable(
       "readOnlyTests",
       `readOnlyTests${Math.floor(Math.random() * 1000)}`,
@@ -71,10 +70,10 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-  it.skip("accepts  operation options", async function () {
+  it.skip("accepts  operation options", async function (ctx) {
     // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
     // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    if (isPlaybackMode()) this.skip();
+    if (isPlaybackMode()) ctx.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label,
