@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert, use } from "chai";
-import { AzureCommunicationTokenCredential } from "../../src";
+import { AzureCommunicationTokenCredential } from "../../src/index.js";
 import chaiAsPromised from "chai-as-promised";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";

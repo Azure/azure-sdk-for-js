@@ -6,7 +6,7 @@ import {
   CommunicationIdentifierKind,
   getIdentifierKind,
   getIdentifierRawId,
-} from "./identifierModels";
+} from "./identifierModels.js";
 
 /**
  * @hidden
