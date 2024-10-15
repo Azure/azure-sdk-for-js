@@ -6,4 +6,3 @@ extends:
   parameters:
     PackageName: "@azure-rest/health-deidentification"
     ServiceDirectory: healthdataaiservices
-    UseFederatedAuth: true
