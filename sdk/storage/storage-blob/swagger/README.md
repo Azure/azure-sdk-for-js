@@ -1474,13 +1474,13 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Update service version from "2018-03-28" to "2024-11-04"
+### Update service version from "2018-03-28" to "2025-01-05"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2024-11-04" ];
+    transform: $.enum = [ "2025-01-05" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

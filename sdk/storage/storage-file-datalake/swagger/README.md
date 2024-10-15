@@ -348,13 +348,13 @@ directive:
       ];
 ```
 
-### Update service version from "2023-05-03" to "2024-11-04"
+### Update service version from "2023-05-03" to "2025-01-05"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2024-11-04" ];
+    transform: $.enum = [ "2025-01-05" ];
 ```
 
 ### Add AuthenticationErrorDetail.
