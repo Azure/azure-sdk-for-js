@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert, use } from "chai";
 import { AzureCommunicationTokenCredential } from "../../src/index.js";
-import chaiAsPromised from "chai-as-promised";
 import { isNode } from "@azure/core-util";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 use(chaiAsPromised);
 
