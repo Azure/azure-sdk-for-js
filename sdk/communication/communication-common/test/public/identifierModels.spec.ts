@@ -13,7 +13,7 @@ import {
   isPhoneNumberIdentifier,
   isUnknownIdentifier,
 } from "../../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Identifier models", function () {
   it("type guards", function () {

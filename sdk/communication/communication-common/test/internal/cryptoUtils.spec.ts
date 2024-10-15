@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { shaHMAC, shaHash } from "../../src/credential/cryptoUtils.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("CryptoUtils", function () {
   it("calculates correct hash", async function () {
