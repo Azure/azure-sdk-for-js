@@ -35,11 +35,9 @@ class PlaywrightServiceConfig {
       this.runId = options.runId;
       process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = this.runId;
     }
-    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME]) {
-      if (options?.runName) {
-        this.runName = options.runName;
-        process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = this.runName;
-      }
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] && options?.runName) {
+      this.runName = options.runName;
+      process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = this.runName;
     }
     if (options?.os) {
       this.serviceOs = options.os;

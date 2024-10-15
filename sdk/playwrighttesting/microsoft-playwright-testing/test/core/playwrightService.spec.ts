@@ -138,7 +138,6 @@ describe("getServiceConfig", () => {
           headers: {
             Authorization: "Bearer token",
           },
-          runName: playwrightServiceConfig.runName,
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
           slowMo: playwrightServiceConfig.slowMo,
