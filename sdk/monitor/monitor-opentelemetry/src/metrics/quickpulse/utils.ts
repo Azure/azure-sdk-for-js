@@ -226,6 +226,8 @@ export function resourceMetricsToQuickpulseDataPoint(
         }
         metricPoints.push(metricPoint);
 
+        // TODO: remove the metric points with the old metric names after
+        // UI side has done their changes to support the new names.
         if (
           metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES ||
           metricPoint.name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED

@@ -75,6 +75,7 @@ import {
   MetricFailureToCreateError,
 } from "./filtering/quickpulseErrors";
 import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
+import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -625,24 +626,15 @@ export class LiveMetrics {
   }
 
   private getPhysicalMemory(observableResult: ObservableResult): void {
-    const rss = process.memoryUsage.rss();
+    const rss = getPhysicalMemory();
     observableResult.observe(rss);
   }
 
   private getProcessorTimeNormalized(observableResult: ObservableResult): void {
-    let numCpus = os.cpus().length;
-    const usageDif = process.cpuUsage(this.lastCpuUsage);
-    const elapsedTimeNs = process.hrtime.bigint() - this.lastHrTime;
+    const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
+    observableResult.observe(cpuUsagePercent);
     this.lastHrTime = process.hrtime.bigint();
     this.lastCpuUsage = process.cpuUsage();
-
-    const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
-    const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
-    // just for division safety, don't know a case in which this would actually happen
-    numCpus = numCpus === 0 ? 1 : numCpus;
-
-    const cpuUsagePercent = (usageDifMs / elapsedTimeMs / numCpus) * 100;
-    observableResult.observe(cpuUsagePercent);
   }
 
   private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
