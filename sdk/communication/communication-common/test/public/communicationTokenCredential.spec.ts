@@ -50,9 +50,11 @@ describe("CommunicationTokenCredential", function () {
   });
 
   it("throws if non-JWT passed as lambda", async function () {
-    await expect(new AzureCommunicationTokenCredential({
-    tokenRefresher: async () => "IAmNotAToken",
-}).getToken()).rejects.toThrow();
+    await expect(
+      new AzureCommunicationTokenCredential({
+        tokenRefresher: async () => "IAmNotAToken",
+      }).getToken(),
+    ).rejects.toThrow();
   });
 
   it("returns token as expected", async function () {
