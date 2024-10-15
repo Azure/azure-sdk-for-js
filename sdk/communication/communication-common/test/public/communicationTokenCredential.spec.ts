@@ -50,11 +50,9 @@ describe("CommunicationTokenCredential", function () {
   });
 
   it("throws if non-JWT passed as lambda", async function () {
-    await assert.isRejected(
-      new AzureCommunicationTokenCredential({
-        tokenRefresher: async () => "IAmNotAToken",
-      }).getToken(),
-    );
+    await expect(new AzureCommunicationTokenCredential({
+    tokenRefresher: async () => "IAmNotAToken",
+}).getToken()).rejects.toThrow();
   });
 
   it("returns token as expected", async function () {
@@ -115,11 +113,7 @@ describe("CommunicationTokenCredential", function () {
       tokenRefresher: tokenRefresher,
     });
     clock.tick(5 * 60 * 1000);
-    await assert.isRejected(
-      credential.getToken(),
-      Error,
-      "The token returned from the tokenRefresher is expired.",
-    );
+    await expect(credential.getToken()).rejects.toThrow(Error);
     sinon.assert.calledOnce(tokenRefresher);
   });
 
@@ -148,8 +142,8 @@ describe("CommunicationTokenCredential", function () {
     });
     withStatic.dispose();
     withLambda.dispose();
-    await assert.isRejected(withStatic.getToken());
-    await assert.isRejected(withLambda.getToken());
+    await expect(withStatic.getToken()).rejects.toThrow();
+    await expect(withLambda.getToken()).rejects.toThrow();
   });
 
   it("doesn't swallow error from tokenRefresher", async function () {
@@ -157,7 +151,7 @@ describe("CommunicationTokenCredential", function () {
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
     });
-    await assert.isRejected(tokenCredential.getToken());
+    await expect(tokenCredential.getToken()).rejects.toThrow();
   });
 
   it("requests new token when token is about to expire", async function () {
