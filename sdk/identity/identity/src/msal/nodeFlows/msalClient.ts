@@ -630,7 +630,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-        tokenType: response.tokenType
+        tokenType: response.tokenType,
       } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
