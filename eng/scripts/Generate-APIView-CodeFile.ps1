@@ -21,7 +21,9 @@ if (!(Test-Path -Path $installedPath))
   exit 1
 }
 
-Write-Host "Parser is installed at $($installedPath)"
+Write-Host "Setting working directory to $($installedPath)"
+Set-Location $installedPath
+
 $apiFiles = @(Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json")
 foreach ($apiPkgFile in $apiFiles)
 {
@@ -31,5 +33,5 @@ foreach ($apiPkgFile in $apiFiles)
   $OutFileName = "$($FileName.split('_')[0])_js.json"
   $OutFilePath = Join-Path -Path $OutDirectory $OutFileName
   Write-Host "Converting api-extractor file $($apiFilePath) to APIview code file $($OutFilePath)"
-  node $installedPath/export.js $apiFilePath $OutFilePath
+  node ./export.js $apiFilePath $OutFilePath
 }
