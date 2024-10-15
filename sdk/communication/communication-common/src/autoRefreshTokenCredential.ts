@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential";
+import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
-import { parseToken } from "./tokenParser";
+import { parseToken } from "./tokenParser.js";
 
 /**
  * Options for auto-refreshing a Communication Token credential.

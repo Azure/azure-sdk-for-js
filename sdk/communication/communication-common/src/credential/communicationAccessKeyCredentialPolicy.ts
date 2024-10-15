@@ -7,7 +7,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { shaHMAC, shaHash } from "./cryptoUtils";
+import { shaHMAC, shaHash } from "./cryptoUtils.js";
 import { KeyCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 
