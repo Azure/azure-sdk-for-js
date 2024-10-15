@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureKeyCredential } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { parseClientArguments } from "../../src/index.js";
 import { parseConnectionString } from "../../src/index.js";
 import { assertPropertyNames } from "./utils/credentialUtils.js";
