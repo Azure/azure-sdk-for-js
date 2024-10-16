@@ -12,13 +12,13 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure-tools/test-recorder";
 
-import { createRecordedClient, getAttestationUri, recorderOptions } from "../utils/recordedClient";
-import { AttestationClient } from "../../src";
+import { createRecordedClient, getAttestationUri, recorderOptions } from "../utils/recordedClient.js";
+import { AttestationClient } from "../../src/index.js";
 describe("TokenCertTests", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 

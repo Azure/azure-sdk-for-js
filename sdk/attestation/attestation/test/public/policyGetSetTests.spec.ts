@@ -19,17 +19,17 @@ import {
   createRecordedAdminClient,
   getIsolatedSigningKey,
   recorderOptions,
-} from "../utils/recordedClient";
-import { AttestationType, KnownAttestationType, createAttestationPolicyToken } from "../../src";
-import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils";
-import { KnownPolicyModification } from "../../src/generated";
-import { verifyAttestationSigningKey } from "../../src/utils/helpers";
+} from "../utils/recordedClient.js";
+import { AttestationType, KnownAttestationType, createAttestationPolicyToken } from "../../src/index.js";
+import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
+import { KnownPolicyModification } from "../../src/generated/index.js";
+import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
 
 describe("PolicyGetSetTests ", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 
@@ -124,7 +124,7 @@ describe("PolicyGetSetTests ", function () {
   });
 
   it("Set Policy SGX - AAD Secured", async function () {
-    if (!isLiveMode()) this.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
+    if (!isLiveMode()) ctx.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     const [rsaKey, rsapubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
     await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD", {
@@ -134,7 +134,7 @@ describe("PolicyGetSetTests ", function () {
   });
 
   it("Set Policy SGX - Isolated Secured", async function () {
-    if (!isLiveMode()) this.skip(); // "setPolicy APIs require keys and certificates from the environment, which are not available in playback"
+    if (!isLiveMode()) ctx.skip(); // "setPolicy APIs require keys and certificates from the environment, which are not available in playback"
     await testSetPolicy(KnownAttestationType.SgxEnclave, "Isolated", getIsolatedSigningKey());
   });
 
@@ -143,7 +143,7 @@ describe("PolicyGetSetTests ", function () {
   });
 
   it("Reset Policy SGX - AAD Secured", async function () {
-    if (!isLiveMode()) this.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
+    if (!isLiveMode()) ctx.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     const [rsaKey, rsaPubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
     const signingKey = verifyAttestationSigningKey(rsaKey, rsaCertificate);
@@ -151,7 +151,7 @@ describe("PolicyGetSetTests ", function () {
   });
 
   it("Reset Policy SGX - Isolated Secured", async function () {
-    if (!isLiveMode()) this.skip(); // "resetPolicy APIs require keys and certificates from the environment, which are not available in playback"
+    if (!isLiveMode()) ctx.skip(); // "resetPolicy APIs require keys and certificates from the environment, which are not available in playback"
     const signingKeys = getIsolatedSigningKey();
     await testResetPolicy(KnownAttestationType.SgxEnclave, "Isolated", signingKeys);
   });
