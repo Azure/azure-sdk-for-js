@@ -8,7 +8,7 @@ steps:
 
       $pkgNames = $packageProperties | Foreach-Object { $_.Name } `
         | ForEach-Object { $_.Replace(".json", "") }
-      $setting = $packageProperties -join ","
+      $setting = $pkgNames -join ","
 
       $changedServicesArray = $packageProperties | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
         | ForEach-Object { $_.ServiceDirectory } | Get-Unique
