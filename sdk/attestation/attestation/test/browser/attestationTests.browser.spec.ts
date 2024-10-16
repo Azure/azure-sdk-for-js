@@ -13,16 +13,16 @@ import {
   createRecordedAdminClient,
   createRecordedClient,
   recorderOptions,
-} from "../utils/recordedClient";
-import * as base64url from "../utils/base64url";
+} from "../utils/recordedClient.js";
+import * as base64url from "../utils/base64url.js";
 
-import { KnownAttestationType } from "../../src";
+import { KnownAttestationType } from "../../src/index.js";
 
 describe("AttestationClient in Browser", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 
