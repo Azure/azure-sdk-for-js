@@ -563,21 +563,25 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       skipParsingBodyAsJson: this.skipParsingBodyAsJson,
       skipConvertingDate: this.skipConvertingDate,
     };
+    // omitMessageBody is available at runtime, but only exported in experimental subpath
+    const { fromSequenceNumber, omitMessageBody } = options as PeekMessagesOptions & {
+      omitMessageBody: boolean;
+    };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber !== undefined) {
+      if (fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
-            options.fromSequenceNumber,
+            fromSequenceNumber,
             maxMessageCount,
             undefined,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peek(maxMessageCount, options.omitMessageBody, managementRequestOptions);
+          .peek(maxMessageCount, omitMessageBody, managementRequestOptions);
       }
     };
 
