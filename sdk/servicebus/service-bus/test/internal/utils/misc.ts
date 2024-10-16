@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-import { Delivery, ServiceBusReceivedMessage } from "../../../src";
-import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+import { Delivery, ServiceBusReceivedMessage } from "../../../src/index.js";
+import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
 
 export function getDeliveryProperty(message: ServiceBusReceivedMessage): Delivery {
   if (

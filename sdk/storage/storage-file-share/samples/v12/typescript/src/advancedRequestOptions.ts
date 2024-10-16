@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary use advanced HTTP pipeline and request options for several methods
@@ -7,7 +7,6 @@
 
 import * as fs from "fs";
 
-import { AbortController } from "@azure/abort-controller";
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
@@ -64,7 +63,7 @@ export async function main() {
   // Parallel uploading a Readable stream with ShareFileClient.uploadStream() in Node.js runtime
   // ShareFileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
-    abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
+    abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     onProgress: (ev: any) => console.log(ev)
   });
   console.log("uploadStream succeeded");
@@ -84,7 +83,7 @@ export async function main() {
   // ShareFileClient.downloadToBuffer() is only available in Node.js
   const buffer = Buffer.alloc(fileSize);
   await fileClient.downloadToBuffer(buffer, undefined, undefined, {
-    abortSignal: AbortController.timeout(30 * 60 * 1000),
+    abortSignal: AbortSignal.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     concurrency: 20, // 20 concurrency
     onProgress: (ev) => console.log(ev)

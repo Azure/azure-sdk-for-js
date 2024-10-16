@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ContainerRegistryClient } from "@azure/container-registry";

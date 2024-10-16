@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Defines the Hotel Interface.
@@ -11,11 +11,11 @@ export interface Hotel {
   hotelId?: string;
   hotelName?: string | null;
   description?: string | null;
-  descriptionVectorEn?: number[] | null;
-  descriptionVectorFr?: number[] | null;
+  descriptionVectorEn?: number[];
+  descriptionVectorFr?: number[];
   descriptionFr?: string | null;
   category?: string | null;
-  tags?: string[] | null;
+  tags?: string[];
   parkingIncluded?: boolean | null;
   smokingAllowed?: boolean | null;
   lastRenovationDate?: Date | null;
@@ -37,5 +37,5 @@ export interface Hotel {
     sleepsCount?: number | null;
     smokingAllowed?: boolean | null;
     tags?: string[] | null;
-  }> | null;
+  }>;
 }

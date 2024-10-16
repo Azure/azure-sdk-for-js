@@ -86,7 +86,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the Pools in the specified Account.
+   * @summary Lists all of the Pools which be mounted
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
    */
@@ -313,7 +313,7 @@ export class Pool {
    * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
    * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolEvaluateAutoScaleResponse>
    */
@@ -324,7 +324,7 @@ export class Pool {
    * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
    * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    * @param callback The callback
    */
   evaluateAutoScale(poolId: string, autoScaleFormula: string, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
@@ -334,7 +334,7 @@ export class Pool {
    * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
    * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -527,7 +527,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the Pools in the specified Account.
+   * @summary Lists all of the Pools which be mounted
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>

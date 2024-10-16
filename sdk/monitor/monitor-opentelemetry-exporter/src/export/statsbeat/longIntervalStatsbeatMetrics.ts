@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   diag,
@@ -169,7 +169,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   }
 
   private setFeatures() {
-    let statsbeatFeatures = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
+    const statsbeatFeatures = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
     if (statsbeatFeatures) {
       try {
         this.feature = JSON.parse(statsbeatFeatures).feature;

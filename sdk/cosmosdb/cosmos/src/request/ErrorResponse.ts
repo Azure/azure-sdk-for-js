@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { CosmosDiagnostics, CosmosHeaders } from "../index";
 
 export interface ErrorBody {
@@ -53,7 +53,7 @@ export interface QueryInfo {
 
 export type GroupByExpressions = string[];
 
-export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;

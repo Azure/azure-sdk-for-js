@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
  *
  * @summary Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheForceReboot.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheForceReboot.json
  */
 async function redisCacheForceReboot() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
@@ -11,10 +11,11 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
-import { MsalFlow } from "../msal/flows";
+import { MsalFlow } from "../msal/browserFlows/flows";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 

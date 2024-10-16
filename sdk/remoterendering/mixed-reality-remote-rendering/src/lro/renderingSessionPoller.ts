@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PollOperationState, Poller, PollOperation, CancelOnProgress } from "@azure/core-lro";
 import { KnownRenderingSessionStatus, KnownRenderingServerSize } from "../generated/models/index";

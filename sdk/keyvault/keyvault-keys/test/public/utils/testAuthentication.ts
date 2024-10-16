@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { KeyClient } from "../../../src";
+import { KeyClient } from "../../../src/index.js";
 import { Recorder, env, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
-import { uniqueString } from "./recorderUtils";
-import TestClient from "./testClient";
+import { uniqueString } from "./recorderUtils.js";
+import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export const replaceableVariables = {
@@ -23,7 +23,7 @@ export const envSetupForPlayback = {
   },
 };
 
-export async function authenticate(version: string, recorder: Recorder): Promise<any> {
+export async function authenticate(recorder: Recorder): Promise<any> {
   const keySuffix = uniqueString();
 
   const keyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
@@ -59,7 +59,6 @@ export async function authenticate(version: string, recorder: Recorder): Promise
     keyVaultUrl,
     credential,
     recorder.configureClientOptions({
-      serviceVersion: version,
       disableChallengeResourceVerification: !isLiveMode(),
     }),
   );

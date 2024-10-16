@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EnvironmentCredential } from "@azure/identity";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
 import { isObjectWithProperties } from "@azure/core-util";
 import Long from "long";
@@ -15,12 +13,12 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
-} from "../../src";
-import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
-import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
-import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
+} from "../../src/index.js";
+import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage.js";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors.js";
+import { getEnvVars } from "../public/utils/envVarUtils.js";
 import { isNode } from "@azure/core-util";
-import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils.js";
 import {
   createServiceBusClientForTests,
   EntityName,
@@ -28,11 +26,11 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+  getFullyQualifiedNamespace,
+} from "../public/utils/testutils2.js";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -586,37 +584,11 @@ describe("ServiceBusClient live tests", () => {
   describe("Test ServiceBusClient with TokenCredentials", function (): void {
     let errorWasThrown: boolean = false;
 
-    const env = getEnvVars();
-    const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))",
-    ) || "")[1];
-
-    /**
-     * Utility to create EnvironmentCredential using `@azure/identity`
-     */
-    function getDefaultTokenCredential(): EnvironmentCredential {
-      should.exist(
-        env[EnvVarNames.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarNames.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarNames.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
-      );
-      should.exist(
-        env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.",
-      );
-      return new EnvironmentCredential();
-    }
+    const sbFullQualifiedNamespace = getFullyQualifiedNamespace();
 
     it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
-        new ServiceBusClient(serviceBusEndpoint, [] as any);
+        new ServiceBusClient(sbFullQualifiedNamespace, [] as any);
       } catch (err: any) {
         errorWasThrown = true;
         should.equal(
@@ -631,7 +603,7 @@ describe("ServiceBusClient live tests", () => {
 
     it("throws error for undefined tokenCredentials", async function (): Promise<void> {
       try {
-        new ServiceBusClient(serviceBusEndpoint, undefined as any);
+        new ServiceBusClient(sbFullQualifiedNamespace, undefined as any);
       } catch (err: any) {
         errorWasThrown = true;
         should.equal(
@@ -647,7 +619,7 @@ describe("ServiceBusClient live tests", () => {
     if (isNode) {
       it("throws error for invalid host name", async function (): Promise<void> {
         try {
-          new ServiceBusClient(123 as any, getDefaultTokenCredential());
+          new ServiceBusClient(123 as any, createTestCredential());
         } catch (error: any) {
           errorWasThrown = true;
           should.equal(
@@ -662,13 +634,12 @@ describe("ServiceBusClient live tests", () => {
       it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function (): Promise<void> {
-          const tokenCreds = getDefaultTokenCredential();
-
+          const tokenCredential = createTestCredential();
           const serviceBusClient = createServiceBusClientForTests();
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
 
-          const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCredential);
           try {
             const sender = sbClient.createSender(entities.queue || entities.topic!);
             const receiver = entities.queue
@@ -1042,14 +1013,14 @@ describe("ServiceBusClient live tests", () => {
   describe("entityPath on sender and receiver", async () => {
     let sbClient: ServiceBusClientForTests;
 
-    before(() => {
+    beforeAll(() => {
       sbClient = createServiceBusClientForTests();
     });
 
     afterEach(async () => {
       await sbClient.test.afterEach();
     });
-    after(async () => {
+    afterAll(async () => {
       await sbClient.test.after();
     });
 

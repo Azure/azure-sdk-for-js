@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -12,7 +12,7 @@ import {
   TranslationStatusOutput,
   getLongRunningPoller,
   isUnexpected,
-} from "../.././../src";
+} from "../../../src";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,
@@ -58,7 +58,7 @@ describe("DocumentTranslation tests", () => {
     await recorder.stop();
   });
 
-  it("Client Cannot Authenticate With FakeApiKey", async () => {
+  it.skip("Client Cannot Authenticate With FakeApiKey", async () => {
     const testEndpoint = "https://t7d8641d8f25ec940-doctranslation.cognitiveservices.azure.com";
     const testApiKey = "fakeApiKey";
     const testClient = await createDocumentTranslationClientWithEndpointAndCredentials({

@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   This sample demonstrates how to create and share an `InteractiveBrowserCredential`
   to authenticate client-side requests in a single-page application.

@@ -16,7 +16,7 @@ import { RedisManagementClient } from "../redisManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -30,7 +30,7 @@ import {
   LinkedServerDeleteOptionalParams,
   LinkedServerGetOptionalParams,
   LinkedServerGetResponse,
-  LinkedServerListNextResponse
+  LinkedServerListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +55,7 @@ export class LinkedServerImpl implements LinkedServer {
   public list(
     resourceGroupName: string,
     name: string,
-    options?: LinkedServerListOptionalParams
+    options?: LinkedServerListOptionalParams,
   ): PagedAsyncIterableIterator<RedisLinkedServerWithProperties> {
     const iter = this.listPagingAll(resourceGroupName, name, options);
     return {
@@ -70,7 +70,7 @@ export class LinkedServerImpl implements LinkedServer {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, name, options, settings);
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class LinkedServerImpl implements LinkedServer {
     resourceGroupName: string,
     name: string,
     options?: LinkedServerListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RedisLinkedServerWithProperties[]> {
     let result: LinkedServerListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class LinkedServerImpl implements LinkedServer {
         resourceGroupName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +106,12 @@ export class LinkedServerImpl implements LinkedServer {
   private async *listPagingAll(
     resourceGroupName: string,
     name: string,
-    options?: LinkedServerListOptionalParams
+    options?: LinkedServerListOptionalParams,
   ): AsyncIterableIterator<RedisLinkedServerWithProperties> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,7 +130,7 @@ export class LinkedServerImpl implements LinkedServer {
     name: string,
     linkedServerName: string,
     parameters: RedisLinkedServerCreateParameters,
-    options?: LinkedServerCreateOptionalParams
+    options?: LinkedServerCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<LinkedServerCreateResponse>,
@@ -139,21 +139,20 @@ export class LinkedServerImpl implements LinkedServer {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<LinkedServerCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -162,8 +161,8 @@ export class LinkedServerImpl implements LinkedServer {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -171,22 +170,22 @@ export class LinkedServerImpl implements LinkedServer {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, linkedServerName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       LinkedServerCreateResponse,
       OperationState<LinkedServerCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -205,14 +204,14 @@ export class LinkedServerImpl implements LinkedServer {
     name: string,
     linkedServerName: string,
     parameters: RedisLinkedServerCreateParameters,
-    options?: LinkedServerCreateOptionalParams
+    options?: LinkedServerCreateOptionalParams,
   ): Promise<LinkedServerCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       name,
       linkedServerName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -228,25 +227,24 @@ export class LinkedServerImpl implements LinkedServer {
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
-    options?: LinkedServerDeleteOptionalParams
+    options?: LinkedServerDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -255,8 +253,8 @@ export class LinkedServerImpl implements LinkedServer {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -264,19 +262,19 @@ export class LinkedServerImpl implements LinkedServer {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, linkedServerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -293,13 +291,13 @@ export class LinkedServerImpl implements LinkedServer {
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
-    options?: LinkedServerDeleteOptionalParams
+    options?: LinkedServerDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       name,
       linkedServerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -315,11 +313,11 @@ export class LinkedServerImpl implements LinkedServer {
     resourceGroupName: string,
     name: string,
     linkedServerName: string,
-    options?: LinkedServerGetOptionalParams
+    options?: LinkedServerGetOptionalParams,
   ): Promise<LinkedServerGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, linkedServerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -332,11 +330,11 @@ export class LinkedServerImpl implements LinkedServer {
   private _list(
     resourceGroupName: string,
     name: string,
-    options?: LinkedServerListOptionalParams
+    options?: LinkedServerListOptionalParams,
   ): Promise<LinkedServerListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -351,11 +349,11 @@ export class LinkedServerImpl implements LinkedServer {
     resourceGroupName: string,
     name: string,
     nextLink: string,
-    options?: LinkedServerListNextOptionalParams
+    options?: LinkedServerListNextOptionalParams,
   ): Promise<LinkedServerListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -363,25 +361,24 @@ export class LinkedServerImpl implements LinkedServer {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisLinkedServerWithProperties,
     },
     201: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisLinkedServerWithProperties,
     },
     202: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisLinkedServerWithProperties,
     },
     204: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisLinkedServerWithProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -390,15 +387,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.linkedServerName
+    Parameters.linkedServerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -406,8 +402,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -415,22 +411,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.linkedServerName
+    Parameters.linkedServerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithProperties
+      bodyMapper: Mappers.RedisLinkedServerWithProperties,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -438,51 +433,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.linkedServerName
+    Parameters.linkedServerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithPropertiesList
+      bodyMapper: Mappers.RedisLinkedServerWithPropertiesList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisLinkedServerWithPropertiesList
+      bodyMapper: Mappers.RedisLinkedServerWithPropertiesList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

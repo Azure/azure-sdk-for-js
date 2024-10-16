@@ -8,28 +8,31 @@
  * @azsdk-weight 100
  */
 
-import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import { parseOpenAIError } from "./parseOpenAIError.js";
-dotenv.config();
-
-// You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
+import "dotenv/config";
 
 export async function main() {
   console.log("== Chat Completions Sample ==");
 
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "gpt-35-turbo";
-  const result = await client.getChatCompletions(deploymentId, [
-    { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-    { role: "user", content: "Can you help me?" },
-    { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-    { role: "user", content: "What's the best way to train a parrot?" },
-  ]);
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
+  const deployment = "gpt-35-turbo";
+  const apiVersion = "2024-07-01-preview";
+  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const result = await client.chat.completions.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
+    model: "",
+  });
 
   for (const choice of result.choices) {
     console.log(choice.message);
@@ -37,5 +40,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  parseOpenAIError(err);
+  console.error("The sample encountered an error:", err);
 });

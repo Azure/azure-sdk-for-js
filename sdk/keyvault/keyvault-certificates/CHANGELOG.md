@@ -1,20 +1,21 @@
 # Release History
 
-## 4.8.1 (Unreleased)
+## 4.9.0 (2024-10-16)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Add support for Continuous Access Evaluation (CAE). [#31140](https://github.com/Azure/azure-sdk-for-js/pull/31140)
 
 ### Other Changes
+
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#30819](https://github.com/Azure/azure-sdk-for-js/pull/30819)
 
 ## 4.8.0 (2024-02-14)
 
 ### Features Added
 
 Since 4.7.0:
+
 - Added property `x509ThumbprintString` to `CertificateProperties`. This property is a hex string representation of the existing `x509Thumbprint` property added for convenience.
 
 ### Other Changes

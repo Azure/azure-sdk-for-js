@@ -46,9 +46,11 @@
   ],
   "words": [
     "AMQP",
+    "azuresdkdocs",
     "BRCPF",
     "Brcpf",
     "CONTOSO",
+    "docfx",
     "DTDL",
     "ECONNRESET",
     "ESDNI",
@@ -66,6 +68,7 @@
     "Kubernetes",
     "Localizable",
     "Lucene",
+    "mgmt",
     "MPNS",
     "MSRC",
     "Mibps",
@@ -78,6 +81,7 @@
     "Petabit",
     "Picometer",
     "Plregon",
+    "psobject",
     "Rasterize",
     "Resourceid",
     "Rollup",
@@ -151,7 +155,13 @@
     "usgovtexas",
     "usgovvirginia",
     "vectorizer",
-    "westus"
+    "westus",
+    "reimaging",
+    "upgradingos",
+    "Cifs",
+    "dataserviceid",
+    "uefi",
+    "Uefi"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -280,6 +290,17 @@
       ]
     },
     {
+      "filename": "sdk/healthdataaiservices/azure-health-deidentification/**",
+      "words": [
+        "deid",
+        "deidservices",
+        "deidentification",
+        "healthdataaiservices",
+        "deidentify",
+        "deidentified"
+      ]
+    },
+    {
       "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
       "words": ["ctxt", "mros", "nify"]
     },
@@ -396,6 +417,10 @@
     {
       "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
       "words": ["Uncommited"]
+    },
+    {
+      "filename": "sdk/storage/storage-file-share/review/storage-file-share.api.md",
+      "words": ["Sddl"]
     },
     {
       "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",

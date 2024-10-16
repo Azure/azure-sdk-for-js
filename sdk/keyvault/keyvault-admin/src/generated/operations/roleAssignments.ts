@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RoleAssignments } from "../operationsInterfaces";
+import { RoleAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KeyVaultClientContext } from "../keyVaultClientContext";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KeyVaultClientContext } from "../keyVaultClientContext.js";
 import {
   RoleAssignmentsDeleteOptionalParams,
   RoleAssignmentCreateParameters,
@@ -22,7 +22,7 @@ import {
   RoleAssignmentsListForScopeResponse,
   RoleAssignmentsListForScopeNextOptionalParams,
   RoleAssignmentsListForScopeNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {

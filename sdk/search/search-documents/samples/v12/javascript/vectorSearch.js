@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates vector search
  */
 
-const {
-  AzureKeyCredential,
-  SearchClient,
-  GeographyPoint,
-  SearchIndexClient,
-} = require("@azure/search-documents");
-const { createIndex, WAIT_TIME, delay } = require("./setup");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
+const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 const dotenv = require("dotenv");
 const { fancyStayEnVector, fancyStayFrVector, luxuryQueryVector } = require("./vectors");
@@ -21,16 +17,15 @@ dotenv.config();
  * This sample is to demonstrate the use of SearchClient's vector search feature.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-7";
 
 async function main() {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
 
   const searchClient = new SearchClient(endpoint, TEST_INDEX_NAME, credential);
 
@@ -91,6 +86,14 @@ async function main() {
             fields: ["descriptionVectorFr"],
             kNearestNeighborsCount: 3,
             vector: luxuryQueryVector,
+          },
+          // The index can be configured with a vectorizer to generate text embeddings
+          // from a text query
+          {
+            kind: "text",
+            fields: ["descriptionVectorFr"],
+            kNearestNeighborsCount: 3,
+            text: "What are the most luxurious hotels?",
           },
         ],
       },

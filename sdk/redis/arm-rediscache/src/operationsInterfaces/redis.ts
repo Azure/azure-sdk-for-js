@@ -38,7 +38,7 @@ import {
   ExportRDBParameters,
   RedisExportDataOptionalParams,
   RedisFlushCacheOptionalParams,
-  RedisFlushCacheResponse
+  RedisFlushCacheResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +55,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     history: number,
-    options?: RedisListUpgradeNotificationsOptionalParams
+    options?: RedisListUpgradeNotificationsOptionalParams,
   ): PagedAsyncIterableIterator<UpgradeNotification>;
   /**
    * Lists all Redis caches in a resource group.
@@ -64,14 +64,14 @@ export interface Redis {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RedisListByResourceGroupOptionalParams
+    options?: RedisListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RedisResource>;
   /**
    * Gets all Redis caches in the specified subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RedisListBySubscriptionOptionalParams
+    options?: RedisListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RedisResource>;
   /**
    * Checks that the redis cache name is valid and is not already in use.
@@ -81,7 +81,7 @@ export interface Redis {
    */
   checkNameAvailability(
     parameters: CheckNameAvailabilityParameters,
-    options?: RedisCheckNameAvailabilityOptionalParams
+    options?: RedisCheckNameAvailabilityOptionalParams,
   ): Promise<void>;
   /**
    * Create or replace (overwrite/recreate, with potential downtime) an existing Redis cache.
@@ -94,7 +94,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisCreateParameters,
-    options?: RedisCreateOptionalParams
+    options?: RedisCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RedisCreateResponse>, RedisCreateResponse>
   >;
@@ -109,7 +109,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisCreateParameters,
-    options?: RedisCreateOptionalParams
+    options?: RedisCreateOptionalParams,
   ): Promise<RedisCreateResponse>;
   /**
    * Update an existing Redis cache.
@@ -122,7 +122,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisUpdateParameters,
-    options?: RedisUpdateOptionalParams
+    options?: RedisUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RedisUpdateResponse>, RedisUpdateResponse>
   >;
@@ -137,7 +137,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisUpdateParameters,
-    options?: RedisUpdateOptionalParams
+    options?: RedisUpdateOptionalParams,
   ): Promise<RedisUpdateResponse>;
   /**
    * Deletes a Redis cache.
@@ -148,7 +148,7 @@ export interface Redis {
   beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: RedisDeleteOptionalParams
+    options?: RedisDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Redis cache.
@@ -159,7 +159,7 @@ export interface Redis {
   beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: RedisDeleteOptionalParams
+    options?: RedisDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a Redis cache (resource description).
@@ -170,7 +170,7 @@ export interface Redis {
   get(
     resourceGroupName: string,
     name: string,
-    options?: RedisGetOptionalParams
+    options?: RedisGetOptionalParams,
   ): Promise<RedisGetResponse>;
   /**
    * Retrieve a Redis cache's access keys. This operation requires write permission to the cache
@@ -182,7 +182,7 @@ export interface Redis {
   listKeys(
     resourceGroupName: string,
     name: string,
-    options?: RedisListKeysOptionalParams
+    options?: RedisListKeysOptionalParams,
   ): Promise<RedisListKeysResponse>;
   /**
    * Regenerate Redis cache's access keys. This operation requires write permission to the cache
@@ -196,7 +196,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisRegenerateKeyParameters,
-    options?: RedisRegenerateKeyOptionalParams
+    options?: RedisRegenerateKeyOptionalParams,
   ): Promise<RedisRegenerateKeyResponse>;
   /**
    * Reboot specified Redis node(s). This operation requires write permission to the cache resource.
@@ -210,7 +210,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisRebootParameters,
-    options?: RedisForceRebootOptionalParams
+    options?: RedisForceRebootOptionalParams,
   ): Promise<RedisForceRebootOperationResponse>;
   /**
    * Import data into Redis cache.
@@ -223,7 +223,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: ImportRDBParameters,
-    options?: RedisImportDataOptionalParams
+    options?: RedisImportDataOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Import data into Redis cache.
@@ -236,7 +236,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: ImportRDBParameters,
-    options?: RedisImportDataOptionalParams
+    options?: RedisImportDataOptionalParams,
   ): Promise<void>;
   /**
    * Export data from the redis cache to blobs in a container.
@@ -249,7 +249,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: ExportRDBParameters,
-    options?: RedisExportDataOptionalParams
+    options?: RedisExportDataOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Export data from the redis cache to blobs in a container.
@@ -262,7 +262,7 @@ export interface Redis {
     resourceGroupName: string,
     name: string,
     parameters: ExportRDBParameters,
-    options?: RedisExportDataOptionalParams
+    options?: RedisExportDataOptionalParams,
   ): Promise<void>;
   /**
    * Deletes all of the keys in a cache.
@@ -273,7 +273,7 @@ export interface Redis {
   beginFlushCache(
     resourceGroupName: string,
     cacheName: string,
-    options?: RedisFlushCacheOptionalParams
+    options?: RedisFlushCacheOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RedisFlushCacheResponse>,
@@ -289,6 +289,6 @@ export interface Redis {
   beginFlushCacheAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: RedisFlushCacheOptionalParams
+    options?: RedisFlushCacheOptionalParams,
   ): Promise<RedisFlushCacheResponse>;
 }

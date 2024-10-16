@@ -16,7 +16,7 @@ import { DataProtectionClient } from "../dataProtectionClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   DeletedBackupInstancesGetOptionalParams,
   DeletedBackupInstancesGetResponse,
   DeletedBackupInstancesUndeleteOptionalParams,
-  DeletedBackupInstancesListNextResponse
+  DeletedBackupInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   public list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedBackupInstancesListOptionalParams
+    options?: DeletedBackupInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<DeletedBackupInstanceResource> {
     const iter = this.listPagingAll(resourceGroupName, vaultName, options);
     return {
@@ -70,9 +70,9 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
           resourceGroupName,
           vaultName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     options?: DeletedBackupInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DeletedBackupInstanceResource[]> {
     let result: DeletedBackupInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
         resourceGroupName,
         vaultName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -108,12 +108,12 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   private async *listPagingAll(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedBackupInstancesListOptionalParams
+    options?: DeletedBackupInstancesListOptionalParams,
   ): AsyncIterableIterator<DeletedBackupInstanceResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       vaultName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -128,11 +128,11 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
   private _list(
     resourceGroupName: string,
     vaultName: string,
-    options?: DeletedBackupInstancesListOptionalParams
+    options?: DeletedBackupInstancesListOptionalParams,
   ): Promise<DeletedBackupInstancesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: DeletedBackupInstancesGetOptionalParams
+    options?: DeletedBackupInstancesGetOptionalParams,
   ): Promise<DeletedBackupInstancesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, backupInstanceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -165,25 +165,24 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: DeletedBackupInstancesUndeleteOptionalParams
+    options?: DeletedBackupInstancesUndeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -192,8 +191,8 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -201,19 +200,19 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, vaultName, backupInstanceName, options },
-      spec: undeleteOperationSpec
+      spec: undeleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -229,13 +228,13 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     backupInstanceName: string,
-    options?: DeletedBackupInstancesUndeleteOptionalParams
+    options?: DeletedBackupInstancesUndeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginUndelete(
       resourceGroupName,
       vaultName,
       backupInstanceName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -251,11 +250,11 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
     resourceGroupName: string,
     vaultName: string,
     nextLink: string,
-    options?: DeletedBackupInstancesListNextOptionalParams
+    options?: DeletedBackupInstancesListNextOptionalParams,
   ): Promise<DeletedBackupInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -263,38 +262,15 @@ export class DeletedBackupInstancesImpl implements DeletedBackupInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedBackupInstanceResourceList
+      bodyMapper: Mappers.DeletedBackupInstanceResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances/{backupInstanceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedBackupInstanceResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -302,14 +278,34 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances/{backupInstanceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedBackupInstanceResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vaultName,
+    Parameters.backupInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const undeleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances/{backupInstanceName}/undelete",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/deletedBackupInstances/{backupInstanceName}/undelete",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -317,8 +313,8 @@ const undeleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -326,29 +322,29 @@ const undeleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.backupInstanceName
+    Parameters.backupInstanceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeletedBackupInstanceResourceList
+      bodyMapper: Mappers.DeletedBackupInstanceResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

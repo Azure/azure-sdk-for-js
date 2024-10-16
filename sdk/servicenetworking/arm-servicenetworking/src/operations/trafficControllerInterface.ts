@@ -16,7 +16,7 @@ import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -35,14 +35,16 @@ import {
   TrafficControllerInterfaceUpdateOptionalParams,
   TrafficControllerInterfaceUpdateResponse,
   TrafficControllerInterfaceDeleteOptionalParams,
+  TrafficControllerInterfaceDeleteResponse,
   TrafficControllerInterfaceListBySubscriptionNextResponse,
-  TrafficControllerInterfaceListByResourceGroupNextResponse
+  TrafficControllerInterfaceListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TrafficControllerInterface operations. */
 export class TrafficControllerInterfaceImpl
-  implements TrafficControllerInterface {
+  implements TrafficControllerInterface
+{
   private readonly client: ServiceNetworkingManagementClient;
 
   /**
@@ -58,7 +60,7 @@ export class TrafficControllerInterfaceImpl
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams
+    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<TrafficController> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -73,13 +75,13 @@ export class TrafficControllerInterfaceImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TrafficController[]> {
     let result: TrafficControllerInterfaceListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +102,7 @@ export class TrafficControllerInterfaceImpl
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams
+    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<TrafficController> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -114,7 +116,7 @@ export class TrafficControllerInterfaceImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams
+    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<TrafficController> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -131,16 +133,16 @@ export class TrafficControllerInterfaceImpl
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TrafficController[]> {
     let result: TrafficControllerInterfaceListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -155,7 +157,7 @@ export class TrafficControllerInterfaceImpl
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -166,11 +168,11 @@ export class TrafficControllerInterfaceImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams
+    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<TrafficController> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -181,11 +183,11 @@ export class TrafficControllerInterfaceImpl
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams
+    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
   ): Promise<TrafficControllerInterfaceListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -196,11 +198,11 @@ export class TrafficControllerInterfaceImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams
+    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
   ): Promise<TrafficControllerInterfaceListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -213,11 +215,11 @@ export class TrafficControllerInterfaceImpl
   get(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: TrafficControllerInterfaceGetOptionalParams
+    options?: TrafficControllerInterfaceGetOptionalParams,
   ): Promise<TrafficControllerInterfaceGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -232,7 +234,7 @@ export class TrafficControllerInterfaceImpl
     resourceGroupName: string,
     trafficControllerName: string,
     resource: TrafficController,
-    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams
+    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>,
@@ -241,21 +243,20 @@ export class TrafficControllerInterfaceImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TrafficControllerInterfaceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -264,8 +265,8 @@ export class TrafficControllerInterfaceImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -273,15 +274,15 @@ export class TrafficControllerInterfaceImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, trafficControllerName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       TrafficControllerInterfaceCreateOrUpdateResponse,
@@ -289,7 +290,7 @@ export class TrafficControllerInterfaceImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -306,13 +307,13 @@ export class TrafficControllerInterfaceImpl
     resourceGroupName: string,
     trafficControllerName: string,
     resource: TrafficController,
-    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams
+    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   ): Promise<TrafficControllerInterfaceCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       trafficControllerName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -328,11 +329,11 @@ export class TrafficControllerInterfaceImpl
     resourceGroupName: string,
     trafficControllerName: string,
     properties: TrafficControllerUpdate,
-    options?: TrafficControllerInterfaceUpdateOptionalParams
+    options?: TrafficControllerInterfaceUpdateOptionalParams,
   ): Promise<TrafficControllerInterfaceUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, properties, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -345,25 +346,29 @@ export class TrafficControllerInterfaceImpl
   async beginDelete(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: TrafficControllerInterfaceDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: TrafficControllerInterfaceDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrafficControllerInterfaceDeleteResponse>,
+      TrafficControllerInterfaceDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<TrafficControllerInterfaceDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -372,8 +377,8 @@ export class TrafficControllerInterfaceImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -381,20 +386,23 @@ export class TrafficControllerInterfaceImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, trafficControllerName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      TrafficControllerInterfaceDeleteResponse,
+      OperationState<TrafficControllerInterfaceDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -409,12 +417,12 @@ export class TrafficControllerInterfaceImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: TrafficControllerInterfaceDeleteOptionalParams
-  ): Promise<void> {
+    options?: TrafficControllerInterfaceDeleteOptionalParams,
+  ): Promise<TrafficControllerInterfaceDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       trafficControllerName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -426,11 +434,11 @@ export class TrafficControllerInterfaceImpl
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: TrafficControllerInterfaceListBySubscriptionNextOptionalParams
+    options?: TrafficControllerInterfaceListBySubscriptionNextOptionalParams,
   ): Promise<TrafficControllerInterfaceListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -443,11 +451,11 @@ export class TrafficControllerInterfaceImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: TrafficControllerInterfaceListByResourceGroupNextOptionalParams
+    options?: TrafficControllerInterfaceListByResourceGroupNextOptionalParams,
   ): Promise<TrafficControllerInterfaceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -455,85 +463,81 @@ export class TrafficControllerInterfaceImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceNetworking/trafficControllers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceNetworking/trafficControllers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficControllerListResult
+      bodyMapper: Mappers.TrafficControllerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficControllerListResult
+      bodyMapper: Mappers.TrafficControllerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrafficController
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trafficControllerName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TrafficController,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.trafficControllerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficController
+      bodyMapper: Mappers.TrafficController,
     },
     201: {
-      bodyMapper: Mappers.TrafficController
+      bodyMapper: Mappers.TrafficController,
     },
     202: {
-      bodyMapper: Mappers.TrafficController
+      bodyMapper: Mappers.TrafficController,
     },
     204: {
-      bodyMapper: Mappers.TrafficController
+      bodyMapper: Mappers.TrafficController,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource,
   queryParameters: [Parameters.apiVersion],
@@ -541,23 +545,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trafficControllerName
+    Parameters.trafficControllerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficController
+      bodyMapper: Mappers.TrafficController,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
@@ -565,71 +568,78 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trafficControllerName
+    Parameters.trafficControllerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.TrafficControllerInterfaceDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.TrafficControllerInterfaceDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.TrafficControllerInterfaceDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.TrafficControllerInterfaceDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trafficControllerName
+    Parameters.trafficControllerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficControllerListResult
+      bodyMapper: Mappers.TrafficControllerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrafficControllerListResult
+      bodyMapper: Mappers.TrafficControllerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

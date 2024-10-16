@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
  *
  * @summary Returns collection of operation request objects for a critical operation protected by the given ResourceGuard resource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/ResourceGuardCRUD/GetDefaultUpdateProtectedItemRequests.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/GetDefaultUpdateProtectedItemRequests.json
  */
 async function getDefaultOperationsRequestObject() {
   const subscriptionId =

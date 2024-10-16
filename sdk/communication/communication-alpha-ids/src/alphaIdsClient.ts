@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 import {
   DynamicAlphaIdConfiguration,
@@ -73,6 +73,7 @@ export class AlphaIdsClient {
   }
 
   public getDynamicAlphaIdConfiguration(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetConfigurationOptions = {},
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
@@ -86,6 +87,7 @@ export class AlphaIdsClient {
 
   public upsertDynamicAlphaIdConfiguration(
     enabled: boolean,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpsertConfigurationOptions = {},
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
@@ -97,6 +99,7 @@ export class AlphaIdsClient {
     );
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getAlphaIds(options: ListAlphaIdsOptions = {}): PagedAsyncIterableIterator<AlphaId> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-listAlphaIds",

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   BasicPartitionProperties,
   PartitionContext,
   SubscriptionEventHandlers,
-} from "./eventHubConsumerClientModels";
-import { CheckpointStore } from "./eventProcessor";
-import { CloseReason } from "./models/public";
-import { LastEnqueuedEventProperties } from "./partitionReceiver";
-import { ReceivedEventData } from "./eventData";
-import { logger } from "./logger";
+} from "./eventHubConsumerClientModels.js";
+import { CheckpointStore } from "./eventProcessor.js";
+import { CloseReason } from "./models/public.js";
+import { LastEnqueuedEventProperties } from "./partitionReceiver.js";
+import { ReceivedEventData } from "./eventData.js";
+import { logger } from "./logger.js";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Constants } from "../common";
 import { CosmosHeaders, getRequestChargeIfAny } from "../queryExecutionContext/headerUtils";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics";
@@ -27,6 +27,9 @@ export class FeedResponse<TResource> {
   }
   public get activityId(): string {
     return this.headers[Constants.HttpHeaders.ActivityId];
+  }
+  public get correlatedActivityId(): string {
+    return this.headers[Constants.HttpHeaders.CorrelatedActivityId];
   }
   public get indexMetrics(): string {
     const writer = new IndexMetricWriter();

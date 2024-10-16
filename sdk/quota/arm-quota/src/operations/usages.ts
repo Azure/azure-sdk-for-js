@@ -116,10 +116,7 @@ export class UsagesImpl implements Usages {
     scope: string,
     options?: UsagesGetOptionalParams,
   ): Promise<UsagesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, scope, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceName, scope, options }, getOperationSpec);
   }
 
   /**
@@ -131,14 +128,8 @@ export class UsagesImpl implements Usages {
    *              resource.
    * @param options The options parameters.
    */
-  private _list(
-    scope: string,
-    options?: UsagesListOptionalParams,
-  ): Promise<UsagesListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+  private _list(scope: string, options?: UsagesListOptionalParams): Promise<UsagesListResponse> {
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -156,10 +147,7 @@ export class UsagesImpl implements Usages {
     nextLink: string,
     options?: UsagesListNextOptionalParams,
   ): Promise<UsagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

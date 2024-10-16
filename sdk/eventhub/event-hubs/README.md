@@ -297,7 +297,7 @@ async function main() {
   let numberOfEventsToSend = 10;
 
   while (numberOfEventsToSend > 0) {
-    let wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
+    const wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
     if (!wasAdded) {
       break;
     }

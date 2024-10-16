@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
 import {
@@ -822,7 +822,7 @@ async function getDeserializedResponse(
     bodyAsText: options.bodyAsText,
     status: options.status ?? 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  const next = vi.fn<SendRequest>();
   next.mockResolvedValue(res);
 
   const response = await policy.sendRequest(request, next);

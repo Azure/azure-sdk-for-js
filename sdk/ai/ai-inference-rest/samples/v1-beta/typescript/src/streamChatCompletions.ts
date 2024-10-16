@@ -4,7 +4,7 @@
 /**
  * Demonstrates how to list chat completions for a chat context.
  *
- * @summary list chat completions.
+ * @summary List chat completions.
  */
 
 import ModelClient from "@azure-rest/ai-inference";
@@ -13,15 +13,19 @@ import { createSseStream } from "@azure/core-sse";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { IncomingMessage } from "http";
+import { AzureKeyCredential } from "@azure/core-auth";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 
 export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const client = createModelClient();
   const response = await client.path("/chat/completions").post({
     body: {
       messages: [
@@ -32,6 +36,7 @@ export async function main() {
       ],
       stream: true,
       max_tokens: 128,
+      model: modelName
     }
   }).asNodeStream();
 
@@ -44,7 +49,7 @@ export async function main() {
     throw new Error(`Failed to get chat completions: ${streamToString(stream)}`);
   }
 
-  const sses = createSseStream(stream);
+  const sses = createSseStream(stream as IncomingMessage);
 
   for await (const event of sses) {
     if (event.data === "[DONE]") {
@@ -64,6 +69,21 @@ export async function main() {
     }
 
     return Buffer.concat(chunks).toString("utf-8");
+  }
+}
+
+/*
+  * This function creates a model client.
+  */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));      
+  } else {
+    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);      
   }
 }
 

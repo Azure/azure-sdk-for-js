@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
   ListHandlesResponse as ListHandlesResponseInternal,
+  SharePermission,
   StringEncoded,
 } from "../generated/src/models";
 import {
@@ -764,4 +765,18 @@ export function ConvertInternalResponseOfListHandles(
  */
 export function removeEmptyString(value: string | undefined): string | undefined {
   return value ? value : undefined;
+}
+
+export function asSharePermission(value: string | SharePermission): SharePermission {
+  const castSharePermission = value as SharePermission;
+  if (castSharePermission["permission"] !== undefined) {
+    return {
+      permission: castSharePermission.permission,
+      format: castSharePermission.format,
+    };
+  }
+
+  return {
+    permission: value as string,
+  };
 }

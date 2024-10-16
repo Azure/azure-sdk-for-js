@@ -5,7 +5,6 @@ extends:
     parameters:
       PackageName: "@azure/container-registry"
       ServiceDirectory: containerregistry
-      UseFederatedAuth: true
       MatrixFilters:
         - DependencyVersion=^$
         - ${{ if contains(variables['Build.DefinitionName'], 'tests-weekly') }}:

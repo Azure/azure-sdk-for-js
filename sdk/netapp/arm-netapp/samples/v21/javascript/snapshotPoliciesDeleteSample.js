@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete snapshot policy
  *
  * @summary Delete snapshot policy
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/SnapshotPolicies_Delete.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/SnapshotPolicies_Delete.json
  */
 async function snapshotPoliciesDelete() {
   const subscriptionId =

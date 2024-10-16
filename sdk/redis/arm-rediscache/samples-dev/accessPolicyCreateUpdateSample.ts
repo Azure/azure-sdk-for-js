@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RedisCacheAccessPolicy,
-  RedisManagementClient
+  RedisManagementClient,
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Adds an access policy to the redis cache
  *
  * @summary Adds an access policy to the redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheAccessPolicyCreateUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyCreateUpdate.json
  */
 async function redisCacheAccessPolicyCreateUpdate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function redisCacheAccessPolicyCreateUpdate() {
     resourceGroupName,
     cacheName,
     accessPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

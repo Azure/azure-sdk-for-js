@@ -9,7 +9,7 @@ Create an event-hubs namespace and populate the `.env` file with the following v
 
 - `EVENTHUB_CONNECTION_STRING`,
 - `EVENTHUB_NAME` and
-- `CONSUMER_GROUP_NAME` (defaults to "$Default")
+- `EVENTHUB_CONSUMER_GROUP_NAME` (defaults to "$Default")
 
 ## Running the tests
 

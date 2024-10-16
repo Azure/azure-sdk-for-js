@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import * as coreClient from "@azure/core-client";
@@ -10,7 +10,7 @@ import {
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
 /**
  * The latest supported KeyVault service API version

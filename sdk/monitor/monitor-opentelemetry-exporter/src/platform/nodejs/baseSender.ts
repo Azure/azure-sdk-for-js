@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { diag } from "@opentelemetry/api";
 import { PersistentStorage, SenderResult } from "../../types";
 import { AzureMonitorExporterOptions } from "../../config";
@@ -8,7 +8,7 @@ import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics";
 import { RestError } from "@azure/core-rest-pipeline";
-import { MAX_STATSBEAT_FAILURES } from "../../export/statsbeat/types";
+import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types";
 import { BreezeResponse, isRetriable } from "../../utils/breezeUtils";
 import { TelemetryItem as Envelope } from "../../generated";
 
@@ -128,6 +128,7 @@ export abstract class BaseSender {
             this.networkStatsbeatMetrics.countFailure(duration, statusCode);
           }
         } else {
+          // Handles all other status codes or client exceptions for Statsbeat
           this.incrementStatsbeatFailure();
         }
         return {
@@ -159,16 +160,28 @@ export abstract class BaseSender {
           this.networkStatsbeatMetrics?.countException(redirectError);
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
-      } else if (restError.statusCode && isRetriable(restError.statusCode)) {
+      } else if (
+        restError.statusCode &&
+        isRetriable(restError.statusCode) &&
+        !this.isStatsbeatSender
+      ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
         restError.message.includes("Invalid instrumentation key")
       ) {
-        const invalidInstrumentationKeyError = new Error("Invalid instrumentation key");
+        // Invalid instrumentation key, shutdown statsbeat, fail silently
         this.shutdownStatsbeat();
-        return { code: ExportResultCode.FAILED, error: invalidInstrumentationKeyError };
+        return { code: ExportResultCode.SUCCESS };
+      } else if (
+        restError.statusCode &&
+        this.isStatsbeatSender &&
+        isStatsbeatShutdownStatus(restError.statusCode)
+      ) {
+        // If the status code is a shutdown status code for statsbeat, shutdown statsbeat and fail silently
+        this.incrementStatsbeatFailure();
+        return { code: ExportResultCode.SUCCESS };
       }
       if (this.isNetworkError(restError)) {
         if (restError.statusCode) {
@@ -206,6 +219,7 @@ export abstract class BaseSender {
             error: new Error("Failed to persist envelope in disk."),
           };
     } catch (ex: any) {
+      this.networkStatsbeatMetrics?.countWriteFailure();
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -237,6 +251,7 @@ export abstract class BaseSender {
         await this.send(envelopes);
       }
     } catch (err: any) {
+      this.networkStatsbeatMetrics?.countReadFailure();
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }

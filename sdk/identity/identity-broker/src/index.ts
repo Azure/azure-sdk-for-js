@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzurePluginContext } from "../../identity/src/plugins/provider";
 import { IdentityPlugin } from "@azure/identity";
@@ -13,12 +13,17 @@ import { NativeBrokerPlugin } from "@azure/msal-node-extensions";
  *
  * Example:
  *
- * ```typescript
- * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
+ * ```ts snippet:using_plugins
+ * import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
  * import { nativeBrokerPlugin } from "@azure/identity-broker";
  *
- * // Load the plugin
  * useIdentityPlugin(nativeBrokerPlugin);
+ * const credential = new InteractiveBrowserCredential({
+ *   brokerOptions: {
+ *     enabled: true,
+ *     parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
+ *   },
+ * });
  * ```
  */
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
 import { ConnectionString, ConnectionStringKey } from "./types";
@@ -60,7 +60,7 @@ export class ConnectionStringParser {
         : DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         diag.warn(
-          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
+          `Connection String contains an unsupported 'Authorization' value: ${result.authorization}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
         );
       }
     } else {
@@ -73,7 +73,7 @@ export class ConnectionStringParser {
     return result;
   }
 
-  public static sanitizeUrl(url: string) {
+  public static sanitizeUrl(url: string): string {
     let newUrl = url.trim();
     if (newUrl.indexOf("https://") < 0) {
       // Try to update http to https

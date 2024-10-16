@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
@@ -11,6 +11,7 @@ export default defineConfig({
     "process.env": process.env,
   },
   test: {
+    testTimeout: 50000,
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",

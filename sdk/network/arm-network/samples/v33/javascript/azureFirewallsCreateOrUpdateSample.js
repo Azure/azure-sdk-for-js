@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/AzureFirewallPut.json
  */
 async function createAzureFirewall() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,6 +27,7 @@ async function createAzureFirewall() {
       {
         name: "apprulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/applicationRuleCollections/apprulecoll",
         priority: 110,
         rules: [
           {
@@ -55,6 +56,7 @@ async function createAzureFirewall() {
       {
         name: "natrulecoll",
         action: { type: "Dnat" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/natRuleCollections/natrulecoll",
         priority: 112,
         rules: [
           {
@@ -84,6 +86,7 @@ async function createAzureFirewall() {
       {
         name: "netrulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/networkRuleCollections/netrulecoll",
         priority: 112,
         rules: [
           {
@@ -124,7 +127,7 @@ async function createAzureFirewall() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithAdditionalProperties.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/AzureFirewallPutWithAdditionalProperties.json
  */
 async function createAzureFirewallWithAdditionalProperties() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -136,6 +139,7 @@ async function createAzureFirewallWithAdditionalProperties() {
       {
         name: "apprulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/applicationRuleCollections/apprulecoll",
         priority: 110,
         rules: [
           {
@@ -165,6 +169,7 @@ async function createAzureFirewallWithAdditionalProperties() {
       {
         name: "natrulecoll",
         action: { type: "Dnat" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/natRuleCollections/natrulecoll",
         priority: 112,
         rules: [
           {
@@ -194,6 +199,7 @@ async function createAzureFirewallWithAdditionalProperties() {
       {
         name: "netrulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/networkRuleCollections/netrulecoll",
         priority: 112,
         rules: [
           {
@@ -234,7 +240,7 @@ async function createAzureFirewallWithAdditionalProperties() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithIpGroups.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/AzureFirewallPutWithIpGroups.json
  */
 async function createAzureFirewallWithIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -245,6 +251,7 @@ async function createAzureFirewallWithIPGroups() {
       {
         name: "apprulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/applicationRuleCollections/apprulecoll",
         priority: 110,
         rules: [
           {
@@ -273,6 +280,7 @@ async function createAzureFirewallWithIPGroups() {
       {
         name: "natrulecoll",
         action: { type: "Dnat" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/natRuleCollections/natrulecoll",
         priority: 112,
         rules: [
           {
@@ -302,6 +310,7 @@ async function createAzureFirewallWithIPGroups() {
       {
         name: "netrulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/networkRuleCollections/netrulecoll",
         priority: 112,
         rules: [
           {
@@ -342,7 +351,7 @@ async function createAzureFirewallWithIPGroups() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/AzureFirewallPutWithZones.json
  */
 async function createAzureFirewallWithZones() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -353,6 +362,7 @@ async function createAzureFirewallWithZones() {
       {
         name: "apprulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/applicationRuleCollections/apprulecoll",
         priority: 110,
         rules: [
           {
@@ -381,6 +391,7 @@ async function createAzureFirewallWithZones() {
       {
         name: "natrulecoll",
         action: { type: "Dnat" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/natRuleCollections/natrulecoll",
         priority: 112,
         rules: [
           {
@@ -410,6 +421,7 @@ async function createAzureFirewallWithZones() {
       {
         name: "netrulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/networkRuleCollections/netrulecoll",
         priority: 112,
         rules: [
           {
@@ -450,7 +462,7 @@ async function createAzureFirewallWithZones() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutWithMgmtSubnet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/AzureFirewallPutWithMgmtSubnet.json
  */
 async function createAzureFirewallWithManagementSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -461,6 +473,7 @@ async function createAzureFirewallWithManagementSubnet() {
       {
         name: "apprulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/applicationRuleCollections/apprulecoll",
         priority: 110,
         rules: [
           {
@@ -498,6 +511,7 @@ async function createAzureFirewallWithManagementSubnet() {
       {
         name: "natrulecoll",
         action: { type: "Dnat" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/natRuleCollections/natrulecoll",
         priority: 112,
         rules: [
           {
@@ -527,6 +541,7 @@ async function createAzureFirewallWithManagementSubnet() {
       {
         name: "netrulecoll",
         action: { type: "Deny" },
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall/networkRuleCollections/netrulecoll",
         priority: 112,
         rules: [
           {
@@ -567,7 +582,7 @@ async function createAzureFirewallWithManagementSubnet() {
  * This sample demonstrates how to Creates or updates the specified Azure Firewall.
  *
  * @summary Creates or updates the specified Azure Firewall.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/AzureFirewallPutInHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/AzureFirewallPutInHub.json
  */
 async function createAzureFirewallInVirtualHub() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

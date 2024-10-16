@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -235,6 +235,7 @@ export class CallAutomationClient {
   public async createGroupCall(
     targetParticipants: CommunicationIdentifier[],
     callbackUrl: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateCallOptions = {},
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {

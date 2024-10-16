@@ -54,6 +54,8 @@ module.exports = function (config) {
       "SOFT_DELETE_ACCOUNT_SAS",
       "PREMIUM_FILE_ACCOUNT_NAME",
       "PREMIUM_FILE_ACCOUNT_SAS",
+      "PROVISIONED_FILE_ACCOUNT_NAME",
+      "PROVISIONED_FILE_ACCOUNT_SAS",
       "TEST_MODE",
       "RECORDINGS_RELATIVE_PATH",
     ],
@@ -100,7 +102,13 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"],
+      },
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

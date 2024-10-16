@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get details of the specified subvolume
  *
  * @summary Get details of the specified subvolume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Subvolumes_Metadata.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Subvolumes_Metadata.json
  */
 async function subvolumesMetadata() {
   const subscriptionId =

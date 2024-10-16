@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
@@ -38,6 +38,12 @@ interface ManagedIdentityCredentialOptions extends TokenCredentialOptions {
    * without having to first determine the client Id of the created identity.
    */
   resourceId?: string;
+
+  /**
+   * Allows specifying the object ID of the underlying service principal used to authenticate a user-assigned managed identity.
+   * This is an alternative to providing a client ID and is not required for system-assigned managed identities.
+   */
+  objectId?: string;
 }
 
 export class MsalMsiProvider {
@@ -45,6 +51,7 @@ export class MsalMsiProvider {
   private identityClient: IdentityClient;
   private clientId?: string;
   private resourceId?: string;
+  private objectId?: string;
   private msiRetryConfig: MSIConfiguration["retryConfig"] = {
     maxRetries: 5,
     startDelayInMs: 800,
@@ -65,11 +72,15 @@ export class MsalMsiProvider {
       _options = clientIdOrOptions ?? {};
     }
     this.resourceId = _options?.resourceId;
+    this.objectId = _options?.objectId;
 
     // For JavaScript users.
-    if (this.clientId && this.resourceId) {
+    const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
+    if (providedIds.length > 1) {
       throw new Error(
-        `ManagedIdentityCredential - Client Id and Resource Id can't be provided at the same time.`,
+        `ManagedIdentityCredential: only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
+          { clientId: this.clientId, resourceId: this.resourceId, objectId: this.objectId },
+        )}`,
       );
     }
 
@@ -89,6 +100,7 @@ export class MsalMsiProvider {
       managedIdentityIdParams: {
         userAssignedClientId: this.clientId,
         userAssignedResourceId: this.resourceId,
+        userAssignedObjectId: this.objectId,
       },
       system: {
         // todo: proxyUrl?
@@ -108,6 +120,24 @@ export class MsalMsiProvider {
         maxRetries: 0,
       },
     });
+
+    // CloudShell MSI will ignore any user-assigned identity passed as parameters. To avoid confusion, we prevent this from happening as early as possible.
+    if (this.managedIdentityApp.getManagedIdentitySource() === "CloudShell") {
+      if (this.clientId || this.resourceId || this.objectId) {
+        logger.warning(
+          `CloudShell MSI detected with user-provided IDs - throwing. Received values: ${JSON.stringify(
+            {
+              clientId: this.clientId,
+              resourceId: this.resourceId,
+              objectId: this.objectId,
+            },
+          )}.`,
+        );
+        throw new CredentialUnavailableError(
+          "ManagedIdentityCredential: Specifying a user-assigned managed identity is not supported for CloudShell at runtime. When using Managed Identity in CloudShell, omit the clientId, resourceId, and objectId parameters.",
+        );
+      }
+    }
   }
 
   /**
@@ -150,6 +180,8 @@ export class MsalMsiProvider {
         const identitySource = this.managedIdentityApp.getManagedIdentitySource();
         const isImdsMsi = identitySource === "DefaultToImds" || identitySource === "Imds"; // Neither actually checks that IMDS endpoint is available, just that it's the source the MSAL _would_ try to use.
 
+        logger.getToken.info(`MSAL Identity source: ${identitySource}`);
+
         if (isTokenExchangeMsi) {
           // In the AKS scenario we will use the existing tokenExchangeMsi indefinitely.
           logger.getToken.info("Using the token exchange managed identity.");
@@ -163,7 +195,7 @@ export class MsalMsiProvider {
 
           if (result === null) {
             throw new CredentialUnavailableError(
-              "The managed identity endpoint was reached, yet no tokens were received.",
+              "Attempted to use the token exchange managed identity, but received a null response.",
             );
           }
 
@@ -182,7 +214,7 @@ export class MsalMsiProvider {
 
           if (!isAvailable) {
             throw new CredentialUnavailableError(
-              `ManagedIdentityCredential: The managed identity endpoint is not available.`,
+              `Attempted to use the IMDS endpoint, but it is not available.`,
             );
           }
         }
@@ -202,6 +234,7 @@ export class MsalMsiProvider {
         return {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
+          refreshAfterTimestamp: token.refreshOn?.getTime(),
         };
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));
@@ -215,11 +248,13 @@ export class MsalMsiProvider {
         if (isNetworkError(err)) {
           throw new CredentialUnavailableError(
             `ManagedIdentityCredential: Network unreachable. Message: ${err.message}`,
+            { cause: err },
           );
         }
 
         throw new CredentialUnavailableError(
           `ManagedIdentityCredential: Authentication failed. Message ${err.message}`,
+          { cause: err },
         );
       }
     });
@@ -242,7 +277,7 @@ export class MsalMsiProvider {
       });
     };
     if (!msalToken) {
-      throw createError("No response");
+      throw createError("No response.");
     }
     if (!msalToken.expiresOn) {
       throw createError(`Response had no "expiresOn" property.`);

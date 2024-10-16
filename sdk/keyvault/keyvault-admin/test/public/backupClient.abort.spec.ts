@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 
-import { KeyVaultBackupClient } from "../../src";
-import { authenticate } from "./utils/authentication";
-import { testPollerProperties } from "./utils/recorder";
-import { assertThrowsAbortError, getSasToken, getServiceVersion } from "./utils/common";
+import { KeyVaultBackupClient } from "../../src/index.js";
+import { authenticate } from "./utils/authentication.js";
+import { testPollerProperties } from "./utils/recorder.js";
+import { getSasToken } from "./utils/common.js";
+import { describe, it, beforeEach, afterEach, expect } from "vitest";
+import { AbortError } from "@azure/abort-controller";
 
 // TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
 describe.skip("Aborting KeyVaultBackupClient's requests", () => {
@@ -18,8 +19,8 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
 
   let generateFakeUUID: () => string;
 
-  beforeEach(async function () {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     client = authentication.backupClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;
@@ -37,12 +38,12 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client.beginBackup(blobStorageUri, blobSasToken, {
+    await expect(
+      client.beginBackup(blobStorageUri, blobSasToken, {
         ...testPollerProperties,
         abortSignal: controller.signal,
-      });
-    });
+      }),
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort beginRestore", async function () {
@@ -50,12 +51,12 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client.beginRestore(backupURI, blobSasToken, {
+    await expect(
+      client.beginRestore(backupURI, blobSasToken, {
         ...testPollerProperties,
         abortSignal: controller.signal,
-      });
-    });
+      }),
+    ).rejects.toThrow(AbortError);
   });
 
   it("can abort beginSelectiveKeyRestore", async function () {
@@ -64,11 +65,11 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     const controller = new AbortController();
     controller.abort();
 
-    await assertThrowsAbortError(async () => {
-      await client.beginSelectiveKeyRestore("key-name", backupURI, blobSasToken, {
+    await expect(
+      client.beginSelectiveKeyRestore("key-name", backupURI, blobSasToken, {
         ...testPollerProperties,
         abortSignal: controller.signal,
-      });
-    });
+      }),
+    ).rejects.toThrow(AbortError);
   });
 });

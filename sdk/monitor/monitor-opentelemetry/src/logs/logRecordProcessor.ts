@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { MetricHandler } from "../metrics/handler";
 import { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";

@@ -18,7 +18,7 @@ This action will retry last failed operation and will bring backup instance to v
  *
  * @summary Sync backup instance again in case of failure
 This action will retry last failed operation and will bring backup instance to valid state
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/SyncBackupInstance.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/SyncBackupInstance.json
  */
 async function syncBackupInstance() {
   const subscriptionId =

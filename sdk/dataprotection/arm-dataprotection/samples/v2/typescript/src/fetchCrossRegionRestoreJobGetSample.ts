@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CrossRegionRestoreJobRequest,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Fetches the Cross Region Restore Job
  *
  * @summary Fetches the Cross Region Restore Job
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJob.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/FetchCrossRegionRestoreJob.json
  */
 async function getCrossRegionRestoreJob() {
   const subscriptionId =
@@ -34,14 +34,14 @@ async function getCrossRegionRestoreJob() {
     jobId: "3c60cb49-63e8-4b21-b9bd-26277b3fdfae",
     sourceBackupVaultId:
       "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/BugBash1/providers/Microsoft.DataProtection/backupVaults/BugBashVaultForCCYv11",
-    sourceRegion: "east us"
+    sourceRegion: "east us",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.fetchCrossRegionRestoreJob.get(
     resourceGroupName,
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
@@ -51,6 +51,7 @@ export class TraceBasicScenario implements Scenario {
     ).getDelegate() as NodeTracerProvider;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const tracer = opentelemetry.trace.getTracer("basic");
     const root = tracer.startSpan(`${this.constructor.name}.Root`, {
@@ -79,7 +80,7 @@ export class TraceBasicScenario implements Scenario {
       },
       ctx,
     );
-    let eventAttributes: any = {};
+    const eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";
     child1.addEvent("TestEvent", eventAttributes);
     child1.end(100);
@@ -207,11 +208,12 @@ export class MetricBasicScenario implements Scenario {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const meter = opentelemetry.metrics.getMeter("basic");
-    let counter = meter.createCounter("testCounter");
-    let counter2 = meter.createCounter("testCounter2");
-    let histogram = meter.createHistogram("testHistogram");
+    const counter = meter.createCounter("testCounter");
+    const counter2 = meter.createCounter("testCounter2");
+    const histogram = meter.createHistogram("testHistogram");
     let attributes: any = { testAttribute: "testValue" };
     counter.add(1);
     counter.add(2);
@@ -220,7 +222,7 @@ export class MetricBasicScenario implements Scenario {
     histogram.record(2);
     histogram.record(3);
     histogram.record(4);
-    let dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
+    const dependencyDurationMetric = meter.createHistogram("TestDependencyDuration");
 
     attributes = {
       "Dependency.Success": "False",
@@ -245,7 +247,7 @@ export class MetricBasicScenario implements Scenario {
       "request/resultCode": "200",
     };
 
-    let requestyDurationMetric = meter.createHistogram("TestRequestDuration");
+    const requestyDurationMetric = meter.createHistogram("TestRequestDuration");
     requestyDurationMetric.record(4567, attributes);
     await delay(0);
   }
@@ -391,6 +393,7 @@ export class LogBasicScenario implements Scenario {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await, @typescript-eslint/no-misused-promises
   async run(): Promise<void> {
     const logger = logs.getLogger("basic");
 
@@ -402,7 +405,7 @@ export class LogBasicScenario implements Scenario {
       attributes: { foo: "bar" },
     });
     // emit a exception record
-    let attributes: any = [];
+    const attributes: any = [];
     attributes[SEMATTRS_EXCEPTION_TYPE] = "test exception type";
     attributes[SEMATTRS_EXCEPTION_MESSAGE] = "test exception message";
     attributes[SEMATTRS_EXCEPTION_STACKTRACE] = "test exception stack";

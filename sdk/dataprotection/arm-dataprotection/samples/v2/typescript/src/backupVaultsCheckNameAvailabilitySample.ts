@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityRequest,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to API to check for resource name availability
  *
  * @summary API to check for resource name availability
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/VaultCRUD/CheckBackupVaultsNameAvailability.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/CheckBackupVaultsNameAvailability.json
  */
 async function checkBackupVaultsNameAvailability() {
   const subscriptionId =
@@ -32,14 +32,14 @@ async function checkBackupVaultsNameAvailability() {
   const location = "westus";
   const parameters: CheckNameAvailabilityRequest = {
     name: "swaggerExample",
-    type: "Microsoft.DataProtection/BackupVaults"
+    type: "Microsoft.DataProtection/BackupVaults",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.backupVaults.checkNameAvailability(
     resourceGroupName,
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
 import {
@@ -679,4 +679,9 @@ export async function changeFeedAllVersionsDeleteItems(
     await container.item(`sample1+${i}`, "sample3").delete();
     await container.item(`sample1+${i}`, "sample4").delete();
   }
+}
+
+export function isValidV4UUID(uuid: string): boolean {
+  const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+  return uuidRegex.test(uuid);
 }

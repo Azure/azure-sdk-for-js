@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export interface ComputedProperty {
   /**
    *  The name of the computed property. Name of the computed property

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -9,7 +9,7 @@ import {
   PipelineResponse,
   ProxySettings,
 } from "@azure/core-rest-pipeline";
-import { HttpHeadersLike, HttpHeaders as HttpHeadersV1 } from "./httpHeaders";
+import { HttpHeadersLike, HttpHeaders as HttpHeadersV1 } from "./httpHeaders.js";
 
 /**
  * Fired in response to upload or download progress.

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Items in Cosmos DB are simply JSON objects.
@@ -10,7 +10,7 @@
  * in {@link ItemBody}
  */
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export interface ItemDefinition {
   /** The id of the item. User settable property. Uniquely identifies the item along with the partition key */
   id?: string;

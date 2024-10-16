@@ -223,7 +223,7 @@ async function main(){
   }
   for (const choice of response.body.choices) {
     const completion = choice.message.content;
-    console.log(`Input: ${examplePrompts[promptIndex++]}`);
+    console.log(`Input: ${messages[promptIndex++].content}`);
     console.log(`Chatbot: ${completion}`);
   }
 }
@@ -251,7 +251,7 @@ async function main(){
     ""As a layman I would say: 'I think we have it'. Would you agree?"" Rolf-Dieter Heuer, CERN's director-general, asked the packed auditorium. The physicists assembled there burst into applause.
   :`;
 
-  const summarizationPrompt = [`
+  const summarizationPrompt = `
     Summarize the following text.
 
     Text:
@@ -260,7 +260,7 @@ async function main(){
     """"""
 
     Summary:
-  `];
+  `;
 
   console.log(`Input: ${summarizationPrompt}`);
 
@@ -354,7 +354,7 @@ context -- including the original system and user messages, the response from th
 calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
 
 ```js
-const choice = result.choices[0];
+const choice = result.body.choices[0];
 const responseMessage = choice.message;
 if (responseMessage?.role === "assistant") {
   const requestedToolCalls = responseMessage?.toolCalls;
@@ -445,6 +445,82 @@ data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
 ```
 
 To generate embeddings for additional phrases, simply call `client.path("/embeddings").post` multiple times using the same `client`.
+
+### Instrumentation (Chat Completions only)
+To enable instrumentation, it is required to register exporter(s).
+
+Here is an example to add console as a exporter:
+```js
+import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+
+const provider = new NodeTracerProvider();
+provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+provider.register();
+
+```
+
+Here is an example to add application insight to be a exporter:
+
+```js
+import { NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+
+// provide a connection string
+const connectionString = "<connection string>";
+
+const provider = new NodeTracerProvider();
+if (connectionString) {
+  const exporter = new AzureMonitorTraceExporter({ connectionString });
+  provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+}
+provider.register();
+```
+
+In addition, you need to register to use instrumentation for Azure SDK. You must do this before you import any dependency of `@azure-core-tracing`
+
+```js
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+
+registerInstrumentations({
+  instrumentations: [createAzureSdkInstrumentation()],
+});
+```
+
+Finally when you are making a call for chat completion, you need to include
+```js
+tracingOptions: { tracingContext: context.active() }
+```
+Here is an example:
+
+```js
+import { context } from "@opentelemetry/api";
+client.path("/chat/completions").post({
+      body: {...},
+      tracingOptions: { tracingContext: context.active() }
+});
+```
+
+### Tracing Your Own Functions
+Open Telemetry provides `startActiveSpan` to instrument you own code.  Here is an example:
+
+```js
+import { trace } from "@opentelemetry/api";
+const tracer = trace.getTracer("sample", "0.1.0");
+
+const getWeatherFunc = (location: string, unit: string): string => {
+  return tracer.startActiveSpan("getWeatherFunc", span => {
+    if (unit !== "celsius") {
+      unit = "fahrenheit";
+    }
+    const result = `The temperature in ${location} is 72 degrees ${unit}`;
+    span.setAttribute("result", result);
+    span.end();
+    return result;
+  });
+}
+```
+
 
 ## Troubleshooting
 

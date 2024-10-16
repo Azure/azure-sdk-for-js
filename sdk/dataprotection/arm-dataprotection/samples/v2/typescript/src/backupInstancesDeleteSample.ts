@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a backup instance in a backup vault
  *
  * @summary Delete a backup instance in a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/DeleteBackupInstance.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/DeleteBackupInstance.json
  */
 async function deleteBackupInstance() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function deleteBackupInstance() {
   const result = await client.backupInstances.beginDeleteAndWait(
     resourceGroupName,
     vaultName,
-    backupInstanceName
+    backupInstanceName,
   );
   console.log(result);
 }

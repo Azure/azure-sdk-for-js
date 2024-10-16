@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets deleted backup instances belonging to a backup vault
  *
  * @summary Gets deleted backup instances belonging to a backup vault
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/DeletedBackupInstanceOperations/ListDeletedBackupInstances.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/DeletedBackupInstanceOperations/ListDeletedBackupInstances.json
  */
 async function listDeletedBackupInstancesInAVault() {
   const subscriptionId =

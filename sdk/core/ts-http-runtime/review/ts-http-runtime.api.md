@@ -43,6 +43,12 @@ export interface AddCredentialPipelinePolicyOptions {
 }
 
 // @public
+export interface AddEventOptions {
+    attributes?: Record<string, unknown>;
+    startTime?: Date;
+}
+
+// @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
     position: "perCall" | "perRetry";
@@ -101,6 +107,14 @@ export interface BodyPart {
     body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
+
+// @public
+export function calculateRetryDelay(retryAttempt: number, config: {
+    retryDelayInMs: number;
+    maxRetryDelayInMs: number;
+}): {
+    retryAfterInMs: number;
+};
 
 // @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
@@ -473,10 +487,16 @@ export type OptionsWithTracingContext<Options extends {
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParameter: string,
+pathParameter: string | PathParameterWithOptions,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
+
+// @public
+export interface PathParameterWithOptions {
+    allowReserved?: boolean;
+    value: string;
+}
 
 // @public
 export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods<StreamableMethod>;
@@ -781,6 +801,7 @@ export interface TracingPolicyOptions {
 
 // @public
 export interface TracingSpan {
+    addEvent?(name: string, options?: AddEventOptions): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;

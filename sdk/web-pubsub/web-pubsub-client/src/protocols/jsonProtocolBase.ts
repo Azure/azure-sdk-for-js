@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AckMessage,
@@ -11,6 +11,7 @@ import {
   WebPubSubMessage,
 } from "../models/messages";
 import { JSONTypes } from "../webPubSubClient";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 
 export function parseMessages(input: string): WebPubSubMessage | null {

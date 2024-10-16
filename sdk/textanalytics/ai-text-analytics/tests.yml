@@ -5,4 +5,3 @@ extends:
     parameters:
       PackageName: "@azure/ai-text-analytics"
       ServiceDirectory: textanalytics
-      UseFederatedAuth: true

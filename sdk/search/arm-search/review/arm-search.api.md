@@ -144,6 +144,7 @@ export enum KnownPublicNetworkAccess {
 // @public
 export enum KnownSearchBypass {
     AzurePortal = "AzurePortal",
+    AzureServices = "AzureServices",
     None = "None"
 }
 
@@ -545,7 +546,7 @@ export type PrivateLinkServiceConnectionProvisioningState = string;
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
-export type ProvisioningState = "succeeded" | "provisioning" | "failed";
+export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
 
 // @public
 export interface ProxyResource extends Resource {
