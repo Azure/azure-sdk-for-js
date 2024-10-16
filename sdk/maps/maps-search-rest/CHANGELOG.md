@@ -1,16 +1,13 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
+## 2.0.0-beta.2 (2024-09-30)
 
 ### Features Added
-
-### Breaking Changes
+- refresh @azure-rest/maps-search sdk
 
 ### Bugs Fixed
 
 - Fix the Microsoft Entra ID authentication when providing `baseUrl`.
-
-### Other Changes
 
 ## 2.0.0-beta.1 (2024-01-09)
 
