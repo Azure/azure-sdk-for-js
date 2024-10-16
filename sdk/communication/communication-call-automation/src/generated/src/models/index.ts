@@ -863,6 +863,20 @@ export interface CancelAddParticipantFailed {
   invitationId?: string;
 }
 
+/** The create call failed event. */
+export interface CreateCallFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
 export interface RecordingStateChanged {
   /** Call connection ID. */
   callConnectionId?: string;

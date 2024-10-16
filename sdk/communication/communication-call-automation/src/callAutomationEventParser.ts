@@ -40,6 +40,7 @@ import {
   MediaStreamingStarted,
   MediaStreamingStopped,
   MediaStreamingFailed,
+  CreateCallFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -173,6 +174,9 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.MediaStreamingFailed":
       callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
+      break;
+    case "Microsoft.Communication.CreateCallFailed":
+      callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
