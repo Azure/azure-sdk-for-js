@@ -59,7 +59,7 @@
     "@azure/core-client": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/core-tracing": "^1.0.0",
-    "@azure/logger": "^1.1.5",
+    "@azure/logger": "^1.1.4",
     "tslib": "^2.2.0",
     "@azure/core-util": "^1.10.0"
   },
