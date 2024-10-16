@@ -195,10 +195,12 @@ describe("[AAD] Attestation Client", function () {
     const client = createRecordedClient(recorder, endpointType);
 
     // You can't specify both runtimeData and runtimeJson.
-    await expect(client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-    runTimeData: binaryRuntimeData,
-    runTimeJson: binaryRuntimeData,
-})).rejects.toThrow("Cannot provide both runTimeData and runTimeJson.");
+    await expect(
+      client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+        runTimeData: binaryRuntimeData,
+        runTimeJson: binaryRuntimeData,
+      }),
+    ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson.");
 
     {
       const attestationResult = await client.attestOpenEnclave(
@@ -244,10 +246,12 @@ describe("[AAD] Attestation Client", function () {
 
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
-    await expect(client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
-    runTimeData: binaryRuntimeData,
-    runTimeJson: binaryRuntimeData,
-})).rejects.toThrow("Cannot provide both runTimeData and runTimeJson.");
+    await expect(
+      client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+        runTimeData: binaryRuntimeData,
+        runTimeJson: binaryRuntimeData,
+      }),
+    ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson.");
 
     {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
