@@ -11,7 +11,7 @@ import * as utils from "../../src/utils/utils";
 import {
   getAccessToken,
   getServiceBaseURL,
-  getDefaultRunId,
+  getAndSetRunId,
   getServiceWSEndpoint,
   validateServiceUrl,
   validateMptPAT,
@@ -63,11 +63,11 @@ describe("Service Utils", () => {
   });
 
   it("should return and set run id set in env variable", () => {
-    const runId = getDefaultRunId();
+    const runId = getAndSetRunId();
     expect(runId).to.be.a("string");
-    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(runId);
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(runId);
 
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 
   it("should return service base url with query params", () => {
