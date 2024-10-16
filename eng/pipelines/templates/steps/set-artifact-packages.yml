@@ -4,23 +4,17 @@ steps:
   # Package-Properties folder now contains the package properties for the packages that should be built or tested.
   # if targeting has been set by matrix, this value will already be populated, can't override it. Handle these cases here.
   - pwsh: |
-      # fix the parameter here don't just keep using the diff file directly, we need to rationalize between using this or the service directory
-      # depending if we're in a PR or not. this will work for some smoke testing though.
-      $prDiff = Get-Content $(Build.ArtifactStagingDirectory)/diff/diff.json | ConvertFrom-Json -AsHashTable
+      $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json
 
-      $services = "auto"
-      if ($prDiff["ChangedServices"]) {
-        $services = $prDiff["ChangedServices"] -join " "
-      }
-
-      Write-Host "##vso[task.setvariable variable=ChangedServices;]$services"
-
-      Get-ChildItem -R "${{ parameters.PackageInfo }}"
-
-      $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
-        | Foreach-Object { $_.Name } `
+      $pkgNames = $packageProperties | Foreach-Object { $_.Name } `
         | ForEach-Object { $_.Replace(".json", "") }
       $setting = $packageProperties -join ","
+
+      $changedServicesArray = $packageProperties | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
+        | ForEach-Object { $_.ServiceDirectory } | Get-Unique
+      $changedServices = $changedServicesArray -join " "
+      Write-Host "Setting ChangedServices to : `n$changedServices"
+      Write-Host "##vso[task.setvariable variable=ChangedServices;]$changedServices"
 
       Write-Host "Setting ArtifactPackageNames to: `n$setting"
       Write-Host "##vso[task.setvariable variable=ArtifactPackageNames;]$setting"
