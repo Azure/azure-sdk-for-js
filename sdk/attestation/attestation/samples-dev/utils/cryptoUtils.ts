@@ -5,7 +5,7 @@
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 
-import { hexToByteArray } from "../../src/utils/base64";
+import { hexToByteArray } from "../../src/utils/base64.js";
 
 export function createECDSKey(): [string, string] {
   const keyPair = jsrsasign.KEYUTIL.generateKeypair("EC", "secp256r1");
