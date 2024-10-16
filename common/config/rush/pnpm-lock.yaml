@@ -3075,13 +3075,14 @@ packages:
       - supports-color
     dev: false
 
-  /@opentelemetry/instrumentation-pg@0.44.0(@opentelemetry/api@1.9.0):
-    resolution: {integrity: sha512-oTWVyzKqXud1BYEGX1loo2o4k4vaU1elr3vPO8NZolrBtFvQ34nx4HgUaexUDuEog00qQt+MLR5gws/p+JXMLQ==}
+  /@opentelemetry/instrumentation-pg@0.45.1(@opentelemetry/api@1.9.0):
+    resolution: {integrity: sha512-GHUvPv7CQEK3RKHH3YAj6mjgJ3nZb6wRQS+t0yaRgKZzX2ggGsLN6OhRT04+IjqmMg9aIRUy1CzqwzgqAxjYbw==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
     dependencies:
       '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.26.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.27.0
       '@opentelemetry/sql-common': 0.40.1(@opentelemetry/api@1.9.0)
@@ -22265,7 +22266,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-DdXQnyRk8xByapm+NgEvGSJDzUr7xjU9rkLXfiHq6a1HbRusOAvXUtjim5I6uoV7k80zpNFBGfW6+pOXBnSzwQ==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-I2Xr9P7ab6GgkrVV5N+LgvtTn6v/KiEwhiuxmg/t7Ixma5UjL9Q+v0TGLtZN9ThouU/GHBUKYIQH6vdVMbC+4g==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -22888,7 +22889,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-UWrOWsEV9t4UqsVKDYex37dqkVUB5XzvP4w8HVSei607tCIZ0UoENgPk5C16iI1yxN0XQUJLIY6b5K/agd+5TQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-oeddbdU8c6y5btX1yLt0bE9kOPnoq0dBohUK5/t86JDkqsNXtcZ7dOjVEtTHQf+Rh/r/HGf/aT9C3+0bDl6fbg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -22923,7 +22924,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-6NRqMYVHCJ1dw54cbZWDd8IvxhEh24nOYGqKraVKpOqkDIEVQT9L27Qf8DDtYhqRBw5yRGE1QVHMb1XIy54+ag==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-N5mbR6tKKZDegPuIeNSEpCOHiID5kbE1cgRpf9tbLsgsbLUGkmIYFsNI8xhpGmRyJtgBtJ9e+8A3uNrboUHiMQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -22939,7 +22940,7 @@ packages:
       '@opentelemetry/instrumentation-http': 0.53.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-mongodb': 0.47.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-mysql': 0.41.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation-pg': 0.44.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-pg': 0.45.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-redis': 0.42.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-redis-4': 0.42.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-winston': 0.40.0(@opentelemetry/api@1.9.0)
