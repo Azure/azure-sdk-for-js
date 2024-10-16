@@ -3,7 +3,11 @@
 
 import { GeneratedClient } from "./generated/generatedClient.js";
 
-import { AttestationResult, AttestationSigner, AttestationTokenValidationOptions } from "./models/index.js";
+import {
+  AttestationResult,
+  AttestationSigner,
+  AttestationTokenValidationOptions,
+} from "./models/index.js";
 
 import {
   GeneratedAttestationResult,
