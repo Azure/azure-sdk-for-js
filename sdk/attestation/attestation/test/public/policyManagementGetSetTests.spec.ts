@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert, use as chaiUse, expect } from "chai";
-import { Context } from "mocha";
-import chaiAsPromised from "chai-as-promised";
 chaiUse(chaiAsPromised);
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
@@ -21,6 +17,7 @@ import { KnownCertificateModification } from "../../src/generated/index.js";
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 import { byteArrayToHex } from "../../src/utils/base64.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("PolicyManagementTests ", function () {
   let recorder: Recorder;
