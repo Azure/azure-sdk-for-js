@@ -56,19 +56,7 @@ steps:
 
   - pwsh: |
       node eng/tools/rush-runner.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
-    displayName: "Build libraries for PR"
-    condition: and(succeeded(),eq(variables['Build.Reason'],'PullRequest'))
-    env:
-      ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
-        RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
-        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
-
-  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
-  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
-  - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
-    displayName: "Build libraries for Service"
-    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
+    displayName: "Build libraries"
     env:
       ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
         RUSH_BUILD_CACHE_CREDENTIAL: $(rushBuildCacheCred)
@@ -77,12 +65,6 @@ steps:
   - script: |
       node eng/tools/rush-runner.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build samples for PR"
-    condition: and(succeeded(),eq(variables['Build.Reason'],'PullRequest'))
-
-  - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
-    displayName: "Build samples for Service"
-    condition: and(succeeded(),ne(variables['Build.Reason'],'PullRequest'))
 
   - pwsh: |
       eng/tools/check-api-warning.ps1
@@ -98,12 +80,11 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
+  # todo, modify this to walk the service directories
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  # todo, handle direct/indirect packages here
-  # todo, add the parse of the documentation status to eng/common so that we don't have to look at the ci.yml properties again
   - pwsh: |
       $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory)/PackageInfo/*.json" `
           | ForEach-Object { $_.Name.Replace(".json", "") }
@@ -117,7 +98,7 @@ steps:
         Copy-Item sdk/$($artifactDetails.Service)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
         Copy-Item sdk/$($artifactDetails.Service)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
 
-        if ($${{ parameters.IncludeRelease }} -eq $true)
+        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
