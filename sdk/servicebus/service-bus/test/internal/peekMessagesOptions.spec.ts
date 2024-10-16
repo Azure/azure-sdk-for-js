@@ -8,8 +8,7 @@ import {
 } from "../public/utils/testutils2.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 import { expect } from "../public/utils/chai.js";
-import { ServiceBusSender } from "../../src/sender.js";
-import { ServiceBusReceiver } from "../../src/index.js";
+import { ServiceBusReceiver, ServiceBusSender } from "../../src/index.js";
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
 
 let serviceBusClient: ServiceBusClientForTests;
