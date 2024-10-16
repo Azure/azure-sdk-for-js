@@ -4,7 +4,8 @@
 
 ### Features Added
 
-- Adds `deleteMessages` which deletes messages from the queue.
+- Add `deleteMessages` which deletes messages from the queue.
+- Add `listSessions` to receivers.
 
 ### Breaking Changes
 

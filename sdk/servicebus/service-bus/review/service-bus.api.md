@@ -499,6 +499,7 @@ export interface ServiceBusReceiver {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
+    listSessions(options?: OperationOptions): PagedAsyncIterableIterator<string>;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;

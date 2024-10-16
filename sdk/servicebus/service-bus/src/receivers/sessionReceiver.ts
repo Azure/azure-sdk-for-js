@@ -2,7 +2,12 @@
 // Licensed under the MIT License.
 
 import { ConnectionContext } from "../connectionContext.js";
-import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "../index.js";
+import {
+  MessageHandlers,
+  OperationOptions,
+  ReceiveMessagesOptions,
+  ServiceBusReceivedMessage,
+} from "../index.js";
 import {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
@@ -29,6 +34,7 @@ import {
   deadLetterMessage,
   deferMessage,
   getMessageIterator,
+  getSessions,
   wrapProcessErrorHandler,
 } from "./receiverCommon.js";
 import {
@@ -52,6 +58,7 @@ import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMess
 import { tracingClient } from "../diagnostics/tracing.js";
 import { receiverLogger as logger } from "../log.js";
 import { translateServiceBusError } from "../serviceBusError.js";
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -656,6 +663,44 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     } finally {
       this._isClosed = true;
     }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the sessions in a messaging entity.
+   *
+   * .byPage() returns an async iterable iterator to list the session id's in pages.
+   *
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  listSessions(
+    options?: OperationOptions,
+  ): PagedAsyncIterableIterator<string, string[], { maxPageSize?: number }> {
+    logger.verbose(`Performing operation - listRules() with options: %j`, options);
+    const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
+      firstPageLink: 0,
+      getPage: async (pageLink, maxPageSize) => {
+        const top = maxPageSize ?? 100;
+        const rules = await getSessions(
+          this._context,
+          this.entityPath,
+          this._messageSession.name,
+          this._retryOptions,
+          {
+            skip: pageLink,
+            maxCount: top,
+            ...options,
+          },
+        );
+        return rules.length
+          ? {
+              page: rules,
+              nextPageLink: rules.length > 0 ? pageLink + rules.length : undefined,
+            }
+          : undefined;
+      },
+    };
+
+    return getPagedAsyncIterator(pagedResult);
   }
 
   /**
