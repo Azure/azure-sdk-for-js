@@ -29,4 +29,4 @@ steps:
 
   - pwsh: |
       $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.SourcesDirectory)/docGen"
-    displayName: "Generate Typedoc Docs"
+    displayName: "Compress generated docs"
