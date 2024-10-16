@@ -10,24 +10,25 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPDatabaseInstance,
-  SAPDatabaseInstancesListOptionalParams,
-  SAPDatabaseInstancesGetOptionalParams,
-  SAPDatabaseInstancesGetResponse,
-  SAPDatabaseInstancesCreateOptionalParams,
-  SAPDatabaseInstancesCreateResponse,
-  SAPDatabaseInstancesUpdateOptionalParams,
-  SAPDatabaseInstancesUpdateResponse,
-  SAPDatabaseInstancesDeleteOptionalParams,
-  SAPDatabaseInstancesDeleteResponse,
-  SAPDatabaseInstancesStartInstanceOptionalParams,
-  SAPDatabaseInstancesStartInstanceResponse,
-  SAPDatabaseInstancesStopInstanceOptionalParams,
-  SAPDatabaseInstancesStopInstanceResponse,
+  SapDatabaseInstancesListOptionalParams,
+  SapDatabaseInstancesGetOptionalParams,
+  SapDatabaseInstancesGetResponse,
+  SapDatabaseInstancesCreateOptionalParams,
+  SapDatabaseInstancesCreateResponse,
+  UpdateSAPDatabaseInstanceRequest,
+  SapDatabaseInstancesUpdateOptionalParams,
+  SapDatabaseInstancesUpdateResponse,
+  SapDatabaseInstancesDeleteOptionalParams,
+  SapDatabaseInstancesDeleteResponse,
+  SapDatabaseInstancesStartOptionalParams,
+  SapDatabaseInstancesStartResponse,
+  SapDatabaseInstancesStopOptionalParams,
+  SapDatabaseInstancesStopResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SAPDatabaseInstances. */
-export interface SAPDatabaseInstances {
+/** Interface representing a SapDatabaseInstances. */
+export interface SapDatabaseInstances {
   /**
    * Lists the Database resources associated with a Virtual Instance for SAP solutions resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -37,7 +38,7 @@ export interface SAPDatabaseInstances {
   list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams,
+    options?: SapDatabaseInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPDatabaseInstance>;
   /**
    * Gets the SAP Database Instance resource.
@@ -51,60 +52,69 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesGetOptionalParams,
-  ): Promise<SAPDatabaseInstancesGetResponse>;
+    options?: SapDatabaseInstancesGetOptionalParams,
+  ): Promise<SapDatabaseInstancesGetResponse>;
   /**
    * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
+   * @param resource Request body of Database resource of a SAP system.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams,
+    resource: SAPDatabaseInstance,
+    options?: SapDatabaseInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesCreateResponse>,
-      SAPDatabaseInstancesCreateResponse
+      OperationState<SapDatabaseInstancesCreateResponse>,
+      SapDatabaseInstancesCreateResponse
     >
   >;
   /**
    * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
+   * @param resource Request body of Database resource of a SAP system.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams,
-  ): Promise<SAPDatabaseInstancesCreateResponse>;
+    resource: SAPDatabaseInstance,
+    options?: SapDatabaseInstancesCreateOptionalParams,
+  ): Promise<SapDatabaseInstancesCreateResponse>;
   /**
-   * Updates the Database instance resource. This can be used to update tags on the resource.
+   * Updates the Database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
+   * @param properties Database resource update request body.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams,
-  ): Promise<SAPDatabaseInstancesUpdateResponse>;
+    properties: UpdateSAPDatabaseInstanceRequest,
+    options?: SapDatabaseInstancesUpdateOptionalParams,
+  ): Promise<SapDatabaseInstancesUpdateResponse>;
   /**
    * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. Delete by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
@@ -115,16 +125,17 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams,
+    options?: SapDatabaseInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesDeleteResponse>,
-      SAPDatabaseInstancesDeleteResponse
+      OperationState<SapDatabaseInstancesDeleteResponse>,
+      SapDatabaseInstancesDeleteResponse
     >
   >;
   /**
    * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. Delete by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
@@ -135,8 +146,8 @@ export interface SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams,
-  ): Promise<SAPDatabaseInstancesDeleteResponse>;
+    options?: SapDatabaseInstancesDeleteOptionalParams,
+  ): Promise<SapDatabaseInstancesDeleteResponse>;
   /**
    * Starts the database instance of the SAP system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -145,15 +156,15 @@ export interface SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  beginStartInstance(
+  beginStart(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
+    options?: SapDatabaseInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesStartInstanceResponse>,
-      SAPDatabaseInstancesStartInstanceResponse
+      OperationState<SapDatabaseInstancesStartResponse>,
+      SapDatabaseInstancesStartResponse
     >
   >;
   /**
@@ -164,12 +175,12 @@ export interface SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  beginStartInstanceAndWait(
+  beginStartAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
-  ): Promise<SAPDatabaseInstancesStartInstanceResponse>;
+    options?: SapDatabaseInstancesStartOptionalParams,
+  ): Promise<SapDatabaseInstancesStartResponse>;
   /**
    * Stops the database instance of the SAP system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -178,15 +189,15 @@ export interface SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  beginStopInstance(
+  beginStop(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
+    options?: SapDatabaseInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesStopInstanceResponse>,
-      SAPDatabaseInstancesStopInstanceResponse
+      OperationState<SapDatabaseInstancesStopResponse>,
+      SapDatabaseInstancesStopResponse
     >
   >;
   /**
@@ -197,10 +208,10 @@ export interface SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  beginStopInstanceAndWait(
+  beginStopAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
-  ): Promise<SAPDatabaseInstancesStopInstanceResponse>;
+    options?: SapDatabaseInstancesStopOptionalParams,
+  ): Promise<SapDatabaseInstancesStopResponse>;
 }

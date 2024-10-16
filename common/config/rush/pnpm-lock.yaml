@@ -19545,7 +19545,7 @@ packages:
     dev: false
 
   file:projects/arm-workloadssapvirtualinstance.tgz:
-    resolution: {integrity: sha512-4EYSd9RcS40GlkNR5IGqsCeh/Pv9Xx36j0V1k/2Bjlw5hkpWBo5uCDAR9qWXC0F9YVv4FZ1VqcupEgjyoIvBOQ==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-OLIxnuWR8I7cKOP3cD9Ep3NV0PVRM2sV7UwroXq+GtAJwO+XLyBLHtHF0j5NPIiL+8nKmUzOYVZc+LcL4VhVBQ==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     name: '@rush-temp/arm-workloadssapvirtualinstance'
     version: 0.0.0
     dependencies:
@@ -19563,9 +19563,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
-      typescript: 5.6.3
+      tsx: 4.19.1
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'

@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SAPDatabaseInstances } from "../operationsInterfaces";
+import { SapDatabaseInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -21,31 +21,32 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   SAPDatabaseInstance,
-  SAPDatabaseInstancesListNextOptionalParams,
-  SAPDatabaseInstancesListOptionalParams,
-  SAPDatabaseInstancesListResponse,
-  SAPDatabaseInstancesGetOptionalParams,
-  SAPDatabaseInstancesGetResponse,
-  SAPDatabaseInstancesCreateOptionalParams,
-  SAPDatabaseInstancesCreateResponse,
-  SAPDatabaseInstancesUpdateOptionalParams,
-  SAPDatabaseInstancesUpdateResponse,
-  SAPDatabaseInstancesDeleteOptionalParams,
-  SAPDatabaseInstancesDeleteResponse,
-  SAPDatabaseInstancesStartInstanceOptionalParams,
-  SAPDatabaseInstancesStartInstanceResponse,
-  SAPDatabaseInstancesStopInstanceOptionalParams,
-  SAPDatabaseInstancesStopInstanceResponse,
-  SAPDatabaseInstancesListNextResponse,
+  SapDatabaseInstancesListNextOptionalParams,
+  SapDatabaseInstancesListOptionalParams,
+  SapDatabaseInstancesListResponse,
+  SapDatabaseInstancesGetOptionalParams,
+  SapDatabaseInstancesGetResponse,
+  SapDatabaseInstancesCreateOptionalParams,
+  SapDatabaseInstancesCreateResponse,
+  UpdateSAPDatabaseInstanceRequest,
+  SapDatabaseInstancesUpdateOptionalParams,
+  SapDatabaseInstancesUpdateResponse,
+  SapDatabaseInstancesDeleteOptionalParams,
+  SapDatabaseInstancesDeleteResponse,
+  SapDatabaseInstancesStartOptionalParams,
+  SapDatabaseInstancesStartResponse,
+  SapDatabaseInstancesStopOptionalParams,
+  SapDatabaseInstancesStopResponse,
+  SapDatabaseInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SAPDatabaseInstances operations. */
-export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
+/** Class containing SapDatabaseInstances operations. */
+export class SapDatabaseInstancesImpl implements SapDatabaseInstances {
   private readonly client: WorkloadsClient;
 
   /**
-   * Initialize a new instance of the class SAPDatabaseInstances class.
+   * Initialize a new instance of the class SapDatabaseInstances class.
    * @param client Reference to the service client
    */
   constructor(client: WorkloadsClient) {
@@ -61,7 +62,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   public list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams,
+    options?: SapDatabaseInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPDatabaseInstance> {
     const iter = this.listPagingAll(
       resourceGroupName,
@@ -92,10 +93,10 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   private async *listPagingPage(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams,
+    options?: SapDatabaseInstancesListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<SAPDatabaseInstance[]> {
-    let result: SAPDatabaseInstancesListResponse;
+    let result: SapDatabaseInstancesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -125,7 +126,7 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   private async *listPagingAll(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams,
+    options?: SapDatabaseInstancesListOptionalParams,
   ): AsyncIterableIterator<SAPDatabaseInstance> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
@@ -134,6 +135,23 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists the Database resources associated with a Virtual Instance for SAP solutions resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    options?: SapDatabaseInstancesListOptionalParams,
+  ): Promise<SapDatabaseInstancesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, sapVirtualInstanceName, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -148,8 +166,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesGetOptionalParams,
-  ): Promise<SAPDatabaseInstancesGetResponse> {
+    options?: SapDatabaseInstancesGetOptionalParams,
+  ): Promise<SapDatabaseInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,28 +181,31 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
 
   /**
    * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
+   * @param resource Request body of Database resource of a SAP system.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams,
+    resource: SAPDatabaseInstance,
+    options?: SapDatabaseInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesCreateResponse>,
-      SAPDatabaseInstancesCreateResponse
+      OperationState<SapDatabaseInstancesCreateResponse>,
+      SapDatabaseInstancesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPDatabaseInstancesCreateResponse> => {
+    ): Promise<SapDatabaseInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -225,16 +246,18 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
+        resource,
         options,
       },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPDatabaseInstancesCreateResponse,
-      OperationState<SAPDatabaseInstancesCreateResponse>
+      SapDatabaseInstancesCreateResponse,
+      OperationState<SapDatabaseInstancesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -242,47 +265,54 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
 
   /**
    * Creates the Database resource corresponding to the Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. PUT by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
+   * @param resource Request body of Database resource of a SAP system.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesCreateOptionalParams,
-  ): Promise<SAPDatabaseInstancesCreateResponse> {
+    resource: SAPDatabaseInstance,
+    options?: SapDatabaseInstancesCreateOptionalParams,
+  ): Promise<SapDatabaseInstancesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
+      resource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates the Database instance resource. This can be used to update tags on the resource.
+   * Updates the Database resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
    *                             to work correctly.
+   * @param properties Database resource update request body.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesUpdateOptionalParams,
-  ): Promise<SAPDatabaseInstancesUpdateResponse> {
+    properties: UpdateSAPDatabaseInstanceRequest,
+    options?: SapDatabaseInstancesUpdateOptionalParams,
+  ): Promise<SapDatabaseInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
+        properties,
         options,
       },
       updateOperationSpec,
@@ -291,7 +321,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
 
   /**
    * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. Delete by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
@@ -302,17 +333,17 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams,
+    options?: SapDatabaseInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesDeleteResponse>,
-      SAPDatabaseInstancesDeleteResponse
+      OperationState<SapDatabaseInstancesDeleteResponse>,
+      SapDatabaseInstancesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPDatabaseInstancesDeleteResponse> => {
+    ): Promise<SapDatabaseInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -358,8 +389,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPDatabaseInstancesDeleteResponse,
-      OperationState<SAPDatabaseInstancesDeleteResponse>
+      SapDatabaseInstancesDeleteResponse,
+      OperationState<SapDatabaseInstancesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -371,7 +402,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
 
   /**
    * Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource.
-   * <br><br>This will be used by service only. Delete by end user will return a Bad Request error.
+   * &lt;br&gt;&lt;br&gt;This will be used by service only. Delete by end user will return a Bad Request
+   * error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param databaseInstanceName Database resource name string modeled as parameter for auto generation
@@ -382,8 +414,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesDeleteOptionalParams,
-  ): Promise<SAPDatabaseInstancesDeleteResponse> {
+    options?: SapDatabaseInstancesDeleteOptionalParams,
+  ): Promise<SapDatabaseInstancesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       sapVirtualInstanceName,
@@ -394,23 +426,6 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
   }
 
   /**
-   * Lists the Database resources associated with a Virtual Instance for SAP solutions resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    options?: SAPDatabaseInstancesListOptionalParams,
-  ): Promise<SAPDatabaseInstancesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, sapVirtualInstanceName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * Starts the database instance of the SAP system.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
@@ -418,21 +433,21 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  async beginStartInstance(
+  async beginStart(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
+    options?: SapDatabaseInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesStartInstanceResponse>,
-      SAPDatabaseInstancesStartInstanceResponse
+      OperationState<SapDatabaseInstancesStartResponse>,
+      SapDatabaseInstancesStartResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPDatabaseInstancesStartInstanceResponse> => {
+    ): Promise<SapDatabaseInstancesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -475,11 +490,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         databaseInstanceName,
         options,
       },
-      spec: startInstanceOperationSpec,
+      spec: startOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPDatabaseInstancesStartInstanceResponse,
-      OperationState<SAPDatabaseInstancesStartInstanceResponse>
+      SapDatabaseInstancesStartResponse,
+      OperationState<SapDatabaseInstancesStartResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -497,13 +512,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  async beginStartInstanceAndWait(
+  async beginStartAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStartInstanceOptionalParams,
-  ): Promise<SAPDatabaseInstancesStartInstanceResponse> {
-    const poller = await this.beginStartInstance(
+    options?: SapDatabaseInstancesStartOptionalParams,
+  ): Promise<SapDatabaseInstancesStartResponse> {
+    const poller = await this.beginStart(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
@@ -520,21 +535,21 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  async beginStopInstance(
+  async beginStop(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
+    options?: SapDatabaseInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPDatabaseInstancesStopInstanceResponse>,
-      SAPDatabaseInstancesStopInstanceResponse
+      OperationState<SapDatabaseInstancesStopResponse>,
+      SapDatabaseInstancesStopResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPDatabaseInstancesStopInstanceResponse> => {
+    ): Promise<SapDatabaseInstancesStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -577,11 +592,11 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
         databaseInstanceName,
         options,
       },
-      spec: stopInstanceOperationSpec,
+      spec: stopOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPDatabaseInstancesStopInstanceResponse,
-      OperationState<SAPDatabaseInstancesStopInstanceResponse>
+      SapDatabaseInstancesStopResponse,
+      OperationState<SapDatabaseInstancesStopResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -599,13 +614,13 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
    *                             to work correctly.
    * @param options The options parameters.
    */
-  async beginStopInstanceAndWait(
+  async beginStopAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    options?: SAPDatabaseInstancesStopInstanceOptionalParams,
-  ): Promise<SAPDatabaseInstancesStopInstanceResponse> {
-    const poller = await this.beginStopInstance(
+    options?: SapDatabaseInstancesStopOptionalParams,
+  ): Promise<SapDatabaseInstancesStopResponse> {
+    const poller = await this.beginStop(
       resourceGroupName,
       sapVirtualInstanceName,
       databaseInstanceName,
@@ -625,8 +640,8 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     nextLink: string,
-    options?: SAPDatabaseInstancesListNextOptionalParams,
-  ): Promise<SAPDatabaseInstancesListNextResponse> {
+    options?: SapDatabaseInstancesListNextOptionalParams,
+  ): Promise<SapDatabaseInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapVirtualInstanceName, nextLink, options },
       listNextOperationSpec,
@@ -636,6 +651,27 @@ export class SAPDatabaseInstancesImpl implements SAPDatabaseInstances {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SAPDatabaseInstanceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sapVirtualInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}",
   httpMethod: "GET",
@@ -678,7 +714,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.resource3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -702,7 +738,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body7,
+  requestBody: Parameters.properties3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -720,16 +756,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders,
+      headersMapper: Mappers.SapDatabaseInstancesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders,
+      headersMapper: Mappers.SapDatabaseInstancesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders,
+      headersMapper: Mappers.SapDatabaseInstancesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SAPDatabaseInstancesDeleteHeaders,
+      headersMapper: Mappers.SapDatabaseInstancesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -746,28 +782,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SAPDatabaseInstanceList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.sapVirtualInstanceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const startInstanceOperationSpec: coreClient.OperationSpec = {
+const startOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/start",
   httpMethod: "POST",
   responses: {
@@ -787,7 +802,7 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -800,7 +815,7 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const stopInstanceOperationSpec: coreClient.OperationSpec = {
+const stopOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/stop",
   httpMethod: "POST",
   responses: {
@@ -820,7 +835,7 @@ const stopInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -838,7 +853,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPDatabaseInstanceList,
+      bodyMapper: Mappers.SAPDatabaseInstanceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

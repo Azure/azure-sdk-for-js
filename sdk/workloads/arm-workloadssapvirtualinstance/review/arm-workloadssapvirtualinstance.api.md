@@ -61,9 +61,6 @@ export interface CentralServerVmDetails {
 }
 
 // @public
-export type ConfigurationType = string;
-
-// @public
 export interface CreateAndMountFileShareConfiguration extends FileShareConfiguration {
     configurationType: "CreateAndMount";
     resourceGroup?: string;
@@ -217,11 +214,14 @@ export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfi
 
 // @public
 export interface FileShareConfiguration {
-    configurationType: "Skip" | "CreateAndMount" | "Mount";
+    configurationType: "CreateAndMount" | "Mount" | "Skip";
 }
 
+// @public
+export type FileShareConfigurationType = string;
+
 // @public (undocumented)
-export type FileShareConfigurationUnion = FileShareConfiguration | SkipFileShareConfiguration | CreateAndMountFileShareConfiguration | MountFileShareConfiguration;
+export type FileShareConfigurationUnion = FileShareConfiguration | CreateAndMountFileShareConfiguration | MountFileShareConfiguration | SkipFileShareConfiguration;
 
 // @public
 export interface GatewayServerProperties {
@@ -285,13 +285,6 @@ export enum KnownCentralServerVirtualMachineType {
 }
 
 // @public
-export enum KnownConfigurationType {
-    CreateAndMount = "CreateAndMount",
-    Mount = "Mount",
-    Skip = "Skip"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -317,6 +310,13 @@ export enum KnownEnqueueReplicationServerType {
 }
 
 // @public
+export enum KnownFileShareConfigurationType {
+    CreateAndMount = "CreateAndMount",
+    Mount = "Mount",
+    Skip = "Skip"
+}
+
+// @public
 export enum KnownManagedResourcesNetworkAccessType {
     Private = "Private",
     Public = "Public"
@@ -325,6 +325,8 @@ export enum KnownManagedResourcesNetworkAccessType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -472,6 +474,16 @@ export interface ManagedRGConfiguration {
 }
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
 export type ManagedServiceIdentityType = string;
 
 // @public
@@ -555,6 +567,7 @@ export interface OperationStatusResult {
     name?: string;
     operations?: OperationStatusResult[];
     percentComplete?: number;
+    readonly resourceId?: string;
     startTime?: Date;
     status: string;
 }
@@ -564,11 +577,11 @@ export type Origin = string;
 
 // @public
 export interface OSConfiguration {
-    osType: "Windows" | "Linux";
+    osType: "Linux" | "Windows";
 }
 
 // @public (undocumented)
-export type OSConfigurationUnion = OSConfiguration | WindowsConfiguration | LinuxConfiguration;
+export type OSConfigurationUnion = OSConfiguration | LinuxConfiguration | WindowsConfiguration;
 
 // @public
 export interface OSProfile {
@@ -596,115 +609,6 @@ export interface Resource {
 
 // @public
 export interface SAPApplicationServerInstance extends TrackedResource {
-    properties?: SAPApplicationServerProperties;
-}
-
-// @public
-export interface SAPApplicationServerInstanceList {
-    nextLink?: string;
-    value?: SAPApplicationServerInstance[];
-}
-
-// @public
-export interface SAPApplicationServerInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesCreateResponse>, SAPApplicationServerInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesCreateOptionalParams): Promise<SAPApplicationServerInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesDeleteResponse>, SAPApplicationServerInstancesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams): Promise<SAPApplicationServerInstancesDeleteResponse>;
-    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesStartInstanceResponse>, SAPApplicationServerInstancesStartInstanceResponse>>;
-    beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartInstanceOptionalParams): Promise<SAPApplicationServerInstancesStartInstanceResponse>;
-    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPApplicationServerInstancesStopInstanceResponse>, SAPApplicationServerInstancesStopInstanceResponse>>;
-    beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopInstanceOptionalParams): Promise<SAPApplicationServerInstancesStopInstanceResponse>;
-    get(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesGetOptionalParams): Promise<SAPApplicationServerInstancesGetResponse>;
-    list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPApplicationServerInstancesListOptionalParams): PagedAsyncIterableIterator<SAPApplicationServerInstance>;
-    update(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesUpdateOptionalParams): Promise<SAPApplicationServerInstancesUpdateResponse>;
-}
-
-// @public
-export interface SAPApplicationServerInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    body?: SAPApplicationServerInstance;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPApplicationServerInstancesCreateResponse = SAPApplicationServerInstance;
-
-// @public
-export interface SAPApplicationServerInstancesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface SAPApplicationServerInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPApplicationServerInstancesDeleteResponse = SAPApplicationServerInstancesDeleteHeaders;
-
-// @public
-export interface SAPApplicationServerInstancesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SAPApplicationServerInstancesGetResponse = SAPApplicationServerInstance;
-
-// @public
-export interface SAPApplicationServerInstancesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SAPApplicationServerInstancesListNextResponse = SAPApplicationServerInstanceList;
-
-// @public
-export interface SAPApplicationServerInstancesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SAPApplicationServerInstancesListResponse = SAPApplicationServerInstanceList;
-
-// @public
-export interface SAPApplicationServerInstancesStartInstanceHeaders {
-    location?: string;
-}
-
-// @public
-export interface SAPApplicationServerInstancesStartInstanceOptionalParams extends coreClient.OperationOptions {
-    body?: StartRequest;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPApplicationServerInstancesStartInstanceResponse = OperationStatusResult;
-
-// @public
-export interface SAPApplicationServerInstancesStopInstanceHeaders {
-    location?: string;
-}
-
-// @public
-export interface SAPApplicationServerInstancesStopInstanceOptionalParams extends coreClient.OperationOptions {
-    body?: StopRequest;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPApplicationServerInstancesStopInstanceResponse = OperationStatusResult;
-
-// @public
-export interface SAPApplicationServerInstancesUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: UpdateSAPApplicationInstanceRequest;
-}
-
-// @public
-export type SAPApplicationServerInstancesUpdateResponse = SAPApplicationServerInstance;
-
-// @public
-export interface SAPApplicationServerProperties {
     readonly dispatcherStatus?: string;
     readonly errors?: SAPVirtualInstanceError;
     readonly gatewayPort?: number;
@@ -724,9 +628,115 @@ export interface SAPApplicationServerProperties {
 }
 
 // @public
-export interface SAPAvailabilityZoneDetailsOptionalParams extends coreClient.OperationOptions {
-    sAPAvailabilityZoneDetails?: SAPAvailabilityZoneDetailsRequest;
+export interface SAPApplicationServerInstanceListResult {
+    nextLink?: string;
+    value: SAPApplicationServerInstance[];
 }
+
+// @public
+export interface SapApplicationServerInstances {
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, resource: SAPApplicationServerInstance, options?: SapApplicationServerInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapApplicationServerInstancesCreateResponse>, SapApplicationServerInstancesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, resource: SAPApplicationServerInstance, options?: SapApplicationServerInstancesCreateOptionalParams): Promise<SapApplicationServerInstancesCreateResponse>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SapApplicationServerInstancesDeleteResponse>, SapApplicationServerInstancesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesDeleteOptionalParams): Promise<SapApplicationServerInstancesDeleteResponse>;
+    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SapApplicationServerInstancesStartResponse>, SapApplicationServerInstancesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesStartOptionalParams): Promise<SapApplicationServerInstancesStartResponse>;
+    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SapApplicationServerInstancesStopResponse>, SapApplicationServerInstancesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesStopOptionalParams): Promise<SapApplicationServerInstancesStopResponse>;
+    get(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SapApplicationServerInstancesGetOptionalParams): Promise<SapApplicationServerInstancesGetResponse>;
+    list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapApplicationServerInstancesListOptionalParams): PagedAsyncIterableIterator<SAPApplicationServerInstance>;
+    update(resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, properties: UpdateSAPApplicationInstanceRequest, options?: SapApplicationServerInstancesUpdateOptionalParams): Promise<SapApplicationServerInstancesUpdateResponse>;
+}
+
+// @public
+export interface SapApplicationServerInstancesCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapApplicationServerInstancesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapApplicationServerInstancesCreateResponse = SAPApplicationServerInstance;
+
+// @public
+export interface SapApplicationServerInstancesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapApplicationServerInstancesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapApplicationServerInstancesDeleteResponse = SapApplicationServerInstancesDeleteHeaders;
+
+// @public
+export interface SapApplicationServerInstancesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapApplicationServerInstancesGetResponse = SAPApplicationServerInstance;
+
+// @public
+export interface SapApplicationServerInstancesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapApplicationServerInstancesListNextResponse = SAPApplicationServerInstanceListResult;
+
+// @public
+export interface SapApplicationServerInstancesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapApplicationServerInstancesListResponse = SAPApplicationServerInstanceListResult;
+
+// @public
+export interface SapApplicationServerInstancesStartHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapApplicationServerInstancesStartOptionalParams extends coreClient.OperationOptions {
+    body?: StartRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapApplicationServerInstancesStartResponse = OperationStatusResult;
+
+// @public
+export interface SapApplicationServerInstancesStopHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapApplicationServerInstancesStopOptionalParams extends coreClient.OperationOptions {
+    body?: StopRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapApplicationServerInstancesStopResponse = OperationStatusResult;
+
+// @public
+export interface SapApplicationServerInstancesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapApplicationServerInstancesUpdateResponse = SAPApplicationServerInstance;
 
 // @public
 export interface SAPAvailabilityZoneDetailsRequest {
@@ -734,9 +744,6 @@ export interface SAPAvailabilityZoneDetailsRequest {
     databaseType: SAPDatabaseType;
     sapProduct: SAPProductType;
 }
-
-// @public
-export type SAPAvailabilityZoneDetailsResponse = SAPAvailabilityZoneDetailsResult;
 
 // @public
 export interface SAPAvailabilityZoneDetailsResult {
@@ -750,116 +757,7 @@ export interface SAPAvailabilityZonePair {
 }
 
 // @public
-export interface SAPCentralInstanceList {
-    nextLink?: string;
-    value?: SAPCentralServerInstance[];
-}
-
-// @public
-export interface SAPCentralInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesCreateResponse>, SAPCentralInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesCreateOptionalParams): Promise<SAPCentralInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesDeleteResponse>, SAPCentralInstancesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesDeleteOptionalParams): Promise<SAPCentralInstancesDeleteResponse>;
-    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesStartInstanceResponse>, SAPCentralInstancesStartInstanceResponse>>;
-    beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStartInstanceOptionalParams): Promise<SAPCentralInstancesStartInstanceResponse>;
-    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPCentralInstancesStopInstanceResponse>, SAPCentralInstancesStopInstanceResponse>>;
-    beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesStopInstanceOptionalParams): Promise<SAPCentralInstancesStopInstanceResponse>;
-    get(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesGetOptionalParams): Promise<SAPCentralInstancesGetResponse>;
-    list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPCentralInstancesListOptionalParams): PagedAsyncIterableIterator<SAPCentralServerInstance>;
-    update(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralInstancesUpdateOptionalParams): Promise<SAPCentralInstancesUpdateResponse>;
-}
-
-// @public
-export interface SAPCentralInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    body?: SAPCentralServerInstance;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPCentralInstancesCreateResponse = SAPCentralServerInstance;
-
-// @public
-export interface SAPCentralInstancesDeleteHeaders {
-    location?: string;
-}
-
-// @public
-export interface SAPCentralInstancesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPCentralInstancesDeleteResponse = SAPCentralInstancesDeleteHeaders;
-
-// @public
-export interface SAPCentralInstancesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SAPCentralInstancesGetResponse = SAPCentralServerInstance;
-
-// @public
-export interface SAPCentralInstancesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SAPCentralInstancesListNextResponse = SAPCentralInstanceList;
-
-// @public
-export interface SAPCentralInstancesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SAPCentralInstancesListResponse = SAPCentralInstanceList;
-
-// @public
-export interface SAPCentralInstancesStartInstanceHeaders {
-    location?: string;
-}
-
-// @public
-export interface SAPCentralInstancesStartInstanceOptionalParams extends coreClient.OperationOptions {
-    body?: StartRequest;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPCentralInstancesStartInstanceResponse = OperationStatusResult;
-
-// @public
-export interface SAPCentralInstancesStopInstanceHeaders {
-    location?: string;
-}
-
-// @public
-export interface SAPCentralInstancesStopInstanceOptionalParams extends coreClient.OperationOptions {
-    body?: StopRequest;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SAPCentralInstancesStopInstanceResponse = OperationStatusResult;
-
-// @public
-export interface SAPCentralInstancesUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: UpdateSAPCentralInstanceRequest;
-}
-
-// @public
-export type SAPCentralInstancesUpdateResponse = SAPCentralServerInstance;
-
-// @public
 export interface SAPCentralServerInstance extends TrackedResource {
-    properties?: SAPCentralServerProperties;
-}
-
-// @public
-export interface SAPCentralServerProperties {
     enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
     enqueueServerProperties?: EnqueueServerProperties;
     readonly errors?: SAPVirtualInstanceError;
@@ -877,127 +775,129 @@ export interface SAPCentralServerProperties {
 }
 
 // @public
-export interface SAPConfiguration {
-    configurationType: "Discovery" | "Deployment" | "DeploymentWithOSConfig";
-}
-
-// @public
-export type SAPConfigurationType = string;
-
-// @public (undocumented)
-export type SAPConfigurationUnion = SAPConfiguration | DiscoveryConfiguration | DeploymentConfiguration | DeploymentWithOSConfiguration;
-
-// @public
-export interface SAPDatabaseInstance extends TrackedResource {
-    properties?: SAPDatabaseProperties;
-}
-
-// @public
-export interface SAPDatabaseInstanceList {
+export interface SAPCentralServerInstanceListResult {
     nextLink?: string;
-    value?: SAPDatabaseInstance[];
+    value: SAPCentralServerInstance[];
 }
 
 // @public
-export interface SAPDatabaseInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesCreateResponse>, SAPDatabaseInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesCreateOptionalParams): Promise<SAPDatabaseInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesDeleteResponse>, SAPDatabaseInstancesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams): Promise<SAPDatabaseInstancesDeleteResponse>;
-    beginStartInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesStartInstanceResponse>, SAPDatabaseInstancesStartInstanceResponse>>;
-    beginStartInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartInstanceOptionalParams): Promise<SAPDatabaseInstancesStartInstanceResponse>;
-    beginStopInstance(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<SimplePollerLike<OperationState<SAPDatabaseInstancesStopInstanceResponse>, SAPDatabaseInstancesStopInstanceResponse>>;
-    beginStopInstanceAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopInstanceOptionalParams): Promise<SAPDatabaseInstancesStopInstanceResponse>;
-    get(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesGetOptionalParams): Promise<SAPDatabaseInstancesGetResponse>;
-    list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPDatabaseInstancesListOptionalParams): PagedAsyncIterableIterator<SAPDatabaseInstance>;
-    update(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesUpdateOptionalParams): Promise<SAPDatabaseInstancesUpdateResponse>;
+export interface SapCentralServerInstances {
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, resource: SAPCentralServerInstance, options?: SapCentralServerInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapCentralServerInstancesCreateResponse>, SapCentralServerInstancesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, resource: SAPCentralServerInstance, options?: SapCentralServerInstancesCreateOptionalParams): Promise<SapCentralServerInstancesCreateResponse>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SapCentralServerInstancesDeleteResponse>, SapCentralServerInstancesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesDeleteOptionalParams): Promise<SapCentralServerInstancesDeleteResponse>;
+    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SapCentralServerInstancesStartResponse>, SapCentralServerInstancesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesStartOptionalParams): Promise<SapCentralServerInstancesStartResponse>;
+    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SapCentralServerInstancesStopResponse>, SapCentralServerInstancesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesStopOptionalParams): Promise<SapCentralServerInstancesStopResponse>;
+    get(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SapCentralServerInstancesGetOptionalParams): Promise<SapCentralServerInstancesGetResponse>;
+    list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapCentralServerInstancesListOptionalParams): PagedAsyncIterableIterator<SAPCentralServerInstance>;
+    update(resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, properties: UpdateSAPCentralInstanceRequest, options?: SapCentralServerInstancesUpdateOptionalParams): Promise<SapCentralServerInstancesUpdateResponse>;
 }
 
 // @public
-export interface SAPDatabaseInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    body?: SAPDatabaseInstance;
+export interface SapCentralServerInstancesCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapCentralServerInstancesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPDatabaseInstancesCreateResponse = SAPDatabaseInstance;
+export type SapCentralServerInstancesCreateResponse = SAPCentralServerInstance;
 
 // @public
-export interface SAPDatabaseInstancesDeleteHeaders {
+export interface SapCentralServerInstancesDeleteHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPDatabaseInstancesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SapCentralServerInstancesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPDatabaseInstancesDeleteResponse = SAPDatabaseInstancesDeleteHeaders;
+export type SapCentralServerInstancesDeleteResponse = SapCentralServerInstancesDeleteHeaders;
 
 // @public
-export interface SAPDatabaseInstancesGetOptionalParams extends coreClient.OperationOptions {
+export interface SapCentralServerInstancesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPDatabaseInstancesGetResponse = SAPDatabaseInstance;
+export type SapCentralServerInstancesGetResponse = SAPCentralServerInstance;
 
 // @public
-export interface SAPDatabaseInstancesListNextOptionalParams extends coreClient.OperationOptions {
+export interface SapCentralServerInstancesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPDatabaseInstancesListNextResponse = SAPDatabaseInstanceList;
+export type SapCentralServerInstancesListNextResponse = SAPCentralServerInstanceListResult;
 
 // @public
-export interface SAPDatabaseInstancesListOptionalParams extends coreClient.OperationOptions {
+export interface SapCentralServerInstancesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPDatabaseInstancesListResponse = SAPDatabaseInstanceList;
+export type SapCentralServerInstancesListResponse = SAPCentralServerInstanceListResult;
 
 // @public
-export interface SAPDatabaseInstancesStartInstanceHeaders {
+export interface SapCentralServerInstancesStartHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPDatabaseInstancesStartInstanceOptionalParams extends coreClient.OperationOptions {
+export interface SapCentralServerInstancesStartOptionalParams extends coreClient.OperationOptions {
     body?: StartRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPDatabaseInstancesStartInstanceResponse = OperationStatusResult;
+export type SapCentralServerInstancesStartResponse = OperationStatusResult;
 
 // @public
-export interface SAPDatabaseInstancesStopInstanceHeaders {
+export interface SapCentralServerInstancesStopHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPDatabaseInstancesStopInstanceOptionalParams extends coreClient.OperationOptions {
+export interface SapCentralServerInstancesStopOptionalParams extends coreClient.OperationOptions {
     body?: StopRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPDatabaseInstancesStopInstanceResponse = OperationStatusResult;
+export type SapCentralServerInstancesStopResponse = OperationStatusResult;
 
 // @public
-export interface SAPDatabaseInstancesUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: UpdateSAPDatabaseInstanceRequest;
+export interface SapCentralServerInstancesUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPDatabaseInstancesUpdateResponse = SAPDatabaseInstance;
+export type SapCentralServerInstancesUpdateResponse = SAPCentralServerInstance;
 
 // @public
-export interface SAPDatabaseProperties {
+export interface SAPConfiguration {
+    configurationType: "Deployment" | "DeploymentWithOSConfig" | "Discovery";
+}
+
+// @public
+export type SAPConfigurationType = string;
+
+// @public (undocumented)
+export type SAPConfigurationUnion = SAPConfiguration | DeploymentConfiguration | DeploymentWithOSConfiguration | DiscoveryConfiguration;
+
+// @public
+export interface SAPDatabaseInstance extends TrackedResource {
     readonly databaseSid?: string;
     readonly databaseType?: string;
     readonly errors?: SAPVirtualInstanceError;
@@ -1008,6 +908,117 @@ export interface SAPDatabaseProperties {
     readonly subnet?: string;
     readonly vmDetails?: DatabaseVmDetails[];
 }
+
+// @public
+export interface SAPDatabaseInstanceListResult {
+    nextLink?: string;
+    value: SAPDatabaseInstance[];
+}
+
+// @public
+export interface SapDatabaseInstances {
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, resource: SAPDatabaseInstance, options?: SapDatabaseInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapDatabaseInstancesCreateResponse>, SapDatabaseInstancesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, resource: SAPDatabaseInstance, options?: SapDatabaseInstancesCreateOptionalParams): Promise<SapDatabaseInstancesCreateResponse>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SapDatabaseInstancesDeleteResponse>, SapDatabaseInstancesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesDeleteOptionalParams): Promise<SapDatabaseInstancesDeleteResponse>;
+    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SapDatabaseInstancesStartResponse>, SapDatabaseInstancesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesStartOptionalParams): Promise<SapDatabaseInstancesStartResponse>;
+    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SapDatabaseInstancesStopResponse>, SapDatabaseInstancesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesStopOptionalParams): Promise<SapDatabaseInstancesStopResponse>;
+    get(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SapDatabaseInstancesGetOptionalParams): Promise<SapDatabaseInstancesGetResponse>;
+    list(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapDatabaseInstancesListOptionalParams): PagedAsyncIterableIterator<SAPDatabaseInstance>;
+    update(resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, properties: UpdateSAPDatabaseInstanceRequest, options?: SapDatabaseInstancesUpdateOptionalParams): Promise<SapDatabaseInstancesUpdateResponse>;
+}
+
+// @public
+export interface SapDatabaseInstancesCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapDatabaseInstancesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapDatabaseInstancesCreateResponse = SAPDatabaseInstance;
+
+// @public
+export interface SapDatabaseInstancesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapDatabaseInstancesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapDatabaseInstancesDeleteResponse = SapDatabaseInstancesDeleteHeaders;
+
+// @public
+export interface SapDatabaseInstancesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapDatabaseInstancesGetResponse = SAPDatabaseInstance;
+
+// @public
+export interface SapDatabaseInstancesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapDatabaseInstancesListNextResponse = SAPDatabaseInstanceListResult;
+
+// @public
+export interface SapDatabaseInstancesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapDatabaseInstancesListResponse = SAPDatabaseInstanceListResult;
+
+// @public
+export interface SapDatabaseInstancesStartHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapDatabaseInstancesStartOptionalParams extends coreClient.OperationOptions {
+    body?: StartRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapDatabaseInstancesStartResponse = OperationStatusResult;
+
+// @public
+export interface SapDatabaseInstancesStopHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapDatabaseInstancesStopOptionalParams extends coreClient.OperationOptions {
+    body?: StopRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SapDatabaseInstancesStopResponse = OperationStatusResult;
+
+// @public
+export interface SapDatabaseInstancesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapDatabaseInstancesUpdateResponse = SAPDatabaseInstance;
 
 // @public
 export type SAPDatabaseScaleMethod = string;
@@ -1025,11 +1036,6 @@ export interface SAPDiskConfiguration {
 }
 
 // @public
-export interface SAPDiskConfigurationsOptionalParams extends coreClient.OperationOptions {
-    sAPDiskConfigurations?: SAPDiskConfigurationsRequest;
-}
-
-// @public
 export interface SAPDiskConfigurationsRequest {
     appLocation: string;
     databaseType: SAPDatabaseType;
@@ -1038,9 +1044,6 @@ export interface SAPDiskConfigurationsRequest {
     environment: SAPEnvironmentType;
     sapProduct: SAPProductType;
 }
-
-// @public
-export type SAPDiskConfigurationsResponse = SAPDiskConfigurationsResult;
 
 // @public
 export interface SAPDiskConfigurationsResult {
@@ -1092,14 +1095,6 @@ export interface SAPSizingRecommendationResult {
 export type SAPSizingRecommendationResultUnion = SAPSizingRecommendationResult | SingleServerRecommendationResult | ThreeTierRecommendationResult;
 
 // @public
-export interface SAPSizingRecommendationsOptionalParams extends coreClient.OperationOptions {
-    sAPSizingRecommendation?: SAPSizingRecommendationRequest;
-}
-
-// @public
-export type SAPSizingRecommendationsResponse = SAPSizingRecommendationResultUnion;
-
-// @public
 export type SAPSoftwareInstallationType = string;
 
 // @public
@@ -1115,14 +1110,6 @@ export interface SAPSupportedSku {
 }
 
 // @public
-export interface SAPSupportedSkuOptionalParams extends coreClient.OperationOptions {
-    sAPSupportedSku?: SAPSupportedSkusRequest;
-}
-
-// @public
-export type SAPSupportedSkuResponse = SAPSupportedResourceSkusResult;
-
-// @public
 export interface SAPSupportedSkusRequest {
     appLocation: string;
     databaseType: SAPDatabaseType;
@@ -1134,8 +1121,17 @@ export interface SAPSupportedSkusRequest {
 
 // @public
 export interface SAPVirtualInstance extends TrackedResource {
-    identity?: UserAssignedServiceIdentity;
-    properties: SAPVirtualInstanceProperties;
+    configuration?: SAPConfigurationUnion;
+    environment?: SAPEnvironmentType;
+    readonly errors?: SAPVirtualInstanceError;
+    readonly health?: SAPHealthState;
+    identity?: ManagedServiceIdentity;
+    managedResourceGroupConfiguration?: ManagedRGConfiguration;
+    managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
+    readonly provisioningState?: SapVirtualInstanceProvisioningState;
+    sapProduct?: SAPProductType;
+    readonly state?: SAPVirtualInstanceState;
+    readonly status?: SAPVirtualInstanceStatus;
 }
 
 // @public
@@ -1144,133 +1140,159 @@ export interface SAPVirtualInstanceError {
 }
 
 // @public
-export interface SAPVirtualInstanceList {
+export interface SAPVirtualInstanceListResult {
     nextLink?: string;
-    value?: SAPVirtualInstance[];
-}
-
-// @public
-export interface SAPVirtualInstanceProperties {
-    configuration: SAPConfigurationUnion;
-    environment: SAPEnvironmentType;
-    readonly errors?: SAPVirtualInstanceError;
-    readonly health?: SAPHealthState;
-    managedResourceGroupConfiguration?: ManagedRGConfiguration;
-    managedResourcesNetworkAccessType?: ManagedResourcesNetworkAccessType;
-    readonly provisioningState?: SapVirtualInstanceProvisioningState;
-    sapProduct: SAPProductType;
-    readonly state?: SAPVirtualInstanceState;
-    readonly status?: SAPVirtualInstanceStatus;
+    value: SAPVirtualInstance[];
 }
 
 // @public
 export type SapVirtualInstanceProvisioningState = string;
 
 // @public
-export interface SAPVirtualInstances {
-    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesCreateResponse>, SAPVirtualInstancesCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesCreateOptionalParams): Promise<SAPVirtualInstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesDeleteResponse>, SAPVirtualInstancesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesDeleteOptionalParams): Promise<SAPVirtualInstancesDeleteResponse>;
-    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesStartResponse>, SAPVirtualInstancesStartResponse>>;
-    beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams): Promise<SAPVirtualInstancesStartResponse>;
-    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesStopResponse>, SAPVirtualInstancesStopResponse>>;
-    beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams): Promise<SAPVirtualInstancesStopResponse>;
-    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SAPVirtualInstancesUpdateResponse>, SAPVirtualInstancesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesUpdateOptionalParams): Promise<SAPVirtualInstancesUpdateResponse>;
-    get(resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesGetOptionalParams): Promise<SAPVirtualInstancesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: SAPVirtualInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SAPVirtualInstance>;
-    listBySubscription(options?: SAPVirtualInstancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SAPVirtualInstance>;
+export interface SapVirtualInstances {
+    beginCreate(resourceGroupName: string, sapVirtualInstanceName: string, resource: SAPVirtualInstance, options?: SapVirtualInstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<SapVirtualInstancesCreateResponse>, SapVirtualInstancesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, resource: SAPVirtualInstance, options?: SapVirtualInstancesCreateOptionalParams): Promise<SapVirtualInstancesCreateResponse>;
+    beginDelete(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<SapVirtualInstancesDeleteResponse>, SapVirtualInstancesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesDeleteOptionalParams): Promise<SapVirtualInstancesDeleteResponse>;
+    beginStart(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<SapVirtualInstancesStartResponse>, SapVirtualInstancesStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesStartOptionalParams): Promise<SapVirtualInstancesStartResponse>;
+    beginStop(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesStopOptionalParams): Promise<SimplePollerLike<OperationState<SapVirtualInstancesStopResponse>, SapVirtualInstancesStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesStopOptionalParams): Promise<SapVirtualInstancesStopResponse>;
+    beginUpdate(resourceGroupName: string, sapVirtualInstanceName: string, properties: UpdateSAPVirtualInstanceRequest, options?: SapVirtualInstancesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SapVirtualInstancesUpdateResponse>, SapVirtualInstancesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, sapVirtualInstanceName: string, properties: UpdateSAPVirtualInstanceRequest, options?: SapVirtualInstancesUpdateOptionalParams): Promise<SapVirtualInstancesUpdateResponse>;
+    get(resourceGroupName: string, sapVirtualInstanceName: string, options?: SapVirtualInstancesGetOptionalParams): Promise<SapVirtualInstancesGetResponse>;
+    invokeAvailabilityZoneDetails(location: string, body: SAPAvailabilityZoneDetailsRequest, options?: SapVirtualInstancesInvokeAvailabilityZoneDetailsOptionalParams): Promise<SapVirtualInstancesInvokeAvailabilityZoneDetailsResponse>;
+    invokeDiskConfigurations(location: string, body: SAPDiskConfigurationsRequest, options?: SapVirtualInstancesInvokeDiskConfigurationsOptionalParams): Promise<SapVirtualInstancesInvokeDiskConfigurationsResponse>;
+    invokeSapSupportedSku(location: string, body: SAPSupportedSkusRequest, options?: SapVirtualInstancesInvokeSapSupportedSkuOptionalParams): Promise<SapVirtualInstancesInvokeSapSupportedSkuResponse>;
+    invokeSizingRecommendations(location: string, body: SAPSizingRecommendationRequest, options?: SapVirtualInstancesInvokeSizingRecommendationsOptionalParams): Promise<SapVirtualInstancesInvokeSizingRecommendationsResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: SapVirtualInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SAPVirtualInstance>;
+    listBySubscription(options?: SapVirtualInstancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SAPVirtualInstance>;
 }
 
 // @public
-export interface SAPVirtualInstancesCreateOptionalParams extends coreClient.OperationOptions {
-    body?: SAPVirtualInstance;
+export interface SapVirtualInstancesCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface SapVirtualInstancesCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPVirtualInstancesCreateResponse = SAPVirtualInstance;
+export type SapVirtualInstancesCreateResponse = SAPVirtualInstance;
 
 // @public
-export interface SAPVirtualInstancesDeleteHeaders {
+export interface SapVirtualInstancesDeleteHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPVirtualInstancesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPVirtualInstancesDeleteResponse = SAPVirtualInstancesDeleteHeaders;
+export type SapVirtualInstancesDeleteResponse = SapVirtualInstancesDeleteHeaders;
 
 // @public
-export interface SAPVirtualInstancesGetOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPVirtualInstancesGetResponse = SAPVirtualInstance;
+export type SapVirtualInstancesGetResponse = SAPVirtualInstance;
 
 // @public
-export interface SAPVirtualInstancesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesInvokeAvailabilityZoneDetailsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPVirtualInstancesListByResourceGroupNextResponse = SAPVirtualInstanceList;
+export type SapVirtualInstancesInvokeAvailabilityZoneDetailsResponse = SAPAvailabilityZoneDetailsResult;
 
 // @public
-export interface SAPVirtualInstancesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesInvokeDiskConfigurationsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPVirtualInstancesListByResourceGroupResponse = SAPVirtualInstanceList;
+export type SapVirtualInstancesInvokeDiskConfigurationsResponse = SAPDiskConfigurationsResult;
 
 // @public
-export interface SAPVirtualInstancesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesInvokeSapSupportedSkuOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPVirtualInstancesListBySubscriptionNextResponse = SAPVirtualInstanceList;
+export type SapVirtualInstancesInvokeSapSupportedSkuResponse = SAPSupportedResourceSkusResult;
 
 // @public
-export interface SAPVirtualInstancesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesInvokeSizingRecommendationsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type SAPVirtualInstancesListBySubscriptionResponse = SAPVirtualInstanceList;
+export type SapVirtualInstancesInvokeSizingRecommendationsResponse = SAPSizingRecommendationResultUnion;
 
 // @public
-export interface SAPVirtualInstancesStartHeaders {
+export interface SapVirtualInstancesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapVirtualInstancesListByResourceGroupNextResponse = SAPVirtualInstanceListResult;
+
+// @public
+export interface SapVirtualInstancesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapVirtualInstancesListByResourceGroupResponse = SAPVirtualInstanceListResult;
+
+// @public
+export interface SapVirtualInstancesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapVirtualInstancesListBySubscriptionNextResponse = SAPVirtualInstanceListResult;
+
+// @public
+export interface SapVirtualInstancesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SapVirtualInstancesListBySubscriptionResponse = SAPVirtualInstanceListResult;
+
+// @public
+export interface SapVirtualInstancesStartHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPVirtualInstancesStartOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesStartOptionalParams extends coreClient.OperationOptions {
     body?: StartRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPVirtualInstancesStartResponse = OperationStatusResult;
+export type SapVirtualInstancesStartResponse = OperationStatusResult;
 
 // @public
-export interface SAPVirtualInstancesStopHeaders {
+export interface SapVirtualInstancesStopHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPVirtualInstancesStopOptionalParams extends coreClient.OperationOptions {
+export interface SapVirtualInstancesStopOptionalParams extends coreClient.OperationOptions {
     body?: StopRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPVirtualInstancesStopResponse = OperationStatusResult;
+export type SapVirtualInstancesStopResponse = OperationStatusResult;
 
 // @public
 export type SAPVirtualInstanceState = string;
@@ -1279,19 +1301,19 @@ export type SAPVirtualInstanceState = string;
 export type SAPVirtualInstanceStatus = string;
 
 // @public
-export interface SAPVirtualInstancesUpdateHeaders {
+export interface SapVirtualInstancesUpdateHeaders {
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
-export interface SAPVirtualInstancesUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: UpdateSAPVirtualInstanceRequest;
+export interface SapVirtualInstancesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SAPVirtualInstancesUpdateResponse = SAPVirtualInstance;
+export type SapVirtualInstancesUpdateResponse = SAPVirtualInstance;
 
 // @public
 export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfiguration {
@@ -1348,11 +1370,11 @@ export interface SkipFileShareConfiguration extends FileShareConfiguration {
 
 // @public
 export interface SoftwareConfiguration {
-    softwareInstallationType: "ServiceInitiated" | "SAPInstallWithoutOSConfig" | "External";
+    softwareInstallationType: "External" | "SAPInstallWithoutOSConfig" | "ServiceInitiated";
 }
 
 // @public (undocumented)
-export type SoftwareConfigurationUnion = SoftwareConfiguration | ServiceInitiatedSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ExternalInstallationSoftwareConfiguration;
+export type SoftwareConfigurationUnion = SoftwareConfiguration | ExternalInstallationSoftwareConfiguration | SAPInstallWithoutOSConfigSoftwareConfiguration | ServiceInitiatedSoftwareConfiguration;
 
 // @public
 export interface SshConfiguration {
@@ -1477,7 +1499,7 @@ export interface UpdateSAPVirtualInstanceProperties {
 
 // @public
 export interface UpdateSAPVirtualInstanceRequest {
-    identity?: UserAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     properties?: UpdateSAPVirtualInstanceProperties;
     tags?: {
         [propertyName: string]: string;
@@ -1531,17 +1553,13 @@ export class WorkloadsClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    sAPApplicationServerInstances: SAPApplicationServerInstances;
-    sAPAvailabilityZoneDetails(location: string, options?: SAPAvailabilityZoneDetailsOptionalParams): Promise<SAPAvailabilityZoneDetailsResponse>;
+    sapApplicationServerInstances: SapApplicationServerInstances;
     // (undocumented)
-    sAPCentralInstances: SAPCentralInstances;
+    sapCentralServerInstances: SapCentralServerInstances;
     // (undocumented)
-    sAPDatabaseInstances: SAPDatabaseInstances;
-    sAPDiskConfigurations(location: string, options?: SAPDiskConfigurationsOptionalParams): Promise<SAPDiskConfigurationsResponse>;
-    sAPSizingRecommendations(location: string, options?: SAPSizingRecommendationsOptionalParams): Promise<SAPSizingRecommendationsResponse>;
-    sAPSupportedSku(location: string, options?: SAPSupportedSkuOptionalParams): Promise<SAPSupportedSkuResponse>;
+    sapDatabaseInstances: SapDatabaseInstances;
     // (undocumented)
-    sAPVirtualInstances: SAPVirtualInstances;
+    sapVirtualInstances: SapVirtualInstances;
     // (undocumented)
     subscriptionId: string;
 }

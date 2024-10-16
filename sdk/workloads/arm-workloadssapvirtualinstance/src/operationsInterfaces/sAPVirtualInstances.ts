@@ -10,25 +10,45 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPVirtualInstance,
-  SAPVirtualInstancesListByResourceGroupOptionalParams,
-  SAPVirtualInstancesListBySubscriptionOptionalParams,
-  SAPVirtualInstancesCreateOptionalParams,
-  SAPVirtualInstancesCreateResponse,
-  SAPVirtualInstancesGetOptionalParams,
-  SAPVirtualInstancesGetResponse,
-  SAPVirtualInstancesUpdateOptionalParams,
-  SAPVirtualInstancesUpdateResponse,
-  SAPVirtualInstancesDeleteOptionalParams,
-  SAPVirtualInstancesDeleteResponse,
-  SAPVirtualInstancesStartOptionalParams,
-  SAPVirtualInstancesStartResponse,
-  SAPVirtualInstancesStopOptionalParams,
-  SAPVirtualInstancesStopResponse,
+  SapVirtualInstancesListBySubscriptionOptionalParams,
+  SapVirtualInstancesListByResourceGroupOptionalParams,
+  SAPAvailabilityZoneDetailsRequest,
+  SapVirtualInstancesInvokeAvailabilityZoneDetailsOptionalParams,
+  SapVirtualInstancesInvokeAvailabilityZoneDetailsResponse,
+  SAPDiskConfigurationsRequest,
+  SapVirtualInstancesInvokeDiskConfigurationsOptionalParams,
+  SapVirtualInstancesInvokeDiskConfigurationsResponse,
+  SAPSupportedSkusRequest,
+  SapVirtualInstancesInvokeSapSupportedSkuOptionalParams,
+  SapVirtualInstancesInvokeSapSupportedSkuResponse,
+  SAPSizingRecommendationRequest,
+  SapVirtualInstancesInvokeSizingRecommendationsOptionalParams,
+  SapVirtualInstancesInvokeSizingRecommendationsResponse,
+  SapVirtualInstancesGetOptionalParams,
+  SapVirtualInstancesGetResponse,
+  SapVirtualInstancesCreateOptionalParams,
+  SapVirtualInstancesCreateResponse,
+  UpdateSAPVirtualInstanceRequest,
+  SapVirtualInstancesUpdateOptionalParams,
+  SapVirtualInstancesUpdateResponse,
+  SapVirtualInstancesDeleteOptionalParams,
+  SapVirtualInstancesDeleteResponse,
+  SapVirtualInstancesStartOptionalParams,
+  SapVirtualInstancesStartResponse,
+  SapVirtualInstancesStopOptionalParams,
+  SapVirtualInstancesStopResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SAPVirtualInstances. */
-export interface SAPVirtualInstances {
+/** Interface representing a SapVirtualInstances. */
+export interface SapVirtualInstances {
+  /**
+   * Gets all Virtual Instances for SAP solutions resources in a Subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: SapVirtualInstancesListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<SAPVirtualInstance>;
   /**
    * Gets all Virtual Instances for SAP solutions resources in a Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -36,42 +56,52 @@ export interface SAPVirtualInstances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SAPVirtualInstancesListByResourceGroupOptionalParams,
+    options?: SapVirtualInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SAPVirtualInstance>;
   /**
-   * Gets all Virtual Instances for SAP solutions resources in a Subscription.
+   * Get the recommended SAP Availability Zone Pair Details for your region.
+   * @param location The name of the Azure region.
+   * @param body The content of the action request
    * @param options The options parameters.
    */
-  listBySubscription(
-    options?: SAPVirtualInstancesListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<SAPVirtualInstance>;
+  invokeAvailabilityZoneDetails(
+    location: string,
+    body: SAPAvailabilityZoneDetailsRequest,
+    options?: SapVirtualInstancesInvokeAvailabilityZoneDetailsOptionalParams,
+  ): Promise<SapVirtualInstancesInvokeAvailabilityZoneDetailsResponse>;
   /**
-   * Creates a Virtual Instance for SAP solutions (VIS) resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * Get the SAP Disk Configuration Layout prod/non-prod SAP System.
+   * @param location The name of the Azure region.
+   * @param body The content of the action request
    * @param options The options parameters.
    */
-  beginCreate(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SAPVirtualInstancesCreateResponse>,
-      SAPVirtualInstancesCreateResponse
-    >
-  >;
+  invokeDiskConfigurations(
+    location: string,
+    body: SAPDiskConfigurationsRequest,
+    options?: SapVirtualInstancesInvokeDiskConfigurationsOptionalParams,
+  ): Promise<SapVirtualInstancesInvokeDiskConfigurationsResponse>;
   /**
-   * Creates a Virtual Instance for SAP solutions (VIS) resource
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * Get a list of SAP supported SKUs for ASCS, Application and Database tier.
+   * @param location The name of the Azure region.
+   * @param body The content of the action request
    * @param options The options parameters.
    */
-  beginCreateAndWait(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesCreateOptionalParams,
-  ): Promise<SAPVirtualInstancesCreateResponse>;
+  invokeSapSupportedSku(
+    location: string,
+    body: SAPSupportedSkusRequest,
+    options?: SapVirtualInstancesInvokeSapSupportedSkuOptionalParams,
+  ): Promise<SapVirtualInstancesInvokeSapSupportedSkuResponse>;
+  /**
+   * Gets the sizing recommendations.
+   * @param location The name of the Azure region.
+   * @param body The content of the action request
+   * @param options The options parameters.
+   */
+  invokeSizingRecommendations(
+    location: string,
+    body: SAPSizingRecommendationRequest,
+    options?: SapVirtualInstancesInvokeSizingRecommendationsOptionalParams,
+  ): Promise<SapVirtualInstancesInvokeSizingRecommendationsResponse>;
   /**
    * Gets a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -81,35 +111,70 @@ export interface SAPVirtualInstances {
   get(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesGetOptionalParams,
-  ): Promise<SAPVirtualInstancesGetResponse>;
+    options?: SapVirtualInstancesGetOptionalParams,
+  ): Promise<SapVirtualInstancesGetResponse>;
+  /**
+   * Creates a Virtual Instance for SAP solutions (VIS) resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param resource Virtual Instance for SAP solutions resource request body.
+   * @param options The options parameters.
+   */
+  beginCreate(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    resource: SAPVirtualInstance,
+    options?: SapVirtualInstancesCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SapVirtualInstancesCreateResponse>,
+      SapVirtualInstancesCreateResponse
+    >
+  >;
+  /**
+   * Creates a Virtual Instance for SAP solutions (VIS) resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param resource Virtual Instance for SAP solutions resource request body.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    resource: SAPVirtualInstance,
+    options?: SapVirtualInstancesCreateOptionalParams,
+  ): Promise<SapVirtualInstancesCreateResponse>;
   /**
    * Updates a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param properties Request body to update a Virtual Instance for SAP solutions resource.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesUpdateOptionalParams,
+    properties: UpdateSAPVirtualInstanceRequest,
+    options?: SapVirtualInstancesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPVirtualInstancesUpdateResponse>,
-      SAPVirtualInstancesUpdateResponse
+      OperationState<SapVirtualInstancesUpdateResponse>,
+      SapVirtualInstancesUpdateResponse
     >
   >;
   /**
    * Updates a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param properties Request body to update a Virtual Instance for SAP solutions resource.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesUpdateOptionalParams,
-  ): Promise<SAPVirtualInstancesUpdateResponse>;
+    properties: UpdateSAPVirtualInstanceRequest,
+    options?: SapVirtualInstancesUpdateOptionalParams,
+  ): Promise<SapVirtualInstancesUpdateResponse>;
   /**
    * Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the
    * associated Central Services Instance, Application Server Instances and Database Instance.
@@ -120,11 +185,11 @@ export interface SAPVirtualInstances {
   beginDelete(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesDeleteOptionalParams,
+    options?: SapVirtualInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPVirtualInstancesDeleteResponse>,
-      SAPVirtualInstancesDeleteResponse
+      OperationState<SapVirtualInstancesDeleteResponse>,
+      SapVirtualInstancesDeleteResponse
     >
   >;
   /**
@@ -137,8 +202,8 @@ export interface SAPVirtualInstances {
   beginDeleteAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesDeleteOptionalParams,
-  ): Promise<SAPVirtualInstancesDeleteResponse>;
+    options?: SapVirtualInstancesDeleteOptionalParams,
+  ): Promise<SapVirtualInstancesDeleteResponse>;
   /**
    * Starts the SAP application, that is the Central Services instance and Application server instances.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -148,11 +213,11 @@ export interface SAPVirtualInstances {
   beginStart(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStartOptionalParams,
+    options?: SapVirtualInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPVirtualInstancesStartResponse>,
-      SAPVirtualInstancesStartResponse
+      OperationState<SapVirtualInstancesStartResponse>,
+      SapVirtualInstancesStartResponse
     >
   >;
   /**
@@ -164,8 +229,8 @@ export interface SAPVirtualInstances {
   beginStartAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStartOptionalParams,
-  ): Promise<SAPVirtualInstancesStartResponse>;
+    options?: SapVirtualInstancesStartOptionalParams,
+  ): Promise<SapVirtualInstancesStartResponse>;
   /**
    * Stops the SAP Application, that is the Application server instances and Central Services instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -175,11 +240,11 @@ export interface SAPVirtualInstances {
   beginStop(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStopOptionalParams,
+    options?: SapVirtualInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPVirtualInstancesStopResponse>,
-      SAPVirtualInstancesStopResponse
+      OperationState<SapVirtualInstancesStopResponse>,
+      SapVirtualInstancesStopResponse
     >
   >;
   /**
@@ -191,6 +256,6 @@ export interface SAPVirtualInstances {
   beginStopAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPVirtualInstancesStopOptionalParams,
-  ): Promise<SAPVirtualInstancesStopResponse>;
+    options?: SapVirtualInstancesStopOptionalParams,
+  ): Promise<SapVirtualInstancesStopResponse>;
 }

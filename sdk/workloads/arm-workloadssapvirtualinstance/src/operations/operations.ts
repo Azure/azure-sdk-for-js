@@ -35,7 +35,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all the available API operations under this PR
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all the available API operations under this PR
+   * List the operations for the provider
    * @param options The options parameters.
    */
   private _list(

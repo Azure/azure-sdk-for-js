@@ -10,24 +10,25 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SAPApplicationServerInstance,
-  SAPApplicationServerInstancesListOptionalParams,
-  SAPApplicationServerInstancesGetOptionalParams,
-  SAPApplicationServerInstancesGetResponse,
-  SAPApplicationServerInstancesCreateOptionalParams,
-  SAPApplicationServerInstancesCreateResponse,
-  SAPApplicationServerInstancesUpdateOptionalParams,
-  SAPApplicationServerInstancesUpdateResponse,
-  SAPApplicationServerInstancesDeleteOptionalParams,
-  SAPApplicationServerInstancesDeleteResponse,
-  SAPApplicationServerInstancesStartInstanceOptionalParams,
-  SAPApplicationServerInstancesStartInstanceResponse,
-  SAPApplicationServerInstancesStopInstanceOptionalParams,
-  SAPApplicationServerInstancesStopInstanceResponse,
+  SapApplicationServerInstancesListOptionalParams,
+  SapApplicationServerInstancesGetOptionalParams,
+  SapApplicationServerInstancesGetResponse,
+  SapApplicationServerInstancesCreateOptionalParams,
+  SapApplicationServerInstancesCreateResponse,
+  UpdateSAPApplicationInstanceRequest,
+  SapApplicationServerInstancesUpdateOptionalParams,
+  SapApplicationServerInstancesUpdateResponse,
+  SapApplicationServerInstancesDeleteOptionalParams,
+  SapApplicationServerInstancesDeleteResponse,
+  SapApplicationServerInstancesStartOptionalParams,
+  SapApplicationServerInstancesStartResponse,
+  SapApplicationServerInstancesStopOptionalParams,
+  SapApplicationServerInstancesStopResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a SAPApplicationServerInstances. */
-export interface SAPApplicationServerInstances {
+/** Interface representing a SapApplicationServerInstances. */
+export interface SapApplicationServerInstances {
   /**
    * Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions
    * resource.
@@ -38,7 +39,7 @@ export interface SAPApplicationServerInstances {
   list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams,
+    options?: SapApplicationServerInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPApplicationServerInstance>;
   /**
    * Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions
@@ -52,58 +53,63 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesGetOptionalParams,
-  ): Promise<SAPApplicationServerInstancesGetResponse>;
+    options?: SapApplicationServerInstancesGetOptionalParams,
+  ): Promise<SapApplicationServerInstancesGetResponse>;
   /**
-   * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
-   * end user will return a Bad Request error.
+   * Puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service
+   * only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
+   * @param resource The SAP Application Server Instance resource request body.
    * @param options The options parameters.
    */
   beginCreate(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesCreateOptionalParams,
+    resource: SAPApplicationServerInstance,
+    options?: SapApplicationServerInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesCreateResponse>,
-      SAPApplicationServerInstancesCreateResponse
+      OperationState<SapApplicationServerInstancesCreateResponse>,
+      SapApplicationServerInstancesCreateResponse
     >
   >;
   /**
-   * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
-   * end user will return a Bad Request error.
+   * Puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service
+   * only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
+   * @param resource The SAP Application Server Instance resource request body.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesCreateOptionalParams,
-  ): Promise<SAPApplicationServerInstancesCreateResponse>;
+    resource: SAPApplicationServerInstance,
+    options?: SapApplicationServerInstancesCreateOptionalParams,
+  ): Promise<SapApplicationServerInstancesCreateResponse>;
   /**
-   * Updates the SAP Application server instance resource. This can be used to update tags on the
-   * resource.
+   * Puts the SAP Application Server Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
+   * @param properties The SAP Application Server Instance resource request body.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesUpdateOptionalParams,
-  ): Promise<SAPApplicationServerInstancesUpdateResponse>;
+    properties: UpdateSAPApplicationInstanceRequest,
+    options?: SapApplicationServerInstancesUpdateOptionalParams,
+  ): Promise<SapApplicationServerInstancesUpdateResponse>;
   /**
-   * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
-   * only. Delete by end user will return a Bad Request error.
+   * Deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be
+   * used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
@@ -113,16 +119,16 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesDeleteOptionalParams,
+    options?: SapApplicationServerInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesDeleteResponse>,
-      SAPApplicationServerInstancesDeleteResponse
+      OperationState<SapApplicationServerInstancesDeleteResponse>,
+      SapApplicationServerInstancesDeleteResponse
     >
   >;
   /**
-   * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
-   * only. Delete by end user will return a Bad Request error.
+   * Deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be
+   * used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
@@ -132,8 +138,8 @@ export interface SAPApplicationServerInstances {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesDeleteOptionalParams,
-  ): Promise<SAPApplicationServerInstancesDeleteResponse>;
+    options?: SapApplicationServerInstancesDeleteOptionalParams,
+  ): Promise<SapApplicationServerInstancesDeleteResponse>;
   /**
    * Starts the SAP Application Server Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -141,15 +147,15 @@ export interface SAPApplicationServerInstances {
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  beginStartInstance(
+  beginStart(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStartInstanceOptionalParams,
+    options?: SapApplicationServerInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesStartInstanceResponse>,
-      SAPApplicationServerInstancesStartInstanceResponse
+      OperationState<SapApplicationServerInstancesStartResponse>,
+      SapApplicationServerInstancesStartResponse
     >
   >;
   /**
@@ -159,12 +165,12 @@ export interface SAPApplicationServerInstances {
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  beginStartInstanceAndWait(
+  beginStartAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStartInstanceOptionalParams,
-  ): Promise<SAPApplicationServerInstancesStartInstanceResponse>;
+    options?: SapApplicationServerInstancesStartOptionalParams,
+  ): Promise<SapApplicationServerInstancesStartResponse>;
   /**
    * Stops the SAP Application Server Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -172,15 +178,15 @@ export interface SAPApplicationServerInstances {
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  beginStopInstance(
+  beginStop(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStopInstanceOptionalParams,
+    options?: SapApplicationServerInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesStopInstanceResponse>,
-      SAPApplicationServerInstancesStopInstanceResponse
+      OperationState<SapApplicationServerInstancesStopResponse>,
+      SapApplicationServerInstancesStopResponse
     >
   >;
   /**
@@ -190,10 +196,10 @@ export interface SAPApplicationServerInstances {
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  beginStopInstanceAndWait(
+  beginStopAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStopInstanceOptionalParams,
-  ): Promise<SAPApplicationServerInstancesStopInstanceResponse>;
+    options?: SapApplicationServerInstancesStopOptionalParams,
+  ): Promise<SapApplicationServerInstancesStopResponse>;
 }

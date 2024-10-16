@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { SAPApplicationServerInstances } from "../operationsInterfaces";
+import { SapApplicationServerInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -21,33 +21,34 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   SAPApplicationServerInstance,
-  SAPApplicationServerInstancesListNextOptionalParams,
-  SAPApplicationServerInstancesListOptionalParams,
-  SAPApplicationServerInstancesListResponse,
-  SAPApplicationServerInstancesGetOptionalParams,
-  SAPApplicationServerInstancesGetResponse,
-  SAPApplicationServerInstancesCreateOptionalParams,
-  SAPApplicationServerInstancesCreateResponse,
-  SAPApplicationServerInstancesUpdateOptionalParams,
-  SAPApplicationServerInstancesUpdateResponse,
-  SAPApplicationServerInstancesDeleteOptionalParams,
-  SAPApplicationServerInstancesDeleteResponse,
-  SAPApplicationServerInstancesStartInstanceOptionalParams,
-  SAPApplicationServerInstancesStartInstanceResponse,
-  SAPApplicationServerInstancesStopInstanceOptionalParams,
-  SAPApplicationServerInstancesStopInstanceResponse,
-  SAPApplicationServerInstancesListNextResponse,
+  SapApplicationServerInstancesListNextOptionalParams,
+  SapApplicationServerInstancesListOptionalParams,
+  SapApplicationServerInstancesListResponse,
+  SapApplicationServerInstancesGetOptionalParams,
+  SapApplicationServerInstancesGetResponse,
+  SapApplicationServerInstancesCreateOptionalParams,
+  SapApplicationServerInstancesCreateResponse,
+  UpdateSAPApplicationInstanceRequest,
+  SapApplicationServerInstancesUpdateOptionalParams,
+  SapApplicationServerInstancesUpdateResponse,
+  SapApplicationServerInstancesDeleteOptionalParams,
+  SapApplicationServerInstancesDeleteResponse,
+  SapApplicationServerInstancesStartOptionalParams,
+  SapApplicationServerInstancesStartResponse,
+  SapApplicationServerInstancesStopOptionalParams,
+  SapApplicationServerInstancesStopResponse,
+  SapApplicationServerInstancesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SAPApplicationServerInstances operations. */
-export class SAPApplicationServerInstancesImpl
-  implements SAPApplicationServerInstances
+/** Class containing SapApplicationServerInstances operations. */
+export class SapApplicationServerInstancesImpl
+  implements SapApplicationServerInstances
 {
   private readonly client: WorkloadsClient;
 
   /**
-   * Initialize a new instance of the class SAPApplicationServerInstances class.
+   * Initialize a new instance of the class SapApplicationServerInstances class.
    * @param client Reference to the service client
    */
   constructor(client: WorkloadsClient) {
@@ -64,7 +65,7 @@ export class SAPApplicationServerInstancesImpl
   public list(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams,
+    options?: SapApplicationServerInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<SAPApplicationServerInstance> {
     const iter = this.listPagingAll(
       resourceGroupName,
@@ -95,10 +96,10 @@ export class SAPApplicationServerInstancesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams,
+    options?: SapApplicationServerInstancesListOptionalParams,
     settings?: PageSettings,
   ): AsyncIterableIterator<SAPApplicationServerInstance[]> {
-    let result: SAPApplicationServerInstancesListResponse;
+    let result: SapApplicationServerInstancesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(
@@ -128,7 +129,7 @@ export class SAPApplicationServerInstancesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams,
+    options?: SapApplicationServerInstancesListOptionalParams,
   ): AsyncIterableIterator<SAPApplicationServerInstance> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
@@ -137,6 +138,24 @@ export class SAPApplicationServerInstancesImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions
+   * resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    sapVirtualInstanceName: string,
+    options?: SapApplicationServerInstancesListOptionalParams,
+  ): Promise<SapApplicationServerInstancesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, sapVirtualInstanceName, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -151,8 +170,8 @@ export class SAPApplicationServerInstancesImpl
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesGetOptionalParams,
-  ): Promise<SAPApplicationServerInstancesGetResponse> {
+    options?: SapApplicationServerInstancesGetOptionalParams,
+  ): Promise<SapApplicationServerInstancesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -165,28 +184,30 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
-   * end user will return a Bad Request error.
+   * Puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service
+   * only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
+   * @param resource The SAP Application Server Instance resource request body.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesCreateOptionalParams,
+    resource: SAPApplicationServerInstance,
+    options?: SapApplicationServerInstancesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesCreateResponse>,
-      SAPApplicationServerInstancesCreateResponse
+      OperationState<SapApplicationServerInstancesCreateResponse>,
+      SapApplicationServerInstancesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPApplicationServerInstancesCreateResponse> => {
+    ): Promise<SapApplicationServerInstancesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -227,63 +248,70 @@ export class SAPApplicationServerInstancesImpl
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
+        resource,
         options,
       },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPApplicationServerInstancesCreateResponse,
-      OperationState<SAPApplicationServerInstancesCreateResponse>
+      SapApplicationServerInstancesCreateResponse,
+      OperationState<SapApplicationServerInstancesCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Puts the SAP Application Server Instance resource. <br><br>This will be used by service only. PUT by
-   * end user will return a Bad Request error.
+   * Puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service
+   * only. PUT by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
+   * @param resource The SAP Application Server Instance resource request body.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesCreateOptionalParams,
-  ): Promise<SAPApplicationServerInstancesCreateResponse> {
+    resource: SAPApplicationServerInstance,
+    options?: SapApplicationServerInstancesCreateOptionalParams,
+  ): Promise<SapApplicationServerInstancesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       sapVirtualInstanceName,
       applicationInstanceName,
+      resource,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates the SAP Application server instance resource. This can be used to update tags on the
-   * resource.
+   * Puts the SAP Application Server Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
+   * @param properties The SAP Application Server Instance resource request body.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesUpdateOptionalParams,
-  ): Promise<SAPApplicationServerInstancesUpdateResponse> {
+    properties: UpdateSAPApplicationInstanceRequest,
+    options?: SapApplicationServerInstancesUpdateOptionalParams,
+  ): Promise<SapApplicationServerInstancesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
+        properties,
         options,
       },
       updateOperationSpec,
@@ -291,8 +319,8 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
-   * only. Delete by end user will return a Bad Request error.
+   * Deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be
+   * used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
@@ -302,17 +330,17 @@ export class SAPApplicationServerInstancesImpl
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesDeleteOptionalParams,
+    options?: SapApplicationServerInstancesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesDeleteResponse>,
-      SAPApplicationServerInstancesDeleteResponse
+      OperationState<SapApplicationServerInstancesDeleteResponse>,
+      SapApplicationServerInstancesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPApplicationServerInstancesDeleteResponse> => {
+    ): Promise<SapApplicationServerInstancesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -358,8 +386,8 @@ export class SAPApplicationServerInstancesImpl
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPApplicationServerInstancesDeleteResponse,
-      OperationState<SAPApplicationServerInstancesDeleteResponse>
+      SapApplicationServerInstancesDeleteResponse,
+      OperationState<SapApplicationServerInstancesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -370,8 +398,8 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Deletes the SAP Application Server Instance resource. <br><br>This operation will be used by service
-   * only. Delete by end user will return a Bad Request error.
+   * Deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be
+   * used by service only. Delete by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
@@ -381,8 +409,8 @@ export class SAPApplicationServerInstancesImpl
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesDeleteOptionalParams,
-  ): Promise<SAPApplicationServerInstancesDeleteResponse> {
+    options?: SapApplicationServerInstancesDeleteOptionalParams,
+  ): Promise<SapApplicationServerInstancesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       sapVirtualInstanceName,
@@ -393,45 +421,27 @@ export class SAPApplicationServerInstancesImpl
   }
 
   /**
-   * Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions
-   * resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    sapVirtualInstanceName: string,
-    options?: SAPApplicationServerInstancesListOptionalParams,
-  ): Promise<SAPApplicationServerInstancesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, sapVirtualInstanceName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * Starts the SAP Application Server Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  async beginStartInstance(
+  async beginStart(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStartInstanceOptionalParams,
+    options?: SapApplicationServerInstancesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesStartInstanceResponse>,
-      SAPApplicationServerInstancesStartInstanceResponse
+      OperationState<SapApplicationServerInstancesStartResponse>,
+      SapApplicationServerInstancesStartResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPApplicationServerInstancesStartInstanceResponse> => {
+    ): Promise<SapApplicationServerInstancesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -474,11 +484,11 @@ export class SAPApplicationServerInstancesImpl
         applicationInstanceName,
         options,
       },
-      spec: startInstanceOperationSpec,
+      spec: startOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPApplicationServerInstancesStartInstanceResponse,
-      OperationState<SAPApplicationServerInstancesStartInstanceResponse>
+      SapApplicationServerInstancesStartResponse,
+      OperationState<SapApplicationServerInstancesStartResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -495,13 +505,13 @@ export class SAPApplicationServerInstancesImpl
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  async beginStartInstanceAndWait(
+  async beginStartAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStartInstanceOptionalParams,
-  ): Promise<SAPApplicationServerInstancesStartInstanceResponse> {
-    const poller = await this.beginStartInstance(
+    options?: SapApplicationServerInstancesStartOptionalParams,
+  ): Promise<SapApplicationServerInstancesStartResponse> {
+    const poller = await this.beginStart(
       resourceGroupName,
       sapVirtualInstanceName,
       applicationInstanceName,
@@ -517,21 +527,21 @@ export class SAPApplicationServerInstancesImpl
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  async beginStopInstance(
+  async beginStop(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStopInstanceOptionalParams,
+    options?: SapApplicationServerInstancesStopOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<SAPApplicationServerInstancesStopInstanceResponse>,
-      SAPApplicationServerInstancesStopInstanceResponse
+      OperationState<SapApplicationServerInstancesStopResponse>,
+      SapApplicationServerInstancesStopResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<SAPApplicationServerInstancesStopInstanceResponse> => {
+    ): Promise<SapApplicationServerInstancesStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -574,11 +584,11 @@ export class SAPApplicationServerInstancesImpl
         applicationInstanceName,
         options,
       },
-      spec: stopInstanceOperationSpec,
+      spec: stopOperationSpec,
     });
     const poller = await createHttpPoller<
-      SAPApplicationServerInstancesStopInstanceResponse,
-      OperationState<SAPApplicationServerInstancesStopInstanceResponse>
+      SapApplicationServerInstancesStopResponse,
+      OperationState<SapApplicationServerInstancesStopResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -595,13 +605,13 @@ export class SAPApplicationServerInstancesImpl
    * @param applicationInstanceName The name of SAP Application Server instance resource.
    * @param options The options parameters.
    */
-  async beginStopInstanceAndWait(
+  async beginStopAndWait(
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    options?: SAPApplicationServerInstancesStopInstanceOptionalParams,
-  ): Promise<SAPApplicationServerInstancesStopInstanceResponse> {
-    const poller = await this.beginStopInstance(
+    options?: SapApplicationServerInstancesStopOptionalParams,
+  ): Promise<SapApplicationServerInstancesStopResponse> {
+    const poller = await this.beginStop(
       resourceGroupName,
       sapVirtualInstanceName,
       applicationInstanceName,
@@ -621,8 +631,8 @@ export class SAPApplicationServerInstancesImpl
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     nextLink: string,
-    options?: SAPApplicationServerInstancesListNextOptionalParams,
-  ): Promise<SAPApplicationServerInstancesListNextResponse> {
+    options?: SapApplicationServerInstancesListNextOptionalParams,
+  ): Promise<SapApplicationServerInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, sapVirtualInstanceName, nextLink, options },
       listNextOperationSpec,
@@ -632,6 +642,27 @@ export class SAPApplicationServerInstancesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SAPApplicationServerInstanceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.sapVirtualInstanceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}",
   httpMethod: "GET",
@@ -674,7 +705,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -698,7 +729,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -716,16 +747,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders,
+      headersMapper: Mappers.SapApplicationServerInstancesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders,
+      headersMapper: Mappers.SapApplicationServerInstancesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders,
+      headersMapper: Mappers.SapApplicationServerInstancesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SAPApplicationServerInstancesDeleteHeaders,
+      headersMapper: Mappers.SapApplicationServerInstancesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -742,28 +773,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SAPApplicationServerInstanceList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.sapVirtualInstanceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const startInstanceOperationSpec: coreClient.OperationSpec = {
+const startOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}/start",
   httpMethod: "POST",
   responses: {
@@ -783,7 +793,7 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -796,7 +806,7 @@ const startInstanceOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const stopInstanceOperationSpec: coreClient.OperationSpec = {
+const stopOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}/stop",
   httpMethod: "POST",
   responses: {
@@ -816,7 +826,7 @@ const stopInstanceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -834,7 +844,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SAPApplicationServerInstanceList,
+      bodyMapper: Mappers.SAPApplicationServerInstanceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
