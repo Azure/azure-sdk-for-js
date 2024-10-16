@@ -14,6 +14,9 @@ parameters:
   - name: ScriptDirectory
     type: string
     default: eng/common/scripts
+  - name: ServiceDirectoryFilter
+    type: string
+    default: ""
 
 steps:
   - ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), or(eq(parameters.ServiceDirectoryFilter, ''), eq(parameters.ServiceDirectory, parameters.ServiceDirectoryFilter))) }}:
