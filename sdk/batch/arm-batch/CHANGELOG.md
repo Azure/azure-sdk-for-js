@@ -1,6 +1,6 @@
 # Release History
 
-## 9.2.1 (Unreleased)
+## 10.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,72 @@
 
 ### Other Changes
 
+## 10.0.0 (2024-09-11)
+    
+### Features Added
+
+  - Added operation group NetworkSecurityPerimeterOperations
+  - Added Interface AccessRule
+  - Added Interface AccessRuleProperties
+  - Added Interface AccessRulePropertiesSubscriptionsItem
+  - Added Interface AzureProxyResource
+  - Added Interface AzureResource
+  - Added Interface ContainerHostBatchBindMountEntry
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationListResult
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterGetConfigurationOptionalParams
+  - Added Interface NetworkSecurityPerimeterListConfigurationsNextOptionalParams
+  - Added Interface NetworkSecurityPerimeterListConfigurationsOptionalParams
+  - Added Interface NetworkSecurityPerimeterReconcileConfigurationHeaders
+  - Added Interface NetworkSecurityPerimeterReconcileConfigurationOptionalParams
+  - Added Interface NetworkSecurityProfile
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface ResourceAssociation
+  - Added Interface SystemData
+  - Added Interface VMDiskSecurityProfile
+  - Added Type Alias AccessRuleDirection
+  - Added Type Alias ContainerHostDataPath
+  - Added Type Alias CreatedByType
+  - Added Type Alias IssueType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterGetConfigurationResponse
+  - Added Type Alias NetworkSecurityPerimeterListConfigurationsNextResponse
+  - Added Type Alias NetworkSecurityPerimeterListConfigurationsResponse
+  - Added Type Alias NetworkSecurityPerimeterReconcileConfigurationResponse
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias SecurityEncryptionTypes
+  - Added Type Alias SecurityTypes
+  - Added Type Alias Severity
+  - Interface ImageReference has a new optional parameter communityGalleryImageId
+  - Interface ImageReference has a new optional parameter sharedGalleryImageId
+  - Interface ManagedDisk has a new optional parameter securityProfile
+  - Interface Resource has a new optional parameter systemData
+  - Interface TaskContainerSettings has a new optional parameter containerHostBatchBindMounts
+  - Added Enum KnownAccessRuleDirection
+  - Added Enum KnownContainerHostDataPath
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownIssueType
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownSecurityEncryptionTypes
+  - Added Enum KnownSeverity
+
+### Breaking Changes
+
+  - Removed operation Location_2.listSupportedCloudServiceSkus
+  - Interface DeploymentConfiguration no longer has parameter cloudServiceConfiguration
+  - Interface ProxyResource no longer has parameter etag
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Type of parameter securityType of interface SecurityProfile is changed from "trustedLaunch" to SecurityTypes
+    
+    
 ## 9.2.0 (2024-03-13)
     
 ### Features Added

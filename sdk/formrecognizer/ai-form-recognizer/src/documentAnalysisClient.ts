@@ -5,11 +5,7 @@ import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
 import { TracingClient } from "@azure/core-tracing";
 import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants";
-import {
-  AnalyzeDocumentRequest,
-  AnalyzeResultOperation,
-  GeneratedClient,
-} from "./generated";
+import { AnalyzeDocumentRequest, AnalyzeResultOperation, GeneratedClient } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
   AnalysisOperationDefinition,
@@ -252,6 +248,7 @@ export class DocumentAnalysisClient {
   public async beginAnalyzeDocument(
     model: string | DocumentModel<unknown>,
     document: FormRecognizerRequestBody,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
     return this._tracing.withSpan(
@@ -380,6 +377,7 @@ export class DocumentAnalysisClient {
   public async beginAnalyzeDocumentFromUrl(
     model: string | DocumentModel<unknown>,
     documentUrl: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AnalyzeDocumentOptions<unknown> = {},
   ): Promise<AnalysisPoller<unknown>> {
     return this._tracing.withSpan(
@@ -573,7 +571,7 @@ export class DocumentAnalysisClient {
               abortSignal,
               classifyRequest,
             },
-          );          
+          );
         } else {
           return this._restClient.documentClassifiers.classifyDocument(
             classifierId,
@@ -583,7 +581,7 @@ export class DocumentAnalysisClient {
               abortSignal,
               classifyRequest,
             },
-          );          
+          );
         }
       },
       {
@@ -768,7 +766,9 @@ export class DocumentAnalysisClient {
  */
 function toAnalyzeRequest(
   input: DocumentSource,
-): ["application/json", AnalyzeDocumentRequest] | ["application/octet-stream", FormRecognizerRequestBody] {
+):
+  | ["application/json", AnalyzeDocumentRequest]
+  | ["application/octet-stream", FormRecognizerRequestBody] {
   switch (input.kind) {
     case "body":
       return ["application/octet-stream", input.body];

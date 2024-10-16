@@ -243,6 +243,7 @@ export class ContainerRegistryClient {
    * @param options -
    */
   public listRepositoryNames(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListRepositoriesOptions = {},
   ): PagedAsyncIterableIterator<string, RepositoryPageResponse> {
     const iter = this.listRepositoryItems(options);

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 

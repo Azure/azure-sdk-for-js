@@ -35,7 +35,6 @@ import {
   WorkloadNetworksGetDhcpResponse,
   WorkloadNetworksCreateDhcpOptionalParams,
   WorkloadNetworksCreateDhcpResponse,
-  WorkloadNetworkDhcpUpdate,
   WorkloadNetworksUpdateDhcpOptionalParams,
   WorkloadNetworksUpdateDhcpResponse,
   WorkloadNetworksDeleteDhcpOptionalParams,
@@ -43,7 +42,6 @@ import {
   WorkloadNetworksGetDnsServiceResponse,
   WorkloadNetworksCreateDnsServiceOptionalParams,
   WorkloadNetworksCreateDnsServiceResponse,
-  WorkloadNetworkDnsServiceUpdate,
   WorkloadNetworksUpdateDnsServiceOptionalParams,
   WorkloadNetworksUpdateDnsServiceResponse,
   WorkloadNetworksDeleteDnsServiceOptionalParams,
@@ -51,7 +49,6 @@ import {
   WorkloadNetworksGetDnsZoneResponse,
   WorkloadNetworksCreateDnsZoneOptionalParams,
   WorkloadNetworksCreateDnsZoneResponse,
-  WorkloadNetworkDnsZoneUpdate,
   WorkloadNetworksUpdateDnsZoneOptionalParams,
   WorkloadNetworksUpdateDnsZoneResponse,
   WorkloadNetworksDeleteDnsZoneOptionalParams,
@@ -61,7 +58,6 @@ import {
   WorkloadNetworksGetPortMirroringResponse,
   WorkloadNetworksCreatePortMirroringOptionalParams,
   WorkloadNetworksCreatePortMirroringResponse,
-  WorkloadNetworkPortMirroringUpdate,
   WorkloadNetworksUpdatePortMirroringOptionalParams,
   WorkloadNetworksUpdatePortMirroringResponse,
   WorkloadNetworksDeletePortMirroringOptionalParams,
@@ -74,7 +70,6 @@ import {
   WorkloadNetworksGetSegmentResponse,
   WorkloadNetworksCreateSegmentsOptionalParams,
   WorkloadNetworksCreateSegmentsResponse,
-  WorkloadNetworkSegmentUpdate,
   WorkloadNetworksUpdateSegmentsOptionalParams,
   WorkloadNetworksUpdateSegmentsResponse,
   WorkloadNetworksDeleteSegmentOptionalParams,
@@ -84,7 +79,6 @@ import {
   WorkloadNetworksGetVMGroupResponse,
   WorkloadNetworksCreateVMGroupOptionalParams,
   WorkloadNetworksCreateVMGroupResponse,
-  WorkloadNetworkVMGroupUpdate,
   WorkloadNetworksUpdateVMGroupOptionalParams,
   WorkloadNetworksUpdateVMGroupResponse,
   WorkloadNetworksDeleteVMGroupOptionalParams,
@@ -274,7 +268,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    workloadNetworkDhcp: WorkloadNetworkDhcpUpdate,
+    workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -294,7 +288,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    workloadNetworkDhcp: WorkloadNetworkDhcpUpdate,
+    workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<WorkloadNetworksUpdateDhcpResponse>;
   /**
@@ -383,7 +377,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    workloadNetworkDnsService: WorkloadNetworkDnsServiceUpdate,
+    workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -403,7 +397,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    workloadNetworkDnsService: WorkloadNetworkDnsServiceUpdate,
+    workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsServiceResponse>;
   /**
@@ -492,7 +486,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    workloadNetworkDnsZone: WorkloadNetworkDnsZoneUpdate,
+    workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -512,7 +506,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    workloadNetworkDnsZone: WorkloadNetworkDnsZoneUpdate,
+    workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsZoneResponse>;
   /**
@@ -614,7 +608,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroringUpdate,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -634,7 +628,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroringUpdate,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
   ): Promise<WorkloadNetworksUpdatePortMirroringResponse>;
   /**
@@ -797,7 +791,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegmentUpdate,
+    workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -817,7 +811,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegmentUpdate,
+    workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams,
   ): Promise<WorkloadNetworksUpdateSegmentsResponse>;
   /**
@@ -919,7 +913,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroupUpdate,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -939,7 +933,7 @@ export interface WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroupUpdate,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams,
   ): Promise<WorkloadNetworksUpdateVMGroupResponse>;
   /**

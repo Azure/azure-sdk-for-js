@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Remove a ScalingPlanPersonalSchedule.
  *
  * @summary Remove a ScalingPlanPersonalSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPersonalSchedule_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPersonalSchedule_Delete.json
  */
 async function scalingPlanPersonalSchedulesDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function scalingPlanPersonalSchedulesDelete() {
   const result = await client.scalingPlanPersonalSchedules.delete(
     resourceGroupName,
     scalingPlanName,
-    scalingPlanScheduleName
+    scalingPlanScheduleName,
   );
   console.log(result);
 }

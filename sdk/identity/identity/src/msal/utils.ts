@@ -202,7 +202,8 @@ export function handleMsalError(
   if (
     error.name === "ClientConfigurationError" ||
     error.name === "BrowserConfigurationAuthError" ||
-    error.name === "AbortError"
+    error.name === "AbortError" ||
+    error.name === "AuthenticationError"
   ) {
     return error;
   }

@@ -39,7 +39,7 @@ import {
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
-} from "./models";
+} from "./models.js";
 import {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
@@ -50,7 +50,7 @@ import {
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
@@ -58,7 +58,7 @@ import {
   bearerTokenAuthenticationPolicy,
   RestError,
 } from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   SendConfigurationSettingsOptions,
@@ -79,15 +79,15 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
-} from "./internal/helpers";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { FeatureFlagValue } from "./featureFlag";
-import { SecretReferenceValue } from "./secretReference";
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { tracingClient } from "./internal/tracing";
-import { logger } from "./logger";
+} from "./internal/helpers.js";
+import { AppConfiguration } from "./generated/src/appConfiguration.js";
+import { FeatureFlagValue } from "./featureFlag.js";
+import { SecretReferenceValue } from "./secretReference.js";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
+import { tracingClient } from "./internal/tracing.js";
+import { logger } from "./logger.js";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { appConfigurationApiVersion } from "./internal/constants";
+import { appConfigurationApiVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -653,6 +653,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshot(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
@@ -669,6 +670,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -717,6 +719,7 @@ export class AppConfigurationClient {
    */
   recoverSnapshot(
     name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -753,6 +756,7 @@ export class AppConfigurationClient {
    */
   archiveSnapshot(
     name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(

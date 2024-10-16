@@ -246,6 +246,7 @@ export interface AcsIncomingCallEventData {
     customContext: AcsIncomingCallCustomContext;
     fromCommunicationIdentifier: CommunicationIdentifierModel;
     incomingCallContext: string;
+    onBehalfOfCallee: CommunicationIdentifierModel;
     serverCallId: string;
     toCommunicationIdentifier: CommunicationIdentifierModel;
 }
@@ -2625,6 +2626,7 @@ export interface StorageLifecyclePolicyCompletedEventData {
     deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
     scheduleTime: string;
     tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
+    tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
 

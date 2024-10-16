@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of load balancers in the specified managed cluster.
  *
  * @summary Gets a list of load balancers in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-05-02-preview/examples/LoadBalancers_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-07-02-preview/examples/LoadBalancers_List.json
  */
 async function listLoadBalancersByManagedCluster() {
   const subscriptionId =

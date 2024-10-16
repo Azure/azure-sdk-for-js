@@ -11,9 +11,9 @@ description: Email REST API Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-03-31
+tag: package-2024-07-01-preview
 package-version: 1.0.0
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ac29c822ecd5f6054cd17c46839e7c04a1114c6d/specification/communication/data-plane/Email/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e64ad693df24b47d4009eece6663c8d95cf94be6/specification/communication/data-plane/Email/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -47,4 +47,17 @@ directive:
     where: $.definitions.EmailMessage.properties
     transform: >
       $["userEngagementTrackingDisabled"]["x-ms-client-name"] = "disableUserEngagementTracking"
+```
+
+### Ensure contentInBase64 is a string.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.EmailAttachment.properties.contentInBase64
+    transform: >
+      $["type"] = "string";
+      if ($["format"]) {
+        delete $["format"];
+      }
 ```

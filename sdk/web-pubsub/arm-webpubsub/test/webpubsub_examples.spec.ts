@@ -81,10 +81,6 @@ describe("webPubSub test", () => {
           enabled: "false"
         },
         location,
-        networkACLs: {
-          defaultAction: "Deny",
-          publicNetwork: { allow: ["ClientConnection"] }
-        },
         publicNetworkAccess: "Enabled",
         sku: { name: "Free_F1", capacity: 1, tier: "Free" },
         tags: { key1: "value1" },

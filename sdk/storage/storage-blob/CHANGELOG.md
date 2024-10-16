@@ -1,14 +1,25 @@
 # Release History
 
-## 12.25.0-beta.2 (Unreleased)
+## 12.25.1 (Unreleased)
 
 ### Features Added
 
-- Added support for customer provided key in BlockBlobClient.uploadStream().
+- Added support for service version 2025-01-05.
+- Added generateUserDelegationSasUrl() to BlobClient and ContainerClient.
+- Added BlobErrorCode.BlobAccessTierNotSupportedForAccountType enum value.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 12.25.0 (2024-09-22)
+
+### Features Added
+
+- Includes all features released in 12.25.0-beta.1.
+- Added support for customer provided key in BlockBlobClient.uploadStream().
 
 ### Other Changes
 

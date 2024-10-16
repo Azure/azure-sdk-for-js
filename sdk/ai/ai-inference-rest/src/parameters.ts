@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
@@ -38,9 +38,7 @@ export interface GetChatCompletionsBodyParam {
     response_format?: ChatCompletionsResponseFormat;
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?:
-      | ChatCompletionsToolSelectionPreset
-      | ChatCompletionsNamedToolSelection;
+    tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
     seed?: number;
     model?: string;
   };

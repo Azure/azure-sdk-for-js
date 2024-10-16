@@ -438,6 +438,7 @@ export class DocumentModelAdministrationClient {
   public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: BeginCopyModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
@@ -765,6 +766,7 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentModel(
     modelId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetModelOptions = {},
   ): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
@@ -830,6 +832,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of model summaries that supports paging
    */
   public listDocumentModels(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.documentModels.listModels(options);
@@ -891,6 +894,7 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentClassifier(
     classifierId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<DocumentClassifierDetails> {
     return this._tracing.withSpan(
@@ -940,6 +944,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of classifier details that supports paging
    */
   public listDocumentClassifiers(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
     return this._restClient.documentClassifiers.listClassifiers(options);
@@ -959,6 +964,7 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentClassifier(
     classifierId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(
