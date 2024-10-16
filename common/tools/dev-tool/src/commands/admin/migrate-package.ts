@@ -167,7 +167,7 @@ export default mergeConfig(
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
     extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts"],
+    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
     exclude: ["./test/**/node/**/*.ts"],
     compilerOptions: {
       outDir: "./dist-test/browser",
