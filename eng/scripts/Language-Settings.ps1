@@ -64,7 +64,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
 
     # handle any changes under sdk/<file>.<extension>
     if ($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") {
-      changedServices += "template"
+      $changedServices += "template"
     }
   }
 
