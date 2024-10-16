@@ -21,7 +21,7 @@ import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationApiClient } from "./generated/src";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -36,12 +36,9 @@ export class CallRecording {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
-
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
   }
@@ -85,6 +82,9 @@ export class CallRecording {
     if (options.callLocator.kind === "groupCallLocator") {
       startCallRecordingRequest.callLocator.kind = "groupCallLocator";
       startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
+    } else if (options.callLocator.kind === "roomCallLocator") {
+      startCallRecordingRequest.callLocator.kind = "roomCallLocator";
+      startCallRecordingRequest.callLocator.roomId = options.callLocator.id;
     } else {
       startCallRecordingRequest.callLocator.kind = "serverCallLocator";
       startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;

@@ -8,7 +8,11 @@ import {
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import {
+  CallConnectionStateModel,
+  MediaStreamingSubscription,
+  TranscriptionSubscription,
+} from "../generated/src";
 
 export {
   CallConnectionStateModel,
@@ -18,11 +22,13 @@ export {
   KnownMediaStreamingContentType,
   KnownMediaStreamingTransportType,
   MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
+  MediaStreamingOptions,
   MediaStreamingContentType,
   MediaStreamingTransportType,
-  TranscriptionConfiguration,
+  MediaStreamingSubscription,
+  TranscriptionOptions,
   TranscriptionTransportType,
+  TranscriptionSubscription,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
@@ -52,12 +58,16 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
+  /** Subscription for media streaming */
+  mediaStreamingSubscription?: MediaStreamingSubscription;
+  /** Subscription for transcription */
+  transcriptionSubscription?: TranscriptionSubscription;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredby?: CommunicationUserIdentifier;
+  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
+  answeredFor?: PhoneNumberIdentifier;
 }
 
 /** Contract model of an ACS call participant */
@@ -88,8 +98,6 @@ export enum VoiceKind {
 export interface PlaySource {
   /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
   playsourcacheid?: string;
-  /** Sets the play source cache id.*/
-  playSourceCacheId?: string;
 }
 
 /** The FileSource model. */
@@ -164,8 +172,6 @@ export interface RecognitionChoice {
 export enum RecognizeInputType {
   /** Dtmf */
   Dtmf = "dtmf",
-  /** Choices */
-  Choices = "choices",
 }
 
 /** Call invitee details. */
@@ -184,7 +190,7 @@ export interface CallInvite {
 }
 
 /** The locator type of a call. */
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
 
 /** The content type of a call recording. */
 export type RecordingContent = "audio" | "audioVideo";
