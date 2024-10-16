@@ -5,24 +5,13 @@ extends:
     parameters:
       PackageName: "@azure/eventhubs-checkpointstore-blob"
       ServiceDirectory: eventhub
-      UseFederatedAuth: true
       MatrixFilters:
         - TestType=^(?!sample).*
         - DependencyVersion=^$
-      Clouds: 'Public,Canary'
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
         UsGov:
-          ServiceConnection: usgov_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
           Location: 'usgovarizona'
         China:
-          ServiceConnection: china_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureChinaMsft.json
           Location: 'chinaeast'

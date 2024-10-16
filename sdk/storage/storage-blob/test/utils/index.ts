@@ -320,3 +320,9 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
     ".file.",
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
 }
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
+}

@@ -1,14 +1,10 @@
 # Release History
 
-## 4.9.0 (Unreleased)
+## 4.9.0 (2024-10-16)
 
 ### Features Added
 
 - Add support for Continuous Access Evaluation (CAE). [#31140](https://github.com/Azure/azure-sdk-for-js/pull/31140)
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
@@ -19,6 +15,7 @@
 ### Features Added
 
 Since 4.7.0:
+
 - Added property `x509ThumbprintString` to `CertificateProperties`. This property is a hex string representation of the existing `x509Thumbprint` property added for convenience.
 
 ### Other Changes

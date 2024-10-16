@@ -122,20 +122,7 @@ See [Credential Classes](#credential-classes).
 
 ### DefaultAzureCredential
 
-`DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in Azure. This is because `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed with credentials used to authenticate in a development environment.
-
-> Note: `DefaultAzureCredential` is intended to simplify getting started with the SDK by handling common scenarios with reasonable default behaviors. Developers who want more control or whose scenario isn't served by the default settings should use other credential types.
-
-If used from Node.js, `DefaultAzureCredential` attempts to authenticate via the following mechanisms in order:
-
-![DefaultAzureCredential authentication flow][defaultauthflow_image]
-
-1. **Environment** - `DefaultAzureCredential` reads account information specified via [environment variables](#environment-variables) and uses it to authenticate.
-1. **Workload Identity** - If the application is deployed to Azure Kubernetes Service with Managed Identity enabled, `DefaultAzureCredential` authenticates with it.
-1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, `DefaultAzureCredential` authenticates with that account.
-1. **Azure CLI** - If the developer authenticated an account via the Azure CLI `az login` command, `DefaultAzureCredential` authenticates with that account.
-1. **Azure PowerShell** - If the developer authenticated using the Azure PowerShell module `Connect-AzAccount` command, `DefaultAzureCredential` authenticates with that account.
-1. **Azure Developer CLI** - If the developer authenticated an account via the Azure Developer CLI `azd auth login` command, `DefaultAzureCredential` authenticates with that account.
+`DefaultAzureCredential` simplifies authentication while developing apps that deploy to Azure by combining credentials used in Azure hosting environments with credentials used in local development. For more information, see [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
 
 #### Continuation policy
 

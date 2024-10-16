@@ -6,7 +6,6 @@ extends:
       PackageName: "@azure/storage-blob"
       ServiceDirectory: storage
       TimeoutInMinutes: 90
-      Clouds: Preview
       Location: canadacentral
       MatrixFilters:
         - DependencyVersion=^$

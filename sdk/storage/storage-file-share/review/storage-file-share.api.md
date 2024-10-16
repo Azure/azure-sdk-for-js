@@ -967,6 +967,7 @@ export interface FileStartCopyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
     filePermission?: string;
+    filePermissionFormat?: FilePermissionFormat;
     filePermissionKey?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
@@ -1425,7 +1426,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
 // @public
-export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
+export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool" | "Premium";
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
@@ -1485,7 +1486,12 @@ export interface ShareCreateHeaders {
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
+    maxBurstCreditsForIops?: number;
+    quota?: number;
     requestId?: string;
+    shareIncludedBurstIops?: number;
+    shareProvisionedBandwidthMibps?: number;
+    shareProvisionedIops?: number;
     version?: string;
 }
 
@@ -1508,6 +1514,8 @@ export interface ShareCreateOptions extends CommonOptions {
     protocols?: ShareProtocols;
     quota?: number;
     rootSquash?: ShareRootSquash;
+    shareProvisionedBandwidthMibps?: number;
+    shareProvisionedIops?: number;
 }
 
 // @public
@@ -1557,6 +1565,8 @@ export interface ShareDeleteHeaders {
     date?: Date;
     errorCode?: string;
     requestId?: string;
+    snapshotUsageBytes?: number;
+    usageBytes?: number;
     version?: string;
 }
 
@@ -1731,13 +1741,17 @@ export interface ShareGetPropertiesHeaders {
     enableSnapshotVirtualDirectoryAccess?: boolean;
     errorCode?: string;
     etag?: string;
+    includedBurstIops?: number;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    maxBurstCreditsForIops?: number;
     metadata?: {
         [propertyName: string]: string;
     };
+    nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    nextAllowedProvisionedIopsDowngradeTime?: Date;
     nextAllowedQuotaDowngradeTime?: Date;
     paidBurstingEnabled?: boolean;
     paidBurstingMaxBandwidthMibps?: number;
@@ -1865,10 +1879,18 @@ export interface SharePropertiesInternal {
     // (undocumented)
     etag: string;
     // (undocumented)
+    includedBurstIops?: number;
+    // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    maxBurstCreditsForIops?: number;
+    // (undocumented)
+    nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    // (undocumented)
+    nextAllowedProvisionedIopsDowngradeTime?: Date;
     // (undocumented)
     nextAllowedQuotaDowngradeTime?: Date;
     // (undocumented)
@@ -1980,7 +2002,15 @@ export interface ShareSetPropertiesHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
+    includedBurstIops?: number;
     lastModified?: Date;
+    maxBurstCreditsForIops?: number;
+    nextAllowedProvisionedBandwidthDowngradeTime?: Date;
+    nextAllowedProvisionedIopsDowngradeTime?: Date;
+    nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
+    provisionedIops?: number;
+    quota?: number;
     requestId?: string;
     version?: string;
 }
@@ -1996,6 +2026,8 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
     paidBurstingMaxIops?: number;
     quotaInGB?: number;
     rootSquash?: ShareRootSquash;
+    shareProvisionedBandwidthMibps?: number;
+    shareProvisionedIops?: number;
 }
 
 // @public

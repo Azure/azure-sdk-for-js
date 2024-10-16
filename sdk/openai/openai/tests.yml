@@ -5,6 +5,9 @@ extends:
   parameters:
     PackageName: "@azure/openai"
     ServiceDirectory: openai
+    CloudConfig:
+      Public:
+        ServiceConnection: azure-sdk-tests-openai
     MatrixFilters:
       - TestType=^(?!sample).*
       - DependencyVersion=^$

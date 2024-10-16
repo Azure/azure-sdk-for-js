@@ -1,14 +1,11 @@
 # Release History
 
-## 12.24.1 (Unreleased)
+## 12.25.0-beta.1 (2024-10-15)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added support for service version 2025-01-05.
+- Added generateUserDelegationSasUrl() for DataLakeFileSystemClient, DataLakeFileClient, and DataLakeDirectoryClient.
 
 ## 12.24.0 (2024-09-22)
 
