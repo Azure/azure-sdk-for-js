@@ -6,7 +6,7 @@ import {
   useIdentityPlugin,
 } from "@azure/identity";
 
-import { env } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src";
 import { isNodeLike } from "@azure/core-util";
 import { sendGraphRequest } from "./popTokenClient";
@@ -19,7 +19,9 @@ describe("InteractiveBrowserCredential", function (this: Mocha.Suite) {
       if (process.platform !== "win32") {
         this.skip();
       }
-
+      if (isLiveMode() || isPlaybackMode()) {
+        this.skip();
+      }
       useIdentityPlugin(nativeBrokerPlugin);
       const winHandle = Buffer.from("srefleqr93285329lskadjffa");
       const interactiveBrowserCredentialOptions: InteractiveBrowserCredentialNodeOptions = {
