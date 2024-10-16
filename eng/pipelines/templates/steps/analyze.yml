@@ -9,6 +9,10 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
       ServiceDirectoryFilter: 'auto'
 
+  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
+    parameters:
+      PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
+
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
 
   - task: PowerShell@2
