@@ -85,6 +85,10 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await prepareFiles(projectFolder, { browser });
   await applyCodemods(projectFolder);
 
+  log.info("Running `rush update`");
+  await run(["rush", "update"], { cwd: projectFolder });
+  log.info("Running `rush build`");
+  await run(["rush", "build", "-t", "."], { cwd: projectFolder });
   log.info("Formatting files");
   await run(["rushx", "format"], { cwd: projectFolder });
   await commitChanges(projectFolder, "rushx format");
