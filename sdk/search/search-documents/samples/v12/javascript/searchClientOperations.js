@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the SearchClient.
  */
 
-const {
-  AzureKeyCredential,
-  SearchClient,
-  GeographyPoint,
-  SearchIndexClient,
-} = require("@azure/search-documents");
-const { createIndex, WAIT_TIME, delay } = require("./setup");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { GeographyPoint, SearchClient, SearchIndexClient } = require("@azure/search-documents");
+const { createIndex, delay, WAIT_TIME } = require("./setup");
 
 require("dotenv").config();
 
@@ -19,16 +15,15 @@ require("dotenv").config();
  * This sample is to demonstrate the use of SearchClient.
  */
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-2";
 
 async function main() {
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
 
-  const credential = new AzureKeyCredential(apiKey);
+  const credential = new DefaultAzureCredential();
 
   // The client can optionally be instantiated with a model type for a more rich typing experience.
   // For the best experience, ensure that every property of the model type can be assigned `null`

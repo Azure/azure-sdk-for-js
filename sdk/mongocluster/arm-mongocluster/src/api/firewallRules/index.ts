@@ -1,37 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { getLongRunningPoller } from "../pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   firewallRulePropertiesSerializer,
   FirewallRule,
   _FirewallRuleListResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
-import {
-  isUnexpected,
-  DocumentDBContext as Client,
-  FirewallRulesCreateOrUpdate200Response,
-  FirewallRulesCreateOrUpdate201Response,
-  FirewallRulesCreateOrUpdate202Response,
-  FirewallRulesCreateOrUpdateDefaultResponse,
-  FirewallRulesCreateOrUpdateLogicalResponse,
-  FirewallRulesDelete202Response,
-  FirewallRulesDelete204Response,
-  FirewallRulesDeleteDefaultResponse,
-  FirewallRulesDeleteLogicalResponse,
-  FirewallRulesGet200Response,
-  FirewallRulesGetDefaultResponse,
-  FirewallRulesListByMongoCluster200Response,
-  FirewallRulesListByMongoClusterDefaultResponse,
-} from "../../rest/index.js";
+import { DocumentDBContext as Client } from "../index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FirewallRulesGetOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
@@ -46,9 +33,7 @@ export function _firewallRulesGetSend(
   mongoClusterName: string,
   firewallRuleName: string,
   options: FirewallRulesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  FirewallRulesGet200Response | FirewallRulesGetDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
@@ -61,9 +46,10 @@ export function _firewallRulesGetSend(
 }
 
 export async function _firewallRulesGetDeserialize(
-  result: FirewallRulesGet200Response | FirewallRulesGetDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<FirewallRule> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -125,13 +111,7 @@ export function _firewallRulesCreateOrUpdateSend(
   firewallRuleName: string,
   resource: FirewallRule,
   options: FirewallRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | FirewallRulesCreateOrUpdate200Response
-  | FirewallRulesCreateOrUpdate201Response
-  | FirewallRulesCreateOrUpdate202Response
-  | FirewallRulesCreateOrUpdateDefaultResponse
-  | FirewallRulesCreateOrUpdateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
@@ -151,18 +131,13 @@ export function _firewallRulesCreateOrUpdateSend(
 }
 
 export async function _firewallRulesCreateOrUpdateDeserialize(
-  result:
-    | FirewallRulesCreateOrUpdate200Response
-    | FirewallRulesCreateOrUpdate201Response
-    | FirewallRulesCreateOrUpdate202Response
-    | FirewallRulesCreateOrUpdateDefaultResponse
-    | FirewallRulesCreateOrUpdateLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<FirewallRule> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  result = result as FirewallRulesCreateOrUpdateLogicalResponse;
   return {
     id: result.body["id"],
     name: result.body["name"],
@@ -206,6 +181,7 @@ export function firewallRulesCreateOrUpdate(
   return getLongRunningPoller(
     context,
     _firewallRulesCreateOrUpdateDeserialize,
+    ["200", "201", "202"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -219,6 +195,7 @@ export function firewallRulesCreateOrUpdate(
           resource,
           options,
         ),
+      resourceLocationConfig: "azure-async-operation",
     },
   ) as PollerLike<OperationState<FirewallRule>, FirewallRule>;
 }
@@ -230,12 +207,7 @@ export function _firewallRulesDeleteSend(
   mongoClusterName: string,
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | FirewallRulesDelete202Response
-  | FirewallRulesDelete204Response
-  | FirewallRulesDeleteDefaultResponse
-  | FirewallRulesDeleteLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}",
@@ -248,17 +220,13 @@ export function _firewallRulesDeleteSend(
 }
 
 export async function _firewallRulesDeleteDeserialize(
-  result:
-    | FirewallRulesDelete202Response
-    | FirewallRulesDelete204Response
-    | FirewallRulesDeleteDefaultResponse
-    | FirewallRulesDeleteLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<void> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  result = result as FirewallRulesDeleteLogicalResponse;
   return;
 }
 
@@ -271,7 +239,7 @@ export function firewallRulesDelete(
   firewallRuleName: string,
   options: FirewallRulesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _firewallRulesDeleteDeserialize, {
+  return getLongRunningPoller(context, _firewallRulesDeleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -283,6 +251,7 @@ export function firewallRulesDelete(
         firewallRuleName,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -294,10 +263,7 @@ export function _firewallRulesListByMongoClusterSend(
   options: FirewallRulesListByMongoClusterOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  | FirewallRulesListByMongoCluster200Response
-  | FirewallRulesListByMongoClusterDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules",
@@ -309,43 +275,44 @@ export function _firewallRulesListByMongoClusterSend(
 }
 
 export async function _firewallRulesListByMongoClusterDeserialize(
-  result:
-    | FirewallRulesListByMongoCluster200Response
-    | FirewallRulesListByMongoClusterDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_FirewallRuleListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => ({
-      id: p["id"],
-      name: p["name"],
-      type: p["type"],
-      systemData: !p.systemData
-        ? undefined
-        : {
-            createdBy: p.systemData?.["createdBy"],
-            createdByType: p.systemData?.["createdByType"],
-            createdAt:
-              p.systemData?.["createdAt"] !== undefined
-                ? new Date(p.systemData?.["createdAt"])
-                : undefined,
-            lastModifiedBy: p.systemData?.["lastModifiedBy"],
-            lastModifiedByType: p.systemData?.["lastModifiedByType"],
-            lastModifiedAt:
-              p.systemData?.["lastModifiedAt"] !== undefined
-                ? new Date(p.systemData?.["lastModifiedAt"])
-                : undefined,
-          },
-      properties: !p.properties
-        ? undefined
-        : {
-            provisioningState: p.properties?.["provisioningState"],
-            startIpAddress: p.properties?.["startIpAddress"],
-            endIpAddress: p.properties?.["endIpAddress"],
-          },
-    })),
+    value: result.body["value"].map((p: any) => {
+      return {
+        id: p["id"],
+        name: p["name"],
+        type: p["type"],
+        systemData: !p.systemData
+          ? undefined
+          : {
+              createdBy: p.systemData?.["createdBy"],
+              createdByType: p.systemData?.["createdByType"],
+              createdAt:
+                p.systemData?.["createdAt"] !== undefined
+                  ? new Date(p.systemData?.["createdAt"])
+                  : undefined,
+              lastModifiedBy: p.systemData?.["lastModifiedBy"],
+              lastModifiedByType: p.systemData?.["lastModifiedByType"],
+              lastModifiedAt:
+                p.systemData?.["lastModifiedAt"] !== undefined
+                  ? new Date(p.systemData?.["lastModifiedAt"])
+                  : undefined,
+            },
+        properties: !p.properties
+          ? undefined
+          : {
+              provisioningState: p.properties?.["provisioningState"],
+              startIpAddress: p.properties?.["startIpAddress"],
+              endIpAddress: p.properties?.["endIpAddress"],
+            },
+      };
+    }),
     nextLink: result.body["nextLink"],
   };
 }
@@ -371,6 +338,7 @@ export function firewallRulesListByMongoCluster(
         options,
       ),
     _firewallRulesListByMongoClusterDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context } from "mocha";
-import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../../src";
-import { createHash } from "crypto";
-import { authenticate, envSetupForPlayback } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+// Licensed under the MIT License.
+import {
+  CryptographyClient,
+  KeyClient,
+  KeyVaultKey,
+  SignatureAlgorithm,
+} from "../../../src/index.js";
+import { createHash } from "node:crypto";
+import { authenticate, envSetupForPlayback } from "../utils/testAuthentication.js";
+import TestClient from "../utils/testClient.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "../utils/common";
-import { assert } from "@azure-tools/test-utils";
+import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Local cryptography public tests", () => {
   const keyPrefix = `localCrypto${env.KEY_NAME || "KeyName"}`;
@@ -20,11 +22,11 @@ describe("Local cryptography public tests", () => {
   let credential: ClientSecretCredential;
   let keySuffix: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     client = authentication.client;
     testClient = authentication.testClient;
     credential = authentication.credential;
@@ -40,7 +42,7 @@ describe("Local cryptography public tests", () => {
     let customKeyVaultKey: KeyVaultKey;
     let cryptoClientFromKey: CryptographyClient;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       customKeyName = testClient.formatName(`${keyPrefix}-beforeeachhook-${keySuffix}`);
       customKeyVaultKey = await client.createKey(customKeyName, "RSA");
       cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
@@ -53,109 +55,101 @@ describe("Local cryptography public tests", () => {
 
     describe("when using an unsupported algorithm", function () {
       it("throws on encrypt", async function () {
-        await assert.isRejected(
-          cryptoClientFromKey.encrypt("foo", Buffer.from("bar")),
+        await expect(cryptoClientFromKey.encrypt("foo", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
       it("throws on wrapKey", async function () {
-        await assert.isRejected(
-          cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar")),
+        await expect(cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
       it("throws on sign", async function () {
-        await assert.isRejected(
-          cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar")),
+        await expect(cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
       it("throws on signData", async function () {
-        await assert.isRejected(
-          cryptoClientFromKey.signData("PS360", Buffer.from("bar")),
+        await expect(cryptoClientFromKey.signData("PS360", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
       it("throws on verify", async function () {
-        await assert.isRejected(
+        await expect(
           cryptoClientFromKey.verify("PS360", Buffer.from("bar"), Buffer.from("baz")),
-          /using a local JsonWebKey/,
-        );
+        ).rejects.toThrow(/using a local JsonWebKey/);
       });
 
       it("throws on verifyData", async function () {
-        await assert.isRejected(
+        await expect(
           cryptoClientFromKey.verifyData("PS360", Buffer.from("bar"), Buffer.from("baz")),
-          /using a local JsonWebKey/,
-        );
+        ).rejects.toThrow(/using a local JsonWebKey/);
       });
     });
 
     describe("when using an unsupported operation", function () {
       it("throws on decrypt", async function () {
-        await assert.isRejected(
-          cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar")),
+        await expect(cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
 
       it("throws on unwrapKey", async function () {
-        await assert.isRejected(
-          cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar")),
+        await expect(cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar"))).rejects.toThrow(
           /using a local JsonWebKey/,
         );
       });
     });
   });
 
-  it("encrypt & decrypt RSA1_5", async function (this: Context) {
+  it("encrypt & decrypt RSA1_5", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      this.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
-    const text = Buffer.from(this.test!.title);
+    const text = Buffer.from(ctx.task.name);
     const encrypted = await localCryptoClient.encrypt("RSA1_5", text);
     const unwrapped = await cryptoClient.decrypt("RSA1_5", encrypted.result);
     assert.deepEqual(unwrapped.result, text);
     await testClient.flushKey(keyName);
   });
 
-  it("encrypt & decrypt RSA-OAEP", async function (this: Context) {
+  it("encrypt & decrypt RSA-OAEP", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      this.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
     });
 
     const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
-    const text = Buffer.from(this.test!.title);
+    const text = Buffer.from(ctx.task.name);
     const encrypted = await localCryptoClient.encrypt("RSA-OAEP", text);
     const unwrapped = await cryptoClient.decrypt("RSA-OAEP", encrypted.result);
     assert.deepEqual(unwrapped.result, text);
     await testClient.flushKey(keyName);
   });
 
-  it("wrapKey & unwrapKey RSA1_5", async function (this: Context) {
+  it("wrapKey & unwrapKey RSA1_5", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      this.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
@@ -172,12 +166,12 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("wrapKey & unwrapKey RSA-OAEP", async function (this: Context) {
+  it("wrapKey & unwrapKey RSA-OAEP", async function (ctx) {
     if (!isLiveMode()) {
       console.log("Skipping test, Local encryption can't be tested on playback");
-      this.skip();
+      ctx.skip();
     }
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, {
       disableChallengeResourceVerification: !isLiveMode(),
@@ -199,8 +193,8 @@ describe("Local cryptography public tests", () => {
     const localSupportedAlgorithmNames = Object.keys(rsaProvider.signatureAlgorithmToHashAlgorithm);
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
-      it(localAlgorithmName, async function (this: Context): Promise<void> {
-        const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      it(localAlgorithmName, async function (ctx): Promise<void> {
+        const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
         const keyVaultKey = await client.createKey(keyName, "RSA");
         const cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
@@ -210,7 +204,7 @@ describe("Local cryptography public tests", () => {
 
         // Sign is not implemented yet.
         // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.
-        const signatureValue = this.test!.title;
+        const signatureValue = ctx.task.name;
         const hash = createHash(rsaProvider.signatureAlgorithmToHashAlgorithm[localAlgorithmName]);
         hash.update(signatureValue);
         const digest = hash.digest();

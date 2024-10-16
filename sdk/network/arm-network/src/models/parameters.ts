@@ -71,6 +71,12 @@ import {
   SecurityAdminConfiguration as SecurityAdminConfigurationMapper,
   AdminRuleCollection as AdminRuleCollectionMapper,
   BaseAdminRule as BaseAdminRuleMapper,
+  SecurityUserConfiguration as SecurityUserConfigurationMapper,
+  SecurityUserRuleCollection as SecurityUserRuleCollectionMapper,
+  SecurityUserRule as SecurityUserRuleMapper,
+  NetworkManagerRoutingConfiguration as NetworkManagerRoutingConfigurationMapper,
+  RoutingRuleCollection as RoutingRuleCollectionMapper,
+  RoutingRule as RoutingRuleMapper,
   NetworkProfile as NetworkProfileMapper,
   NetworkSecurityGroup as NetworkSecurityGroupMapper,
   SecurityRule as SecurityRuleMapper,
@@ -141,6 +147,7 @@ import {
   VpnGateway as VpnGatewayMapper,
   VpnGatewayPacketCaptureStartParameters as VpnGatewayPacketCaptureStartParametersMapper,
   VpnGatewayPacketCaptureStopParameters as VpnGatewayPacketCaptureStopParametersMapper,
+  ConnectionSharedKeyResult as ConnectionSharedKeyResultMapper,
   VpnConnection as VpnConnectionMapper,
   VpnConnectionPacketCaptureStartParameters as VpnConnectionPacketCaptureStartParametersMapper,
   VpnConnectionPacketCaptureStopParameters as VpnConnectionPacketCaptureStopParametersMapper,
@@ -208,7 +215,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-01",
+    defaultValue: "2024-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -775,6 +782,16 @@ export const devicePath: OperationURLParameter = {
   },
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const crossConnectionName: OperationURLParameter = {
   parameterPath: "crossConnectionName",
   mapper: {
@@ -847,16 +864,6 @@ export const linkName: OperationURLParameter = {
 export const authorizationParameters1: OperationParameter = {
   parameterPath: "authorizationParameters",
   mapper: ExpressRoutePortAuthorizationMapper,
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
 };
 
 export const firewallPolicyName: OperationURLParameter = {
@@ -1330,6 +1337,107 @@ export const ruleName: OperationURLParameter = {
 export const adminRule: OperationParameter = {
   parameterPath: "adminRule",
   mapper: BaseAdminRuleMapper,
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const networkManagerName1: OperationURLParameter = {
+  parameterPath: "networkManagerName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "networkManagerName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const configurationName1: OperationURLParameter = {
+  parameterPath: "configurationName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "configurationName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const securityUserConfiguration: OperationParameter = {
+  parameterPath: "securityUserConfiguration",
+  mapper: SecurityUserConfigurationMapper,
+};
+
+export const ruleCollectionName1: OperationURLParameter = {
+  parameterPath: "ruleCollectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "ruleCollectionName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const securityUserRuleCollection: OperationParameter = {
+  parameterPath: "securityUserRuleCollection",
+  mapper: SecurityUserRuleCollectionMapper,
+};
+
+export const ruleName1: OperationURLParameter = {
+  parameterPath: "ruleName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9_.-]*$"),
+    },
+    serializedName: "ruleName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const securityUserRule: OperationParameter = {
+  parameterPath: "securityUserRule",
+  mapper: SecurityUserRuleMapper,
+};
+
+export const routingConfiguration: OperationParameter = {
+  parameterPath: "routingConfiguration",
+  mapper: NetworkManagerRoutingConfigurationMapper,
+};
+
+export const ruleCollection1: OperationParameter = {
+  parameterPath: "ruleCollection",
+  mapper: RoutingRuleCollectionMapper,
+};
+
+export const routingRule: OperationParameter = {
+  parameterPath: "routingRule",
+  mapper: RoutingRuleMapper,
 };
 
 export const networkProfileName: OperationURLParameter = {
@@ -2268,6 +2376,11 @@ export const linkConnectionName: OperationURLParameter = {
       name: "String",
     },
   },
+};
+
+export const connectionSharedKeyParameters: OperationParameter = {
+  parameterPath: "connectionSharedKeyParameters",
+  mapper: ConnectionSharedKeyResultMapper,
 };
 
 export const vpnConnectionParameters: OperationParameter = {

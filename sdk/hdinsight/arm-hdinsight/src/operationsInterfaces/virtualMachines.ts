@@ -12,7 +12,7 @@ import {
   VirtualMachinesListHostsResponse,
   VirtualMachinesRestartHostsOptionalParams,
   VirtualMachinesGetAsyncOperationStatusOptionalParams,
-  VirtualMachinesGetAsyncOperationStatusResponse
+  VirtualMachinesGetAsyncOperationStatusResponse,
 } from "../models";
 
 /** Interface representing a VirtualMachines. */
@@ -26,7 +26,7 @@ export interface VirtualMachines {
   listHosts(
     resourceGroupName: string,
     clusterName: string,
-    options?: VirtualMachinesListHostsOptionalParams
+    options?: VirtualMachinesListHostsOptionalParams,
   ): Promise<VirtualMachinesListHostsResponse>;
   /**
    * Restarts the specified HDInsight cluster hosts.
@@ -39,7 +39,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     hosts: string[],
-    options?: VirtualMachinesRestartHostsOptionalParams
+    options?: VirtualMachinesRestartHostsOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts the specified HDInsight cluster hosts.
@@ -52,7 +52,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     hosts: string[],
-    options?: VirtualMachinesRestartHostsOptionalParams
+    options?: VirtualMachinesRestartHostsOptionalParams,
   ): Promise<void>;
   /**
    * Gets the async operation status.
@@ -65,6 +65,6 @@ export interface VirtualMachines {
     resourceGroupName: string,
     clusterName: string,
     operationId: string,
-    options?: VirtualMachinesGetAsyncOperationStatusOptionalParams
+    options?: VirtualMachinesGetAsyncOperationStatusOptionalParams,
   ): Promise<VirtualMachinesGetAsyncOperationStatusResponse>;
 }

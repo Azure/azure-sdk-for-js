@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   ServiceBusReceivedMessage,
@@ -8,17 +8,15 @@ import {
   delay,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { getEntityNameFromConnectionString } from "../../src/constructorHelpers";
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import { getEntityNameFromConnectionString } from "../../src/constructorHelpers.js";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+} from "../public/utils/testutils2.js";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
+import { assert } from "../public/utils/chai.js";
 
 /**
  * A basic suite that exercises most of the core functionality.
@@ -26,11 +24,11 @@ const assert: typeof chai.assert = chai.assert;
 describe("Smoke tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  before(async () => {
+  beforeAll(async () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -38,7 +36,7 @@ describe("Smoke tests", () => {
     let queueName: string;
     let sender: ServiceBusSender;
 
-    before(async () => {
+    beforeAll(async () => {
       const { queue } = await serviceBusClient.test.createTestEntities(
         TestClientType.UnpartitionedQueue,
       );
@@ -189,7 +187,7 @@ describe("Smoke tests", () => {
     let topic: string;
     let subscription: string;
 
-    before(async () => {
+    beforeAll(async () => {
       const entity = await serviceBusClient.test.createTestEntities(
         TestClientType.UnpartitionedSubscription,
       );
@@ -330,7 +328,7 @@ describe("Smoke tests", () => {
     let sender: ServiceBusSender;
     let queue: string;
 
-    before(async () => {
+    beforeAll(async () => {
       const entities = await serviceBusClient.test.createTestEntities(
         TestClientType.UnpartitionedQueueWithSessions,
       );
@@ -470,13 +468,13 @@ describe("Smoke tests", () => {
 
 describe("ConstructorHelpers for track 2", () => {
   const entityConnectionString =
-    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myentity";
+    "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=;EntityPath=myEntity";
 
   const serviceBusConnectionString =
     "Endpoint=sb://host/;SharedAccessKeyName=queueall;SharedAccessKey=thesharedkey=";
 
   it("getEntityNameFromConnectionString", () => {
-    assert.equal("myentity", getEntityNameFromConnectionString(entityConnectionString));
+    assert.equal("myEntity", getEntityNameFromConnectionString(entityConnectionString));
     assert.throws(() => getEntityNameFromConnectionString(serviceBusConnectionString));
   });
 });

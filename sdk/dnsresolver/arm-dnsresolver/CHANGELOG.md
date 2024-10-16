@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2023-01-09)
     
-**Features**
+### Features Added
 
   - Interface DnsForwardingRulesetsListByResourceGroupNextOptionalParams no longer has parameter top
   - Interface DnsForwardingRulesetsListByVirtualNetworkNextOptionalParams no longer has parameter top

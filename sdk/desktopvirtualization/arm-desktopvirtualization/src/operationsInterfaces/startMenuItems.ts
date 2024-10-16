@@ -21,6 +21,6 @@ export interface StartMenuItems {
   list(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: StartMenuItemsListOptionalParams
+    options?: StartMenuItemsListOptionalParams,
   ): PagedAsyncIterableIterator<StartMenuItem>;
 }

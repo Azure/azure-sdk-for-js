@@ -1,72 +1,106 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
-import { createClient, startRecorder } from "../utils/recordedClient.js";
-import { OpenAIClient } from "../../../src/index.js";
-import * as fs from "fs/promises";
-import { AudioResultFormat } from "../../../src/models/audio.js";
+import { createReadStream } from "fs";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { describe, it, beforeAll } from "vitest";
+import { createClient } from "../utils/createClient.js";
+import OpenAI, { AzureOpenAI } from "openai";
+import {
+  APIMatrix,
+  APIVersion,
+  DeploymentInfo,
+  getDeployments,
+  maxRetriesOption,
+  withDeployments,
+} from "../utils/utils.js";
 import { assertAudioResult } from "../utils/asserts.js";
-import { AuthMethod } from "../types.js";
-
-function getModel(authMethod: AuthMethod): string {
-  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
-}
+import { AudioResultFormat } from "../utils/audioTypes.js";
 
 describe("OpenAI", function () {
-  matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
-    describe(`[${authMethod}] Client`, () => {
-      let recorder: Recorder;
-      let client: OpenAIClient;
+  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
+    describe(`[${apiVersion}] Client`, () => {
+      let client: AzureOpenAI | OpenAI;
+      let deployments: DeploymentInfo[] = [];
 
-      beforeEach(async function (this: Context) {
-        recorder = await startRecorder(this.currentTest);
-        client = createClient(authMethod, "whisper", { recorder });
-      });
-
-      afterEach(async function () {
-        if (recorder) {
-          await recorder.stop();
-        }
+      // TODO: Change to "audio" deployments once retry behavior is fixed
+      beforeAll(async function () {
+        deployments = await getDeployments("vision");
       });
 
       describe("getAudioTranscription", function () {
         it(`returns json transcription if responseFormat wasn't specified`, async function () {
-          const file = await fs.readFile(`./assets/audio/countdown.mp3`);
-          const res = await client.getAudioTranscription(getModel(authMethod), file);
-          assertAudioResult("json", res);
+          await withDeployments(
+            deployments,
+            (deployment) => {
+              const file = createReadStream(`./assets/audio/countdown.mp3`);
+              client = createClient(apiVersion, "vision", { deployment });
+              return client.audio.transcriptions.create({ model: "", file }, maxRetriesOption);
+            },
+            (audio) => assertAudioResult("json", audio),
+          );
         });
       });
 
       describe("getAudioTranslation", function () {
         it(`returns json translation if responseFormat wasn't specified`, async function () {
-          const file = await fs.readFile(`./assets/audio/countdown.mp3`);
-          const res = await client.getAudioTranslation(getModel(authMethod), file);
-          assertAudioResult("json", res);
+          await withDeployments(
+            deployments,
+            (deployment) => {
+              const file = createReadStream(`./assets/audio/countdown.mp3`);
+              client = createClient(apiVersion, "vision", { deployment });
+              return client.audio.translations.create({ model: "", file }, maxRetriesOption);
+            },
+            (audio) => assertAudioResult("json", audio),
+          );
         });
       });
 
       matrix(
         [
-          ["json", "verbose_json", "srt", "vtt", "text"],
-          ["m4a", "mp3", "wav", "ogg", "flac", "webm", "mp4", "mpeg", "oga", "mpga"],
+          ["json", "verbose_json", "text"],
+          ["mp3", "mp4"],
         ] as const,
         async function (format: AudioResultFormat, extension: string) {
           describe("getAudioTranscription", function () {
             it(`returns ${format} transcription for ${extension} files`, async function () {
-              const file = await fs.readFile(`./assets/audio/countdown.${extension}`);
-              const res = await client.getAudioTranscription(getModel(authMethod), file, format);
-              assertAudioResult(format, res);
+              await withDeployments(
+                deployments,
+                (deployment) => {
+                  const file = createReadStream(`./assets/audio/countdown.${extension}`);
+                  client = createClient(apiVersion, "vision", { deployment });
+                  return client.audio.transcriptions.create(
+                    {
+                      model: "",
+                      file,
+                      response_format: format,
+                    },
+                    maxRetriesOption,
+                  );
+                },
+                (audio) => assertAudioResult(format, audio),
+              );
             });
           });
 
           describe("getAudioTranslation", function () {
             it(`returns ${format} translation for ${extension} files`, async function () {
-              const file = await fs.readFile(`./assets/audio/countdown.${extension}`);
-              const res = await client.getAudioTranslation(getModel(authMethod), file, format);
-              assertAudioResult(format, res);
+              await withDeployments(
+                deployments,
+                (deployment) => {
+                  const file = createReadStream(`./assets/audio/countdown.${extension}`);
+                  client = createClient(apiVersion, "vision", { deployment });
+                  return client.audio.translations.create(
+                    {
+                      model: "",
+                      file,
+                      response_format: format,
+                    },
+                    maxRetriesOption,
+                  );
+                },
+                (audio) => assertAudioResult(format, audio),
+              );
             });
           });
         },

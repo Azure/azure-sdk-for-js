@@ -67,7 +67,7 @@ import {
   ResourceGuardsGetBackupSecurityPINRequestsObjectsNextResponse,
   ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextResponse,
   ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextResponse,
-  ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse
+  ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -88,7 +88,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
    * @param options The options parameters.
    */
   public listResourcesInSubscription(
-    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams
+    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardResource> {
     const iter = this.getResourcesInSubscriptionPagingAll(options);
     return {
@@ -103,13 +103,13 @@ export class ResourceGuardsImpl implements ResourceGuards {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getResourcesInSubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getResourcesInSubscriptionPagingPage(
     options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceGuardResource[]> {
     let result: ResourceGuardsGetResourcesInSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -123,7 +123,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     while (continuationToken) {
       result = await this._getResourcesInSubscriptionNext(
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -133,10 +133,10 @@ export class ResourceGuardsImpl implements ResourceGuards {
   }
 
   private async *getResourcesInSubscriptionPagingAll(
-    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams
+    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams,
   ): AsyncIterableIterator<ResourceGuardResource> {
     for await (const page of this.getResourcesInSubscriptionPagingPage(
-      options
+      options,
     )) {
       yield* page;
     }
@@ -149,11 +149,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
    */
   public listResourcesInResourceGroup(
     resourceGroupName: string,
-    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams
+    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ResourceGuardResource> {
     const iter = this.getResourcesInResourceGroupPagingAll(
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -169,23 +169,23 @@ export class ResourceGuardsImpl implements ResourceGuards {
         return this.getResourcesInResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *getResourcesInResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceGuardResource[]> {
     let result: ResourceGuardsGetResourcesInResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._getResourcesInResourceGroup(
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -196,7 +196,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getResourcesInResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -207,11 +207,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
 
   private async *getResourcesInResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams
+    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams,
   ): AsyncIterableIterator<ResourceGuardResource> {
     for await (const page of this.getResourcesInResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -227,12 +227,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   public listDisableSoftDeleteRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource> {
     const iter = this.getDisableSoftDeleteRequestsObjectsPagingAll(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     );
     return {
       next() {
@@ -249,9 +249,9 @@ export class ResourceGuardsImpl implements ResourceGuards {
           resourceGroupName,
           resourceGuardsName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -259,7 +259,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DppBaseResource[]> {
     let result: ResourceGuardsGetDisableSoftDeleteRequestsObjectsResponse;
     let continuationToken = settings?.continuationToken;
@@ -267,7 +267,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getDisableSoftDeleteRequestsObjects(
         resourceGroupName,
         resourceGuardsName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -279,7 +279,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
         resourceGroupName,
         resourceGuardsName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -291,12 +291,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private async *getDisableSoftDeleteRequestsObjectsPagingAll(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams,
   ): AsyncIterableIterator<DppBaseResource> {
     for await (const page of this.getDisableSoftDeleteRequestsObjectsPagingPage(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -312,12 +312,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   public listDeleteResourceGuardProxyRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource> {
     const iter = this.getDeleteResourceGuardProxyRequestsObjectsPagingAll(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     );
     return {
       next() {
@@ -334,9 +334,9 @@ export class ResourceGuardsImpl implements ResourceGuards {
           resourceGroupName,
           resourceGuardsName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -344,7 +344,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DppBaseResource[]> {
     let result: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsResponse;
     let continuationToken = settings?.continuationToken;
@@ -352,7 +352,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getDeleteResourceGuardProxyRequestsObjects(
         resourceGroupName,
         resourceGuardsName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -364,7 +364,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
         resourceGroupName,
         resourceGuardsName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -376,12 +376,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private async *getDeleteResourceGuardProxyRequestsObjectsPagingAll(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams,
   ): AsyncIterableIterator<DppBaseResource> {
     for await (const page of this.getDeleteResourceGuardProxyRequestsObjectsPagingPage(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -397,12 +397,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   public listBackupSecurityPINRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource> {
     const iter = this.getBackupSecurityPINRequestsObjectsPagingAll(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     );
     return {
       next() {
@@ -419,9 +419,9 @@ export class ResourceGuardsImpl implements ResourceGuards {
           resourceGroupName,
           resourceGuardsName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -429,7 +429,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DppBaseResource[]> {
     let result: ResourceGuardsGetBackupSecurityPINRequestsObjectsResponse;
     let continuationToken = settings?.continuationToken;
@@ -437,7 +437,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getBackupSecurityPINRequestsObjects(
         resourceGroupName,
         resourceGuardsName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -449,7 +449,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
         resourceGroupName,
         resourceGuardsName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -461,12 +461,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private async *getBackupSecurityPINRequestsObjectsPagingAll(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams,
   ): AsyncIterableIterator<DppBaseResource> {
     for await (const page of this.getBackupSecurityPINRequestsObjectsPagingPage(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -482,12 +482,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   public listDeleteProtectedItemRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource> {
     const iter = this.getDeleteProtectedItemRequestsObjectsPagingAll(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     );
     return {
       next() {
@@ -504,9 +504,9 @@ export class ResourceGuardsImpl implements ResourceGuards {
           resourceGroupName,
           resourceGuardsName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -514,7 +514,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DppBaseResource[]> {
     let result: ResourceGuardsGetDeleteProtectedItemRequestsObjectsResponse;
     let continuationToken = settings?.continuationToken;
@@ -522,7 +522,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getDeleteProtectedItemRequestsObjects(
         resourceGroupName,
         resourceGuardsName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -534,7 +534,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
         resourceGroupName,
         resourceGuardsName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -546,12 +546,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private async *getDeleteProtectedItemRequestsObjectsPagingAll(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams,
   ): AsyncIterableIterator<DppBaseResource> {
     for await (const page of this.getDeleteProtectedItemRequestsObjectsPagingPage(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -567,12 +567,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   public listUpdateProtectionPolicyRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource> {
     const iter = this.getUpdateProtectionPolicyRequestsObjectsPagingAll(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     );
     return {
       next() {
@@ -589,9 +589,9 @@ export class ResourceGuardsImpl implements ResourceGuards {
           resourceGroupName,
           resourceGuardsName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -599,7 +599,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DppBaseResource[]> {
     let result: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsResponse;
     let continuationToken = settings?.continuationToken;
@@ -607,7 +607,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getUpdateProtectionPolicyRequestsObjects(
         resourceGroupName,
         resourceGuardsName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -619,7 +619,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
         resourceGroupName,
         resourceGuardsName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -631,12 +631,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private async *getUpdateProtectionPolicyRequestsObjectsPagingAll(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams,
   ): AsyncIterableIterator<DppBaseResource> {
     for await (const page of this.getUpdateProtectionPolicyRequestsObjectsPagingPage(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -652,12 +652,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   public listUpdateProtectedItemRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams,
   ): PagedAsyncIterableIterator<DppBaseResource> {
     const iter = this.getUpdateProtectedItemRequestsObjectsPagingAll(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     );
     return {
       next() {
@@ -674,9 +674,9 @@ export class ResourceGuardsImpl implements ResourceGuards {
           resourceGroupName,
           resourceGuardsName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -684,7 +684,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DppBaseResource[]> {
     let result: ResourceGuardsGetUpdateProtectedItemRequestsObjectsResponse;
     let continuationToken = settings?.continuationToken;
@@ -692,7 +692,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
       result = await this._getUpdateProtectedItemRequestsObjects(
         resourceGroupName,
         resourceGuardsName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -704,7 +704,7 @@ export class ResourceGuardsImpl implements ResourceGuards {
         resourceGroupName,
         resourceGuardsName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -716,12 +716,12 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private async *getUpdateProtectedItemRequestsObjectsPagingAll(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams,
   ): AsyncIterableIterator<DppBaseResource> {
     for await (const page of this.getUpdateProtectedItemRequestsObjectsPagingPage(
       resourceGroupName,
       resourceGuardsName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -732,11 +732,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
    * @param options The options parameters.
    */
   private _getResourcesInSubscription(
-    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams
+    options?: ResourceGuardsGetResourcesInSubscriptionOptionalParams,
   ): Promise<ResourceGuardsGetResourcesInSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      getResourcesInSubscriptionOperationSpec
+      getResourcesInSubscriptionOperationSpec,
     );
   }
 
@@ -747,11 +747,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
    */
   private _getResourcesInResourceGroup(
     resourceGroupName: string,
-    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams
+    options?: ResourceGuardsGetResourcesInResourceGroupOptionalParams,
   ): Promise<ResourceGuardsGetResourcesInResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      getResourcesInResourceGroupOperationSpec
+      getResourcesInResourceGroupOperationSpec,
     );
   }
 
@@ -766,11 +766,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     parameters: ResourceGuardResource,
-    options?: ResourceGuardsPutOptionalParams
+    options?: ResourceGuardsPutOptionalParams,
   ): Promise<ResourceGuardsPutResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, parameters, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -783,11 +783,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   get(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetOptionalParams
+    options?: ResourceGuardsGetOptionalParams,
   ): Promise<ResourceGuardsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -800,11 +800,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   delete(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsDeleteOptionalParams
+    options?: ResourceGuardsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -820,11 +820,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     parameters: PatchResourceGuardInput,
-    options?: ResourceGuardsPatchOptionalParams
+    options?: ResourceGuardsPatchOptionalParams,
   ): Promise<ResourceGuardsPatchResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, parameters, options },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 
@@ -838,11 +838,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getDisableSoftDeleteRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsOptionalParams,
   ): Promise<ResourceGuardsGetDisableSoftDeleteRequestsObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getDisableSoftDeleteRequestsObjectsOperationSpec
+      getDisableSoftDeleteRequestsObjectsOperationSpec,
     );
   }
 
@@ -856,11 +856,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getDeleteResourceGuardProxyRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsOptionalParams,
   ): Promise<ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getDeleteResourceGuardProxyRequestsObjectsOperationSpec
+      getDeleteResourceGuardProxyRequestsObjectsOperationSpec,
     );
   }
 
@@ -874,11 +874,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getBackupSecurityPINRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsOptionalParams,
   ): Promise<ResourceGuardsGetBackupSecurityPINRequestsObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getBackupSecurityPINRequestsObjectsOperationSpec
+      getBackupSecurityPINRequestsObjectsOperationSpec,
     );
   }
 
@@ -892,11 +892,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getDeleteProtectedItemRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsOptionalParams,
   ): Promise<ResourceGuardsGetDeleteProtectedItemRequestsObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getDeleteProtectedItemRequestsObjectsOperationSpec
+      getDeleteProtectedItemRequestsObjectsOperationSpec,
     );
   }
 
@@ -910,11 +910,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getUpdateProtectionPolicyRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsOptionalParams,
   ): Promise<ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getUpdateProtectionPolicyRequestsObjectsOperationSpec
+      getUpdateProtectionPolicyRequestsObjectsOperationSpec,
     );
   }
 
@@ -928,11 +928,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getUpdateProtectedItemRequestsObjects(
     resourceGroupName: string,
     resourceGuardsName: string,
-    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams
+    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsOptionalParams,
   ): Promise<ResourceGuardsGetUpdateProtectedItemRequestsObjectsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, options },
-      getUpdateProtectedItemRequestsObjectsOperationSpec
+      getUpdateProtectedItemRequestsObjectsOperationSpec,
     );
   }
 
@@ -948,11 +948,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams
+    options?: ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectOptionalParams,
   ): Promise<ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, requestName, options },
-      getDefaultDisableSoftDeleteRequestsObjectOperationSpec
+      getDefaultDisableSoftDeleteRequestsObjectOperationSpec,
     );
   }
 
@@ -968,13 +968,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams
-  ): Promise<
-    ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse
-  > {
+    options?: ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
+  ): Promise<ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, requestName, options },
-      getDefaultDeleteResourceGuardProxyRequestsObjectOperationSpec
+      getDefaultDeleteResourceGuardProxyRequestsObjectOperationSpec,
     );
   }
 
@@ -990,11 +988,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams
+    options?: ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
   ): Promise<ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, requestName, options },
-      getDefaultBackupSecurityPINRequestsObjectOperationSpec
+      getDefaultBackupSecurityPINRequestsObjectOperationSpec,
     );
   }
 
@@ -1010,13 +1008,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams
-  ): Promise<
-    ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectResponse
-  > {
+    options?: ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectOptionalParams,
+  ): Promise<ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, requestName, options },
-      getDefaultDeleteProtectedItemRequestsObjectOperationSpec
+      getDefaultDeleteProtectedItemRequestsObjectOperationSpec,
     );
   }
 
@@ -1032,13 +1028,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams
-  ): Promise<
-    ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse
-  > {
+    options?: ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectOptionalParams,
+  ): Promise<ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, requestName, options },
-      getDefaultUpdateProtectionPolicyRequestsObjectOperationSpec
+      getDefaultUpdateProtectionPolicyRequestsObjectOperationSpec,
     );
   }
 
@@ -1054,13 +1048,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     requestName: string,
-    options?: ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams
-  ): Promise<
-    ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse
-  > {
+    options?: ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectOptionalParams,
+  ): Promise<ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, requestName, options },
-      getDefaultUpdateProtectedItemRequestsObjectOperationSpec
+      getDefaultUpdateProtectedItemRequestsObjectOperationSpec,
     );
   }
 
@@ -1072,11 +1064,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
    */
   private _getResourcesInSubscriptionNext(
     nextLink: string,
-    options?: ResourceGuardsGetResourcesInSubscriptionNextOptionalParams
+    options?: ResourceGuardsGetResourcesInSubscriptionNextOptionalParams,
   ): Promise<ResourceGuardsGetResourcesInSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      getResourcesInSubscriptionNextOperationSpec
+      getResourcesInSubscriptionNextOperationSpec,
     );
   }
 
@@ -1090,11 +1082,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
   private _getResourcesInResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ResourceGuardsGetResourcesInResourceGroupNextOptionalParams
+    options?: ResourceGuardsGetResourcesInResourceGroupNextOptionalParams,
   ): Promise<ResourceGuardsGetResourcesInResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      getResourcesInResourceGroupNextOperationSpec
+      getResourcesInResourceGroupNextOperationSpec,
     );
   }
 
@@ -1110,11 +1102,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     nextLink: string,
-    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsNextOptionalParams
+    options?: ResourceGuardsGetDisableSoftDeleteRequestsObjectsNextOptionalParams,
   ): Promise<ResourceGuardsGetDisableSoftDeleteRequestsObjectsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, nextLink, options },
-      getDisableSoftDeleteRequestsObjectsNextOperationSpec
+      getDisableSoftDeleteRequestsObjectsNextOperationSpec,
     );
   }
 
@@ -1130,13 +1122,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     nextLink: string,
-    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextOptionalParams
-  ): Promise<
-    ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextResponse
-  > {
+    options?: ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextOptionalParams,
+  ): Promise<ResourceGuardsGetDeleteResourceGuardProxyRequestsObjectsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, nextLink, options },
-      getDeleteResourceGuardProxyRequestsObjectsNextOperationSpec
+      getDeleteResourceGuardProxyRequestsObjectsNextOperationSpec,
     );
   }
 
@@ -1152,11 +1142,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     nextLink: string,
-    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsNextOptionalParams
+    options?: ResourceGuardsGetBackupSecurityPINRequestsObjectsNextOptionalParams,
   ): Promise<ResourceGuardsGetBackupSecurityPINRequestsObjectsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, nextLink, options },
-      getBackupSecurityPINRequestsObjectsNextOperationSpec
+      getBackupSecurityPINRequestsObjectsNextOperationSpec,
     );
   }
 
@@ -1172,11 +1162,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     nextLink: string,
-    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextOptionalParams
+    options?: ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextOptionalParams,
   ): Promise<ResourceGuardsGetDeleteProtectedItemRequestsObjectsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, nextLink, options },
-      getDeleteProtectedItemRequestsObjectsNextOperationSpec
+      getDeleteProtectedItemRequestsObjectsNextOperationSpec,
     );
   }
 
@@ -1192,13 +1182,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     nextLink: string,
-    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextOptionalParams
-  ): Promise<
-    ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextResponse
-  > {
+    options?: ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextOptionalParams,
+  ): Promise<ResourceGuardsGetUpdateProtectionPolicyRequestsObjectsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, nextLink, options },
-      getUpdateProtectionPolicyRequestsObjectsNextOperationSpec
+      getUpdateProtectionPolicyRequestsObjectsNextOperationSpec,
     );
   }
 
@@ -1214,11 +1202,11 @@ export class ResourceGuardsImpl implements ResourceGuards {
     resourceGroupName: string,
     resourceGuardsName: string,
     nextLink: string,
-    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptionalParams
+    options?: ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextOptionalParams,
   ): Promise<ResourceGuardsGetUpdateProtectedItemRequestsObjectsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceGuardsName, nextLink, options },
-      getUpdateProtectedItemRequestsObjectsNextOperationSpec
+      getUpdateProtectedItemRequestsObjectsNextOperationSpec,
     );
   }
 }
@@ -1226,569 +1214,569 @@ export class ResourceGuardsImpl implements ResourceGuards {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getResourcesInSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/resourceGuards",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataProtection/resourceGuards",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResourceList
+      bodyMapper: Mappers.ResourceGuardResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getResourcesInResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResourceList
+      bodyMapper: Mappers.ResourceGuardResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResource
+      bodyMapper: Mappers.ResourceGuardResource,
     },
     201: {
-      bodyMapper: Mappers.ResourceGuardResource
+      bodyMapper: Mappers.ResourceGuardResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
+    Parameters.resourceGuardsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResource
+      bodyMapper: Mappers.ResourceGuardResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
+    Parameters.resourceGuardsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
+    Parameters.resourceGuardsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResource
+      bodyMapper: Mappers.ResourceGuardResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
+    Parameters.resourceGuardsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const getDisableSoftDeleteRequestsObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+const getDisableSoftDeleteRequestsObjectsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeleteResourceGuardProxyRequestsObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDeleteResourceGuardProxyRequestsObjectsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getBackupSecurityPINRequestsObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getBackupSecurityPINRequestsObjectsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeleteProtectedItemRequestsObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDeleteProtectedItemRequestsObjectsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getUpdateProtectionPolicyRequestsObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getUpdateProtectionPolicyRequestsObjectsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getUpdateProtectedItemRequestsObjectsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getUpdateProtectedItemRequestsObjectsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDefaultDisableSoftDeleteRequestsObjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests/{requestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResource
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDefaultDisableSoftDeleteRequestsObjectOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/disableSoftDeleteRequests/{requestName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName,
-    Parameters.requestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDefaultDeleteResourceGuardProxyRequestsObjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests/{requestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResource
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+      Parameters.requestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDefaultDeleteResourceGuardProxyRequestsObjectOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteResourceGuardProxyRequests/{requestName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName,
-    Parameters.requestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDefaultBackupSecurityPINRequestsObjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests/{requestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResource
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+      Parameters.requestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDefaultBackupSecurityPINRequestsObjectOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/getBackupSecurityPINRequests/{requestName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName,
-    Parameters.requestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDefaultDeleteProtectedItemRequestsObjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests/{requestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResource
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+      Parameters.requestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDefaultDeleteProtectedItemRequestsObjectOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/deleteProtectedItemRequests/{requestName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName,
-    Parameters.requestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDefaultUpdateProtectionPolicyRequestsObjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests/{requestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResource
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+      Parameters.requestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDefaultUpdateProtectionPolicyRequestsObjectOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectionPolicyRequests/{requestName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName,
-    Parameters.requestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDefaultUpdateProtectedItemRequestsObjectOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests/{requestName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResource
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+      Parameters.requestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDefaultUpdateProtectedItemRequestsObjectOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/resourceGuards/{resourceGuardsName}/updateProtectedItemRequests/{requestName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResource,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceGuardsName,
-    Parameters.requestName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.resourceGuardsName,
+      Parameters.requestName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const getResourcesInSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResourceList
+      bodyMapper: Mappers.ResourceGuardResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getResourcesInResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceGuardResourceList
+      bodyMapper: Mappers.ResourceGuardResourceList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDisableSoftDeleteRequestsObjectsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.resourceGuardsName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getDeleteResourceGuardProxyRequestsObjectsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+const getDisableSoftDeleteRequestsObjectsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getBackupSecurityPINRequestsObjectsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDeleteResourceGuardProxyRequestsObjectsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeleteProtectedItemRequestsObjectsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getBackupSecurityPINRequestsObjectsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getUpdateProtectionPolicyRequestsObjectsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getDeleteProtectedItemRequestsObjectsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getUpdateProtectedItemRequestsObjectsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DppBaseResourceList
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getUpdateProtectionPolicyRequestsObjectsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.resourceGuardsName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const getUpdateProtectedItemRequestsObjectsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.DppBaseResourceList,
+      },
+      default: {
+        bodyMapper: Mappers.CloudError,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.resourceGuardsName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

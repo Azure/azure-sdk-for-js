@@ -1,9 +1,11 @@
 # Release History
 
-## 1.6.0 (upcoming)
+## 1.5.2 (2024-08-06)
 
-### Features Added
+### Other Changes
 
+- Updated to @azure/communication-signaling@1.0.0-beta.28 with React Native support.
+- Updated @azure/core-client and @azure/core-rest-pipeline version.
 
 ## 1.5.1 (2024-06-12)
 

@@ -7,11 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NetworkSecurityPerimeterConfiguration,
   NetworkSecurityPerimeterConfigurationsListByPrivateLinkScopeOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeResponse,
+  NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
+  NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,4 +45,37 @@ export interface NetworkSecurityPerimeterConfigurations {
     perimeterName: string,
     options?: NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeOptionalParams,
   ): Promise<NetworkSecurityPerimeterConfigurationsGetByPrivateLinkScopeResponse>;
+  /**
+   * Forces the network security perimeter configuration to refresh for a private link scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param perimeterName The name, in the format {perimeterGuid}.{associationName}, of the Network
+   *                      Security Perimeter resource.
+   * @param options The options parameters.
+   */
+  beginReconcileForPrivateLinkScope(
+    resourceGroupName: string,
+    scopeName: string,
+    perimeterName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse>,
+      NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse
+    >
+  >;
+  /**
+   * Forces the network security perimeter configuration to refresh for a private link scope.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scopeName The name of the Azure Arc PrivateLinkScope resource.
+   * @param perimeterName The name, in the format {perimeterGuid}.{associationName}, of the Network
+   *                      Security Perimeter resource.
+   * @param options The options parameters.
+   */
+  beginReconcileForPrivateLinkScopeAndWait(
+    resourceGroupName: string,
+    scopeName: string,
+    perimeterName: string,
+    options?: NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeOptionalParams,
+  ): Promise<NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeResponse>;
 }

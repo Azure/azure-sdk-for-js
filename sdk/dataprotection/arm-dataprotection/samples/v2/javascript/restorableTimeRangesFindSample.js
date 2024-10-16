@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/BackupInstanceOperations/FindRestorableTimeRanges.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/FindRestorableTimeRanges.json
  */
 async function findRestorableTimeRanges() {
   const subscriptionId =

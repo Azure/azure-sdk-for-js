@@ -1174,7 +1174,6 @@ export const KeyVaultProperties: coreClient.CompositeMapper = {
       },
       keyVaultResourceId: {
         serializedName: "keyVaultResourceId",
-        required: true,
         type: {
           name: "String",
         },
@@ -1867,7 +1866,7 @@ export const VolumePatch: coreClient.CompositeMapper = {
         defaultValue: 107374182400,
         constraints: {
           InclusiveMaximum: 2638827906662400,
-          InclusiveMinimum: 107374182400,
+          InclusiveMinimum: 53687091200,
         },
         serializedName: "properties.usageThreshold",
         type: {
@@ -1879,6 +1878,17 @@ export const VolumePatch: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePatchPropertiesExportPolicy",
+        },
+      },
+      protocolTypes: {
+        serializedName: "properties.protocolTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
       throughputMibps: {
@@ -2192,6 +2202,20 @@ export const Replication: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Replication",
     modelProperties: {
+      replicationId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+          ),
+          MaxLength: 36,
+          MinLength: 36,
+        },
+        serializedName: "replicationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       endpointType: {
         serializedName: "endpointType",
         type: {
@@ -3076,7 +3100,7 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
         defaultValue: 107374182400,
         constraints: {
           InclusiveMaximum: 2638827906662400,
-          InclusiveMinimum: 107374182400,
+          InclusiveMinimum: 53687091200,
         },
         serializedName: "properties.usageThreshold",
         required: true,
@@ -3295,7 +3319,7 @@ export const VolumeGroupVolumeProperties: coreClient.CompositeMapper = {
       coolnessPeriod: {
         constraints: {
           InclusiveMaximum: 183,
-          InclusiveMinimum: 7,
+          InclusiveMinimum: 2,
         },
         serializedName: "properties.coolnessPeriod",
         type: {
@@ -4582,7 +4606,7 @@ export const Volume: coreClient.CompositeMapper = {
         defaultValue: 107374182400,
         constraints: {
           InclusiveMaximum: 2638827906662400,
-          InclusiveMinimum: 107374182400,
+          InclusiveMinimum: 53687091200,
         },
         serializedName: "properties.usageThreshold",
         required: true,
@@ -4801,7 +4825,7 @@ export const Volume: coreClient.CompositeMapper = {
       coolnessPeriod: {
         constraints: {
           InclusiveMaximum: 183,
-          InclusiveMinimum: 7,
+          InclusiveMinimum: 2,
         },
         serializedName: "properties.coolnessPeriod",
         type: {

@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { ConnectionContext } from "./connectionContext";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import { ConnectionContext } from "./connectionContext.js";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import { CorrelationRuleFilter } from "./core/managementClient";
-import { ruleManagerLogger as logger } from "./log";
+import { CorrelationRuleFilter } from "./core/managementClient.js";
+import { ruleManagerLogger as logger } from "./log.js";
 import {
   isSqlRuleAction,
   RuleProperties,
   SqlRuleAction,
-} from "./serializers/ruleResourceSerializer";
-import { getUniqueName } from "./util/utils";
-import { throwErrorIfConnectionClosed } from "./util/errors";
-import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
-import { tracingClient } from "./diagnostics/tracing";
+} from "./serializers/ruleResourceSerializer.js";
+import { getUniqueName } from "./util/utils.js";
+import { throwErrorIfConnectionClosed } from "./util/errors.js";
+import { SqlRuleFilter } from "./serializers/ruleResourceSerializer.js";
+import { tracingClient } from "./diagnostics/tracing.js";
 import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
-import { ListRequestOptions } from "./serviceBusAtomManagementClient";
+import { ListRequestOptions } from "./serviceBusAtomManagementClient.js";
 
 /**
  * Allows rules for a subscription to be managed. This rule manager requires only Listen claims, whereas the
@@ -64,10 +64,7 @@ export interface ServiceBusRuleManager {
    *
    * @returns An asyncIterableIterator that supports paging.
    */
-  listRules(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions,
-  ): PagedAsyncIterableIterator<RuleProperties>;
+  listRules(options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties>;
 }
 
 /**
@@ -209,7 +206,6 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listRules(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions,
   ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);

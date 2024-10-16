@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCachePersistenceOptions } from "../msal/nodeFlows/tokenCachePersistenceOptions";
 
@@ -17,23 +17,14 @@ export interface CredentialPersistenceOptions {
    *
    * Example:
    *
-   * ```javascript
-   * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+   * ```ts snippet:credential_persistence_options_example
    * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
    *
    * useIdentityPlugin(cachePersistencePlugin);
-   *
-   * async function main() {
-   *   const credential = new DeviceCodeCredential({
-   *     tokenCachePersistenceOptions: {
-   *       enabled: true
-   *     }
-   *   });
-   * }
-   *
-   * main().catch((error) => {
-   *   console.error("An error occurred:", error);
-   *   process.exit(1);
+   * const credential = new DeviceCodeCredential({
+   *   tokenCachePersistenceOptions: {
+   *     enabled: true,
+   *   },
    * });
    * ```
    */

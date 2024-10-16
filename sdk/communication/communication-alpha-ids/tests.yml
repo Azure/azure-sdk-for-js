@@ -5,15 +5,10 @@ extends:
     parameters:
       PackageName: "@azure-tools/communication-alpha-ids"
       ServiceDirectory: communication
-      UseFederatedAuth: true
       CloudConfig:
         Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-      Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/

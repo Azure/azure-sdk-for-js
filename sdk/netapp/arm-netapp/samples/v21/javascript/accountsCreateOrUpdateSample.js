@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Accounts_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Accounts_CreateOrUpdate.json
  */
 async function accountsCreateOrUpdate() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function accountsCreateOrUpdate() {
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-11-01/examples/Accounts_CreateOrUpdateAD.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/Accounts_CreateOrUpdateAD.json
  */
 async function accountsCreateOrUpdateWithActiveDirectory() {
   const subscriptionId =

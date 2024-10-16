@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { DeleteSecretOptions, DeletedSecret, GetDeletedSecretOptions } from "../../secretsModels";
+import {
+  DeleteSecretOptions,
+  DeletedSecret,
+  GetDeletedSecretOptions,
+} from "../../secretsModels.js";
 import {
   KeyVaultSecretPollOperation,
   KeyVaultSecretPollOperationState,
-} from "../keyVaultSecretPoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getSecretFromSecretBundle } from "../../transformations";
+} from "../keyVaultSecretPoller.js";
+import { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { getSecretFromSecretBundle } from "../../transformations.js";
 import { OperationOptions } from "@azure/core-client";
-import { tracingClient } from "../../tracing";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the state of a delete secret's poll operation

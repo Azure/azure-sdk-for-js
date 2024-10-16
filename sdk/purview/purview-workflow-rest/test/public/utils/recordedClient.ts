@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import "./env";
@@ -17,6 +17,12 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3478", // .accountname in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK2030", // .operation-location in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export async function createClient(

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the Index Operations.
  */
 
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SearchIndexClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
-const indexName = "example-index-sample-1";
+const TEST_INDEX_NAME = "example-index-sample-1";
 
 async function createIndex(indexName, client) {
   console.log(`Creating Index Operation`);
@@ -103,10 +103,10 @@ async function getServiceStatistics(client) {
   console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
   console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
   console.log(
-    `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`
+    `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`,
   );
   console.log(
-    `\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`
+    `\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`,
   );
 }
 
@@ -133,19 +133,19 @@ async function deleteIndex(indexName, client) {
 
 async function main() {
   console.log(`Running Index Operations Sample....`);
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
-    await createIndex(indexName, client);
-    await getAndUpdateIndex(indexName, client);
-    await getIndexStatistics(indexName, client);
+    await createIndex(TEST_INDEX_NAME, client);
+    await getAndUpdateIndex(TEST_INDEX_NAME, client);
+    await getIndexStatistics(TEST_INDEX_NAME, client);
     await getServiceStatistics(client);
     await listIndexes(client);
   } finally {
-    await deleteIndex(indexName, client);
+    await deleteIndex(TEST_INDEX_NAME, client);
   }
 }
 

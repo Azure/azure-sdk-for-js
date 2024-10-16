@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   toRheaMessage,
-} from "../../../src/serviceBusMessage";
+} from "../../../src/serviceBusMessage.js";
 import {
   Delivery,
   uuid_to_string,
@@ -13,12 +13,12 @@ import {
   DeliveryAnnotations,
   Message as RheaMessage,
 } from "rhea-promise";
-import chai from "chai";
 import { ConnectionConfig, Constants } from "@azure/core-amqp";
-import { defaultDataTransformer } from "../../../src/dataTransformer";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { ConnectionContext } from "../../../src/connectionContext";
-const assert: typeof chai.assert = chai.assert;
+import { defaultDataTransformer } from "../../../src/dataTransformer.js";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import { ConnectionContext } from "../../../src/connectionContext.js";
+import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 const fakeDelivery = {} as Delivery;
 
@@ -31,7 +31,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
       message_annotations,
     };
 
-    const fakeDeliveryTag = new Buffer(16);
+    const fakeDeliveryTag = Buffer.alloc(16);
     for (let i = 0; i < fakeDeliveryTag.length; i++) {
       fakeDeliveryTag[i] = Math.floor(Math.random() * 255);
     }

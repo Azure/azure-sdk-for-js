@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationOptions } from "@azure/core-client";
 import { delay } from "@azure/core-util";
@@ -8,8 +8,8 @@ import {
   RestoreKeyBackupPollOperationState,
   TestKeyClientInterface,
   makeRestoreKeyBackupPollOperation,
-} from "./operation";
-import { KeyVaultKey } from "../../../../../src";
+} from "./operation.js";
+import { KeyVaultKey } from "../../../../../src/index.js";
 
 export interface RestoreKeyBackupPollerOptions {
   client: TestKeyClientInterface;

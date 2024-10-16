@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to require client methods returning an instance of the client to not include the client name in the method name.
@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "require client methods returning an instance of the client to not include the client name in the method name",
-      recommended: "recommended",
     },
     messages: {
       ClassNameInMethodName:

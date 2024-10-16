@@ -15,7 +15,7 @@ import {
   KeyValue as KeyValueMapper,
   ConfigurationSnapshot as ConfigurationSnapshotMapper,
   SnapshotUpdateParameters as SnapshotUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -170,6 +170,25 @@ export const ifNoneMatch: OperationParameter = {
       name: "String",
     },
   },
+};
+
+export const tags: OperationQueryParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: {
+    constraints: {
+      UniqueItems: true,
+    },
+    serializedName: "tags",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+  collectionFormat: "Multi",
 };
 
 export const accept2: OperationParameter = {

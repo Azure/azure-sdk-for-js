@@ -1,6 +1,8 @@
 # Release History
-    
+
 ## 2.0.0-beta.3 (2022-11-28)
+
+### Features Added
 
 The package of @azure/arm-commitmentplans is using our next generation design principles since version 2.0.0-beta.3, which contains breaking changes.
 

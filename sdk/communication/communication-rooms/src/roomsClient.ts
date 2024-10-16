@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -191,6 +191,7 @@ export class RoomsClient {
    * Gets the list of rooms
    * @param options - Operational options
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listRooms(options: ListRoomOptions = {}): PagedAsyncIterableIterator<CommunicationRoom> {
     const { span, updatedOptions } = tracingClient.startSpan("RoomsClient-ListRooms", options);
     try {

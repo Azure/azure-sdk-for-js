@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of replication links on database.
  *
  * @summary Gets a list of replication links on database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ReplicationLinkListByDatabase.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkListByDatabase.json
  */
 async function listReplicationLinksOnServerOnDatabase() {
   const subscriptionId =

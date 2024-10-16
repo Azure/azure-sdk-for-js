@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -50,6 +50,10 @@ export const recorderEnvSetup: RecorderStartOptions = {
     PREMIUM_FILE_ACCOUNT_KEY: `${mockAccountKey}`,
     PREMIUM_FILE_ACCOUNT_SAS: `${mockSas}`,
     PREMIUM_FILE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    PROVISIONED_FILE_ACCOUNT_NAME: `${mockAccountName}`,
+    PROVISIONED_FILE_ACCOUNT_KEY: `${mockAccountKey}`,
+    PROVISIONED_FILE_ACCOUNT_SAS: `${mockSas}`,
+    PROVISIONED_FILE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode

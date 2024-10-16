@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   EventData,
@@ -12,7 +12,7 @@ import {
   latestEventPosition,
   EventHubConsumerClientOptions,
 } from "@azure/event-hubs";
-import { MessagingTestClient } from "./models";
+import { MessagingTestClient } from "./models.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 

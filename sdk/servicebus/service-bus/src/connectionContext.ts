@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { connectionLogger as logger } from "./log";
-import { packageJsonInfo } from "./util/constants";
+import { connectionLogger as logger } from "./log.js";
+import { packageJsonInfo } from "./util/constants.js";
 import {
   ConnectionConfig,
   ConnectionContextBase,
@@ -10,7 +10,7 @@ import {
   SasTokenProvider,
 } from "@azure/core-amqp";
 import { TokenCredential } from "@azure/core-auth";
-import { ServiceBusClientOptions } from "./constructorHelpers";
+import { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
   AmqpError,
   Connection,
@@ -19,14 +19,14 @@ import {
   EventContext,
   OnAmqpEvent,
 } from "rhea-promise";
-import { MessageSender } from "./core/messageSender";
-import { MessageSession } from "./session/messageSession";
-import { MessageReceiver } from "./core/messageReceiver";
-import { ManagementClient } from "./core/managementClient";
-import { formatUserAgentPrefix } from "./util/utils";
-import { getRuntimeInfo } from "./util/runtimeInfo";
-import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
-import { ServiceBusError } from "./serviceBusError";
+import { MessageSender } from "./core/messageSender.js";
+import { MessageSession } from "./session/messageSession.js";
+import { MessageReceiver } from "./core/messageReceiver.js";
+import { ManagementClient } from "./core/managementClient.js";
+import { formatUserAgentPrefix } from "./util/utils.js";
+import { getRuntimeInfo } from "./util/runtimeInfo.js";
+import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity.js";
+import { ServiceBusError } from "./serviceBusError.js";
 
 /**
  * @internal
@@ -114,7 +114,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
  * @internal
  * Helper type to get the names of all the functions on an object.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal

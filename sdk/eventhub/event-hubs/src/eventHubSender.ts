@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AmqpError,
@@ -12,7 +12,6 @@ import {
   types,
 } from "rhea-promise";
 import {
-  Constants,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
@@ -27,30 +26,31 @@ import {
   EventDataInternal,
   populateIdempotentMessageAnnotations,
   toRheaMessage,
-} from "./eventData";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
+} from "./eventData.js";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch.js";
 import {
   logErrorStackTrace,
   createSimpleLogger,
   logger,
   SimpleLogger,
   createSenderLogPrefix,
-} from "./logger";
+} from "./logger.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ConnectionContext } from "./connectionContext";
-import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private";
-import { SendOptions } from "./models/public";
-import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
+import { ConnectionContext } from "./connectionContext.js";
+import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private.js";
+import { SendOptions } from "./models/public.js";
+import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private.js";
+import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
-} from "./util/constants";
+  geoReplication,
+} from "./util/constants.js";
 import { isDefined } from "@azure/core-util";
-import { translateError } from "./util/error";
-import { TimerLoop } from "./util/timerLoop";
-import { withAuth } from "./withAuth";
-import { getRandomName } from "./util/utils";
+import { translateError } from "./util/error.js";
+import { TimerLoop } from "./util/timerLoop.js";
+import { withAuth } from "./withAuth.js";
+import { getRandomName } from "./util/utils.js";
 
 /**
  * @internal
@@ -429,7 +429,7 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
-    srOptions.desired_capabilities = [Constants.geoReplication];
+    srOptions.desired_capabilities = [geoReplication];
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(

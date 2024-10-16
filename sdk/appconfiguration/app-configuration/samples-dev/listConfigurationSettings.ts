@@ -30,12 +30,18 @@ export async function main() {
     key: "sample key",
     value: "sample value",
     label: "developmentA",
+    tags: {
+      production: "prodA",
+    },
   });
 
   await client.setConfigurationSetting({
     key: "key only for development",
     value: "value",
     label: "developmentB",
+    tags: {
+      production: "prodB",
+    },
   });
 
   // ex: using a keyFilter
@@ -58,6 +64,17 @@ export async function main() {
 
   for await (const setting of samplesWithDevelopmentLabel) {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
+  }
+
+  // ex: using a tagFilter
+  const samplesWithProdTag = client.listConfigurationSettings({
+    tagsFilter: ["production=prodB"],
+  });
+
+  console.log(`Settings matching tagsFilter 'prodB'`);
+
+  for await (const setting of samplesWithProdTag) {
+    console.log(`  Found key: ${setting.key}, label: ${setting.label}, tags: ${setting.tags}`);
   }
 
   ////////////////////////////////////////////////////////

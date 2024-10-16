@@ -18,11 +18,11 @@ dotenv.config();
  * This sample demonstrates how to Get all Tap configurations in a network interface.
  *
  * @summary Get all Tap configurations in a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkInterfaceTapConfigurationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkInterfaceTapConfigurationList.json
  */
 async function listVirtualNetworkTapConfigurations() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const networkInterfaceName = "mynic";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);

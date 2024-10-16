@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
-import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
 import {
@@ -1630,7 +1629,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         await deleteBlobClient.setLegalHold(false);
 
         await deleteBlobClient.deleteImmutabilityPolicy();
-        await deleteBlobClient.delete();
+        await deleteBlobClient.delete({ deleteSnapshots: "include" });
       }
       if (recorder) {
         await recorder.stop();
@@ -1785,6 +1784,69 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     await blobClient.deleteImmutabilityPolicy();
     await blobClient.delete();
+  });
+
+  it("Set immutability policy and set legalhold and delete immutability policy on blob snapshot", async function () {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const snapshotResult = await blockBlobClient.createSnapshot();
+    const blobSnapshotClient = blockBlobClient.withSnapshot(snapshotResult.snapshot!);
+
+    const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await blobSnapshotClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked",
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined,
+    );
+
+    let setLegalHoldResult = await blobSnapshotClient.setLegalHold(true);
+    assert.equal(setLegalHoldResult.legalHold, true);
+
+    setLegalHoldResult = await blobSnapshotClient.setLegalHold(false);
+    assert.equal(setLegalHoldResult.legalHold, false);
+
+    await blobSnapshotClient.deleteImmutabilityPolicy();
+    await blobClient.delete({ deleteSnapshots: "include" });
+  });
+
+  it("Set immutability policy and set legalhold and delete immutability policy on blob with version", async function () {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const setMetadataResult = await blockBlobClient.setMetadata({
+      key1: "value1",
+    });
+    const blobWithVersion = blockBlobClient.withVersion(setMetadataResult.versionId!);
+
+    const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await blobWithVersion.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked",
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined,
+    );
+
+    let setLegalHoldResult = await blobWithVersion.setLegalHold(true);
+    assert.equal(setLegalHoldResult.legalHold, true);
+
+    setLegalHoldResult = await blobWithVersion.setLegalHold(false);
+    assert.equal(setLegalHoldResult.legalHold, false);
+
+    await blobWithVersion.deleteImmutabilityPolicy();
   });
 
   it("Set immutability policy - blob does not exist", async () => {

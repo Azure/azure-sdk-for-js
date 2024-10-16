@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
+// Licensed under the MIT License.
 import {
   CorrelationRuleFilter,
   ServiceBusReceivedMessage,
@@ -11,22 +7,22 @@ import {
   ServiceBusMessage,
   SqlRuleFilter,
   ServiceBusAdministrationClient,
-} from "../../src";
-import { DEFAULT_RULE_NAME } from "../../src/util/constants";
-import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils";
-import { getConnectionString } from "../public/utils/testutils2";
+} from "../../src/index.js";
+import { DEFAULT_RULE_NAME } from "../../src/util/constants.js";
+import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils.js";
+import { getFullyQualifiedNamespace } from "../public/utils/testutils2.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { afterAll, beforeEach, describe, it } from "vitest";
+import { assert, should } from "../public/utils/chai.js";
 
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
-const should = chai.should();
-
+const fullyQualifiedNamespace = getFullyQualifiedNamespace();
 const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
-  new ServiceBusAdministrationClient(getConnectionString());
+  new ServiceBusAdministrationClient(fullyQualifiedNamespace, createTestCredential());
 
 describe("Filter messages with the rules set by the ATOM API", () => {
   const topicName = "new-topic";
   const subscriptionName = "new-subscription";
-  const serviceBusClient = new ServiceBusClient(getConnectionString());
+  const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, createTestCredential());
 
   beforeEach(async () => {
     await recreateTopic(topicName);
@@ -34,7 +30,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     await serviceBusAtomManagementClient.deleteRule(topicName, subscriptionName, DEFAULT_RULE_NAME);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
   });
 
@@ -76,7 +72,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       { subject },
       1,
       (msg) => {
-        chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
+        assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
       },
     );
   });
@@ -88,13 +84,13 @@ describe("getSubscriptionRuntimeProperties", () => {
   const topicName = "new-topic-2";
   const subscriptionName1 = "new-subscription-1";
   const subscriptionName2 = "new-subscription-2";
-  const serviceBusClient = new ServiceBusClient(getConnectionString());
+  const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, createTestCredential());
 
   beforeEach(async () => {
     await recreateTopic(topicName);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.close();
     await serviceBusAtomManagementClient.deleteTopic(topicName);
   });
@@ -124,7 +120,7 @@ describe("getSubscriptionRuntimeProperties", () => {
         subscriptionName1,
       )
     ).activeMessageCount;
-    chai.assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
+    assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
   });
 
   it("Active Message Count - multiple subscriptions", async () => {
@@ -142,7 +138,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
       topicName,
     )) {
-      chai.assert.equal(
+      assert.equal(
         subscription.activeMessageCount,
         messages.length,
         "Unexpected active message count",

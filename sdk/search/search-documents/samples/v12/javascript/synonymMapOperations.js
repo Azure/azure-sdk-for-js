@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the SynonymMap Operations.
  */
 
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SearchIndexClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
-const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
-const synonymMapName = "example-synonymmap-sample-1";
+const TEST_SYNONYM_MAP_NAME = "example-synonymmap-sample-1";
 
 async function createSynonymMap(synonymMapName, client) {
   console.log(`Creating SynonymMap Operation`);
@@ -36,10 +36,10 @@ async function listSynonymMaps(client) {
 
   console.log(`List of SynonymMaps`);
   console.log(`*******************`);
-  for (let sm of listOfSynonymMaps) {
+  for (const sm of listOfSynonymMaps) {
     console.log(`Name: ${sm.name}`);
     console.log(`Synonyms`);
-    for (let synonym of sm.synonyms) {
+    for (const synonym of sm.synonyms) {
       console.log(synonym);
     }
   }
@@ -52,17 +52,17 @@ async function deleteSynonymMap(synonymMapName, client) {
 
 async function main() {
   console.log(`Running Index Operations Sample....`);
-  if (!endpoint || !apiKey) {
-    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+  if (!endpoint) {
+    console.log("Be sure to set a valid endpoint with proper authorization.");
     return;
   }
-  const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
+  const client = new SearchIndexClient(endpoint, new DefaultAzureCredential());
   try {
-    await createSynonymMap(synonymMapName, client);
-    await getAndUpdateSynonymMap(synonymMapName, client);
+    await createSynonymMap(TEST_SYNONYM_MAP_NAME, client);
+    await getAndUpdateSynonymMap(TEST_SYNONYM_MAP_NAME, client);
     await listSynonymMaps(client);
   } finally {
-    await deleteSynonymMap(synonymMapName, client);
+    await deleteSynonymMap(TEST_SYNONYM_MAP_NAME, client);
   }
 }
 

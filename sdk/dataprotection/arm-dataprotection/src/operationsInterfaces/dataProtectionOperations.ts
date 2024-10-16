@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ClientDiscoveryValueForSingleApi,
-  DataProtectionOperationsListOptionalParams
+  DataProtectionOperationsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface DataProtectionOperations {
    * @param options The options parameters.
    */
   list(
-    options?: DataProtectionOperationsListOptionalParams
+    options?: DataProtectionOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<ClientDiscoveryValueForSingleApi>;
 }

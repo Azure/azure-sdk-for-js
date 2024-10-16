@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a single firewall rule in a specified redis cache.
  *
  * @summary Gets a single firewall rule in a specified redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheFirewallRuleGet.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheFirewallRuleGet.json
  */
 async function redisCacheFirewallRuleGet() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";

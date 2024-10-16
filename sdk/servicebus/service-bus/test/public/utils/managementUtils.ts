@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { delay } from "../../../src";
-import { CreateTopicOptions } from "../../../src";
-import { CreateSubscriptionOptions } from "../../../src";
-import { ServiceBusAdministrationClient } from "../../../src";
-
-import { EnvVarNames, getEnvVars } from "./envVarUtils";
-import chai from "chai";
-import { CreateQueueOptions } from "../../../src";
-const should = chai.should();
+import { delay } from "../../../src/index.js";
+import { CreateTopicOptions } from "../../../src/index.js";
+import { CreateSubscriptionOptions } from "../../../src/index.js";
+import { ServiceBusAdministrationClient } from "../../../src/index.js";
+import { CreateQueueOptions } from "../../../src/index.js";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
+import { should } from "./chai.js";
 
 let client: ServiceBusAdministrationClient;
 
@@ -20,7 +19,10 @@ let client: ServiceBusAdministrationClient;
 function getManagementClient(): ServiceBusAdministrationClient {
   if (client === undefined) {
     const env = getEnvVars();
-    client = new ServiceBusAdministrationClient(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+    client = new ServiceBusAdministrationClient(
+      env[EnvVarNames.SERVICEBUS_FQDN],
+      createTestCredential(),
+    );
   }
   return client;
 }
@@ -89,7 +91,7 @@ export async function recreateQueue(
   const checkIfQueueExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getQueue(queueName);
-    } catch (err: any) {
+    } catch {
       return false;
     }
     return true;
@@ -125,7 +127,7 @@ export async function recreateTopic(
   const checkIfTopicExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getTopic(topicName);
-    } catch (err: any) {
+    } catch {
       return false;
     }
     return true;
@@ -169,7 +171,7 @@ export async function recreateSubscription(
   const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getSubscription(topicName, subscriptionName);
-    } catch (err: any) {
+    } catch {
       return false;
     }
     return true;

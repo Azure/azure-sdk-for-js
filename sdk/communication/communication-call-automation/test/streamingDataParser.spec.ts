@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AudioData, AudioMetadata } from "../src/models/audio";
 import { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription";

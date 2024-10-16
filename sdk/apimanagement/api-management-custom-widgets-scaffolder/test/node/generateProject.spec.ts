@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TECHNOLOGIES, WidgetConfig, displayNameToName } from "../../src/scaffolding.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";

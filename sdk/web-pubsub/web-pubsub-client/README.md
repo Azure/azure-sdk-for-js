@@ -65,7 +65,7 @@ Note that a client can only receive messages from groups that it has joined and 
 // ...continues the code snippet from above
 
 // Specifies the group to join
-let groupName = "group1";
+const groupName = "group1";
 
 // Registers a listener for the event 'group-message' early before joining a group to not miss messages
 client.on("group-message", (e) => {
@@ -136,7 +136,7 @@ const serviceClient = new WebPubSubServiceClient("<web-pubsub-connectionstring>"
 
 // Note that the token allows the client to join and send messages to any groups. It is specified with the "roles" option.
 app.get('/negotiate', async (req, res) => {
-  let token = await serviceClient.getClientAccessToken({roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"] });
+  const token = await serviceClient.getClientAccessToken({roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"] });
   res.json({
     url: token.url
   });
@@ -152,7 +152,7 @@ const { WebPubSubClient } = require("@azure/web-pubsub-client")
 
 const client = new WebPubSubClient({
   getClientAccessUrl: async () => {
-    let value = await (await fetch(`/negotiate`)).json();
+    const value = await (await fetch(`/negotiate`)).json();
     return value.url;
   }
 });

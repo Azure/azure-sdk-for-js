@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { assert } from "@azure-tools/test-utils";

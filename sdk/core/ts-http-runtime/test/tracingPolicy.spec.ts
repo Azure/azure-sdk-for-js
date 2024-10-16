@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type Mock } from "vitest";
 import {
@@ -120,7 +120,7 @@ describe("tracingPolicy", function () {
 
   function createTestRequest({ noContext = false } = {}): {
     request: PipelineRequest;
-    next: Mock<Parameters<SendRequest>, ReturnType<SendRequest>>;
+    next: Mock<SendRequest>;
   } {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -133,7 +133,7 @@ describe("tracingPolicy", function () {
       request: request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(response);
     return { request, next };
   }
@@ -175,12 +175,14 @@ describe("tracingPolicy", function () {
       request: request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(response);
 
     await policy.sendRequest(request, next);
     const createdSpan = activeInstrumenter.lastSpanCreated;
-    assert.exists(createdSpan);
+    if (!createdSpan) {
+      assert.fail("expected span to be created");
+    }
 
     const spanUrlValue = new URL(createdSpan.getAttribute("http.url") as string);
     assert.equal(spanUrlValue.searchParams.get("redactedParam"), "REDACTED");
@@ -207,7 +209,7 @@ describe("tracingPolicy", function () {
     });
 
     const policy = tracingPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     const requestError = new RestError("Bad Request.", { statusCode: 400 });
     next.mockRejectedValue(requestError);
 
@@ -223,13 +225,13 @@ describe("tracingPolicy", function () {
     assert.equal(mockSpan.getAttribute("http.status_code"), 400);
   });
 
-  it("will not create a span if tracingContext is missing", async () => {
+  it("will create a span even if tracingContext is missing", async () => {
     const policy = tracingPolicy();
     const { request, next } = createTestRequest({ noContext: true });
     await policy.sendRequest(request, next);
 
     const createdSpan = activeInstrumenter.lastSpanCreated;
-    assert.notExists(createdSpan, "span was created without tracingContext being passed!");
+    assert.exists(createdSpan);
   });
 
   describe("span errors", () => {

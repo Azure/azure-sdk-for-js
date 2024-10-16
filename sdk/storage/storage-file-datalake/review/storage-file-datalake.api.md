@@ -289,7 +289,10 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
+    generateSasStringToSign(options: DirectoryGenerateSasUrlOptions): string;
     generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: DirectoryGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: DirectoryGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
 }
@@ -304,7 +307,10 @@ export class DataLakeFileClient extends DataLakePathClient {
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<FileFlushResponse>;
+    generateSasStringToSign(options: FileGenerateSasUrlOptions): string;
     generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: FileGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: FileGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
@@ -327,7 +333,10 @@ export class DataLakeFileSystemClient extends StorageClient {
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
     deleteIfExists(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteIfExistsResponse>;
     exists(options?: FileSystemExistsOptions): Promise<boolean>;
+    generateSasStringToSign(options: FileSystemGenerateSasUrlOptions): string;
     generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: FileSystemGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: FileSystemGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
@@ -437,6 +446,7 @@ export class DataLakeServiceClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
+    generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<DataLakeServiceGetPropertiesResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;

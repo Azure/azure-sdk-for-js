@@ -75,7 +75,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.environmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

@@ -26,7 +26,11 @@ const replaceableVariables: Record<string, string> = {
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -61,10 +65,10 @@ describe("maps test", () => {
   it("accounts create test", async function () {
     const res = await client.accounts.createOrUpdate(
       resourceGroup,
-    	resourcename,
+      resourcename,
       {
         identity: {
-          type: "SystemAssigned"  
+          type: "SystemAssigned"
         },
         kind: "Gen2",
         location,
@@ -73,12 +77,12 @@ describe("maps test", () => {
           linkedResources: [
             {
               id:
-                "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Storage/storageAccounts/czwtestaccount230808",
+                "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestaccount230808",
               uniqueName: "myBatchStorageAccount"
             },
             {
               id:
-                "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Storage/storageAccounts/czwtestaccount230808",
+                "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestaccount230808",
               uniqueName: "myBlobDataSource"
             }
           ]
@@ -91,7 +95,7 @@ describe("maps test", () => {
 
   it("accounts get test", async function () {
     const res = await client.accounts.get(resourceGroup,
-    	resourcename);
+      resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -107,7 +111,7 @@ describe("maps test", () => {
   it("accounts delete test", async function () {
     const resArray = new Array();
     const res = await client.accounts.delete(resourceGroup, resourcename
-)
+    )
     for await (let item of client.accounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

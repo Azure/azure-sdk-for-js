@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as avro from "avsc";
 import {
@@ -7,13 +7,13 @@ import {
   DeserializeOptions,
   MessageAdapter,
   MessageContent,
-} from "./models";
+} from "./models.js";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { LRUCache } from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
-import { isMessageContent } from "./utility";
-import { logger } from "./logger";
-import { DateType } from "./logicalTypes/dateType";
+import { isMessageContent } from "./utility.js";
+import { logger } from "./logger.js";
+import { DateType } from "./logicalTypes/dateType.js";
 
 type AVSCSerializer = avro.Type;
 

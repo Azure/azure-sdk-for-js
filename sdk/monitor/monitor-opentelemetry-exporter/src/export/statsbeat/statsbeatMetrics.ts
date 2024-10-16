@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createDefaultHttpClient,
@@ -18,6 +18,7 @@ import {
   VirtualMachineInfo,
 } from "./types";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const os = require("os");
 
 export class StatsbeatMetrics {

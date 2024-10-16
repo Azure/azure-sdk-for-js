@@ -565,7 +565,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
@@ -631,7 +631,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.connectedEnvironmentName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };

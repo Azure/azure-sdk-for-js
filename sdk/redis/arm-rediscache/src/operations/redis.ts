@@ -16,7 +16,7 @@ import { RedisManagementClient } from "../redisManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -58,7 +58,7 @@ import {
   RedisFlushCacheResponse,
   RedisListUpgradeNotificationsNextResponse,
   RedisListByResourceGroupNextResponse,
-  RedisListBySubscriptionNextResponse
+  RedisListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -85,13 +85,13 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     history: number,
-    options?: RedisListUpgradeNotificationsOptionalParams
+    options?: RedisListUpgradeNotificationsOptionalParams,
   ): PagedAsyncIterableIterator<UpgradeNotification> {
     const iter = this.listUpgradeNotificationsPagingAll(
       resourceGroupName,
       name,
       history,
-      options
+      options,
     );
     return {
       next() {
@@ -109,9 +109,9 @@ export class RedisImpl implements Redis {
           name,
           history,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -120,7 +120,7 @@ export class RedisImpl implements Redis {
     name: string,
     history: number,
     options?: RedisListUpgradeNotificationsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<UpgradeNotification[]> {
     let result: RedisListUpgradeNotificationsResponse;
     let continuationToken = settings?.continuationToken;
@@ -129,7 +129,7 @@ export class RedisImpl implements Redis {
         resourceGroupName,
         name,
         history,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -141,7 +141,7 @@ export class RedisImpl implements Redis {
         resourceGroupName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -154,13 +154,13 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     history: number,
-    options?: RedisListUpgradeNotificationsOptionalParams
+    options?: RedisListUpgradeNotificationsOptionalParams,
   ): AsyncIterableIterator<UpgradeNotification> {
     for await (const page of this.listUpgradeNotificationsPagingPage(
       resourceGroupName,
       name,
       history,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -173,7 +173,7 @@ export class RedisImpl implements Redis {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: RedisListByResourceGroupOptionalParams
+    options?: RedisListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RedisResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -190,16 +190,16 @@ export class RedisImpl implements Redis {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RedisListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RedisResource[]> {
     let result: RedisListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -214,7 +214,7 @@ export class RedisImpl implements Redis {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -225,11 +225,11 @@ export class RedisImpl implements Redis {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RedisListByResourceGroupOptionalParams
+    options?: RedisListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<RedisResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -240,7 +240,7 @@ export class RedisImpl implements Redis {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: RedisListBySubscriptionOptionalParams
+    options?: RedisListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RedisResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -255,13 +255,13 @@ export class RedisImpl implements Redis {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: RedisListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RedisResource[]> {
     let result: RedisListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -282,7 +282,7 @@ export class RedisImpl implements Redis {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: RedisListBySubscriptionOptionalParams
+    options?: RedisListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<RedisResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -297,11 +297,11 @@ export class RedisImpl implements Redis {
    */
   checkNameAvailability(
     parameters: CheckNameAvailabilityParameters,
-    options?: RedisCheckNameAvailabilityOptionalParams
+    options?: RedisCheckNameAvailabilityOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -316,11 +316,11 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     history: number,
-    options?: RedisListUpgradeNotificationsOptionalParams
+    options?: RedisListUpgradeNotificationsOptionalParams,
   ): Promise<RedisListUpgradeNotificationsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, history, options },
-      listUpgradeNotificationsOperationSpec
+      listUpgradeNotificationsOperationSpec,
     );
   }
 
@@ -335,27 +335,26 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisCreateParameters,
-    options?: RedisCreateOptionalParams
+    options?: RedisCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RedisCreateResponse>, RedisCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RedisCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -364,8 +363,8 @@ export class RedisImpl implements Redis {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -373,22 +372,22 @@ export class RedisImpl implements Redis {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       RedisCreateResponse,
       OperationState<RedisCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -405,13 +404,13 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisCreateParameters,
-    options?: RedisCreateOptionalParams
+    options?: RedisCreateOptionalParams,
   ): Promise<RedisCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       name,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -427,27 +426,26 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisUpdateParameters,
-    options?: RedisUpdateOptionalParams
+    options?: RedisUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RedisUpdateResponse>, RedisUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RedisUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -456,8 +454,8 @@ export class RedisImpl implements Redis {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -465,22 +463,22 @@ export class RedisImpl implements Redis {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, parameters, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       RedisUpdateResponse,
       OperationState<RedisUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -497,13 +495,13 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisUpdateParameters,
-    options?: RedisUpdateOptionalParams
+    options?: RedisUpdateOptionalParams,
   ): Promise<RedisUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       name,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -517,25 +515,24 @@ export class RedisImpl implements Redis {
   async beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: RedisDeleteOptionalParams
+    options?: RedisDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -544,8 +541,8 @@ export class RedisImpl implements Redis {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -553,19 +550,19 @@ export class RedisImpl implements Redis {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -580,7 +577,7 @@ export class RedisImpl implements Redis {
   async beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: RedisDeleteOptionalParams
+    options?: RedisDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(resourceGroupName, name, options);
     return poller.pollUntilDone();
@@ -595,11 +592,11 @@ export class RedisImpl implements Redis {
   get(
     resourceGroupName: string,
     name: string,
-    options?: RedisGetOptionalParams
+    options?: RedisGetOptionalParams,
   ): Promise<RedisGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -610,11 +607,11 @@ export class RedisImpl implements Redis {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: RedisListByResourceGroupOptionalParams
+    options?: RedisListByResourceGroupOptionalParams,
   ): Promise<RedisListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -623,11 +620,11 @@ export class RedisImpl implements Redis {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: RedisListBySubscriptionOptionalParams
+    options?: RedisListBySubscriptionOptionalParams,
   ): Promise<RedisListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -641,11 +638,11 @@ export class RedisImpl implements Redis {
   listKeys(
     resourceGroupName: string,
     name: string,
-    options?: RedisListKeysOptionalParams
+    options?: RedisListKeysOptionalParams,
   ): Promise<RedisListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -661,11 +658,11 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisRegenerateKeyParameters,
-    options?: RedisRegenerateKeyOptionalParams
+    options?: RedisRegenerateKeyOptionalParams,
   ): Promise<RedisRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, parameters, options },
-      regenerateKeyOperationSpec
+      regenerateKeyOperationSpec,
     );
   }
 
@@ -681,11 +678,11 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: RedisRebootParameters,
-    options?: RedisForceRebootOptionalParams
+    options?: RedisForceRebootOptionalParams,
   ): Promise<RedisForceRebootOperationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, parameters, options },
-      forceRebootOperationSpec
+      forceRebootOperationSpec,
     );
   }
 
@@ -700,25 +697,24 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: ImportRDBParameters,
-    options?: RedisImportDataOptionalParams
+    options?: RedisImportDataOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -727,8 +723,8 @@ export class RedisImpl implements Redis {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -736,19 +732,19 @@ export class RedisImpl implements Redis {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, parameters, options },
-      spec: importDataOperationSpec
+      spec: importDataOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -765,13 +761,13 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: ImportRDBParameters,
-    options?: RedisImportDataOptionalParams
+    options?: RedisImportDataOptionalParams,
   ): Promise<void> {
     const poller = await this.beginImportData(
       resourceGroupName,
       name,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -787,25 +783,24 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: ExportRDBParameters,
-    options?: RedisExportDataOptionalParams
+    options?: RedisExportDataOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -814,8 +809,8 @@ export class RedisImpl implements Redis {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -823,19 +818,19 @@ export class RedisImpl implements Redis {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, parameters, options },
-      spec: exportDataOperationSpec
+      spec: exportDataOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -852,13 +847,13 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     parameters: ExportRDBParameters,
-    options?: RedisExportDataOptionalParams
+    options?: RedisExportDataOptionalParams,
   ): Promise<void> {
     const poller = await this.beginExportData(
       resourceGroupName,
       name,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -872,7 +867,7 @@ export class RedisImpl implements Redis {
   async beginFlushCache(
     resourceGroupName: string,
     cacheName: string,
-    options?: RedisFlushCacheOptionalParams
+    options?: RedisFlushCacheOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RedisFlushCacheResponse>,
@@ -881,21 +876,20 @@ export class RedisImpl implements Redis {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RedisFlushCacheResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -904,8 +898,8 @@ export class RedisImpl implements Redis {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -913,15 +907,15 @@ export class RedisImpl implements Redis {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, cacheName, options },
-      spec: flushCacheOperationSpec
+      spec: flushCacheOperationSpec,
     });
     const poller = await createHttpPoller<
       RedisFlushCacheResponse,
@@ -929,7 +923,7 @@ export class RedisImpl implements Redis {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -944,12 +938,12 @@ export class RedisImpl implements Redis {
   async beginFlushCacheAndWait(
     resourceGroupName: string,
     cacheName: string,
-    options?: RedisFlushCacheOptionalParams
+    options?: RedisFlushCacheOptionalParams,
   ): Promise<RedisFlushCacheResponse> {
     const poller = await this.beginFlushCache(
       resourceGroupName,
       cacheName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -966,11 +960,11 @@ export class RedisImpl implements Redis {
     resourceGroupName: string,
     name: string,
     nextLink: string,
-    options?: RedisListUpgradeNotificationsNextOptionalParams
+    options?: RedisListUpgradeNotificationsNextOptionalParams,
   ): Promise<RedisListUpgradeNotificationsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
-      listUpgradeNotificationsNextOperationSpec
+      listUpgradeNotificationsNextOperationSpec,
     );
   }
 
@@ -983,11 +977,11 @@ export class RedisImpl implements Redis {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RedisListByResourceGroupNextOptionalParams
+    options?: RedisListByResourceGroupNextOptionalParams,
   ): Promise<RedisListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -998,11 +992,11 @@ export class RedisImpl implements Redis {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: RedisListBySubscriptionNextOptionalParams
+    options?: RedisListBySubscriptionNextOptionalParams,
   ): Promise<RedisListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -1010,64 +1004,61 @@ export class RedisImpl implements Redis {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/CheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listUpgradeNotificationsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listUpgradeNotifications",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listUpgradeNotifications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NotificationListResponse
+      bodyMapper: Mappers.NotificationListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.history],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     201: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     202: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     204: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -1075,32 +1066,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     201: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     202: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     204: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -1108,15 +1098,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1124,111 +1113,107 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisResource
+      bodyMapper: Mappers.RedisResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisListResult
+      bodyMapper: Mappers.RedisListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cache/redis",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisListResult
+      bodyMapper: Mappers.RedisListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisAccessKeys
+      bodyMapper: Mappers.RedisAccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/regenerateKey",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/regenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisAccessKeys
+      bodyMapper: Mappers.RedisAccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -1236,23 +1221,22 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const forceRebootOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/forceReboot",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/forceReboot",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisForceRebootResponse
+      bodyMapper: Mappers.RedisForceRebootResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -1260,15 +1244,14 @@ const forceRebootOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const importDataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/import",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/import",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1276,8 +1259,8 @@ const importDataOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -1285,15 +1268,14 @@ const importDataOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const exportDataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/export",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/export",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1301,8 +1283,8 @@ const exportDataOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -1310,104 +1292,103 @@ const exportDataOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const flushCacheOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/flush",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/flush",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.OperationStatusResult,
-      headersMapper: Mappers.RedisFlushCacheHeaders
+      headersMapper: Mappers.RedisFlushCacheHeaders,
     },
     201: {
       bodyMapper: Mappers.OperationStatusResult,
-      headersMapper: Mappers.RedisFlushCacheHeaders
+      headersMapper: Mappers.RedisFlushCacheHeaders,
     },
     202: {
       bodyMapper: Mappers.OperationStatusResult,
-      headersMapper: Mappers.RedisFlushCacheHeaders
+      headersMapper: Mappers.RedisFlushCacheHeaders,
     },
     204: {
       bodyMapper: Mappers.OperationStatusResult,
-      headersMapper: Mappers.RedisFlushCacheHeaders
+      headersMapper: Mappers.RedisFlushCacheHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cacheName
+    Parameters.cacheName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listUpgradeNotificationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NotificationListResponse
+      bodyMapper: Mappers.NotificationListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisListResult
+      bodyMapper: Mappers.RedisListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RedisListResult
+      bodyMapper: Mappers.RedisListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1617,7 +1617,7 @@ export const SearchServiceUpdate: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["succeeded", "provisioning", "failed"],
+          allowedValues: ["Succeeded", "Provisioning", "Failed"],
         },
       },
       networkRuleSet: {
@@ -1815,7 +1815,7 @@ export const SearchService: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["succeeded", "provisioning", "failed"],
+          allowedValues: ["Succeeded", "Provisioning", "Failed"],
         },
       },
       networkRuleSet: {

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
@@ -46,7 +46,11 @@ export interface DeviceCodeCredentialOptions
    */
   tenantId?: string;
   /**
-   * The client (application) ID of an App Registration in the tenant.
+   * Client ID of the Microsoft Entra application that users will sign into.
+   * It is recommended that developers register their applications and assign appropriate roles.
+   * For more information, visit https://aka.ms/identity/AppRegistrationAndRoleAssignment.
+   * If not specified, users will authenticate to an Azure development application,
+   * which is not recommended for production scenarios.
    */
   clientId?: string;
   /**

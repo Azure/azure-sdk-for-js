@@ -19,14 +19,15 @@ import { Context } from "mocha";
 import { WebPubSubManagementClient } from "../src/webPubSubManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
 };
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables
+  envSetupForPlayback: replaceableVariables,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
+    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
+  ],
 };
 
 export const testPollingOptions = {
@@ -80,10 +81,6 @@ describe("webPubSub test", () => {
           enabled: "false"
         },
         location,
-        networkACLs: {
-          defaultAction: "Deny",
-          publicNetwork: { allow: ["ClientConnection"] }
-        },
         publicNetworkAccess: "Enabled",
         sku: { name: "Free_F1", capacity: 1, tier: "Free" },
         tags: { key1: "value1" },

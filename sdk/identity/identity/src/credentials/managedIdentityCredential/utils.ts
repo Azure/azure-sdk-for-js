@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { DefaultScopeSuffix } from "./constants";
 
@@ -41,7 +41,7 @@ export interface TokenResponseParsedBody {
   refresh_token?: string;
   expires_in: number;
   expires_on?: number | string;
-  refresh_in?: number;
+  refresh_on?: number | string;
 }
 
 /**
@@ -72,4 +72,31 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
   throw new Error(
     `Failed to parse token expiration from body. expires_in="${body.expires_in}", expires_on="${body.expires_on}"`,
   );
+}
+
+/**
+ * Given a token response, return the expiration timestamp as the number of milliseconds from the Unix epoch.
+ * @param body - A parsed response body from the authentication endpoint.
+ */
+export function parseRefreshTimestamp(body: TokenResponseParsedBody): number | undefined {
+  if (body.refresh_on) {
+    if (typeof body.refresh_on === "number") {
+      return body.refresh_on * 1000;
+    }
+
+    if (typeof body.refresh_on === "string") {
+      const asNumber = +body.refresh_on;
+      if (!isNaN(asNumber)) {
+        return asNumber * 1000;
+      }
+
+      const asDate = Date.parse(body.refresh_on);
+      if (!isNaN(asDate)) {
+        return asDate;
+      }
+    }
+    throw new Error(`Failed to parse refresh_on from body. refresh_on="${body.refresh_on}"`);
+  } else {
+    return undefined;
+  }
 }

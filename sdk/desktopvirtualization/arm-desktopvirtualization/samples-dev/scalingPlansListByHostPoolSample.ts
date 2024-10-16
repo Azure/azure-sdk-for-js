@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScalingPlansListByHostPoolOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List scaling plan associated with hostpool.
  *
  * @summary List scaling plan associated with hostpool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlan_ListByHostPool.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlan_ListByHostPool.json
  */
 async function scalingPlanListByHostPool() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function scalingPlanListByHostPool() {
   const options: ScalingPlansListByHostPoolOptionalParams = {
     pageSize,
     isDescending,
-    initialSkip
+    initialSkip,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function scalingPlanListByHostPool() {
   for await (let item of client.scalingPlans.listByHostPool(
     resourceGroupName,
     hostPoolName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

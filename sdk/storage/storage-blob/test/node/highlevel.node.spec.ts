@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import * as buffer from "buffer";
 import * as fs from "fs";
 import * as path from "path";
 import { PassThrough, Readable } from "stream";
-import { AbortController } from "@azure/abort-controller";
 import {
   createRandomLocalFile,
   recorderEnvSetup,
@@ -107,7 +106,7 @@ describe("Highlevel", () => {
 
     try {
       await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
-        abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
+        abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
       });
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
@@ -205,7 +204,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
@@ -220,7 +219,7 @@ describe("Highlevel", () => {
   });
 
   it("uploadFile should abort when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
@@ -241,7 +240,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
         abortSignal: aborter.signal,
@@ -264,7 +262,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
         abortSignal: aborter.signal,
@@ -292,7 +289,7 @@ describe("Highlevel", () => {
     try {
       await blockBlobClient.uploadFile(tempFile, {
         blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-        abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
+        abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
       });
     } catch (err: any) {
       assert.equal(err.name, "AbortError");
@@ -309,6 +306,40 @@ describe("Highlevel", () => {
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
     const downloadResponse = await blockBlobClient.download(0);
+
+    const downloadFilePath = path.join(
+      tempFolderPath,
+      recorder.variable("downloadFile", getUniqueName("downloadFile")),
+    );
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
+
+    const downloadedBuffer = fs.readFileSync(downloadFilePath);
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    assert.ok(uploadedBuffer.equals(downloadedBuffer));
+
+    fs.unlinkSync(downloadFilePath);
+  }).timeout(timeoutForLargeFileUploadingTest);
+
+  it("uploadStream with CPK should success", async function () {
+    if (isNodeLike && !isLiveMode()) {
+      this.skip();
+    }
+    const rs = fs.createReadStream(tempFileLarge);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    try {
+      await blockBlobClient.download(0);
+      assert.fail("Downloading without CPK should fail.");
+    } catch (err) {
+      assert.deepEqual((err as any).statusCode, 409);
+      assert.deepEqual((err as any).details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+
+    const downloadResponse = await blockBlobClient.download(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
 
     const downloadFilePath = path.join(
       tempFolderPath,
@@ -364,7 +395,7 @@ describe("Highlevel", () => {
       this.skip();
     }
     const rs = fs.createReadStream(tempFileLarge);
-    const aborter = AbortController.timeout(1);
+    const aborter = AbortSignal.timeout(1);
 
     try {
       await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
@@ -420,7 +451,7 @@ describe("Highlevel", () => {
       try {
         // abort as it may take too long, will cover the data integrity validation with manual large scale tests
         await blockBlobClient.uploadStream(rs, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, undefined, {
-          abortSignal: AbortController.timeout(timeoutForLargeFileUploadingTest / 10),
+          abortSignal: AbortSignal.timeout(timeoutForLargeFileUploadingTest / 10),
         });
       } catch (err: any) {
         assert.equal(err.name, "AbortError");
@@ -523,7 +554,7 @@ describe("Highlevel", () => {
     try {
       const buf = Buffer.alloc(tempFileLargeLength);
       await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
-        abortSignal: AbortController.timeout(1),
+        abortSignal: AbortSignal.timeout(1),
         blockSize: 4 * 1024 * 1024,
         maxRetryRequestsPerBlock: 5,
         concurrency: 20,

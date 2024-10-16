@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FetchSecondaryRPsRequestParameters,
-  DataProtectionClient
+  DataProtectionClient,
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
  *
  * @summary Returns a list of Secondary Recovery Points for a DataSource in a vault, that can be used for Cross Region Restore.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-11-01/examples/CrossRegionRestore/FetchSecondaryRPs.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/CrossRegionRestore/FetchSecondaryRPs.json
  */
 async function fetchSecondaryRPs() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function fetchSecondaryRPs() {
   const parameters: FetchSecondaryRPsRequestParameters = {
     sourceBackupInstanceId:
       "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/HelloTest/providers/Microsoft.DataProtection/backupVaults/HelloTestVault/backupInstances/653213d-c5b3-44f6-a0d9-db3c4f9d8e34",
-    sourceRegion: "EastUS"
+    sourceRegion: "EastUS",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function fetchSecondaryRPs() {
   for await (let item of client.fetchSecondaryRecoveryPoints.list(
     resourceGroupName,
     location,
-    parameters
+    parameters,
   )) {
     resArray.push(item);
   }

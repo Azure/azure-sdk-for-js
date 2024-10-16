@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Defines the utility methods.
@@ -252,10 +252,10 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
       algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
       vectorizers: [
         {
-          name: "vector-search-vectorizer",
+          vectorizerName: "vector-search-vectorizer",
           kind: "azureOpenAI",
-          azureOpenAIParameters: {
-            resourceUri: env.AZURE_OPENAI_ENDPOINT,
+          parameters: {
+            resourceUrl: env.AZURE_OPENAI_ENDPOINT,
             deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
           },
         },
@@ -264,7 +264,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         {
           name: "vector-search-profile",
           algorithmConfigurationName: "vector-search-algorithm",
-          vectorizer: "vector-search-vectorizer",
+          vectorizerName: "vector-search-vectorizer",
         },
       ],
     },

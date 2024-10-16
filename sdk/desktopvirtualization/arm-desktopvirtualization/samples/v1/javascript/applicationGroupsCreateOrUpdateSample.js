@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an applicationGroup.
  *
  * @summary Create or update an applicationGroup.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ApplicationGroup_Create.json
  */
 async function applicationGroupCreate() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function applicationGroupCreate() {
   const result = await client.applicationGroups.createOrUpdate(
     resourceGroupName,
     applicationGroupName,
-    applicationGroup
+    applicationGroup,
   );
   console.log(result);
 }

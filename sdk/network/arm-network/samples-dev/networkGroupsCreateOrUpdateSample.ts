@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a network group.
  *
  * @summary Creates or updates a network group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-11-01/examples/NetworkManagerGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerGroupPut.json
  */
 async function networkGroupsPut() {
   const subscriptionId =
@@ -27,7 +27,10 @@ async function networkGroupsPut() {
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkManagerName = "testNetworkManager";
   const networkGroupName = "testNetworkGroup";
-  const parameters: NetworkGroup = { description: "A sample group" };
+  const parameters: NetworkGroup = {
+    description: "A sample group",
+    memberType: "VirtualNetwork",
+  };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkGroups.createOrUpdate(

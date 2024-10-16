@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as fs from "fs";
-import { AbortController } from "@azure/abort-controller";
 import { AvroReadableFromStream } from "../../src";
 import { Readable } from "stream";
 import { assert } from "chai";
@@ -35,7 +34,7 @@ describe("AvroReadableFromStream", () => {
 
     let AbortErrorCaught = false;
     try {
-      await rfs.read(100000, { abortSignal: AbortController.timeout(1) });
+      await rfs.read(100000, { abortSignal: AbortSignal.timeout(1) });
     } catch (err: any) {
       if (err.name === "AbortError") {
         AbortErrorCaught = true;

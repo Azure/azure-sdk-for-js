@@ -8,16 +8,13 @@
  * @azsdk-weight 100
  */
 
-import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
+// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
+// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import { parseOpenAIError } from "./parseOpenAIError.js";
-dotenv.config();
-
-// You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<endpoint>";
-const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
+import "dotenv/config";
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -39,28 +36,29 @@ const getCurrentWeather = {
 };
 
 export async function main() {
-  console.log("== Chat Completions Sample With Functions ==");
+  console.log("== Chat Completions Sample with Tool Calling ==");
 
-  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "gpt-4";
-  const result = await client.getChatCompletions(
-    deploymentId,
-    [{ role: "user", content: "What's the weather like in Boston?" }],
-    {
-      tools: [
-        {
-          type: "function",
-          function: getCurrentWeather,
-        },
-      ],
-    },
-  );
+  const scope = "https://cognitiveservices.azure.com/.default";
+  const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
+  const deployment = "gpt-4-turbo";
+  const apiVersion = "2024-07-01-preview";
+  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const result = await client.chat.completions.create({
+    messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+    model: "",
+    tools: [
+      {
+        type: "function",
+        function: getCurrentWeather,
+      },
+    ],
+  });
 
   for (const choice of result.choices) {
-    console.log(choice.message?.toolCalls);
+    console.log(choice.message?.tool_calls);
   }
 }
 
 main().catch((err) => {
-  parseOpenAIError(err);
+  console.error("The sample encountered an error:", err);
 });

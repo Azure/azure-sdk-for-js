@@ -4,7 +4,7 @@ extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/digital-twins-core"
+      Location: "westus2"
       ServiceDirectory: digitaltwins
       MatrixFilters:
         - TestType=^(?!sample).*
-      UseFederatedAuth: true

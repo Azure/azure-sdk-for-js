@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix the Microsoft Entra ID authentication when providing `baseUrl`.
+
 ### Other Changes
 
 ## 1.0.0-beta.3 (2024-01-09)

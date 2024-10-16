@@ -687,7 +687,7 @@ export interface SearchServiceUpdate extends Resource {
    */
   readonly statusDetails?: string;
   /**
-   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -757,7 +757,7 @@ export interface SearchService extends TrackedResource {
    */
   readonly statusDetails?: string;
   /**
-   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
+   * The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -838,6 +838,8 @@ export enum KnownSearchBypass {
   None = "None",
   /** Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. */
   AzurePortal = "AzurePortal",
+  /** Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section. */
+  AzureServices = "AzureServices",
 }
 
 /**
@@ -846,7 +848,8 @@ export enum KnownSearchBypass {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the default. \
- * **AzurePortal**: Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section.
+ * **AzurePortal**: Indicates that requests originating from the Azure portal can bypass the rules defined in the 'ipRules' section. \
+ * **AzureServices**: Indicates that requests originating from Azure trusted services can bypass the rules defined in the 'ipRules' section.
  */
 export type SearchBypass = string;
 
@@ -1076,7 +1079,7 @@ export type SearchServiceStatus =
   | "error"
   | "stopped";
 /** Defines values for ProvisioningState. */
-export type ProvisioningState = "succeeded" | "provisioning" | "failed";
+export type ProvisioningState = "Succeeded" | "Provisioning" | "Failed";
 /** Defines values for SearchEncryptionWithCmk. */
 export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
 /** Defines values for SearchEncryptionComplianceStatus. */

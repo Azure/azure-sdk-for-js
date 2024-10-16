@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
@@ -8,6 +8,7 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "@azure/storage-blob";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
@@ -41,6 +42,7 @@ import {
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
   PathUndeleteHeaders,
+  UserDelegationKey,
 } from "./models";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
@@ -53,7 +55,10 @@ import {
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
+import {
+  generateDataLakeSASQueryParameters,
+  generateDataLakeSASQueryParametersInternal,
+} from "./sas/DataLakeSASSignatureValues";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
 import { PathClientInternal } from "./utils/PathClientInternal";
 
@@ -790,5 +795,86 @@ export class DataLakeFileSystemClient extends StorageClient {
 
       resolve(appendToURLQuery(this.url, sas));
     });
+  }
+
+  /**
+   * Only available for DataLakeFileSystemClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: FileSystemGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.name,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: FileSystemGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.name,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateUserDelegationSasStringToSign(
+    options: FileSystemGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
   }
 }

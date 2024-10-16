@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.1 (2024-05-23)
 
 This is the first preview of the Azure Face Service client library `@azure-rest/ai-vision-face` that follows the [TypeScript Azure SDK Design Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html).

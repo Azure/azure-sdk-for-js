@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RedisLinkedServerCreateParameters,
-  RedisManagementClient
+  RedisManagementClient,
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Adds a linked server to the Redis cache (requires Premium SKU).
  *
  * @summary Adds a linked server to the Redis cache (requires Premium SKU).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2023-08-01/examples/RedisCacheLinkedServer_Create.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheLinkedServer_Create.json
  */
 async function linkedServerCreate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function linkedServerCreate() {
     linkedRedisCacheId:
       "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache2",
     linkedRedisCacheLocation: "West US",
-    serverRole: "Secondary"
+    serverRole: "Secondary",
   };
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function linkedServerCreate() {
     resourceGroupName,
     name,
     linkedServerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

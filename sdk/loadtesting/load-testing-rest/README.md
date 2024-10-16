@@ -129,7 +129,6 @@ await client.path("/tests/{testId}", TEST_ID).patch({
 ```javascript
 import { AzureLoadTestingClient, getLongRunningPoller, isUnexpected } from "@azure-rest/load-testing";
 import AzureLoadTesting from "@azure-rest/load-testing";
-import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 
@@ -153,7 +152,7 @@ let fileValidateResult;
 const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
 try{
 fileValidateResult = await fileValidatePoller.pollUntilDone({
-  abortSignal: AbortController.timeout(120*1000), // timeout of 120 seconds
+  abortSignal: AbortSignal.timeout(120*1000), // timeout of 120 seconds
 });} catch (ex: any) {
 new Error("Error in polling file Validation" + ex.message); //polling timed out
 }
@@ -171,7 +170,6 @@ if (fileValidatePoller.getOperationState().status != "succeeded" && fileValidate
 import { AzureLoadTestingClient, getLongRunningPoller, isUnexpected } from "@azure-rest/load-testing";
 import AzureLoadTesting from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
-import { AbortController } from "@azure/abort-controller";
 
 const client: AzureLoadTestingClient = AzureLoadTesting("<Endpoint>", new DefaultAzureCredential());
 
@@ -200,7 +198,7 @@ const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
 
   try {
     testRunResult = await testRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
   } catch (ex: any) {
     new Error("Error in polling test run completion" + ex.message); //polling timed out

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 */
 
 import { useEffect, useState } from "react";

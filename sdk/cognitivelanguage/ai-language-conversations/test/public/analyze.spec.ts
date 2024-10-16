@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";

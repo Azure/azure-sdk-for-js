@@ -15,7 +15,7 @@ import {
   PatchSchedulesCreateOrUpdateResponse,
   PatchSchedulesDeleteOptionalParams,
   PatchSchedulesGetOptionalParams,
-  PatchSchedulesGetResponse
+  PatchSchedulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PatchSchedules {
   listByRedisResource(
     resourceGroupName: string,
     cacheName: string,
-    options?: PatchSchedulesListByRedisResourceOptionalParams
+    options?: PatchSchedulesListByRedisResourceOptionalParams,
   ): PagedAsyncIterableIterator<RedisPatchSchedule>;
   /**
    * Create or replace the patching schedule for Redis cache.
@@ -45,7 +45,7 @@ export interface PatchSchedules {
     name: string,
     defaultParam: DefaultName,
     parameters: RedisPatchSchedule,
-    options?: PatchSchedulesCreateOrUpdateOptionalParams
+    options?: PatchSchedulesCreateOrUpdateOptionalParams,
   ): Promise<PatchSchedulesCreateOrUpdateResponse>;
   /**
    * Deletes the patching schedule of a redis cache.
@@ -58,7 +58,7 @@ export interface PatchSchedules {
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
-    options?: PatchSchedulesDeleteOptionalParams
+    options?: PatchSchedulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the patching schedule of a redis cache.
@@ -71,6 +71,6 @@ export interface PatchSchedules {
     resourceGroupName: string,
     name: string,
     defaultParam: DefaultName,
-    options?: PatchSchedulesGetOptionalParams
+    options?: PatchSchedulesGetOptionalParams,
   ): Promise<PatchSchedulesGetResponse>;
 }

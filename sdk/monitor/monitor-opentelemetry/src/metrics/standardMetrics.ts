@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   MeterProvider,
@@ -82,7 +82,7 @@ export class StandardMetrics {
   /**
    * Shutdown Meter Provider it will return no-op Meters after being called.
    */
-  public shutdown() {
+  public shutdown(): void {
     this._meterProvider.shutdown();
   }
 

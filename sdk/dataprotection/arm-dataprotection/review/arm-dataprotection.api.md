@@ -201,6 +201,7 @@ export interface AzureBackupRehydrationRequest {
 export interface AzureBackupRestoreRequest {
     identityDetails?: IdentityDetails;
     objectType: "AzureBackupRecoveryPointBasedRestoreRequest" | "AzureBackupRestoreWithRehydrationRequest" | "AzureBackupRecoveryTimeBasedRestoreRequest";
+    resourceGuardOperationRequests?: string[];
     restoreTargetInfo: RestoreTargetInfoBaseUnion;
     sourceDataStoreType: SourceDataStoreType;
     sourceResourceId?: string;
@@ -275,6 +276,7 @@ export interface BackupInstance {
     readonly protectionErrorDetails?: UserFacingError;
     readonly protectionStatus?: ProtectionStatusDetails;
     readonly provisioningState?: string;
+    resourceGuardOperationRequests?: string[];
     validationType?: ValidationType;
 }
 
@@ -349,6 +351,8 @@ export interface BackupInstancesCreateOrUpdateHeaders {
 export interface BackupInstancesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -365,7 +369,28 @@ export interface BackupInstancesDeleteHeaders {
 export interface BackupInstancesDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
+
+// @public
+export interface BackupInstancesExtensionRouting {
+    list(resourceId: string, options?: BackupInstancesExtensionRoutingListOptionalParams): PagedAsyncIterableIterator<BackupInstanceResource>;
+}
+
+// @public
+export interface BackupInstancesExtensionRoutingListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupInstancesExtensionRoutingListNextResponse = BackupInstanceResourceList;
+
+// @public
+export interface BackupInstancesExtensionRoutingListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BackupInstancesExtensionRoutingListResponse = BackupInstanceResourceList;
 
 // @public
 export interface BackupInstancesGetBackupInstanceOperationResultOptionalParams extends coreClient.OperationOptions {
@@ -430,8 +455,11 @@ export interface BackupInstancesStopProtectionHeaders {
 
 // @public
 export interface BackupInstancesStopProtectionOptionalParams extends coreClient.OperationOptions {
+    parameters?: StopProtectionRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -443,8 +471,11 @@ export interface BackupInstancesSuspendBackupsHeaders {
 
 // @public
 export interface BackupInstancesSuspendBackupsOptionalParams extends coreClient.OperationOptions {
+    parameters?: SuspendBackupRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -503,6 +534,8 @@ export interface BackupInstancesTriggerRestoreHeaders {
 export interface BackupInstancesTriggerRestoreOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -618,11 +651,13 @@ export interface BackupSchedule {
 
 // @public
 export interface BackupVault {
+    readonly bcdrSecurityLevel?: BcdrSecurityLevel;
     featureSettings?: FeatureSettings;
     readonly isVaultProtectedByResourceGuard?: boolean;
     monitoringSettings?: MonitoringSettings;
     readonly provisioningState?: ProvisioningState;
     replicatedRegions?: string[];
+    resourceGuardOperationRequests?: string[];
     readonly resourceMoveDetails?: ResourceMoveDetails;
     readonly resourceMoveState?: ResourceMoveState;
     readonly secureScore?: SecureScoreLevel;
@@ -685,6 +720,8 @@ export type BackupVaultsCheckNameAvailabilityResponse = CheckNameAvailabilityRes
 export interface BackupVaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -735,6 +772,8 @@ export type BackupVaultsGetResponse = BackupVaultResource;
 export interface BackupVaultsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -776,6 +815,9 @@ export interface BaseResourceProperties {
 
 // @public (undocumented)
 export type BaseResourcePropertiesUnion = BaseResourceProperties | DefaultResourceProperties;
+
+// @public
+export type BcdrSecurityLevel = string;
 
 // @public
 export interface BlobBackupDatasourceParameters extends BackupDatasourceParameters {
@@ -839,6 +881,17 @@ export interface ClientDiscoveryValueForSingleApi {
 // @public
 export interface CloudError {
     error?: ErrorModel;
+}
+
+// @public
+export interface CmkKekIdentity {
+    identityId?: string;
+    identityType?: IdentityType;
+}
+
+// @public
+export interface CmkKeyVaultProperties {
+    keyUri?: string;
 }
 
 // @public
@@ -936,6 +989,8 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     backupInstances: BackupInstances;
+    // (undocumented)
+    backupInstancesExtensionRouting: BackupInstancesExtensionRouting;
     // (undocumented)
     backupPolicies: BackupPolicies;
     // (undocumented)
@@ -1229,6 +1284,8 @@ export type DppResourceGuardProxyListResponse = ResourceGuardProxyBaseResourceLi
 
 // @public
 export interface DppResourceGuardProxyUnlockDeleteOptionalParams extends coreClient.OperationOptions {
+    // (undocumented)
+    xMsAuthorizationAuxiliary?: string;
 }
 
 // @public
@@ -1268,6 +1325,17 @@ export interface DppWorkerRequest {
     // (undocumented)
     uri?: string;
 }
+
+// @public
+export interface EncryptionSettings {
+    infrastructureEncryption?: InfrastructureEncryptionState;
+    kekIdentity?: CmkKekIdentity;
+    keyVaultProperties?: CmkKeyVaultProperties;
+    state?: EncryptionState;
+}
+
+// @public
+export type EncryptionState = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -1454,6 +1522,9 @@ export interface IdentityDetails {
 }
 
 // @public
+export type IdentityType = string;
+
+// @public
 export interface ImmediateCopyOption extends CopyOption {
     objectType: "ImmediateCopyOption";
 }
@@ -1465,6 +1536,9 @@ export interface ImmutabilitySettings {
 
 // @public
 export type ImmutabilityState = string;
+
+// @public
+export type InfrastructureEncryptionState = string;
 
 // @public
 export interface InnerError {
@@ -1568,6 +1642,15 @@ export enum KnownAlertsState {
 }
 
 // @public
+export enum KnownBcdrSecurityLevel {
+    Excellent = "Excellent",
+    Fair = "Fair",
+    Good = "Good",
+    NotSupported = "NotSupported",
+    Poor = "Poor"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -1623,6 +1706,13 @@ export enum KnownDayOfWeek {
 }
 
 // @public
+export enum KnownEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Inconsistent = "Inconsistent"
+}
+
+// @public
 export enum KnownExistingResourcePolicy {
     Patch = "Patch",
     Skip = "Skip"
@@ -1645,10 +1735,22 @@ export enum KnownFeatureType {
 }
 
 // @public
+export enum KnownIdentityType {
+    SystemAssigned = "SystemAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
     Unlocked = "Unlocked"
+}
+
+// @public
+export enum KnownInfrastructureEncryptionState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1844,6 +1946,7 @@ export interface KubernetesClusterRestoreCriteria extends ItemLevelRestoreCriter
     };
     objectType: "KubernetesClusterRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    resourceModifierReference?: NamespacedNameResource;
     restoreHookReferences?: NamespacedNameResource[];
 }
 
@@ -1861,6 +1964,7 @@ export interface KubernetesClusterVaultTierRestoreCriteria extends ItemLevelRest
     };
     objectType: "KubernetesClusterVaultTierRestoreCriteria";
     persistentVolumeRestoreMode?: PersistentVolumeRestoreMode;
+    resourceModifierReference?: NamespacedNameResource;
     restoreHookReferences?: NamespacedNameResource[];
     stagingResourceGroupId?: string;
     stagingStorageAccountId?: string;
@@ -1979,6 +2083,7 @@ export type OperationStatusResourceGroupContextGetResponse = OperationResource;
 export interface PatchBackupVaultInput {
     featureSettings?: FeatureSettings;
     monitoringSettings?: MonitoringSettings;
+    resourceGuardOperationRequests?: string[];
     securitySettings?: SecuritySettings;
 }
 
@@ -2484,6 +2589,7 @@ export type SecureScoreLevel = string;
 
 // @public
 export interface SecuritySettings {
+    encryptionSettings?: EncryptionSettings;
     immutabilitySettings?: ImmutabilitySettings;
     softDeleteSettings?: SoftDeleteSettings;
 }
@@ -2512,6 +2618,11 @@ export interface SourceLifeCycle {
 export type Status = string;
 
 // @public
+export interface StopProtectionRequest {
+    resourceGuardOperationRequests?: string[];
+}
+
+// @public
 export interface StorageSetting {
     datastoreType?: StorageSettingStoreTypes;
     type?: StorageSettingTypes;
@@ -2528,6 +2639,11 @@ export interface SupportedFeature {
     exposureControlledFeatures?: string[];
     featureName?: string;
     supportStatus?: FeatureSupportStatus;
+}
+
+// @public
+export interface SuspendBackupRequest {
+    resourceGuardOperationRequests?: string[];
 }
 
 // @public
@@ -2585,7 +2701,6 @@ export type TriggerContextUnion = TriggerContext | AdhocBasedTriggerContext | Sc
 
 // @public
 export interface UnlockDeleteRequest {
-    // (undocumented)
     resourceGuardOperationRequests?: string[];
     // (undocumented)
     resourceToBeDeleted?: string;

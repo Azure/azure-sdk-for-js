@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   CommunicationIdentifier,
@@ -7,8 +7,8 @@ import {
   SerializedCommunicationIdentifier,
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
-} from "../../src";
-import { assert } from "chai";
+} from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 const assertSerialize = (
   identifier: CommunicationIdentifier,

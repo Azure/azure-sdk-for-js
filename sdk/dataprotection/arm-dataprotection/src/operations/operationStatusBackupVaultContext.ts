@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters";
 import { DataProtectionClient } from "../dataProtectionClient";
 import {
   OperationStatusBackupVaultContextGetOptionalParams,
-  OperationStatusBackupVaultContextGetResponse
+  OperationStatusBackupVaultContextGetResponse,
 } from "../models";
 
 /** Class containing OperationStatusBackupVaultContext operations. */
 export class OperationStatusBackupVaultContextImpl
-  implements OperationStatusBackupVaultContext {
+  implements OperationStatusBackupVaultContext
+{
   private readonly client: DataProtectionClient;
 
   /**
@@ -40,11 +41,11 @@ export class OperationStatusBackupVaultContextImpl
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: OperationStatusBackupVaultContextGetOptionalParams
+    options?: OperationStatusBackupVaultContextGetOptionalParams,
   ): Promise<OperationStatusBackupVaultContextGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -52,16 +53,15 @@ export class OperationStatusBackupVaultContextImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/operationStatus/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/operationStatus/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResource
+      bodyMapper: Mappers.OperationResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -69,8 +69,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vaultName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
