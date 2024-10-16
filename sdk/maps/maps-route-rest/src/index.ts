@@ -3,7 +3,7 @@
 
 import MapsRoute from "./mapsRoute";
 
-export * from "./generated";
+export * from "../generated";
 export * from "./helpers";
 
 export default MapsRoute;
