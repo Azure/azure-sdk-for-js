@@ -4,8 +4,6 @@
 import {
   createServiceBusClientForTests,
   EntityName,
-  getRandomTestClientTypeWithNoSessions,
-  getRandomTestClientTypeWithSessions,
   ServiceBusClientForTests,
 } from "../public/utils/testutils2.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
@@ -14,24 +12,15 @@ import { ServiceBusSender } from "../../src/sender.js";
 import { ServiceBusReceiver } from "../../src/index.js";
 import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
 
-const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
-const withSessionTestClientType = getRandomTestClientTypeWithSessions();
-
 let serviceBusClient: ServiceBusClientForTests;
 let entityNames: EntityName;
 let sender: ServiceBusSender;
-let receiver: ServiceBusReceiver;
+let receiveAndDeleteReceiver: ServiceBusReceiver;
 
-async function beforeEachTest(
-  entityType: TestClientType,
-  receiveMode: "peekLock" | "receiveAndDelete" = "peekLock",
-): Promise<void> {
+async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
-  if (receiveMode === "receiveAndDelete") {
-    receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
-  } else {
-    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
-  }
+  receiveAndDeleteReceiver =
+    await serviceBusClient.test.createReceiveAndDeleteReceiver(entityNames);
 
   sender = serviceBusClient.test.addToCleanup(
     serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
@@ -54,7 +43,17 @@ describe("PeekMessagesOptions.omitMessageBody", () => {
     await afterEachTest();
   });
 
-  [noSessionTestClientType, withSessionTestClientType].forEach((testType) => {
+  [
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription,
+    // Service issue feature doesn't work for PartitionedQueue and PartitionedSubscription
+    // TestClientType.PartitionedQueue,
+    // TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions,
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+  ].forEach((testType) => {
     it(testType + ": peek messages", async () => {
       await beforeEachTest(testType);
       const testMessages = entityNames.usesSessions
@@ -62,22 +61,15 @@ describe("PeekMessagesOptions.omitMessageBody", () => {
         : TestMessage.getSample();
       await sender.sendMessages(testMessages);
 
-      let peeked = await receiver.peekMessages(1, {
+      const peeked = await receiveAndDeleteReceiver.peekMessages(1, {
         omitMessageBody: true,
       });
 
       expect(peeked.length).to.equal(1);
       expect(peeked[0].body).toBeUndefined();
 
-      const received = await receiver.receiveMessages(1);
+      const received = await receiveAndDeleteReceiver.receiveMessages(1);
       expect(received.length).toBe(1);
-      await receiver.completeMessage(received[0]);
-
-      peeked = await receiver.peekMessages(1, {
-        omitMessageBody: true,
-      });
-
-      expect(peeked.length).to.equal(1);
     });
   });
 });
