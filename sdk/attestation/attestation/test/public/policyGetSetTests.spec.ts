@@ -4,10 +4,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-
-import { assert, use as chaiUse, expect } from "chai";
-import { Context } from "mocha";
-import chaiAsPromised from "chai-as-promised";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 chaiUse(chaiAsPromised);
@@ -24,6 +20,7 @@ import { AttestationType, KnownAttestationType, createAttestationPolicyToken } f
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
 import { KnownPolicyModification } from "../../src/generated/index.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("PolicyGetSetTests ", function () {
   let recorder: Recorder;
