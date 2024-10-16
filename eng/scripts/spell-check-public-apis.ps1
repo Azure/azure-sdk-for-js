@@ -6,7 +6,7 @@ against multiple service directories.
 .DESCRIPTION
 Checks spelling of package's public API. Some packages may be excluded by
 criteria in the cspell.json config. The precise list of files to scan is
-determined by cspell. If a pacakge is opted out in the cspell.json a command
+determined by cspell. If a package is opted out in the cspell.json a command
 will still be issued to scan that folder but cspell will report 0 files checked.
 
 .PARAMETER ChangedServices

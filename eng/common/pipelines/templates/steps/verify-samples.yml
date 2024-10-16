@@ -12,10 +12,10 @@ parameters:
 steps:
   - pwsh: |
       # Take whichever parameter has been set. If set, ServiceDirectory will be a single path or
-      # ServiceDirectories will be a comma separated list.
+      # ServiceDirectories will be a space separated list.
       $ServiceDirectories = '${{ coalesce(parameters.ServiceDirectory, parameters.ServiceDirectories) }}'
       $ScanPaths = @()
-      foreach ($ServiceDirectory in $ServiceDirectories.Split(',')) {
+      foreach ($ServiceDirectory in $ServiceDirectories.Split(' ')) {
         $ScanPath = [System.IO.Path]::Combine('$(Build.SourcesDirectory)', 'sdk', $ServiceDirectory)
         Write-Host "Adding $ScanPath to the scanned paths"
         $ScanPaths += $ScanPath
