@@ -24,6 +24,9 @@ export interface ExchangeTokenResponse {
   };
 }
 
+/**
+ * The Entra Communication Token Options.
+ */
 export interface EntraCommunicationTokenCredentialOptions {
   /**
    * The Azure Communication Service resource endpoint URL, e.g. https://myResource.communication.azure.com.

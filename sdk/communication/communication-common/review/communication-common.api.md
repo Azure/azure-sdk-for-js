@@ -72,7 +72,7 @@ export interface EndpointCredential {
     endpoint: string;
 }
 
-// @public (undocumented)
+// @public
 export interface EntraCommunicationTokenCredentialOptions {
     resourceEndpoint: string;
     scopes?: string[];
