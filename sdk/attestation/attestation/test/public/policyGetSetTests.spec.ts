@@ -6,8 +6,6 @@
 import * as jsrsasign from "jsrsasign";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
-chaiUse(chaiAsPromised);
-
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
 import {
@@ -24,7 +22,7 @@ import {
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
 import { KnownPolicyModification } from "../../src/generated/index.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("PolicyGetSetTests ", function () {
   let recorder: Recorder;
@@ -65,27 +63,27 @@ describe("PolicyGetSetTests ", function () {
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, { privateKey: rsaKey }),
-    ).to.be.rejectedWith("privateKey is specified");
+    ).rejects.toThrow("privateKey is specified");
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
         certificate: rsaCertificate,
       }),
-    ).to.be.rejectedWith("privateKey is specified");
+    ).rejects.toThrow("privateKey is specified");
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
         privateKey: rsaKey2,
         certificate: rsaCertificate,
       }),
-    ).to.be.rejectedWith("Key does not match Certificate");
+    ).rejects.toThrow("Key does not match Certificate");
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
         privateKey: "BogusKey",
         certificate: rsaCertificate,
       }),
-    ).to.be.rejectedWith("not supported argument");
+    ).rejects.toThrow("not supported argument");
 
     await adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy);
 
@@ -101,30 +99,30 @@ describe("PolicyGetSetTests ", function () {
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { privateKey: rsaKey }),
-    ).to.be.rejectedWith("privateKey is specified");
+    ).rejects.toThrow("privateKey is specified");
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { certificate: rsaCertificate }),
-    ).to.be.rejectedWith("privateKey is specified");
+    ).rejects.toThrow("privateKey is specified");
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
         privateKey: "BogusKey",
         certificate: rsaCertificate,
       }),
-    ).to.be.rejectedWith("not supported argument");
+    ).rejects.toThrow("not supported argument");
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
         privateKey: rsaKey2,
         certificate: rsaCertificate,
       }),
-    ).to.be.rejectedWith("Key does not match Certificate");
+    ).rejects.toThrow("Key does not match Certificate");
 
     await adminClient.resetPolicy(KnownAttestationType.SgxEnclave);
   });
 
-  it("Set Policy SGX - AAD Secured", async function () {
+  it("Set Policy SGX - AAD Secured", async function (ctx) {
     if (!isLiveMode()) ctx.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     const [rsaKey, rsapubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
@@ -134,7 +132,7 @@ describe("PolicyGetSetTests ", function () {
     });
   });
 
-  it("Set Policy SGX - Isolated Secured", async function () {
+  it("Set Policy SGX - Isolated Secured", async function (ctx) {
     if (!isLiveMode()) ctx.skip(); // "setPolicy APIs require keys and certificates from the environment, which are not available in playback"
     await testSetPolicy(KnownAttestationType.SgxEnclave, "Isolated", getIsolatedSigningKey());
   });
@@ -143,7 +141,7 @@ describe("PolicyGetSetTests ", function () {
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD");
   });
 
-  it("Reset Policy SGX - AAD Secured", async function () {
+  it("Reset Policy SGX - AAD Secured", async function (ctx) {
     if (!isLiveMode()) ctx.skip(); // "secured APIs cannot match the policy hash because the recorded policy signer won't match the signer in the request"
     const [rsaKey, rsaPubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
@@ -151,7 +149,7 @@ describe("PolicyGetSetTests ", function () {
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
 
-  it("Reset Policy SGX - Isolated Secured", async function () {
+  it("Reset Policy SGX - Isolated Secured", async function (ctx) {
     if (!isLiveMode()) ctx.skip(); // "resetPolicy APIs require keys and certificates from the environment, which are not available in playback"
     const signingKeys = getIsolatedSigningKey();
     await testResetPolicy(KnownAttestationType.SgxEnclave, "Isolated", signingKeys);

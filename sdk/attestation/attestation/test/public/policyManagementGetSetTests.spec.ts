@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-chaiUse(chaiAsPromised);
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
@@ -17,7 +16,7 @@ import { KnownCertificateModification } from "../../src/generated/index.js";
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 import { byteArrayToHex } from "../../src/utils/base64.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("PolicyManagementTests ", function () {
   let recorder: Recorder;
@@ -68,11 +67,11 @@ describe("PolicyManagementTests ", function () {
 
     await expect(
       adminClient.addPolicyManagementCertificate(rsaCertificate, "Foo", "Bar"),
-    ).to.be.rejectedWith("can't find PEM header");
+    ).rejects.toThrow("can't find PEM header");
 
     await expect(
       adminClient.addPolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate),
-    ).to.be.rejectedWith("Key does not match Certificate");
+    ).rejects.toThrow("Key does not match Certificate");
   });
 
   it("Remove Policy failure conditions", async function () {
@@ -84,14 +83,14 @@ describe("PolicyManagementTests ", function () {
 
     await expect(
       adminClient.removePolicyManagementCertificate(rsaCertificate, "Foo", "Bar"),
-    ).to.be.rejectedWith("can't find PEM header");
+    ).rejects.toThrow("can't find PEM header");
 
     await expect(
       adminClient.removePolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate),
-    ).to.be.rejectedWith("Key does not match Certificate");
+    ).rejects.toThrow("Key does not match Certificate");
   });
 
-  it("setPolicyCertificates", async function () {
+  it("setPolicyCertificates", async function (ctx) {
     if (!isLiveMode()) ctx.skip(); // "setPolicyCertificate APIs require keys and certificates from the environment, which are not available in playback"
 
     const client = createRecordedAdminClient(recorder, "Isolated");
