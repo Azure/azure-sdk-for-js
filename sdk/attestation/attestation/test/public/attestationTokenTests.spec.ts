@@ -4,7 +4,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-chaiUse(chaiPromises);
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { bytesToString, stringToBytes } from "../../src/utils/utf8.js";
@@ -13,7 +12,7 @@ import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cry
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
 import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
 import { recorderOptions } from "../utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("AttestationTokenTests", function () {
   let recorder: Recorder;

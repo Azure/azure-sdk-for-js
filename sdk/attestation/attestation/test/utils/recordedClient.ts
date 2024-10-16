@@ -14,7 +14,6 @@ import {
   AttestationClient,
   AttestationClientOptions,
 } from "../../src/index.js";
-import "./env.js";
 import { pemFromBase64 } from "../utils/helpers.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
