@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-chaiUse(chaiPromises);
 
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -13,7 +12,7 @@ import {
 import * as base64url from "../utils/base64url.js";
 
 import { KnownAttestationType } from "../../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("AttestationClient in Browser", function () {
   let recorder: Recorder;
@@ -201,7 +200,7 @@ describe("AttestationClient in Browser", function () {
           runTimeData: binaryRuntimeData,
           runTimeJson: binaryRuntimeData,
         }),
-      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+      ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
@@ -260,7 +259,7 @@ describe("AttestationClient in Browser", function () {
             runTimeJson: binaryRuntimeData,
           },
         ),
-      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+      ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson");
     }
 
     {
