@@ -51,8 +51,9 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
       $pkgProp.AdditionalPackages = $lookup[$pkgProp.ServiceDirectory]
     }
 
-    # necessary because we find the artifact configuration from the ci.yml file based upon the artifactname, which is
-    # not populated at time of constructor for the package properties default population of ArtifactDetails
+    # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
+    # of the class. however, due to the fact that we set the ArtifactName _after_ the constructor is called,
+    # we need to call it again here to ensure the CI artifacts are properly initialized
     $pkgProp.InitializeCIArtifacts()
 
     return $pkgProp
@@ -264,7 +265,7 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
 }
 
 # PackageName: Pass full package name e.g. @azure/abort-controller
-# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
+# You can obtain full package name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
 function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   try {
     $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"

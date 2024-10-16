@@ -10,20 +10,20 @@ import {
 import { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
-import * as Constants from "./constants";
-import { administrationLogger as logger } from "../log";
+import * as Constants from "./constants.js";
+import { administrationLogger as logger } from "../log.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 
-import { parseURL } from "./parseUrl";
-import { isJSONLikeObject } from "./utils";
+import { parseURL } from "./parseUrl.js";
+import { isJSONLikeObject } from "./utils.js";
 import { isDefined } from "@azure/core-util";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { InternalQueueOptions } from "../serializers/queueResourceSerializer";
-import { InternalTopicOptions } from "../serializers/topicResourceSerializer";
-import { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer";
-import { CreateRuleOptions } from "../serializers/ruleResourceSerializer";
+import { InternalQueueOptions } from "../serializers/queueResourceSerializer.js";
+import { InternalTopicOptions } from "../serializers/topicResourceSerializer.js";
+import { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer.js";
+import { CreateRuleOptions } from "../serializers/ruleResourceSerializer.js";
 
 /**
  * @internal

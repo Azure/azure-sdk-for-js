@@ -7,4 +7,3 @@ extends:
       ServiceDirectory: maps
       Location: 'eastus'
       SupportedClouds: 'Public,Canary'
-      UseFederatedAuth: true

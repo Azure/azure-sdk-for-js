@@ -12,11 +12,11 @@ import {
   uuid_to_string,
   Message as RheaMessage,
 } from "rhea-promise";
-import { defaultDataTransformer } from "./dataTransformer";
-import { messageLogger as logger } from "./log";
-import { ReceiveMode } from "./models";
+import { defaultDataTransformer } from "./dataTransformer.js";
+import { messageLogger as logger } from "./log.js";
+import { ReceiveMode } from "./models.js";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { reorderLockToken } from "./util/utils";
+import { reorderLockToken } from "./util/utils.js";
 
 /**
  * @internal

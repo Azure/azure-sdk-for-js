@@ -1,5 +1,10 @@
 # Release History
     
+## 1.0.1 (2024-10-14)
+
+### Bugs Fixed
+- Fix missing package information issue in user agent
+
 ## 1.0.0 (2024-09-26)
 
 ### Features Added

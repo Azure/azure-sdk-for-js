@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy";
+import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy.js";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   startRecorder,
-} from "../../public/utils/testHelpers";
-import { AppConfigurationClient } from "../../../src";
-import { Context } from "mocha";
-import { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient";
+} from "../../public/utils/testHelpers.js";
+import { AppConfigurationClient } from "../../../src/index.js";
+import { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { NoOpCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   createHttpHeaders,
   HttpClient,
@@ -84,8 +83,8 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this);
+    beforeEach(async function (ctx) {
+      recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     });
 
@@ -119,7 +118,7 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let syncTokens: SyncTokens;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function () {
       syncTokens = new SyncTokens();
     });
 
