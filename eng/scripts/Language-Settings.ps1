@@ -48,7 +48,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
 
     if ($lookup.ContainsKey($pkgProp.ServiceDirectory)) {
-      $pkgProp.AdditionalPackages = $lookup[$pkgProp.ServiceDirectory]
+      $pkgProp.AdditionalValidationPackages = $lookup[$pkgProp.ServiceDirectory]
     }
 
     # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
