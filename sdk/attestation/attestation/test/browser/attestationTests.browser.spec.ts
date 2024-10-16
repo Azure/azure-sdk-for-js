@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert, use as chaiUse, expect } from "chai";
-import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { Recorder } from "@azure-tools/test-recorder";
@@ -17,6 +13,7 @@ import {
 import * as base64url from "../utils/base64url.js";
 
 import { KnownAttestationType } from "../../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AttestationClient in Browser", function () {
   let recorder: Recorder;
