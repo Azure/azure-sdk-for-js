@@ -16,7 +16,11 @@ import {
   getIsolatedSigningKey,
   recorderOptions,
 } from "../utils/recordedClient.js";
-import { AttestationType, KnownAttestationType, createAttestationPolicyToken } from "../../src/index.js";
+import {
+  AttestationType,
+  KnownAttestationType,
+  createAttestationPolicyToken,
+} from "../../src/index.js";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
 import { KnownPolicyModification } from "../../src/generated/index.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";

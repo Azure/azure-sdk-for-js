@@ -8,7 +8,11 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure-tools/test-recorder";
 
-import { createRecordedClient, getAttestationUri, recorderOptions } from "../utils/recordedClient.js";
+import {
+  createRecordedClient,
+  getAttestationUri,
+  recorderOptions,
+} from "../utils/recordedClient.js";
 import { AttestationClient } from "../../src/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
