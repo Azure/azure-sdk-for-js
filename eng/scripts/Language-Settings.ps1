@@ -46,7 +46,8 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
       'test-utils' = @('@azure-tests/perf-storage-blob', '@azure/arm-eventgrid', '@azure/ai-text-analytics', '@azure/identity', '@azure/template')
       'identity' = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
     }
-    if ($lookup.ContainsKey($pkgProp.ServiceDirectory))) {
+
+    if ($lookup.ContainsKey($pkgProp.ServiceDirectory)) {
       $pkgProp.AdditionalPackages = $lookup[$pkgProp.ServiceDirectory]
     }
 
