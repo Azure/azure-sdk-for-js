@@ -18,7 +18,6 @@ import {
   OperationsImpl,
   MonitorsImpl,
   ElasticVersionsImpl,
-  MonitoredSubscriptionsImpl,
   MonitoredResourcesImpl,
   DeploymentInfoImpl,
   ExternalUserImpl,
@@ -45,7 +44,6 @@ import {
   Operations,
   Monitors,
   ElasticVersions,
-  MonitoredSubscriptions,
   MonitoredResources,
   DeploymentInfo,
   ExternalUser,
@@ -102,7 +100,7 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-elastic/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-elastic/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -156,11 +154,10 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-15-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.operations = new OperationsImpl(this);
     this.monitors = new MonitorsImpl(this);
     this.elasticVersions = new ElasticVersionsImpl(this);
-    this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
     this.monitoredResources = new MonitoredResourcesImpl(this);
     this.deploymentInfo = new DeploymentInfoImpl(this);
     this.externalUser = new ExternalUserImpl(this);
@@ -220,7 +217,6 @@ export class MicrosoftElastic extends coreClient.ServiceClient {
   operations: Operations;
   monitors: Monitors;
   elasticVersions: ElasticVersions;
-  monitoredSubscriptions: MonitoredSubscriptions;
   monitoredResources: MonitoredResources;
   deploymentInfo: DeploymentInfo;
   externalUser: ExternalUser;

@@ -111,11 +111,8 @@ export interface ResourceSku {
 
 /** Properties specific to the monitor resource. */
 export interface MonitorProperties {
-  /**
-   * Provisioning state of the monitor resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** Provisioning state of the monitor resource. */
+  provisioningState?: ProvisioningState;
   /** Flag specifying if the resource monitoring is enabled or disabled. */
   monitoringStatus?: MonitoringStatus;
   /** Elastic cloud properties. */
@@ -311,140 +308,6 @@ export interface ElasticMonitorResourceUpdateParameters {
   tags?: { [propertyName: string]: string };
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-export interface MonitoredSubscriptionPropertiesList {
-  value?: MonitoredSubscriptionProperties[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-/** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-export interface MonitoredSubscriptionProperties {
-  /**
-   * Name of the monitored subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The id of the monitored subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The type of the monitored subscription resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  properties?: SubscriptionList;
-}
-
-/** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-export interface SubscriptionList {
-  /** The operation for the patch on the resource. */
-  operation?: Operation;
-  /** List of subscriptions and the state of the monitoring. */
-  monitoredSubscriptionList?: MonitoredSubscription[];
-  /**
-   * Provisioning State of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** The list of subscriptions and it's monitoring status by current Elastic monitor. */
-export interface MonitoredSubscription {
-  /** The subscriptionId to be monitored. */
-  subscriptionId?: string;
-  /** The state of monitoring. */
-  status?: Status;
-  /** The reason of not monitoring the subscription. */
-  error?: string;
-  /** Definition of the properties for a TagRules resource. */
-  tagRules?: MonitoringTagRulesProperties;
-}
-
-/** Definition of the properties for a TagRules resource. */
-export interface MonitoringTagRulesProperties {
-  /**
-   * Provisioning state of the monitoring tag rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Rules for sending logs. */
-  logRules?: LogRules;
-}
-
-/** Set of rules for sending logs for the Monitor resource. */
-export interface LogRules {
-  /** Flag specifying if AAD logs should be sent for the Monitor resource. */
-  sendAadLogs?: boolean;
-  /** Flag specifying if subscription logs should be sent for the Monitor resource. */
-  sendSubscriptionLogs?: boolean;
-  /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
-  sendActivityLogs?: boolean;
-  /** List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: FilteringTag[];
-}
-
-/** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
-export interface FilteringTag {
-  /** The name (also known as the key) of the tag. */
-  name?: string;
-  /** The value of the tag. */
-  value?: string;
-  /** Valid actions for a filtering tag. */
-  action?: TagAction;
-}
-
 /** Response of a list operation. */
 export interface MonitoredResourceListResponse {
   /** Results of a list operation. */
@@ -522,10 +385,6 @@ export interface MarketplaceSaaSInfo {
 export interface MarketplaceSaaSInfoMarketplaceSubscription {
   /** Marketplace Subscription Id. This is a GUID-formatted string. */
   id?: string;
-  /** Publisher Id of the Marketplace offer. */
-  publisherId?: string;
-  /** Offer Id of the Marketplace offer, */
-  offerId?: string;
 }
 
 /** The properties of the request required for creating user on elastic side */
@@ -630,8 +489,6 @@ export interface OpenAIIntegrationProperties {
   openAIResourceId?: string;
   /** The API endpoint for Open AI resource */
   openAIResourceEndpoint?: string;
-  /** The connector id of Open AI resource */
-  openAIConnectorId?: string;
   /** Value of API key for Open AI resource */
   key?: string;
   /**
@@ -685,6 +542,36 @@ export interface MonitoringTagRules {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+}
+
+/** Definition of the properties for a TagRules resource. */
+export interface MonitoringTagRulesProperties {
+  /** Provisioning state of the monitoring tag rules. */
+  provisioningState?: ProvisioningState;
+  /** Rules for sending logs. */
+  logRules?: LogRules;
+}
+
+/** Set of rules for sending logs for the Monitor resource. */
+export interface LogRules {
+  /** Flag specifying if AAD logs should be sent for the Monitor resource. */
+  sendAadLogs?: boolean;
+  /** Flag specifying if subscription logs should be sent for the Monitor resource. */
+  sendSubscriptionLogs?: boolean;
+  /** Flag specifying if activity logs from Azure resources should be sent for the Monitor resource. */
+  sendActivityLogs?: boolean;
+  /** List of filtering tags to be used for capturing logs. This only takes effect if SendActivityLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
+  filteringTags?: FilteringTag[];
+}
+
+/** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
+export interface FilteringTag {
+  /** The name (also known as the key) of the tag. */
+  name?: string;
+  /** The value of the tag. */
+  value?: string;
+  /** Valid actions for a filtering tag. */
+  action?: TagAction;
 }
 
 /** Response of a list operation. */
@@ -806,40 +693,6 @@ export interface ElasticOrganizationToAzureSubscriptionMappingResponseProperties
   elasticOrganizationName?: string;
 }
 
-/** Resubscribe Properties */
-export interface ResubscribeProperties {
-  /** Newly selected plan Id to create the new Marketplace subscription for Resubscribe */
-  planId?: string;
-  /** Newly selected term to create the new Marketplace subscription for Resubscribe */
-  term?: string;
-  /** Newly selected Azure Subscription Id in which the new Marketplace subscription will be created for Resubscribe */
-  subscriptionId?: string;
-  /** Newly selected Azure resource group in which the new Marketplace subscription will be created for Resubscribe */
-  resourceGroup?: string;
-  /** Organization Id of the Elastic Organization that needs to be resubscribed */
-  organizationId?: string;
-}
-
-/** Defines headers for Monitors_update operation. */
-export interface MonitorsUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for MonitoredSubscriptions_update operation. */
-export interface MonitoredSubscriptionsUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for MonitoredSubscriptions_delete operation. */
-export interface MonitoredSubscriptionsDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for Organizations_resubscribe operation. */
-export interface OrganizationsResubscribeHeaders {
-  location?: string;
-}
-
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Accepted */
@@ -954,75 +807,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link Operation} that the service accepts. */
-export enum KnownOperation {
-  /** AddBegin */
-  AddBegin = "AddBegin",
-  /** AddComplete */
-  AddComplete = "AddComplete",
-  /** DeleteBegin */
-  DeleteBegin = "DeleteBegin",
-  /** DeleteComplete */
-  DeleteComplete = "DeleteComplete",
-  /** Active */
-  Active = "Active",
-}
-
-/**
- * Defines values for Operation. \
- * {@link KnownOperation} can be used interchangeably with Operation,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AddBegin** \
- * **AddComplete** \
- * **DeleteBegin** \
- * **DeleteComplete** \
- * **Active**
- */
-export type Operation = string;
-
-/** Known values of {@link Status} that the service accepts. */
-export enum KnownStatus {
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Active */
-  Active = "Active",
-  /** Failed */
-  Failed = "Failed",
-  /** Deleting */
-  Deleting = "Deleting",
-}
-
-/**
- * Defines values for Status. \
- * {@link KnownStatus} can be used interchangeably with Status,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **Active** \
- * **Failed** \
- * **Deleting**
- */
-export type Status = string;
-
-/** Known values of {@link TagAction} that the service accepts. */
-export enum KnownTagAction {
-  /** Include */
-  Include = "Include",
-  /** Exclude */
-  Exclude = "Exclude",
-}
-
-/**
- * Defines values for TagAction. \
- * {@link KnownTagAction} can be used interchangeably with TagAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Include** \
- * **Exclude**
- */
-export type TagAction = string;
-
 /** Known values of {@link SendingLogs} that the service accepts. */
 export enum KnownSendingLogs {
   /** True */
@@ -1058,6 +842,24 @@ export enum KnownElasticDeploymentStatus {
  * **Unhealthy**
  */
 export type ElasticDeploymentStatus = string;
+
+/** Known values of {@link TagAction} that the service accepts. */
+export enum KnownTagAction {
+  /** Include */
+  Include = "Include",
+  /** Exclude */
+  Exclude = "Exclude",
+}
+
+/**
+ * Defines values for TagAction. \
+ * {@link KnownTagAction} can be used interchangeably with TagAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Include** \
+ * **Exclude**
+ */
+export type TagAction = string;
 
 /** Known values of {@link OperationName} that the service accepts. */
 export enum KnownOperationName {
@@ -1150,10 +952,6 @@ export interface MonitorsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Elastic resource model update parameters. */
   body?: ElasticMonitorResourceUpdateParameters;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -1196,72 +994,6 @@ export interface ElasticVersionsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ElasticVersionsListNextResponse = ElasticVersionsListResponse;
-
-/** Optional parameters. */
-export interface MonitoredSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MonitoredSubscriptionsListResponse =
-  MonitoredSubscriptionPropertiesList;
-
-/** Optional parameters. */
-export interface MonitoredSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
-
-/** Optional parameters. */
-export interface MonitoredSubscriptionsCreateorUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  body?: MonitoredSubscriptionProperties;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createorUpdate operation. */
-export type MonitoredSubscriptionsCreateorUpdateResponse =
-  MonitoredSubscriptionProperties;
-
-/** Optional parameters. */
-export interface MonitoredSubscriptionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
-  body?: MonitoredSubscriptionProperties;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type MonitoredSubscriptionsUpdateResponse =
-  MonitoredSubscriptionProperties;
-
-/** Optional parameters. */
-export interface MonitoredSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type MonitoredSubscriptionsDeleteResponse =
-  MonitoredSubscriptionsDeleteHeaders;
-
-/** Optional parameters. */
-export interface MonitoredSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type MonitoredSubscriptionsListNextResponse =
-  MonitoredSubscriptionPropertiesList;
 
 /** Optional parameters. */
 export interface MonitoredResourcesListOptionalParams
@@ -1538,20 +1270,6 @@ export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams
 /** Contains response data for the getElasticToAzureSubscriptionMapping operation. */
 export type OrganizationsGetElasticToAzureSubscriptionMappingResponse =
   ElasticOrganizationToAzureSubscriptionMappingResponse;
-
-/** Optional parameters. */
-export interface OrganizationsResubscribeOptionalParams
-  extends coreClient.OperationOptions {
-  /** Resubscribe Properties */
-  body?: ResubscribeProperties;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the resubscribe operation. */
-export type OrganizationsResubscribeResponse = ElasticMonitorResource;
 
 /** Optional parameters. */
 export interface MicrosoftElasticOptionalParams

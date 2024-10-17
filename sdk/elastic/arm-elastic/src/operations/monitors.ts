@@ -312,88 +312,15 @@ export class MonitorsImpl implements Monitors {
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MonitorsUpdateResponse>,
-      MonitorsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<MonitorsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, monitorName, options },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      MonitorsUpdateResponse,
-      OperationState<MonitorsUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update a monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      monitorName,
-      options,
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      updateOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -608,17 +535,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ElasticMonitorResource,
     },
-    201: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
-    202: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
-    204: {
-      bodyMapper: Mappers.ElasticMonitorResource,
-    },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
   },
   requestBody: Parameters.body1,

@@ -84,23 +84,7 @@ export interface Monitors {
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MonitorsUpdateResponse>,
-      MonitorsUpdateResponse
-    >
-  >;
-  /**
-   * Update a monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsUpdateOptionalParams,
