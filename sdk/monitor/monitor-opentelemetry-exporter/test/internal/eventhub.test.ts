@@ -5,7 +5,10 @@ import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@op
 import { timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
 import * as assert from "node:assert";
-import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights.js";
+import {
+  ENQUEUED_TIME,
+  TIME_SINCE_ENQUEUED,
+} from "../../src/utils/constants/applicationinsights.js";
 import {
   AzNamespace,
   MessageBusDestination,

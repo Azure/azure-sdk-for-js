@@ -22,7 +22,11 @@ import {
   RequestData,
 } from "../../src/generated/index.js";
 import assert from "node:assert";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../../src/types.js";
+import {
+  BreezePerformanceCounterNames,
+  OTelPerformanceCounterNames,
+  Tags,
+} from "../../src/types.js";
 import { Context, getInstance } from "../../src/platform/index.js";
 
 const context = getInstance();

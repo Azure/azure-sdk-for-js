@@ -42,7 +42,11 @@ import {
 } from "./common.js";
 import { Tags, Properties, MSLink, Measurements, MaxPropertyLengths } from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
-import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights.js";
+import {
+  AzureMonitorSampleRate,
+  DependencyTypes,
+  MS_LINKS,
+} from "./constants/applicationinsights.js";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
 import {
   TelemetryExceptionData,
