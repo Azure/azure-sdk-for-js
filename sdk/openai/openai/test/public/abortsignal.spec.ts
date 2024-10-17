@@ -5,12 +5,12 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import OpenAI, { AzureOpenAI } from "openai";
 import { createClient } from "./utils/createClient.js";
-import { APIMatrix, APIVersion } from "./utils/utils.js";
+import { AnyApiVersion, APIMatrix } from "./utils/utils.js";
 
 describe("AbortSignal", () => {
   let client: AzureOpenAI | OpenAI;
 
-  matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
+  matrix([APIMatrix], async function (apiVersion: AnyApiVersion) {
     beforeEach(async function () {
       client = createClient(apiVersion, "completions");
     });
@@ -31,7 +31,7 @@ describe("AbortSignal", () => {
       ];
 
       const deploymentName = "gpt-35-turbo";
-      let currentMessage = "";
+      const currentMessage = "";
       try {
         const events = client.beta.chat.completions.stream({
           model: deploymentName,
