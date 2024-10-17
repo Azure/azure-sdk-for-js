@@ -10,10 +10,11 @@
 const { AzureOpenAI, toFile } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 require("dotenv/config");
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "<endpoint>";
 
 async function main() {
   console.log("== Batch Chat Completions Sample ==");
@@ -22,7 +23,7 @@ async function main() {
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-turbo";
   const apiVersion = "2024-08-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const client = new AzureOpenAI({ endpoint, azureADTokenProvider, apiVersion });
 
   const batchContent = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deployment}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
 
