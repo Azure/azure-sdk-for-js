@@ -14,12 +14,9 @@ async function stopTheDatabaseInstanceOfTheSapSystem() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPDatabaseInstances.stop(
-    "test-rg",
-    "X00",
-    "db0",
-    { softStopTimeoutSeconds: 0 },
-  );
+  const result = await client.sAPDatabaseInstances.stop("test-rg", "X00", "db0", {
+    softStopTimeoutSeconds: 0,
+  });
   console.log(result);
 }
 
@@ -33,12 +30,9 @@ async function softStopTheDatabaseInstanceOfTheSapSystem() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPDatabaseInstances.stop(
-    "test-rg",
-    "X00",
-    "db0",
-    { softStopTimeoutSeconds: 300 },
-  );
+  const result = await client.sAPDatabaseInstances.stop("test-rg", "X00", "db0", {
+    softStopTimeoutSeconds: 300,
+  });
   console.log(result);
 }
 
@@ -52,12 +46,10 @@ async function softStopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualM
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPDatabaseInstances.stop(
-    "test-rg",
-    "X00",
-    "db0",
-    { deallocateVm: true, softStopTimeoutSeconds: 300 },
-  );
+  const result = await client.sAPDatabaseInstances.stop("test-rg", "X00", "db0", {
+    deallocateVm: true,
+    softStopTimeoutSeconds: 300,
+  });
   console.log(result);
 }
 
@@ -71,12 +63,10 @@ async function stopTheDatabaseInstanceOfTheSapSystemAndTheUnderlyingVirtualMachi
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPDatabaseInstances.stop(
-    "test-rg",
-    "X00",
-    "db0",
-    { deallocateVm: true, softStopTimeoutSeconds: 0 },
-  );
+  const result = await client.sAPDatabaseInstances.stop("test-rg", "X00", "db0", {
+    deallocateVm: true,
+    softStopTimeoutSeconds: 0,
+  });
   console.log(result);
 }
 

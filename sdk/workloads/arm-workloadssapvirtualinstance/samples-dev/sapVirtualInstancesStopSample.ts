@@ -31,7 +31,8 @@ async function softStopTheVirtualMachineSAndTheSapSystemOnIt() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPVirtualInstances.stop("test-rg", "X00", {
-    deallocateVm: true, softStopTimeoutSeconds: 300,
+    deallocateVm: true,
+    softStopTimeoutSeconds: 300,
   });
   console.log(result);
 }
@@ -63,7 +64,8 @@ async function stopTheVirtualMachineSAndTheSapSystemOnIt() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPVirtualInstances.stop("test-rg", "X00", {
-    deallocateVm: true, softStopTimeoutSeconds: 0,
+    deallocateVm: true,
+    softStopTimeoutSeconds: 0,
   });
   console.log(result);
 }

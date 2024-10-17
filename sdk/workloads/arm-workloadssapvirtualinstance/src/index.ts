@@ -7,10 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  WorkloadsClient,
-  WorkloadsClientOptionalParams,
-} from "./workloadsClient.js";
+export { WorkloadsClient, WorkloadsClientOptionalParams } from "./workloadsClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Operation,

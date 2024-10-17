@@ -88,85 +88,47 @@ export async function _sAPCentralServerInstancesGetDeserialize(
       : {
           instanceNo: result.body.properties?.["instanceNo"],
           subnet: result.body.properties?.["subnet"],
-          messageServerProperties: !result.body.properties
-            ?.messageServerProperties
+          messageServerProperties: !result.body.properties?.messageServerProperties
             ? undefined
             : {
-                msPort:
-                  result.body.properties?.messageServerProperties?.["msPort"],
-                internalMsPort:
-                  result.body.properties?.messageServerProperties?.[
-                    "internalMsPort"
-                  ],
-                httpPort:
-                  result.body.properties?.messageServerProperties?.["httpPort"],
-                httpsPort:
-                  result.body.properties?.messageServerProperties?.[
-                    "httpsPort"
-                  ],
-                hostname:
-                  result.body.properties?.messageServerProperties?.["hostname"],
-                ipAddress:
-                  result.body.properties?.messageServerProperties?.[
-                    "ipAddress"
-                  ],
-                health:
-                  result.body.properties?.messageServerProperties?.["health"],
+                msPort: result.body.properties?.messageServerProperties?.["msPort"],
+                internalMsPort: result.body.properties?.messageServerProperties?.["internalMsPort"],
+                httpPort: result.body.properties?.messageServerProperties?.["httpPort"],
+                httpsPort: result.body.properties?.messageServerProperties?.["httpsPort"],
+                hostname: result.body.properties?.messageServerProperties?.["hostname"],
+                ipAddress: result.body.properties?.messageServerProperties?.["ipAddress"],
+                health: result.body.properties?.messageServerProperties?.["health"],
               },
-          enqueueServerProperties: !result.body.properties
-            ?.enqueueServerProperties
+          enqueueServerProperties: !result.body.properties?.enqueueServerProperties
             ? undefined
             : {
-                hostname:
-                  result.body.properties?.enqueueServerProperties?.["hostname"],
-                ipAddress:
-                  result.body.properties?.enqueueServerProperties?.[
-                    "ipAddress"
-                  ],
+                hostname: result.body.properties?.enqueueServerProperties?.["hostname"],
+                ipAddress: result.body.properties?.enqueueServerProperties?.["ipAddress"],
                 port: result.body.properties?.enqueueServerProperties?.["port"],
-                health:
-                  result.body.properties?.enqueueServerProperties?.["health"],
+                health: result.body.properties?.enqueueServerProperties?.["health"],
               },
-          gatewayServerProperties: !result.body.properties
-            ?.gatewayServerProperties
+          gatewayServerProperties: !result.body.properties?.gatewayServerProperties
             ? undefined
             : {
                 port: result.body.properties?.gatewayServerProperties?.["port"],
-                health:
-                  result.body.properties?.gatewayServerProperties?.["health"],
+                health: result.body.properties?.gatewayServerProperties?.["health"],
               },
           enqueueReplicationServerProperties: !result.body.properties
             ?.enqueueReplicationServerProperties
             ? undefined
             : {
                 ersVersion:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "ersVersion"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["ersVersion"],
                 instanceNo:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "instanceNo"
-                  ],
-                hostname:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "hostname"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["instanceNo"],
+                hostname: result.body.properties?.enqueueReplicationServerProperties?.["hostname"],
                 kernelVersion:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "kernelVersion"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["kernelVersion"],
                 kernelPatch:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "kernelPatch"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["kernelPatch"],
                 ipAddress:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "ipAddress"
-                  ],
-                health:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "health"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["ipAddress"],
+                health: result.body.properties?.enqueueReplicationServerProperties?.["health"],
               },
           kernelVersion: result.body.properties?.["kernelVersion"],
           kernelPatch: result.body.properties?.["kernelPatch"],
@@ -197,27 +159,20 @@ export async function _sAPCentralServerInstancesGetDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -266,9 +221,7 @@ export function _sAPCentralServerInstancesCreateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -312,85 +265,47 @@ export async function _sAPCentralServerInstancesCreateDeserialize(
       : {
           instanceNo: result.body.properties?.["instanceNo"],
           subnet: result.body.properties?.["subnet"],
-          messageServerProperties: !result.body.properties
-            ?.messageServerProperties
+          messageServerProperties: !result.body.properties?.messageServerProperties
             ? undefined
             : {
-                msPort:
-                  result.body.properties?.messageServerProperties?.["msPort"],
-                internalMsPort:
-                  result.body.properties?.messageServerProperties?.[
-                    "internalMsPort"
-                  ],
-                httpPort:
-                  result.body.properties?.messageServerProperties?.["httpPort"],
-                httpsPort:
-                  result.body.properties?.messageServerProperties?.[
-                    "httpsPort"
-                  ],
-                hostname:
-                  result.body.properties?.messageServerProperties?.["hostname"],
-                ipAddress:
-                  result.body.properties?.messageServerProperties?.[
-                    "ipAddress"
-                  ],
-                health:
-                  result.body.properties?.messageServerProperties?.["health"],
+                msPort: result.body.properties?.messageServerProperties?.["msPort"],
+                internalMsPort: result.body.properties?.messageServerProperties?.["internalMsPort"],
+                httpPort: result.body.properties?.messageServerProperties?.["httpPort"],
+                httpsPort: result.body.properties?.messageServerProperties?.["httpsPort"],
+                hostname: result.body.properties?.messageServerProperties?.["hostname"],
+                ipAddress: result.body.properties?.messageServerProperties?.["ipAddress"],
+                health: result.body.properties?.messageServerProperties?.["health"],
               },
-          enqueueServerProperties: !result.body.properties
-            ?.enqueueServerProperties
+          enqueueServerProperties: !result.body.properties?.enqueueServerProperties
             ? undefined
             : {
-                hostname:
-                  result.body.properties?.enqueueServerProperties?.["hostname"],
-                ipAddress:
-                  result.body.properties?.enqueueServerProperties?.[
-                    "ipAddress"
-                  ],
+                hostname: result.body.properties?.enqueueServerProperties?.["hostname"],
+                ipAddress: result.body.properties?.enqueueServerProperties?.["ipAddress"],
                 port: result.body.properties?.enqueueServerProperties?.["port"],
-                health:
-                  result.body.properties?.enqueueServerProperties?.["health"],
+                health: result.body.properties?.enqueueServerProperties?.["health"],
               },
-          gatewayServerProperties: !result.body.properties
-            ?.gatewayServerProperties
+          gatewayServerProperties: !result.body.properties?.gatewayServerProperties
             ? undefined
             : {
                 port: result.body.properties?.gatewayServerProperties?.["port"],
-                health:
-                  result.body.properties?.gatewayServerProperties?.["health"],
+                health: result.body.properties?.gatewayServerProperties?.["health"],
               },
           enqueueReplicationServerProperties: !result.body.properties
             ?.enqueueReplicationServerProperties
             ? undefined
             : {
                 ersVersion:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "ersVersion"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["ersVersion"],
                 instanceNo:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "instanceNo"
-                  ],
-                hostname:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "hostname"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["instanceNo"],
+                hostname: result.body.properties?.enqueueReplicationServerProperties?.["hostname"],
                 kernelVersion:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "kernelVersion"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["kernelVersion"],
                 kernelPatch:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "kernelPatch"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["kernelPatch"],
                 ipAddress:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "ipAddress"
-                  ],
-                health:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "health"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["ipAddress"],
+                health: result.body.properties?.enqueueReplicationServerProperties?.["health"],
               },
           kernelVersion: result.body.properties?.["kernelVersion"],
           kernelPatch: result.body.properties?.["kernelPatch"],
@@ -421,27 +336,20 @@ export async function _sAPCentralServerInstancesCreateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -459,10 +367,7 @@ export function sAPCentralServerInstancesCreate(
   options: SAPCentralServerInstancesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SAPCentralServerInstance>,
-  SAPCentralServerInstance
-> {
+): PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance> {
   return getLongRunningPoller(
     context,
     _sAPCentralServerInstancesCreateDeserialize,
@@ -482,10 +387,7 @@ export function sAPCentralServerInstancesCreate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<SAPCentralServerInstance>,
-    SAPCentralServerInstance
-  >;
+  ) as PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance>;
 }
 
 export function _sAPCentralServerInstancesUpdateSend(
@@ -510,9 +412,7 @@ export function _sAPCentralServerInstancesUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
       },
     });
 }
@@ -552,85 +452,47 @@ export async function _sAPCentralServerInstancesUpdateDeserialize(
       : {
           instanceNo: result.body.properties?.["instanceNo"],
           subnet: result.body.properties?.["subnet"],
-          messageServerProperties: !result.body.properties
-            ?.messageServerProperties
+          messageServerProperties: !result.body.properties?.messageServerProperties
             ? undefined
             : {
-                msPort:
-                  result.body.properties?.messageServerProperties?.["msPort"],
-                internalMsPort:
-                  result.body.properties?.messageServerProperties?.[
-                    "internalMsPort"
-                  ],
-                httpPort:
-                  result.body.properties?.messageServerProperties?.["httpPort"],
-                httpsPort:
-                  result.body.properties?.messageServerProperties?.[
-                    "httpsPort"
-                  ],
-                hostname:
-                  result.body.properties?.messageServerProperties?.["hostname"],
-                ipAddress:
-                  result.body.properties?.messageServerProperties?.[
-                    "ipAddress"
-                  ],
-                health:
-                  result.body.properties?.messageServerProperties?.["health"],
+                msPort: result.body.properties?.messageServerProperties?.["msPort"],
+                internalMsPort: result.body.properties?.messageServerProperties?.["internalMsPort"],
+                httpPort: result.body.properties?.messageServerProperties?.["httpPort"],
+                httpsPort: result.body.properties?.messageServerProperties?.["httpsPort"],
+                hostname: result.body.properties?.messageServerProperties?.["hostname"],
+                ipAddress: result.body.properties?.messageServerProperties?.["ipAddress"],
+                health: result.body.properties?.messageServerProperties?.["health"],
               },
-          enqueueServerProperties: !result.body.properties
-            ?.enqueueServerProperties
+          enqueueServerProperties: !result.body.properties?.enqueueServerProperties
             ? undefined
             : {
-                hostname:
-                  result.body.properties?.enqueueServerProperties?.["hostname"],
-                ipAddress:
-                  result.body.properties?.enqueueServerProperties?.[
-                    "ipAddress"
-                  ],
+                hostname: result.body.properties?.enqueueServerProperties?.["hostname"],
+                ipAddress: result.body.properties?.enqueueServerProperties?.["ipAddress"],
                 port: result.body.properties?.enqueueServerProperties?.["port"],
-                health:
-                  result.body.properties?.enqueueServerProperties?.["health"],
+                health: result.body.properties?.enqueueServerProperties?.["health"],
               },
-          gatewayServerProperties: !result.body.properties
-            ?.gatewayServerProperties
+          gatewayServerProperties: !result.body.properties?.gatewayServerProperties
             ? undefined
             : {
                 port: result.body.properties?.gatewayServerProperties?.["port"],
-                health:
-                  result.body.properties?.gatewayServerProperties?.["health"],
+                health: result.body.properties?.gatewayServerProperties?.["health"],
               },
           enqueueReplicationServerProperties: !result.body.properties
             ?.enqueueReplicationServerProperties
             ? undefined
             : {
                 ersVersion:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "ersVersion"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["ersVersion"],
                 instanceNo:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "instanceNo"
-                  ],
-                hostname:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "hostname"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["instanceNo"],
+                hostname: result.body.properties?.enqueueReplicationServerProperties?.["hostname"],
                 kernelVersion:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "kernelVersion"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["kernelVersion"],
                 kernelPatch:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "kernelPatch"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["kernelPatch"],
                 ipAddress:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "ipAddress"
-                  ],
-                health:
-                  result.body.properties?.enqueueReplicationServerProperties?.[
-                    "health"
-                  ],
+                  result.body.properties?.enqueueReplicationServerProperties?.["ipAddress"],
+                health: result.body.properties?.enqueueReplicationServerProperties?.["health"],
               },
           kernelVersion: result.body.properties?.["kernelVersion"],
           kernelPatch: result.body.properties?.["kernelPatch"],
@@ -661,27 +523,20 @@ export async function _sAPCentralServerInstancesUpdateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -834,25 +689,18 @@ export async function _sAPCentralServerInstancesListDeserialize(
                 ? undefined
                 : {
                     msPort: p.properties?.messageServerProperties?.["msPort"],
-                    internalMsPort:
-                      p.properties?.messageServerProperties?.["internalMsPort"],
-                    httpPort:
-                      p.properties?.messageServerProperties?.["httpPort"],
-                    httpsPort:
-                      p.properties?.messageServerProperties?.["httpsPort"],
-                    hostname:
-                      p.properties?.messageServerProperties?.["hostname"],
-                    ipAddress:
-                      p.properties?.messageServerProperties?.["ipAddress"],
+                    internalMsPort: p.properties?.messageServerProperties?.["internalMsPort"],
+                    httpPort: p.properties?.messageServerProperties?.["httpPort"],
+                    httpsPort: p.properties?.messageServerProperties?.["httpsPort"],
+                    hostname: p.properties?.messageServerProperties?.["hostname"],
+                    ipAddress: p.properties?.messageServerProperties?.["ipAddress"],
                     health: p.properties?.messageServerProperties?.["health"],
                   },
               enqueueServerProperties: !p.properties?.enqueueServerProperties
                 ? undefined
                 : {
-                    hostname:
-                      p.properties?.enqueueServerProperties?.["hostname"],
-                    ipAddress:
-                      p.properties?.enqueueServerProperties?.["ipAddress"],
+                    hostname: p.properties?.enqueueServerProperties?.["hostname"],
+                    ipAddress: p.properties?.enqueueServerProperties?.["ipAddress"],
                     port: p.properties?.enqueueServerProperties?.["port"],
                     health: p.properties?.enqueueServerProperties?.["health"],
                   },
@@ -862,38 +710,17 @@ export async function _sAPCentralServerInstancesListDeserialize(
                     port: p.properties?.gatewayServerProperties?.["port"],
                     health: p.properties?.gatewayServerProperties?.["health"],
                   },
-              enqueueReplicationServerProperties: !p.properties
-                ?.enqueueReplicationServerProperties
+              enqueueReplicationServerProperties: !p.properties?.enqueueReplicationServerProperties
                 ? undefined
                 : {
-                    ersVersion:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "ersVersion"
-                      ],
-                    instanceNo:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "instanceNo"
-                      ],
-                    hostname:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "hostname"
-                      ],
+                    ersVersion: p.properties?.enqueueReplicationServerProperties?.["ersVersion"],
+                    instanceNo: p.properties?.enqueueReplicationServerProperties?.["instanceNo"],
+                    hostname: p.properties?.enqueueReplicationServerProperties?.["hostname"],
                     kernelVersion:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "kernelVersion"
-                      ],
-                    kernelPatch:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "kernelPatch"
-                      ],
-                    ipAddress:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "ipAddress"
-                      ],
-                    health:
-                      p.properties?.enqueueReplicationServerProperties?.[
-                        "health"
-                      ],
+                      p.properties?.enqueueReplicationServerProperties?.["kernelVersion"],
+                    kernelPatch: p.properties?.enqueueReplicationServerProperties?.["kernelPatch"],
+                    ipAddress: p.properties?.enqueueReplicationServerProperties?.["ipAddress"],
+                    health: p.properties?.enqueueReplicationServerProperties?.["health"],
                   },
               kernelVersion: p.properties?.["kernelVersion"],
               kernelPatch: p.properties?.["kernelPatch"],
@@ -925,15 +752,11 @@ export async function _sAPCentralServerInstancesListDeserialize(
                       ? undefined
                       : {
                           code: p.properties?.errors?.properties?.["code"],
-                          message:
-                            p.properties?.errors?.properties?.["message"],
+                          message: p.properties?.errors?.properties?.["message"],
                           details:
-                            p.properties?.errors?.properties?.["details"] ===
-                            undefined
+                            p.properties?.errors?.properties?.["details"] === undefined
                               ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.[
-                                  "details"
-                                ].map((p: any) => {
+                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
                                   return {
                                     code: p["code"],
                                     message: p["message"],
@@ -1012,13 +835,8 @@ export async function _sAPCentralServerInstancesStartDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -1028,12 +846,8 @@ export async function _sAPCentralServerInstancesStartDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -1115,26 +929,21 @@ export function sAPCentralServerInstancesStart(
     requestOptions: {},
   },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPCentralServerInstancesStartDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPCentralServerInstancesStartSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          centralInstanceName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPCentralServerInstancesStartDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPCentralServerInstancesStartSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPCentralServerInstancesStopSend(
@@ -1180,13 +989,8 @@ export async function _sAPCentralServerInstancesStopDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -1196,12 +1000,8 @@ export async function _sAPCentralServerInstancesStopDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -1281,24 +1081,19 @@ export function sAPCentralServerInstancesStop(
   body?: StopRequest,
   options: SAPCentralServerInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPCentralServerInstancesStopDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPCentralServerInstancesStopSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          centralInstanceName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPCentralServerInstancesStopDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPCentralServerInstancesStopSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        centralInstanceName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }

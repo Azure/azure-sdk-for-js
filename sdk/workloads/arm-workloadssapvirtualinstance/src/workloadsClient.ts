@@ -19,15 +19,8 @@ import {
   getSAPApplicationServerInstancesOperations,
   SAPApplicationServerInstancesOperations,
 } from "./classic/sAPApplicationServerInstances/index.js";
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  createWorkloads,
-  WorkloadsContext,
-  WorkloadsClientOptionalParams,
-} from "./api/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { createWorkloads, WorkloadsContext, WorkloadsClientOptionalParams } from "./api/index.js";
 
 export { WorkloadsClientOptionalParams } from "./api/workloadsContext.js";
 
@@ -51,20 +44,16 @@ export class WorkloadsClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.sAPVirtualInstances = getSAPVirtualInstancesOperations(
-      this._client,
-      subscriptionId,
-    );
+    this.sAPVirtualInstances = getSAPVirtualInstancesOperations(this._client, subscriptionId);
     this.sAPCentralServerInstances = getSAPCentralServerInstancesOperations(
       this._client,
       subscriptionId,
     );
-    this.sAPDatabaseInstances = getSAPDatabaseInstancesOperations(
+    this.sAPDatabaseInstances = getSAPDatabaseInstancesOperations(this._client, subscriptionId);
+    this.sAPApplicationServerInstances = getSAPApplicationServerInstancesOperations(
       this._client,
       subscriptionId,
     );
-    this.sAPApplicationServerInstances =
-      getSAPApplicationServerInstancesOperations(this._client, subscriptionId);
     this.operations = getOperationsOperations(this._client);
   }
 

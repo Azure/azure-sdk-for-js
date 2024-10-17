@@ -86,10 +86,7 @@ export interface SAPDatabaseInstancesOperations {
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
-export function getSAPDatabaseInstances(
-  context: WorkloadsContext,
-  subscriptionId: string,
-) {
+export function getSAPDatabaseInstances(context: WorkloadsContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

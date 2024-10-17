@@ -116,27 +116,20 @@ export async function _sAPDatabaseInstancesGetDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -183,9 +176,7 @@ export function _sAPDatabaseInstancesCreateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -257,27 +248,20 @@ export async function _sAPDatabaseInstancesCreateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -294,26 +278,21 @@ export function sAPDatabaseInstancesCreate(
   resource: SAPDatabaseInstance,
   options: SAPDatabaseInstancesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance> {
-  return getLongRunningPoller(
-    context,
-    _sAPDatabaseInstancesCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPDatabaseInstancesCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          databaseInstanceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance>;
+  return getLongRunningPoller(context, _sAPDatabaseInstancesCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPDatabaseInstancesCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<SAPDatabaseInstance>, SAPDatabaseInstance>;
 }
 
 export function _sAPDatabaseInstancesUpdateSend(
@@ -336,9 +315,7 @@ export function _sAPDatabaseInstancesUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
       },
     });
 }
@@ -406,27 +383,20 @@ export async function _sAPDatabaseInstancesUpdateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -598,15 +568,11 @@ export async function _sAPDatabaseInstancesListDeserialize(
                       ? undefined
                       : {
                           code: p.properties?.errors?.properties?.["code"],
-                          message:
-                            p.properties?.errors?.properties?.["message"],
+                          message: p.properties?.errors?.properties?.["message"],
                           details:
-                            p.properties?.errors?.properties?.["details"] ===
-                            undefined
+                            p.properties?.errors?.properties?.["details"] === undefined
                               ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.[
-                                  "details"
-                                ].map((p: any) => {
+                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
                                   return {
                                     code: p["code"],
                                     message: p["message"],
@@ -683,13 +649,8 @@ export async function _sAPDatabaseInstancesStartDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -699,12 +660,8 @@ export async function _sAPDatabaseInstancesStartDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -784,26 +741,21 @@ export function sAPDatabaseInstancesStart(
   body?: StartRequest,
   options: SAPDatabaseInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPDatabaseInstancesStartDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPDatabaseInstancesStartSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          databaseInstanceName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPDatabaseInstancesStartDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPDatabaseInstancesStartSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPDatabaseInstancesStopSend(
@@ -849,13 +801,8 @@ export async function _sAPDatabaseInstancesStopDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -865,12 +812,8 @@ export async function _sAPDatabaseInstancesStopDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -950,24 +893,19 @@ export function sAPDatabaseInstancesStop(
   body?: StopRequest,
   options: SAPDatabaseInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPDatabaseInstancesStopDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPDatabaseInstancesStopSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          databaseInstanceName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPDatabaseInstancesStopDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPDatabaseInstancesStopSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        databaseInstanceName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }

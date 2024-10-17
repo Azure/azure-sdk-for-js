@@ -14,12 +14,11 @@ async function sAPApplicationServerInstancesCreate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPApplicationServerInstances.create(
-    "test-rg",
-    "X00",
-    "app01",
-    { location: "westcentralus", properties: {}, tags: {} },
-  );
+  const result = await client.sAPApplicationServerInstances.create("test-rg", "X00", "app01", {
+    location: "westcentralus",
+    properties: {},
+    tags: {},
+  });
   console.log(result);
 }
 
@@ -33,12 +32,11 @@ async function createSapApplicationServerInstancesForHaSystemWithAvailabilitySet
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPApplicationServerInstances.create(
-    "test-rg",
-    "X00",
-    "app01",
-    { location: "westcentralus", properties: {}, tags: {} },
-  );
+  const result = await client.sAPApplicationServerInstances.create("test-rg", "X00", "app01", {
+    location: "westcentralus",
+    properties: {},
+    tags: {},
+  });
   console.log(result);
 }
 

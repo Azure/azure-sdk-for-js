@@ -14,19 +14,16 @@ async function sapSizingRecommendationsForNonHaDistributedSystem() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSizingRecommendations(
-    "centralus",
-    {
-      appLocation: "eastus",
-      environment: "Prod",
-      sapProduct: "S4HANA",
-      deploymentType: "ThreeTier",
-      saps: 20000,
-      dbMemory: 1024,
-      databaseType: "HANA",
-      dbScaleMethod: "ScaleUp",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSizingRecommendations("centralus", {
+    appLocation: "eastus",
+    environment: "Prod",
+    sapProduct: "S4HANA",
+    deploymentType: "ThreeTier",
+    saps: 20000,
+    dbMemory: 1024,
+    databaseType: "HANA",
+    dbScaleMethod: "ScaleUp",
+  });
   console.log(result);
 }
 
@@ -40,20 +37,17 @@ async function sapSizingRecommendationsForHaWithAvailabilitySet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSizingRecommendations(
-    "centralus",
-    {
-      appLocation: "eastus",
-      environment: "Prod",
-      sapProduct: "S4HANA",
-      deploymentType: "ThreeTier",
-      saps: 75000,
-      dbMemory: 1024,
-      databaseType: "HANA",
-      dbScaleMethod: "ScaleUp",
-      highAvailabilityType: "AvailabilitySet",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSizingRecommendations("centralus", {
+    appLocation: "eastus",
+    environment: "Prod",
+    sapProduct: "S4HANA",
+    deploymentType: "ThreeTier",
+    saps: 75000,
+    dbMemory: 1024,
+    databaseType: "HANA",
+    dbScaleMethod: "ScaleUp",
+    highAvailabilityType: "AvailabilitySet",
+  });
   console.log(result);
 }
 
@@ -67,20 +61,17 @@ async function sapSizingRecommendationsForHaWithAvailabilityZone() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSizingRecommendations(
-    "centralus",
-    {
-      appLocation: "eastus",
-      environment: "Prod",
-      sapProduct: "S4HANA",
-      deploymentType: "ThreeTier",
-      saps: 75000,
-      dbMemory: 1024,
-      databaseType: "HANA",
-      dbScaleMethod: "ScaleUp",
-      highAvailabilityType: "AvailabilityZone",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSizingRecommendations("centralus", {
+    appLocation: "eastus",
+    environment: "Prod",
+    sapProduct: "S4HANA",
+    deploymentType: "ThreeTier",
+    saps: 75000,
+    dbMemory: 1024,
+    databaseType: "HANA",
+    dbScaleMethod: "ScaleUp",
+    highAvailabilityType: "AvailabilityZone",
+  });
   console.log(result);
 }
 
@@ -94,19 +85,16 @@ async function sapSizingRecommendationsForSingleServer() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSizingRecommendations(
-    "centralus",
-    {
-      appLocation: "eastus",
-      environment: "NonProd",
-      sapProduct: "S4HANA",
-      deploymentType: "SingleServer",
-      saps: 60000,
-      dbMemory: 2000,
-      databaseType: "HANA",
-      dbScaleMethod: "ScaleUp",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSizingRecommendations("centralus", {
+    appLocation: "eastus",
+    environment: "NonProd",
+    sapProduct: "S4HANA",
+    deploymentType: "SingleServer",
+    saps: 60000,
+    dbMemory: 2000,
+    databaseType: "HANA",
+    dbScaleMethod: "ScaleUp",
+  });
   console.log(result);
 }
 

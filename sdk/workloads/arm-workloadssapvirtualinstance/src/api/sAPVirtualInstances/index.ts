@@ -104,15 +104,13 @@ export async function _sAPVirtualInstancesGetDeserialize(
           managedResourcesNetworkAccessType:
             result.body.properties?.["managedResourcesNetworkAccessType"],
           configuration: {
-            configurationType:
-              result.body.properties?.configuration["configurationType"],
+            configurationType: result.body.properties?.configuration["configurationType"],
           },
           managedResourceGroupConfiguration: !result.body.properties
             ?.managedResourceGroupConfiguration
             ? undefined
             : {
-                name: result.body.properties
-                  ?.managedResourceGroupConfiguration?.["name"],
+                name: result.body.properties?.managedResourceGroupConfiguration?.["name"],
               },
           status: result.body.properties?.["status"],
           health: result.body.properties?.["health"],
@@ -124,27 +122,20 @@ export async function _sAPVirtualInstancesGetDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -154,8 +145,7 @@ export async function _sAPVirtualInstancesGetDeserialize(
           principalId: result.body.identity?.["principalId"],
           tenantId: result.body.identity?.["tenantId"],
           type: result.body.identity?.["type"],
-          userAssignedIdentities:
-            result.body.identity?.["userAssignedIdentities"],
+          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
         },
   };
 }
@@ -196,9 +186,7 @@ export function _sAPVirtualInstancesCreateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -248,15 +236,13 @@ export async function _sAPVirtualInstancesCreateDeserialize(
           managedResourcesNetworkAccessType:
             result.body.properties?.["managedResourcesNetworkAccessType"],
           configuration: {
-            configurationType:
-              result.body.properties?.configuration["configurationType"],
+            configurationType: result.body.properties?.configuration["configurationType"],
           },
           managedResourceGroupConfiguration: !result.body.properties
             ?.managedResourceGroupConfiguration
             ? undefined
             : {
-                name: result.body.properties
-                  ?.managedResourceGroupConfiguration?.["name"],
+                name: result.body.properties?.managedResourceGroupConfiguration?.["name"],
               },
           status: result.body.properties?.["status"],
           health: result.body.properties?.["health"],
@@ -268,27 +254,20 @@ export async function _sAPVirtualInstancesCreateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -298,8 +277,7 @@ export async function _sAPVirtualInstancesCreateDeserialize(
           principalId: result.body.identity?.["principalId"],
           tenantId: result.body.identity?.["tenantId"],
           type: result.body.identity?.["type"],
-          userAssignedIdentities:
-            result.body.identity?.["userAssignedIdentities"],
+          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
         },
   };
 }
@@ -313,25 +291,20 @@ export function sAPVirtualInstancesCreate(
   resource: SAPVirtualInstance,
   options: SAPVirtualInstancesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
 }
 
 export function _sAPVirtualInstancesUpdateSend(
@@ -352,9 +325,7 @@ export function _sAPVirtualInstancesUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
         identity: !properties.identity
           ? properties.identity
           : managedServiceIdentitySerializer(properties.identity),
@@ -403,15 +374,13 @@ export async function _sAPVirtualInstancesUpdateDeserialize(
           managedResourcesNetworkAccessType:
             result.body.properties?.["managedResourcesNetworkAccessType"],
           configuration: {
-            configurationType:
-              result.body.properties?.configuration["configurationType"],
+            configurationType: result.body.properties?.configuration["configurationType"],
           },
           managedResourceGroupConfiguration: !result.body.properties
             ?.managedResourceGroupConfiguration
             ? undefined
             : {
-                name: result.body.properties
-                  ?.managedResourceGroupConfiguration?.["name"],
+                name: result.body.properties?.managedResourceGroupConfiguration?.["name"],
               },
           status: result.body.properties?.["status"],
           health: result.body.properties?.["health"],
@@ -423,27 +392,20 @@ export async function _sAPVirtualInstancesUpdateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -453,8 +415,7 @@ export async function _sAPVirtualInstancesUpdateDeserialize(
           principalId: result.body.identity?.["principalId"],
           tenantId: result.body.identity?.["tenantId"],
           type: result.body.identity?.["type"],
-          userAssignedIdentities:
-            result.body.identity?.["userAssignedIdentities"],
+          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
         },
   };
 }
@@ -468,25 +429,20 @@ export function sAPVirtualInstancesUpdate(
   properties: UpdateSAPVirtualInstanceRequest,
   options: SAPVirtualInstancesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
 }
 
 export function _sAPVirtualInstancesDeleteSend(
@@ -602,16 +558,12 @@ export async function _sAPVirtualInstancesListByResourceGroupDeserialize(
               managedResourcesNetworkAccessType:
                 p.properties?.["managedResourcesNetworkAccessType"],
               configuration: {
-                configurationType:
-                  p.properties?.configuration["configurationType"],
+                configurationType: p.properties?.configuration["configurationType"],
               },
-              managedResourceGroupConfiguration: !p.properties
-                ?.managedResourceGroupConfiguration
+              managedResourceGroupConfiguration: !p.properties?.managedResourceGroupConfiguration
                 ? undefined
                 : {
-                    name: p.properties?.managedResourceGroupConfiguration?.[
-                      "name"
-                    ],
+                    name: p.properties?.managedResourceGroupConfiguration?.["name"],
                   },
               status: p.properties?.["status"],
               health: p.properties?.["health"],
@@ -624,15 +576,11 @@ export async function _sAPVirtualInstancesListByResourceGroupDeserialize(
                       ? undefined
                       : {
                           code: p.properties?.errors?.properties?.["code"],
-                          message:
-                            p.properties?.errors?.properties?.["message"],
+                          message: p.properties?.errors?.properties?.["message"],
                           details:
-                            p.properties?.errors?.properties?.["details"] ===
-                            undefined
+                            p.properties?.errors?.properties?.["details"] === undefined
                               ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.[
-                                  "details"
-                                ].map((p: any) => {
+                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
                                   return {
                                     code: p["code"],
                                     message: p["message"],
@@ -735,16 +683,12 @@ export async function _sAPVirtualInstancesListBySubscriptionDeserialize(
               managedResourcesNetworkAccessType:
                 p.properties?.["managedResourcesNetworkAccessType"],
               configuration: {
-                configurationType:
-                  p.properties?.configuration["configurationType"],
+                configurationType: p.properties?.configuration["configurationType"],
               },
-              managedResourceGroupConfiguration: !p.properties
-                ?.managedResourceGroupConfiguration
+              managedResourceGroupConfiguration: !p.properties?.managedResourceGroupConfiguration
                 ? undefined
                 : {
-                    name: p.properties?.managedResourceGroupConfiguration?.[
-                      "name"
-                    ],
+                    name: p.properties?.managedResourceGroupConfiguration?.["name"],
                   },
               status: p.properties?.["status"],
               health: p.properties?.["health"],
@@ -757,15 +701,11 @@ export async function _sAPVirtualInstancesListBySubscriptionDeserialize(
                       ? undefined
                       : {
                           code: p.properties?.errors?.properties?.["code"],
-                          message:
-                            p.properties?.errors?.properties?.["message"],
+                          message: p.properties?.errors?.properties?.["message"],
                           details:
-                            p.properties?.errors?.properties?.["details"] ===
-                            undefined
+                            p.properties?.errors?.properties?.["details"] === undefined
                               ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.[
-                                  "details"
-                                ].map((p: any) => {
+                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
                                   return {
                                     code: p["code"],
                                     message: p["message"],
@@ -799,12 +739,7 @@ export function sAPVirtualInstancesListBySubscription(
 ): PagedAsyncIterableIterator<SAPVirtualInstance> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _sAPVirtualInstancesListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _sAPVirtualInstancesListBySubscriptionSend(context, subscriptionId, options),
     _sAPVirtualInstancesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -846,13 +781,8 @@ export async function _sAPVirtualInstancesStartDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -862,12 +792,8 @@ export async function _sAPVirtualInstancesStartDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -946,25 +872,20 @@ export function sAPVirtualInstancesStart(
   body?: StartRequest,
   options: SAPVirtualInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesStartDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesStartSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesStartDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesStartSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPVirtualInstancesStopSend(
@@ -1008,13 +929,8 @@ export async function _sAPVirtualInstancesStopDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -1024,12 +940,8 @@ export async function _sAPVirtualInstancesStopDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -1108,25 +1020,20 @@ export function sAPVirtualInstancesStop(
   body?: StopRequest,
   options: SAPVirtualInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _sAPVirtualInstancesStopDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _sAPVirtualInstancesStopSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          sapVirtualInstanceName,
-          body,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _sAPVirtualInstancesStopDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _sAPVirtualInstancesStopSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        sapVirtualInstanceName,
+        body,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _sAPVirtualInstancesGetSizingRecommendationsSend(

@@ -125,27 +125,20 @@ export async function _sAPApplicationServerInstancesGetDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -196,9 +189,7 @@ export function _sAPApplicationServerInstancesCreateSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !resource.tags
-          ? resource.tags
-          : (serializeRecord(resource.tags as any) as any),
+        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
         location: resource["location"],
         properties: !resource.properties
           ? resource.properties
@@ -277,27 +268,20 @@ export async function _sAPApplicationServerInstancesCreateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -315,10 +299,7 @@ export function sAPApplicationServerInstancesCreate(
   options: SAPApplicationServerInstancesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SAPApplicationServerInstance>,
-  SAPApplicationServerInstance
-> {
+): PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance> {
   return getLongRunningPoller(
     context,
     _sAPApplicationServerInstancesCreateDeserialize,
@@ -338,10 +319,7 @@ export function sAPApplicationServerInstancesCreate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<SAPApplicationServerInstance>,
-    SAPApplicationServerInstance
-  >;
+  ) as PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance>;
 }
 
 export function _sAPApplicationServerInstancesUpdateSend(
@@ -366,9 +344,7 @@ export function _sAPApplicationServerInstancesUpdateSend(
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: {
-        tags: !properties.tags
-          ? properties.tags
-          : (serializeRecord(properties.tags as any) as any),
+        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
       },
     });
 }
@@ -443,27 +419,20 @@ export async function _sAPApplicationServerInstancesUpdateDeserialize(
                 properties: !result.body.properties?.errors?.properties
                   ? undefined
                   : {
-                      code: result.body.properties?.errors?.properties?.[
-                        "code"
-                      ],
-                      message:
-                        result.body.properties?.errors?.properties?.["message"],
+                      code: result.body.properties?.errors?.properties?.["code"],
+                      message: result.body.properties?.errors?.properties?.["message"],
                       details:
-                        result.body.properties?.errors?.properties?.[
-                          "details"
-                        ] === undefined
-                          ? result.body.properties?.errors?.properties?.[
-                              "details"
-                            ]
-                          : result.body.properties?.errors?.properties?.[
-                              "details"
-                            ].map((p: any) => {
-                              return {
-                                code: p["code"],
-                                message: p["message"],
-                                details: !p.details ? undefined : p.details,
-                              };
-                            }),
+                        result.body.properties?.errors?.properties?.["details"] === undefined
+                          ? result.body.properties?.errors?.properties?.["details"]
+                          : result.body.properties?.errors?.properties?.["details"].map(
+                              (p: any) => {
+                                return {
+                                  code: p["code"],
+                                  message: p["message"],
+                                  details: !p.details ? undefined : p.details,
+                                };
+                              },
+                            ),
                     },
               },
         },
@@ -650,15 +619,11 @@ export async function _sAPApplicationServerInstancesListDeserialize(
                       ? undefined
                       : {
                           code: p.properties?.errors?.properties?.["code"],
-                          message:
-                            p.properties?.errors?.properties?.["message"],
+                          message: p.properties?.errors?.properties?.["message"],
                           details:
-                            p.properties?.errors?.properties?.["details"] ===
-                            undefined
+                            p.properties?.errors?.properties?.["details"] === undefined
                               ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.[
-                                  "details"
-                                ].map((p: any) => {
+                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
                                   return {
                                     code: p["code"],
                                     message: p["message"],
@@ -739,13 +704,8 @@ export async function _sAPApplicationServerInstancesStartDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -755,12 +715,8 @@ export async function _sAPApplicationServerInstancesStartDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined
@@ -909,13 +865,8 @@ export async function _sAPApplicationServerInstancesStopDeserialize(
     status: result.body["status"],
     percentComplete: result.body["percentComplete"],
     startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
+      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
+    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
     operations:
       result.body["operations"] === undefined
         ? result.body["operations"]
@@ -925,12 +876,8 @@ export async function _sAPApplicationServerInstancesStopDeserialize(
               name: p["name"],
               status: p["status"],
               percentComplete: p["percentComplete"],
-              startTime:
-                p["startTime"] !== undefined
-                  ? new Date(p["startTime"])
-                  : undefined,
-              endTime:
-                p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
+              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
+              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
               operations: !p.operations ? undefined : (p.operations as any),
               error: !p.error
                 ? undefined

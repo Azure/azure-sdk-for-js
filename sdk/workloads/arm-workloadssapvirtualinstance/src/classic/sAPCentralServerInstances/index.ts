@@ -46,10 +46,7 @@ export interface SAPCentralServerInstancesOperations {
     centralInstanceName: string,
     resource: SAPCentralServerInstance,
     options?: SAPCentralServerInstancesCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<SAPCentralServerInstance>,
-    SAPCentralServerInstance
-  >;
+  ) => PollerLike<OperationState<SAPCentralServerInstance>, SAPCentralServerInstance>;
   /** Updates the SAP Central Services Instance resource. &lt;br&gt;&lt;br&gt;This can be used to update tags on the resource. */
   update: (
     resourceGroupName: string,
@@ -89,10 +86,7 @@ export interface SAPCentralServerInstancesOperations {
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
-export function getSAPCentralServerInstances(
-  context: WorkloadsContext,
-  subscriptionId: string,
-) {
+export function getSAPCentralServerInstances(context: WorkloadsContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

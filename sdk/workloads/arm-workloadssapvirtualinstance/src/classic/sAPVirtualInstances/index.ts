@@ -125,10 +125,7 @@ export interface SAPVirtualInstancesOperations {
   ) => Promise<SAPAvailabilityZoneDetailsResult>;
 }
 
-export function getSAPVirtualInstances(
-  context: WorkloadsContext,
-  subscriptionId: string,
-) {
+export function getSAPVirtualInstances(context: WorkloadsContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
@@ -186,15 +183,8 @@ export function getSAPVirtualInstances(
       resourceGroupName: string,
       options?: SAPVirtualInstancesListByResourceGroupOptionalParams,
     ) =>
-      sAPVirtualInstancesListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: SAPVirtualInstancesListBySubscriptionOptionalParams,
-    ) =>
+      sAPVirtualInstancesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: SAPVirtualInstancesListBySubscriptionOptionalParams) =>
       sAPVirtualInstancesListBySubscription(context, subscriptionId, options),
     start: (
       resourceGroupName: string,
@@ -229,37 +219,17 @@ export function getSAPVirtualInstances(
       body: SAPSizingRecommendationRequest,
       options?: SAPVirtualInstancesGetSizingRecommendationsOptionalParams,
     ) =>
-      sAPVirtualInstancesGetSizingRecommendations(
-        context,
-        subscriptionId,
-        location,
-        body,
-        options,
-      ),
+      sAPVirtualInstancesGetSizingRecommendations(context, subscriptionId, location, body, options),
     getSapSupportedSku: (
       location: string,
       body: SAPSupportedSkusRequest,
       options?: SAPVirtualInstancesGetSapSupportedSkuOptionalParams,
-    ) =>
-      sAPVirtualInstancesGetSapSupportedSku(
-        context,
-        subscriptionId,
-        location,
-        body,
-        options,
-      ),
+    ) => sAPVirtualInstancesGetSapSupportedSku(context, subscriptionId, location, body, options),
     getDiskConfigurations: (
       location: string,
       body: SAPDiskConfigurationsRequest,
       options?: SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
-    ) =>
-      sAPVirtualInstancesGetDiskConfigurations(
-        context,
-        subscriptionId,
-        location,
-        body,
-        options,
-      ),
+    ) => sAPVirtualInstancesGetDiskConfigurations(context, subscriptionId, location, body, options),
     getAvailabilityZoneDetails: (
       location: string,
       body: SAPAvailabilityZoneDetailsRequest,
