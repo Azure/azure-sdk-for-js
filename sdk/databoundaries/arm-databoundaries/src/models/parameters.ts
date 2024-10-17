@@ -13,6 +13,23 @@ import {
 } from "@azure/core-client";
 import { DataBoundaryDefinition as DataBoundaryDefinitionMapper } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const dataBoundaryDefinition: OperationParameter = {
+  parameterPath: "dataBoundaryDefinition",
+  mapper: DataBoundaryDefinitionMapper,
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -47,35 +64,6 @@ export const apiVersion: OperationQueryParameter = {
       name: "String",
     },
   },
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const dataBoundaryDefinition: OperationParameter = {
-  parameterPath: "dataBoundaryDefinition",
-  mapper: DataBoundaryDefinitionMapper,
 };
 
 export const defaultParam: OperationURLParameter = {

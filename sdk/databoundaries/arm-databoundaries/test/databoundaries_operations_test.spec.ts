@@ -59,11 +59,10 @@ describe("DataBoundary test", () => {
     await recorder.stop();
   });
 
-  it("operations list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.operations.list()) {
-      resArray.push(item);
-    }
-    assert.notEqual(resArray.length, 0);
+  it("dataBoundaries get test", async function () {
+    const scope =
+      "subscriptions/" + subscriptionId + "/resourcegroups/myjstest";
+    const result = await client.dataBoundaries.getScope(scope, "default");
+    console.log(result);
   });
 })

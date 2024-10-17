@@ -6,10 +6,6 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-
-// @public
-export type ActionType = string;
 
 // @public
 export type CreatedByType = string;
@@ -51,8 +47,6 @@ export class DataBoundary extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     dataBoundaries: DataBoundaries;
-    // (undocumented)
-    operations: Operations;
 }
 
 // @public
@@ -98,14 +92,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -126,13 +112,6 @@ export enum KnownDefaultName {
 }
 
 // @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
-}
-
-// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -142,51 +121,6 @@ export enum KnownProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
-
-// @public
-export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
-    readonly isDataAction?: boolean;
-    readonly name?: string;
-    readonly origin?: Origin;
-}
-
-// @public
-export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
-}
-
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
-}
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export type Origin = string;
 
 // @public
 export type ProvisioningState = string;

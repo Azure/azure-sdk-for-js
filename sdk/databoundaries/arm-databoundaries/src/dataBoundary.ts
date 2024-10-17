@@ -14,8 +14,8 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, DataBoundariesImpl } from "./operations";
-import { Operations, DataBoundaries } from "./operationsInterfaces";
+import { DataBoundariesImpl } from "./operations";
+import { DataBoundaries } from "./operationsInterfaces";
 import { DataBoundaryOptionalParams } from "./models";
 
 export class DataBoundary extends coreClient.ServiceClient {
@@ -97,7 +97,6 @@ export class DataBoundary extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-08-01";
-    this.operations = new OperationsImpl(this);
     this.dataBoundaries = new DataBoundariesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -130,6 +129,5 @@ export class DataBoundary extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
   dataBoundaries: DataBoundaries;
 }

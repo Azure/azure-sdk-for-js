@@ -103,7 +103,7 @@ const putOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataBoundaryDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.defaultParam],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
