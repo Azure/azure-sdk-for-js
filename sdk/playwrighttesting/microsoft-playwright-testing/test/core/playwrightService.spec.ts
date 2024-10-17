@@ -66,6 +66,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should set service config options as passed", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getServiceConfig } = require("../../src/core/playwrightService");
     getServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
@@ -185,6 +186,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should set service connect options with passed values", async () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
       runId: "1234",
