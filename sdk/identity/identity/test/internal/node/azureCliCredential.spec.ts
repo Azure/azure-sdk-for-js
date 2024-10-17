@@ -132,7 +132,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--subscription",
-        "12345678-1234-1234-1234-123456789012",
+        "\"12345678-1234-1234-1234-123456789012\"",
       ],
     ]);
     // Used a working directory, and a shell
@@ -162,7 +162,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--subscription",
-        "Example of a subscription string",
+        "\"Example of a subscription string\"",
       ],
     ]);
     // Used a working directory, and a shell
