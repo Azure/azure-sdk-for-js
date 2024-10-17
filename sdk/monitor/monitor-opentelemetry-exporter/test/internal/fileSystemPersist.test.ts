@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import * as fs from "fs";
-import * as os from "os";
-import * as path from "path";
-import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist";
-import { TelemetryItem as Envelope } from "../../src/generated";
-import { promisify } from "util";
-import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl";
+import * as assert from "node:assert";
+import * as fs from "node:fs";
+import * as os from "node:os";
+import * as path from "node:path";
+import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
+import { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { promisify } from "node:util";
+import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);

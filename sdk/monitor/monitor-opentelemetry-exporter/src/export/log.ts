@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 import { context, diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "./base";
-import { TelemetryItem as Envelope } from "../generated";
-import { logToEnvelope } from "../utils/logUtils";
-import { AzureMonitorExporterOptions } from "../config";
+import { AzureMonitorBaseExporter } from "./base.js";
+import { TelemetryItem as Envelope } from "../generated/index.js";
+import { logToEnvelope } from "../utils/logUtils.js";
+import { AzureMonitorExporterOptions } from "../config.js";
 
 import type { ReadableLogRecord, LogRecordExporter } from "@opentelemetry/sdk-logs";
-import { HttpSender } from "../platform";
+import { HttpSender } from "../platform/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Log Exporter.

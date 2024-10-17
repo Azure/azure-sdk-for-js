@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertLogExpectation } from "../../utils/assert";
-import { LogBasicScenario } from "../../utils/basic";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { assertCount, assertLogExpectation } from "../../utils/assert.js";
+import { LogBasicScenario } from "../../utils/basic.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import { TelemetryItem as Envelope } from "../../../src/generated/index.js";
 
 describe("Log Exporter Scenarios", () => {
   describe(LogBasicScenario.prototype.constructor.name, () => {

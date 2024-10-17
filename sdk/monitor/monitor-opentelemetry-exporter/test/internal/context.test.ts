@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, getInstance } from "../../src/platform";
-import * as assert from "assert";
+import { Context, getInstance } from "../../src/platform/index.js";
+import * as assert from "node:assert";
 
 describe("context.ts", () => {
   describe("#constructor", () => {

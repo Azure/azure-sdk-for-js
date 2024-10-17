@@ -39,11 +39,11 @@ import {
   hrTimeToDate,
   isSqlDB,
   serializeAttribute,
-} from "./common";
-import { Tags, Properties, MSLink, Measurements, MaxPropertyLengths } from "../types";
-import { parseEventHubSpan } from "./eventhub";
-import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
-import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
+} from "./common.js";
+import { Tags, Properties, MSLink, Measurements, MaxPropertyLengths } from "../types.js";
+import { parseEventHubSpan } from "./eventhub.js";
+import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights.js";
+import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
 import {
   TelemetryExceptionData,
   MessageData,
@@ -52,8 +52,8 @@ import {
   TelemetryItem as Envelope,
   KnownContextTagKeys,
   TelemetryExceptionDetails,
-} from "../generated";
-import { msToTimeSpan } from "./breezeUtils";
+} from "../generated/index.js";
+import { msToTimeSpan } from "./breezeUtils.js";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);

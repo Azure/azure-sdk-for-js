@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { HttpSender } from "../../src/platform/nodejs/httpSender";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
   partialBreezeResponse,
-} from "../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../src/generated";
+} from "../utils/breezeTestUtils.js";
+import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";

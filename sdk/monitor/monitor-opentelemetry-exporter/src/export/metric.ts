@@ -8,11 +8,11 @@ import {
   ResourceMetrics,
 } from "@opentelemetry/sdk-metrics";
 import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "./base";
-import { TelemetryItem as Envelope } from "../generated";
-import { resourceMetricsToEnvelope } from "../utils/metricUtils";
-import { AzureMonitorExporterOptions } from "../config";
-import { HttpSender } from "../platform";
+import { AzureMonitorBaseExporter } from "./base.js";
+import { TelemetryItem as Envelope } from "../generated/index.js";
+import { resourceMetricsToEnvelope } from "../utils/metricUtils.js";
+import { AzureMonitorExporterOptions } from "../config.js";
+import { HttpSender } from "../platform/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Metric Exporter.

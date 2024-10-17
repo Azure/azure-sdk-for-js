@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { ExportResultCode } from "@opentelemetry/core";
-import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils";
+import { failedBreezeResponse, successfulBreezeResponse } from "../utils/breezeTestUtils.js";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_DISABLE_STATSBEAT,
   LEGACY_ENV_DISABLE_STATSBEAT,
-} from "../../src/Declarations/Constants";
+} from "../../src/Declarations/Constants.js";
 import nock from "nock";
-import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
+import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 // @ts-expect-error Need to ignore this while we do not import types
 import sinon from "sinon";
-import { StatsbeatCounter } from "../../src/export/statsbeat/types";
-import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
-import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
+import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
 
 describe("#AzureMonitorStatsbeatExporter", () => {

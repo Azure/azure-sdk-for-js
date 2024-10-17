@@ -2,28 +2,28 @@
 // Licensed under the MIT License.
 
 import { Resource } from "@opentelemetry/resources";
-import fs from "fs";
-import path from "path";
-import * as os from "os";
+import fs from "node:fs";
+import path from "node:path";
+import * as os from "node:os";
 import {
   ResourceMetrics,
   MeterProvider,
   PeriodicExportingMetricReaderOptions,
   PeriodicExportingMetricReader,
 } from "@opentelemetry/sdk-metrics";
-import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils";
+import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils.js";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorMetricExporter } from "../../src/export/metric";
-import { AzureMonitorExporterOptions } from "../../src/config";
+import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
+import { AzureMonitorExporterOptions } from "../../src/config.js";
 import {
   TelemetryItem as Envelope,
   KnownContextTagKeys,
   RemoteDependencyData,
   RequestData,
-} from "../../src/generated";
-import assert from "assert";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../../src/types";
-import { Context, getInstance } from "../../src/platform";
+} from "../../src/generated/index.js";
+import assert from "node:assert";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../../src/types.js";
+import { Context, getInstance } from "../../src/platform/index.js";
 
 const context = getInstance();
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");

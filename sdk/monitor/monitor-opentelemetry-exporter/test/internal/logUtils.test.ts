@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { Resource } from "@opentelemetry/resources";
 import {
   SemanticAttributes,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
-import { getInstance } from "../../src/platform";
+import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types.js";
+import { getInstance } from "../../src/platform/index.js";
 import {
   AvailabilityData,
   KnownContextTagKeys,
@@ -18,13 +18,13 @@ import {
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
-} from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
+} from "../../src/generated/index.js";
+import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import { logToEnvelope } from "../../src/utils/logUtils";
+import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import { HrTime, TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common";
+import { hrTimeToDate } from "../../src/utils/common.js";
 
 const context = getInstance();
 

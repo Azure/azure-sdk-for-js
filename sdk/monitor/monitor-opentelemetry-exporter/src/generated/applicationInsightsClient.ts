@@ -7,14 +7,14 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApplicationInsightsClientOptionalParams,
   TelemetryItem,
   TrackOptionalParams,
   TrackOperationResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class ApplicationInsightsClient extends coreClient.ServiceClient {
   host: string;

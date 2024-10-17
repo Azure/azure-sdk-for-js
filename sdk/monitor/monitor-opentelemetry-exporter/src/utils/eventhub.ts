@@ -5,13 +5,13 @@ import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SEMATTRS_NET_PEER_NAME } from "@opentelemetry/semantic-conventions";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import { RemoteDependencyData, RequestData } from "../generated";
-import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
+import { RemoteDependencyData, RequestData } from "../generated/index.js";
+import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights.js";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub,
-} from "./constants/span/azAttributes";
+} from "./constants/span/azAttributes.js";
 
 /**
  * Average span.links[].attributes.enqueuedTime

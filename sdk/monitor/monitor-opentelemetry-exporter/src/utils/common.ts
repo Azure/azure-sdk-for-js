@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import os from "os";
+import os from "node:os";
 import {
   SEMRESATTRS_DEVICE_ID,
   SEMRESATTRS_DEVICE_MODEL_NAME,
@@ -38,9 +38,9 @@ import {
   SEMRESATTRS_TELEMETRY_SDK_LANGUAGE,
   SEMRESATTRS_TELEMETRY_SDK_NAME,
 } from "@opentelemetry/semantic-conventions";
-import { Tags } from "../types";
-import { getInstance } from "../platform";
-import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
+import { Tags } from "../types.js";
+import { getInstance } from "../platform/index.js";
+import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
 import { Resource } from "@opentelemetry/resources";
 import { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { Resource } from "@opentelemetry/resources";
 import {
   DBSYSTEMVALUES_HIVE,
@@ -32,19 +32,19 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
-import { Context, getInstance } from "../../src/platform";
-import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
+import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types.js";
+import { Context, getInstance } from "../../src/platform/index.js";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils.js";
 import {
   RemoteDependencyData,
   RequestData,
   KnownContextTagKeys,
   TelemetryExceptionData,
   MessageData,
-} from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
-import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
-import { hrTimeToDate } from "../../src/utils/common";
+} from "../../src/generated/index.js";
+import { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
+import { hrTimeToDate } from "../../src/utils/common.js";
 
 const context = getInstance();
 

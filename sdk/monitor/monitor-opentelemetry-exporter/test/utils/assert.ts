@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import { Expectation } from "./types";
+import * as assert from "node:assert";
+import { Expectation } from "./types.js";
 import {
   MetricsData,
   MonitorBase,
@@ -10,8 +10,8 @@ import {
   TelemetryItem as Envelope,
   KnownContextTagKeys,
   MonitorDomain,
-} from "../../src/generated";
-import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
+} from "../../src/generated/index.js";
+import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers.js";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
