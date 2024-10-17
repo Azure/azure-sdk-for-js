@@ -4,6 +4,7 @@ These sample programs show how to use the TypeScript client libraries for @azure
 
 | **File Name**                                                                                                 | **Description**                                                                                                                                                                                                                                                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [operationsListSample.ts][operationslistsample]                                                               | list the operations for the provider x-ms-original-file: 2023-11-01/Operations_List.json                                                                                                                                                                                                                                                                                                 |
 | [sAPApplicationServerInstancesCreateSample.ts][sapapplicationserverinstancescreatesample]                     | puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request error. x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Create.json                                                                                                                                                      |
 | [sAPApplicationServerInstancesDeleteSample.ts][sapapplicationserverinstancesdeletesample]                     | deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be used by service only. Delete by end user will return a Bad Request error. x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Delete.json                                                                                                                                      |
 | [sAPApplicationServerInstancesGetSample.ts][sapapplicationserverinstancesgetsample]                           | gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource. x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Get.json                                                                                                                                                                                                         |
@@ -75,19 +76,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/sAPApplicationServerInstancesCreateSample.js
+node dist/operationsListSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/sAPApplicationServerInstancesCreateSample.js
+npx cross-env  node dist/operationsListSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/operationsListSample.ts
 [sapapplicationserverinstancescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/sAPApplicationServerInstancesCreateSample.ts
 [sapapplicationserverinstancesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/sAPApplicationServerInstancesDeleteSample.ts
 [sapapplicationserverinstancesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/typescript/src/sAPApplicationServerInstancesGetSample.ts

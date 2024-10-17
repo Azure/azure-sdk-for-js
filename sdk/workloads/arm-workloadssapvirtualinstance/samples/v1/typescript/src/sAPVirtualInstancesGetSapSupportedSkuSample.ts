@@ -14,16 +14,13 @@ async function sapSupportedSKUsForDistributedNonHaEnvironment() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSapSupportedSku(
-    "centralus",
-    {
-      appLocation: "eastus",
-      sapProduct: "S4HANA",
-      environment: "Prod",
-      databaseType: "HANA",
-      deploymentType: "ThreeTier",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSapSupportedSku("centralus", {
+    appLocation: "eastus",
+    sapProduct: "S4HANA",
+    environment: "Prod",
+    databaseType: "HANA",
+    deploymentType: "ThreeTier",
+  });
   console.log(result);
 }
 
@@ -37,17 +34,14 @@ async function sapSupportedSKUsForDistributedHaEnvironmentWithAvailabilitySet() 
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSapSupportedSku(
-    "centralus",
-    {
-      appLocation: "eastus",
-      sapProduct: "S4HANA",
-      environment: "Prod",
-      databaseType: "HANA",
-      deploymentType: "ThreeTier",
-      highAvailabilityType: "AvailabilitySet",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSapSupportedSku("centralus", {
+    appLocation: "eastus",
+    sapProduct: "S4HANA",
+    environment: "Prod",
+    databaseType: "HANA",
+    deploymentType: "ThreeTier",
+    highAvailabilityType: "AvailabilitySet",
+  });
   console.log(result);
 }
 
@@ -61,17 +55,14 @@ async function sapSupportedSkusForHaWithAvailabilityZone() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSapSupportedSku(
-    "centralus",
-    {
-      appLocation: "eastus",
-      sapProduct: "S4HANA",
-      environment: "Prod",
-      databaseType: "HANA",
-      deploymentType: "ThreeTier",
-      highAvailabilityType: "AvailabilityZone",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSapSupportedSku("centralus", {
+    appLocation: "eastus",
+    sapProduct: "S4HANA",
+    environment: "Prod",
+    databaseType: "HANA",
+    deploymentType: "ThreeTier",
+    highAvailabilityType: "AvailabilityZone",
+  });
   console.log(result);
 }
 
@@ -85,16 +76,13 @@ async function sapSupportedSKUsForSingleServer() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.getSapSupportedSku(
-    "centralus",
-    {
-      appLocation: "eastus",
-      sapProduct: "S4HANA",
-      environment: "NonProd",
-      databaseType: "HANA",
-      deploymentType: "SingleServer",
-    },
-  );
+  const result = await client.sAPVirtualInstances.getSapSupportedSku("centralus", {
+    appLocation: "eastus",
+    sapProduct: "S4HANA",
+    environment: "NonProd",
+    databaseType: "HANA",
+    deploymentType: "SingleServer",
+  });
   console.log(result);
 }
 

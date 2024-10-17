@@ -4,6 +4,7 @@ These sample programs show how to use the JavaScript client libraries for @azure
 
 | **File Name**                                                                                                 | **Description**                                                                                                                                                                                                                                                                                                                                                                          |
 | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [operationsListSample.js][operationslistsample]                                                               | list the operations for the provider x-ms-original-file: 2023-11-01/Operations_List.json                                                                                                                                                                                                                                                                                                 |
 | [sAPApplicationServerInstancesCreateSample.js][sapapplicationserverinstancescreatesample]                     | puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request error. x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Create.json                                                                                                                                                      |
 | [sAPApplicationServerInstancesDeleteSample.js][sapapplicationserverinstancesdeletesample]                     | deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be used by service only. Delete by end user will return a Bad Request error. x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Delete.json                                                                                                                                      |
 | [sAPApplicationServerInstancesGetSample.js][sapapplicationserverinstancesgetsample]                           | gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource. x-ms-original-file: 2024-09-01/SapApplicationServerInstances_Get.json                                                                                                                                                                                                         |
@@ -63,19 +64,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node sAPApplicationServerInstancesCreateSample.js
+node operationsListSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node sAPApplicationServerInstancesCreateSample.js
+npx cross-env  node operationsListSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/javascript/operationsListSample.js
 [sapapplicationserverinstancescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/javascript/sAPApplicationServerInstancesCreateSample.js
 [sapapplicationserverinstancesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/javascript/sAPApplicationServerInstancesDeleteSample.js
 [sapapplicationserverinstancesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/workloads/arm-workloadssapvirtualinstance/samples/v1/javascript/sAPApplicationServerInstancesGetSample.js

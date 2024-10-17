@@ -14,11 +14,7 @@ async function sAPDatabaseInstancesGet() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPDatabaseInstances.get(
-    "test-rg",
-    "X00",
-    "databaseServer",
-  );
+  const result = await client.sAPDatabaseInstances.get("test-rg", "X00", "databaseServer");
   console.log(result);
 }
 
