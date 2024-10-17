@@ -52,7 +52,8 @@ export const cliCredentialInternals = {
       tenantSection = ["--tenant", tenantId];
     }
     if (subscription) {
-      subscriptionSection = ["--subscription", subscription];
+      // Add quotes around the subscription to handle subscriptions with spaces
+      subscriptionSection = ["--subscription", `"${subscription}"`];
     }
     return new Promise((resolve, reject) => {
       try {

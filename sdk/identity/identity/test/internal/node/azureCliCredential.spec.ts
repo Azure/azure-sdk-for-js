@@ -149,7 +149,7 @@ describe("AzureCliCredential (internal)", function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential({
-      subscription: "123 5678-1234-1234-1234-12345 789012",
+      subscription: "Example of a subscription string",
     });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
@@ -162,7 +162,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--subscription",
-        "123 5678-1234-1234-1234-12345 789012",
+        "Example of a subscription string",
       ],
     ]);
     // Used a working directory, and a shell
