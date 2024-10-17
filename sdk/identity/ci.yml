@@ -34,3 +34,4 @@ extends:
         safeName: azureidentitybroker
       - name: azure-identity-vscode
         safeName: azureidentityvscode
+        skipPublishDocMs: true
