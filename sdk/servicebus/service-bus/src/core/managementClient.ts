@@ -67,7 +67,7 @@ import { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
  */
 export interface SendManagementRequestOptions extends SendRequestOptions {
   /**
-   * The name of the sender or receiver link associated with the managmenet operations.
+   * The name of the sender or receiver link associated with the managemnet operations.
    * This is used for service side optimization.
    */
   associatedLinkName?: string;
@@ -1544,6 +1544,64 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       managementClientLogger.logError(
         error,
         `${this.logPrefix} An error occurred while sending the Add rule request to $management endpoint`,
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Get sessions.
+   * @returns A list of session ids.
+   */
+  async getSessions(
+    options?: ListRequestOptions & OperationOptionsBase & SendManagementRequestOptions,
+  ): Promise<string[]> {
+    throwErrorIfConnectionClosed(this._context);
+    try {
+      const updatedOptions = (await this.initWithUniqueReplyTo(options)) as ListRequestOptions &
+        OperationOptionsBase &
+        SendManagementRequestOptions;
+      const messageBody: any = {
+        top: updatedOptions?.maxCount
+          ? types.wrap_int(updatedOptions.maxCount)
+          : types.wrap_int(max32BitNumber),
+        skip: updatedOptions?.skip ? types.wrap_int(updatedOptions.skip) : types.wrap_int(0),
+      };
+      messageBody["last-updated-time"] = new Date(253402300800000);
+      const request: RheaMessage = {
+        body: messageBody,
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.operations.enumerateSessions,
+        },
+      };
+      request.application_properties![Constants.trackingId] = generate_uuid();
+
+      managementClientLogger.verbose(
+        "%s Get sessions request body: %O.",
+        this.logPrefix,
+        request.body,
+      );
+      const response = await this._makeManagementRequest(
+        request,
+        managementClientLogger,
+        updatedOptions,
+      );
+      if (
+        response.application_properties!.statusCode === 204 ||
+        !response.body ||
+        !Array.isArray(response.body["sessions-ids"])
+      ) {
+        return [];
+      }
+
+      // Reference: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-8
+      return response.body["sessions-ids"];
+    } catch (err: any) {
+      const error = translateServiceBusError(err);
+      managementClientLogger.logError(
+        error,
+        `${this.logPrefix} An error occurred while sending the get sessions request to $management endpoint`,
       );
       throw error;
     }
