@@ -1,12 +1,16 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-alpha.20241016.2 (2024-10-17)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed a bug where users were getting multiple entries for a test run in the dashboard for some cases.
+- Fixed a bug where some optional fields in Playwright config were being treated as mandatory in service package.
+- Fixed a bug where an error message was printing twice.
 
 ### Other Changes
 
