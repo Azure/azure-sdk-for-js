@@ -8,7 +8,7 @@ import { GetTokenOptions } from "@azure/core-auth";
 import { assert } from "@azure-tools/test-utils";
 import child_process from "child_process";
 
-describe("AzureCliCredential (internal)", function () {
+describe.only("AzureCliCredential (internal)", function () {
   let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
@@ -133,6 +133,36 @@ describe("AzureCliCredential (internal)", function () {
         "https://service",
         "--subscription",
         "12345678-1234-1234-1234-123456789012",
+      ],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true },
+    );
+  });
+
+  it("get access token with custom subscription containing space without error", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential({
+      subscription: "123 5678-1234-1234-1234-12345 789012",
+    });
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      [
+        "account",
+        "get-access-token",
+        "--output",
+        "json",
+        "--resource",
+        "https://service",
+        "--subscription",
+        "123 5678-1234-1234-1234-12345 789012",
       ],
     ]);
     // Used a working directory, and a shell
@@ -309,7 +339,6 @@ az login --scope https://test.windows.net/.default`;
 
   for (const subscription of [
     "&quot;invalid-subscription-string&quot;",
-    " ",
     "12345678-1234-1234-1234-123456789012|",
     "12345678-1234-1234-1234-123456789012 |",
     "<",
