@@ -86,6 +86,7 @@ export async function withDeployments<T>(
           "ModelDeprecated",
           "429",
           "UserError",
+          "quotaExceeded",
           400,
         ].includes(error.code) ||
         error.type === "invalid_request_error" ||

@@ -11,20 +11,30 @@
 import { AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
+import "dotenv/config";
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "<endpoint>";
+
 export async function main() {
+  const deploymentName = "gpt-4-1106-preview";
+  const apiVersion = "2024-07-01-preview";
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
   const client = new AzureOpenAI({
+    endpoint,
     azureADTokenProvider,
+    apiVersion,
   });
 
   // Create an assistant using code interpreter tool
   const assistant = await client.beta.assistants.create({
     tools: [{ type: "code_interpreter" }],
-    model: "gpt-4-1106-preview",
+    model: deploymentName,
     name: "JS CI Math Tutor",
     description: "Math Tutor for Math Problems",
     instructions: "You are a personal math tutor. Write and run code to answer math questions.",
@@ -44,7 +54,7 @@ export async function main() {
 
   // Start a new run with instructions
   const instructions = "Please address the user as Jane Doe. The user has a premium account.";
-  let run = await client.beta.threads.runs.createAndPoll(thread.id, {
+  const run = await client.beta.threads.runs.createAndPoll(thread.id, {
     assistant_id: assistant.id,
     instructions,
   });

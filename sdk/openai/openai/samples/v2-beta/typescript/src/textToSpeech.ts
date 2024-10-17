@@ -12,10 +12,11 @@ import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import { writeFile } from "fs/promises";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT"] || "<endpoint>";
 
 // You will need to set these environment variables or edit the following values
 const speechFilePath = process.env["SPEECH_FILE_PATH"] || "<path to save the speech file>";
@@ -31,7 +32,7 @@ const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 export async function main() {
   console.log("== Text to Speech Sample ==");
 
-  const openai = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const openai = new AzureOpenAI({ endpoint, azureADTokenProvider, deployment, apiVersion });
   const response = await openai.audio.speech.create({
     model: deployment,
     voice: "alloy",

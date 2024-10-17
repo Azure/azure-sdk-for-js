@@ -11,10 +11,11 @@
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_SWEDENCENTRAL_ENDPOINT"] || "<endpoint>";
 
 // The prompt to generate images from
 const prompt = "a monkey eating a banana";
@@ -30,7 +31,7 @@ export async function main() {
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "dall-e-3";
   const apiVersion = "2024-07-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const client = new AzureOpenAI({ endpoint, azureADTokenProvider, deployment, apiVersion });
   const results = await client.images.generate({ prompt, model: "", n, size });
 
   for (const image of results.data) {

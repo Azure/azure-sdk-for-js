@@ -63,7 +63,7 @@ node audioTranscription.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
+npx cross-env AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT="<azure openai northcentralus endpoint>" AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
 ```
 
 ## Next Steps
