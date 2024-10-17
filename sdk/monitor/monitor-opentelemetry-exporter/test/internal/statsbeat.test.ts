@@ -16,6 +16,7 @@ import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
+import { vi } from "vitest";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
