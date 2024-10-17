@@ -12,7 +12,6 @@ import {
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
 // @ts-expect-error Need to ignore this while we do not import types
-import sinon from "sinon";
 import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
