@@ -17,7 +17,6 @@ export class EnvironmentVariables {
   region: string | undefined;
   runName: string;
   constructor() {
-    this.runId = process.env["PLAYWRIGHT_SERVICE_RUN_ID"]!;
     this.runName = process.env["_MPT_SERVICE_RUN_NAME"]!;
     this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]!;
     this.correlationId = randomUUID();
