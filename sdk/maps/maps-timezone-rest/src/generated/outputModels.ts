@@ -66,9 +66,9 @@ export interface ReferenceTimeOutput {
   PosixTzValidYear?: number;
   /** POSIX string used to set the time zone environment variable. */
   PosixTz?: string;
-  /** Sunrise at the given time zone as shown in the `Tag` property. The sunrise is described in the ISO8601 format. (Only be populated if the call is byCoordinates) */
+  /** Sunrise at the given time zone as shown in the `Tag` property, populated only when the call is `byCoordinates`. The sunrise is described in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Note that the Timezone API does not return sunrise and sunset times when solar day is observed in the requested region. */
   Sunrise?: string;
-  /** Sunset at the given time zone as shown in the `Tag` property. The sunset is described in the ISO8601 format.(Only be populated if the call is byCoordinates) */
+  /** Sunset at the given time zone as shown in the `Tag` property, populated only when the call is `byCoordinates`. The sunset is described in the [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format. Note that the Timezone API does not return sunrise and sunset times when solar day is observed in the requested region. */
   Sunset?: string;
 }
 

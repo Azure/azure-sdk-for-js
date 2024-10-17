@@ -30,7 +30,7 @@ export interface TimezoneGetTimezoneByIDDefaultResponse extends HttpResponse {
 
 /**
  *
- * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location.
+ * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location, with the exception of regions that observe solar days.
  */
 export interface TimezoneGetTimezoneByCoordinates200Response
   extends HttpResponse {
@@ -40,7 +40,7 @@ export interface TimezoneGetTimezoneByCoordinates200Response
 
 /**
  *
- * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location.
+ * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location, with the exception of regions that observe solar days.
  */
 export interface TimezoneGetTimezoneByCoordinatesDefaultResponse
   extends HttpResponse {

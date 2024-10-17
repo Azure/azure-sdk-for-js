@@ -3,16 +3,16 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential } from "@azure/core-auth";
-import { MapsTimezoneClient } from "./clientDefinitions";
+import { MapsTimeZoneClient } from "./clientDefinitions";
 
 /**
- * Initialize a new instance of the class MapsTimezoneClient class.
+ * Initialize a new instance of the class MapsTimeZoneClient class.
  * @param credentials type: KeyCredential
  */
 export default function createClient(
   credentials: KeyCredential,
   options: ClientOptions = {}
-): MapsTimezoneClient {
+): MapsTimeZoneClient {
   const baseUrl = options.baseUrl ?? `https://atlas.microsoft.com`;
   options.apiVersion = options.apiVersion ?? "1.0";
   options = {
@@ -34,7 +34,7 @@ export default function createClient(
     }
   };
 
-  const client = getClient(baseUrl, credentials, options) as MapsTimezoneClient;
+  const client = getClient(baseUrl, credentials, options) as MapsTimeZoneClient;
 
   return client;
 }

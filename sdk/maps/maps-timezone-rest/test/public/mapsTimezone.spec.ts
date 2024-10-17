@@ -7,7 +7,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import MapsTimezone, { isUnexpected, IanaIdOutput } from "../../src";
+import MapsTimeZone, { isUnexpected, IanaIdOutput } from "../../src";
 
 
 describe("Authentication", function () {
@@ -29,7 +29,7 @@ describe("Authentication", function () {
      * */
     if (!isNodeLike) this.skip();
     const credential = createTestCredential();
-    const client = MapsTimezone(
+    const client = MapsTimeZone(
         credential,
         env["MAPS_RESOURCE_CLIENT_ID"] as string,
         recorder.configureClientOptions({})
@@ -76,9 +76,9 @@ describe("Endpoint can be overwritten", function () {
   });
 });
 
-describe("MapsTimezone", () => {
+describe("MapsTimeZone", () => {
   let recorder: Recorder;
-  let client: ReturnType<typeof MapsTimezone>;
+  let client: ReturnType<typeof MapsTimeZone>;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);

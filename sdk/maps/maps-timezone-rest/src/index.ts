@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapsTimezone from "./MapsTimezone";
+import MapsTimeZone from "./MapsTimeZone";
 
 export * from "./generated";
-export default MapsTimezone;
+export default MapsTimeZone;

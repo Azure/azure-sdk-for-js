@@ -40,7 +40,7 @@ export interface GetTimezoneByID {
 export interface GetTimezoneByCoordinates {
   /**
    *
-   * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location.
+   * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location, with the exception of regions that observe solar days.
    */
   get(
     options: TimezoneGetTimezoneByCoordinatesParameters
@@ -125,6 +125,6 @@ export interface Routes {
   ): ConvertWindowsTimezoneToIana;
 }
 
-export type MapsTimezoneClient = Client & {
+export type MapsTimeZoneClient = Client & {
   path: Routes;
 };

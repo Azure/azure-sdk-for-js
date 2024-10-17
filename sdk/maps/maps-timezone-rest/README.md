@@ -28,9 +28,9 @@ Install the Azure Maps Timezone REST client library for JavaScript with `npm`:
 npm install @azure-rest/maps-timezone
 ```
 
-### Create and authenticate a `MapsTimezoneClient`
+### Create and authenticate a `MapsTimeZoneClient`
 
-You'll need a `credential` instance for authentication when creating the `MapsTimezoneClient` instance used to access the Azure Maps timezone APIs. You can use a Microsoft Entra ID credential, an Azure subscription key, or a Shared Access Signature (SAS) Token to authenticate. For more information on authentication, see [Authentication with Azure Maps](https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication).
+You'll need a `credential` instance for authentication when creating the `MapsTimeZoneClient` instance used to access the Azure Maps timezone APIs. You can use a Microsoft Entra ID credential, an Azure subscription key, or a Shared Access Signature (SAS) Token to authenticate. For more information on authentication, see [Authentication with Azure Maps](https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication).
 
 #### Using an Microsoft Entra ID credential
 
@@ -44,11 +44,11 @@ Set the values of the client ID, tenant ID, and client secret of the Microsoft E
 `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 ```javascript
-const MapsTimezone = require("@azure-rest/maps-timezone").default;
+const MapsTimeZone = require("@azure-rest/maps-timezone").default;
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const credential = new DefaultAzureCredential();
-const client = MapsTimezone(credential);
+const client = MapsTimeZone(credential);
 ```
 
 #### Using a Subscription Key Credential
@@ -60,11 +60,11 @@ npm install @azure/core-auth
 ```
 
 ```javascript
-const MapsTimezone = require("@azure-rest/maps-timezone").default;
+const MapsTimeZone = require("@azure-rest/maps-timezone").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
-const client = MapsTimezone(credential);
+const client = MapsTimeZone(credential);
 ```
 
 #### Using a Shared Access Signature (SAS) Token Credential
@@ -78,7 +78,7 @@ Second, follow [Managed identities for Azure Maps](https://techcommunity.microso
 Finally, you can use the SAS token to authenticate the client:
 
 ```javascript
-const MapsTimezone = require("@azure-rest/maps-timezone").default;
+const MapsTimeZone = require("@azure-rest/maps-timezone").default;
 const { AzureSASCredential } = require("@azure/core-auth");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AzureMapsManagementClient } = require("@azure/arm-maps");
@@ -104,14 +104,14 @@ if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
 const sasCredential = new AzureSASCredential(accountSasToken);
-const client = MapsTimezone(sasCredential);
+const client = MapsTimeZone(sasCredential);
 ```
 
 ## Key concepts
 
-### MapsTimezoneClient
+### MapsTimeZoneClient
 
-`MapsTimezoneClient` is the primary interface for developers using the Azure Maps Timezone client library. Explore the methods on this client object to understand the different features of the Azure Maps Timezone service that you can access.
+`MapsTimeZoneClient` is the primary interface for developers using the Azure Maps Timezone client library. Explore the methods on this client object to understand the different features of the Azure Maps Timezone service that you can access.
 
 ## Examples
 

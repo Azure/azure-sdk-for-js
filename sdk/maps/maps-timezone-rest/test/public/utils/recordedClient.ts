@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import MapsTimezone, { MapsTimezoneClient } from "../../../src";
+import MapsTimeZone, { MapsTimeZoneClient } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -26,8 +26,8 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   return recorder;
 }
 
-export function createClient(options?: ClientOptions): MapsTimezoneClient {
+export function createClient(options?: ClientOptions): MapsTimeZoneClient {
   const credential = createTestCredential();
-  const client = MapsTimezone(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
+  const client = MapsTimeZone(credential, env["MAPS_RESOURCE_CLIENT_ID"] as string, options);
   return client;
 }

@@ -9,7 +9,7 @@ For the configuration property, please refer to [Index of AutoRestFlag](https://
 
 ```yaml
 package-name: "@azure-rest/maps-timezone"
-title: MapsTimezoneClient
+title: MapsTimeZoneClient
 description: Azure Maps Timezone Client
 # This flag generated files including all the config files, LICENSE, sample.env, and package.json.
 # We switch this to false after the first generation because we have some manual changes in these files and don't want them get overwrite.
