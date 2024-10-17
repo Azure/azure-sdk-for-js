@@ -10,6 +10,7 @@ describe("Reporter Utils", () => {
   beforeEach(() => {
     const envVariablesMock = {
       runId: "test-run-id",
+      runName: "test-run-name",
       shardId: "shard-id",
       accountId: "account-id",
       accessToken: "test-access-token",

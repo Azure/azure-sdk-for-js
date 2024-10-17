@@ -22,7 +22,7 @@ import {
 /** Interface representing a PrivateEndpointConnections. */
 export interface PrivateEndpointConnections {
   /**
-   * Lists all the private endpoint connections associated with the RedisEnterprise cluster.
+   * Lists all the private endpoint connections associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -33,7 +33,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
-   * Gets the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Gets the specified private endpoint connection associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
@@ -47,7 +47,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
+   * Updates the state of the specified private endpoint connection associated with the Redis Enterprise
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
@@ -69,7 +69,7 @@ export interface PrivateEndpointConnections {
     >
   >;
   /**
-   * Updates the state of the specified private endpoint connection associated with the RedisEnterprise
+   * Updates the state of the specified private endpoint connection associated with the Redis Enterprise
    * cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
@@ -86,7 +86,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsPutOptionalParams,
   ): Promise<PrivateEndpointConnectionsPutResponse>;
   /**
-   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
@@ -100,7 +100,7 @@ export interface PrivateEndpointConnections {
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes the specified private endpoint connection associated with the RedisEnterprise cluster.
+   * Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the

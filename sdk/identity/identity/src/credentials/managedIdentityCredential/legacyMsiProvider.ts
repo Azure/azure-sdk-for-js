@@ -357,7 +357,8 @@ export class LegacyMsiProvider {
       token: result.accessToken,
       expiresOnTimestamp: result.expiresOn.getTime(),
       refreshAfterTimestamp: result.refreshOn?.getTime(),
-    };
+      tokenType: "Bearer",
+    } as AccessToken;
   }
 
   /**

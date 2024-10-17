@@ -202,6 +202,7 @@ export class AzureCliCredential implements TokenCredential {
       return {
         token,
         expiresOnTimestamp,
+        tokenType: "Bearer",
       };
     }
 
@@ -218,6 +219,7 @@ export class AzureCliCredential implements TokenCredential {
     return {
       token,
       expiresOnTimestamp,
+      tokenType: "Bearer",
     };
   }
 }

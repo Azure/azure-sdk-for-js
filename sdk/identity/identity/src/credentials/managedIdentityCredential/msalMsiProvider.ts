@@ -157,7 +157,9 @@ export class MsalMsiProvider {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       throw new CredentialUnavailableError(
-        `ManagedIdentityCredential: Multiple scopes are not supported. Scopes: ${JSON.stringify(scopes)}`,
+        `ManagedIdentityCredential: Multiple scopes are not supported. Scopes: ${JSON.stringify(
+          scopes,
+        )}`,
       );
     }
 
@@ -235,7 +237,8 @@ export class MsalMsiProvider {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
           refreshAfterTimestamp: token.refreshOn?.getTime(),
-        };
+          tokenType: "Bearer",
+        } as AccessToken;
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));
 

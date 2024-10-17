@@ -337,15 +337,19 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       skipParsingBodyAsJson: this._skipParsingBodyAsJson,
       skipConvertingDate: this._skipConvertingDate,
     };
+    // omitMessageBody is available at runtime, but only exported in experimental subpath
+    const { fromSequenceNumber, omitMessageBody } = options as PeekMessagesOptions & {
+      omitMessageBody: boolean;
+    };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber !== undefined) {
+      if (fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
-            options.fromSequenceNumber,
+            fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       } else {
@@ -354,7 +358,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           .peekMessagesBySession(
             this.sessionId,
             maxMessageCount,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       }

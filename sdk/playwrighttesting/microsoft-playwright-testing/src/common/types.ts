@@ -228,6 +228,14 @@ export type PlaywrightServiceAdditionalOptions = {
    * @defaultValue `DefaultAzureCredential`
    */
   credential?: TokenCredential;
+  /**
+   * @public
+   *
+   * Run name for the test run.
+   *
+   * @defaultValue `guid`
+   */
+  runName?: string;
 };
 
 /**

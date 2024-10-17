@@ -243,7 +243,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         // we'll load the MSAL account in the constructor.
 
         await app.acquireTokenRedirect(parameters);
-        return { token: "", expiresOnTimestamp: 0 };
+        return { token: "", expiresOnTimestamp: 0, tokenType: "Bearer" };
       case "popup":
         return this.handleResult(scopes, await app.acquireTokenPopup(parameters));
     }

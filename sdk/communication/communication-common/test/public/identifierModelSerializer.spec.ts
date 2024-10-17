@@ -7,8 +7,8 @@ import {
   SerializedCommunicationIdentifier,
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
-} from "../../src";
-import { assert } from "chai";
+} from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 const assertSerialize = (
   identifier: CommunicationIdentifier,

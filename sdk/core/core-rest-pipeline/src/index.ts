@@ -9,8 +9,9 @@ declare global {
   interface ReadableStream<R = any> {}
   interface TransformStream<I = any, O = any> {}
 }
-/* eslint-enable @typescript-eslint/no-unused-vars */
 
+/* eslint-enable @typescript-eslint/no-unused-vars */
+export type { HttpMethods } from "@azure/core-util";
 export type {
   Agent,
   BodyPart,
@@ -18,7 +19,6 @@ export type {
   FormDataValue,
   HttpClient,
   HttpHeaders,
-  HttpMethods,
   KeyObject,
   MultipartRequestBody,
   PipelineRequest,

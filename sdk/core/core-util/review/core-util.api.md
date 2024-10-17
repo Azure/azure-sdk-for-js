@@ -61,6 +61,9 @@ export function getErrorMessage(e: unknown): string;
 export function getRandomIntegerInclusive(min: number, max: number): number;
 
 // @public
+export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
+
+// @public
 export const isBrowser: boolean;
 
 // @public
