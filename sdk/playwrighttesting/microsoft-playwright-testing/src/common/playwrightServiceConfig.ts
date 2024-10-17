@@ -15,10 +15,11 @@ class PlaywrightServiceConfig {
   public timeout: number;
   public slowMo: number;
   public exposeNetwork: string;
-
+  public runName: string;
   constructor() {
     this.serviceOs = (process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] ||
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
+    this.runName = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || "";
     this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] || "";
     this.timeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
     this.slowMo = DefaultConnectOptionsConstants.DEFAULT_SLOW_MO;
@@ -36,6 +37,10 @@ class PlaywrightServiceConfig {
       } else {
         this.runId = getAndSetRunId();
       }
+    }
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] && options?.runName) {
+      this.runName = options.runName;
+      process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = this.runName;
     }
     if (options?.os) {
       this.serviceOs = options.os;
