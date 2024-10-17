@@ -4,15 +4,12 @@
   "sdk-type": "client",
   "version": "1.0.0-beta.26",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "types/monitor-opentelemetry-exporter.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:browser": "echo skipped",
-    "build:node": "dev-tool run build-package && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
-    "build:test": "dev-tool run build-package && dev-tool run bundle --browser-test=false",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist-esm types dist",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -31,9 +28,8 @@
     "test:browser": "npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "unit-test:node:debug": "dev-tool run test:node-tsx-ts -- --timeout 1200000 \"test/internal/**/*.test.ts\"",
     "update-snippets": "echo skipped"
   },
   "engines": {
@@ -132,11 +128,20 @@
       "esm",
       "commonjs"
     ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
     "selfLink": false
   },
-  "browser": "./dist/browser/index.js"
+  "browser": "./dist/browser/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  }
 }

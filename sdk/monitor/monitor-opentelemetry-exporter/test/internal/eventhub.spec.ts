@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
+import { Attributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
 import { timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
-import * as assert from "node:assert";
 import {
   ENQUEUED_TIME,
   TIME_SINCE_ENQUEUED,
@@ -23,7 +22,7 @@ const tracer = new BasicTracerProvider().getTracer("default");
 describe("#parseEventHubSpan(...)", () => {
   const peerAddress = "example.servicebus.windows.net";
   const destination = "test123";
-  const attributes: SpanAttributes = {
+  const attributes: Attributes = {
     [AzNamespace]: MicrosoftEventHub,
     ["peer.address"]: peerAddress,
     [MessageBusDestination]: destination,

@@ -21,7 +21,6 @@ import {
   RemoteDependencyData,
   RequestData,
 } from "../../src/generated/index.js";
-import assert from "node:assert";
 import {
   BreezePerformanceCounterNames,
   OTelPerformanceCounterNames,

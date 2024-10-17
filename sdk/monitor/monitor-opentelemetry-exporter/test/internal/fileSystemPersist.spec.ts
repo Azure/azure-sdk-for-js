@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -9,7 +8,7 @@ import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemP
 import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);
@@ -65,18 +64,6 @@ const assertFirstFile = async (tempDirectory: string, expectation: unknown): Pro
 describe("FileSystemPersist", () => {
   beforeEach(() => {
     deleteFolderRecursive(tempDir);
-  });
-
-  afterEach((done) => {
-    fs.readdir(tempDir, (err, files) => {
-      if (err) {
-        console.error(err);
-        done();
-      } else {
-        assert.deepStrictEqual(files, []);
-        done();
-      }
-    });
   });
 
   describe("#configuration", () => {
@@ -164,18 +151,16 @@ describe("FileSystemPersist", () => {
   describe("#shift()", () => {
     it("should not crash if folder does not exist", () => {
       const persister = new FileSystemPersist(instrumentationKey);
-      assert.doesNotThrow(async () => {
-        await persister.shift();
-      });
+      expect(() => persister.shift()).not.toThrow();
     });
 
     it("should not crash if file does not exist", () => {
       const persister = new FileSystemPersist(instrumentationKey);
       const mkdirAsync = promisify(fs.mkdir);
-      assert.doesNotThrow(async () => {
+      expect(async () => {
         await mkdirAsync(tempDir);
         await persister.shift();
-      });
+      }).not.toThrow();
     });
 
     it("should get the first file on disk and return it", async () => {

@@ -5,7 +5,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
-import * as assert from "node:assert";
 import { Resource } from "@opentelemetry/resources";
 import {
   DBSYSTEMVALUES_HIVE,
@@ -41,6 +40,7 @@ import {
   KnownContextTagKeys,
   TelemetryExceptionData,
   MessageData,
+  MonitorDomain,
 } from "../../src/generated/index.js";
 import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
@@ -108,7 +108,7 @@ function assertEnvelope(
   if (envelope.data?.baseData) {
     delete envelope.data.baseData.duration;
   }
-  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
+  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
 
 const emptyMeasurements: Measurements = {};

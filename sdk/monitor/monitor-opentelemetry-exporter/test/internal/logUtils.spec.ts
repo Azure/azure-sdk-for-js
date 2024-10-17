@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "node:assert";
+
 import { Resource } from "@opentelemetry/resources";
 import {
   SemanticAttributes,
@@ -39,18 +39,18 @@ function assertEnvelope(
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
 ): void {
-  assert.ok(envelope);
-  assert.strictEqual(envelope.name, name);
-  assert.strictEqual(envelope.sampleRate, sampleRate);
-  assert.deepStrictEqual(envelope.data?.baseType, baseType);
+  assert.isDefined(envelope);
+  assert.strictEqual(envelope?.name, name);
+  assert.strictEqual(envelope?.sampleRate, sampleRate);
+  assert.deepStrictEqual(envelope?.data?.baseType, baseType);
 
-  assert.strictEqual(envelope.instrumentationKey, "ikey");
-  assert.ok(envelope.time);
-  assert.ok(envelope.version);
-  assert.ok(envelope.data);
+  assert.strictEqual(envelope?.instrumentationKey, "ikey");
+  assert.ok(envelope?.time);
+  assert.ok(envelope?.version);
+  assert.ok(envelope?.data);
 
   if (expectedTime) {
-    assert.deepStrictEqual(envelope.time, expectedTime);
+    assert.deepStrictEqual(envelope?.time, expectedTime);
   }
 
   const expectedServiceTags: Tags = {
@@ -59,13 +59,13 @@ function assertEnvelope(
     [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
     [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
   };
-  assert.deepStrictEqual(envelope.tags, {
+  assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
-  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
+  assert.deepStrictEqual(envelope?.data?.baseData, expectedBaseData);
 }
 
 const emptyMeasurements: Measurements = {};

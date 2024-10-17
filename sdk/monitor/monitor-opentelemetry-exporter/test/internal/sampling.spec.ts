@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { ApplicationInsightsSampler } from "../../src/sampling.js";
 import { context, SpanKind } from "@opentelemetry/api";
