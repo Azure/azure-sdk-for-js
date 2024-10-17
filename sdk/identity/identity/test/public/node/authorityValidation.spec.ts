@@ -6,6 +6,7 @@ import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 describe("AuthorityValidation", function () {
   let cleanup: MsalTestCleanup;
@@ -23,10 +24,10 @@ describe("AuthorityValidation", function () {
 
   it("disabled and authenticates", async function () {
     const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
+      env.AZURE_TENANT_ID || PlaybackTenantId!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({ disableInstanceDiscovery: true }),
+      recorder.configureClientOptions({ disableInstanceDiscovery: true })
     );
 
     const token = await credential.getToken(scope);

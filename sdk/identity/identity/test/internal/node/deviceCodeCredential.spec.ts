@@ -8,6 +8,7 @@ import { DeviceCodeCredential } from "../../../src";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { assert } from "chai";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -42,7 +43,7 @@ describe("DeviceCodeCredential (internal)", function () {
     }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
-        tenantId: env.AZURE_TENANT_ID,
+        tenantId: env.AZURE_TENANT_ID || PlaybackTenantId,
         clientId: env.AZURE_CLIENT_ID,
       }),
     );
@@ -70,7 +71,7 @@ describe("DeviceCodeCredential (internal)", function () {
     }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
-        tenantId: env.AZURE_TENANT_ID,
+        tenantId: env.AZURE_TENANT_ID || PlaybackTenantId,
         clientId: env.AZURE_CLIENT_ID,
       }),
     );

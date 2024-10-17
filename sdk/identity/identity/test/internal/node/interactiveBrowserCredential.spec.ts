@@ -15,6 +15,7 @@ import Sinon from "sinon";
 import { assert } from "chai";
 import http from "http";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalClient";
+import { PlaybackTenantId } from "../../msalTestUtils";
 
 declare global {
   namespace NodeJS {
@@ -56,7 +57,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     const credential = new InteractiveBrowserCredential(
       recorder.configureClientOptions({
         redirectUri: "http://localhost:8081",
-        tenantId: env.AZURE_TENANT_ID,
+        tenantId: env.AZURE_TENANT_ID || PlaybackTenantId,
         clientId: env.AZURE_CLIENT_ID,
       } as InteractiveBrowserCredentialNodeOptions),
     );
