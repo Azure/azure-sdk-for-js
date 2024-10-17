@@ -54,7 +54,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     after(() => {
-      sandbox.restore();
+      vi.restoreAllMocks();
       nock.cleanAll();
     });
 
@@ -153,7 +153,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should not log error upon failed send if statsbeat is being sent", async () => {
-        const mockExport = sandbox.stub(diag, "error");
+        const mockExport = vi.spyOn(diag, "error");
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         const response = failedBreezeResponse(1, 500);
         scope.reply(500, JSON.stringify(response));
