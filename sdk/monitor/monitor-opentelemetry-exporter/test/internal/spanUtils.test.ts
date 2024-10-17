@@ -1267,7 +1267,7 @@ describe("spanUtils.ts", () => {
         tracer,
         ROOT_CONTEXT,
         "parent span",
-        { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+        { traceId: "4bf92f3577b34da6a3ce929d0e0e4736", spanId: "00f067aa0ba902b7", traceFlags: 0 },
         SpanKind.CLIENT,
         "parentSpanId",
       );
