@@ -25,6 +25,7 @@ import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import { HrTime, TraceFlags } from "@opentelemetry/api";
 import { hrTimeToDate } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 

@@ -3,6 +3,7 @@
 
 import { Context, getInstance } from "../../src/platform/index.js";
 import * as assert from "node:assert";
+import { describe, it, assert } from "vitest";
 
 describe("context.ts", () => {
   describe("#constructor", () => {

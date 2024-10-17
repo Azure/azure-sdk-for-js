@@ -5,6 +5,7 @@ import * as assert from "node:assert";
 import { Resource } from "@opentelemetry/resources";
 import { Tags } from "../../src/types.js";
 import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {
   describe("#createTagsFromResource", () => {

@@ -5,6 +5,7 @@ import * as assert from "node:assert";
 import { RandomIdGenerator, SamplingDecision } from "@opentelemetry/sdk-trace-base";
 import { ApplicationInsightsSampler } from "../../src/sampling.js";
 import { context, SpanKind } from "@opentelemetry/api";
+import { describe, it, assert } from "vitest";
 
 describe("Library/ApplicationInsightsSampler", () => {
   const idGenerator = new RandomIdGenerator();

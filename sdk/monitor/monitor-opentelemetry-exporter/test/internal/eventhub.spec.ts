@@ -16,6 +16,7 @@ import {
 } from "../../src/utils/constants/span/azAttributes.js";
 import { parseEventHubSpan } from "../../src/utils/eventhub.js";
 import { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { describe, it, assert } from "vitest";
 
 const tracer = new BasicTracerProvider().getTracer("default");
 

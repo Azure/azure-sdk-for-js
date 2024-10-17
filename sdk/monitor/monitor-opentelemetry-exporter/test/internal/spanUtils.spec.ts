@@ -45,6 +45,7 @@ import {
 import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
 import { hrTimeToDate } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 

@@ -4,6 +4,7 @@
 import * as assert from "node:assert";
 import * as Constants from "../../src/Declarations/Constants.js";
 import { ConnectionStringParser } from "../../src/utils/connectionStringParser.js";
+import { describe, it, assert } from "vitest";
 
 describe("ConnectionStringParser", () => {
   describe("#parse()", () => {

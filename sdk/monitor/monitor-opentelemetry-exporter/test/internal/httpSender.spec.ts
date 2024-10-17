@@ -14,6 +14,7 @@ import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
+import { describe, it, assert } from "vitest";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;

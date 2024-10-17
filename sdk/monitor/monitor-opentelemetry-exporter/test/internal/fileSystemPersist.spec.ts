@@ -9,6 +9,7 @@ import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemP
 import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
+import { describe, it, assert } from "vitest";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);

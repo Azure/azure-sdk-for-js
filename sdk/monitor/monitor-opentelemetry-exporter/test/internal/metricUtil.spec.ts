@@ -28,6 +28,7 @@ import {
   Tags,
 } from "../../src/types.js";
 import { Context, getInstance } from "../../src/platform/index.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
