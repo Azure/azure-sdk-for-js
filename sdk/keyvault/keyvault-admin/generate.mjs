@@ -1,16 +1,18 @@
 // @ts-check
 
 import "zx/globals";
+$.verbose = true;
 
 // Steps:
-// 0. Delete generated/**/*
-await $`rm -rf generated/*`;
+// Setup the environment
+await $`rm -rf src/generated/*`;
+await $`cp tsp-location.yaml src/generated`;
 
-// 1. Generate from typespec
-await $`tsp-client update -d -o generated`;
+// Generate from typespec
+await $`tsp-client update -d -o src/generated`;
 
-// 2. Move the code from generated/src to generated
-await $`mv generated/src/* generated/`;
+// Move the code from generated/src to generated
+await $`mv src/generated/src/* src/generated/`;
 
-// 3. Remove generated/src
-await $`rm -rf generated/src`;
+// Remove generated/src
+await $`rm -rf src/generated/src`;

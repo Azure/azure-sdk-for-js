@@ -11659,6 +11659,15 @@ packages:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
     dev: false
 
+  /zx@8.1.9:
+    resolution: {integrity: sha512-UHuLHphHmsBYKkAchkSrEN4nzDyagafqC9HUxtc1J7eopaScW6H9dsLJ1lmkAntnLtDTGoM8fa+jrJrXiIfKFA==}
+    engines: {node: '>= 12.17.0'}
+    hasBin: true
+    optionalDependencies:
+      '@types/fs-extra': 11.0.4
+      '@types/node': 22.7.5
+    dev: false
+
   file:projects/abort-controller.tgz:
     resolution: {integrity: sha512-7A8HyyBrYP7eSIB1i4oXDfietDpHPVM1vCkHahi+od09M8ZJ+Cevpvcog18U6Quk1BQWkBeHA7jOm132YwYSJQ==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
@@ -22169,7 +22178,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-fCe54gGE6SiCRvFoUu5hHhS3q8F5StH4mYw2+Q2mB6zc8W+mEomnrLZ55iDSdwgLdPljG/0oPGPzxHmhGS1V0w==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-Sa1dvTpMnFoPjksij35XwGq4TpsobS8XrXzkmu9N6HcEgR7XPAaBbhxiQlLJM3mzkxsxFEJdtsmAZU4BsVeOdg==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -22186,6 +22195,7 @@ packages:
       tslib: 2.7.0
       typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.55)(@vitest/browser@2.1.3)
+      zx: 8.1.9
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -24237,7 +24247,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-SUsQnAA/geN3tUNpcVlFI+/vnrIcbnEYN/xfR5sWlu+qTJ6Hh0tqGofCusgJTlzfZyLSm/hv2GW6c3/Yj8iung==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-e+GSDtmAiZZkAHoCQZQAEWsR4wCqZTTbBfC85vnIBIVdlBTho8fI5YywC7VMtYylhd3J2SF/wWl7PGqbz/1MoA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:

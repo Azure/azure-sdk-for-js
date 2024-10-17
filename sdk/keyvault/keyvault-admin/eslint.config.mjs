@@ -1,7 +1,7 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
 export default [
-  { ignores: ["src/generated"] },
+  { ignores: ["src/generated", "generate.mjs"] },
   ...azsdkEslint.configs.recommended,
   {
     rules: {
