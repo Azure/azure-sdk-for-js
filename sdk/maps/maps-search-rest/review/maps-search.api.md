@@ -347,6 +347,11 @@ export type MapsSearchClient = Client & {
 };
 
 // @public
+export interface MapsSearchClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ReverseGeocodingBatchRequestBody {
     batchItems?: Array<ReverseGeocodingBatchRequestItem>;
 }
