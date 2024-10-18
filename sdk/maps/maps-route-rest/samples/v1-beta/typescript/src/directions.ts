@@ -28,7 +28,7 @@ async function main(): Promise<void> {
    *
    * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
-  
+
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";

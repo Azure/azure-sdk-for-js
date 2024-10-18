@@ -29,7 +29,7 @@ async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   const client = MapsRoute(credential, mapsClientId);
-  
+
   /** Use subscription key authentication */
   // const subscriptionKey = process.env.MAPS_SUBSCRIPTION_KEY || "";
   // const credential = new AzureKeyCredential(subscriptionKey);
@@ -70,14 +70,14 @@ async function main(): Promise<void> {
     body: request,
   });
 
-  const initialPoller = getLongRunningPoller(client, initialResponse);
+  const initialPoller = await getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
   await initialPoller.poll();
   /** Serialized the current operation for future poller */
   const serializedState = initialPoller.toString();
-  /** Use the `resumeFrom` option to rehydrate the previous operation */
-  const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
-    resumeFrom: serializedState,
+  /** Use the `restoreFrom` option to rehydrate the previous operation */
+  const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
+    restoreFrom: serializedState,
   });
   const {
     body: { summary, batchItems },

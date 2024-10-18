@@ -12,7 +12,7 @@ import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main():Promise<void> {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
