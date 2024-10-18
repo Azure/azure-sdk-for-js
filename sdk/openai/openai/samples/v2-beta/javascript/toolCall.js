@@ -10,10 +10,11 @@
 const { AzureOpenAI } = require("openai");
 const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 require("dotenv/config");
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "<endpoint>";
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -41,7 +42,7 @@ async function main() {
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-turbo";
   const apiVersion = "2024-07-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const client = new AzureOpenAI({ endpoint, azureADTokenProvider, deployment, apiVersion });
   const result = await client.chat.completions.create({
     messages: [{ role: "user", content: "What's the weather like in Boston?" }],
     model: "",
