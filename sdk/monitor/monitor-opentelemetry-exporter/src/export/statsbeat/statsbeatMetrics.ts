@@ -16,7 +16,7 @@ import {
   NON_EU_CONNECTION_STRING,
   StatsbeatResourceProvider,
   VirtualMachineInfo,
-} from "./types";
+} from "./types.js";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const os = require("os");

@@ -14,9 +14,9 @@ import {
   PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions } from "../../index";
-import * as ai from "../../utils/constants/applicationinsights";
-import { StatsbeatMetrics } from "./statsbeatMetrics";
+import { AzureMonitorExporterOptions } from "../../index.js";
+import * as ai from "../../utils/constants/applicationinsights.js";
+import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import {
   StatsbeatCounter,
   STATSBEAT_LANGUAGE,
@@ -24,8 +24,8 @@ import {
   AttachStatsbeatProperties,
   StatsbeatFeatureType,
   StatsbeatOptions,
-} from "./types";
-import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
+} from "./types.js";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 
