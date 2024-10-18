@@ -55,7 +55,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
-      ServiceDirectories: $(ChangedServices)
+      ServiceDirectories: $[replace(variables['ChangedServices'], ' ', ',')]
 
   - script: |
       npm ci
