@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MicrosoftElastic } from "../microsoftElastic";
 import {
   VMIngestionDetailsOptionalParams,
-  VMIngestionDetailsOperationResponse
+  VMIngestionDetailsOperationResponse,
 } from "../models";
 
 /** Class containing VMIngestion operations. */
@@ -30,18 +30,18 @@ export class VMIngestionImpl implements VMIngestion {
 
   /**
    * List the vm ingestion details that will be monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   details(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMIngestionDetailsOptionalParams
+    options?: VMIngestionDetailsOptionalParams,
   ): Promise<VMIngestionDetailsOperationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      detailsOperationSpec
+      detailsOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class VMIngestionImpl implements VMIngestion {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const detailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/vmIngestionDetails",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/vmIngestionDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VMIngestionDetailsResponse
+      bodyMapper: Mappers.VMIngestionDetailsResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

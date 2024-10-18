@@ -119,8 +119,18 @@ export interface MonitorProperties {
   elasticProperties?: ElasticProperties;
   /** User information. */
   userInfo?: UserInfo;
+  /** Plan details of the monitor resource. */
+  planDetails?: PlanDetails;
   /** Version of elastic of the monitor resource */
   version?: string;
+  /** State of the Azure Subscription containing the monitor resource */
+  subscriptionState?: string;
+  /** Status of Azure Subscription where Marketplace SaaS is located. */
+  saaSAzureSubscriptionStatus?: string;
+  /** Name of the marketing campaign. */
+  sourceCampaignName?: string;
+  /** A unique identifier associated with the campaign. */
+  sourceCampaignId?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly liftrResourceCategory?: LiftrResourceCategories;
   /**
@@ -226,6 +236,20 @@ export interface CompanyInfo {
   country?: string;
 }
 
+/** Plan details of the monitor resource. */
+export interface PlanDetails {
+  /** Offer ID of the plan */
+  offerID?: string;
+  /** Publisher ID of the plan */
+  publisherID?: string;
+  /** Term ID of the plan */
+  termID?: string;
+  /** Plan ID */
+  planID?: string;
+  /** Plan Name */
+  planName?: string;
+}
+
 /** Identity properties. */
 export interface IdentityProperties {
   /**
@@ -325,6 +349,11 @@ export interface DeploymentInfoResponse {
    */
   readonly diskCapacity?: string;
   /**
+   * Elasticsearch endpoint in Elastic cloud deployment. This is either the aliased_endpoint if available, or the service_url otherwise.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly elasticsearchEndPoint?: string;
+  /**
    * Deployment URL of the elasticsearch in Elastic cloud deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -344,6 +373,12 @@ export interface MarketplaceSaaSInfo {
   marketplaceName?: string;
   /** Marketplace Subscription Details: Resource URI */
   marketplaceResourceId?: string;
+  /** Marketplace Subscription Details: SaaS Subscription Status */
+  marketplaceStatus?: string;
+  /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
+  billedAzureSubscriptionId?: string;
+  /** Flag specifying if the Marketplace status is subscribed or not. */
+  subscribed?: boolean;
 }
 
 /** Marketplace Subscription */
@@ -373,6 +408,106 @@ export interface ExternalUserCreationResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly created?: boolean;
+}
+
+/** Marketplace Subscription and Organization details to which resource gets billed into. */
+export interface BillingInfoResponse {
+  /** Marketplace Subscription details */
+  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** Partner Billing Entity details: Organization Info */
+  partnerBillingEntity?: PartnerBillingEntity;
+}
+
+/** Partner Billing details associated with the resource. */
+export interface PartnerBillingEntity {
+  /** The Elastic Organization Id. */
+  id?: string;
+  /** The Elastic Organization Name. */
+  name?: string;
+  /** Link to the elastic organization page */
+  partnerEntityUri?: string;
+}
+
+/**  List of all active elastic deployments. */
+export interface ConnectedPartnerResourcesListResponse {
+  /** Results of a list operation. */
+  value?: ConnectedPartnerResourcesListFormat[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** Connected Partner Resources List Format */
+export interface ConnectedPartnerResourcesListFormat {
+  /** Connected Partner Resource Properties */
+  properties?: ConnectedPartnerResourceProperties;
+}
+
+/** Connected Partner Resource Properties */
+export interface ConnectedPartnerResourceProperties {
+  /** Elastic deployment name */
+  partnerDeploymentName?: string;
+  /** Deployment URL of the elasticsearch in Elastic cloud deployment. */
+  partnerDeploymentUri?: string;
+  /** The azure resource Id of the deployment. */
+  azureResourceId?: string;
+  /** The location of the deployment. */
+  location?: string;
+}
+
+/** Response of a list operation. */
+export interface OpenAIIntegrationRPModelListResponse {
+  /** Results of a list operation. */
+  value?: OpenAIIntegrationRPModel[];
+  /** Link to the next set of results, if any. */
+  nextLink?: string;
+}
+
+/** Capture properties of Open AI resource Integration. */
+export interface OpenAIIntegrationRPModel {
+  /**
+   * Name of the integration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The id of the integration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The type of the integration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Open AI Integration details. */
+  properties?: OpenAIIntegrationProperties;
+}
+
+/** Open AI Integration details. */
+export interface OpenAIIntegrationProperties {
+  /** The resource name of Open AI resource */
+  openAIResourceId?: string;
+  /** The API endpoint for Open AI resource */
+  openAIResourceEndpoint?: string;
+  /** Value of API key for Open AI resource */
+  key?: string;
+  /**
+   * Last Update Timestamp for key updation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastRefreshAt?: Date;
+}
+
+/** Status of the OpenAI Integration */
+export interface OpenAIIntegrationStatusResponse {
+  /** Status of the OpenAI Integration */
+  properties?: OpenAIIntegrationStatusResponseProperties;
+}
+
+/** Status of the OpenAI Integration */
+export interface OpenAIIntegrationStatusResponseProperties {
+  /** Status of the OpenAI Integration */
+  status?: string;
 }
 
 /** Response of a list operation. */
@@ -537,6 +672,27 @@ export interface UserApiKeyResponseProperties {
   apiKey?: string;
 }
 
+/** The Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
+export interface ElasticOrganizationToAzureSubscriptionMappingResponse {
+  /** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
+  properties?: ElasticOrganizationToAzureSubscriptionMappingResponseProperties;
+}
+
+/** The properties of Azure Subscription ID to which the Organization of the logged in user belongs and gets billed into. */
+export interface ElasticOrganizationToAzureSubscriptionMappingResponseProperties {
+  /** The Azure Subscription ID to which the Organization belongs and gets billed into. This is empty for a new user OR a user without an Elastic Organization. */
+  billedAzureSubscriptionId?: string;
+  /**
+   * Marketplace SaaS Info of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  /** The Elastic Organization Id. */
+  elasticOrganizationId?: string;
+  /** The Elastic Organization Name. */
+  elasticOrganizationName?: string;
+}
+
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** Accepted */
@@ -556,7 +712,7 @@ export enum KnownProvisioningState {
   /** Deleted */
   Deleted = "Deleted",
   /** NotSpecified */
-  NotSpecified = "NotSpecified"
+  NotSpecified = "NotSpecified",
 }
 
 /**
@@ -581,7 +737,7 @@ export enum KnownMonitoringStatus {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -599,7 +755,7 @@ export enum KnownLiftrResourceCategories {
   /** Unknown */
   Unknown = "Unknown",
   /** MonitorLogs */
-  MonitorLogs = "MonitorLogs"
+  MonitorLogs = "MonitorLogs",
 }
 
 /**
@@ -615,7 +771,7 @@ export type LiftrResourceCategories = string;
 /** Known values of {@link ManagedIdentityTypes} that the service accepts. */
 export enum KnownManagedIdentityTypes {
   /** SystemAssigned */
-  SystemAssigned = "SystemAssigned"
+  SystemAssigned = "SystemAssigned",
 }
 
 /**
@@ -636,7 +792,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -656,7 +812,7 @@ export enum KnownSendingLogs {
   /** True */
   True = "True",
   /** False */
-  False = "False"
+  False = "False",
 }
 
 /**
@@ -674,7 +830,7 @@ export enum KnownElasticDeploymentStatus {
   /** Healthy */
   Healthy = "Healthy",
   /** Unhealthy */
-  Unhealthy = "Unhealthy"
+  Unhealthy = "Unhealthy",
 }
 
 /**
@@ -692,7 +848,7 @@ export enum KnownTagAction {
   /** Include */
   Include = "Include",
   /** Exclude */
-  Exclude = "Exclude"
+  Exclude = "Exclude",
 }
 
 /**
@@ -710,7 +866,7 @@ export enum KnownOperationName {
   /** Add */
   Add = "Add",
   /** Delete */
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
 /**
@@ -728,7 +884,7 @@ export enum KnownType {
   /** Ip */
   Ip = "ip",
   /** AzurePrivateEndpoint */
-  AzurePrivateEndpoint = "azure_private_endpoint"
+  AzurePrivateEndpoint = "azure_private_endpoint",
 }
 
 /**
@@ -767,7 +923,8 @@ export interface MonitorsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type MonitorsListByResourceGroupResponse = ElasticMonitorResourceListResponse;
+export type MonitorsListByResourceGroupResponse =
+  ElasticMonitorResourceListResponse;
 
 /** Optional parameters. */
 export interface MonitorsGetOptionalParams
@@ -821,7 +978,8 @@ export interface MonitorsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type MonitorsListByResourceGroupNextResponse = ElasticMonitorResourceListResponse;
+export type MonitorsListByResourceGroupNextResponse =
+  ElasticMonitorResourceListResponse;
 
 /** Optional parameters. */
 export interface ElasticVersionsListOptionalParams
@@ -867,6 +1025,69 @@ export interface ExternalUserCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type ExternalUserCreateOrUpdateResponse = ExternalUserCreationResponse;
+
+/** Optional parameters. */
+export interface BillingInfoGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConnectedPartnerResourcesListOperationResponse =
+  ConnectedPartnerResourcesListResponse;
+
+/** Optional parameters. */
+export interface ConnectedPartnerResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ConnectedPartnerResourcesListNextResponse =
+  ConnectedPartnerResourcesListResponse;
+
+/** Optional parameters. */
+export interface OpenAIListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OpenAIListResponse = OpenAIIntegrationRPModelListResponse;
+
+/** Optional parameters. */
+export interface OpenAIGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OpenAIGetResponse = OpenAIIntegrationRPModel;
+
+/** Optional parameters. */
+export interface OpenAICreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Capture properties of Open AI resource Integration. */
+  body?: OpenAIIntegrationRPModel;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type OpenAICreateOrUpdateResponse = OpenAIIntegrationRPModel;
+
+/** Optional parameters. */
+export interface OpenAIDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface OpenAIGetStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getStatus operation. */
+export type OpenAIGetStatusResponse = OpenAIIntegrationStatusResponse;
+
+/** Optional parameters. */
+export interface OpenAIListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OpenAIListNextResponse = OpenAIIntegrationRPModelListResponse;
 
 /** Optional parameters. */
 export interface TagRulesListOptionalParams
@@ -965,7 +1186,8 @@ export interface ListAssociatedTrafficFiltersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ListAssociatedTrafficFiltersListResponse = ElasticTrafficFilterResponse;
+export type ListAssociatedTrafficFiltersListResponse =
+  ElasticTrafficFilterResponse;
 
 /** Optional parameters. */
 export interface CreateAndAssociateIPFilterCreateOptionalParams
@@ -1040,6 +1262,14 @@ export interface OrganizationsGetApiKeyOptionalParams
 
 /** Contains response data for the getApiKey operation. */
 export type OrganizationsGetApiKeyResponse = UserApiKeyResponse;
+
+/** Optional parameters. */
+export interface OrganizationsGetElasticToAzureSubscriptionMappingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getElasticToAzureSubscriptionMapping operation. */
+export type OrganizationsGetElasticToAzureSubscriptionMappingResponse =
+  ElasticOrganizationToAzureSubscriptionMappingResponse;
 
 /** Optional parameters. */
 export interface MicrosoftElasticOptionalParams

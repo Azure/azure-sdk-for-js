@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   MonitoredResource,
-  MonitoredResourcesListOptionalParams
+  MonitoredResourcesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -17,13 +17,13 @@ import {
 export interface MonitoredResources {
   /**
    * List the resources currently being monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredResourcesListOptionalParams
+    options?: MonitoredResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredResource>;
 }

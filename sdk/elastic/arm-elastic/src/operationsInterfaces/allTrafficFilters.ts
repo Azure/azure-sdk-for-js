@@ -8,20 +8,20 @@
 
 import {
   AllTrafficFiltersListOptionalParams,
-  AllTrafficFiltersListResponse
+  AllTrafficFiltersListResponse,
 } from "../models";
 
 /** Interface representing a AllTrafficFilters. */
 export interface AllTrafficFilters {
   /**
    * Get the list of all traffic filters for the account.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: AllTrafficFiltersListOptionalParams
+    options?: AllTrafficFiltersListOptionalParams,
   ): Promise<AllTrafficFiltersListResponse>;
 }
