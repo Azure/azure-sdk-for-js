@@ -8,6 +8,7 @@
 
 export * from "./operations";
 export * from "./fleets";
+export * from "./autoUpgradeProfiles";
 export * from "./fleetMembers";
 export * from "./updateRuns";
 export * from "./fleetUpdateStrategies";
