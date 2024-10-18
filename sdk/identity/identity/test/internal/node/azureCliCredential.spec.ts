@@ -145,11 +145,11 @@ describe("AzureCliCredential (internal)", function () {
     );
   });
 
-  it("get access token with custom subscription containing space without error", async function () {
+  it("get access token with custom subscription with special character without error", async function () {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "";
     const credential = new AzureCliCredential({
-      subscription: "Example of a subscription string",
+      subscription: "Example of a subscription_string",
     });
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
@@ -162,7 +162,7 @@ describe("AzureCliCredential (internal)", function () {
         "--resource",
         "https://service",
         "--subscription",
-        '"Example of a subscription string"',
+        '"Example of a subscription_string"',
       ],
     ]);
     // Used a working directory, and a shell
