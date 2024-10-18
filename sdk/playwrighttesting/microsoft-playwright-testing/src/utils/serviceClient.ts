@@ -178,7 +178,7 @@ export class ServiceClient {
     const errorMessage = Constants.ERROR_MESSAGE[action]?.[statusCode] ?? "Unknown error occured.";
     if (!this.isInformationMessagePresent(statusCode.toString())) {
       this.addKeyToInformationMessage(statusCode.toString());
-      this.addInformationalMessage(`${errorMessage}_${action}`);
+      this.addInformationalMessage(errorMessage);
     }
     process.stdout.write(`${errorMessage}\n`);
   }
